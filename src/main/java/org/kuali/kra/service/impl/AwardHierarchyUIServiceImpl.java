@@ -22,14 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -43,9 +38,10 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
     private static final String COLUMN_CODE = "%3A";
     
-    private BusinessObjectService businessObjectService;
-    private Map<String, AwardHierarchyNode> awardHierarchyNodes;
+    private BusinessObjectService businessObjectService;    
     private ActivePendingTransactionsService activePendingTransactionsService;
+    private AwardHierarchyService awardHierarchyService;
+    private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     
     AwardHierarchyUIServiceImpl(){
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
@@ -142,57 +138,12 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
                 awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                         GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyNodes();            
             }else{                
-                Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(awardNumber, new ArrayList<String>());
-                populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardNumber, new ArrayList<String>());
+                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
             }
         }
         return awardHierarchyNodes;
-    }
-
-    /**
-     * This method...
-     * @param awardHierarchyItems
-     * @param aptService
-     */
-    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes) {
-        AwardHierarchyNode awardHierarchyNode;
-        ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
-        
-        for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
-            awardHierarchyNode = new AwardHierarchyNode();
-            awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
-            awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
-            awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
-            
-            Award award = aptService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
-            AwardAmountInfo awardAmountInfo = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
-            
-            awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
-            awardHierarchyNode.setLeadUnitName(award.getUnitName());
-            awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
-            awardHierarchyNode.setAccountNumber(award.getAccountNumber());
-            awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
-            awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
-            awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
-            awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            awardHierarchyNode.setProjectStartDate(award.getBeginDate());
-            awardHierarchyNode.setTitle(award.getTitle());
-            awardHierarchyNode.setAwardId(award.getAwardId());
-            
-            awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
-        }
-    }
-    
-    public AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
-    }
-    
-    private Map<String, AwardHierarchy> getAwardHierarchies(){
-        return ((AwardForm)GlobalVariables.getKualiForm()).getAwardHierarchyNodes();
-    }
+    }    
 
     /**
      * Gets the businessObjectService attribute. 
@@ -233,6 +184,23 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     public void setActivePendingTransactionsService(ActivePendingTransactionsService activePendingTransactionsService) {
         this.activePendingTransactionsService = activePendingTransactionsService;
     }
+
+    /**
+     * Gets the awardHierarchyService attribute. 
+     * @return Returns the awardHierarchyService.
+     */
+    public AwardHierarchyService getAwardHierarchyService() {
+        return awardHierarchyService;
+    }
+
+    /**
+     * Sets the awardHierarchyService attribute value.
+     * @param awardHierarchyService The awardHierarchyService to set.
+     */
+    public void setAwardHierarchyService(AwardHierarchyService awardHierarchyService) {
+        this.awardHierarchyService = awardHierarchyService;
+    }
+
 
 
 }

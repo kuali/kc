@@ -16,10 +16,6 @@
 package org.kuali.kra.service;
 
 import java.text.ParseException;
-import java.util.Map;
-
-import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 
 /**
  * 
@@ -44,14 +40,6 @@ public interface AwardHierarchyUIService {
      * @throws ParseException
      */
     public String getRootAwardNode(String awardNumber) throws ParseException;
-    
-    /**
-     * 
-     * This method populates the AwardHierarchyNodes with relevant information required from other objects.
-     * @param awardHierarchyItems
-     * @param awardHierarchyNodes
-     */
-    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes);
 
 
 }
