@@ -24,7 +24,7 @@
 <%@ attribute name="proposalSitesListName" required="true" description="The JSP name of proposalSitesList" %>
 <%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
-<%@ attribute name="proposalSiteHelperList" required="true" description="" %>
+<%@ attribute name="congressionalDistrictHelperList" required="true" description="" %>
 <%@ attribute name="addSiteMethodToCall" required="true" description="The action method to call when the Add Proposal Site button is clicked" %>
 <%@ attribute name="deleteSiteMethodToCall" required="true" description="The action method to call when the Delete Proposal Site button is clicked" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The action method to call when the Add District button is clicked" %>
@@ -57,7 +57,7 @@
                 parentTab="Organization/Location"
                 proposalSiteBo="${proposalSitesList[status.index]}"
                 proposalSiteBoName="${proposalSitesListName}[${status.index}]"
-                proposalSiteHelper="${proposalSiteHelperList}[${status.index}]"
+                congressionalDistrictHelper="${congressionalDistrictHelperList}[${status.index}]"
                 deleteSiteMethodToCall="${deleteSiteMethodToCall}.site${status.index}"
                 addDistrictMethodToCall="${addDistrictMethodToCall}.site${status.index}"
                 deleteDistrictMethodToCall="${deleteDistrictMethodToCall}.site${status.index}"

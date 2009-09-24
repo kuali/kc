@@ -33,7 +33,7 @@
             addTable="true"
             proposalSiteBo="${KualiForm.document.developmentProposal.applicantOrganization}"
             proposalSiteBoName="document.developmentProposal.applicantOrganization"
-            proposalSiteHelper="applicantOrganizationHelper"
+            congressionalDistrictHelper="applicantOrganizationHelper"
             addDistrictMethodToCall="addApplicantOrgCongDistrict"
             deleteDistrictMethodToCall="deleteApplicantOrgCongDistrict" />
         <kra-pd:proposalSite
@@ -43,7 +43,7 @@
             addTable="true"
             proposalSiteBo="${KualiForm.document.developmentProposal.performingOrganization}"
             proposalSiteBoName="document.developmentProposal.performingOrganization"
-            proposalSiteHelper="performingOrganizationHelper"
+            congressionalDistrictHelper="performingOrganizationHelper"
             addDistrictMethodToCall="addPerformingOrgCongDistrict"
             deleteDistrictMethodToCall="deletePerformingOrgCongDistrict"
             clearSiteMethodToCall="clearPerformingOrganization" />
@@ -51,7 +51,7 @@
             tabTitle="Performance Site Locations"
             proposalSitesList="${KualiForm.document.developmentProposal.performanceSites}"
             proposalSitesListName="document.developmentProposal.performanceSites"
-            proposalSiteHelperList="performanceSiteHelpers"
+            congressionalDistrictHelperList="performanceSiteHelpers"
             newProposalSite="${KualiForm.newPerformanceSite}"
             newProposalSiteField="newPerformanceSite"
             addSiteMethodToCall="addPerformanceSite"
@@ -63,7 +63,7 @@
             tabTitle="Other Organizations"
             proposalSitesList="${KualiForm.document.developmentProposal.otherOrganizations}"
             proposalSitesListName="document.developmentProposal.otherOrganizations"
-            proposalSiteHelperList="otherOrganizationHelpers"
+            congressionalDistrictHelperList="otherOrganizationHelpers"
             newProposalSite="${KualiForm.newOtherOrganization}"
             newProposalSiteField="newOtherOrganization"
             addSiteMethodToCall="addOtherOrganization"
