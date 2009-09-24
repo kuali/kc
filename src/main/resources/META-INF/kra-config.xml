@@ -14,8 +14,12 @@
  limitations under the License.
 -->
 <config>
+<!--KC Modification Start-->
+	<param name="version">${build.version}</param>
+
 	<param name="module.name">kra</param>
 	<param name="service.namespace">kra</param>
+<!--KC Modification End-->
 
 	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
