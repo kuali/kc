@@ -126,6 +126,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // link the child to the parent
         linkChild(hierarchy, initialChild);
+        setInitialPi(hierarchy, initialChild);
 
         // persist the document again
         try {
@@ -423,49 +424,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
-        /*
-        hierarchy.getPropScienceKeywords().clear();
-        removeNonExclusiveNarratives(hierarchy.getNarratives());
-        hierarchy.getPropSpecialReviews().clear();
-
-        for (Narrative narrative : hierarchy.getHierarchyNarratives()) {
-            hierarchy.addNarrative(narrative);
-            narrative.setHiddenInHierarchy(false);
-        }
-        for (PropScienceKeyword keyword : hierarchy.getHierarchyPropScienceKeywords()) {
-            hierarchy.addPropScienceKeyword(keyword);
-            keyword.setHiddenInHierarchy(false);
-        }
-        for (ProposalSpecialReview review : hierarchy.getHierarchySpecialReviews()) {
-            hierarchy.getPropSpecialReviews().add(review);
-            review.setHiddenInHierarchy(false);
-        }
-
-        for (ProposalHierarchyChild child : hierarchy.getChildren()) {
-            for (Narrative narrative : child.getNarratives()) {
-                hierarchy.addNarrative(narrative);
-                narrative.setHiddenInHierarchy(false);
-            }
-            for (PropScienceKeyword keyword : child.getPropScienceKeywords()) {
-                if (!hierarchy.getPropScienceKeywords().contains(keyword)) {
-                    hierarchy.addPropScienceKeyword(keyword);
-                    keyword.setHiddenInHierarchy(false);
-                }
-            }
-            for (ProposalSpecialReview review : child.getPropSpecialReviews()) {
-                hierarchy.getPropSpecialReviews().add(review);
-                review.setHiddenInHierarchy(false);
-            }
-        }
-
-        aggregateProposalPersons(hierarchy);
-
-        for (int i = hierarchy.getPropPersonBios().size() - 1; i >= 0; i--) {
-            if (!hierarchy.getProposalPersons().contains(hierarchy.getPropPersonBio(i).getPersonId())) {
-                hierarchy.getPropPersonBios().remove(i);
-            }
-        }
-        */
+        
     }
 
     private void aggregateProposalPersons(DevelopmentProposal hierarchy) {
@@ -534,6 +493,20 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
         ProposalHierarchyChild hierarchyChild = getHierarchyChild(childProposalNumber);
         return childProposal.hierarchyChildHashCode() == hierarchyChild.getProposalHashCode();
+    }
+    
+    private void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
+        ProposalPerson pi = null;
+        for (ProposalPerson person : child.getProposalPersons()) {
+            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
+                pi = person;
+                break;
+            }
+        }
+        if (pi != null) {
+            int index = hierarchy.getProposalPersons().indexOf(pi);
+            if (index > -1) hierarchy.getProposalPerson(index).setProposalPersonRoleId("PI");
+        }
     }
     
 }
