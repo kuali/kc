@@ -16,9 +16,17 @@
 
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.
@@ -51,6 +59,10 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * access the abstract type's description.
 	 */
 	private AbstractType abstractType;
+	
+	
+    private Timestamp timestampDisplay;
+    private String userDisplay;
 	
 	/**
 	 * Constructs a ProposalAbstract.
@@ -123,6 +135,10 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * @param abstractDetails a user-defined textual string.
 	 */
 	public void setAbstractDetails(String abstractDetails) {
+	    if ( !StringUtils.equals(this.abstractDetails, abstractDetails)) {
+	        this.timestampDisplay = null;
+	        this.userDisplay = null;
+	    }
 	    if (abstractDetails == null) {
 	        this.abstractDetails = "";
 	    } 
@@ -156,4 +172,54 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 		hashMap.put("abstractDetails", getAbstractDetails());
 		return hashMap;
 	}
+
+    public Timestamp getTimestampDisplay() {
+        return timestampDisplay;
+    }
+
+    public void setTimestampDisplay(Timestamp timestampDisplay) {
+        this.timestampDisplay = timestampDisplay;
+    }
+
+    public String getUserDisplay() {
+        return userDisplay;
+    }
+
+    public void setUserDisplay(String userDisplay) {
+        this.userDisplay = userDisplay;
+    }
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeInsert(persistenceBroker);
+        setUpdateDisplayFields();
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        setUpdateDisplayFields();
+    }    
+    
+    /**
+     * Set timestampDisplay and userDisplay prior to persistence
+     */
+    private void setUpdateDisplayFields() {
+        if ( userDisplay == null || timestampDisplay == null ) {
+            String updateUser = GlobalVariables.getUserSession().getPrincipalName();
+
+            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+            if (updateUser.length() > 60) {
+                updateUser = updateUser.substring(0, 60);
+            }
+
+            setUserDisplay(updateUser);
+            setTimestampDisplay(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        }
+    }    
 }

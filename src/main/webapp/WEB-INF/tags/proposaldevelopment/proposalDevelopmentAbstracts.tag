@@ -53,9 +53,9 @@
 					<c:out value="Add:" />
 				</th>
 				
- 				<td></td>
+ 				<td>&nbsp;</td>
  				
- 				<td></td>
+ 				<td>&nbsp;</td>
 				
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="newProposalAbstract.abstractTypeCode" 
@@ -82,12 +82,12 @@
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	
-	             	<td align="left" valign="middle" id="document.developmentProposalList[0].proposalAbstract[${status.index}].updateTimestamp">
-                	    <fmt:formatDate value="${abstract.updateTimestamp}" type="both" dateStyle="short" timeStyle="short" />
+	             	<td align="left" valign="middle" id="document.developmentProposalList[0].proposalAbstract[${status.index}].timestampDisplay">
+	             	  <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].timestampDisplay" attributeEntry="${proposalAbstractAttributes.updateTimestamp}" readOnly="true" />
 					</td>
 					
 	             	<td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
+                	    <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].userDisplay" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
 					</td>
 					
 	             	<td>${abstract.abstractType.description}</td>
