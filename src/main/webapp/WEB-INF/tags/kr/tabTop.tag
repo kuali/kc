@@ -19,6 +19,10 @@
 <%@ attribute name="tabErrorKey" required="false" %>
 <%@ attribute name="boClassName" required="false" %>
 <%@ attribute name="keyValues" required="false" %>
+<%-- KC MODIFICATION --%>
+<%@ attribute name="auditCluster" required="false" %>
+<%@ attribute name="tabAuditKey" required="false" %>
+<%-- END KC MODIFICATION --%>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
