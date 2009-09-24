@@ -37,9 +37,8 @@
 		</span>
 		</td>
 	</tr>
-	</tbody></table>
-	     
-     <div style = "background:#e4e4e4" >     
+	</tbody></table>	     
+     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
   <ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
