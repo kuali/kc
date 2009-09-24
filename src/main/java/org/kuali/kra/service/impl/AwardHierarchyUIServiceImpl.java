@@ -29,10 +29,10 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -45,22 +45,25 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
     private BusinessObjectService businessObjectService;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
+    private ActivePendingTransactionsService activePendingTransactionsService;
     
     AwardHierarchyUIServiceImpl(){
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
+     */
     public String getRootAwardNode(String awardNumber) throws ParseException{
         AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(awardNumber);        
         return "<h3>" + buildCompleteRecord(awardNumber, aNode) + "</h3>"; 
     }
 
-    /**
-     * This method...
-     * @param awardNumber
-     * @param aNode
-     * @return
-     * @throws ParseException 
+    /*
+     * This method builds a string record for a single hierarchy node. 
+     * This string will be parsed by the java script in the UI for display.  
+     *  
      */
     private String buildCompleteRecord(String awardNumber, AwardHierarchyNode aNode) throws ParseException {
         StringBuilder sb = new StringBuilder();
@@ -88,10 +91,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return sb.toString();
     }
 
-    /**
-     * This method...
-     * @param aNode
-     * @param sb
+    /*
+     * This method appends a date field to string buffer object for view.
      */
     private void appendString(String str, StringBuilder sb, String delimiter) {
         if(str!=null){
@@ -101,11 +102,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         }
     }
 
-    /**
-     * This method...
-     * @param aNode
-     * @param sb
-     * @param df
+    /*
+     * This method formats and appends a date field to stringbuffer object for view.
      */
     private void appendDate(Date date, StringBuilder sb) {
         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -119,23 +117,18 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
 
     public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException {
         String awardHierarchy = "<h3>";        
-        for (AwardHierarchy ah : getSubResearchAreas(awardNumber)) {
+        for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
             AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + "</h3><h3>";
         }
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
         return awardHierarchy;        
     }
-
-    public boolean doesAwardHierarchyExist(String researchAreaCode, String researchAreas) {
-        // TODO Auto-generated method stub
-        return false;
-    }
     
     /*
-     * call businessobjectservice to get a list of sub research areas of 'researchareacode'
+     * call businessobjectservice to get a list of children award nodes 'awardNumber'
      */
-    private List<AwardHierarchy> getSubResearchAreas(String awardNumber) {
+    private List<AwardHierarchy> getChildrenNodes(String awardNumber) {
         List<AwardHierarchy> awardHierarchyList = new ArrayList<AwardHierarchy>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentAwardNumber", awardNumber);
@@ -144,11 +137,15 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     }
     
     private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
-        if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase("00001", awardNumber.substring(8))){
-            List<String> order = new ArrayList<String>();
-            Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(awardNumber, order );
-            populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);   
-        } 
+        if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase("00001", awardNumber.substring(8))){            
+            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId())!=null){
+                awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
+                        GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyNodes();            
+            }else{                
+                Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(awardNumber, new ArrayList<String>());
+                populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+            }
+        }
         return awardHierarchyNodes;
     }
 
@@ -219,6 +216,22 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      */
     public void setAwardHierarchyNodes(Map<String, AwardHierarchyNode> awardHierarchyNodes) {
         this.awardHierarchyNodes = awardHierarchyNodes;
+    }
+
+    /**
+     * Gets the activePendingTransactionsService attribute. 
+     * @return Returns the activePendingTransactionsService.
+     */
+    public ActivePendingTransactionsService getActivePendingTransactionsService() {
+        return activePendingTransactionsService;
+    }
+
+    /**
+     * Sets the activePendingTransactionsService attribute value.
+     * @param activePendingTransactionsService The activePendingTransactionsService to set.
+     */
+    public void setActivePendingTransactionsService(ActivePendingTransactionsService activePendingTransactionsService) {
+        this.activePendingTransactionsService = activePendingTransactionsService;
     }
 
 

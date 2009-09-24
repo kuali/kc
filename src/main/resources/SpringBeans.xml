@@ -1660,6 +1660,9 @@
 	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="activePendingTransactionsService">
+			<ref bean="activePendingTransactionsService" />
 		</property>        
 	</bean>
 	
