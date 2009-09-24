@@ -76,7 +76,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private BudgetInformationDocument getSF424A() {
         BudgetInformationDocument budgetInformationDocument = BudgetInformationDocument.Factory.newInstance();
         try {
-            budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
+            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budget = budgetDocument==null?null:budgetDocument.getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.List;
+
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument.RRPerformanceSite;
@@ -60,9 +62,9 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         rrPerformanceSite.setPrimarySite(siteLocation);
         int otherSiteCount = 0;
         SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (pdDoc.getDevelopmentProposal().getProposalSites() != null) {
-            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getProposalSites().size()];
-            for (ProposalSite proposalSite: pdDoc.getDevelopmentProposal().getProposalSites()) {
+        if (getProposalSitesFromProposal() != null && !getProposalSitesFromProposal().isEmpty()) {
+            siteLocationDataTypeArray = new SiteLocationDataType[getProposalSitesFromProposal().size()];
+            for (ProposalSite proposalSite: getProposalSitesFromProposal()) {
                 SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
                 Rolodex rolodex2 = proposalSite.getRolodex();
                 if (rolodex2 != null) {
@@ -74,7 +76,9 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
                 }
             }
         }
-        rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
+        if(siteLocationDataTypeArray!=null){
+            rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
+        }
 
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
@@ -84,6 +88,14 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         }
         rrPerformanceSiteDocument.setRRPerformanceSite(rrPerformanceSite);
         return rrPerformanceSiteDocument;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private List<ProposalSite> getProposalSitesFromProposal() {
+        return pdDoc.getDevelopmentProposal().getProposalSites();
     }
 
     /**

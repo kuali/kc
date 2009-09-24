@@ -286,9 +286,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
         Budget budgetDoc = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
-        }
-        catch (S2SException e) {
+            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budgetDoc = budgetDocument==null?null:budgetDocument.getBudget();
+        }catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return sf424V2;
 
