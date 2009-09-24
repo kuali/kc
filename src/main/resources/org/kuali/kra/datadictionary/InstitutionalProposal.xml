@@ -666,7 +666,7 @@
    	 	<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.institutionalproposal.ProposalStatus"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
             	p:keyAttribute="proposalStatusCode"
