@@ -21,26 +21,28 @@ import java.util.Map;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 
-
+/**
+ * 
+ * This interface declares services that would populate the Award Hierarchy in UI.
+ */
 public interface AwardHierarchyUIService {
     /**
      * 
-     * This method to get children research area codes of 'reresearchAreaCode'
+     * This service is used to populate the all the non-root nodes of award hierarchy UI.
      * 
      * @param researchAreaCode
      * @return
      */
     public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException;
-
+    
     /**
      * 
-     * This method is check whetehr the new research area code exist in DB
-     * @param researchAreaCode : new research area code
-     * @param researchAreas : list of research area codes that are being removed, but has not been removed from DB yet.
+     * This service is used to populate the root node of the award hierarchy UI.
+     *  
+     * @param awardNumber
      * @return
+     * @throws ParseException
      */
-    public boolean doesAwardHierarchyExist(String researchAreaCode, String researchAreas);
-    
     public String getRootAwardNode(String awardNumber) throws ParseException;
     
     /**
