@@ -28,26 +28,26 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This class represents the "add congressional district to a proposal site" event.
  */
 public class AddProposalCongressionalDistrictEvent extends ProposalSiteEventBase {
-    private List<CongressionalDistrictHelper> proposalSiteHelpers;
+    private List<CongressionalDistrictHelper> congressionalDistrictHelpers;
     
     public AddProposalCongressionalDistrictEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite proposalSite, CongressionalDistrictHelper proposalSiteHelper) {
         super(getEventDescription(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument, proposalSite);
         
-        proposalSiteHelpers = new ArrayList<CongressionalDistrictHelper>();
-        proposalSiteHelpers.add(proposalSiteHelper);
+        congressionalDistrictHelpers = new ArrayList<CongressionalDistrictHelper>();
+        congressionalDistrictHelpers.add(proposalSiteHelper);
     }
 
     public AddProposalCongressionalDistrictEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, List<ProposalSite> proposalSites, List<CongressionalDistrictHelper> proposalSiteHelpers, String siteIndex) {
         super(getEventDescription(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument, proposalSites, siteIndex);
-        this.proposalSiteHelpers = proposalSiteHelpers;
+        this.congressionalDistrictHelpers = proposalSiteHelpers;
     }
 
     private static String getEventDescription(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return "adding congressional district to document " + getDocumentId(proposalDevelopmentDocument);
     }
     
-    public List<CongressionalDistrictHelper> getProposalSiteHelpers() {
-        return proposalSiteHelpers;
+    public List<CongressionalDistrictHelper> getCongressionalDistrictHelpers() {
+        return congressionalDistrictHelpers;
     }
 
     @SuppressWarnings("unchecked")

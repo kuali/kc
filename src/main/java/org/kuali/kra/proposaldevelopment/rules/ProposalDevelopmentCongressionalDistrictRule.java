@@ -41,7 +41,7 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         int siteIndex = -1;
         if (isValid) {
             siteIndex = new Integer(siteIndexStr);
-            proposalSiteHelper = addCongressionalDistrictEvent.getProposalSiteHelpers().get(siteIndex);
+            proposalSiteHelper = addCongressionalDistrictEvent.getCongressionalDistrictHelpers().get(siteIndex);
         }
 
         if (isValid) {
