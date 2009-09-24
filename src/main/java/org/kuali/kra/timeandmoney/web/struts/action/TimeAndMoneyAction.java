@@ -38,7 +38,6 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
-import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
@@ -127,7 +126,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),"0")){
             timeAndMoneyForm.setOrder(new ArrayList<String>());
             doc.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(doc.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
-            getAwardHierarchyUIService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes());
+            getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes());
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), doc);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -161,7 +160,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         timeAndMoneyDocument.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, timeAndMoneyForm.getOrder()));
         timeAndMoneyDocument.setAwardNumber(rootAwardNumber);
         
-        getAwardHierarchyUIService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());
+        getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());
         
         GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), timeAndMoneyDocument);
         
@@ -172,10 +171,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
     public AwardHierarchyService getAwardHierarchyService(){        
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
-    }
-    
-    AwardHierarchyUIService getAwardHierarchyUIService(){
-        return KraServiceLocator.getService(AwardHierarchyUIService.class);
     }
     
     /**
@@ -230,7 +225,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward switchAward(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
-        TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
         String goToAwardNumber = timeAndMoneyForm.getGoToAwardNumber();
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, goToAwardNumber);
@@ -288,7 +282,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
     }
 
-    /**
+    /*
      * This method...
      * @param doc
      * @param goToAwardNumber

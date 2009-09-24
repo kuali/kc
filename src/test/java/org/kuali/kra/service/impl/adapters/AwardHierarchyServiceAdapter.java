@@ -3,6 +3,7 @@ package org.kuali.kra.service.impl.adapters;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 
 import java.util.Map;
 import java.util.List;
@@ -80,5 +81,9 @@ public class AwardHierarchyServiceAdapter implements AwardHierarchyService {
     }
 
     public void persistAwardHierarchies(Collection<AwardHierarchy> awardHierarchyRootNodes) {
+    }
+
+    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+        
     }
 }
