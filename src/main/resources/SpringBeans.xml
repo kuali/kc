@@ -1663,6 +1663,9 @@
 		</property>
 		<property name="activePendingTransactionsService">
 			<ref bean="activePendingTransactionsService" />
+		</property>
+		<property name="awardHierarchyService">
+			<ref bean="awardHierarchyService" />
 		</property>        
 	</bean>
 	

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.awardhierarchy;
 
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 
 import java.util.List;
 import java.util.Map;
@@ -116,4 +117,12 @@ public interface AwardHierarchyService {
      * @param awardHierarchyRootNodes
      */
     void persistAwardHierarchies(Collection<AwardHierarchy> awardHierarchyRootNodes);
+    
+    /**
+     * 
+     * This method populates the AwardHierarchyNodes with relevant information required from other objects.
+     * @param awardHierarchyItems
+     * @param awardHierarchyNodes
+     */
+    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes);
 }

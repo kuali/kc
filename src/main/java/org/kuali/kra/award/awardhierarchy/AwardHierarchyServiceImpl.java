@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.LogFactory;
@@ -27,10 +28,14 @@ import org.apache.commons.logging.Log;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -487,5 +492,42 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         award.setAwardNumber(nextAwardNumber);
         award.setSequenceNumber(0);
         return versioningService.createNewVersion(award);
+    }
+    
+    /**
+     * This method...
+     * @param awardHierarchyItems
+     * @param aptService
+     */
+    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+        AwardHierarchyNode awardHierarchyNode;
+        ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        
+        for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
+            awardHierarchyNode = new AwardHierarchyNode();
+            awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
+            awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
+            awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
+            
+            Award award = aptService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
+            AwardAmountInfo awardAmountInfo = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
+            
+            awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
+            awardHierarchyNode.setLeadUnitName(award.getUnitName());
+            awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
+            awardHierarchyNode.setAccountNumber(award.getAccountNumber());
+            awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
+            awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
+            awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+            awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
+            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+            awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
+            awardHierarchyNode.setProjectStartDate(award.getBeginDate());
+            awardHierarchyNode.setTitle(award.getTitle());
+            awardHierarchyNode.setAwardId(award.getAwardId());
+            
+            awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
+        }
     }
 }

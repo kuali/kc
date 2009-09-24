@@ -303,7 +303,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             if(StringUtils.isNotBlank(temp.getAwardNumber1())){
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
-                getAwardHierarchyUIService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyNodes.get(str).getAwardNumber());
@@ -318,7 +318,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             if(StringUtils.isNotBlank(temp.getAwardNumber2())){
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
-                getAwardHierarchyUIService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyNodes.get(str).getAwardNumber());
