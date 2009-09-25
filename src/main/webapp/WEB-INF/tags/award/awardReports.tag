@@ -26,7 +26,7 @@
 
         <c:forEach var="reportClass" items="${KualiForm.reportClasses}" varStatus="reportClassIndex">
         	<c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}" >
-        		<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" />
+        		<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" reportCodeLabel="Report Type" />
         	</c:if>
 		</c:forEach>
 		</br>
