@@ -42,12 +42,13 @@
 					</td>
 					<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
+		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" datePicker="true" />
 					</div>
 					</td>
 					<td align="left" valign="middle">					
-		    		<div align="center">            
+		    		<div align="center">
 		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
+                    	<kra:expandedTextArea textAreaFieldName="awardAmountTransactionAttributes.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
 					</div>
 					</td>
     			</c:when>
@@ -59,12 +60,13 @@
 					</td>
 					<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
+		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" datePicker="true" />
 					</div>
 					</td>
 					<td align="left" valign="middle">					
-		    		<div align="center">            
+		    		<div align="center">
 		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
+                    	<kra:expandedTextArea textAreaFieldName="document.newAwardAmountTransaction.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
 					</div>
 					</td>    			
     			</c:otherwise>
