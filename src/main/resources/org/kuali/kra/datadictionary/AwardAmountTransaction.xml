@@ -129,9 +129,10 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+	      <bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="80" />
+	    </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
