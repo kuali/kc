@@ -179,10 +179,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
     }
 
-    private AwardHierarchy getAwardHierarchyNode(ActionForm form, HttpServletRequest request) {
-        return ((AwardForm) form).getAwardHierarchyNodes().get(getAwardNumber(request));
-    }
-
     public ActionForward copyAwardAsANewHierarchyWithDescendants(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);

@@ -40,7 +40,7 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -50,6 +50,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copyable, SessionDocument, Permissionable{
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2554022334215932544L;
+
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
     private String rootAwardNumber;
@@ -104,6 +109,8 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         AwardAmountTransaction newAwardAmountTransaction = this.getNewAwardAmountTransaction();
         super.doRouteStatusChange(statusChangeEvent);
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
+            this.setAwardHierarchyNodes(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
+                    GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyNodes());
             getActivePendingTransactionsService().approveTransactions(this, newAwardAmountTransaction);
         }
     }
