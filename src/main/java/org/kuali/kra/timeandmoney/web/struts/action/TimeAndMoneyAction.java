@@ -137,13 +137,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
-            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), doc);
+            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
             doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());
             doc.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(doc.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
             getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes());
-            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), doc);
+            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -154,8 +154,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
         if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0){
-            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId())!=null){
-                TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId());
+            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
+                TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
                 doc.setAwardHierarchyItems(document.getAwardHierarchyItems());
                 doc.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
             }else{
@@ -181,7 +181,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());
         
-        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), timeAndMoneyDocument);
+        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+timeAndMoneyDocument.getDocumentNumber(), timeAndMoneyDocument);
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
         

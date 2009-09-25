@@ -38,7 +38,8 @@ public class AwardValuesFinder extends KeyValuesBase{
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
         TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
         
-        document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyItems());    
+        document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
+                GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyItems());    
         
         if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){
             for(Entry<String, AwardHierarchy> awardHierachy: document.getAwardHierarchyItems().entrySet()){            

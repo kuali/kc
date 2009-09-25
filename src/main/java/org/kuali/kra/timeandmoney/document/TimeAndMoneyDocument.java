@@ -29,6 +29,7 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -110,7 +111,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         super.doRouteStatusChange(statusChangeEvent);
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
             this.setAwardHierarchyNodes(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
-                    GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyNodes());
+                    GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes());
             getActivePendingTransactionsService().approveTransactions(this, newAwardAmountTransaction);
         }
     }
