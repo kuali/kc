@@ -56,6 +56,10 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
+    private static final String PENDING_VIEW = "1";
+    private static final String ACTIVE_VIEW = "0";
+    private static final String PENDING_TRANSACTIONS_ATTRIBUTE_NAME = "pendingTransactions";
+    private static final String ZERO = "0";
     BusinessObjectService businessObjectService;
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     
@@ -103,15 +107,27 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     private int findAwardHierarchyNodeIndex(Entry<String, AwardHierarchyNode> awardHierarchyNode) {
         String reverseAwardNumber = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
-        String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, "0"));
+        String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, ZERO));
         int index = Integer.parseInt(StringUtils.reverse(i));
         return index;
     }
         
+    /**
+     * 
+     * This method refreshes the view depending on various view optins like either active or pending view or dates only, totals and 
+     * distributed/distributable. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
-        if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),"1")){
+        if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),PENDING_VIEW)){
             
             Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
             List<Award> awardItems = new ArrayList<Award>();
@@ -122,8 +138,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId(), doc);
-            doc.refreshReferenceObject("pendingTransactions");
-        }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),"0")){
+            doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
+        }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());
             doc.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(doc.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
             getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes());
@@ -147,7 +163,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             }
         }
     }
-    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
@@ -169,7 +188,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return forward;
     }
         
-    public AwardHierarchyService getAwardHierarchyService(){        
+    /*
+     * This method retrieves AwardHierarchyService
+     */
+    protected AwardHierarchyService getAwardHierarchyService(){        
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
     
@@ -201,27 +223,50 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return forward;
     }
     
+    /**
+     * 
+     * This method adds a new transaction.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ((TimeAndMoneyForm) form).getTransactionBean().addPendingTransactionItem();
-        return mapping.findForward("basic");        
+        return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
+    /**
+     * 
+     * This method adds a deletes a transaction.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ((TimeAndMoneyForm) form).getTransactionBean().deletePendingTransactionItem(getLineToDelete(request));
-        return mapping.findForward("basic");        
+        return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
-    public ActionForward approveTransactions(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)GlobalVariables.getKualiForm();
-        getActivePendingTransactionsService().approveTransactions(timeAndMoneyForm.getTimeAndMoneyDocument(), timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction());
-        
-        return mapping.findForward("basic");
-    }
-    
+    /**
+     * 
+     * This method switches the award for history, summary and Action Summary panels.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward switchAward(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
@@ -229,11 +274,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, goToAwardNumber);
         
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * This method...
+    /*
+     * This method populates Summary, Action Summary and History panels for selected award.
+     *  
      * @param timeAndMoneyForm
      * @param timeAndMoneyForm
      * @param goToAwardNumber
@@ -283,7 +329,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     }
 
     /*
-     * This method...
+     * This method retrieves an active award version.
+     * 
      * @param doc
      * @param goToAwardNumber
      */
@@ -296,17 +343,20 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             award = (Award) vh.getSequenceOwner();
         }else{
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMap(goToAwardNumber))).get(0);              
+            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
         }
         return award;
     }
     
-    private Map<String, String> getHashMap(String goToAwardNumber) {
+    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
         return map;
     }
 
+    /*
+     * Retrieves an ActivePendingTransactionsService.
+     */
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
         return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
