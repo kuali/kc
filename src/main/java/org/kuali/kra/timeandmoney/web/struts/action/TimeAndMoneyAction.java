@@ -181,7 +181,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());
         
-        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+timeAndMoneyDocument.getDocumentNumber(), timeAndMoneyDocument);
+        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
         
