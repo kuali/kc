@@ -1234,7 +1234,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     protected Boolean getBooleanValue(String parmName) {
         String parmValue;
         
-        if (this.parameterService.parameterExists(BudgetDocument.class, parmName)) {
+        if (getParameterService().parameterExists(BudgetDocument.class, parmName)) {
             parmValue = FALSE_FLAG;
         } else {
             parmValue = this.parameterService.getParameterValue(BudgetDocument.class, parmName);
