@@ -17,6 +17,7 @@
 <%@ attribute name="index" description="Index" required="true" %>
 <%@ attribute name="reportClassKey" description="Report Class Key" required="true" %>
 <%@ attribute name="reportClassLabel" description="Report Class Key" required="true" %>
+<%@ attribute name="reportCodeLabel" description="This string will be displayed above the report code select box" required="true" %>
 <%@ attribute name="defaultOpenForTab" description="Default Open For Tab" required="false" %>
 <%@ attribute name="noShowHideButton" description="Do not show show hide button in the following inner tab" required="false" %>
 
@@ -56,8 +57,9 @@
 <kra:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="${defaultOpenForTab}" tabTitle="${reportClassLabel}" tabErrorKey="awardReportsBean.newAwardReportTerms[${index}]*,${tabErrorKeyString}" noShowHideButton="${noShowHideButton}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
-            <th width="6%"><div align="center">&nbsp;</div></th>          		
-          	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.reportCode}" noColon="true" /></div></th>
+            <th width="6%"><div align="center">&nbsp;</div></th>          	
+            <!-- The label for the first row is read from ${reportCodeLabel}, all others are htmlAttributeLabels -->	
+          	<th width="18%"><div align="center">${reportCodeLabel}</div></th>
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.frequencyCode}" noColon="true" /></div></th>
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.frequencyBaseCode}" noColon="true" /></div></th>
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.ospDistributionCode}" noColon="true" /></div></th>
