@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions.submit;
+package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -30,79 +33,60 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity 
 @Table(name="COMM_SCHEDULE_MINUTES")
-public class CommitteeScheduleMinutes extends KraPersistableBusinessObjectBase { 
+public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -2294619582524055884L;
 
     @Id 
-    @Column(name="ID")
-    private Integer id; 
+    @Column(name="COMM_SCHEDULE_MINUTES_ID")
+    private Long commScheduleMinutesId; 
 
     @Column(name="SCHEDULE_ID_FK")
     private Integer scheduleIdFk; 
-
-    @Column(name="SCHEDULE_ID")
-    private String scheduleId; 
 
     @Column(name="ENTRY_NUMBER")
     private Integer entryNumber; 
 
     @Column(name="MINUTE_ENTRY_TYPE_CODE")
-    private Integer minuteEntryTypeCode; 
+    private String minuteEntryTypeCode; 
+
+    @Column(name="PROTOCOL_CONTINGENCY_CODE")
+    private String protocolContingencyCode; 
 
     @Column(name="PROTOCOL_ID_FK")
     private Integer protocolIdFk; 
 
-    @Column(name="PROTOCOL_NUMBER")
-    private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
-    private Integer sequenceNumber; 
-
+ 
     @Column(name="SUBMISSION_ID_FK")
     private Integer submissionIdFk; 
-
-    @Column(name="SUBMISSION_NUMBER")
-    private Integer submissionNumber; 
 
     @Type(type="yes_no")
     @Column(name="PRIVATE_COMMENT_FLAG")
     private boolean privateCommentFlag; 
 
-    @Column(name="PROTOCOL_CONTINGENCY_CODE")
-    private String protocolContingencyCode; 
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="PROTOCOL_CONTINGENCY_CODE", insertable=false, updatable=false)
+    private ProtocolContingency protocolContingency;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="MINUTE_ENTRY_TYPE_CODE", insertable=false, updatable=false)
+    private MinuteEntryType minuteEntryType;
 
     @Lob
     @Basic(fetch=FetchType.LAZY)
     @Column(name="MINUTE_ENTRY")
     private String minuteEntry; 
 
-    public CommitteeScheduleMinutes() { 
+    public CommitteeScheduleMinute() { 
 
     } 
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getScheduleIdFk() {
         return scheduleIdFk;
     }
 
     public void setScheduleIdFk(Integer scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
-    }
-
-    public String getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(String scheduleId) {
-        this.scheduleId = scheduleId;
     }
 
     public Integer getEntryNumber() {
@@ -113,11 +97,11 @@ public class CommitteeScheduleMinutes extends KraPersistableBusinessObjectBase {
         this.entryNumber = entryNumber;
     }
 
-    public Integer getMinuteEntryTypeCode() {
+    public String getMinuteEntryTypeCode() {
         return minuteEntryTypeCode;
     }
 
-    public void setMinuteEntryTypeCode(Integer minuteEntryTypeCode) {
+    public void setMinuteEntryTypeCode(String minuteEntryTypeCode) {
         this.minuteEntryTypeCode = minuteEntryTypeCode;
     }
 
@@ -129,21 +113,6 @@ public class CommitteeScheduleMinutes extends KraPersistableBusinessObjectBase {
         this.protocolIdFk = protocolIdFk;
     }
 
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
     public Integer getSubmissionIdFk() {
         return submissionIdFk;
@@ -151,14 +120,6 @@ public class CommitteeScheduleMinutes extends KraPersistableBusinessObjectBase {
 
     public void setSubmissionIdFk(Integer submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
-    }
-
-    public Integer getSubmissionNumber() {
-        return submissionNumber;
-    }
-
-    public void setSubmissionNumber(Integer submissionNumber) {
-        this.submissionNumber = submissionNumber;
     }
 
     public boolean getPrivateCommentFlag() {
@@ -189,20 +150,41 @@ public class CommitteeScheduleMinutes extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
+        hashMap.put("commScheduleMinutesId", this.getCommScheduleMinutesId());
         hashMap.put("scheduleIdFk", this.getScheduleIdFk());
-        hashMap.put("scheduleId", this.getScheduleId());
         hashMap.put("entryNumber", this.getEntryNumber());
         hashMap.put("minuteEntryTypeCode", this.getMinuteEntryTypeCode());
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("submissionIdFk", this.getSubmissionIdFk());
-        hashMap.put("submissionNumber", this.getSubmissionNumber());
         hashMap.put("privateCommentFlag", this.getPrivateCommentFlag());
         hashMap.put("protocolContingencyCode", this.getProtocolContingencyCode());
         hashMap.put("minuteEntry", this.getMinuteEntry());
         return hashMap;
     }
-    
+
+    public Long getCommScheduleMinutesId() {
+        return commScheduleMinutesId;
+    }
+
+    public void setCommScheduleMinutesId(Long commScheduleMinutesId) {
+        this.commScheduleMinutesId = commScheduleMinutesId;
+    }
+
+    public ProtocolContingency getProtocolContingency() {
+        return protocolContingency;
+    }
+
+    public void setProtocolContingency(ProtocolContingency protocolContingency) {
+        this.protocolContingency = protocolContingency;
+    }
+
+    public MinuteEntryType getMinuteEntryType() {
+        return minuteEntryType;
+    }
+
+    public void setMinuteEntryType(MinuteEntryType minuteEntryType) {
+        this.minuteEntryType = minuteEntryType;
+    }
+
+
 }

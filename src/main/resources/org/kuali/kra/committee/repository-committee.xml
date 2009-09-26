@@ -43,17 +43,18 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<!-- 
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="id"/>
+			<foreignkey field-ref="committeeIdFk"/>
 		</reference-descriptor>
-		-->
 		<reference-descriptor name="scheduleStatus" class-ref="org.kuali.kra.committee.bo.ScheduleStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleStatusCode"/>
 		</reference-descriptor>		
 		
-		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.committee.bo.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<inverse-foreignkey field-ref="id" />
+		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
+		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 		
 	</class-descriptor>
@@ -233,12 +234,132 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeScheduleAttendance" table="COMM_SCHEDULE_ATTENDANCE">
-		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="scheduleIdNew" column="SCHEDULE_ID_NEW" jdbc-type="INTEGER" access="anonymous"/>
-		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" access="anonymous"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" access="anonymous"/>
-		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" />
+<!--  shared meeting classes -->
+	<class-descriptor class="org.kuali.kra.meeting.CommitteeScheduleMinute" table="COMM_SCHEDULE_MINUTES">
+		<field-descriptor name="commScheduleMinutesId" column="COMM_SCHEDULE_MINUTES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="minuteEntry" column="MINUTE_ENTRY" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.meeting.ProtocolContingency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolContingencyCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.kra.meeting.MinuteEntryType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="minuteEntryTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+		
+	<class-descriptor class="org.kuali.kra.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY">
+		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>	
+
+	<class-descriptor class="org.kuali.kra.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
+		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>		
+	
+	<class-descriptor class="org.kuali.kra.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
+		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>		
+	
+	<class-descriptor class="org.kuali.kra.meeting.CommScheduleActItem" table="COMM_SCHEDULE_ACT_ITEMS">
+		<field-descriptor name="commScheduleActItemsId" column="COMM_SCHEDULE_ACT_ITEMS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="actionItemNumber" column="ACTION_ITEM_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="itemDesctiption" column="ITEM_DESCTIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.meeting.ScheduleActItemType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleActItemTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.meeting.CommScheduleMinuteDoc" table="COMM_SCHEDULE_MINUTE_DOC">
+		<field-descriptor name="commScheduleMinuteDocId" column="COMM_SCHEDULE_MINUTE_DOC_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="minuteNumber" column="MINUTE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="minuteName" column="MINUTE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="BINARY" />
+		<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	<class-descriptor class="org.kuali.kra.meeting.ScheduleAgenda" table="SCHEDULE_AGENDA">
+		<field-descriptor name="scheduleAgendaId" column="SCHEDULE_AGENDA_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="agendaNumber" column="AGENDA_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="BINARY" />
+		<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	
+		<class-descriptor class="org.kuali.kra.meeting.ProtocolVoteAbstainee" table="PROTOCOL_VOTE_ABSTAINEES">
+		<field-descriptor name="protocolVoteAbstaineesId" column="PROTOCOL_VOTE_ABSTAINEES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	
+	<class-descriptor class="org.kuali.kra.meeting.CommitteeScheduleAttendance" table="COMM_SCHEDULE_ATTENDANCE">
+		<field-descriptor name="commScheduleAttendanceId" column="COMM_SCHEDULE_ATTENDANCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="guestFlag" column="GUEST_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="alternateFlag" column="ALTERNATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="alternateFor" column="ALTERNATE_FOR" jdbc-type="VARCHAR" />
@@ -248,15 +369,9 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="personId"/>
-		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rolodexId"/>
-		</reference-descriptor>
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="scheduleIdNew"/>
+			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
-		
+<!--  end meeting -->	
 </descriptor-repository>

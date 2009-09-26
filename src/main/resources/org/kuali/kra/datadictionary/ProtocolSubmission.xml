@@ -37,6 +37,10 @@
                 <ref bean="ProtocolSubmission-sequenceNumber" />
                 <ref bean="ProtocolSubmission-scheduleId" />
                 <ref bean="ProtocolSubmission-committeeId" />
+                <ref bean="ProtocolSubmission-submissionTypeCode" />
+                <ref bean="ProtocolSubmission-submissionTypeQualifierCode" />
+                <ref bean="ProtocolSubmission-protocolReviewTypeCode" />
+                <ref bean="ProtocolSubmission-submissionStatusCode" />
                 <ref bean="ProtocolSubmission-submissionDate" />
                 <ref bean="ProtocolSubmission-comments" />
                 <ref bean="ProtocolSubmission-yesVoteCount" />
@@ -72,8 +76,8 @@
     <bean id="ProtocolSubmission-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Number" />
-        <property name="shortLabel" value="Protocol Number" />
+        <property name="label" value="Protocol No" />
+        <property name="shortLabel" value="Protocol No" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -139,6 +143,79 @@
         <property name="summary" value="Committee Id" />
         <property name="description" value="Committee Id" />
     </bean>
+
+    <bean id="ProtocolSubmission-submissionTypeCode" parent="ProtocolSubmission-submissionTypeCode-parentBean" />
+    <bean id="ProtocolSubmission-submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Type" />
+        <property name="shortLabel" value="Submission Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Type Code" />
+        <property name="description" value="Submission Type Code" />
+    </bean>
+
+    <bean id="ProtocolSubmission-submissionTypeQualifierCode" parent="ProtocolSubmission-submissionTypeQualifierCode-parentBean" />
+    <bean id="ProtocolSubmission-submissionTypeQualifierCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionTypeQualifierCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub. Type Qualifier" />
+        <property name="shortLabel" value="Sub. Type Qualifier" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Type Qual Code" />
+        <property name="description" value="Submission Type Qual Code" />
+    </bean>
+
+    <bean id="ProtocolSubmission-protocolReviewTypeCode" parent="ProtocolSubmission-protocolReviewTypeCode-parentBean" />
+    <bean id="ProtocolSubmission-protocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolReviewTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub. Review Type" />
+        <property name="shortLabel" value="Sub. Review Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Protocol Review Type Code" />
+        <property name="description" value="Protocol Review Type Code" />
+    </bean>
+
+    <bean id="ProtocolSubmission-submissionStatusCode" parent="ProtocolSubmission-submissionStatusCode-parentBean" />
+    <bean id="ProtocolSubmission-submissionStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Status" />
+        <property name="shortLabel" value="Submission Status" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Status Code" />
+        <property name="description" value="Submission Status Code" />
+    </bean>
+
 
     <bean id="ProtocolSubmission-submissionDate" parent="ProtocolSubmission-submissionDate-parentBean" />
     <bean id="ProtocolSubmission-submissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
