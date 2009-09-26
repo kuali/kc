@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo;
+package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
@@ -28,69 +28,49 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 
 @Entity 
 @Table(name="COMM_SCHEDULE_ATTENDANCE")
 public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase { 
-
-    private static final long serialVersionUID = 1455905507264239367L;
-
+    
+    private static final long serialVersionUID = -6010677692125364332L;
     @Id 
-    @Column(name="ID")
-    private Integer id; 
-
-    @Column(name="SCHEDULE_ID")
-    private String scheduleId; 
-
+    @Column(name="COMM_SCHEDULE_ATTENDANCE_ID")
+    private Long commScheduleAttendanceId; 
+    @Column(name="SCHEDULE_ID_FK")
+    private Long scheduleIdFk; 
+    @Column(name="PERSON_ID")
+    private String personId; 
     @Type(type="yes_no")
     @Column(name="GUEST_FLAG")
     private boolean guestFlag; 
-
     @Type(type="yes_no")
     @Column(name="ALTERNATE_FLAG")
     private boolean alternateFlag; 
-
     @Column(name="ALTERNATE_FOR")
     private String alternateFor; 
-
     @Type(type="yes_no")
     @Column(name="NON_EMPLOYEE_FLAG")
     private boolean nonEmployeeFlag; 
-
     @Column(name="COMMENTS")
     private String comments; 
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PERSON_ID", insertable=false, updatable=false)
-    private Person person;
+    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
+    private CommitteeSchedule committeeSchedule; 
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="ROLODEX_ID", insertable=false, updatable=false)
-    private Rolodex rolodex;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_NEW", insertable=false, updatable=false)
-    private CommitteeSchedule committeeSchedule;
-  
     public CommitteeScheduleAttendance() { 
+
     } 
     
-    public Integer getId() {
-        return id;
+
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(String scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public boolean getGuestFlag() {
@@ -133,42 +113,46 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
         this.comments = comments;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
-
-    public CommitteeSchedule getCommitteeSchedule() {
-        return committeeSchedule;
-    }
-
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
-        this.committeeSchedule = committeeSchedule;
-    }
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
-        hashMap.put("scheduleId", this.getScheduleId());
+        hashMap.put("commScheduleAttendanceId", this.getCommScheduleAttendanceId());
+        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
+        hashMap.put("personId", this.getPersonId());
         hashMap.put("guestFlag", this.getGuestFlag());
         hashMap.put("alternateFlag", this.getAlternateFlag());
         hashMap.put("alternateFor", this.getAlternateFor());
         hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
         hashMap.put("comments", this.getComments());
         return hashMap;
+    }
+
+    public Long getScheduleIdFk() {
+        return scheduleIdFk;
+    }
+
+    public void setScheduleIdFk(Long scheduleIdFk) {
+        this.scheduleIdFk = scheduleIdFk;
+    }
+
+    public void setCommScheduleAttendanceId(Long commScheduleAttendanceId) {
+        this.commScheduleAttendanceId = commScheduleAttendanceId;
+    }
+
+
+    public CommitteeSchedule getCommitteeSchedule() {
+        return committeeSchedule;
+    }
+
+
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+        this.committeeSchedule = committeeSchedule;
+    }
+
+
+    public Long getCommScheduleAttendanceId() {
+        return commScheduleAttendanceId;
     }
     
 }

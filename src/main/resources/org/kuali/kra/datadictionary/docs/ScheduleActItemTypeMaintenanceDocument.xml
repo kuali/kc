@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="ScheduleActItemTypeMaintenanceDocument" parent="ScheduleActItemTypeMaintenanceDocument-parentBean" />
+    <bean id="ScheduleActItemTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.meeting.ScheduleActItemType" />
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableSections" >
+            <list>
+                <ref bean="ScheduleActItemTypeMaintenanceDocument-EditScheduleActItemType" />
+            </list>
+        </property>
+        <property name="lockingKeys" >
+            <list>
+                <value>scheduleActItemTypeCode</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="ScheduleActItemTypeMaintenanceDocument" />
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+   </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="ScheduleActItemTypeMaintenanceDocument-EditScheduleActItemType" parent="ScheduleActItemTypeMaintenanceDocument-EditScheduleActItemType-parentBean" />
+    <bean id="ScheduleActItemTypeMaintenanceDocument-EditScheduleActItemType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Schedule Act Item Type" />
+        <property name="title" value="Edit Schedule Act Item Type" />
+        <property name="maintainableItems" >
+            <list>
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="scheduleActItemTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="description"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+</beans>
