@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.UserSession;
@@ -451,7 +452,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("protocolNumber", protocol.getProtocolNumber());
             fieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
-            allowing(businessObjectService).countMatching(CommitteeScheduleMinutes.class, fieldValues);will(returnValue(1));
+            allowing(businessObjectService).countMatching(CommitteeScheduleMinute.class, fieldValues);will(returnValue(1));
         }});
     }
     

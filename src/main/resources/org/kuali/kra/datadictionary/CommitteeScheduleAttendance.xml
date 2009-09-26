@@ -19,39 +19,40 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="CommScheduleAttendance" parent="CommScheduleAttendance-parentBean" />
-    <bean id="CommScheduleAttendance-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeScheduleAttendance" />
-		<property name="objectLabel" value="Committee Schedule Attendance" />
+    <bean id="CommitteeScheduleAttendance" parent="CommitteeScheduleAttendance-parentBean" />
+    <bean id="CommitteeScheduleAttendance-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.meeting.CommitteeScheduleAttendance" />
+		<property name="objectLabel" value="Committee Schedule Atendance" />
         <property name="inquiryDefinition" >
-            <ref bean="CommScheduleAttendance-inquiryDefinition" />
+            <ref bean="CommitteeScheduleAttendance-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="CommScheduleAttendance-lookupDefinition" />
+            <ref bean="CommitteeScheduleAttendance-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="id" />
+        <property name="titleAttribute" value="commScheduleAttendanceId" />
         <property name="attributes" >
             <list>
-                <ref bean="CommScheduleAttendance-id" />
-                <ref bean="CommScheduleAttendance-scheduleId" />
-                <ref bean="CommScheduleAttendance-guestFlag" />
-                <ref bean="CommScheduleAttendance-alternateFlag" />
-                <ref bean="CommScheduleAttendance-alternateFor" />
-                <ref bean="CommScheduleAttendance-nonEmployeeFlag" />
-                <ref bean="CommScheduleAttendance-comments" />
-                <ref bean="CommScheduleAttendance-versionNumber" />
+                <ref bean="CommitteeScheduleAttendance-commScheduleAttendanceId" />
+                <ref bean="CommitteeScheduleAttendance-scheduleIdFk" />
+                <ref bean="CommitteeScheduleAttendance-personId" />
+                <ref bean="CommitteeScheduleAttendance-guestFlag" />
+                <ref bean="CommitteeScheduleAttendance-alternateFlag" />
+                <ref bean="CommitteeScheduleAttendance-alternateFor" />
+                <ref bean="CommitteeScheduleAttendance-nonEmployeeFlag" />
+                <ref bean="CommitteeScheduleAttendance-comments" />
+                <ref bean="CommitteeScheduleAttendance-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="CommScheduleAttendance-id" parent="CommScheduleAttendance-id-parentBean" />
-    <bean id="CommScheduleAttendance-id-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="id" />
+    <bean id="CommitteeScheduleAttendance-commScheduleAttendanceId" parent="CommitteeScheduleAttendance-commScheduleAttendanceId-parentBean" />
+    <bean id="CommitteeScheduleAttendance-commScheduleAttendanceId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="commScheduleAttendanceId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Id" />
-        <property name="shortLabel" value="Id" />
+        <property name="label" value="Comm Schedule Attendance Id" />
+        <property name="shortLabel" value="Comm Schedule Attendance Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -60,13 +61,13 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Id" />
-        <property name="description" value="Id" />
+        <property name="summary" value="Comm Schedule Attendance Id" />
+        <property name="description" value="Comm Schedule Attendance Id" />
     </bean>
 
-    <bean id="CommScheduleAttendance-scheduleId" parent="CommScheduleAttendance-scheduleId-parentBean" />
-    <bean id="CommScheduleAttendance-scheduleId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="scheduleId" />
+    <bean id="CommitteeScheduleAttendance-scheduleIdFk" parent="CommitteeScheduleAttendance-scheduleIdFk-parentBean" />
+    <bean id="CommitteeScheduleAttendance-scheduleIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="scheduleIdFk" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Schedule Id" />
         <property name="shortLabel" value="Schedule Id" />
@@ -82,8 +83,26 @@
         <property name="description" value="Schedule Id" />
     </bean>
 
-    <bean id="CommScheduleAttendance-guestFlag" parent="CommScheduleAttendance-guestFlag-parentBean" />
-    <bean id="CommScheduleAttendance-guestFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="CommitteeScheduleAttendance-personId" parent="CommitteeScheduleAttendance-personId-parentBean" />
+    <bean id="CommitteeScheduleAttendance-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="maxLength" value="9" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Id" />
+        <property name="description" value="Person Id" />
+    </bean>
+
+    <bean id="CommitteeScheduleAttendance-guestFlag" parent="CommitteeScheduleAttendance-guestFlag-parentBean" />
+    <bean id="CommitteeScheduleAttendance-guestFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="guestFlag" />
         <property name="label" value="Guest Flag" />
         <property name="shortLabel" value="Guest Flag" />
@@ -91,8 +110,8 @@
         <property name="description" value="Guest Flag" />
     </bean>
 
-    <bean id="CommScheduleAttendance-alternateFlag" parent="CommScheduleAttendance-alternateFlag-parentBean" />
-    <bean id="CommScheduleAttendance-alternateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="CommitteeScheduleAttendance-alternateFlag" parent="CommitteeScheduleAttendance-alternateFlag-parentBean" />
+    <bean id="CommitteeScheduleAttendance-alternateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="alternateFlag" />
         <property name="label" value="Alternate Flag" />
         <property name="shortLabel" value="Alternate Flag" />
@@ -100,8 +119,8 @@
         <property name="description" value="Alternate Flag" />
     </bean>
 
-    <bean id="CommScheduleAttendance-alternateFor" parent="CommScheduleAttendance-alternateFor-parentBean" />
-    <bean id="CommScheduleAttendance-alternateFor-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="CommitteeScheduleAttendance-alternateFor" parent="CommitteeScheduleAttendance-alternateFor-parentBean" />
+    <bean id="CommitteeScheduleAttendance-alternateFor-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="alternateFor" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Alternate For" />
@@ -118,8 +137,8 @@
         <property name="description" value="Alternate For" />
     </bean>
 
-    <bean id="CommScheduleAttendance-nonEmployeeFlag" parent="CommScheduleAttendance-nonEmployeeFlag-parentBean" />
-    <bean id="CommScheduleAttendance-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="CommitteeScheduleAttendance-nonEmployeeFlag" parent="CommitteeScheduleAttendance-nonEmployeeFlag-parentBean" />
+    <bean id="CommitteeScheduleAttendance-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="nonEmployeeFlag" />
         <property name="label" value="Non Employee Flag" />
         <property name="shortLabel" value="Non Employee Flag" />
@@ -127,8 +146,8 @@
         <property name="description" value="Non Employee Flag" />
     </bean>
 
-    <bean id="CommScheduleAttendance-comments" parent="CommScheduleAttendance-comments-parentBean" />
-    <bean id="CommScheduleAttendance-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="CommitteeScheduleAttendance-comments" parent="CommitteeScheduleAttendance-comments-parentBean" />
+    <bean id="CommitteeScheduleAttendance-comments-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="comments" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Comments" />
@@ -145,26 +164,28 @@
         <property name="description" value="Comments" />
     </bean>
 
-    <bean id="CommScheduleAttendance-versionNumber" parent="CommScheduleAttendance-versionNumber-parentBean" />
-    <bean id="CommScheduleAttendance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="CommitteeScheduleAttendance-versionNumber" parent="CommitteeScheduleAttendance-versionNumber-parentBean" />
+    <bean id="CommitteeScheduleAttendance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="CommScheduleAttendance-inquiryDefinition" parent="CommScheduleAttendance-inquiryDefinition-parentBean" />
-    <bean id="CommScheduleAttendance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Id" />
+    <bean id="CommitteeScheduleAttendance-inquiryDefinition" parent="CommitteeScheduleAttendance-inquiryDefinition-parentBean" />
+    <bean id="CommitteeScheduleAttendance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Comm Schedule Attendance Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Id" />
+                    <property name="title" value="Comm Schedule Attendance Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="id" 
-                                p:forceInquiry="true" />                            
+                                p:attributeName="commScheduleAttendanceId" 
+                                p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="scheduleId" />
+                                p:attributeName="scheduleIdFk" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personId" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="guestFlag" />
                             <bean parent="FieldDefinition"
@@ -183,11 +204,10 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="CommScheduleAttendance-lookupDefinition" parent="CommScheduleAttendance-lookupDefinition-parentBean" />
-    <bean id="CommScheduleAttendance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="CommitteeScheduleAttendance-lookupDefinition" parent="CommitteeScheduleAttendance-lookupDefinition-parentBean" />
+    <bean id="CommitteeScheduleAttendance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Comm Schedule Attendance Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -195,10 +215,12 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="id" 
+                    p:attributeName="commScheduleAttendanceId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleId" />
+                    p:attributeName="scheduleIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="guestFlag" />
                 <bean parent="FieldDefinition"
@@ -214,10 +236,12 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="id" 
+                    p:attributeName="commScheduleAttendanceId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleId" />
+                    p:attributeName="scheduleIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="guestFlag" />
                 <bean parent="FieldDefinition"
