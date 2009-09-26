@@ -37,6 +37,8 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
@@ -100,15 +102,16 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private String comments; 
 	
 // TODO : recursive reference    
-//    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
-//	private Committee committee; 
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
+	private Committee committee; 
 	
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
     private ScheduleStatus scheduleStatus;
     
     private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
+    private List<ProtocolSubmission> protocolSubmissions;        
     
     //TODO revisit required during meeting management to map Protocol
     @SkipVersioning
@@ -158,8 +161,11 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	public Timestamp getTime() {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
-	    dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
-	    this.time = new Timestamp(dt.getTime());
+	    if (viewTime != null) {
+            dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
+            //dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
+	        this.time = new Timestamp(dt.getTime());
+	    }
 	    return time;
 	}
 
@@ -235,13 +241,13 @@ public class CommitteeSchedule extends CommitteeAssociate {
 		this.comments = comments;
 	}
 
-//	public Committee getCommittee() {
-//		return committee;
-//	}
-//
-//	public void setCommittee(Committee committee) {
-//		this.committee = committee;
-//	}
+	public Committee getCommittee() {
+		return committee;
+	}
+
+	public void setCommittee(Committee committee) {
+		this.committee = committee;
+	}
 
     public ScheduleStatus getScheduleStatus() {
         return scheduleStatus;
@@ -388,6 +394,14 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	
     public void resetPersistenceState() {
         setId(null);
+    }
+
+    public List<ProtocolSubmission> getProtocolSubmissions() {
+        return protocolSubmissions;
+    }
+
+    public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
+        this.protocolSubmissions = protocolSubmissions;
     }
 
 }

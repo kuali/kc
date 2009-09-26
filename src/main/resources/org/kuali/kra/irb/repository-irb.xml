@@ -698,10 +698,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolSubmissionType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolSubmissionQualifierType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolSubmissionQualifierType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionTypeQualifierCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="schedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -710,7 +710,7 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolReviewTypeCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -902,26 +902,6 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.actions.submit.CommitteeScheduleMinutes" table="COMM_SCHEDULE_MINUTES">
-		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="INTEGER" />
-		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="INTEGER" />
-		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="INTEGER" />
-		<field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="minuteEntry" column="MINUTE_ENTRY" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>
-		
 	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolSubmissionDoc" table="PROTOCOL_SUBMISSION_DOC">
 		<field-descriptor name="submissionDocId" column="SUBMISSION_DOC_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />

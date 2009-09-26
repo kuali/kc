@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
@@ -68,7 +69,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("protocolNumber", protocol.getProtocolNumber());
             fieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
-            allowing(businessObjectService).countMatching(CommitteeScheduleMinutes.class, fieldValues);will(returnValue(1));
+            allowing(businessObjectService).countMatching(CommitteeScheduleMinute.class, fieldValues);will(returnValue(1));
         }});
     }
     

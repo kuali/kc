@@ -30,7 +30,6 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.bo.CommitteeScheduleAttendance;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -68,6 +67,7 @@ import org.kuali.kra.irb.summary.PersonnelSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.summary.ResearchAreaSummary;
 import org.kuali.kra.irb.summary.SpecialReviewSummary;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -917,6 +917,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.investigator = investigator;
     }
     
+    /* TODO : why this temp method is in Protocol method */
     private void populateTempViewDate() {
         this.protocolSubmission = new ProtocolSubmission();
         
@@ -977,7 +978,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         Person p1 = new Person();
         p1.setLastName("Mendez");
         p1.setFirstName("Tom");
-        committeeScheduleAttendance.setPerson(p1);
+        //committeeScheduleAttendance.setPerson(p1);
         List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
         cslist.add(committeeScheduleAttendance);
         committeeSchedule.setCommitteeScheduleAttendances(cslist);        

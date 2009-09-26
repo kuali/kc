@@ -97,7 +97,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Committee Id" />
 		<property name="shortLabel" value="Committee Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -169,9 +169,9 @@
 	<bean id="CommSchedule-protocolSubDeadline" parent="CommSchedule-protocolSubDeadline-parentBean" />
 	<bean id="CommSchedule-protocolSubDeadline-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="protocolSubDeadline" />
-		<property name="label" value="Protocol Sub Deadline" />
+		<property name="label" value="Deadline" />
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Protocol Sub Deadline" />
+		<property name="shortLabel" value="Deadline" />
 		<property name="summary" value="Protocol Sub Deadline" />
 		<property name="description" value="Protocol Sub Deadline" />
 	</bean>
@@ -200,7 +200,7 @@
 	</bean>
 
 	<bean id="CommSchedule-meetingDate" parent="CommSchedule-meetingDate-parentBean" />
-	<bean id="CommSchedule-meetingDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+	<bean id="CommSchedule-meetingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
 		<property name="name" value="meetingDate" />
 		<property name="label" value="Meeting Date" />
 		<property name="shortLabel" value="Meeting Date" />
@@ -227,7 +227,7 @@
 	</bean>
 
 	<bean id="CommSchedule-agendaProdRevDate" parent="CommSchedule-agendaProdRevDate-parentBean" />
-	<bean id="CommSchedule-agendaProdRevDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+	<bean id="CommSchedule-agendaProdRevDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
 		<property name="name" value="agendaProdRevDate" />
 		<property name="label" value="Agenda Prod Rev Date" />
 		<property name="shortLabel" value="Agenda Prod Rev Date" />
