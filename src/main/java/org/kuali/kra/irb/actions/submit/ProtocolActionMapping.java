@@ -24,6 +24,7 @@ import java.util.TreeMap;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /*
@@ -97,7 +98,7 @@ public class ProtocolActionMapping implements FactBean {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocol.getProtocolNumber());
         fieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
-        int count = businessObjectService.countMatching(CommitteeScheduleMinutes.class, fieldValues);
+        int count = businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues);
         boolean flag = false;
         if(count > 0)
             flag = true;
