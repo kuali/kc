@@ -259,7 +259,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
-        destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
     }
    
     private Object deepCopy(Object obj) {
