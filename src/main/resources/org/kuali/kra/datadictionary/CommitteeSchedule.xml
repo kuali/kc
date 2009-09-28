@@ -49,6 +49,8 @@
 				<ref bean="CommSchedule-comments" />
 				<ref bean="CommSchedule-versionNumber" />
 				<ref bean="CommSchedule-selected" />
+				<ref bean="CommSchedule-viewStartTime" />
+				<ref bean="CommSchedule-viewEndTime" />
 			</list>
 		</property>
 	</bean>
@@ -261,12 +263,14 @@
 		<property name="shortLabel" value="Comments" />
 		<property name="maxLength" value="2000" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" 
+			            p:allowWhitespace="true" />
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
+        <property name="control" >
+           <bean parent="TextareaControlDefinition"
+              p:rows="5"
+              p:cols="60" />
+        </property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
 	</bean>
@@ -292,6 +296,22 @@
 	    <property name="summary" value="Select" />
 	    <property name="description" value="Select" />
 	  </bean>
+	<bean id="CommSchedule-viewStartTime" parent="CommSchedule-viewStartTime-parentBean" />
+	<bean id="CommSchedule-viewStartTime-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-time" >
+		<property name="name" value="viewStartTime" />
+		<property name="label" value="Start Time" />
+		<property name="shortLabel" value="Start Time" />
+		<property name="summary" value="Start Time" />
+		<property name="description" value="Start Time" />
+	</bean>
+	<bean id="CommSchedule-viewEndTime" parent="CommSchedule-viewEndTime-parentBean" />
+	<bean id="CommSchedule-viewEndTime-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-time" >
+		<property name="name" value="viewEndTime" />
+		<property name="label" value="End Time" />
+		<property name="shortLabel" value="End Time" />
+		<property name="summary" value="End Time" />
+		<property name="description" value="End Time" />
+	</bean>
 
 
 	<!-- Business Object Inquiry Definition -->
