@@ -38,6 +38,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 
 /**
@@ -87,10 +88,10 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private Date meetingDate;
     
     @Column(name="START_TIME")
-    private Date startTime;
+    private Timestamp startTime;
     
     @Column(name="END_TIME")
-    private Date endTime;
+    private Timestamp endTime;
     
     @Column(name="AGENDA_PROD_REV_DATE")
     private Date agendaProdRevDate;
@@ -112,13 +113,16 @@ public class CommitteeSchedule extends CommitteeAssociate {
     
     private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
     private List<ProtocolSubmission> protocolSubmissions;        
-    
+    private List<CommScheduleActItem>  commScheduleActItems;
     //TODO revisit required during meeting management to map Protocol
     @SkipVersioning
     private List<Protocol> protocols;
+    private Time12HrFmt viewStartTime;
+    private Time12HrFmt viewEndTime;
 
     public CommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
+        setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
 	} 
 	
     public Long getId() {
@@ -201,19 +205,38 @@ public class CommitteeSchedule extends CommitteeAssociate {
 		this.meetingDate = meetingDate;
 	}
 
-	public Date getStartTime() {
-		return startTime;
+	public Timestamp getStartTime() {
+        if (startTime == null) {
+            java.util.Date dt = new java.util.Date(scheduledDate.getTime());
+            dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
+            if (viewStartTime != null) {
+                dt = DateUtils.addMinutes(dt, viewStartTime.findMinutes());
+                // dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
+            }
+            this.startTime = new Timestamp(dt.getTime());
+        }
+
+        return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(Timestamp startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
-		return endTime;
+	public Timestamp getEndTime() {
+        if (endTime == null) {
+            java.util.Date dt = new java.util.Date(scheduledDate.getTime());
+            dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
+            if (viewEndTime != null) {
+                dt = DateUtils.addMinutes(dt, viewEndTime.findMinutes());
+                // dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
+            } 
+            this.endTime = new Timestamp(dt.getTime());
+        }
+        return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(Timestamp endTime) {
 		this.endTime = endTime;
 	}
 
@@ -226,10 +249,16 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	}
 
 	public Integer getMaxProtocols() {
+        if (maxProtocols == null) {
+            maxProtocols = committee.getMaxProtocols();
+        }
 		return maxProtocols;
 	}
 
 	public void setMaxProtocols(Integer maxProtocols) {
+	    if (maxProtocols == null) {
+	        maxProtocols = 0;
+	    }
 		this.maxProtocols = maxProtocols;
 	}
 
@@ -403,5 +432,35 @@ public class CommitteeSchedule extends CommitteeAssociate {
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
         this.protocolSubmissions = protocolSubmissions;
     }
+    public Time12HrFmt getViewStartTime() {
+        if (null == this.viewStartTime) {
+            this.viewStartTime = new Time12HrFmt(startTime);
+        }
+        return viewStartTime;
+    }
+
+    public void setViewStartTime(Time12HrFmt viewStartTime) {
+        this.viewStartTime = viewStartTime;
+    }
+
+    public Time12HrFmt getViewEndTime() {
+        if (null == this.viewEndTime) {
+            this.viewEndTime = new Time12HrFmt(endTime);
+        }
+        return viewEndTime;
+    }
+
+    public void setViewEndTime(Time12HrFmt viewEndTime) {
+        this.viewEndTime = viewEndTime;
+    }
+
+    public List<CommScheduleActItem> getCommScheduleActItems() {
+        return commScheduleActItems;
+    }
+
+    public void setCommScheduleActItems(List<CommScheduleActItem> commScheduleActItems) {
+        this.commScheduleActItems = commScheduleActItems;
+    }
+
 
 }
