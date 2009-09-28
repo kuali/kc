@@ -348,7 +348,7 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
+        BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = KraServiceLocator.getService(BudgetDistributionAndIncomeService.class);
         budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getDocument().getBudget());
         
         return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
