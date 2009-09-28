@@ -24,6 +24,8 @@ public class AttachmentSummary implements Serializable {
     private String fileName;
     private Long attachmentId;
     
+    private boolean fileNameChanged;
+    
     public AttachmentSummary() {
         
     }
@@ -42,5 +44,14 @@ public class AttachmentSummary implements Serializable {
 
     public void setAttachmentId(Long attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public boolean isFileNameChanged() {
+        return fileNameChanged;
+    }
+
+    public void compare(ProtocolSummary other) {
+        AttachmentSummary otherAttachment = other.findAttachment(fileName);
+        fileNameChanged = (otherAttachment == null);
     }
 }

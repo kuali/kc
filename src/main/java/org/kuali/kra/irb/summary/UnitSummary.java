@@ -24,16 +24,31 @@ public class UnitSummary implements Serializable {
     private String unitNumber;
     private String unitName;
     
+    private boolean changed;
+    
     public UnitSummary(String unitNumber, String unitName) {
         this.unitNumber = unitNumber;
         this.unitName = unitName;
     }
-
+    
     public String getUnitNumber() {
         return unitNumber;
     }
 
     public String getUnitName() {
         return unitName;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void compare(PersonnelSummary otherPerson) {
+        UnitSummary unit = otherPerson.findUnit(unitNumber);
+        changed = (unit == null);
     }
 }

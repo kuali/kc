@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class PersonnelSummary implements Serializable {
 
     private static final long serialVersionUID = 5043509130587736483L;
@@ -27,6 +29,10 @@ public class PersonnelSummary implements Serializable {
     private String roleName;
     private String affiliation;
     private List<UnitSummary> units = new ArrayList<UnitSummary>();
+    
+    private boolean nameChanged;
+    private boolean roleNameChanged;
+    private boolean affiliationChanged;
     
     public PersonnelSummary() {
         
@@ -62,5 +68,44 @@ public class PersonnelSummary implements Serializable {
 
     public void addUnit(String unitNumber, String unitName) {
         units.add(new UnitSummary(unitNumber, unitName));
+    }
+
+    public void compare(ProtocolSummary other) {
+        PersonnelSummary otherPerson = other.findPerson(name);
+        if (otherPerson == null) {
+            nameChanged = true;
+            for (UnitSummary unit : units) {
+                unit.setChanged(true);
+            }
+        }
+        else {
+            nameChanged = !StringUtils.equals(name, otherPerson.name);
+            roleNameChanged = !StringUtils.equals(roleName, otherPerson.roleName);
+            affiliationChanged = !StringUtils.equals(affiliation, otherPerson.affiliation);
+            for (UnitSummary unit : units) {
+                unit.compare(otherPerson);
+            }
+        }
+    }
+
+    public boolean isNameChanged() {
+        return nameChanged;
+    }
+
+    public boolean isRoleNameChanged() {
+        return roleNameChanged;
+    }
+
+    public boolean isAffiliationChanged() {
+        return affiliationChanged;
+    }
+
+    public UnitSummary findUnit(String unitNumber) {
+        for (UnitSummary unit : units) {
+            if (StringUtils.equals(unit.getUnitNumber(), unitNumber)) {
+                return unit;
+            }
+        }
+        return null;
     }
 }

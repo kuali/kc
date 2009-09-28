@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import com.ibm.icu.util.Calendar;
+import java.util.Calendar;
 
 /**
  * This class 
