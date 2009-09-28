@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ProtocolSummary implements Serializable {
 
     private static final long serialVersionUID = 1880834136103817283L;
@@ -44,8 +46,17 @@ public class ProtocolSummary implements Serializable {
     private List<ParticipantSummary> participants = new ArrayList<ParticipantSummary>();
     private List<OrganizationSummary> organizations = new ArrayList<OrganizationSummary>();
     private List<SpecialReviewSummary> specialReviews = new ArrayList<SpecialReviewSummary>();
-
     private AdditionalInfoSummary additionalInfoSummary;
+    
+    private boolean protocolNumberChanged = false;
+    private boolean approvalDateChanged = false;
+    private boolean lastApprovalDateChanged = false;
+    private boolean applicationDateChanged = false;
+    private boolean expirationDateChanged = false;
+    private boolean piNameChanged = false;
+    private boolean typeChanged = false;
+    private boolean statusChanged = false;
+    private boolean titleChanged = false;
     
     public ProtocolSummary() {
         
@@ -198,4 +209,169 @@ public class ProtocolSummary implements Serializable {
     public void setAdditionalInfo(AdditionalInfoSummary additionalInfoSummary) {
         this.additionalInfoSummary = additionalInfoSummary;
     }
+    
+    public void compare(ProtocolSummary other) {
+        protocolNumberChanged = !StringUtils.equals(protocolNumber, other.protocolNumber);
+        approvalDateChanged = !StringUtils.equals(approvalDate, other.approvalDate);
+        lastApprovalDateChanged = !StringUtils.equals(lastApprovalDate, other.lastApprovalDate);
+        applicationDateChanged = !StringUtils.equals(applicationDate, other.applicationDate);
+        expirationDateChanged = !StringUtils.equals(expirationDate, other.expirationDate);
+        piNameChanged = !StringUtils.equals(piName, other.piName);
+        typeChanged = !StringUtils.equals(type, other.type);
+        statusChanged = !StringUtils.equals(status, other.status);
+        titleChanged = !StringUtils.equals(title, other.title);
+        
+        comparePersonnel(other);
+        compareResearchAreas(other);
+        compareParticipants(other);
+        compareSpecialReviews(other);
+        compareFundingSources(other);
+        compareOrganizations(other);
+        compareAttachments(other);
+        
+        additionalInfoSummary.compare(other.getAdditionalInfo());
+    }
+
+    private void compareAttachments(ProtocolSummary other) {
+        for (AttachmentSummary attachment : attachments) {
+            attachment.compare(other);
+        }
+    }
+
+    private void compareOrganizations(ProtocolSummary other) {
+        for (OrganizationSummary organization : organizations) {
+            organization.compare(other);
+        }
+    }
+
+    private void compareFundingSources(ProtocolSummary other) {
+        for (FundingSourceSummary fundingSource : fundingSources) {
+            fundingSource.compare(other);
+        }
+    }
+
+    private void compareSpecialReviews(ProtocolSummary other) {
+        for (SpecialReviewSummary specialReview : specialReviews) {
+            specialReview.compare(other);
+        }
+    }
+
+    private void comparePersonnel(ProtocolSummary other) {
+        for (PersonnelSummary person : persons) {
+            person.compare(other);
+        }
+    }
+    
+    private void compareResearchAreas(ProtocolSummary other) {
+        for (ResearchAreaSummary researchArea : researchAreas) {
+            researchArea.compare(other);
+        }
+    }
+    
+    private void compareParticipants(ProtocolSummary other) {
+        for (ParticipantSummary participant : participants) {
+            participant.compare(other);
+        }
+    }
+    
+    public boolean isProtocolNumberChanged() {
+        return protocolNumberChanged;
+    }
+
+    public boolean isApprovalDateChanged() {
+        return approvalDateChanged;
+    }
+
+    public boolean isLastApprovalDateChanged() {
+        return lastApprovalDateChanged;
+    }
+
+    public boolean isApplicationDateChanged() {
+        return applicationDateChanged;
+    }
+
+    public boolean isExpirationDateChanged() {
+        return expirationDateChanged;
+    }
+
+    public boolean isPiNameChanged() {
+        return piNameChanged;
+    }
+
+    public boolean isTypeChanged() {
+        return typeChanged;
+    }
+
+    public boolean isStatusChanged() {
+        return statusChanged;
+    }
+
+    public boolean isTitleChanged() {
+        return titleChanged;
+    }
+
+    public PersonnelSummary findPerson(String name) {
+        for (PersonnelSummary person : persons) {
+            if (StringUtils.equals(person.getName(), name)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    public ResearchAreaSummary findResearchArea(String researchAreaCode) {
+        for (ResearchAreaSummary researchArea : researchAreas) {
+            if (StringUtils.equals(researchArea.getResearchAreaCode(), researchAreaCode)) {
+                return researchArea;
+            }
+        }
+        return null;
+    }
+
+    public ParticipantSummary findParticipant(String description) {
+        for (ParticipantSummary participant : participants) {
+            if (StringUtils.equals(participant.getDescription(), description)) {
+                return participant;
+            }
+        }
+        return null;
+    }
+
+    public SpecialReviewSummary findSpecialReview(String type, String approvalStatus) {
+        for (SpecialReviewSummary specialReview : specialReviews) {
+            if (StringUtils.equals(specialReview.getType(), type) &&
+                StringUtils.equals(specialReview.getApprovalStatus(), approvalStatus)) {
+                return specialReview;
+            }
+        }
+        return null;
+    }
+
+    public FundingSourceSummary findFundingSource(String fundingType, String fundingId) {
+        for (FundingSourceSummary fundingSource : fundingSources) {
+            if (StringUtils.equals(fundingSource.getFundingType(), fundingType) &&
+                StringUtils.equals(fundingSource.getFundingId(), fundingId)) {
+                return fundingSource;
+            }
+        }
+        return null;
+    }
+
+    public OrganizationSummary findOrganization(String organizationId) {
+        for (OrganizationSummary organization : organizations) {
+            if (StringUtils.equals(organization.getOrganizationId(), organizationId)) {
+                return organization;
+            }
+        }
+        return null;
+    }
+
+    public AttachmentSummary findAttachment(String fileName) {
+        for (AttachmentSummary attachment : attachments) {
+            if (StringUtils.equals(attachment.getFileName(), fileName)) {
+                return attachment;
+            }
+        }
+        return null;
+    }    
 }

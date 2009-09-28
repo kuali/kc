@@ -18,6 +18,12 @@
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 
+<script src="scripts/jquery/jquery.js"></script>
+<style type="text/css">
+   .compare { color: #666666 }
+   .compare td, .compare th { color:#666666; }
+</style>
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="protocolProtocolActions"
@@ -47,6 +53,7 @@
 
 <input id="javaScriptFlag" type="hidden" name="javaScriptEnabled" value="0" />
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
+
 <script language="javascript">enableJavaScript()</script>
 
 </kul:documentPage>

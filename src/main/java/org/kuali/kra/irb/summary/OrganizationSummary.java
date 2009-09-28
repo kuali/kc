@@ -17,6 +17,7 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Rolodex;
 
 public class OrganizationSummary implements Serializable {
@@ -30,6 +31,12 @@ public class OrganizationSummary implements Serializable {
     private Integer contactId;
     private String contact;
     private String fwaNumber;
+    
+    private boolean idChanged;
+    private boolean nameChanged;
+    private boolean typeChanged;
+    private boolean contactChanged;
+    private boolean fwaNumberChanged;
     
     public String getId() {
         return id;
@@ -117,5 +124,43 @@ public class OrganizationSummary implements Serializable {
     
     public void setFwaNumber(String fwaNumber) {
         this.fwaNumber = fwaNumber;
+    }
+
+    public void compare(ProtocolSummary other) {
+        OrganizationSummary otherOrganization = other.findOrganization(organizationId);
+        if (otherOrganization == null) {
+            idChanged = true;
+            nameChanged = true;
+            typeChanged = true;
+            contactChanged = true;
+            fwaNumberChanged = true;
+        }
+        else {
+            idChanged = !StringUtils.equals(id, otherOrganization.id);
+            nameChanged = !StringUtils.equals(name, otherOrganization.name);
+            typeChanged = !StringUtils.equals(type, otherOrganization.type);
+            contactChanged = !StringUtils.equals(contact, otherOrganization.contact);
+            fwaNumberChanged = !StringUtils.equals(fwaNumber, otherOrganization.fwaNumber);
+        }
+    }
+
+    public boolean isIdChanged() {
+        return idChanged;
+    }
+
+    public boolean isNameChanged() {
+        return nameChanged;
+    }
+
+    public boolean isTypeChanged() {
+        return typeChanged;
+    }
+
+    public boolean isContactChanged() {
+        return contactChanged;
+    }
+
+    public boolean isFwaNumberChanged() {
+        return fwaNumberChanged;
     }
 }
