@@ -451,8 +451,8 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
-
-        budgetDoc = getFinalBudgetVersion(pdDoc).getBudget();
+        BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
+        budgetDoc = budgetDocument==null?null:budgetDocument.getBudget();
         if (budgetDoc == null) {
             return budgetPeriods;
         }
