@@ -281,9 +281,9 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         CommitteeSchedule schedule = new CommitteeSchedule();
         schedule.setScheduleId("1");
         schedule.setPlace("my office");
-        schedule.setEndTime(new Date(System.currentTimeMillis() + 100));
+        schedule.setEndTime(new Timestamp(System.currentTimeMillis() + 100));
         schedule.setScheduledDate(new Date(System.currentTimeMillis()));
-        schedule.setStartTime(new Date(System.currentTimeMillis() - 100));
+        schedule.setStartTime(new Timestamp(System.currentTimeMillis() - 100));
         schedule.setFilter(false);
         schedule.setMaxProtocols(committee.getMaxProtocols());
         schedule.setTime(new Timestamp(System.currentTimeMillis()));

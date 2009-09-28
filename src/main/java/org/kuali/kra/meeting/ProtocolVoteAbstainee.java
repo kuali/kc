@@ -41,10 +41,6 @@ public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase {
     private Integer protocolVoteAbstaineesId; 
     @Column(name="PROTOCOL_ID_FK")
     private Long protocolIdFk; 
-//    @Column(name="PROTOCOL_NUMBER")
-//    private String protocolNumber; 
-//    @Column(name="SEQUENCE_NUMBER")
-//    private Integer sequenceNumber; 
     @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
     @Column(name="PERSON_ID")
@@ -116,8 +112,6 @@ public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("protocolVoteAbstaineesId", this.getProtocolVoteAbstaineesId());
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
-//        hashMap.put("protocolNumber", this.getProtocolNumber());
-//        hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("scheduleIdFk", this.getScheduleIdFk());
         hashMap.put("personId", this.getPersonId());
         hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());

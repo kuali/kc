@@ -42,7 +42,7 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
     @Column(name="ACTION_ITEM_NUMBER")
     private Integer actionItemNumber; 
     @Column(name="SCHEDULE_ACT_ITEM_TYPE_CODE")
-    private Integer scheduleActItemTypeCode; 
+    private String scheduleActItemTypeCode; 
     @Column(name="ITEM_DESCTIPTION")
     private String itemDesctiption; 
     
@@ -76,11 +76,11 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         this.actionItemNumber = actionItemNumber;
     }
 
-    public Integer getScheduleActItemTypeCode() {
+    public String getScheduleActItemTypeCode() {
         return scheduleActItemTypeCode;
     }
 
-    public void setScheduleActItemTypeCode(Integer scheduleActItemTypeCode) {
+    public void setScheduleActItemTypeCode(String scheduleActItemTypeCode) {
         this.scheduleActItemTypeCode = scheduleActItemTypeCode;
     }
 

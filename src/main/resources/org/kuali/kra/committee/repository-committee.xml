@@ -34,8 +34,8 @@
 		<field-descriptor name="protocolSubDeadline" column="PROTOCOL_SUB_DEADLINE" jdbc-type="DATE" />
 		<field-descriptor name="scheduleStatusCode" column="SCHEDULE_STATUS_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="meetingDate" column="MEETING_DATE" jdbc-type="DATE" />
-		<field-descriptor name="startTime" column="START_TIME" jdbc-type="DATE" />
-		<field-descriptor name="endTime" column="END_TIME" jdbc-type="DATE" />
+		<field-descriptor name="startTime" column="START_TIME" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="endTime" column="END_TIME" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="agendaProdRevDate" column="AGENDA_PROD_REV_DATE" jdbc-type="DATE" />
 		<field-descriptor name="maxProtocols" column="MAX_PROTOCOLS" jdbc-type="INTEGER" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
@@ -50,10 +50,13 @@
 			<foreignkey field-ref="scheduleStatusCode"/>
 		</reference-descriptor>		
 		
-		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
-		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
+		<collection-descriptor name="commScheduleActItems" proxy="true" element-class-ref="org.kuali.kra.meeting.CommScheduleActItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 		
@@ -289,7 +292,7 @@
 		<field-descriptor name="commScheduleActItemsId" column="COMM_SCHEDULE_ACT_ITEMS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="actionItemNumber" column="ACTION_ITEM_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="itemDesctiption" column="ITEM_DESCTIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -298,7 +301,7 @@
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.meeting.ScheduleActItemType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleActItemTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>

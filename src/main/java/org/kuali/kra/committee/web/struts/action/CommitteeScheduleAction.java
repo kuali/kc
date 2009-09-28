@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
@@ -251,4 +252,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
     private DictionaryValidationService getService() {
         return KraServiceLocator.getService(DictionaryValidationService.class);
     }
+    
+    public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;          
+        String applicationUrl = getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+        CommitteeSchedule commSchedule = ((CommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
+        response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1));
+        //return mapping.findForward("maintainSchedule");
+        return null;
+    }    
+
+    
 }
