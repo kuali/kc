@@ -63,7 +63,7 @@
 			                            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
 			                            anchor="${tabKey}" />
 			            </div></td>
-			            <td><div align="center">To Be Implemented</div></td>
+			            <td><div align="center">Sub Budget</div></td>
 			            <td><div align="center">
 			            	<html:image property="methodToCall.linkChildToHierarchy.anchor${tabKey}"
 						       	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linkchildprop.gif' styleClass="tinybutton"/>
@@ -102,7 +102,7 @@
 			                	            lookupParameters="hierarchyParentStatus:hierarchyStatus"
 			                	            anchor="${tabKey}" />
 			            </div></td>
-			            <td><div align="center">To Be Implemented</div></td>
+			            <td><div align="center">Sub Budget</div></td>
 			            <td><div align="center">
 								<html:image property="methodToCall.linkToHierarchy.anchor${tabKey}"
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linktohierarchy.gif' styleClass="tinybutton"/>
