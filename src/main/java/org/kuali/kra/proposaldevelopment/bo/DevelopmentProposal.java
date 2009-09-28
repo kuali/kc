@@ -33,6 +33,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -1784,8 +1785,25 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.children = children;
     }
 
-    public List getPersonRolodexList() {
-        return getProposalPersons();
+    
+    /**
+     * In the case where a person is in the proposal twice (Investigator and Key Person),
+     * this method's return list contains only the Investigator.
+     * 
+     * @see org.kuali.kra.budget.core.BudgetParent#getPersonRolodexList()
+     */
+    public List<PersonRolodex> getPersonRolodexList() {
+        ArrayList<PersonRolodex> filtered = new ArrayList<PersonRolodex>();
+        for (ProposalPerson person : getProposalPersons()) {
+            if (!filtered.contains(person)) filtered.add(person);
+            else {
+                if (person.isInvestigator()) {
+                    filtered.remove(person);
+                    filtered.add(person);
+                }
+            }
+        }       
+        return filtered;
     }
 
     public Unit getUnit() {
