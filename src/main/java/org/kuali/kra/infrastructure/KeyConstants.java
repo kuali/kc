@@ -527,6 +527,8 @@ public final class KeyConstants {
     public static final String ERROR_EMPTY_GRADUATE_STUDENT_DATA = "error.empty.graduate.student.data";
     public static final String ERROR_INVALID_SPONSOR_CODE = "error.invalid.sponsorCode";
     public static final String ERROR_INVALID_PRIME_SPONSOR_CODE = "error.invalid.primeSponsorCode";
+    public static final String ERROR_INVALID_AWARD_ID = "error.invalid.awardId";
+
 
     
     //Institutional Proposal Cost Share

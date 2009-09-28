@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 
 
-<kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].statusCode,document.institutionalProposalList[0].activityTypeCode,document.institutionalProposalList[0].proposalTypeCode,document.institutionalProposalList[0].title">
+<kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].statusCode,document.institutionalProposalList[0].activityTypeCode,document.institutionalProposalList[0].proposalTypeCode,document.institutionalProposalList[0].title,document.institutionalProposalList[0].currentAwardNumber">
 	<!-- Institution -->
 <div class="tab-container" align="center">
 
@@ -50,12 +50,12 @@
     	</td>
   	</tr>
   	<tr>
-    	<th>
-    		<div align="right">Award ID:</div>
-      	</th>
+    	<th width="400">
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.currentAwardNumber}" /></div>
+		</th>
     	<td>
     		<div align="left"> 
-					<kul:htmlControlAttribute property="document.institutionalProposal.currentAwardNumber" attributeEntry="${institutionalProposalAttributes.currentAwardNumber}"/>
+					<kul:htmlControlAttribute property="document.institutionalProposalList[0].currentAwardNumber" attributeEntry="${institutionalProposalAttributes.currentAwardNumber}"/>
 					<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.institutionalProposal.currentAwardNumber" anchor="${tabKey}"/>
 			</div>
     	</td>
