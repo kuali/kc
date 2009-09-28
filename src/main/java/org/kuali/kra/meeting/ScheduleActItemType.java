@@ -29,7 +29,7 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity 
-@Table(name="OSP$SCHEDULE_ACT_ITEM_TYPE")
+@Table(name="SCHEDULE_ACT_ITEM_TYPE")
 public class ScheduleActItemType extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = -2501084035126192701L;
