@@ -990,16 +990,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            BudgetVersionOverview finalBudgetVersion = src.getFinalBudgetVersion().getBudgetVersionOverview();
+            BudgetDocumentVersion finalBudgetVersion = src.getFinalBudgetVersion();
             if (finalBudgetVersion != null) {
                 copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
             for (BudgetDocumentVersion budgetDocumentVersion: src.getBudgetDocumentVersions()) {
-                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview(); 
                 
-                copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest, i++);
+                copyAndFinalizeBudgetVersion(budgetDocumentVersion.getDocumentNumber(), dest, i++);
             }
         }
         
@@ -1007,26 +1006,23 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
-        budgetDocument.getParentDocument().setBudgetDocumentVersions(new ArrayList<BudgetDocumentVersion>());
         Integer origBudgetVersionNumber = budgetDocument.getBudget().getBudgetVersionNumber();
         budgetDocument.toCopy();
-        // budget.tocopy set the budgetversionnumber to the new one
-        // need to rest it so setobjectpropertydeep can work for 'budgetversionnuumber'
-        budgetDocument.getBudget().setBudgetVersionNumber(origBudgetVersionNumber);
-        ObjectUtils.setObjectPropertyDeep(budgetDocument, "proposalNumber", String.class, dest.getDevelopmentProposal().getProposalNumber());
-        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetVersionNumber", Integer.class, budgetVersionNumber);
+        budgetDocument.setVersionNumber(null);
         
         ObjectUtils.materializeAllSubObjects(budgetDocument);
 
         Budget budget = budgetDocument.getBudget();
         Map<String, Object> objectMap = new HashMap<String, Object>();
-        fixNumericProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
+        fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budget, "setVersionNumber", Long.class, new Long(0), objectMap);
+        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setVersionNumber", Long.class, new Long(0), objectMap);
         objectMap.clear(); 
         
         budget.setFinalVersionFlag(false);
-        budgetDocument.setParentDocument(dest);
+        budgetDocument.setParentDocumentKey(dest.getDocumentNumber());
         
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
@@ -1036,7 +1032,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
             }
 //            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
-            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getBudgetId()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getBudgetId() + budgetPeriod.getBudgetPeriod(), tmpObject);
             budgetPeriod.setBudgetModular(null);
         }
         
@@ -1047,7 +1043,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
 //            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getBudget().getBudgetId()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getBudget().getBudgetId() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
