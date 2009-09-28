@@ -17,10 +17,8 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
@@ -346,12 +344,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 
         // remove and copy PropScienceKeywords
+        List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>(hierarchyProposal.getPropScienceKeywords());
         for (PropScienceKeyword keyword : hierarchyChild.getPropScienceKeywords()) {
             hierarchyProposal.getPropScienceKeywords().remove(keyword);
         }
         hierarchyChild.getPropScienceKeywords().clear();
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
             PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal.getProposalNumber(), keyword.getScienceKeyword());
+            if (oldKeywords.contains(newKeyword)) {
+                newKeyword = oldKeywords.get(oldKeywords.indexOf(newKeyword));
+            }
             newKeyword.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addPropScienceKeyword(newKeyword);
             hierarchyChild.getPropScienceKeywords().add(newKeyword);
@@ -365,9 +367,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for(ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
             ProposalSpecialReview newReview = (ProposalSpecialReview)ObjectUtils.deepCopy(review);
             newReview.setProposalNumber(hierarchyProposal.getProposalNumber());
-            newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            newReview.setVersionNumber(null);
-            newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());
+            newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            
             newReview.setVersionNumber(null);
+            newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.getPropSpecialReviews().add(newReview);
             hierarchyChild.getPropSpecialReviews().add(newReview);
         }
@@ -424,46 +426,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
+        ArrayList<ProposalPerson> persons = new ArrayList<ProposalPerson>();
         
-    }
-
-    private void aggregateProposalPersons(DevelopmentProposal hierarchy) {
-        ProposalPerson oldPrincipalInvestigator = null;
         for (ProposalPerson person : hierarchy.getProposalPersons()) {
-            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
-                oldPrincipalInvestigator = person;
-                break;
+            if (!persons.contains(person)) {
+                persons.add(person);
             }
-        }
-
-        Set<ProposalPerson> proposalPersons = new HashSet<ProposalPerson>();
-        for (ProposalHierarchyChild child : hierarchy.getChildren()) {
-            for (ProposalPerson person : child.getProposalPersons()) {
-                proposalPersons.add(person);
-                person.setVersionNumber(null);
-                if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
-                    person.setProposalPersonRoleId("COI");
-                }
+            else if ((person.isInvestigator() != persons.get(persons.indexOf(person)).isInvestigator()) 
+                    && (person.isInvestigator() != persons.get(persons.lastIndexOf(person)).isInvestigator())) {
+                persons.add(person);
             }
+            else person.setHiddenInHierarchy(true);
         }
-
-        hierarchy.getProposalPersons().clear();
-        hierarchy.getProposalPersons().addAll(proposalPersons);
-        for (ProposalPerson person : hierarchy.getProposalPersons()) {
-            person.setHiddenInHierarchy(false);
-            if (person.equals(oldPrincipalInvestigator))
-                person.setProposalPersonRoleId("PI");
-        }
-    }
-
-    private void removeNonExclusiveNarratives(List<Narrative> narratives) {
-        Narrative narrative;
-        for (int i = narratives.size() - 1; i >= 0; i--) {
-            narrative = narratives.get(i);
-            if (StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "Y")) {
-                narratives.remove(i);
-            }
-        }
+        businessObjectService.save(hierarchy.getProposalDocument().getDocumentNextvalues());
     }
 
     private DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
