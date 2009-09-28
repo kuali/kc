@@ -202,6 +202,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         this.resetPersistenceState();
         this.setProtocol(aProtocol);
         this.postInitHook(aProtocol);
+        this.setSequenceNumber(0);
     }
     
     /**

@@ -18,6 +18,7 @@ package org.kuali.kra.irb.specialreview;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.irb.Protocol;
 /**
@@ -25,7 +26,7 @@ import org.kuali.kra.irb.Protocol;
  * This class represents ProtocolSpecialReview BO
  */
 @SuppressWarnings("serial")
-public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> { 
+public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol>{ 
 	  
     private Long protocolSpecialReviewId; 
 	private Protocol protocol; 
@@ -120,10 +121,40 @@ public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecial
     public void init(Protocol protocol) {
         this.protocolSpecialReviewId = null;
         this.protocol = protocol;
+        this.setProtocolNumber(protocol.getProtocolNumber());
+        this.setVersionNumber(null);
+        for (ProtocolSpecialReviewExemption exemption : this.getSpecialReviewExemptions()) {
+            exemption.setProtocolSpecialReview(this);
+            exemption.setProtocolSpecialReviewExemptionId(null);
+            exemption.setVersionNumber(null);
+        }
     }
 
     @Override
     public Long getSpecialReviewId() {
         return protocolSpecialReviewId;
+    }
+    
+    /** {@inheritDoc} */
+    public Protocol getSequenceOwner() {
+        return this.getProtocol();
+    }
+
+    /** {@inheritDoc} */
+    public void setSequenceOwner(Protocol newlyVersionedOwner) {
+        this.setProtocol(newlyVersionedOwner);   
+    }
+
+    public Integer getSequenceNumber() {
+        return protocol != null ? protocol.getSequenceNumber() : null;
+    }
+
+    public void resetPersistenceState() {
+        this.protocolSpecialReviewId = null;
+        for (ProtocolSpecialReviewExemption exemption : this.getSpecialReviewExemptions()) {
+            exemption.setProtocolSpecialReview(this);
+            exemption.setProtocolSpecialReviewExemptionId(null);
+            exemption.setVersionNumber(null);
+        }
     }
 }
