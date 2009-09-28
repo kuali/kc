@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -57,6 +58,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private KraAuthorizationService kraAuthorizationService;
     private ProposalHierarchyDao proposalHierarchyDao;
     private NarrativeService narrativeService;
+    private BudgetService budgetService;
 
     /**
      * Set the Business Object Service. It is set via dependency injection.
@@ -81,6 +83,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
+    }
+
+    /**
+     * Sets the budgetService attribute value.
+     * @param budgetService The budgetService to set.
+     */
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
 
     /**
@@ -125,9 +135,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
-
-        // persist the document again
+        
+        // add a budget and persist the document again
         try {
+            budgetService.addBudgetVersion(newDoc, "Hierarchy Budget");
             documentService.saveDocument(newDoc);
         }
         catch (WorkflowException x) {
@@ -156,6 +167,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         linkChild(hierarchyProposal, newChildProposal);
         businessObjectService.save(newChildProposal);
         businessObjectService.save(hierarchyProposal);
+        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
     }
 
     /**
@@ -182,6 +194,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         else {
             synchronizeAllChildren(hierarchyProposal);
+            businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
         }
         businessObjectService.save(childProposal);
     }
@@ -202,6 +215,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             aggregateHierarchy(hierarchyProposal);
         }
         businessObjectService.save(hierarchyProposal);
+        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
     }
 
     /**
@@ -219,6 +233,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             aggregateHierarchy(hierarchy);
         }
         businessObjectService.save(hierarchy);
+        businessObjectService.save(hierarchy.getProposalDocument().getDocumentNextvalues());
     }
     
     
@@ -438,7 +453,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             else person.setHiddenInHierarchy(true);
         }
-        businessObjectService.save(hierarchy.getProposalDocument().getDocumentNextvalues());
     }
 
     private DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
