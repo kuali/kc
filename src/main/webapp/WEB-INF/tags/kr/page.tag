@@ -417,7 +417,12 @@ END ORIGINAL --%>
 		  	 </div>
 		  </div>
 		</div>
+<%--KC MODIFICATION START--%>
+		<table class="page-main" width="100%" cellpadding="0" cellspacing="0">
+<%--KC MODIFICATION END--%>
+<%-- ORIGINAL
 		<table width="100%" cellpadding="0" cellspacing="0">
+END ORIGINAL --%>
 			<tr>
 											<td width="1%">
 												<img
