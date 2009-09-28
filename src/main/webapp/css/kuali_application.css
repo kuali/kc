@@ -52,7 +52,7 @@ div.innerTab-head{
 div.innerTab-container{	
 	background-color: #e4e4e4;
 	border-left-width: 0px;
-	background-image: url("https://test.kuali.org/mocks/images/tab-sideright1.gif");
+	background-image: url("../kr/images/tab-sideright1.gif");
 	background-repeat: repeat-y;
 }
 
@@ -73,7 +73,7 @@ input.align-right {
 	padding-left: 10px;
 	height: 55px;
 	padding-right: 0px;
-	background-image: url("https://test.kuali.org/mocks/images/masthead1.gif");
+	background-image: url("../kr/images/masthead1.gif");
 	margin: 0px;
 }
 
@@ -104,7 +104,7 @@ input.align-right {
 	border-top-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
-	background-image: url(https://test.kuali.org/mocks/images/th-back1.gif);
+	background-image: url(../kr/images/th-back1.gif);
 	background-position: bottom;
 	vertical-align: text-top;
 }
@@ -118,7 +118,7 @@ input.align-right {
 #horz-links input.selected
 {
 	color: #FFFFFF;
-	background-image: url(https://test.kuali.org/mocks/images/navhover.gif);
+	background-image: url(../kr/images/navhover.gif);
 	background-position: top;
 }
 
@@ -141,7 +141,7 @@ input.align-right {
 }
 #tabs dt {
 	float:left;
-	background:url(https://test.kuali.org/mocks/images/tab-top-left-gray.gif) no-repeat left top;
+	background:url(../static/images/tab-top-left-gray.gif) no-repeat left top;
 	padding:0px 0px 0px 5px;
 	border-bottom:1px solid #C0C0C0;
 	margin-top: 0px;
@@ -150,18 +150,18 @@ input.align-right {
 	margin-left: 0px;
 }
 #tabs dt.licurrent {
-	background:url(https://test.kuali.org/mocks/images/tab-top-left.gif) no-repeat left top;
+	background:url(../static/images/tab-top-left.gif) no-repeat left top;
 	border-bottom:#fff 1px solid;
 }
 #tabs .tabright {
 	float:left;
 	display:block;
-	background:url(https://test.kuali.org/mocks/images/tab-top-right-gray.gif) no-repeat right top;
+	background:url(../static/images/tab-top-right-gray.gif) no-repeat right top;
 	position:relative;
 	width:auto;
 }
 #tabs .tabcurrent {
-	background:url(https://test.kuali.org/mocks/images/tab-top-right.gif) no-repeat right top;
+	background:url(../static/images/tab-top-right.gif) no-repeat right top;
 }
 #tabs input {
 	background:none;
@@ -185,3 +185,7 @@ input.align-right {
 	float:none;
 }
 /* End IE5-Mac hack */
+
+.page-main {
+	float:left;
+}
