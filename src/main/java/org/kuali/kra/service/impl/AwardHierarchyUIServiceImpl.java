@@ -122,7 +122,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         String awardHierarchy = TAG_H3_START;        
         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
             AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
-            awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_START + TAG_H3_START;
+            awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
         }
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
         return awardHierarchy;        
