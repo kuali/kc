@@ -220,6 +220,36 @@
         <property name="summary" value="Proposal Type Code" />
         <property name="description" value="Proposal Type Code" />
     </bean>
+    
+    <bean id="InstitutionalProposal-deadlineDate" parent="InstitutionalProposal-deadlineDate-parentBean"/>
+
+  	<bean id="InstitutionalProposal-deadlineDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    	<property name="name" value="deadlineDate"/>
+    	<property name="label" value="Sponsor Deadline Date"/>
+    	<property name="shortLabel" value="Sponsor Deadline Date"/>
+    	<property name="required" value="false"/>
+    	<property name="summary" value="The Deadline Date of the Proposal"/>
+    	<property name="description" value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
+  	</bean>
+  	<bean id="InstitutionalProposal-deadlineType" parent="InstitutionalProposal-deadlineType-parentBean"/>
+
+  	<bean id="InstitutionalProposal-deadlineType-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="deadlineType"/>
+    	<property name="forceUppercase" value="false"/>
+    	<property name="label" value="Sponsor Deadline Type"/>
+    	<property name="shortLabel" value="Sponsor Deadline Type"/>
+    	<property name="maxLength" value="3"/>
+    	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode" p:labelAttribute="description"/>
+    	</property>
+    	<property name="summary" value="The Deadline Type for this Proposal."/>
+    	<property name="description" value="Indicates the type of proposal deadline."/>
+  			</bean>
+  	<bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean"/>
 
     <bean id="InstitutionalProposal-currentAccountNumber" parent="InstitutionalProposal-currentAccountNumber-parentBean" />
     <bean id="InstitutionalProposal-currentAccountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -539,24 +569,6 @@
         <property name="shortLabel" value="Proposal Create Date" />
         <property name="summary" value="Proposal Create Date" />
         <property name="description" value="Proposal Create Date" />
-    </bean>
-
-    <bean id="InstitutionalProposal-deadlineDate" parent="InstitutionalProposal-deadlineDate-parentBean" />
-    <bean id="InstitutionalProposal-deadlineDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="deadlineDate" />
-        <property name="label" value="Deadline Date" />
-        <property name="shortLabel" value="Deadline Date" />
-        <property name="summary" value="Deadline Date" />
-        <property name="description" value="Deadline Date" />
-    </bean>
-
-    <bean id="InstitutionalProposal-deadlineType" parent="InstitutionalProposal-deadlineType-parentBean" />
-    <bean id="InstitutionalProposal-deadlineType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="deadlineType" />
-        <property name="label" value="Deadline Type" />
-        <property name="shortLabel" value="Deadline Type" />
-        <property name="summary" value="Deadline Type" />
-        <property name="description" value="Deadline Type" />
     </bean>
 
     <bean id="InstitutionalProposal-mailBy" parent="InstitutionalProposal-mailBy-parentBean" />
