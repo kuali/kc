@@ -120,6 +120,9 @@
 	</bean>
 
 	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
 	</bean>
 
     <!-- Budget Authorizers -->
