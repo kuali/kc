@@ -66,12 +66,12 @@
 				</td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.obligatedAmount" attributeEntry="${pendingTransactionAttributes.obligatedAmount}" />
+                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.obligatedAmount" attributeEntry="${pendingTransactionAttributes.obligatedAmount}" styleClass="amount" />
                 	</div>
 				</td>
 				<td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.anticipatedAmount" attributeEntry="${pendingTransactionAttributes.anticipatedAmount}" />
+                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.anticipatedAmount" attributeEntry="${pendingTransactionAttributes.anticipatedAmount}" styleClass="amount" />
                 	</div>
 				</td>                
 				<td class="infoline">
