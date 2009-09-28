@@ -41,6 +41,7 @@ import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
@@ -54,7 +55,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     public BudgetDistributionAndIncomeAction() {
         super();
-        setBudgetDistributionAndIncomeService(new BudgetDistributionAndIncomeServiceImpl());
+        bdiService = KraServiceLocator.getService(BudgetDistributionAndIncomeService.class);
     }
 
     /**
@@ -234,14 +235,6 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         bdiService.initializeUnrecoveredFandACollectionDefaults(budget);
         
         return mapping.findForward(MAPPING_BASIC);
-    }
-    
-    /**
-     * Inject BudgetDistributionAndIncomeService
-     * @param bdiService
-     */
-    public void setBudgetDistributionAndIncomeService(BudgetDistributionAndIncomeService bdiService) {
-        this.bdiService = bdiService;
     }
     
     /**
