@@ -93,32 +93,51 @@
 			        			</th>
 			        		</tr>
 			        		<tr>
-			        			<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.currentFundEffectiveDate}" />
+			        			<td align="center" valign="middle">
+			        			<div align="center" >
+				        			<fmt:formatDate value="${timeAndMoneyHistory.value.currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
+				        		</div>
+				        		</td>				        		
+				        		<td align="center" valign="middle">
+				        		<div align="center" >
+				        			<fmt:formatDate value="${timeAndMoneyHistory.value.obligationExpirationDate}" pattern="MM/dd/yyyy" />
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.obligationExpirationDate}" />
+				        		</div>				        		
+				        		<td align="center" valign="middle">
+				        		<div align="center" >
+				        			<fmt:formatDate value="${timeAndMoneyHistory.value.finalExpirationDate}" pattern="MM/dd/yyyy" />
+				        		</div>
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.finalExpirationDate}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.obligatedChange}
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.obligatedChange}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.amountObligatedToDate}
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.amountObligatedToDate}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.obliDistributableAmount}
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.obliDistributableAmount}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.anticipatedChange}
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.anticipatedChange}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.anticipatedTotalAmount}
+				        		</div>	
 				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.anticipatedTotalAmount}" />
-				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.antDistributableAmount}" />
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.antDistributableAmount}
+				        		</div>	
 				        		</td>				        		
 			        		</tr>	
 							</c:when>
@@ -152,23 +171,31 @@
 				        		</td>
 				        		</c:if>
 				        		<td align="center" valign="middle">
+				        		<div align="center" >
 				        			<c:choose>
 				        				<c:when test="${timeAndMoneyHistory.value.sourceAwardNumber == '000000-00000'}">
-				        					<c:out value="External" />
+				        					External
 				        				</c:when>
 				        				<c:otherwise>
-				        					<c:out value="${timeAndMoneyHistory.value.sourceAwardNumber}" />
+				        					${timeAndMoneyHistory.value.sourceAwardNumber}
 				        				</c:otherwise>
 				        			</c:choose>
+				        		</div>	
+				        		</td>
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.destinationAwardNumber}
+				        		</div>
+				        		</td>
+				        		<td align="center" valign="middle">
+				        		<div align="center" >				        		
+				        			${timeAndMoneyHistory.value.obligatedAmount}
+				        		</div>
 				        		</td>
 				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.destinationAwardNumber}" />
-				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.obligatedAmount}" />
-				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        			<c:out value="${timeAndMoneyHistory.value.anticipatedAmount}" />
+				        		<div align="center" >
+				        			${timeAndMoneyHistory.value.anticipatedAmount}
+				        		</div>
 				        		</td>				        						        		
 			        		</tr>
 							</c:otherwise>

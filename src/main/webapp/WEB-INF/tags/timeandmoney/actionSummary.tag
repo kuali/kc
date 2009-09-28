@@ -49,23 +49,35 @@
         	</tr>
         	<c:forEach var="timeAndMoneyActionSummaryItems" items="${KualiForm.document.timeAndMoneyActionSummaryItems}" varStatus="status">
         	<tr>
-        		<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.noticeDate}" />
+        		<td align="center" valign="middle" >
+        		<div align="center">
+        			<fmt:formatDate value="${timeAndMoneyActionSummaryItems.noticeDate}" pattern="MM/dd/yyyy" />
+				</div>	
 				</td>
-				<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.transactionType}" />
+				<td align="center" valign="middle" >
+				<div align="center">								        		
+					${timeAndMoneyActionSummaryItems.transactionType}
+				</div>
 				</td>
-				<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.obligationStartDate}" />
+				<td align="center" valign="middle" >
+				<div align="center">
+					<fmt:formatDate value="${timeAndMoneyActionSummaryItems.obligationStartDate}" pattern="MM/dd/yyyy" />
+				</div>
 				</td>
-				<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.obligationEndDate}" />
+				<td align="center" valign="middle" >
+				<div align="center">
+					<fmt:formatDate value="${timeAndMoneyActionSummaryItems.obligationEndDate}" pattern="MM/dd/yyyy" />
+				</div>
 				</td>
-				<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.obligationCumulative}" />
+				<td align="center" valign="middle" >
+				<div align="center">				        		
+					${timeAndMoneyActionSummaryItems.obligationCumulative}
+				</div>
 				</td>
-				<td align="center" valign="middle" >				        		
-					<c:out value="${timeAndMoneyActionSummaryItems.changeAmount}" />
+				<td align="center" valign="middle" >
+				<div align="center">				        		
+					${timeAndMoneyActionSummaryItems.changeAmount}
+				</div>
 				</td>
         	</tr>
         	</c:forEach>
