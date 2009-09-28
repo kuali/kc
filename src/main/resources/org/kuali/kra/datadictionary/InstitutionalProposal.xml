@@ -772,8 +772,8 @@
     <bean id="InstitutionalProposal-currentAwardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="currentAwardNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Current Award Number" />
-        <property name="shortLabel" value="Current Award Number" />
+        <property name="label" value="Award ID" />
+        <property name="shortLabel" value="Award ID" />
         <property name="maxLength" value="10" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
