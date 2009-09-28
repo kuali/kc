@@ -68,6 +68,11 @@ public class KraMaintenanceDocument extends MaintenanceDocumentBase {
         if (Questionnaire.class.isAssignableFrom(this.getNewMaintainableObject().getBusinessObject().getClass())) {
             maintenanceDocumentEntry.setMaintainableSections(new ArrayList<MaintainableSectionDefinition>());
         }
+        
+        if (this.getVersionNumber() == null) {
+            this.setVersionNumber(Long.valueOf(0));
+        }
+
     }
 
 
