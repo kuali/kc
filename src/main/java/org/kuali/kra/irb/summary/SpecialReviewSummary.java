@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 
 public class SpecialReviewSummary implements Serializable {
@@ -37,6 +37,15 @@ public class SpecialReviewSummary implements Serializable {
     private String expirationDate;
     private String exemptionNumbers;
     private String comment;
+    
+    private boolean typeChanged;
+    private boolean approvalStatusChanged;
+    private boolean protocolNumberChanged;
+    private boolean applicationDateChanged;
+    private boolean approvalDateChanged;
+    private boolean expirationDateChanged;
+    private boolean exemptionNumbersChanged;
+    private boolean commentChanged;
     
     public String getType() {
         return type;
@@ -111,5 +120,61 @@ public class SpecialReviewSummary implements Serializable {
     
     private String formatDate(Date date) {
         return (date == null) ? "" : dateFormat.format(date);
+    }
+
+    public boolean isTypeChanged() {
+        return typeChanged;
+    }
+
+    public boolean isApprovalStatusChanged() {
+        return approvalStatusChanged;
+    }
+
+    public boolean isProtocolNumberChanged() {
+        return protocolNumberChanged;
+    }
+
+    public boolean isApplicationDateChanged() {
+        return applicationDateChanged;
+    }
+
+    public boolean isApprovalDateChanged() {
+        return approvalDateChanged;
+    }
+
+    public boolean isExpirationDateChanged() {
+        return expirationDateChanged;
+    }
+
+    public boolean isExemptionNumbersChanged() {
+        return exemptionNumbersChanged;
+    }
+
+    public boolean isCommentChanged() {
+        return commentChanged;
+    }
+
+    public void compare(ProtocolSummary other) {
+        SpecialReviewSummary otherSpecialReview = other.findSpecialReview(type, approvalStatus);
+        if (otherSpecialReview == null) {
+            typeChanged = true;
+            approvalStatusChanged = true;
+            protocolNumberChanged = true;
+            applicationDateChanged = true;
+            approvalDateChanged = true;
+            expirationDateChanged = true;
+            exemptionNumbersChanged = true;
+            commentChanged = true;
+        }
+        else {
+            typeChanged = !StringUtils.equals(type, otherSpecialReview.type);
+            approvalStatusChanged = !StringUtils.equals(approvalStatus, otherSpecialReview.approvalStatus);
+            protocolNumberChanged = !StringUtils.equals(protocolNumber, otherSpecialReview.protocolNumber);
+            applicationDateChanged = !StringUtils.equals(applicationDate, otherSpecialReview.applicationDate);
+            approvalDateChanged = !StringUtils.equals(approvalDate, otherSpecialReview.approvalDate);
+            expirationDateChanged = !StringUtils.equals(expirationDate, otherSpecialReview.expirationDate);
+            exemptionNumbersChanged = !StringUtils.equals(exemptionNumbers, otherSpecialReview.exemptionNumbers);
+            commentChanged = !StringUtils.equals(comment, otherSpecialReview.comment);
+        }
     }
 }

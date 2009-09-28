@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;

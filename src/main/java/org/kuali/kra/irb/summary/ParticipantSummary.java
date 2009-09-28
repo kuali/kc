@@ -17,12 +17,21 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ParticipantSummary implements Serializable {
 
     private static final long serialVersionUID = 6459822062556001624L;
     
     private String description;
     private String count;
+    
+    private boolean descriptionChanged;
+    private boolean countChanged;
+    
+    public ParticipantSummary() {
+       
+    }
     
     public String getDescription() {
         return description;
@@ -44,6 +53,24 @@ public class ParticipantSummary implements Serializable {
             this.count = count.toString();
         }
     }
+
+    public boolean isDescriptionChanged() {
+        return descriptionChanged;
+    }
     
+    public boolean isCountChanged() {
+        return countChanged;
+    }
     
+    public void compare(ProtocolSummary other) {
+        ParticipantSummary otherParticipant = other.findParticipant(description);
+        if (otherParticipant == null) {
+            descriptionChanged = true;
+            countChanged = true;
+        }
+        else {
+            descriptionChanged = !StringUtils.equals(description, otherParticipant.description);
+            countChanged = !StringUtils.equals(count, otherParticipant.count);
+        }
+    }
 }

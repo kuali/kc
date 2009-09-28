@@ -17,6 +17,8 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 public class AdditionalInfoSummary implements Serializable {
 
     private static final long serialVersionUID = 1740333929467337320L;
@@ -26,6 +28,12 @@ public class AdditionalInfoSummary implements Serializable {
     private String referenceId1;
     private String referenceId2;
     private String description;
+    
+    private boolean fdaApplicationNumberChanged;
+    private boolean billableChanged;
+    private boolean referenceId1Changed;
+    private boolean referenceId2Changed;
+    private boolean descriptionChanged;
     
     public String getFdaApplicationNumber() {
         return fdaApplicationNumber;
@@ -65,5 +73,33 @@ public class AdditionalInfoSummary implements Serializable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void compare(AdditionalInfoSummary other) {
+        fdaApplicationNumberChanged = !StringUtils.equals(fdaApplicationNumber, other.fdaApplicationNumber);
+        billableChanged = !StringUtils.equals(billable, other.billable);
+        referenceId1Changed = !StringUtils.equals(referenceId1, other.referenceId1);
+        referenceId2Changed = !StringUtils.equals(referenceId2, other.referenceId2);
+        descriptionChanged = !StringUtils.equals(description, other.description);
+    }
+
+    public boolean isFdaApplicationNumberChanged() {
+        return fdaApplicationNumberChanged;
+    }
+
+    public boolean isBillableChanged() {
+        return billableChanged;
+    }
+
+    public boolean isReferenceId1Changed() {
+        return referenceId1Changed;
+    }
+
+    public boolean isReferenceId2Changed() {
+        return referenceId2Changed;
+    }
+
+    public boolean isDescriptionChanged() {
+        return descriptionChanged;
     }
 }

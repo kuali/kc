@@ -23,6 +23,8 @@ public class ResearchAreaSummary implements Serializable {
     
     private String researchAreaCode;
     private String description;
+    
+    private boolean changed;
 
     public String getDescription() {
         return description;
@@ -38,5 +40,14 @@ public class ResearchAreaSummary implements Serializable {
     
     public String getResearchAreaCode() {
         return researchAreaCode;
+    }
+
+    public void compare(ProtocolSummary other) {
+        ResearchAreaSummary otherResearchArea = other.findResearchArea(researchAreaCode);
+        changed = (otherResearchArea == null);
+    }
+    
+    public boolean isChanged() {
+        return changed;
     }
 }
