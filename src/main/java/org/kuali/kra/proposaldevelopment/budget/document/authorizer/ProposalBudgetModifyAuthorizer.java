@@ -44,7 +44,8 @@ public class ProposalBudgetModifyAuthorizer extends BudgetAuthorizer {
         
         return !kraWorkflowService.isInWorkflow(doc) &&
                hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET) &&
-              !doc.getDevelopmentProposal().getSubmitFlag();        
+              !doc.getDevelopmentProposal().getSubmitFlag() &&
+              !doc.getDevelopmentProposal().isParent();        
     }
     
     /**
