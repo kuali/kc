@@ -1020,6 +1020,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
         this.attachmentProtocols = attachmentProtocols;
+        for (ProtocolAttachmentProtocol attachment : attachmentProtocols) {
+            attachment.resetPersistenceState();
+            attachment.setSequenceNumber(0);
+        }
     }
 
     public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
@@ -1271,8 +1275,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             }
             for (ProtocolUnit unit : person.getProtocolUnits()) {
                 personnelSummary.addUnit(unit.getUnitNumber(), unit.getUnitName());
-                protocolSummary.add(personnelSummary);
             }
+            protocolSummary.add(personnelSummary);
         }
     }
 

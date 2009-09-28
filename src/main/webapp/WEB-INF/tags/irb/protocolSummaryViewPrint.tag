@@ -13,8 +13,9 @@
 
 	<div class="tab-container" align="left">
 		
-		<kra-irb:protocolSummary/>
-		<kra-irb:protocolViewNotes/>
-		<kra-irb:protocolViewHistory/>
+		<kra-irb:protocolSummaryPanel />
+		<kra-irb:protocolViewNotes />
+		<kra-irb:protocolViewHistory />
+		
     </div>	    
 </kul:tab>

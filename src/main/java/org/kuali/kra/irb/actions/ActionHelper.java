@@ -95,6 +95,7 @@ public class ActionHelper implements Serializable {
     private String printTag;
     
     private ProtocolSummary protocolSummary;
+    private ProtocolSummary prevProtocolSummary;
     private int currentSequenceNumber = -1;
     
     private String selectedHistoryItem;
@@ -208,15 +209,31 @@ public class ActionHelper implements Serializable {
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         }
-        createProtocolSummary();
+        else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        }
+        createProtocolSummaries();
     }
 
-    private void createProtocolSummary() {
+    private void createProtocolSummaries() {
         protocolSummary =  null;
         String protocolNumber = getProtocol().getProtocolNumber();
         Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
         if (protocol != null) {
             protocolSummary = protocol.getProtocolSummary();
+        }
+        
+        prevProtocolSummary = null;
+        if (currentSequenceNumber > 0) {
+            protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
+            if (protocol != null) {
+                prevProtocolSummary = protocol.getProtocolSummary();
+            }
+        }
+        
+        if (protocolSummary != null && prevProtocolSummary != null) {
+            protocolSummary.compare(prevProtocolSummary);
+            prevProtocolSummary.compare(protocolSummary);
         }
     }
     
@@ -410,6 +427,10 @@ public class ActionHelper implements Serializable {
     
     public ProtocolSummary getProtocolSummary() {
         return protocolSummary;
+    }
+    
+    public ProtocolSummary getPrevProtocolSummary() {
+        return prevProtocolSummary;
     }
     
     public void setSelectedHistoryItem(String selectedHistoryItem) {

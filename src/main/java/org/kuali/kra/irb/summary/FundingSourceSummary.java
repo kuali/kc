@@ -17,6 +17,8 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 public class FundingSourceSummary implements Serializable {
 
     private static final long serialVersionUID = -9005092006555888615L;
@@ -26,28 +28,72 @@ public class FundingSourceSummary implements Serializable {
     private String fundingSource;
     private String title;
     
+    private boolean fundingTypeChanged;
+    private boolean fundingIdChanged;
+    private boolean fundingSourceChanged;
+    private boolean titleChanged;
+    
     public String getFundingType() {
         return fundingType;
     }
+    
     public void setFundingType(String fundingType) {
         this.fundingType = fundingType;
     }
+    
     public String getFundingId() {
         return fundingId;
     }
+    
     public void setFundingId(String fundingId) {
         this.fundingId = fundingId;
     }
+    
     public String getFundingSource() {
         return fundingSource;
     }
+    
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;
     }
+    
     public String getTitle() {
         return title;
     }
+    
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isFundingTypeChanged() {
+        return fundingTypeChanged;
+    }
+
+    public boolean isFundingIdChanged() {
+        return fundingIdChanged;
+    }
+
+    public boolean isFundingSourceChanged() {
+        return fundingSourceChanged;
+    }
+
+    public boolean isTitleChanged() {
+        return titleChanged;
+    }
+
+    public void compare(ProtocolSummary other) {
+        FundingSourceSummary otherFundingSource = other.findFundingSource(fundingType, fundingId);
+        if (otherFundingSource == null) {
+            fundingTypeChanged = true;
+            fundingIdChanged = true;
+            fundingSourceChanged = true;
+            titleChanged = true;
+        }
+        else {
+            fundingTypeChanged = !StringUtils.equals(fundingType, otherFundingSource.fundingType);
+            fundingIdChanged = !StringUtils.equals(fundingId, otherFundingSource.fundingId);
+            fundingSourceChanged = !StringUtils.equals(fundingSource, otherFundingSource.fundingSource);
+            titleChanged = !StringUtils.equals(title, otherFundingSource.title);
+        }
     }
 }
