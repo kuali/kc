@@ -59,6 +59,16 @@
            		</td>
         	</tr>
         	<tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineDate}" /></div></th>
+                <td align="left" valign="middle">
+                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineDate" attributeEntry="${institutionalProposalAttributes.deadlineDate}" datePicker="true" />
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineType}" /></div></th>
+                <td>
+                	<kra:kraControlAttribute property="document.institutionalProposal.deadlineType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
+                </td>
+            </tr>
+        	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}" /></div></th>
                 <td>
                 	<kra:kraControlAttribute property="document.institutionalProposal.noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />

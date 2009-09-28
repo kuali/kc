@@ -94,7 +94,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String numberOfCopies; 
     private Date deadlineDate; 
     private Date createTimeStamp;
-    private boolean deadlineType; 
+    private String deadlineType; 
     private String mailBy; 
     private String mailType; 
     private String mailAccountNumber; 
@@ -639,11 +639,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.deadlineDate = deadlineDate;
     }
 
-    public boolean getDeadlineType() {
+    public String getDeadlineType() {
         return deadlineType;
     }
 
-    public void setDeadlineType(boolean deadlineType) {
+    public void setDeadlineType(String deadlineType) {
         this.deadlineType = deadlineType;
     }
 
