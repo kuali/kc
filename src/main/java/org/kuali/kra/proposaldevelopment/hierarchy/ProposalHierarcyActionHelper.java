@@ -59,7 +59,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
     }
     
@@ -71,7 +71,7 @@ public class ProposalHierarcyActionHelper {
     
             }
             catch (Exception e) {
-                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
             }
         }
     }
@@ -84,7 +84,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (Exception e) {
-                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
             }
         }
     }
@@ -110,7 +110,7 @@ public class ProposalHierarcyActionHelper {
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (Exception e) {
-                    GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                    GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
                 }
             }
         }
@@ -122,7 +122,7 @@ public class ProposalHierarcyActionHelper {
             retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
         return retval;
     }
@@ -141,7 +141,7 @@ public class ProposalHierarcyActionHelper {
     private boolean validateParent(DevelopmentProposal proposal) {
         boolean valid = true;
         if (!proposal.isParent()) {
-            GlobalVariables.getErrorMap().putError(FIELD_PARENT_NUMBER, ERROR_LINK_NOT_PARENT, new String[0]);
+            GlobalVariables.getMessageMap().putError(FIELD_PARENT_NUMBER, ERROR_LINK_NOT_PARENT, new String[0]);
             valid = false;
         }
         return valid;        
@@ -151,16 +151,16 @@ public class ProposalHierarcyActionHelper {
         boolean valid = true;
         proposal.getProposalDocument().refreshReferenceObject("budgetDocumentVersions");
         if (proposal.isInHierarchy()) {
-            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
+            GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
             return false;
         }
         if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
+            GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
             valid = false;
         }
         else {
             if (!hasFinalBudget(proposal)) {
-                GlobalVariables.getErrorMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_NO_FINAL_BUDGET, new String[] {proposal.getProposalNumber()});
+                GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_NO_FINAL_BUDGET, new String[] {proposal.getProposalNumber()});
             }
         }
         boolean principleInvestigatorPresent = false;
@@ -171,7 +171,7 @@ public class ProposalHierarcyActionHelper {
            }
         }
         if (!principleInvestigatorPresent) {
-            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR, new String[0]);
+            GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR, new String[0]);
             valid = false;
         }
         return valid;
@@ -180,7 +180,7 @@ public class ProposalHierarcyActionHelper {
     private boolean validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child) {
         boolean valid = true;
         if (!StringUtils.equalsIgnoreCase(hierarchy.getSponsorCode(), child.getSponsorCode())) {
-            GlobalVariables.getErrorMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
+            GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
         }
         return valid;
     }
@@ -190,13 +190,13 @@ public class ProposalHierarcyActionHelper {
         try {
             DevelopmentProposal hierarchy = getProposalHierarchyService().lookupParent(child);
             if (hasCompleteBudget(hierarchy)) {
-                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_REMOVE_PARENT_BUDGET_COMPLETE, new String[0]);
+                GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_REMOVE_PARENT_BUDGET_COMPLETE, new String[0]);
                 valid = false;
             }
         
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
             valid = false;
         }
         return valid;
