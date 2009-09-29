@@ -29,6 +29,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Create Renewal Authorizer.
@@ -71,11 +72,11 @@ public class CreateRenewalAuthorizerTest {
             allowing(protocol).getProtocolNumber(); will(returnValue(protocolNumber));
         }});
         
-        final ProtocolAuthorizationService authorizationService = context.mock(ProtocolAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             allowing(authorizationService).hasPermission(USERNAME, protocol, PermissionConstants.CREATE_RENEWAL); will(returnValue(hasPermission));
         }});
-        authorizer.setProtocolAuthorizationService(authorizationService);
+        authorizer.setKraAuthorizationService(authorizationService);
         
         final ProtocolActionService actionService = context.mock(ProtocolActionService.class);
         context.checking(new Expectations() {{

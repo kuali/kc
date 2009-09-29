@@ -25,7 +25,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -38,6 +37,7 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DocumentService;
@@ -76,7 +76,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
-    private ProtocolAuthorizationService protocolAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     private ProtocolNumberService protocolNumberService;
     
     /**
@@ -96,11 +96,11 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     }
     
     /**
-     * Set the Protocol Authorization Service.
-     * @param protocolAuthorizationService
+     * Set the Kra Authorization Service.
+     * @param kralAuthorizationService
      */
-    public void setProtocolAuthorizationService(ProtocolAuthorizationService protocolAuthorizationService) {
-        this.protocolAuthorizationService = protocolAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -225,14 +225,14 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     private void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String userName = user.getPersonUserIdentifier();
-        protocolAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
+        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
    
         Collection<KimRole> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
         for (KimRole role : roles) {
-            List<Person> persons = protocolAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getName());
+            List<Person> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getName());
             for (Person person : persons) {
                 if (!StringUtils.equals(person.getUserName(), userName)) {
-                    protocolAuthorizationService.addRole(person.getUserName(), role.getName(), destDoc.getProtocol());
+                    kraAuthorizationService.addRole(person.getUserName(), role.getName(), destDoc.getProtocol());
                 }
             }
         }

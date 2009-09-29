@@ -29,11 +29,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.service.impl.CommitteeAuthorizationServiceImpl;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
+import org.kuali.kra.service.impl.KraAuthorizationServiceImpl;
 import org.kuali.kra.service.impl.mocks.MockPersonService;
 import org.kuali.kra.service.impl.mocks.MockUnitAuthorizationService;
 
@@ -52,7 +52,7 @@ public class CommitteeAuthorizationServiceImplTest {
     private MockKimPersonService personService;
     private MockKimQualifiedRoleService qualifiedRoleService;
     private MockUnitAuthorizationService unitAuthService;
-    private CommitteeAuthorizationServiceImpl committeeAuthService;
+    private KraAuthorizationServiceImpl kraAuthService;
     private MockPersonService kraPersonService;
 
     /**
@@ -69,11 +69,11 @@ public class CommitteeAuthorizationServiceImplTest {
 
         unitAuthService = new MockUnitAuthorizationService();
 
-        committeeAuthService = new CommitteeAuthorizationServiceImpl();
-        committeeAuthService.setKimQualifiedRoleService(qualifiedRoleService);
-        committeeAuthService.setKimPersonService(personService);
-        committeeAuthService.setUnitAuthorizationService(unitAuthService);
-        committeeAuthService.setPersonService(kraPersonService);
+        kraAuthService = new KraAuthorizationServiceImpl();
+        kraAuthService.setKimQualifiedRoleService(qualifiedRoleService);
+        kraAuthService.setKimPersonService(personService);
+        kraAuthService.setUnitAuthorizationService(unitAuthService);
+        kraAuthService.setPersonService(kraPersonService);
     }
 
     /**
@@ -82,13 +82,13 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testGetUsernames() {
         Committee committee = createCommittee(1);
-        List<String> usernames = committeeAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
+        List<String> usernames = kraAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertTrue(usernames.size() == 2);
         assertTrue(usernames.contains("don"));
         assertTrue(usernames.contains("gary"));
 
         committee = createCommittee(101);
-        usernames = committeeAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
+        usernames = kraAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertTrue(usernames.size() == 0);
     }
 
@@ -98,8 +98,8 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testAddRole() {
         Committee committee = createCommittee(99);
-        committeeAuthService.addRole("jordan", RoleConstants.IRB_ADMINISTRATOR, committee);
-        List<String> usernames = committeeAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
+        kraAuthService.addRole("jordan", RoleConstants.IRB_ADMINISTRATOR, committee);
+        List<String> usernames = kraAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertTrue(usernames.size() == 1);
         assertTrue(usernames.contains("jordan"));
     }
@@ -112,12 +112,12 @@ public class CommitteeAuthorizationServiceImplTest {
         testAddRole();
 
         Committee committee = createCommittee(99);
-        committeeAuthService.removeRole("barre", RoleConstants.IRB_ADMINISTRATOR, committee);
-        List<String> usernames = committeeAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
+        kraAuthService.removeRole("barre", RoleConstants.IRB_ADMINISTRATOR, committee);
+        List<String> usernames = kraAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertTrue(usernames.size() == 1);
 
-        committeeAuthService.removeRole("jordan", RoleConstants.IRB_ADMINISTRATOR, committee);
-        usernames = committeeAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
+        kraAuthService.removeRole("jordan", RoleConstants.IRB_ADMINISTRATOR, committee);
+        usernames = kraAuthService.getUserNames(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertTrue(usernames.size() == 0);
     }
 
@@ -127,8 +127,8 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testHasPermission() {
         Committee committee = createCommittee(1);
-        assertTrue(committeeAuthService.hasPermission("don", committee, "create"));
-        assertFalse(committeeAuthService.hasPermission("molly", committee, "create"));
+        assertTrue(kraAuthService.hasPermission("don", committee, "create"));
+        assertFalse(kraAuthService.hasPermission("molly", committee, "create"));
     }
 
     /**
@@ -137,9 +137,9 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testHasRole() {
         Committee committee = createCommittee(1);
-        assertTrue(committeeAuthService.hasRole("don", committee, RoleConstants.IRB_ADMINISTRATOR));
-        assertTrue(committeeAuthService.hasRole("molly", committee, RoleConstants.IRB_REVIEWER));
-        assertFalse(committeeAuthService.hasRole("don", committee, RoleConstants.IRB_REVIEWER));
+        assertTrue(kraAuthService.hasRole("don", committee, RoleConstants.IRB_ADMINISTRATOR));
+        assertTrue(kraAuthService.hasRole("molly", committee, RoleConstants.IRB_REVIEWER));
+        assertFalse(kraAuthService.hasRole("don", committee, RoleConstants.IRB_REVIEWER));
     }
 
     /**
@@ -148,7 +148,7 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testGetRoles() {
         Committee committee = createCommittee(3);
-        List<String> roles = committeeAuthService.getRoles("vicki", committee);
+        List<String> roles = kraAuthService.getRoles("vicki", committee);
         assertTrue(roles.size() == 2);
         assertTrue(roles.contains(RoleConstants.IRB_ADMINISTRATOR));
         assertTrue(roles.contains(RoleConstants.IRB_REVIEWER));
@@ -160,7 +160,7 @@ public class CommitteeAuthorizationServiceImplTest {
     @Test
     public void testGetPersonsInRole() {
         Committee committee = createCommittee(1);
-        List<Person> persons = committeeAuthService.getPersonsInRole(committee, RoleConstants.IRB_ADMINISTRATOR);
+        List<Person> persons = kraAuthService.getPersonsInRole(committee, RoleConstants.IRB_ADMINISTRATOR);
         assertEquals(2, persons.size());
         assertTrue(contains(persons, "don"));
         assertTrue(contains(persons, "gary"));

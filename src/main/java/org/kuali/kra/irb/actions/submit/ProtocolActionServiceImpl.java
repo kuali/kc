@@ -23,8 +23,8 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -66,7 +66,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private BusinessObjectService businessObjectService;
 
-    private ProtocolAuthorizationService protocolAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
 
     private UnitAuthorizationService unitAuthorizationService;
 
@@ -87,8 +87,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         this.businessObjectService = businessObjectService;
     }
 
-    public void setProtocolAuthorizationService(ProtocolAuthorizationService protocolAuthorizationService) {
-        this.protocolAuthorizationService = protocolAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
@@ -162,7 +162,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
         updateHandle.executeRules(rightMapper);
-        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
+        return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     }
 

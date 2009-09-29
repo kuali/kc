@@ -27,10 +27,10 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -59,7 +59,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
+        if(getKraAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
             //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             // Chnage "edit" to edit same document, NOT initializing a new Doc
             AnchorHtmlData editHtmlData = getViewLink(((Protocol) businessObject).getProtocolDocument());
@@ -74,7 +74,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
                     + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
             htmlDataList.add(htmlData);
         }
-        if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
+        if(getKraAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
             htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));
         }
         return htmlDataList;
@@ -160,8 +160,8 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         return "protocolNumber";
     }
 
-    private ProtocolAuthorizationService getProtocolAuthorizationService() {
-        return KraServiceLocator.getService(ProtocolAuthorizationService.class);
+    private KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
     private String getUserName() {

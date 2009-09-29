@@ -30,9 +30,11 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -75,7 +77,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, SequenceOwner<Protocol> {
+public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, 
+                                                                          SequenceOwner<Protocol>, 
+                                                                          Permissionable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -1295,5 +1299,34 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
         return summary;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     */
+    public String getDocumentKey() {
+        return Permissionable.PROTOCOL_KEY;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     */
+    public String getDocumentNumberForPermission() {
+        return protocolNumber;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     */
+    public List<String> getRoleNames() {
+        List<String> roleNames = new ArrayList<String>();
+
+        roleNames.add(RoleConstants.PROTOCOL_AGGREGATOR);
+        roleNames.add(RoleConstants.PROTOCOL_VIEWER);
+
+        return roleNames;
     }
 }

@@ -28,8 +28,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.
@@ -119,8 +119,8 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected List<Person> getPersonsInRole(String roleName) {
-        ProtocolAuthorizationService protocolAuthService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
-        return protocolAuthService.getPersonsInRole(getProtocol(), roleName);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
     }
 
     /**

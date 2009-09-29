@@ -31,10 +31,10 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImpl;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
+import org.kuali.kra.service.impl.KraAuthorizationServiceImpl;
 import org.kuali.kra.service.impl.mocks.MockPersonService;
 import org.kuali.kra.service.impl.mocks.MockUnitAuthorizationService;
 
@@ -49,7 +49,7 @@ public class ProtocolAuthorizationServiceImplTest {
     private MockKimPersonService personService;
     private MockKimQualifiedRoleService qualifiedRoleService;
     private MockUnitAuthorizationService unitAuthService;
-    private ProtocolAuthorizationServiceImpl protocolAuthService;
+    private KraAuthorizationServiceImpl kraAuthService;
     private MockPersonService kraPersonService;
 
     /**
@@ -66,11 +66,11 @@ public class ProtocolAuthorizationServiceImplTest {
 
         unitAuthService = new MockUnitAuthorizationService();
 
-        protocolAuthService = new ProtocolAuthorizationServiceImpl();
-        protocolAuthService.setKimQualifiedRoleService(qualifiedRoleService);
-        protocolAuthService.setKimPersonService(personService);
-        protocolAuthService.setUnitAuthorizationService(unitAuthService);
-        protocolAuthService.setPersonService(kraPersonService);
+        kraAuthService = new KraAuthorizationServiceImpl();
+        kraAuthService.setKimQualifiedRoleService(qualifiedRoleService);
+        kraAuthService.setKimPersonService(personService);
+        kraAuthService.setUnitAuthorizationService(unitAuthService);
+        kraAuthService.setPersonService(kraPersonService);
     }
 
     /**
@@ -79,13 +79,13 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testGetUsernames() {
         Protocol protocol = createProtocol("1");
-        List<String> usernames = protocolAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        List<String> usernames = kraAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertTrue(usernames.size() == 2);
         assertTrue(usernames.contains("don"));
         assertTrue(usernames.contains("gary"));
 
         protocol = createProtocol("101");
-        usernames = protocolAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        usernames = kraAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertTrue(usernames.size() == 0);
     }
 
@@ -95,8 +95,8 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testAddRole() {
         Protocol protocol = createProtocol("99");
-        protocolAuthService.addRole("jordan", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-        List<String> usernames = protocolAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        kraAuthService.addRole("jordan", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+        List<String> usernames = kraAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertTrue(usernames.size() == 1);
         assertTrue(usernames.contains("jordan"));
     }
@@ -109,12 +109,12 @@ public class ProtocolAuthorizationServiceImplTest {
         testAddRole();
 
         Protocol protocol = createProtocol("99");
-        protocolAuthService.removeRole("barre", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-        List<String> usernames = protocolAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        kraAuthService.removeRole("barre", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+        List<String> usernames = kraAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertTrue(usernames.size() == 1);
 
-        protocolAuthService.removeRole("jordan", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-        usernames = protocolAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        kraAuthService.removeRole("jordan", RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+        usernames = kraAuthService.getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertTrue(usernames.size() == 0);
     }
 
@@ -124,8 +124,8 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testHasPermission() {
         Protocol protocol = createProtocol("1");
-        assertTrue(protocolAuthService.hasPermission("don", protocol, "create"));
-        assertFalse(protocolAuthService.hasPermission("molly", protocol, "create"));
+        assertTrue(kraAuthService.hasPermission("don", protocol, "create"));
+        assertFalse(kraAuthService.hasPermission("molly", protocol, "create"));
     }
 
     /**
@@ -134,9 +134,9 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testHasRole() {
         Protocol protocol = createProtocol("1");
-        assertTrue(protocolAuthService.hasRole("don", protocol, RoleConstants.PROTOCOL_AGGREGATOR));
-        assertTrue(protocolAuthService.hasRole("molly", protocol, RoleConstants.PROTOCOL_VIEWER));
-        assertFalse(protocolAuthService.hasRole("don", protocol, RoleConstants.PROTOCOL_VIEWER));
+        assertTrue(kraAuthService.hasRole("don", protocol, RoleConstants.PROTOCOL_AGGREGATOR));
+        assertTrue(kraAuthService.hasRole("molly", protocol, RoleConstants.PROTOCOL_VIEWER));
+        assertFalse(kraAuthService.hasRole("don", protocol, RoleConstants.PROTOCOL_VIEWER));
     }
 
     /**
@@ -145,7 +145,7 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testGetRoles() {
         Protocol protocol = createProtocol("3");
-        List<String> roles = protocolAuthService.getRoles("vicki", protocol);
+        List<String> roles = kraAuthService.getRoles("vicki", protocol);
         assertTrue(roles.size() == 2);
         assertTrue(roles.contains(RoleConstants.PROTOCOL_AGGREGATOR));
         assertTrue(roles.contains(RoleConstants.PROTOCOL_VIEWER));
@@ -157,7 +157,7 @@ public class ProtocolAuthorizationServiceImplTest {
     @Test
     public void testGetPersonsInRole() {
         Protocol protocol = createProtocol("1");
-        List<Person> persons = protocolAuthService.getPersonsInRole(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        List<Person> persons = kraAuthService.getPersonsInRole(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         assertEquals(2, persons.size());
         assertTrue(contains(persons, "don"));
         assertTrue(contains(persons, "gary"));
@@ -170,7 +170,7 @@ public class ProtocolAuthorizationServiceImplTest {
     public void testGetAllRolePersons() {
         Protocol protocol = createProtocol("1");
 
-        List<RolePersons> rolePersonsList = protocolAuthService.getAllRolePersons(protocol);
+        List<RolePersons> rolePersonsList = kraAuthService.getAllRolePersons(protocol);
         assertEquals(2, rolePersonsList.size());
         for (RolePersons rolePersons : rolePersonsList) {
             if (rolePersons.getAggregator() != null) {

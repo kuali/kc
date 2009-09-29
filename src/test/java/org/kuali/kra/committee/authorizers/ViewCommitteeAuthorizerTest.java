@@ -26,9 +26,9 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.document.authorizer.ViewCommitteeAuthorizer;
-import org.kuali.kra.committee.service.CommitteeAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the View Committee Authorizer.
@@ -46,11 +46,11 @@ public class ViewCommitteeAuthorizerTest {
         
         final Committee committee = new Committee();
         
-        final CommitteeAuthorizationService committeeAuthorizationService = context.mock(CommitteeAuthorizationService.class);
+        final KraAuthorizationService committeeAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(committeeAuthorizationService).hasPermission(USERNAME, committee, PermissionConstants.VIEW_COMMITTEE); will(returnValue(true));
         }});
-        authorizer.setCommitteeAuthorizationService(committeeAuthorizationService);
+        authorizer.setKraAuthorizationService(committeeAuthorizationService);
         
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_COMMITTEE, committee);
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
@@ -62,11 +62,11 @@ public class ViewCommitteeAuthorizerTest {
         
         final Committee committee = new Committee();
         
-        final CommitteeAuthorizationService committeeAuthorizationService = context.mock(CommitteeAuthorizationService.class);
+        final KraAuthorizationService committeeAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(committeeAuthorizationService).hasPermission(USERNAME, committee, PermissionConstants.VIEW_COMMITTEE); will(returnValue(false));
         }});
-        authorizer.setCommitteeAuthorizationService(committeeAuthorizationService);
+        authorizer.setKraAuthorizationService(committeeAuthorizationService);
         
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_COMMITTEE, committee);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
