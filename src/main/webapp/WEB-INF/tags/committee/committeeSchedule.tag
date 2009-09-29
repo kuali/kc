@@ -225,8 +225,12 @@
 	                </td>
 					<td>
 						<div align=center>&nbsp;
+						<%-- 
 							 <input src="${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif"  class="tinybutton" 
                 					alt="maintain selected" title="Maintain Selected" type="image" />
+                					--%>
+ 								<html:image property="methodToCall.maintainSchedule.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif' styleClass="tinybutton"/>
   
 						</div>
 	                </td>	                

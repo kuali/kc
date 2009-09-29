@@ -31,7 +31,7 @@
 	    <form-bean name="KraMaintenanceForm" type="org.kuali.kra.maintenance.KraMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
-	    <!--  <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />-->
+        <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
     </form-beans>
@@ -277,6 +277,7 @@
           <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
           <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meeting.jsp" />
       </action>
       
      <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
@@ -290,6 +291,14 @@
      <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
         <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
      </action>
+
+     <action path="/meetingManagement" name="MeetingForm" type="org.kuali.kra.meeting.MeetingAction" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/meeting/meeting.jsp" />
+            <forward name="meetingAction" path="/WEB-INF/jsp/meeting/meetingAction.jsp" />
+     </action>
+		<action path="/meetingUpdateTextArea" name="KualiForm" type="org.kuali.kra.meeting.MeetingAction">
+            <forward name="basic" path="/TextArea.jsp" />
+        </action>
 
     </action-mappings>
 
