@@ -14,6 +14,8 @@ http://www.osedu.org/licenses/ECL-2.0
 	limitations under the License.
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="hierarchyStatus" value="${KualiForm.document.developmentProposalList[0].hierarchyStatus}" />
+<c:set var="hierarchyChildStatus" value="${KualiForm.hierarchyChildStatus}"/>
 <%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily--%>
 <kra:section permission="submitToSponsor">
  <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> 
@@ -30,6 +32,7 @@ showDocumentInfo="true"
 							headerTabActive="actions">
 							
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal Actions" /></div>
+<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings,Grants.Gov Errors" topTab="true">
    <p>You can activate a Validation check to determine any errors or incomplete information. The following Validations types will be determined:</p>
    <ul>
@@ -37,8 +40,27 @@ showDocumentInfo="true"
      <li>warnings that serve as alerts to possible data issues but will not prevent submission into routing</li>
      <li>errors that prevent submission to grants.gov</li>
    </ul>
-</kra:dataValidation>
 
+</kra:dataValidation>
+</c:if>
+<c:if test="${hierarchyStatus == hierarchyChildStatus}">
+	<kul:tabTop tabTitle="Data Validation" defaultOpen="false" >
+	<div class="tab-container" align="center">
+		<h3> 
+			<span class="subhead-left">Data Validation</span>
+		</h3>
+		<table cellpadding="0" cellspacing="0" summary="">
+			<tr>
+				<td>
+					<div class="floaters">
+						<p>Data Validation is not valid for a Child Proposal in a Proposal Hierarchy.</p>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</kul:tabTop>
+</c:if>
 <kra-pd:proposalDevelopmentHierarchy /> 
 <kra:section permission="printProposal">
    <kra-pd:proposalDevelopmentPrintForms /> 
@@ -58,8 +80,11 @@ showDocumentInfo="true"
     </c:if>
 </c:if>
 
-<kul:routeLog /> 
-<kra-pd:adHocRecipients /> 
+<c:if test="${hierarchyStatus != hierarchyChildStatus}">
+	<kul:routeLog /> 
+	<kra-pd:adHocRecipients /> 
+</c:if>
+
 <kul:panelFooter />
 <c:if test="${not KualiForm.suppressAllButtons}">
           <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE] and KualiForm.reject}">
