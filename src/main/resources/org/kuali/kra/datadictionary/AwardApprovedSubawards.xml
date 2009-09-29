@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="awardApprovedSubaward" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-AWARD"
             p:parameterName="awardApprovedSubawardHelpUrl"
             p:parameterDetailType="D" />
     </property>

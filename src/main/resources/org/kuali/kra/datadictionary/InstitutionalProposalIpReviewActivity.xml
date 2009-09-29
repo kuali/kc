@@ -23,6 +23,12 @@
     <bean id="InstitutionalProposalIpReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" />
 		<property name="objectLabel" value="Institutional Proposal Ip Review Activity" />
+		<property name="helpDefinition" >
+      		<bean parent="HelpDefinition"
+            	p:parameterNamespace="KC-IP"
+            	p:parameterName="InstitutionalProposalIPReviewActivityHelpUrl"
+            	p:parameterDetailType="D" />
+    	</property>
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalIpReviewActivity-inquiryDefinition" />
         </property>

@@ -22,7 +22,14 @@
     <bean id="AwardHierarchyNode" parent="AwardHierarchyNode-parentBean" />
     <bean id="AwardHierarchyNode-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.AwardHierarchyNode" />
+	    <property name="helpDefinition" >
+	      <bean parent="HelpDefinition"
+	            p:parameterNamespace="KC-T"
+	            p:parameterName="awardHierarchyNodeHelpUrl"
+	            p:parameterDetailType="D" />
+	    </property>        
 		<property name="objectLabel" value="Award Hierarchy Node" />
+		
         <property name="inquiryDefinition" >
             <ref bean="AwardHierarchyNode-inquiryDefinition" />
         </property>

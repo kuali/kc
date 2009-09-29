@@ -23,6 +23,12 @@
     <bean id="AwardHierarchy-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.awardhierarchy.AwardHierarchy" />
 		<property name="objectLabel" value="Award Hierarchy" />
+	    <property name="helpDefinition" >
+	      <bean parent="HelpDefinition"
+	            p:parameterNamespace="KC-T"
+	            p:parameterName="awardHierarchyHelpUrl"
+	            p:parameterDetailType="D" />
+	    </property>		
         <property name="inquiryDefinition" >
             <ref bean="AwardHierarchy-inquiryDefinition" />
         </property>

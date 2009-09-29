@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="awardComment" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-AWARD"
             p:parameterName="awardCommentHelpUrl"
             p:parameterDetailType="D" />
     </property>
