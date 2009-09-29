@@ -67,7 +67,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * 
      * @param proposalDevelopmentDocument
      */
-    public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public void initializeUnitOrganizationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
 
@@ -92,7 +92,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * Constructs a ProposalSite; initializes the organization, locationName, and siteNumber fields.
+     * Constructs a ProposalSite; initializes the organization, and locationName fields,
+     * and sets the default district if there is one defined for the Organization.
      * @param organizationId
      */
     private ProposalSite createProposalSite(String organizationId, int siteNumber) {
@@ -100,12 +101,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         proposalSite.setOrganizationId(organizationId);
         proposalSite.refreshReferenceObject("organization");
         proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
-        proposalSite.setSiteNumber(siteNumber);
+        proposalSite.initializeDefaultCongressionalDistrict();
         return proposalSite;
     }
     
     private int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
+    }
+    
+    // see interface for Javadoc
+    public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        for (ProposalSite proposalSite: proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
+            proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
     }
     
     @SuppressWarnings("unchecked")

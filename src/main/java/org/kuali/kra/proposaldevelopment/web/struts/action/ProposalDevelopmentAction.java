@@ -194,6 +194,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
 
+        doc.getDevelopmentProposal().updateProposalNumbers();
+        
         proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
         setBudgetStatuses(doc);
 
