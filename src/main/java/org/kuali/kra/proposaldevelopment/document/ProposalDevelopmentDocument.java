@@ -293,7 +293,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(getDocumentNumber());
+        getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
     }
 
     @Override
@@ -328,7 +328,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public DevelopmentProposal getBudgetParent() {
         return getDevelopmentProposal();
     }
-    
     /** {@inheritDoc} */
     @Override
     public boolean useCustomLockDescriptors() {
@@ -345,4 +344,5 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
         return null;
     }
+
 }
