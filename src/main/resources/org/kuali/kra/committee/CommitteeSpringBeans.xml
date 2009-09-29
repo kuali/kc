@@ -81,4 +81,9 @@
 	<bean id="committeeLookupableHelperService" class="org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
   	</bean>
+  	
+	<bean id="meetingService" class="org.kuali.kra.meeting.MeetingServiceImpl">
+	    <property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+  	
 </beans>

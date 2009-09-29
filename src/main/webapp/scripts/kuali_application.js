@@ -313,6 +313,8 @@ function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, se
 	  extractUrl=url.substr(0,idx2)
 	  if (htmlFormAction == 'maintenance') {
 	      window.open(extractUrl+"/kraMaintUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	  } else if (htmlFormAction == 'meetingManagement') {
+	      window.open(extractUrl+"/meetingUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 	  } else {   
 	      window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 	  }
