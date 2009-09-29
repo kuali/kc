@@ -18,7 +18,7 @@ package org.kuali.kra.irb.permission;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -42,7 +42,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
     @Override
     protected void addUserToRoleInDatabase(Document document, String userName, String roleName) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
-        getProtocolAuthorizationService().addRole(userName, roleName, protocolDocument.getProtocol());
+        getKraAuthorizationService().addRole(userName, roleName, protocolDocument.getProtocol());
     }
     
     /**
@@ -51,14 +51,14 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userName, String roleName) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
-        getProtocolAuthorizationService().removeRole(userName, roleName, protocolDocument.getProtocol());
+        getKraAuthorizationService().removeRole(userName, roleName, protocolDocument.getProtocol());
     }
     
     /**
      * Get the Protocol Authorization Service.
      * @return the Protocol Authorization Service
      */
-    private ProtocolAuthorizationService getProtocolAuthorizationService() {
-        return KraServiceLocator.getService(ProtocolAuthorizationService.class);
+    private KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 }

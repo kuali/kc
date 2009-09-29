@@ -13,51 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.auth;
+package org.kuali.kra.service.impl.mocks;
 
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.service.KraAuthorizationService;
 
-public class ProtocolAuthorizationServiceMock implements ProtocolAuthorizationService {
+public class KraAuthorizationServiceMock implements KraAuthorizationService {
 
     private boolean hasPermission;
     
-    public ProtocolAuthorizationServiceMock(boolean hasPermission) {
+    public KraAuthorizationServiceMock(boolean hasPermission) {
         this.hasPermission = hasPermission;
     }
     
-    public void addRole(String username, String roleName, Protocol protocol) {
+    public void addRole(String username, String roleName, Permissionable permissionable) {
      
     }
 
-    public List<RolePersons> getAllRolePersons(Protocol protocol) {
+    public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
         return null;
     }
 
-    public List<Person> getPersonsInRole(Protocol protocol, String roleName) {
+    public List<Person> getPersonsInRole(Permissionable permissionable, String roleName) {
         return null;
     }
 
-    public List<String> getRoles(String username, Protocol protocol) {
+    public List<String> getRoles(String username, Permissionable permissionable) {
         return null;
     }
 
-    public List<String> getUserNames(Protocol protocol, String roleName) {
+    public List<String> getUserNames(Permissionable permissionable, String roleName) {
         return null;
     }
 
-    public boolean hasPermission(String username, Protocol protocol, String permissionName) {
+    public boolean hasPermission(String username, Permissionable permissionable, String permissionName) {
         return hasPermission;
     }
 
-    public boolean hasRole(String username, Protocol protocol, String roleName) {
+    public boolean hasRole(String username, Permissionable permissionable, String roleName) {
         return false;
     }
 
-    public void removeRole(String username, String roleName, Protocol protocol) {
+    public void removeRole(String username, String roleName, Permissionable permissionable) {
         
     }
 }

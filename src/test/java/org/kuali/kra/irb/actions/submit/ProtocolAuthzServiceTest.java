@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,9 +30,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -59,7 +59,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
     
     private UnitAuthorizationService unitAuthorizationService;
     
-    private ProtocolAuthorizationService protocolAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     private BusinessObjectService businessObjectService;
     
     private ProtocolDao dao;
@@ -75,8 +75,8 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         unitAuthorizationService = context.mock(UnitAuthorizationService.class);
         protocolActionService.setUnitAuthorizationService(unitAuthorizationService);
         
-        protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
-        protocolActionService.setProtocolAuthorizationService(protocolAuthorizationService);
+        kraAuthorizationService = context.mock(KraAuthorizationService.class);
+        protocolActionService.setKraAuthorizationService(kraAuthorizationService);
         
         protocol.setProtocolNumber("001Z"); 
         
@@ -128,7 +128,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(protocolAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(true));
+            allowing(kraAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(true));
         }});
 
         mockSubmissionCondt3();
@@ -168,7 +168,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(protocolAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
+            allowing(kraAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -287,7 +287,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(protocolAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
+            allowing(kraAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -406,7 +406,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(protocolAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
+            allowing(kraAuthorizationService).hasPermission(null, protocol, SUBMIT_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{

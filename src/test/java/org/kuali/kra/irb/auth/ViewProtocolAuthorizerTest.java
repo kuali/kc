@@ -26,9 +26,9 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.auth.ViewProtocolAuthorizer;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the View Protocol Authorizer.
@@ -46,11 +46,11 @@ public class ViewProtocolAuthorizerTest {
         
         final Protocol protocol = new Protocol();
         
-        final ProtocolAuthorizationService protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
+        final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.VIEW_PROTOCOL); will(returnValue(true));
         }});
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.VIEW_PROTOCOL, protocol);
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
@@ -62,11 +62,11 @@ public class ViewProtocolAuthorizerTest {
         
         final Protocol protocol = new Protocol();
         
-        final ProtocolAuthorizationService protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
+        final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.VIEW_PROTOCOL); will(returnValue(false));
         }});
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.VIEW_PROTOCOL, protocol);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
