@@ -123,6 +123,7 @@ public class CommitteeSchedule extends CommitteeAssociate {
     public CommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
+        setProtocolSubmissions(new ArrayList<ProtocolSubmission>()); 
 	} 
 	
     public Long getId() {
