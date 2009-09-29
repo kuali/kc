@@ -38,7 +38,7 @@
 </c:choose>
 <%-- if the section has errors, override and set isOpen to true --%>
 <%-- KC MODIFICATION --%>
-<c:if test="${!empty tabErrorKey or not empty tabAuditKey}">
+<c:if test="${!empty tabErrorKey or !empty tabAuditKey}">
 <%-- ORIGINAL 
 <c:if test="${!empty tabErrorKey}">
 --%>
@@ -84,11 +84,16 @@
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}"><div style="display: none;" id="tab-${tabKey}-div"></c:if>
 
 <%-- KC MODIFICATION --%>
-        <c:if test="${! (empty tabAuditKey)}">
+        <c:if test="${! (empty tabAuditKey) or ! (empty tabErrorKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab">
-				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
-        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
-				</c:forEach>
+				<c:if test="${! (empty tabErrorKey)}">
+					<kul:errors keyMatch="${tabErrorKey}" errorTitle="Errors found in this Section:" />
+				</c:if>
+				<c:if test="${! (empty tabAuditKey)}">
+					<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
+	        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
+					</c:forEach>
+				</c:if>
         	</div></div>
       	</c:if>
 <%-- END KC MODIFICATION --%>
