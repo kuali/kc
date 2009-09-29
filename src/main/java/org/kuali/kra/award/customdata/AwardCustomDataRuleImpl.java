@@ -28,9 +28,9 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.AwardCommentService;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
@@ -45,6 +45,7 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
     private String NUMBER = "Number";
     private String DATE = "Date";
     private String DOT_STAR = ".*";
+    private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     static {
@@ -113,13 +114,23 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
             } catch (Exception e) {
                 //do nothing
             }
-            Pattern validationExpression = validationPattern.getRegexPattern();
             String validFormat = getValidFormat(customAttributeDataType.getDescription());
-            if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
-                if (!validationExpression.matcher(attributeValue).matches()) {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+            if (customAttributeDataType.getDescription().equalsIgnoreCase(STRING)||customAttributeDataType.getDescription().equalsIgnoreCase(NUMBER)) {
+                Pattern validationExpression = validationPattern.getRegexPattern();
+                //String validFormat = getValidFormat(customAttributeDataType.getDescription());
+            
+                if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
+                    if (!validationExpression.matcher(attributeValue).matches()) {
+                        GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
                                                                 customAttribute.getLabel(), attributeValue, validFormat);
-                    return false;
+                        return false;
+                    }
+                }
+            } else if (customAttributeDataType.getDescription().equalsIgnoreCase(DATE)) {
+                if(!attributeValue.matches(DATE_REGEX)) {
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+                            customAttribute.getLabel(), attributeValue, validFormat);
+                     return false;
                 }
             }
         }
