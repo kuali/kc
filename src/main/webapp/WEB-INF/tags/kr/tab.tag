@@ -19,7 +19,10 @@
 <%@ attribute name="spanForLongTabTitle" required="false" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
-<%@ attribute name="tabErrorKey" required="false" %>
+<%--KC MODIFICATION START--%>
+<%@ attribute name="tabErrorKey" required="false" description="The error path for errors whose message should be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
+<%@ attribute name="innerTabErrorKey" required="false" description="The error path for errors whose message should not be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
+<%--KC MODIFICATION END--%>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="tabItemCount" required="false" %>
@@ -72,6 +75,13 @@
   <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
   <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 </c:if>
+
+<%--KC MODIFICATION START--%>
+		<c:if test="${isOpen != 'true' and !empty innerTabErrorKey}">
+		  <kul:checkErrors keyMatch="${innerTabErrorKey}" />
+		  <c:set var="isOpen" value="${hasErrors ? true : isOpen}" />
+		</c:if>
+<%--KC MODIFICATION END--%>
 
 <c:if test="${hidden}">
 	<c:set var="isOpen" value="false"/>
@@ -150,12 +160,11 @@
 <%-- KC MODIFICATION START --%>
                <c:if test="${isOpen == 'true' || isOpen == 'TRUE' || alwaysOpen == 'TRUE'}">
 <%-- KC MODIFICATION END --%>
-<%-- ORIGINAL
-				<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
---%>
                  <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                </c:if>
-               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+<%-- KC MODIFICATION START --%>
+               <c:if test="${isOpen != 'true' && isOpen != 'TRUE' && alwaysOpen != 'TRUE'}">
+<%-- KC MODIFICATION END --%>
                  <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                </c:if>
                </c:when>
