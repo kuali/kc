@@ -815,12 +815,13 @@ Insert into KRNS_PARM_T
  Values
    ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', sys_guid(), 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A', 'WorkflowAdmin', 'Y');
 
-#Namespaces needed for IP/Award/T&M Help Params
+
+--new namespaces for help links
 INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
 VALUES('KC-T', 'Time And Money', 'Y') ;
 INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
 VALUES('KC-GEN', 'General Kuali Coeus', 'Y') ;
-#IP/Award/T&M Help System Params   
+--new system parameters for help links
 INSERT INTO krns_PARM_T 
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
