@@ -465,8 +465,7 @@ public class ActionHelper implements Serializable {
         }
         Collections.sort(filteredProtocolActions, new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
-                int c = action2.getActualActionDate().compareTo(action1.getActualActionDate());
-                return c;
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
         });
      

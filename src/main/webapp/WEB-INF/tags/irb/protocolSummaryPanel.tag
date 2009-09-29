@@ -17,19 +17,22 @@
             <tbody>
                 <tr>
                     <th colspan="4" style="text-align:center">
-                        Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}
-                        <html:image property="methodToCall.viewPreviousProtocolSummary.line${status.index}.anchor${currentTabIndex}"
-                                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-previous3.gif"
-                                    styleClass="tinybutton"
-                                    alt="View Previous Summary" 
-                                    onclick="excludeSubmitRestriction = true;"
-                                    disabled="${prevDisabled}"/>
-                        <html:image property="methodToCall.viewNextProtocolSummary.line${status.index}.anchor${currentTabIndex}"
-                                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-next3.gif"
-                                    styleClass="tinybutton"
-                                    alt="View Next Summary" 
-                                    onclick="excludeSubmitRestriction = true;"
-                                    disabled="${nextDisabled}" />
+                        Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}:&nbsp;
+                        ${KualiForm.document.protocolList[0].lastProtocolAction.comments}
+                        <c:if test="${!prevDisabled}">
+                            <html:image property="methodToCall.viewPreviousProtocolSummary.line${status.index}.anchor${currentTabIndex}"
+                                        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-previous3.gif"
+                                        styleClass="tinybutton"
+                                        alt="View Previous Summary" 
+                                        onclick="excludeSubmitRestriction = true;" />
+                        </c:if>
+                        <c:if test="${!nextDisabled}">
+                            <html:image property="methodToCall.viewNextProtocolSummary.line${status.index}.anchor${currentTabIndex}"
+                                        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-next3.gif"
+                                        styleClass="tinybutton"
+                                        alt="View Next Summary" 
+                                        onclick="excludeSubmitRestriction = true;" />
+                        </c:if>
                     </th>
                 </tr>
             </tbody>
