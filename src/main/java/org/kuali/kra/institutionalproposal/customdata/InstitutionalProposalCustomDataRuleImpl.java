@@ -45,6 +45,8 @@ public class InstitutionalProposalCustomDataRuleImpl extends ResearchDocumentRul
     private String NUMBER = "Number";
     private String DATE = "Date";
     private String DOT_STAR = ".*";
+    private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
+
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     static {
@@ -114,15 +116,34 @@ public class InstitutionalProposalCustomDataRuleImpl extends ResearchDocumentRul
             } catch (Exception e) {
                 //do nothing
             }
-            Pattern validationExpression = validationPattern.getRegexPattern();
             String validFormat = getValidFormat(customAttributeDataType.getDescription());
-            if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
-                if (!validationExpression.matcher(attributeValue).matches()) {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+            if (customAttributeDataType.getDescription().equalsIgnoreCase(STRING)||customAttributeDataType.getDescription().equalsIgnoreCase(NUMBER)) {
+                Pattern validationExpression = validationPattern.getRegexPattern();
+                //String validFormat = getValidFormat(customAttributeDataType.getDescription());
+            
+                if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
+                    if (!validationExpression.matcher(attributeValue).matches()) {
+                        GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
                                                                 customAttribute.getLabel(), attributeValue, validFormat);
-                    return false;
+                        return false;
+                    }
+                }
+            } else if (customAttributeDataType.getDescription().equalsIgnoreCase(DATE)) {
+                if(!attributeValue.matches(DATE_REGEX)) {
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+                            customAttribute.getLabel(), attributeValue, validFormat);
+                     return false;
                 }
             }
+//            Pattern validationExpression = validationPattern.getRegexPattern();
+//            String validFormat = getValidFormat(customAttributeDataType.getDescription());
+//            if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
+//                if (!validationExpression.matcher(attributeValue).matches()) {
+//                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+//                                                                customAttribute.getLabel(), attributeValue, validFormat);
+//                    return false;
+//                }
+//            }
         }
         return true;
     }
