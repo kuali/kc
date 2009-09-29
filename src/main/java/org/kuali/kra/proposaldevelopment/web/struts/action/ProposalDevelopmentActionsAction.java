@@ -53,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -1073,7 +1074,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
         DevelopmentProposal newChildProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyChildProposalNumber());
-        getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+        if (newChildProposal == null) {
+            GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_CHILD_NUMBER, KeyConstants.ERROR_REQUIRED, "Link Child Proposal");
+        }
+        else {
+            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1109,7 +1115,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
         DevelopmentProposal newChildProposal = pdForm.getDocument().getDevelopmentProposal();
-        getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+        if (hierarchyProposal == null) {
+            GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_PARENT_NUMBER, KeyConstants.ERROR_REQUIRED, "Link to Hierarchy");
+        }
+        else {
+            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
