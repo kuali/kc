@@ -25,6 +25,9 @@
 	<bean id="AwardReportTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" />
 		<property name="objectLabel" value="Award Report Term" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardReportTermHelpUrl" p:parameterDetailType="D"/>
+          </property>		
 		<property name="inquiryDefinition" >
 			<ref bean="AwardReportTerm-inquiryDefinition" />
 		</property>

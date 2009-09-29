@@ -20,7 +20,7 @@
       <list>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-T" p:parameterName="timeAndMoneyHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-T" p:parameterName="timeAndMoneyHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Time And Money"/>
           <property name="headerTabNavigateTo" value="timeAndMoney"/>

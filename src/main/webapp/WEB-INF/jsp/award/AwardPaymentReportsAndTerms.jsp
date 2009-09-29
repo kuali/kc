@@ -25,7 +25,7 @@
   	headerTabActive="paymentReportsAndTerms">
  	
 
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="PaymentReportsAndTerms" /></div>
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Payment, Reports &amp;amp; Terms" /></div>
 
 <kra-a:awardPaymentAndInvoices />
 <kra-a:awardReports />

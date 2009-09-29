@@ -11,8 +11,8 @@
 		<property name="objectLabel" value="Permissions User" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PER"
-            p:parameterName="permissionsHelp"
+            p:parameterNamespace="KC-GEN"
+            p:parameterName="permissionsHelpUrl"
             p:parameterDetailType="D" />
     </property>
     <property name="attributes" >

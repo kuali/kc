@@ -18,7 +18,7 @@
     <property name="titleAttribute" value="commentTypeCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-AWARD"
             p:parameterName="CommentTypeHelpUrl"
             p:parameterDetailType="D" />
     </property>
