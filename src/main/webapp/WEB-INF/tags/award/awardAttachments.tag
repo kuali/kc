@@ -24,7 +24,7 @@
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Attachment</span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.notesandattachments.attachment.AwardAttachment" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" altText="help"/></span>
        </h3>
        <table cellpadding="4" cellspacing="0" summary="">
          	<tr>

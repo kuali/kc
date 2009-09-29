@@ -31,7 +31,7 @@
         </property>
         <property name="helpDefinition" >
       		<bean parent="HelpDefinition"
-            	p:parameterNamespace="KRA-IP"
+            	p:parameterNamespace="KC-IP"
             	p:parameterName="InstitutionalProposalHelpUrl"
             	p:parameterDetailType="D" />
     	</property>

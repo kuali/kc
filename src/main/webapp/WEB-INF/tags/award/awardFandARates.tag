@@ -29,7 +29,7 @@
 	    	<h3>
 	    		<span class="subhead-left">F&A Rates</span>
 	    		<span class="subhead-right">
-	    			<kul:help businessObjectClassName="org.kuali.kra.award.home.AwardFandaRate" altText="help"/>						
+	    			<kul:help businessObjectClassName="org.kuali.kra.award.commitments.AwardFandaRate" altText="help"/>						
 					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" anchor="${tabKey}" autoSearch="yes" 
 					            readOnlyFields="yes" hideReturnLink="true" suppressActions="true" />		
 				</span>

@@ -27,7 +27,7 @@
 
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award Contacts" /></div>
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Contacts" /></div>
 
 <div id="workarea">
 	<kra-a:awardProjectPersonnel />

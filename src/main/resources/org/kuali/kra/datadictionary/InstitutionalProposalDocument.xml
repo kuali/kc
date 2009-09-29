@@ -21,7 +21,7 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalHelpUrl" p:parameterDetailType="D"/>
           </property>
           
           <property name="headerTabDisplayName" value="Institutional Proposal"/>
@@ -30,7 +30,7 @@
         <bean parent="HeaderNavigation">
        
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalConstactsHelpUrl" p:parameterDetailType="D"/>
           </property>
           
           <property name="headerTabDisplayName" value="Contacts"/>
@@ -39,7 +39,7 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalCustomDataHelpUrl" p:parameterDetailType="D"/>
           </property>
          
           <property name="headerTabDisplayName" value="Custom Data"/>
@@ -48,7 +48,7 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalSpecialReviewHelpUrl" p:parameterDetailType="D"/>
           </property>
         
           <property name="headerTabDisplayName" value="Special Review"/>
@@ -57,7 +57,7 @@
         <bean parent="HeaderNavigation">
        
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalIPReviewHelpUrl" p:parameterDetailType="D"/>
           </property>
           
           <property name="headerTabDisplayName" value="Intellectual Property Review"/>
@@ -66,7 +66,7 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalDistributionHelpUrl" p:parameterDetailType="D"/>
           </property>
         
           <property name="headerTabDisplayName" value="Distribution"/>
@@ -75,7 +75,7 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalActionsHelpUrl" p:parameterDetailType="D"/>
           </property>
          
           <property name="headerTabDisplayName" value="Institutional Proposal Actions"/>

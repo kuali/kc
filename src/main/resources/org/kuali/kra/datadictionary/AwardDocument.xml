@@ -20,84 +20,84 @@
       <list>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardHomeHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardHomeHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Award"/>
           <property name="headerTabNavigateTo" value="home"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardContactsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardContactsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Contacts"/>
           <property name="headerTabNavigateTo" value="contacts"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Commitments"/>
           <property name="headerTabNavigateTo" value="commitments"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Budget Versions"/>
           <property name="headerTabNavigateTo" value="budgetVersions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardTimeAndMoneyHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardTimeAndMoneyHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Time &amp; Money"/>
           <property name="headerTabNavigateTo" value="timeAndMoney"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardPaymentsReportsAndTermsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardPaymentsReportsAndTermsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Payment, Reports &amp; Terms"/>
           <property name="headerTabNavigateTo" value="paymentReportsAndTerms"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardSpecialReviewHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardSpecialReviewHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Special Review"/>
           <property name="headerTabNavigateTo" value="specialReview"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardCustomDataHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCustomDataHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Custom Data"/>
           <property name="headerTabNavigateTo" value="customData"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardQuestionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardQuestionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Questions"/>
           <property name="headerTabNavigateTo" value="questions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardPermissionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardPermissionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Permissions"/>
           <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
           <property name="headerTabNavigateTo" value="notesAndAttachments"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardActionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardActionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Award Actions"/>
           <property name="headerTabNavigateTo" value="awardActions"/>
