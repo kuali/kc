@@ -19,7 +19,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.committee.service.CommitteeAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * A Committee Authorizer determines if a user can perform
@@ -27,7 +27,7 @@ import org.kuali.kra.committee.service.CommitteeAuthorizationService;
  */
 public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
     
-    private CommitteeAuthorizationService committeeAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
@@ -45,11 +45,11 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
     public abstract boolean isAuthorized(String username, CommitteeTask task);
     
     /**
-     * Set the Committee Authorization Service.  Usually injected by the Spring Framework.
-     * @param committeeAuthorizationService
+     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
+     * @param kraAuthorizationService
      */
-    public void setCommitteeAuthorizationService(CommitteeAuthorizationService committeeAuthorizationService) {
-        this.committeeAuthorizationService = committeeAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -60,6 +60,6 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasPermission(String username, Committee committee, String permissionName) {
-        return committeeAuthorizationService.hasPermission(username, committee, permissionName);
+        return kraAuthorizationService.hasPermission(username, committee, permissionName);
     }
 }

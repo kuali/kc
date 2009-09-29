@@ -36,21 +36,6 @@
 	</bean>
 	<!-- Protocol Services -->
 	
-	<bean id="protocolAuthorizationService" class="org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImpl">
-		<property name="unitAuthorizationService">
-			<ref bean="unitAuthorizationService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimQualifiedRoleService">
-			<ref bean="kimQualifiedRoleService" />
-		</property>
-	</bean>
-	
 	<bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
 	</bean>	
 
@@ -104,7 +89,7 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="personService" ref="personService" />
-        <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolActionService" ref="protocolActionService" />
     </bean>
 
@@ -219,7 +204,7 @@
     <bean id="protocolCopyService" class="org.kuali.kra.irb.actions.copy.ProtocolCopyServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
     </bean>
 
@@ -282,7 +267,7 @@
 	
 	<bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+		<property name="kraAuthorizationService" ref="kraAuthorizationService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 		<property name="protocolDao" ref="protocolDao" />
 	</bean>

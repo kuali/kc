@@ -28,7 +28,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Modification of a Protocol Module Authorizer.
@@ -186,10 +186,10 @@ public abstract class ModifyProtocolModuleAuthorizerTest {
      * @param value
      */
     protected void addMockProtocolAuthorizationService(final Protocol protocol, ModifyAmendmentAuthorizer authorizer, final boolean value) {
-        final ProtocolAuthorizationService protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
+        final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MODIFY_PROTOCOL); will(returnValue(value));
+            one(kraAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MODIFY_PROTOCOL); will(returnValue(value));
         }});
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        authorizer.setKraAuthorizationService(kraAuthorizationService);
     }
 }

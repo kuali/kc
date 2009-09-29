@@ -29,6 +29,8 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 
 /**
@@ -36,7 +38,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
  */
 @SuppressWarnings("serial")
 public class Committee extends KraPersistableBusinessObjectBase implements Comparable<Committee>,
-                                                                           SequenceOwner<Committee> {
+                                                                           SequenceOwner<Committee>,
+                                                                           Permissionable{
 
     @Id
     @Column(name = "ID")
@@ -385,5 +388,34 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
      */
     public String getVersionNameField() {
         return "committeeName";
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     */
+    public String getDocumentKey() {
+        return Permissionable.COMMITTEE_KEY;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     */
+    public String getDocumentNumberForPermission() {
+        return id.toString();
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     */
+    public List<String> getRoleNames() {
+        List<String> roleNames = new ArrayList<String>();
+
+        roleNames.add(RoleConstants.IRB_ADMINISTRATOR);
+        roleNames.add(RoleConstants.IRB_REVIEWER);
+
+        return roleNames;
     }
 }

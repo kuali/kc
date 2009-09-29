@@ -28,7 +28,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -140,9 +140,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        ProtocolAuthorizationService protocolAuthService = 
-               (ProtocolAuthorizationService) KraServiceLocator.getService(ProtocolAuthorizationService.class); 
-        return protocolAuthService.getAllRolePersons(getProtocol());
+        KraAuthorizationService kraAuthService = 
+               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        return kraAuthService.getAllRolePersons(getProtocol());
     }
     
     public String getDocumentTypeCode() {

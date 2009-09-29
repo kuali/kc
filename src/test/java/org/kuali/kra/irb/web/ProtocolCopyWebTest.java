@@ -29,7 +29,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -219,7 +219,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @param destDoc
      */
     private void checkPermissions(ProtocolDocument destDoc) {
-        ProtocolAuthorizationService protocolAuthorizationService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
+        KraAuthorizationService protocolAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         
         List<String> roleNames = protocolAuthorizationService.getRoles(QUICKSTART, destDoc.getProtocol());
         assertEquals(1, roleNames.size());
