@@ -188,7 +188,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         
-        populateTempViewDate();
+        // TODO : not sure why this method is here.  It looks like a temp method.  commented out to see if it is ok.
+        //populateTempViewDate();
     }
     
     public Long getProtocolId() {
