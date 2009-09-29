@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -36,12 +37,12 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     public static final int PROPOSAL_SITE_PERFORMANCE_SITE = 4;
     
     private String proposalNumber;
-    private int siteNumber;
+    private Integer siteNumber;
     private String locationName;
-    private int locationTypeCode;
+    private Integer locationTypeCode;
     private String organizationId;
     private Organization organization;
-    private int rolodexId;
+    private Integer rolodexId;
     private Rolodex rolodex;
     private List<CongressionalDistrict> congressionalDistricts;
 
@@ -57,11 +58,11 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
         return proposalNumber;
     }
 
-    public void setSiteNumber(int siteNumber) {
+    public void setSiteNumber(Integer siteNumber) {
         this.siteNumber = siteNumber;
     }
 
-    public int getSiteNumber() {
+    public Integer getSiteNumber() {
         return siteNumber;
     }
 
@@ -77,11 +78,11 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
         return locationName;
     }
 
-    public void setLocationTypeCode(int locationTypeCode) {
+    public void setLocationTypeCode(Integer locationTypeCode) {
         this.locationTypeCode = locationTypeCode;
     }
 
-    public int getLocationTypeCode() {
+    public Integer getLocationTypeCode() {
         return locationTypeCode;
     }
 
@@ -101,11 +102,11 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
         return organization;
     }
 
-    public void setRolodexId(int rolodexId) {
+    public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
     }
 
-    public int getRolodexId() {
+    public Integer getRolodexId() {
         return rolodexId;
     }
 
@@ -133,12 +134,32 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
         congressionalDistricts.remove(districtIndex);
     }
     
+    public void setDefaultCongressionalDistrict(CongressionalDistrict congressionalDistrict) {
+        if (!contains(congressionalDistrict.getCongressionalDistrict())) {
+            congressionalDistricts.add(0, congressionalDistrict);
+        }
+    }
+    
+    /**
+     * This method tests whether the ProposalSite contains a ongressional district with a given congressionalDistrict value.
+     * @param congressionalDistrictIdentifier
+     * @return
+     */
+    private boolean contains(String congressionalDistrictIdentifier) {
+        for (CongressionalDistrict district: congressionalDistricts) {
+            if (StringUtils.equals(district.getCongressionalDistrict(), congressionalDistrictIdentifier)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * This method returns the first congressional district defined for the ProposalSite,
      * or null if there is none.
      * @return
      */
-    public CongressionalDistrict getFirstCongressionalDistrict() {
+    public CongressionalDistrict getDefaultCongressionalDistrict() {
         if (congressionalDistricts==null || congressionalDistricts.isEmpty()) {
             return null;
         }
@@ -153,12 +174,43 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
      * @return
      */
     public String getFirstCongressionalDistrictName() {
-        CongressionalDistrict firstDistrict = getFirstCongressionalDistrict();
+        CongressionalDistrict firstDistrict = getDefaultCongressionalDistrict();
         if (firstDistrict == null) {
             return "";
         }
         else {
             return firstDistrict.getCongressionalDistrict();
+        }
+    }
+
+    /**
+     * This method deletes all existing congressional districts and adds one new congressional
+     * district.
+     * @param districtIdentifier The congressional district string, e.g. "AZ-5"
+     */
+    public void setDefaultCongressionalDistrictIdentifier(String districtIdentifier) {
+        if (!StringUtils.isEmpty(districtIdentifier) && !contains(districtIdentifier)) {
+            CongressionalDistrict defaultDistrict = new CongressionalDistrict();
+            defaultDistrict.setCongressionalDistrict(districtIdentifier);
+            defaultDistrict.setProposalNumber(proposalNumber);
+            defaultDistrict.setSiteNumber(siteNumber);
+            setDefaultCongressionalDistrict(defaultDistrict);
+        }
+    }
+
+    /**
+     * This method creates a CongressionalDistrict from the district defined in the Organization,
+     * and adds it to the list of congressional districts if it doesn't exist yet.
+     * The proposalNumber and siteNumber are set on the CongressionalDistrict, so they should
+     * be initialized before calling this method.
+     */
+    public void initializeDefaultCongressionalDistrict() {
+        Organization organization = getOrganization();
+        if (organization != null) {
+            String defaultDistrict = organization.getCongressionalDistrict();
+            if (!StringUtils.isEmpty(defaultDistrict)) {
+                setDefaultCongressionalDistrictIdentifier(defaultDistrict);
+            }
         }
     }
 
