@@ -36,6 +36,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.proposaldevelopment.rule.AddCongressionalDistrictRule;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
@@ -443,6 +444,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     @Override
     public boolean processRunAuditBusinessRules(Document document){
+        if (((ProposalDevelopmentDocument)document).getDevelopmentProposal().isChild()) {
+            throw new RuntimeException(new ProposalHierarchyException("Cannot run validation on a Proposal Hierarchy Child."));
+        }
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
@@ -467,9 +471,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);        
         
-        if (!proposalDevelopmentDocument.getDevelopmentProposal().isChild()) {
-            retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
-        }
+        retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
         // audit check for budgetversion with final status
         try {
