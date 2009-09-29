@@ -323,7 +323,7 @@
 	    trTag.appendTo(tblTag);
 	    
 	    var tdTag3=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
-	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copy.awardNumber"+text1);
+	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copy.awardNumber"+text1).attr("name","methodToCall.copy.awardNumber"+text1);;
 	    copyButton.appendTo(tdTag3);	    
 	    tdTag3.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
@@ -424,7 +424,7 @@
 	    
 	    
 	    var tdTag2=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
-	    var createButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+text1).attr("name","methodToCall.create.awardNumber"+text1);
+	    var createButton = $('<input type="image" title="Create" alt="create" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+text1).attr("name","methodToCall.create.awardNumber"+text1);	    
 	    createButton.appendTo(tdTag2);	    
 	    tdTag2.appendTo(trTag);
 	    

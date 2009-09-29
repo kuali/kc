@@ -78,10 +78,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
         ActionForward forward = null;        
         if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio()!=null){
-            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio();
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio();
             Boolean copyDescendants = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyDescendants();
             if(StringUtils.equalsIgnoreCase(radio, "a")){
-                if(copyDescendants){
+                if(copyDescendants!=null && copyDescendants){
                     forward = this.copyAwardAsANewHierarchyWithDescendants(mapping, form, request, response);
                 }else{
                     forward = this.copyAwardAsANewHierarchy(mapping, form, request, response);    
