@@ -27,10 +27,19 @@ public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 9043098848918407500L;
     
+    private Long congressionalDistrictId;
     private String proposalNumber;
     private Integer siteNumber;
     private String congressionalDistrict;
     
+    public void setCongressionalDistrictId(Long congressionalDistrictId) {
+        this.congressionalDistrictId = congressionalDistrictId;
+    }
+
+    public Long getCongressionalDistrictId() {
+        return congressionalDistrictId;
+    }
+
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }

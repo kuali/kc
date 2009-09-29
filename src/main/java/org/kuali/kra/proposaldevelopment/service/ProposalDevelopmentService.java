@@ -18,24 +18,19 @@ package org.kuali.kra.proposaldevelopment.service;
 import java.util.List;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public interface ProposalDevelopmentService {
     
-    public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public void initializeUnitOrganizationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument);
     
     /**
+     * This method initializes the siteNumber property on proposal sites that don't have it set yet.
+     * @param proposalDevelopmentDocument
+     */
+    public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument);
+    
+   /**
      * This method returns a Map of Units for which the user represented by the userId passed in has the role Proposal Aggregator
      * @param userId unique identifer representing the user whose units will be returned
      * @return A Map in the form of Unit Number, Unit Name representing the units for which the userId passed in has the Proposal Aggregator role.

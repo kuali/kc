@@ -230,7 +230,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                 .getPrincipalName());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
-            proposalDevelopmentService.initializeUnitOrganzationLocation(this.getProposalDocument());
+            proposalDevelopmentService.initializeUnitOrganizationLocation(this.getProposalDocument());
         }
     }
 
@@ -1814,4 +1814,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return getOwnedByUnitNumber();
     }
  
+    /**
+     * This method sets the proposal number on all sub-BOs that have a proposal number.
+     */
+    public void updateProposalNumbers() {
+        String proposalNumber = getProposalNumber();
+        for (ProposalSite site: getProposalSites()) {
+            site.setProposalNumber(proposalNumber);
+        }
+    }
 }
