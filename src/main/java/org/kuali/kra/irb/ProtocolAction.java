@@ -29,11 +29,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -195,8 +195,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        ProtocolAuthorizationService protocolAuthService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
-        protocolAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
     }
 
     /** {@inheritDoc} */

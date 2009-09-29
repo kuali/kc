@@ -21,11 +21,10 @@ import org.kuali.kra.committee.authorizers.UnitAuthorizationServiceMock;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.auth.ModifyProtocolAuthorizer;
-import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
-import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -66,8 +65,8 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         
         final Protocol protocol = createProtocol(1L, false);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         final KraWorkflowService workflowService = new KraWorkflowServiceMock();
         authorizer.setKraWorkflowService(workflowService);
@@ -82,8 +81,8 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         
         final Protocol protocol = createProtocol(1L, false);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(false);
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        final KraAuthorizationService protocolAuthorizationService = new KraAuthorizationServiceMock(false);
+        authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         final KraWorkflowService workflowService = new KraWorkflowServiceMock();
         authorizer.setKraWorkflowService(workflowService);
@@ -98,8 +97,8 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         
         final Protocol protocol = createProtocol(1L, true);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         final KraWorkflowService workflowService = new KraWorkflowServiceMock();
         authorizer.setKraWorkflowService(workflowService);
@@ -114,8 +113,8 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         
         final Protocol protocol = createProtocol(1L, false);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(false);
-        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(false);
+        authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         final KraWorkflowService workflowService = new KraWorkflowServiceMock(true);
         authorizer.setKraWorkflowService(workflowService);

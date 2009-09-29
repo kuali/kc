@@ -35,28 +35,13 @@
 		</property>
 	</bean>
 	
-	<bean id="committeeAuthorizationService" class="org.kuali.kra.committee.service.impl.CommitteeAuthorizationServiceImpl">
-		<property name="unitAuthorizationService">
-			<ref bean="unitAuthorizationService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimQualifiedRoleService">
-			<ref bean="kimQualifiedRoleService" />
-		</property>
-	</bean>
-	
 	<!-- Committee Task Authorizers -->
     
     <bean id="parentCommitteeAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="personService" ref="personService" />
-        <property name="committeeAuthorizationService" ref="committeeAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
 
     <bean id="committeeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">

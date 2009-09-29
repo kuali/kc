@@ -19,6 +19,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * A Protocol Authorizer determines if a user can perform
@@ -26,7 +27,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
  */
 public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     
-    private ProtocolAuthorizationService protocolAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     private ProtocolActionService protocolActionService;
     
     /**
@@ -53,11 +54,11 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     public abstract boolean isAuthorized(String username, ProtocolTask task);
     
     /**
-     * Set the Protocol Authorization Service.  Usually injected by the Spring Framework.
-     * @param protocolAuthorizationService
+     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
+     * @param kraAuthorizationService
      */
-    public void setProtocolAuthorizationService(ProtocolAuthorizationService protocolAuthorizationService) {
-        this.protocolAuthorizationService = protocolAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -68,7 +69,7 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasPermission(String username, Protocol protocol, String permissionName) {
-        return protocolAuthorizationService.hasPermission(username, protocol, permissionName);
+        return kraAuthorizationService.hasPermission(username, protocol, permissionName);
     }
     
     /**

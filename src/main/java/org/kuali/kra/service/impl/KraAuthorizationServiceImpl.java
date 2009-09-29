@@ -144,14 +144,14 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public List<String> getRoles(String username, Permissionable permissionable) {
         List<String> roleNames = new ArrayList<String>();
         if (isValidPerson(username)) {
-            String awardNbr = permissionable.getDocumentNumberForPermission();
-            if (awardNbr != null) {
+            String documentNumber = permissionable.getDocumentNumberForPermission();
+            if (documentNumber != null) {
                 List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
                 for (QualifiedRole role : roles) {
                     Map<String, String> attrs = role.getQualifiedRoleAttributes();
                     if (attrs.containsKey(permissionable.getDocumentKey())) {
                         String value = attrs.get(permissionable.getDocumentKey());
-                        if (value.equals(awardNbr)) {
+                        if (value.equals(documentNumber)) {
                             roleNames.add(role.getRoleName());
                         }
                     }

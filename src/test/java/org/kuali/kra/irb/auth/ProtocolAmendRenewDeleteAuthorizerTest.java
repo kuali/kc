@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Protocol/Amendment/Renewal Delete Authorizer.
@@ -66,11 +67,11 @@ public class ProtocolAmendRenewDeleteAuthorizerTest {
             allowing(protocol).getProtocolStatusCode(); will(returnValue(statusCode));
         }});
         
-        final ProtocolAuthorizationService authorizationService = context.mock(ProtocolAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             allowing(authorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MODIFY_PROTOCOL); will(returnValue(hasPermission));
         }});
-        authorizer.setProtocolAuthorizationService(authorizationService);
+        authorizer.setKraAuthorizationService(authorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocol);
         assertEquals(expected, authorizer.isAuthorized(USERNAME, task));
