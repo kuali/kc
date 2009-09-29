@@ -11,7 +11,7 @@
     <property name="titleAttribute" value="unit.unitName" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-AWARD"
             p:parameterName="awardContactHelpUrl"
             p:parameterDetailType="D" />
     </property>

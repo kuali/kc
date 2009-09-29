@@ -10,7 +10,7 @@
     <property name="titleAttribute" value="invCreditTypeCode" />
     <property name="helpDefinition" >
        <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-ADMIN"
             p:parameterName="awardPersonCreditSplitHelpUrl"
             p:parameterDetailType="D" />
     </property>

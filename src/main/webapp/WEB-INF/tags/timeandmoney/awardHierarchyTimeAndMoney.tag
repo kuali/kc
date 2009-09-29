@@ -23,7 +23,7 @@
 		<h3>
     		<span class="subhead-left">Award Hierarchy</span>
     		<span class="subhead-right">
-    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
+    			<kul:help businessObjectClassName="org.kuali.kra.timeandmoney.AwardHierarchyNode" altText="help"/>
 			</span>
         </h3>    	        
     <table cellpadding="0" cellspacing="0" summary="">

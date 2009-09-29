@@ -23,6 +23,9 @@
     <bean id="PendingTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.transactions.PendingTransaction" />
 		<property name="objectLabel" value="Pending Transaction" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-T" p:parameterName="PendingTransactionHelp" p:parameterDetailType="D"/>
+          </property>
         <property name="inquiryDefinition" >
             <ref bean="PendingTransaction-inquiryDefinition" />
         </property>

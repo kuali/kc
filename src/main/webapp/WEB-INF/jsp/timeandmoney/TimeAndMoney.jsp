@@ -25,7 +25,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="timeAndMoney">
 	
-<div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time and Money" /></div>
+<div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time And Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-timeandmoney:awardHierarchyTimeAndMoney />

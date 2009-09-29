@@ -23,6 +23,9 @@
     <bean id="AwardCloseout-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" />
 		<property name="objectLabel" value="Award Closeout" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCloseoutHelpUrl" p:parameterDetailType="D"/>
+          </property>		
         <property name="inquiryDefinition" >
             <ref bean="AwardCloseout-inquiryDefinition" />
         </property>

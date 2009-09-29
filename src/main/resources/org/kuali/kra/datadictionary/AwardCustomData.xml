@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="awardCustomData" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
+            p:parameterNamespace="KC-AWARD"
             p:parameterName="awardCustomDataHelpUrl"
             p:parameterDetailType="D" />
     </property>

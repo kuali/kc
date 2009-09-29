@@ -23,6 +23,9 @@
     <bean id="TransactionDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.history.TransactionDetail" />
 		<property name="objectLabel" value="Transaction Detail" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-T" p:parameterName="TransactionHelp" p:parameterDetailType="D"/>
+          </property>		
         <property name="inquiryDefinition" >
             <ref bean="TransactionDetail-inquiryDefinition" />
         </property>

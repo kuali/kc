@@ -12,8 +12,8 @@
     <property name="titleAttribute" value="AwardApprovedForeignTravel" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
-            p:parameterName="AwardApprovedForeignTravelHelpUrl"
+            p:parameterNamespace="KC-ADMIN"
+            p:parameterName="awardApprovedForeignTravelHelpUrl"
             p:parameterDetailType="D" />
     </property>
     <property name="attributes" >
