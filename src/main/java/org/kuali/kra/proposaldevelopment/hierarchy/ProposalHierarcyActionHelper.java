@@ -25,14 +25,15 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class...
  */
 public class ProposalHierarcyActionHelper {
-    private static final String FIELD_GENERIC = "newHierarchyProposal.x";
-    private static final String FIELD_PARENT_NUMBER = "newHierarchyProposal.proposalNumber";
-    private static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposal.proposalNumber";
+    public static final String FIELD_GENERIC = "newHierarchyProposal.x";
+    public static final String FIELD_PARENT_NUMBER = "newHierarchyProposalNumber";
+    public static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposalNumber";
 
     private static final String MESSAGE_LINK_SUCCESS = "message.hierarchy.link.success";
     private static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";
@@ -91,7 +92,10 @@ public class ProposalHierarcyActionHelper {
     public void createHierarchy(DevelopmentProposal initialChildProposal) {
         if (validateChildCandidate(initialChildProposal)) {
             try {
+                // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
+                MessageMap messageMap = GlobalVariables.getMessageMap();
                 String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
+                GlobalVariables.setMessageMap(messageMap);
                 GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (Exception e) {
