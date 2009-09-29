@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -1004,6 +1006,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public List<ProtocolAction> getProtocolActions() {
         return protocolActions;
+    }
+    
+    public ProtocolAction getLastProtocolAction() {
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+        return protocolActions.get(0);
     }
 
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
