@@ -123,7 +123,7 @@
                     <kra:section permission="modifyProposal">
                         <c:if test="${!empty clearSiteMethodToCall || !empty deleteSiteMethodToCall}">
                             <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                                fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.organization.organizationName,address:${proposalSiteBoName}.organization.address"
+                                fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.organization.organizationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
                                 anchor="${currentTabIndex}" />
                             <input
                                 type="hidden" name="${proposalSiteBoName}_organizationId"

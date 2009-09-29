@@ -48,7 +48,7 @@
         <c:if test="${rolodexLookup}">
             <%-- Site name --%>
             <c:choose>
-                <c:when test="${newProposalSite.rolodexId <= 0}">
+                <c:when test="${empty newProposalSite.rolodexId}">
                     <c:out value="(Select)" />
                 </c:when>
                 <c:otherwise>

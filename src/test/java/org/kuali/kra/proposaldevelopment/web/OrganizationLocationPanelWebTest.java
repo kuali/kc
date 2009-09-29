@@ -142,7 +142,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        assertEquals("000001", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
        assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
        assertEquals("location 2", doc.getDevelopmentProposal().getProposalSites().get(0).getLocationName());
-       assertEquals(1727, doc.getDevelopmentProposal().getProposalSites().get(0).getRolodexId());
+       assertEquals(Integer.valueOf(1727), doc.getDevelopmentProposal().getProposalSites().get(0).getRolodexId());
 
    }
    

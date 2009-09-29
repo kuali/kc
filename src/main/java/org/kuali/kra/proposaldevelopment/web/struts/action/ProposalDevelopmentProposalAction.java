@@ -69,9 +69,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         setKeywordsPanelFlag(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
 
-        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(
+        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
                 proposalDevelopmentDocument);
-
+        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
+                proposalDevelopmentDocument);
+        
         return super.save(mapping, form, request, response);
     }
 
