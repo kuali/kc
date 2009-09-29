@@ -64,7 +64,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      * @see org.kuali.kra.budget.personnel.BudgetPersonService#synchBudgetPersonsToProposal(org.kuali.kra.budget.core.Budget)
      */
     public void synchBudgetPersonsToProposal(Budget budget) {
-        budget.refreshReferenceObject("documentNextvalues");
+        budget.getBudgetDocument().refreshReferenceObject("documentNextvalues");
         BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
         for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
