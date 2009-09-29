@@ -71,7 +71,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -914,6 +914,20 @@ public class AwardForm extends ProposalFormBase
      */
     public void setAwardHierarchyTempOjbect(List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect) {
         this.awardHierarchyTempOjbect = awardHierarchyTempOjbect;
+    }
+    
+    public String getValueFinderResultDoNotCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+        return "";
+    }
+    
+    public String getValueFinderResultCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
+        }
+        return "";
     }
 
 }
