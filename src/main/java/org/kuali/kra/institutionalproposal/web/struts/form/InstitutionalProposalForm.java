@@ -69,6 +69,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     
+    /* Populated from Proposal Log lookup for Proposal creation */
+    private String proposalNumber;
     
     /**
      * 
@@ -340,8 +342,13 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
-    
-    
-    
 
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
+
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+    
 }

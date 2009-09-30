@@ -21,14 +21,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
-
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -42,9 +41,10 @@ import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
@@ -73,6 +73,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
     private transient Boolean allowsNoteAttachments;
+    
+    /* Currently this property is just used for UI display.
+     * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
+     */
+    private String institutionalProposalNumber;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -99,6 +104,14 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setDevelopmentProposal(DevelopmentProposal proposal) {
         developmentProposalList.set(0, proposal);
     }
+    
+    public String getInstitutionalProposalNumber() {
+        return institutionalProposalNumber;
+    }
+
+    public void setInstitutionalProposalNumber(String institutionalProposalNumber) {
+        this.institutionalProposalNumber = institutionalProposalNumber;
+    }
 
     @Override
     public void initialize() {
@@ -120,18 +133,34 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public void doActionTaken(ActionTakenEventDTO event) {
         super.doActionTaken(event);
-        if (isLastSubmitterApprovalAction(event.getActionTaken())) {
-            // And IP config param is 'active'
+        if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
             InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
             
             String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
-            // Display proposal number
+            this.setInstitutionalProposalNumber(proposalNumber);
         }
     }
     
     private boolean isLastSubmitterApprovalAction(ActionTakenDTO actionTaken) {
-        return actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD);
-        // also check person is last submitter
+        WorkflowInfo workflowInfo = new WorkflowInfo();
+        try {
+            return actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD)
+                && workflowInfo.isFinalApprover(actionTaken.getRouteHeaderId(), actionTaken.getPrincipalId());
+        } catch (WorkflowException we) {
+            throw new RuntimeException("Workflow exception checking if user is final approver", we);
+        }
+        // also check person is last submitter.  Need KIM for this.
+    }
+    
+    private boolean shouldAutogenerateInstitutionalProposal() {
+        return getKualiConfigurationService().getIndicatorParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
+    }
+    
+    protected KualiConfigurationService getKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
     public Budget getFinalBudgetForThisProposal() {

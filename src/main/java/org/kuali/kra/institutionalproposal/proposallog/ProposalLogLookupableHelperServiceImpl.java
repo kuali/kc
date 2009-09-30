@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -32,6 +34,24 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     private static final long serialVersionUID = -7638045643796948730L;
     
+    private boolean isLookupForProposalCreation;
+    
+    /* 
+     * Overriding this to only return the currently Active version of a proposal 
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        
+        checkIsLookupForProposalCreation(fieldValues);
+        
+        if (isLookupForProposalCreation) {
+            fieldValues.remove("logStatus");
+            fieldValues.put("logStatus", ProposalLogUtils.getProposalLogPendingStatusCode());
+        }
+        
+        return super.getSearchResults(fieldValues);
+    }
+    
     /**
      * create 'merge' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
@@ -39,11 +59,30 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        if (isUnmergedTemporaryLog((ProposalLog) businessObject)) {
-            htmlDataList.add(getMergeLink(((ProposalLog) businessObject).getProposalNumber()));
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if (isLookupForProposalCreation) {
+            htmlDataList.add(getSelectLinkForProposalCreation((ProposalLog) businessObject));
+        } else {
+            htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+            if (isUnmergedTemporaryLog((ProposalLog) businessObject)) {
+                htmlDataList.add(getMergeLink(((ProposalLog) businessObject).getProposalNumber()));
+            }
         }
         return htmlDataList;
+    }
+    
+    protected AnchorHtmlData getSelectLinkForProposalCreation(ProposalLog proposalLog) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("select");
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
+        parameters.put(KNSConstants.PARAMETER_COMMAND, "initiate");
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, "InstitutionalProposalDocument");
+        parameters.put("proposalNumber", proposalLog.getProposalNumber());
+        String href  = UrlFactory.parameterizeUrl("../institutionalProposalHome.do", parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
     }
     
     protected AnchorHtmlData getMergeLink(String proposalNumber) {
@@ -61,6 +100,13 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     private boolean isUnmergedTemporaryLog(ProposalLog proposalLog) {
         return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(proposalLog.getProposalLogTypeCode())
             && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus());
+    }
+    
+    protected void checkIsLookupForProposalCreation(Map<String, String> fieldValues) {
+        String returnLocation = fieldValues.get("backLocation");
+        if (returnLocation.contains("institutionalProposalHome.do")) {
+            isLookupForProposalCreation = true;
+        }
     }
     
 }
