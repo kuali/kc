@@ -25,6 +25,35 @@
 <!-- Institution -->
 <div class="tab-container" align="center">
 
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Current Actions" tabErrorKey="" >
+
+<table cellpAdding="0" cellspacing="0" summary="">
+  	<tr>
+    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTransactionTypeCode}" /></div></th>
+    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.noticeDate}" /></div></th>
+    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.currentActionComments}" /></div></th>
+  	</tr>
+  	<tr>
+   		<td width="150">
+   			<div align="center">
+    			<kul:htmlControlAttribute property="document.awardList[0].awardTransactionTypeCode" attributeEntry="${awardAttributes.awardTransactionTypeCode}" />
+			</div>
+		</td>
+		<td width="100">
+			<div align="center">
+    			<kul:htmlControlAttribute property="document.awardList[0].noticeDate" attributeEntry="${awardAttributes.noticeDate}" datePicker="true"/>
+			</div>
+		</td>
+    	<td width="1000">
+    		<div align="center">
+    			<kul:htmlControlAttribute property="document.awardList[0].currentActionComments" attributeEntry="${awardAttributes.currentActionComments}" />
+    			<kra:expandedTextArea textAreaFieldName="document.awardList[0].currentActionComments" action="awardHome" textAreaLabel="${awardAttributes.currentActionComments.label}" />
+			</div>
+		</td>
+  	</tr>
+</table>
+</kra:innerTab>	
+
 <kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Institution" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
