@@ -61,22 +61,31 @@ public class AwardReportTermRecipientRuleImplTest {
         awardReportTermRecipientItem.setContactTypeCode("3");
         awardReportTermRecipientItem.setRolodexId(5);
         Assert.assertTrue(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
-    }
-
+    }   
+    
     @Test
-    public final void testEvaluateRuleForContactType() {
-        awardReportTermRecipient.setContactTypeCode("5");
-        Assert.assertTrue(awardReportTermRecipientRuleImpl.isContactTypeFieldComplete(awardReportTermRecipient));
-        awardReportTermRecipient.setContactTypeCode(null);
-        Assert.assertFalse(awardReportTermRecipientRuleImpl.isContactTypeFieldComplete(awardReportTermRecipient));
+    public final void testAreRequiredFieldsComplete(){
+        AwardReportTermRecipient awardReportTermRecipientItem = new AwardReportTermRecipient();        
+        Assert.assertFalse(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
+        awardReportTermRecipientItem.setContactId(new Long(1));
+        Assert.assertTrue(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
+        awardReportTermRecipientItem.setRolodexId(5);
+        Assert.assertTrue(awardReportTermRecipientRuleImpl.areRequiredFieldsComplete(awardReportTermRecipientItem));
     }
-
+    
     @Test
-    public final void testEvaluateRuleForRolodex() {
-        awardReportTermRecipient.setRolodexId(5);
-        Assert.assertTrue(awardReportTermRecipientRuleImpl.isOrganizationFieldComplete(awardReportTermRecipient));
-        awardReportTermRecipient.setRolodexId(null);
-        Assert.assertFalse(awardReportTermRecipientRuleImpl.isOrganizationFieldComplete(awardReportTermRecipient));
+    public final void testValidateContactAndOrganizationAreBothNotSelected(){
+        AwardReportTermRecipient awardReportTermRecipientItem = new AwardReportTermRecipient();
+        awardReportTermRecipientItem.setRolodexId(5);
+        awardReportTermRecipientItem.setContactId(new Long(1));
+        Assert.assertFalse(awardReportTermRecipientRuleImpl.validateContactAndOrganizationAreBothNotSelected(awardReportTermRecipientItem));
+        awardReportTermRecipientItem.setRolodexId(null);
+        awardReportTermRecipientItem.setContactId(new Long(1));
+        Assert.assertTrue(awardReportTermRecipientRuleImpl.validateContactAndOrganizationAreBothNotSelected(awardReportTermRecipientItem));
+        awardReportTermRecipientItem.setRolodexId(5);
+        awardReportTermRecipientItem.setContactId(null);
+        Assert.assertTrue(awardReportTermRecipientRuleImpl.validateContactAndOrganizationAreBothNotSelected(awardReportTermRecipientItem));
+        
     }
 
 }

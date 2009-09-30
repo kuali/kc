@@ -90,15 +90,14 @@ public class AwardReportsBean implements Serializable {
     public boolean addAwardReportTermRecipientItem(int index) {
         AwardReportTermRecipient newAwardReportTermRecipient = getNewAwardReportTermRecipients().get(index);
         
-        if(newAwardReportTermRecipient.getContactId()!=null){
-            populateContactTypeAndRolodex(newAwardReportTermRecipient);
-        }else if(newAwardReportTermRecipient.getRolodexId()!=null){
-            newAwardReportTermRecipient.setContactTypeCode(this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CONTACT_TYPE_OTHER));            
-        }
-        
         AddAwardReportTermRecipientRuleEvent event = generateAddAwardReportTermRecipientEvent(index);
         boolean success = getRuleService().applyRules(event);
-        if(success){            
+        if(success){
+            if(newAwardReportTermRecipient.getContactId()!=null){
+                populateContactTypeAndRolodex(newAwardReportTermRecipient);
+            }else if(newAwardReportTermRecipient.getRolodexId()!=null){
+                newAwardReportTermRecipient.setContactTypeCode(this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CONTACT_TYPE_OTHER));            
+            }
             getAward().getAwardReportTermItems().get(index).getAwardReportTermRecipients().add(newAwardReportTermRecipient);
             initRecipient(index);
         }

@@ -27,12 +27,10 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardReportTermRecipientRule {
     
-    private static final String AWARD_REPORT_TERM_RECIPIENT_CONTACT_TYPE_PROPERTY = "contactTypeCode";
-    private static final String AWARD_REPORT_TERM_RECIPIENT_ORGANIZATION_PROPERTY = "organization";
-    private static final String CONTACT_TYPE_ERROR_PARM = "Contact Type (Contact Type)";
+    private static final String AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY = "contactId";
+    private static final String CONTACT_ERROR_PARM = "Contact (Contact)";
     private static final String ORGANIZATION_ERROR_PARM = "Organization (Organization)";
     
-
     /**
      * 
      * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
@@ -49,7 +47,10 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardReportTermRecipientBusinessRules(AddAwardReportTermRecipientRuleEvent event) {
-        return areRequiredFieldsComplete(event.getAwardReportTermRecipientItemForValidation()) && processCommonValidations(event);        
+        AwardReportTermRecipient awardReportTermRecipientItemForValidation = event.getAwardReportTermRecipientItemForValidation();
+        
+        return areRequiredFieldsComplete(awardReportTermRecipientItemForValidation) && processCommonValidations(event)
+            && validateContactAndOrganizationAreBothNotSelected(awardReportTermRecipientItemForValidation);        
     }
     
     private boolean processCommonValidations(AwardReportTermRecipientRuleEvent event) {        
@@ -93,34 +94,30 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     boolean areRequiredFieldsComplete(AwardReportTermRecipient awardReportTermRecipientItem) {        
-        boolean itemValid = isContactTypeFieldComplete(awardReportTermRecipientItem);
         
-        itemValid &= isOrganizationFieldComplete(awardReportTermRecipientItem);
+        boolean itemValid = awardReportTermRecipientItem.getContactId()!=null || awardReportTermRecipientItem.getRolodexId()!=null;
+        if(!itemValid){
+            reportError(AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY, KeyConstants.ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_NOT_SELECTED, CONTACT_ERROR_PARM, ORGANIZATION_ERROR_PARM);   
+        }
+        return itemValid;
+    }
+    
+    /**
+     * This method...
+     * @param awardReportTermRecipientItemForValidation TODO
+     */
+    boolean validateContactAndOrganizationAreBothNotSelected(AwardReportTermRecipient awardReportTermRecipientItemForValidation) {
+        boolean itemValid = !(awardReportTermRecipientItemForValidation.getContactId() != null 
+                                && awardReportTermRecipientItemForValidation.getRolodexId() != null);
+        
+        if(!itemValid){
+            reportError(AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY, KeyConstants.ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_SELECTED, CONTACT_ERROR_PARM, ORGANIZATION_ERROR_PARM);
+        }
         
         return itemValid;
     }
     
     private boolean hasDuplicateErrorBeenReported() {
         return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
-    }
-    
-    protected boolean isContactTypeFieldComplete(AwardReportTermRecipient awardReportTermRecipientItem){
-        boolean itemValid = awardReportTermRecipientItem.getContactTypeCode() != null;
-        
-        if(!itemValid) {            
-            reportError(AWARD_REPORT_TERM_RECIPIENT_CONTACT_TYPE_PROPERTY, KeyConstants.ERROR_REQUIRED, CONTACT_TYPE_ERROR_PARM);
-        }
-        
-        return itemValid;
-    }
-    
-    protected boolean isOrganizationFieldComplete(AwardReportTermRecipient awardReportTermRecipientItem){
-        boolean itemValid = awardReportTermRecipientItem.getRolodexId() != null;
-        
-        if(!itemValid) {            
-            reportError(AWARD_REPORT_TERM_RECIPIENT_ORGANIZATION_PROPERTY, KeyConstants.ERROR_REQUIRED, ORGANIZATION_ERROR_PARM);
-        }
-        
-        return itemValid;
     }
 }
