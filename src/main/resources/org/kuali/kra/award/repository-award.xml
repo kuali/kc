@@ -87,6 +87,9 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    	<field-descriptor name="awardTransactionTypeCode" column="TRANSACTION_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="noticeDate" column="NOTICE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="currentActionComments" column="CURRENT_ACTION_COMMENTS" jdbc-type="VARCHAR"/>
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
@@ -200,6 +203,9 @@
 		</reference-descriptor>
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="activityTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="awardTransactionType" class-ref="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="awardTransactionTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
 	
