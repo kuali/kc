@@ -24,6 +24,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The Committee Document wraps a single Committee BO.  
@@ -127,5 +128,13 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
+    }
+    
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
     }
 }
