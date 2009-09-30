@@ -191,7 +191,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         
         // TODO : not sure why this method is here.  It looks like a temp method.  commented out to see if it is ok.
-        //populateTempViewDate();
+        // I had to remove the comment in front of the following statement. 
+        // By adding the comment, a null pointer exception occurs when navigating to the Protocol Actions tab.
+        populateTempViewDate();
     }
     
     public Long getProtocolId() {
@@ -1009,6 +1011,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
     
     public ProtocolAction getLastProtocolAction() {
+        if (protocolActions.size() == 0) {
+            return null;
+        }
         Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
