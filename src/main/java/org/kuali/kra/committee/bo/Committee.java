@@ -403,7 +403,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
-        return id.toString();
+        return committeeId;
     }
 
     /**
