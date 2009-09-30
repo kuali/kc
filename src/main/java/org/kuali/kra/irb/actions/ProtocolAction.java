@@ -203,7 +203,8 @@ public class ProtocolAction extends ProtocolAssociate {
         if (protocolSubmission == null) {
             return "";
         }
-        else if (protocolSubmission.getSubmissionStatus() == null) {
+       // protocolSubmission.refreshReferenceObject("submissionStatus");
+        if (protocolSubmission.getSubmissionStatus() == null) {
             return "";
         }
         else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
