@@ -145,16 +145,26 @@
     }
     
     function builduUi(item_text, racode) { 
-    	var original_item_text = item_text; 
-        var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+    	var original_item_text = item_text;
+    	
+        var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();        
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-        var text2 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        var text2 = item_text.substring(0,item_text.indexOf("%3A")).trim();        
+        if(text2.length == 1){
+        	text2 = "";
+        }
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text3 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        if(text3.length == 1){
+        	text3 = "";
+        }
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text4 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        if(text4.length == 1){
+        	text4 = "";
+        }
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();
@@ -188,7 +198,10 @@
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
         var racode2 = racode.substring(i2,12);
-        
+        text2 = text2.trim();
+        if(text2 == ' '){
+        	text2 = '';
+        }
         if($("#controlForAwardHierarchyView").attr("value") == 0){
       	  var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
 	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
