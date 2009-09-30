@@ -38,6 +38,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -359,6 +360,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         @Override
         public String toString() {
             return this.name;
+        }
+    }
+
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
         }
     }
 }
