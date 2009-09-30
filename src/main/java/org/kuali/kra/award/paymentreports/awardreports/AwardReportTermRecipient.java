@@ -215,6 +215,59 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((contactId == null) ? 0 : contactId.hashCode());
+        result = prime * result + ((rolodexId == null) ? 0 : rolodexId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }            
+        if (obj == null){
+            return false;
+        }   
+        if (!(obj instanceof AwardReportTermRecipient)){
+            return false;
+        }   
+        return equals((AwardReportTermRecipient) obj);
+    }
+
+    /**
+     * This method...
+     * @param other
+     * @return
+     */
+    private boolean equals(AwardReportTermRecipient other) {
+        if (contactTypeCode == null) {
+            if (other.contactTypeCode != null){
+                return false;
+            }   
+        }else if (!contactTypeCode.equals(other.contactTypeCode)){
+            return false;
+        }
+        
+        if (rolodexId == null) {
+            if (other.rolodexId != null){
+                return false;
+            }   
+        }else if (!rolodexId.equals(other.rolodexId)){
+            return false;
+        }   
+        return true;
+    }
+
     
 
     
