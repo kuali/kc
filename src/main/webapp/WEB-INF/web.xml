@@ -122,18 +122,6 @@
   </filter-mapping>
 
   <!-- ******************* End Logging Filters ********************* -->
-
-  <!-- KRA Request Cleanup Filter Start -->
-  <filter>
-    <filter-name>RequestCleanupFilter</filter-name>
-    <filter-class>org.kuali.kra.web.filter.RequestCleanupFilter</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>RequestCleanupFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <!-- KRA Request Cleanup Filter End -->
   
   <listener>
     <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
