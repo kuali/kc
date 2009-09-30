@@ -67,4 +67,124 @@ VALUES('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', SYS_GUID () , 1, 'CONFG', '009800'
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-PD', 'D', 'proposaldevelopment.autogenerate.institutionalproposal', 'CONFG', 'Y', 'Should an Institutional Proposal be automatically generated', 'A') ;
 
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalConstactsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Contacts Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Custom Data Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalSpecialReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Special Review Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Review Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalDistributionHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Distribution Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalActionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Actions Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewActivityHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardHomeHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Home Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardContactsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Contacts Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCommitmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Commitments Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardTimeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Time and Money Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardPaymentsReportsAndTermsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Payments Reports and Terms Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardSpecialReviewHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Special Review Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCustomDataHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Custom Data Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardQuestionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Questions Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardPermissionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Permissions Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardNoteAndAttachmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Note and Attachments Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardActionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Actions Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardApprovedEquipmentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Equipment Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardApprovedForeignTravelHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Foreign Travel Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardApprovedSubawardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Subaward Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCommentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Comment Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardContactHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Contact Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCostShareHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Cost Share Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Custom Data Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardPersonCreditSplitHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Person Credit Split Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'CommentTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Comment Type Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'CostShareTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Cost Share Type Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardFandaRateHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award F and A Rate Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardReportTermHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Report Term Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardCloseoutHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Report Term Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardAttachmentsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Attachments Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-T', 'D', 'timeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Time And Money Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-T', 'D', 'TransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Transaction Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-T', 'D', 'PendingTransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Pending Transaction Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
+
 COMMIT;
