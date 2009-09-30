@@ -23,6 +23,12 @@
     <bean id="InstitutionalProposalUnitAdministrator-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator" />
 		<property name="objectLabel" value="Institutional Proposal Unit Administrator" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" 
+                  p:parameterNamespace="KC-IP" 
+                  p:parameterName="InstitutionalProposalUnitAdministratorHelpUrl" 
+                  p:parameterDetailType="D"/>
+          </property>
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalUnitAdministrator-inquiryDefinition" />
         </property>
