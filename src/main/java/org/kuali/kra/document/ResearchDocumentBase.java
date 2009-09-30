@@ -36,7 +36,9 @@ import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
@@ -78,6 +80,12 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         customAttributeService.saveCustomAttributeValues(this);
         if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
+        
+        // Since we aren't doing optimistic locking, might need to update doc header's version number
+        DocumentHeader dbDocHeader = (DocumentHeader) getService(BusinessObjectService.class).retrieve(this.getDocumentHeader());
+        if (dbDocHeader != null) {
+            this.getDocumentHeader().setVersionNumber(dbDocHeader.getVersionNumber());
+        }
     }
 
     @Override
