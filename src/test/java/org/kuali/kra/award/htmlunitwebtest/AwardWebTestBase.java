@@ -63,6 +63,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String ACTIVITY_TYPE_CODE_ID = AWARD_ID_PREFIX + "activityTypeCode";
     protected static final String BEGIN_DATE_ID = AWARD_ID_PREFIX + "beginDate";
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
+    protected static final String AWARD_TRANSACTION_TYPE_CODE = AWARD_ID_PREFIX + "awardTransactionTypeCode";
     
     protected static final String SAVE_PAGE = "methodToCall.save";
     protected static final String RELOAD_PAGE = "methodToCall.reload";
@@ -166,6 +167,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         setFieldValue(page, ACTIVITY_TYPE_CODE_ID, ONE);
         setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);
         setFieldValue(page, PROJECT_END_DATE_ID, END_DATE_VALUE);
+        setFieldValue(page, AWARD_TRANSACTION_TYPE_CODE, ONE);
     }
     
     /**
