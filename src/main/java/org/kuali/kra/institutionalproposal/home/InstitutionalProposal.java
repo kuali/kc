@@ -47,6 +47,7 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
@@ -1328,6 +1329,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return proposalType;
     } 
+    
+    /**
+     * Populate properties on this InstitutionalProposal with the respective properties from ProposalLog.
+     * 
+     * @param proposalLog ProposalLog
+     */
+    public void doProposalLogDataFeed(ProposalLog proposalLog) {
+        this.setProposalNumber(proposalLog.getProposalNumber());
+        this.setDeadlineDate(proposalLog.getDeadlineDate());
+        this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
+        this.setFiscalYear(proposalLog.getFiscalYear().toString());
+        this.setStatusCode(Integer.parseInt(proposalLog.getLogStatus()));
+        this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
+        this.setSponsorCode(proposalLog.getSponsorCode());
+        this.setTitle(proposalLog.getTitle());
+    }
     
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);

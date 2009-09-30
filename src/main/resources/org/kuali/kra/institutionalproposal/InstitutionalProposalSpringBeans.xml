@@ -73,6 +73,7 @@
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="versioningService" ref="versioningService" />
+        <property name="institutionalProposalVersioningService" ref="institutionalProposalVersioningService" />
     </bean>
     
     <bean id="proposalLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

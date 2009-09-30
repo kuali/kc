@@ -189,6 +189,5 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     protected PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(InstitutionalProposalLockService.class);
     }
-  
     
 }
