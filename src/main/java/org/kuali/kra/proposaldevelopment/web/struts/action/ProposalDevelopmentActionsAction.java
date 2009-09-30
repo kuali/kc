@@ -80,6 +80,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -139,11 +140,30 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         KualiWorkflowDocument workflowDoc = kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
 
+        ActionForward forward;
         if (canGenerateRequestsInFuture(workflowDoc)) {
-            return promptUserForInput(workflowDoc, mapping, form, request, response);
+            forward = promptUserForInput(workflowDoc, mapping, form, request, response);
+        } else {
+            forward = super.approve(mapping, form, request, response);
         }
-
-        return super.approve(mapping, form, request, response);
+        
+        boolean autogenerateInstitutionalProposal = getParameterService().getIndicatorParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        if (autogenerateInstitutionalProposal && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
+                
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                        proposalDevelopmentDocument.getInstitutionalProposalNumber());
+            } else {
+                String proposalNumber = proposalDevelopmentDocument.getInstitutionalProposalNumber();
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+            }
+        }
+        
+        return forward;
     }
 
     private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, ActionMapping mapping, ActionForm form,
@@ -673,22 +693,26 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         documentService.saveDocument(proposalDevelopmentDocument);
         
         if (true) { // If param is set
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
-                String versionNumber = createInstitutionalProposalVersion(
-                        proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(), 
-                        proposalDevelopmentDocument.getDevelopmentProposal(),
-                        proposalDevelopmentDocument.getFinalBudgetForThisProposal());
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
-                        versionNumber,
-                        proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
-            } else {
-                String proposalNumber = createInstitutionalProposal(
-                        proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
-            }
+            generateInstitutionalProposal(proposalDevelopmentDocument);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private void generateInstitutionalProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
+            String versionNumber = createInstitutionalProposalVersion(
+                    proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(), 
+                    proposalDevelopmentDocument.getDevelopmentProposal(),
+                    proposalDevelopmentDocument.getFinalBudgetForThisProposal());
+            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                    versionNumber,
+                    proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
+        } else {
+            String proposalNumber = createInstitutionalProposal(
+                    proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
+            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+        }
     }
     
     private String getRevisionProposalTypeCode() {
@@ -1122,6 +1146,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ParameterService getParameterService() {
+        return KraServiceLocator.getService(ParameterService.class);
     }
     
 }

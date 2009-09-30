@@ -16,7 +16,9 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -35,6 +33,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KeywordsService;
@@ -43,6 +42,7 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class...
@@ -59,6 +59,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     public InstitutionalProposalHomeAction() {
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
     }
+    
     /**
      * This method is used to add a new Award Cost Share.
      * 
@@ -239,6 +240,22 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             forward = createAndSaveNewAwardVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
         }
         return forward;
+    }
+    
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) kualiDocumentFormBase;
+        ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
+        if (proposalLog != null) {
+            ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+        }
+    }
+    
+    private ProposalLog retrieveProposalLog(String proposalNumber) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", proposalNumber);
+        return (ProposalLog) getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
     }
     
     private InstitutionalProposal findPendingVersion(String proposalNumber) {
