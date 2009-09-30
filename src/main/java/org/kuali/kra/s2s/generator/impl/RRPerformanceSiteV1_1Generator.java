@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
@@ -61,23 +62,22 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         siteLocation.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         rrPerformanceSite.setPrimarySite(siteLocation);
         int otherSiteCount = 0;
-        SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (getProposalSitesFromProposal() != null && !getProposalSitesFromProposal().isEmpty()) {
-            siteLocationDataTypeArray = new SiteLocationDataType[getProposalSitesFromProposal().size()];
+        List<SiteLocationDataType> siteLocationDataTypeArray = new ArrayList<SiteLocationDataType>();
+        if (getProposalSitesFromProposal() != null) {
             for (ProposalSite proposalSite: getProposalSitesFromProposal()) {
                 SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
                 Rolodex rolodex2 = proposalSite.getRolodex();
                 if (rolodex2 != null) {
                     siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
                     siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
-                    siteLocationDataTypeArray[otherSiteCount] = siteLocationOther;
+                    siteLocationDataTypeArray.add(siteLocationOther);
                     otherSiteCount++;
                     LOG.info("otherSiteCount:" + otherSiteCount);
                 }
             }
         }
-        if(siteLocationDataTypeArray!=null){
-            rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
+        if(!siteLocationDataTypeArray.isEmpty()){
+            rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray.toArray(new SiteLocationDataType[]{}));
         }
 
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
