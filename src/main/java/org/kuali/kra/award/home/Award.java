@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -33,7 +32,6 @@ import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
@@ -62,6 +60,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -120,6 +119,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String title;
     private String archiveLocation; 
     private Date closeoutDate;
+    private Integer awardTransactionTypeCode;
+    private Date noticeDate;
+    private String currentActionComments;
     
     @AwardSyncable private Integer templateCode; 
     @AwardSyncable private String primeSponsorCode; 
@@ -137,6 +139,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Frequency paymentInvoiceFrequency;
     private AwardBasisOfPayment awardBasisOfPayment;
     private AwardMethodOfPayment awardMethodOfPayment;
+    private AwardTransactionType awardTransactionType;
     
     private ActivityType activityType;
     
@@ -1033,6 +1036,74 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.closeoutDate = closeoutDate;
     }
     
+    
+    
+
+    /**
+     * Gets the awardTransactionTypeCode attribute. 
+     * @return Returns the awardTransactionTypeCode.
+     */
+    public Integer getAwardTransactionTypeCode() {
+        return awardTransactionTypeCode;
+    }
+
+    /**
+     * Sets the awardTransactionTypeCode attribute value.
+     * @param awardTransactionTypeCode The awardTransactionTypeCode to set.
+     */
+    public void setAwardTransactionTypeCode(Integer awardTransactionTypeCode) {
+        this.awardTransactionTypeCode = awardTransactionTypeCode;
+    }
+
+    /**
+     * Gets the noticeDate attribute. 
+     * @return Returns the noticeDate.
+     */
+    public Date getNoticeDate() {
+        return noticeDate;
+    }
+
+    /**
+     * Sets the noticeDate attribute value.
+     * @param noticeDate The noticeDate to set.
+     */
+    public void setNoticeDate(Date noticeDate) {
+        this.noticeDate = noticeDate;
+    }
+
+    /**
+     * Gets the currentActionComments attribute. 
+     * @return Returns the currentActionComments.
+     */
+    public String getCurrentActionComments() {
+        return currentActionComments;
+    }
+
+    /**
+     * Sets the currentActionComments attribute value.
+     * @param currentActionComments The currentActionComments to set.
+     */
+    public void setCurrentActionComments(String currentActionComments) {
+        this.currentActionComments = currentActionComments;
+    }
+    
+    
+
+    /**
+     * Gets the awardTransactionType attribute. 
+     * @return Returns the awardTransactionType.
+     */
+    public AwardTransactionType getAwardTransactionType() {
+        return awardTransactionType;
+    }
+
+    /**
+     * Sets the awardTransactionType attribute value.
+     * @param awardTransactionType The awardTransactionType to set.
+     */
+    public void setAwardTransactionType(AwardTransactionType awardTransactionType) {
+        this.awardTransactionType = awardTransactionType;
+    }
 
     /**
      * 
@@ -1088,6 +1159,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("archiveLocation", this.getArchiveLocation());
         hashMap.put("closeoutDate", this.getCloseoutDate());
         hashMap.put("attachments", getAwardAttachments());
+        hashMap.put("awardTransactionTypeCode", this.getAwardTransactionTypeCode());
+        hashMap.put("noticeDate", this.getNoticeDate());
+        hashMap.put("currentActionComments", getCurrentActionComments());
         return hashMap;
     }    
 

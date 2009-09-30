@@ -66,6 +66,9 @@
         <ref bean="Award-ospAdministratorName" />
         <ref bean="Award-archiveLocation" />
         <ref bean="Award-closeoutDate" />
+        <ref bean="Award-awardTransactionTypeCode" />
+        <ref bean="Award-noticeDate" />
+        <ref bean="Award-currentActionComments" />
       </list>
     </property>
   </bean>
@@ -894,6 +897,63 @@
 	    <property name="required" value="false" />
 	    <property name="summary" value="Archive Date" />
 	    <property name="description" value="Archive Date" />
+  	</bean>
+  	
+  	<bean id="Award-awardTransactionTypeCode" parent="Award-awardTransactionTypeCode-parentBean" />
+  
+  	<bean id="Award-awardTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="awardTransactionTypeCode" />
+    	<property name="forceUppercase" value="false" />
+    	<property name="label" value="Transaction Type" />
+    	<property name="shortLabel" value="Transaction Type" />
+    	<property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="AlphaNumericValidationPattern" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+     		 <bean parent="SelectControlDefinition"
+           	 	p:businessObjectClass="org.kuali.kra.timeandmoney.transactions.AwardTransactionType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="awardTransactionTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
+    	<property name="summary" value="Transaction Type" />
+    	<property name="description" value="Transaction Type" />
+  	</bean>
+  	
+  	<bean id="Award-noticeDate" parent="Award-noticeDate-parentBean" />
+
+  		<bean id="Award-noticeDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    		<property name="name" value="noticeDate" />
+    		<property name="label" value="Notice Date" />
+    		<property name="shortLabel" value="Notice Date" />
+    		<property name="required" value="false" />
+    		<property name="summary" value="Notice Date" />
+    		<property name="description" value="Notice Date" />
+  	</bean>
+  	
+  	<bean id="Award-currentActionComments" parent="Award-currentActionComments-parentBean" />
+  	
+  	<bean id="Award-currentActionComments-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="currentActionComments" />
+    	<property name="forceUppercase" value="false" />
+    	<property name="label" value="Comments" />
+    	<property name="shortLabel" value="Comments" />
+    	<property name="maxLength" value="999999999" />
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="5"
+            	p:cols="170" />
+    	</property>
+    	<property name="summary" value="Comments" />
+    	<property name="description" value="Comments" />
   	</bean>
 	
   	<!-- Business Object Lookup Definition -->
