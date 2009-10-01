@@ -79,6 +79,7 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
     @Before
     public void setUp() throws Exception {
         super.setUp();
+
     }
     
     @After
@@ -262,7 +263,7 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
     private void addNewForeignTravel(String travelerName, String destination, String startDate, String endDate, String amount) throws IOException {
         if(travelerName != null) {
             String lookupValue = TRAVELER1.equals(travelerName) ? TRAVELER1_ID_VALUE : TRAVELER2_ID_VALUE;
-            paymentReportsAndTermsPage = lookup(paymentReportsAndTermsPage, "approvedForeignTravelBean.newApprovedForeignTravel.travelerId", PERSON_ID_FIELD, lookupValue);            
+            paymentReportsAndTermsPage = lookup(paymentReportsAndTermsPage, "approvedForeignTravelBean.newApprovedForeignTravel.personId", PERSON_ID_FIELD, lookupValue);            
         }
         populateAddRowFields(destination, startDate, endDate, amount);
         HtmlForm form = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
