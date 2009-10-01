@@ -292,7 +292,7 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
         updateThisBudget(budgetForm.getDocument());
-        setProposalStatus(budgetForm.getDocument().getParentDocument());
+        setBudgetParentStatus(budgetForm.getDocument().getParentDocument());
         return super.save(mapping, form, request, response);
     }
     

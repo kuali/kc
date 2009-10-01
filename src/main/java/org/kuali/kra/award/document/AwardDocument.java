@@ -319,6 +319,24 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return roleNames;
     }
 
+    public Permissionable getBudgetPermissionable(){
+        return new Permissionable(){
+
+            public String getDocumentKey() {
+                return Permissionable.AWARD_BUDGET_KEY;
+            }
+
+            public String getDocumentNumberForPermission() {
+                return getAward().getAwardId().toString();
+            }
+
+            public List<String> getRoleNames() {
+                List<String> roleNames = new ArrayList<String>();
+                return roleNames;
+            }
+            
+        };
+    }
     @Override
     public String getTaskGroupName() {
         return TaskGroupName.AWARD_BUDGET;

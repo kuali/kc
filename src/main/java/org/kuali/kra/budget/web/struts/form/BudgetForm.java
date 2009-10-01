@@ -44,7 +44,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.web.struts.form.ProposalFormBase;
+import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -59,7 +59,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class BudgetForm extends ProposalFormBase {
+public class BudgetForm extends BudgetVersionFormBase {
     
     private static final long serialVersionUID = -8853937659597422800L;
     
@@ -170,7 +170,10 @@ public class BudgetForm extends ProposalFormBase {
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
         this.setHeaderNavigationTabs(list);
-        setNewBudgetPeriod(new BudgetPeriod());
+        Budget budget = getDocument().getBudget();
+        BudgetPeriod newBudgetPeriod =  new BudgetPeriod();
+        newBudgetPeriod.setBudget(budget);
+        setNewBudgetPeriod(newBudgetPeriod);
         
         configureExtraTopButtons();
         
@@ -221,10 +224,12 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
-        if(getDocument().getBudget().getBudgetPeriods() != null) {
+        Budget budget = getDocument().getBudget();
+        if(budget.getBudgetPeriods() != null) {
             budgetPeriod = getDocument().getBudget().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
+        newBudgetPeriod.setBudget(budget);
         this.newBudgetPeriod = newBudgetPeriod;
     }
 
