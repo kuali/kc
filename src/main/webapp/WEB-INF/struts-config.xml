@@ -64,13 +64,21 @@
 
     <action-mappings>
 <!-- Rice content Start -->    
- 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
+ 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module 
         <action path="/kualiExceptionIncidentReport"
                 type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
             <forward name="basic" path="/kr/kualiExceptionIncidentReport.do" />
         </action>        
+        gmcgrego temp fix pass-through is not working
+        -->
 		<!-- End Rice Pass-through Actions -->
        	<!-- Begin required KNS mappings -->
+       	<action path="/kualiExceptionIncidentReport"
+                name="KualiExceptionIncidentForm"
+                attribute="KualiForm"
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
+        </action>
         <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
