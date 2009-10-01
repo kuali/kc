@@ -21,7 +21,7 @@
         <value>unitNumber</value>
       </list>
     </property>
-    
+    <property name="preserveLockingKeysOnCopy" value="true" />
     
     
     
