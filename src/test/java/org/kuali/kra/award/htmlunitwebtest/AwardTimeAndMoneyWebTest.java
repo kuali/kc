@@ -18,6 +18,7 @@ package org.kuali.kra.award.htmlunitwebtest;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -69,6 +70,15 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardHomePage = this.getAwardHomePage();
         HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
         return awardTimeAndMoneyPage;
+    }
+    
+    @Test
+    public void testTimeAndMoneyHomePage() throws Exception{
+        assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
+        awardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_PAGE);
+        assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
     }
     
     
