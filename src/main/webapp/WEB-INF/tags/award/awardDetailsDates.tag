@@ -20,12 +20,12 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 
-<kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,detailsAndDatesFormHelper*">
+<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,detailsAndDatesFormHelper*">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Current Actions" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Actions" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -54,7 +54,7 @@
 </table>
 </kra:innerTab>	
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Institution" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -127,7 +127,7 @@
 
 <!-- Sponsor -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Sponsor" tabErrorKey="" >
 
 <table cellpadding="0" cellspacing="0" summary="">
     <tr>
@@ -204,7 +204,7 @@
 
 <!-- Sponsor Funding Transferred -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
     <tr>
@@ -267,7 +267,7 @@
 
 <!-- Time & Money -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Time & Money" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
 	<tr>
