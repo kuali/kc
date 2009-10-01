@@ -76,6 +76,7 @@ import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -890,33 +891,41 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        super.save(mapping, form, request, response);
-        boolean grantsGovErrorExists = false;
+        proposalDevelopmentForm.setAuditActivated(true);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         boolean errorExists = false;
         boolean warningExists = false;
+        boolean grantsGovErrorExists = false;
+        for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                errorExists=true;
+                break;
+            }
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                warningExists = true;
+            }
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                grantsGovErrorExists = true;
+                break;
+            }
+
+        }
+//        super.save(mapping, form, request, response);
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
             for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
                 AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                    errorExists=true;
-                    break;
-                }
                 if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
                     grantsGovErrorExists = true;
                     break;
                 }
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                    warningExists = true;
-                }
             }
-            if(grantsGovErrorExists){
-                GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-                proposalDevelopmentForm.setAuditActivated(true);
-                return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
-            }
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        if(grantsGovErrorExists || errorExists){
+//            proposalDevelopmentForm.setAuditActivated(true);
+            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
         ByteArrayOutputStream baos = null;
         try{

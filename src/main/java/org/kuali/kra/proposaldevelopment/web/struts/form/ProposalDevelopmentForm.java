@@ -77,7 +77,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.web.struts.form.ProposalFormBase;
+import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
@@ -101,7 +101,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentForm extends ProposalFormBase {
+public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
@@ -122,7 +122,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
     private Narrative newInstituteAttachment;
-    //private boolean auditActivated;
+    private boolean grantsGovAuditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
     //private Integer answerYesNo;
@@ -1511,5 +1511,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
+    }
+
+    /**
+     * Gets the grantsGovAuditActivated attribute. 
+     * @return Returns the grantsGovAuditActivated.
+     */
+    public boolean isGrantsGovAuditActivated() {
+        return grantsGovAuditActivated;
+    }
+
+    /**
+     * Sets the grantsGovAuditActivated attribute value.
+     * @param grantsGovAuditActivated The grantsGovAuditActivated to set.
+     */
+    public void setGrantsGovAuditActivated(boolean grantsGovAuditActivated) {
+        this.grantsGovAuditActivated = grantsGovAuditActivated;
     }    
 }

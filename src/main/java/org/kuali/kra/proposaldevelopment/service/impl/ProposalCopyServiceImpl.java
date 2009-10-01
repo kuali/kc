@@ -1006,20 +1006,22 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
-        Integer origBudgetVersionNumber = budgetDocument.getBudget().getBudgetVersionNumber();
+        
         budgetDocument.toCopy();
         budgetDocument.setVersionNumber(null);
+        budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
+        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetId", Long.class, null);
+        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetPeriodId", Long.class, null);
+        ObjectUtils.setObjectPropertyDeep(budgetDocument, "versionNumber", Integer.class, null);
         
         ObjectUtils.materializeAllSubObjects(budgetDocument);
 
         Budget budget = budgetDocument.getBudget();
-        Map<String, Object> objectMap = new HashMap<String, Object>();
-        fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setVersionNumber", Long.class, new Long(0), objectMap);
-        objectMap.clear(); 
+//        Map<String, Object> objectMap = new HashMap<String, Object>();
+//        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+//        objectMap.clear();
+//        fixNumericProperty(budgetDocument, "setVersionNumber", Long.class, new Long(0), objectMap);
+//        objectMap.clear(); 
         
         budget.setFinalVersionFlag(false);
         budgetDocument.setParentDocumentKey(dest.getDocumentNumber());

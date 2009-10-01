@@ -32,7 +32,7 @@ import org.kuali.rice.kns.web.format.Formatter;
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase implements Auditable {
+public abstract class BudgetVersionFormBase extends KraTransactionalDocumentFormBase implements Auditable {
     
     private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;
@@ -54,7 +54,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
      */
     private String lookupResultsSequenceNumber;
     
-    public ProposalFormBase() {
+    public BudgetVersionFormBase() {
         super();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         //only registering formatter for one array type - do not want to break something

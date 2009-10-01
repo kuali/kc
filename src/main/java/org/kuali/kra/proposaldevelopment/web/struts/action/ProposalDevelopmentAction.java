@@ -42,6 +42,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -61,7 +66,6 @@ import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
@@ -76,7 +80,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class ProposalDevelopmentAction extends ProposalActionBase {
+public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     private static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
@@ -133,7 +137,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                 if (document != null && 
                     document.getDevelopmentProposal().getS2sOpportunity() != null ) {
                     getService(S2SService.class).validateApplication(document);            
-//                    getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
                 }
             }
 

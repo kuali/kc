@@ -76,14 +76,6 @@ public class AwardBudgetVersionsAction extends AwardAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         
-//        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-//        final ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-//        
-//        if (TOGGLE_TAB.equals(pdForm.getMethodToCall())) {
-//            final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-//            tdcValidator.validateGeneratingWarnings(pdDoc);
-//        }
-        
         return super.execute(mapping, form, request, response);
     }
 
