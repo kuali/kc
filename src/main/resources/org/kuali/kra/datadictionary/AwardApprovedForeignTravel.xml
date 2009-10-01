@@ -21,7 +21,8 @@
         <ref bean="AwardApprovedForeignTravel-approvedForeignTravelId" />
         <ref bean="AwardApprovedForeignTravel-awardNumber" />
         <ref bean="AwardApprovedForeignTravel-sequenceNumber" />
-        <ref bean="AwardApprovedForeignTravel-travelerId" />
+        <ref bean="AwardApprovedForeignTravel-personId" />
+        <ref bean="AwardApprovedForeignTravel-rolodexId" />
         <ref bean="AwardApprovedForeignTravel-travelerName" />
         <ref bean="AwardApprovedForeignTravel-destination" />
         <ref bean="AwardApprovedForeignTravel-startDate" />
@@ -75,27 +76,43 @@
     <property name="description" value="Sequence Number" />
   </bean>
   
-  <bean id="AwardApprovedForeignTravel-travelerId" parent="AwardApprovedForeignTravel-travelerId-parentBean" />
-
-  <bean id="AwardApprovedForeignTravel-travelerId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="travelerId" />
+  <bean id="AwardApprovedForeignTravel-personId" parent="AwardApprovedForeignTravel-personId-parentBean" />
+  <bean id="AwardApprovedForeignTravel-personId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Traveler Id" />
-    <property name="shortLabel" value="Traveler Id" />
-    <property name="maxLength" value="9" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
+    <property name="maxLength" value="10" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="9" />
     </property>
-    <property name="summary" value="Traveler Id" />
-    <property name="description" value="Traveler Id" />
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
   </bean>
-  
-  <bean id="AwardApprovedForeignTravel-travelerName" parent="AwardApprovedForeignTravel-travelerName-parentBean" />
 
+  <bean id="AwardApprovedForeignTravel-rolodexId" parent="AwardApprovedForeignTravel-rolodexId-parentBean" />
+  <bean id="AwardApprovedForeignTravel-rolodexId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rolodexId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rolodex Id" />
+    <property name="shortLabel" value="Rolodex Id" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="9" />
+    </property>
+    <property name="summary" value="Rolodex Id" />
+    <property name="description" value="Rolodex Id" />
+  </bean>
+
+  <bean id="AwardApprovedForeignTravel-travelerName" parent="AwardApprovedForeignTravel-travelerName-parentBean" />
   <bean id="AwardApprovedForeignTravel-travelerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="travelerName" />
     <property name="forceUppercase" value="false" />
@@ -108,6 +125,12 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+      <!-- <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelerValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="true"
+            p:keyAttribute="contactId"
+            p:labelAttribute="fullName" /> -->
     </property>
     <property name="summary" value="Traveler Name" />
     <property name="description" value="Traveler Name" />

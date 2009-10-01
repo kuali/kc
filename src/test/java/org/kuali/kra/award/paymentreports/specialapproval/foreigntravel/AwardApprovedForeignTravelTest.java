@@ -66,7 +66,7 @@ public class AwardApprovedForeignTravelTest {
     
     private AwardApprovedForeignTravel createForeignTravelTrip(Date date, String travelerName) {
         AwardApprovedForeignTravel trip = new AwardApprovedForeignTravel();
-        trip.setTraveler(getTraveler(travelerName));
+        trip.setPersonTraveler(getTraveler(travelerName));
         trip.setStartDate(date);
         return trip;
     }

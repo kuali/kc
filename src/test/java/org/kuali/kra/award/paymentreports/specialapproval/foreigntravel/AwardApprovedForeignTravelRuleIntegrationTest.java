@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -54,7 +55,7 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KraTestBase {
     private static final String TRAVELER1_ID = "000000001";
     private static final String TRAVELER1_NAME = "Joe Smith";
     
-    private static final String TRAVELER2_ID = "000000002";
+    private static final Integer TRAVELER2_ID = 1002;
     private static final String TRAVELER2_NAME = "Jane Doe";
     
     private AwardApprovedForeignTravelRuleImpl approvedForeignTravelRule;
@@ -133,6 +134,11 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KraTestBase {
                                                                     Date endDate, double amount) {
         return new AwardApprovedForeignTravel(getTraveler(travelerId, travelerName), destination, startDate, endDate, amount);
     }
+
+    private AwardApprovedForeignTravel createForeignTravelTrip(Integer travelerId, String travelerName, String destination, Date startDate, 
+                                                                    Date endDate, double amount) {
+        return new AwardApprovedForeignTravel(getTraveler(travelerId, travelerName), destination, startDate, endDate, amount);
+    }
     
     private Person getTraveler(String travelerId, String travelerName) {
         Person person = new Person();
@@ -140,5 +146,13 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KraTestBase {
         person.setFullName(travelerName);
         return person;
     }
-    
+
+    private NonOrganizationalRolodex getTraveler(Integer travelerId, String travelerName) {
+        NonOrganizationalRolodex contact = new NonOrganizationalRolodex();
+        contact.setRolodexId(travelerId);
+        String[] parts = travelerName.split(" ");
+        contact.setFirstName(parts[0]);
+        contact.setFirstName(parts[1]);
+        return contact;
+    }
 }
