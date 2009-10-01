@@ -1346,4 +1346,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
         return roleNames;
     }
+    
+    public void resetForeignKeys() {
+        for (ProtocolAction action : protocolActions) {
+            action.resetForeignKeys();
+        }
+    }
 }
