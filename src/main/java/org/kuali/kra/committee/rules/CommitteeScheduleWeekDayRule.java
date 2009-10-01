@@ -24,7 +24,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleWeekDayRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleWeekDayEvent>{
     
-    public static final String ID = "committeeScheduleHelper.scheduleData.weeklySchedule.daysOfWeek";
+    public static final String ID = "committeeHelper.scheduleData.weeklySchedule.daysOfWeek";
             
 
     public boolean processRules(CommitteeScheduleWeekDayEvent weekdayCommitteeScheduleEvent) {

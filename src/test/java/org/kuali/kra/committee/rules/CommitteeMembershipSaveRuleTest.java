@@ -89,8 +89,8 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].membershipTypeCode"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].termStartDate"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].termEndDate"));
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].membershipRoleCode", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING);
-        assertError("membershipExpertiseHelper.newCommitteeMembershipExpertise[0].researchAreaCode", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING);
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].membershipRoleCode", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING);
+        assertError("committeeHelper.newCommitteeMembershipExpertise[0].researchAreaCode", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING);
     }
 
     /**

@@ -34,21 +34,21 @@ public class CommitteeScheduleDataDictionaryValidationRule {
     public static final String ATTRIBUTE_YEAR_DAY = "yearDay";
     public static final String ATTRIBUTE_YEAR_RECURRENCE = "yearRecurrence";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.dailySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY = "committeeHelper.scheduleData.dailySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.weeklySchedule.week";
+    public static final String ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY = "committeeHelper.scheduleData.weeklySchedule.week";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.monthlySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY = "committeeHelper.scheduleData.monthlySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH = "committeeScheduleHelper.scheduleData.monthlySchedule.option1Month";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH = "committeeHelper.scheduleData.monthlySchedule.option1Month";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH = "committeeScheduleHelper.scheduleData.monthlySchedule.option2Month";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH = "committeeHelper.scheduleData.monthlySchedule.option2Month";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.yearlySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR = "committeeScheduleHelper.scheduleData.yearlySchedule.option1Year";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR = "committeeHelper.scheduleData.yearlySchedule.option1Year";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR = "committeeScheduleHelper.scheduleData.yearlySchedule.option2Year";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR = "committeeHelper.scheduleData.yearlySchedule.option2Year";
     
     /**
      * This method test scheduleData for day, week, month and yearly integer data field validation. 

@@ -74,7 +74,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        ((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
         
         return actionForward;
     }    
@@ -88,7 +88,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
+        ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
       
         GlobalVariables.getErrorMap().addToErrorPath(BASE_ERROR_PATH);
@@ -129,7 +129,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
  
         CommitteeForm committeeForm = (CommitteeForm) form;
-        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
+        ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         boolean flag = false;
         
         flag = new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData);
@@ -200,11 +200,11 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;  
         
         
-        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
+        ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         if(applyRules(new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
             Date startDate = scheduleData.getFilterStartDate();
             Date endDate = scheduleData.getFilerEndDate();
-            committeeForm.getCommitteeScheduleHelper().prepareFilterDatesView(startDate, endDate);
+            committeeForm.getCommitteeHelper().prepareFilterDatesView(startDate, endDate);
         }
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -221,7 +221,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        committeeForm.getCommitteeScheduleHelper().resetFilterDatesView();
+        committeeForm.getCommitteeHelper().resetFilterDatesView();
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
     
@@ -237,7 +237,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        committeeForm.getCommitteeScheduleHelper().getScheduleData().populateStyleClass();
+        committeeForm.getCommitteeHelper().getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }  
     

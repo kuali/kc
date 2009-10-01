@@ -56,7 +56,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         
         assertFalse(rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership)));
         
-        assertError("membershipHelper.newCommitteeMembership.personName", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
+        assertError("committeeHelper.newCommitteeMembership.personName", KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
     }
     
     /**
@@ -93,7 +93,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(new CommitteeMembership(), 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].membershipRoleCode", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].membershipRoleCode", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
     }
     
@@ -109,7 +109,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(new CommitteeMembership(), 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].startDate", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].startDate", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_NOT_SPECIFIED);
     }
     
@@ -125,7 +125,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(new CommitteeMembership(), 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].endDate", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].endDate", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_NOT_SPECIFIED);
     }
 
@@ -142,7 +142,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(new CommitteeMembership(), 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].endDate", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].endDate", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE);
     }
 
@@ -163,7 +163,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(committeeMembership, 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].startDate", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].startDate", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM);
     }
 
@@ -184,7 +184,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(committeeMembership, 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].endDate", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].endDate", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM);
     }
 
@@ -207,7 +207,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(committeeMembership, 
                 newCommitteeMembershipRole)));
         
-        assertError("membershipRolesHelper.newCommitteeMembershipRoles[0].membershipRoleCode", 
+        assertError("committeeHelper.newCommitteeMembershipRoles[0].membershipRoleCode", 
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
     }
 

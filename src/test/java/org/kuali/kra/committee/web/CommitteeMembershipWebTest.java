@@ -248,9 +248,9 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
      * @throws Exception
      */
     private HtmlPage addMemberRole(HtmlPage membersPage, int memberIndex, String membershipRoleCode, String startDate, String endDate) throws Exception {
-        setFieldValue(membersPage, "membershipRolesHelper.newCommitteeMembershipRoles[" + memberIndex + "].membershipRoleCode", membershipRoleCode);
-        setFieldValue(membersPage, "membershipRolesHelper.newCommitteeMembershipRoles[" + memberIndex + "].startDate" ,startDate);
-        setFieldValue(membersPage, "membershipRolesHelper.newCommitteeMembershipRoles[" + memberIndex + "].endDate", endDate);
+        setFieldValue(membersPage, "committeeHelper.newCommitteeMembershipRoles[" + memberIndex + "].membershipRoleCode", membershipRoleCode);
+        setFieldValue(membersPage, "committeeHelper.newCommitteeMembershipRoles[" + memberIndex + "].startDate" ,startDate);
+        setFieldValue(membersPage, "committeeHelper.newCommitteeMembershipRoles[" + memberIndex + "].endDate", endDate);
         return clickOn(getElementByName(membersPage, ADD_ROLE_BUTTON, true));
     }
     

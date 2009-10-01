@@ -9,7 +9,7 @@
                           parentTab="${parentTabValue}" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles*">
+                          tabErrorKey="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles*">
                 <div class="innerTab-container" align="left">
                     <table id="membership-role-table-${memberIndex}" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership roles">
                     
@@ -34,14 +34,14 @@
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
+                                        <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />
                                     </div>
                                 </td>
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="center">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].startDate" 
+                                        <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].startDate" 
                                                                   attributeEntry="${membershipRoleAttributes.startDate}" 
                                                                   datePicker="true" />
                                     </div>
@@ -49,7 +49,7 @@
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="center">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].endDate" 
+                                        <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].endDate" 
                                                                   attributeEntry="${membershipRoleAttributes.endDate}" 
                                                                   datePicker="true" />
                                     </div>

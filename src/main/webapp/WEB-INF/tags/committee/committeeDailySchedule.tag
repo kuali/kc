@@ -14,25 +14,25 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="styleClass" value="${KualiForm.committeeScheduleHelper.scheduleData.styleClasses}" />      
+<c:set var="styleClass" value="${KualiForm.committeeHelper.scheduleData.styleClasses}" />      
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.committeeScheduleHelper.modifyCommittee}" scope="request" />
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
 
 <%-- Daily --%>
 	<div id="calendar_daily_table" style="${styleClass['DAILY']}">
-         <html:radio property="committeeScheduleHelper.scheduleData.dailySchedule.dayOption" value="XDAY"  styleClass="radio">
+         <html:radio property="committeeHelper.scheduleData.dailySchedule.dayOption" value="XDAY"  styleClass="radio">
          	 Every&nbsp;
-         	 <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.dailySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                       
+         	 <kul:htmlControlAttribute property="committeeHelper.scheduleData.dailySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                       
  	         &nbsp;day(s)</html:radio>
          <hr size="1" noshade>
                         
-         <html:radio property="committeeScheduleHelper.scheduleData.dailySchedule.dayOption" value="WEEKDAY" styleClass="radio">
+         <html:radio property="committeeHelper.scheduleData.dailySchedule.dayOption" value="WEEKDAY" styleClass="radio">
              Every weekday </html:radio>
          
          <hr size="1" noshade>
              Ending on      
-         <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.dailySchedule.scheduleEndDate" 
+         <kul:htmlControlAttribute property="committeeHelper.scheduleData.dailySchedule.scheduleEndDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
 		 </span>
 	</div>
