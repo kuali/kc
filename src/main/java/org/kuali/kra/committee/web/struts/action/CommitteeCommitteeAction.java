@@ -66,7 +66,6 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         }
        
         committeeForm.getCommitteeHelper().prepareView();
-        committeeForm.getMembershipHelper().prepareView();
         
         return actionForward;
     }

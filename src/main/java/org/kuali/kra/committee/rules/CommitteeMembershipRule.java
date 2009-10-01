@@ -39,10 +39,10 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
                                      implements AddCommitteeMembershipRule,
                                                 AddCommitteeMembershipRoleRule {
 
-    private final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
-    private final String PROPERTY_NAME_ROLE_CODE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
-    private final String PROPERTY_NAME_ROLE_START_DATE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode"; 
-    private final String PROPERTY_NAME_ROLE_END_DATE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode"; 
+    private final String PROPERTY_NAME_PERSON_NAME = "committeeHelper.newCommitteeMembership.personName";
+    private final String PROPERTY_NAME_ROLE_CODE = "committeeHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
+    private final String PROPERTY_NAME_ROLE_START_DATE = "committeeHelper.newCommitteeMembershipRoles[%1$s].startDate"; 
+    private final String PROPERTY_NAME_ROLE_END_DATE = "committeeHelper.newCommitteeMembershipRoles[%1$s].endDate"; 
                     
     /**
      * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
