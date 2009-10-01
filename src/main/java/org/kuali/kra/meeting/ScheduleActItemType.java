@@ -28,6 +28,10 @@ import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is for schedule other action type code.
+ */
 @Entity 
 @Table(name="SCHEDULE_ACT_ITEM_TYPE")
 public class ScheduleActItemType extends KraPersistableBusinessObjectBase { 

@@ -24,6 +24,10 @@ import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is minute entry type code.
+ */
 @Entity 
 @Table(name="MINUTE_ENTRY_TYPE")
 public class MinuteEntryType extends KraPersistableBusinessObjectBase { 

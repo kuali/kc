@@ -29,6 +29,10 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
+/**
+ * 
+ * This class is for schedule meeting other action.
+ */
 @Entity 
 @Table(name="COMM_SCHEDULE_ACT_ITEMS")
 public class CommScheduleActItem extends KraPersistableBusinessObjectBase { 

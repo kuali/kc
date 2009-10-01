@@ -30,6 +30,10 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
+/**
+ * 
+ * This class is meeting generated agenda doc.
+ */
 @Entity 
 @Table(name="SCHEDULE_AGENDA")
 public class ScheduleAgenda extends KraPersistableBusinessObjectBase { 
