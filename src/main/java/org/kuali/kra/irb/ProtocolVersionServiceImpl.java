@@ -61,7 +61,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception {
      
         Protocol newProtocol = versioningService.createNewVersion(protocolDocument.getProtocol());
-        
+      
         ProtocolDocument newProtocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
       
@@ -73,6 +73,8 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         
         businessObjectService.save(protocolDocument.getProtocol());
         documentService.saveDocument(newProtocolDocument);
+        newProtocol.resetForeignKeys();
+        businessObjectService.save(newProtocol);
         
         return newProtocolDocument;
     }
