@@ -31,7 +31,7 @@
 	    		<span class="subhead-right">
 	    			<kul:help businessObjectClassName="org.kuali.kra.award.commitments.AwardFandaRate" altText="help"/>						
 					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" anchor="${tabKey}" autoSearch="yes" 
-					            readOnlyFields="yes" hideReturnLink="true" suppressActions="true" />		
+					            readOnlyFields="yes" hideReturnLink="true" suppressActions="true" searchIconOverride = "${ConfigProperties.kra.externalizable.images.url}tinybutton-validfarates.gif" />		
 				</span>
 	        </h3>
 	        
@@ -216,7 +216,7 @@
 				<span class="subhead-left"> Benefits Rates</span>
 				<span class="subhead-right">
 					<kul:help businessObjectClassName="org.kuali.kra.award.home.Award" altText="help"/>						
-					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" fieldConversions="onCampusRate:document.awardList[0].specialEbRateOnCampus,offCampusRate:document.awardList[0].specialEbRateOffCampus" anchor="${tabKey}" />		
+					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" fieldConversions="onCampusRate:document.awardList[0].specialEbRateOnCampus,offCampusRate:document.awardList[0].specialEbRateOffCampus" anchor="${tabKey}" autoSearch="yes" searchIconOverride = "${ConfigProperties.kra.externalizable.images.url}tinybutton-validbenefitsrates.gif"/>		
 				</span>
 		    </h3>
 		    <table id="Benefits Rates" cellpadding="0" cellspacing="0" summary="Benefits Rates">
