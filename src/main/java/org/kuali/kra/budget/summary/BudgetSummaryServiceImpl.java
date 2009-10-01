@@ -197,6 +197,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             budgetPeriod.setStartDate(periodStartDate);
             budgetPeriod.setEndDate(periodEndDate);
             budgetPeriod.setBudget(budget);
+            budgetPeriod.setBudgetId(budget.getBudgetId());
             budgetPeriods.add(budgetPeriod);
             periodStartDate = nextPeriodStartDate;
             budgetPeriodNum++;

@@ -37,5 +37,5 @@ public interface S2SProposalValidatorService {
      * @param errors {@link List} List of validation error messages.
      * @return boolean true if validation succeeds false otherwise.
      */
-    public boolean validate(ProposalDevelopmentDocument pdDoc, List<String> errors);
+//    public boolean validate(ProposalDevelopmentDocument pdDoc, List<String> errors);
 }

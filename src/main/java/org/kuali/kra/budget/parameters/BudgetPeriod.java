@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.DateUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
     private static final long serialVersionUID = -7318331486891820078L;
-    private long budgetPeriodId;
+    private Long budgetPeriodId;
     
     private Integer budgetPeriod;
 	private String comments;

@@ -1314,6 +1314,9 @@
 		<property name="s2SProposalValidatorService">
 			<ref bean="s2SProposalValidatorService" />
 		</property>
+		<property name="s2SValidatorService">
+			<ref bean="s2SValidatorService" />
+		</property>
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>

@@ -95,19 +95,19 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param editModeMap the edit mode map
      */
     private void setPermissions(String username, BudgetParentDocument doc, Set<String> editModes) {
-        if (canExecuteProposalTask(username, doc, TaskName.ADD_BUDGET)) {
+        if (canExecuteParentDocumentTask(username, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
         
-        if (canExecuteProposalTask(username, doc, TaskName.OPEN_BUDGETS)) {
+        if (canExecuteParentDocumentTask(username, doc, TaskName.OPEN_BUDGETS)) {
             editModes.add("openBudgets");
         }
         
-        if (canExecuteProposalTask(username, doc, TaskName.MODIFY_BUDGET)) {
+        if (canExecuteParentDocumentTask(username, doc, TaskName.MODIFY_BUDGET)) {
             editModes.add("modifyProposalBudget");
         }
         
-        if (canExecuteProposalTask(username, doc, TaskName.PRINT_PROPOSAL)) {
+        if (canExecuteParentDocumentTask(username, doc, TaskName.PRINT_PROPOSAL)) {
             editModes.add("printProposal");
         }
     }
@@ -119,7 +119,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteProposalTask(String username, BudgetParentDocument doc, String taskName) {
+    private boolean canExecuteParentDocumentTask(String username, BudgetParentDocument doc, String taskName) {
         Task task = doc.getParentAuthZTask(taskName);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);

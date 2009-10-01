@@ -17,7 +17,6 @@ package org.kuali.kra.budget.document.authorizer;
 
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 
 /**

@@ -219,7 +219,7 @@
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 				
@@ -329,7 +329,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetCostShare" table="EPS_PROP_COST_SHARING">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
@@ -348,7 +348,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="PROJECT_INCOME_ID" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="budgetPeriodNumber" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="false"/>		
@@ -373,7 +373,7 @@
 
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="UNRECOVERED_FNA_ID" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
@@ -399,7 +399,7 @@
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
@@ -425,7 +425,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.personnel.BudgetPerson" table="BUDGET_PERSONS">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="personSequenceNumber" column="PERSON_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE"/>
@@ -480,7 +480,7 @@
 		<field-descriptor name="rateNumber" column="RATE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" access="anonymous"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor name="appliedRate" column="APPLIED_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
@@ -511,7 +511,7 @@
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateNumber" column="RATE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" access="anonymous"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
@@ -559,7 +559,7 @@
 		</reference-descriptor>
 	</class-descriptor>	
 	<class-descriptor class="org.kuali.kra.budget.rates.BudgetProposalRate" table="EPS_PROP_RATES">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -751,7 +751,7 @@
 	<class-descriptor class="org.kuali.kra.budget.rates.BudgetProposalLaRate" table="EPS_PROP_LA_RATES">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" access="anonymous" /> 	
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
@@ -781,7 +781,7 @@
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="personNumber" column="PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
@@ -853,7 +853,7 @@
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="rateNumber" column="RATE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor id="1" name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -893,7 +893,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" table="BUDGET_SUB_AWARDS">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
@@ -925,7 +925,7 @@
 
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" table="BUDGET_SUB_AWARD_FILES">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
@@ -942,7 +942,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" table="BUDGET_SUB_AWARD_ATT">
 		<field-descriptor name="contentId" column="CONTENT_ID" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true"/> 	
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="attachment" column="ATTACHMENT" jdbc-type="BINARY"/>

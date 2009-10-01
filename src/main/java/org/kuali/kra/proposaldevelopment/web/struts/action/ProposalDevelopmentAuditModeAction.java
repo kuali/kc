@@ -33,10 +33,11 @@ public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentActio
     /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final AuditActionHelper auditHelper = new AuditActionHelper();
-        
-        final ActionForward forward = auditHelper.setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
-        auditHelper.auditConditionally((ProposalDevelopmentForm) form);
+        proposalDevelopmentForm.setGrantsGovAuditActivated(true);
+        final ActionForward forward = auditHelper.setAuditMode(mapping, proposalDevelopmentForm, true);
+        auditHelper.auditConditionally(proposalDevelopmentForm);
         return forward;
     }
 

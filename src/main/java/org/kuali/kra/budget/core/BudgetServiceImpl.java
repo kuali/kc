@@ -17,6 +17,7 @@ package org.kuali.kra.budget.core;
 
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,6 +67,7 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -218,21 +220,24 @@ public class BudgetServiceImpl implements BudgetService {
     }
     
     /**
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws FormatException 
      * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
         budgetDocument.toCopy();
-        ObjectUtils.materializeAllSubObjects(budgetDocument);
-
+        budgetDocument.getBudget().setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
         try {
             Map<String, Object> objectMap = new HashMap<String, Object>();
-            fixProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+            fixProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetVersionNumber", Integer.class, 
-                    budgetDocument.getBudget().getBudgetVersionNumber(), objectMap); 
+            fixProperty(budgetDocument.getBudget(), "setBudgetPeriodId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setVersionNumber", Long.class, new Long(0), objectMap);
+            fixProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
             objectMap.clear();
+            ObjectUtils.materializeAllSubObjects(budgetDocument);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -246,8 +251,7 @@ public class BudgetServiceImpl implements BudgetService {
             if(budgetPeriod.getBudgetModular() != null) {
                 tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
             }
-//            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
-            tmpBudgetModulars.put(""+budgetPeriod.getBudgetId()+ (budgetPeriod.getBudget().getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getVersionNumber() + budgetPeriod.getBudgetPeriod(), tmpObject);
             budgetPeriod.setBudgetModular(null);
         }
 
@@ -256,8 +260,7 @@ public class BudgetServiceImpl implements BudgetService {
         
         documentService.saveDocument(budgetDocument);
         for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
-//            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getBudget().getBudgetId()+ tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
