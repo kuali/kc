@@ -16,14 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="action" value="committeeSchedule" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
-<c:set var="styleClass" value="${KualiForm.committeeScheduleHelper.scheduleData.styleClasses}" />
+<c:set var="styleClass" value="${KualiForm.committeeHelper.scheduleData.styleClasses}" />
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.committeeScheduleHelper.modifyCommittee}" scope="request" />
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
 
 <div id="workarea">
-<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,committeeScheduleHelper.scheduleData*,datesInConflict*,document.committeeList[0].committeeSchedules*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,committeeHelper.scheduleData*,datesInConflict*,document.committeeList[0].committeeSchedules*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		
 		<kra:softError softErrorKey="datesInConflict" />
@@ -38,7 +38,7 @@
                 <tr>
                     <th width="30%"><div align="right">Date:</div></th>
                     <td width="70%">
-                	     <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.scheduleStartDate" 
+                	     <kul:htmlControlAttribute property="committeeHelper.scheduleData.scheduleStartDate" 
 	                	                           datePicker="true" attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
                     </td>
                 </tr>  
@@ -46,16 +46,16 @@
                 <tr>
                     <th><div align="right">Start Time:</div></th>
 				    <td nobr>
-					    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.time" attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" /> 
+					    <kul:htmlControlAttribute property="committeeHelper.scheduleData.time.time" attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" /> 
 					
-					    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.meridiem" attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 		
+					    <kul:htmlControlAttribute property="committeeHelper.scheduleData.time.meridiem" attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 		
 				    </td>
                 </tr>
                 
                 <tr>
                     <th><div align="right">Place:</div></th>
                     <td>
-                	    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.place" attributeEntry="${committeeScheduleAttributes.place}" />
+                	    <kul:htmlControlAttribute property="committeeHelper.scheduleData.place" attributeEntry="${committeeScheduleAttributes.place}" />
                     </td>
                 </tr>
 
@@ -64,15 +64,15 @@
                     <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="nobord">
                         <tr>
                             <td width="15%" nowrap class="nobord">
- 						        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="NEVER" onclick="javascript:repeat_type='calendar_never_table';showTable('calendar_never_table');" styleClass="radio">
+ 						        <html:radio property="committeeHelper.scheduleData.recurrenceType" value="NEVER" onclick="javascript:repeat_type='calendar_never_table';showTable('calendar_never_table');" styleClass="radio">
  						        Never&nbsp;</html:radio><br>   
-                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="DAILY" onclick="javascript:repeat_type='calendar_daily_table';showTable('calendar_daily_table');" styleClass="radio">
+                                <html:radio property="committeeHelper.scheduleData.recurrenceType" value="DAILY" onclick="javascript:repeat_type='calendar_daily_table';showTable('calendar_daily_table');" styleClass="radio">
                                 Daily&nbsp;</html:radio><br>
-                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="WEEKLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_weekly_table');" styleClass="radio">
+                                <html:radio property="committeeHelper.scheduleData.recurrenceType" value="WEEKLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_weekly_table');" styleClass="radio">
                                 Weekly&nbsp;</html:radio><br>
-                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="MONTHLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_monthly_table');" styleClass="radio">
+                                <html:radio property="committeeHelper.scheduleData.recurrenceType" value="MONTHLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_monthly_table');" styleClass="radio">
                                 Monthly&nbsp;</html:radio><br>
-                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="YEARLY" onclick="javascript:repeat_type='calendar_yearly_table';showTable('calendar_yearly_table');" styleClass="radio">
+                                <html:radio property="committeeHelper.scheduleData.recurrenceType" value="YEARLY" onclick="javascript:repeat_type='calendar_yearly_table';showTable('calendar_yearly_table');" styleClass="radio">
                                 Yearly&nbsp;</html:radio>
                         
                                 <p style="text-align:center;">
@@ -131,13 +131,13 @@
                         <td valign="middle" class="nobord" style="background-color:none"><div align="right"><strong>View Date Range:&nbsp;&nbsp;</strong></div></td>
 
                         <td valign="middle" class="nobord" style="background-color:none">From<br>
-                          <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.filterStartDate" 
+                          <kul:htmlControlAttribute property="committeeHelper.scheduleData.filterStartDate" 
 	                								datePicker="true"
 	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
 	                								readOnly="false" />
 	                								
                         <td valign="middle" class="nobord" style="background-color:none">To</span><br>
-                          <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.filerEndDate" 
+                          <kul:htmlControlAttribute property="committeeHelper.scheduleData.filerEndDate" 
 	                								datePicker="true"
 	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
 	                								readOnly="false" />

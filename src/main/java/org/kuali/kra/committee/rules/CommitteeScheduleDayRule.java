@@ -27,9 +27,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleDayRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDayEvent> {
     
-    public static final String SCHEDULEDATA_MONTHLY_DAY = "committeeScheduleHelper.scheduleData.monthlySchedule.day";
+    public static final String SCHEDULEDATA_MONTHLY_DAY = "committeeHelper.scheduleData.monthlySchedule.day";
 
-    public static final String SCHEDULEDATA_YEARLY_DAY = "committeeScheduleHelper.scheduleData.yearlySchedule.day";
+    public static final String SCHEDULEDATA_YEARLY_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
     /**
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)

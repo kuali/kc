@@ -28,15 +28,15 @@ public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase
     
     public static final String DAILY = "DAILY";
     
-    public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeScheduleHelper.scheduleData.recurrenceType";
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeHelper.scheduleData.recurrenceType";
     
-    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "committeeScheduleHelper.scheduleData.dailySchedule.scheduleEndDate";
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "committeeHelper.scheduleData.dailySchedule.scheduleEndDate";
     
     public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
     
-    public static final String SCHEDULEDATA_FILTERSTARTDATE = "committeeScheduleHelper.scheduleData.filterStartDate";
+    public static final String SCHEDULEDATA_FILTERSTARTDATE = "committeeHelper.scheduleData.filterStartDate";
     
-    public static final String SCHEDULEDATA_FILERENDDATE = "committeeScheduleHelper.scheduleData.filerEndDate";
+    public static final String SCHEDULEDATA_FILERENDDATE = "committeeHelper.scheduleData.filerEndDate";
     
     public static final String METHODTOCALL_FILTER_COMMITTEESCHEDULEDATES_ANCHORSCHEDULE = "methodToCall.filterCommitteeScheduleDates.anchorSchedule";
     

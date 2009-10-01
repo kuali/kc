@@ -26,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
     
-    private enum Constants {committeeScheduleHelper, scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
+    private enum Constants {committeeHelper, scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
 
     public static final String DOT = ".";
     
@@ -38,7 +38,7 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
     public boolean processRules(CommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
         
         StringBuilder endDateId = new StringBuilder();
-        endDateId.append(Constants.committeeScheduleHelper).append(DOT);
+        endDateId.append(Constants.committeeHelper).append(DOT);
         endDateId.append(Constants.scheduleData).append(DOT);
         boolean rulePassed = true;
         ScheduleData scheduleData = addCommitteeScheduleEvent.getScheduleData();

@@ -59,11 +59,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     
     private static final String PROPERTY_NAME_TERM_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].termStartDate";
     private static final String PROPERTY_NAME_TERM_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].termEndDate";
-    private static final String PROPERTY_NAME_ROLE_CODE_ADD = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
+    private static final String PROPERTY_NAME_ROLE_CODE_ADD = "committeeHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
     private static final String PROPERTY_NAME_ROLE_CODE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s].membershipRoleCode";
     private static final String PROPERTY_NAME_ROLE_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
     private static final String PROPERTY_NAME_ROLE_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
-    private static final String PROPERTY_NAME_RESEARCH_AREA_CODE = "membershipExpertiseHelper.newCommitteeMembershipExpertise[%1$s].researchAreaCode";
+    private static final String PROPERTY_NAME_RESEARCH_AREA_CODE = "committeeHelper.newCommitteeMembershipExpertise[%1$s].researchAreaCode";
     private static final Log LOG = LogFactory.getLog(CommitteeDocumentRule.class);
 
 

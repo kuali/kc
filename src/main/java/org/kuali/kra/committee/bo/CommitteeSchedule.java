@@ -54,13 +54,13 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private Time12HrFmt viewTime;
     
     @Transient
-    private Boolean filter = true;
+    private boolean filter = true;
     
     @Transient
-    private Boolean delete = false;
+    private boolean delete = false;
     
     @Transient
-    private transient Boolean selected = false;
+    private transient boolean selected = false;
     
     @javax.persistence.Id 
     @Column(name="ID")
@@ -325,11 +325,11 @@ public class CommitteeSchedule extends CommitteeAssociate {
         return dayOfWeek.name().toUpperCase();
     }
     
-    public void setFilter(Boolean filter) {
+    public void setFilter(boolean filter) {
         this.filter = filter;
     }
 
-    public Boolean getFilter() {
+    public boolean getFilter() {
         return filter;
     }    
     
@@ -343,11 +343,11 @@ public class CommitteeSchedule extends CommitteeAssociate {
         this.viewTime = viewTime;
     }
     
-    public Boolean getDelete() {
+    public boolean getDelete() {
         return delete;
     }
 
-    public void setDelete(Boolean delete) {
+    public void setDelete(boolean delete) {
         this.delete = delete;
     }        
     

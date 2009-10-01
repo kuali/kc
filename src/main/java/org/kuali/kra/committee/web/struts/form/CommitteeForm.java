@@ -52,9 +52,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     private CommitteeHelper committeeHelper;
-    private MembershipHelper membershipHelper;
-    private MembershipRolesHelper membershipRolesHelper;
-    private MembershipExpertiseHelper membershipExpertiseHelper;
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
@@ -63,10 +60,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
   
-    //private ScheduleData scheduleData;
-    
-    private CommitteeScheduleHelper committeeScheduleHelper;
-
     /**
      * Constructs a CommitteeForm.
      */
@@ -84,10 +77,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs();
         setCommitteeHelper(new CommitteeHelper(this));
-        setMembershipHelper(new MembershipHelper(this));
-        setMembershipRolesHelper(new MembershipRolesHelper(this));
-        setMembershipExpertiseHelper(new MembershipExpertiseHelper(this));
-        setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
     }
 
     /**
@@ -187,39 +176,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_COMMITTEE;
-    }
-
-    public MembershipHelper getMembershipHelper() {
-        return membershipHelper;
-    }
-
-    public void setMembershipHelper(MembershipHelper membershipHelper) {
-        this.membershipHelper = membershipHelper;
-    }
-    
-    
-    public MembershipRolesHelper getMembershipRolesHelper() {
-        return membershipRolesHelper;
-    }
-
-    public void setMembershipRolesHelper(MembershipRolesHelper membershipRolesHelper) {
-        this.membershipRolesHelper = membershipRolesHelper;
-    }
-    
-    public MembershipExpertiseHelper getMembershipExpertiseHelper() {
-        return membershipExpertiseHelper;
-    }
-    
-    public void setMembershipExpertiseHelper(MembershipExpertiseHelper membershipExpertiseHelper) {
-        this.membershipExpertiseHelper = membershipExpertiseHelper;
-    }
-
-    public CommitteeScheduleHelper getCommitteeScheduleHelper() {
-        return committeeScheduleHelper;
-    }
-
-    public void setCommitteeScheduleHelper(CommitteeScheduleHelper committeeScheduleHelper) {
-        this.committeeScheduleHelper = committeeScheduleHelper;
     }
 
     public CommitteeHelper getCommitteeHelper() {
