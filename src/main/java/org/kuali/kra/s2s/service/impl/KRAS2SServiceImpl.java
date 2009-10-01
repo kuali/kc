@@ -64,6 +64,7 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SProposalValidatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
@@ -90,7 +91,7 @@ public class KRAS2SServiceImpl implements S2SService {
     private S2SUtilService s2SUtilService;
     private PrintService printService;
     private GrantsGovConnectorService grantsGovConnectorService;
-    private static final String GRANTS_GOV_PREFIX = "/GrantApplication/Forms";
+    private S2SValidatorService s2SValidatorService;
     private static final String GRANTS_GOV_STATUS = "ERROR";
     private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
 
@@ -264,7 +265,8 @@ public class KRAS2SServiceImpl implements S2SService {
             try {
                 response = grantsGovConnectorService.submitApplication(grantApplicationDocument.xmlText(), attachments, pdDoc
                         .getDevelopmentProposal().getProposalNumber());
-            }catch (S2SException ex) {
+            }
+            catch (S2SException ex) {
                 appSubmission.setStatus(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR);
                 StringBuilder errMsg = new StringBuilder();
                 errMsg.append(S2SConstants.GRANTS_GOV_SUBMISION_ERROR_MESSAGE);
@@ -383,28 +385,26 @@ public class KRAS2SServiceImpl implements S2SService {
      * @return validation result true if valid false otherwise.
      * @throws S2SException
      */
-    private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList,
-            ProposalDevelopmentDocument pdDoc) throws S2SException {
+    private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc)
+            throws S2SException {
         boolean validationSucceeded = true;
         List<AuditError> errors = new ArrayList<AuditError>();
-        FormMappingInfo info = null;
-        S2SFormGenerator s2sFormGenerator = null;
-
-        for (S2sOppForms oppForms : pdDoc.getDevelopmentProposal().getS2sOppForms()) {
-            if (!oppForms.getInclude()) {
+        for (S2sOppForms opportunityForm : pdDoc.getDevelopmentProposal().getS2sOppForms()) {
+            if (!opportunityForm.getInclude()) {
                 continue;
             }
+            FormMappingInfo info = null;
+            S2SFormGenerator s2sFormGenerator = null;
             try {
-                info = new FormMappingLoader().getFormInfo(oppForms.getOppNameSpace());
+                info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
                 s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(info.getNameSpace());
             }
             catch (S2SGeneratorNotFoundException e) {
-                // Form generator not available
                 continue;
             }
-            try{
+            try {
                 XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-                if (validateForm(formObject, errors, info.getFormName())) {
+                if (s2SValidatorService.validate(formObject, errors)) {
                     if (forms != null && attList != null) {
                         setFormObject(forms, formObject);
                         attList.addAll(s2sFormGenerator.getAttachments());
@@ -413,9 +413,10 @@ public class KRAS2SServiceImpl implements S2SService {
                 else {
                     validationSucceeded = false;
                 }
-            }catch(Exception ex){
-                LOG.error("Unknown error from "+oppForms.getFormName(), ex);
-                throw new S2SException("Could not generate form for "+oppForms.getFormName(),ex);
+            }
+            catch (Exception ex) {
+                LOG.error("Unknown error from " + opportunityForm.getFormName(), ex);
+                throw new S2SException("Could not generate form for " + opportunityForm.getFormName(), ex);
             }
         }
         if (!validationSucceeded) {
@@ -426,11 +427,9 @@ public class KRAS2SServiceImpl implements S2SService {
 
     /**
      * 
-     * This method is to set the formObject to MetaGrants Forms Object. The xmlbeans
-     * Schema compiled with xsd:any does not provide a direct method to add individual
-     * forms to the Forms object. 
-     * In this method, an XML Cursor is created from the existing Forms object and use
-     * the moveXml method to add the form object to the Forms object.
+     * This method is to set the formObject to MetaGrants Forms Object. The xmlbeans Schema compiled with xsd:any does not provide a
+     * direct method to add individual forms to the Forms object. In this method, an XML Cursor is created from the existing Forms
+     * object and use the moveXml method to add the form object to the Forms object.
      * 
      * @param forms Forms object to which the grants.gov form is added.
      * @param formObject xml object representing the grants.gov form.
@@ -577,77 +576,6 @@ public class KRAS2SServiceImpl implements S2SService {
     }
 
     /**
-     * 
-     * This method is to validated the form.
-     * 
-     * @param formObject xml object of the form.
-     * @param errors list of validation errors.
-     * @param formName name of the form
-     * @return validation result true if valid false otherwise.
-     */
-    private boolean validateForm(XmlObject formObject, List<AuditError> errors, String formName) {
-        List<String> formErrors = new ArrayList<String>();
-        boolean isFormValid = validateXml(formObject, formErrors, formName);
-        if (!isFormValid) {
-            for (String error : formErrors) {
-                errors.add(S2SErrorHandler.getError(GRANTS_GOV_PREFIX + error));
-            }
-        }
-        return isFormValid;
-    }
-
-
-    /**
-     * 
-     * This method receives an XMLObject and validates it against its schema and returns the validation result. It also receives a
-     * list in which upon validation failure, populates it with XPaths of the error nodes
-     * 
-     * @param formObject XML document as {@link}XMLObject
-     * @param errors List list of XPaths of the error nodes.
-     * @return validation result true if valid false otherwise.
-     */
-    protected boolean validateXml(XmlObject formObject, List<String> errors, String formName) {
-        XmlOptions validationOptions = new XmlOptions();
-        ArrayList<XmlValidationError> validationErrors = new ArrayList<XmlValidationError>();
-        validationOptions.setErrorListener(validationErrors);
-
-        boolean isValid = formObject.validate(validationOptions);
-        if (!isValid) {
-            LOG.error("Errors occured during validation of XML from form generator" + validationErrors);
-            Iterator<XmlValidationError> iter = validationErrors.iterator();
-            while (iter.hasNext()) {
-                XmlError error = iter.next();
-                LOG.info("Validation error:" + error);
-                Node node = error.getCursorLocation().getDomNode();
-                String xPath = getXPath(node);
-                errors.add(xPath);
-            }
-            LOG.info("Error XPaths:" + errors);
-        }
-        return isValid;
-    }
-
-    /**
-     * 
-     * This method receives a node, fetches its name, and recurses up to its parent node, until it reaches the document node, thus
-     * creating the XPath of the node passed and returns it as String
-     * 
-     * @param node for which the Document node has to be found.
-     * @return String which represents XPath of the node
-     */
-    private String getXPath(Node node) {
-        String xPath = null;
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            xPath = "";
-        }
-        else {       
-            //Use File.separator instead "/"
-            xPath =  getXPath(node.getParentNode()) + "/" + node.getNodeName();
-        }
-        return xPath;
-    }
-
-    /**
      * Gets the s2SFormGeneratorService attribute.
      * 
      * @return Returns the s2SFormGeneratorService.
@@ -708,5 +636,21 @@ public class KRAS2SServiceImpl implements S2SService {
      */
     public void setGrantsGovConnectorService(GrantsGovConnectorService grantsGovConnectorService) {
         this.grantsGovConnectorService = grantsGovConnectorService;
+    }
+
+    /**
+     * Gets the s2SValidatorService attribute. 
+     * @return Returns the s2SValidatorService.
+     */
+    public S2SValidatorService getS2SValidatorService() {
+        return s2SValidatorService;
+    }
+
+    /**
+     * Sets the s2SValidatorService attribute value.
+     * @param validatorService The s2SValidatorService to set.
+     */
+    public void setS2SValidatorService(S2SValidatorService validatorService) {
+        s2SValidatorService = validatorService;
     }
 }

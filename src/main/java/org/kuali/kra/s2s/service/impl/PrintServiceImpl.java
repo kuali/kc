@@ -539,16 +539,6 @@ public class PrintServiceImpl implements PrintService {
             setValidationErrorMessage(errors);
             return null;
         }
-//        List<AuditError> auditErrors = new ArrayList<AuditError>();
-//        for (String error : errors) {
-//            auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
-//                    + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
-//        }
-//        if (!auditErrors.isEmpty()) {
-//            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
-//                    new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
-//            return null;
-//        }
         for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
             pdfArray[frmIndex] = (ByteArrayOutputStream) pdfBaosList.get(frmIndex);
         }

@@ -34,7 +34,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
-import org.kuali.kra.web.struts.form.ProposalFormBase;
+import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PessimisticLockService;
@@ -44,7 +44,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
  */
-public class ProposalActionBase extends KraTransactionalDocumentActionBase {
+public class BudgetActionBase extends KraTransactionalDocumentActionBase {
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -53,7 +53,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
-        final ProposalFormBase proposalForm = (ProposalFormBase) form;
+        final BudgetVersionFormBase proposalForm = (BudgetVersionFormBase) form;
         ActionForward forward = super.save(mapping, form, request, response);
         
         if (proposalForm.getMethodToCall().equals("save") && proposalForm.isAuditActivated()) {
@@ -104,7 +104,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * 
      * @param parentDocument
      */
-    protected void setProposalStatus(BudgetParentDocument parentDocument) {
+    protected void setBudgetParentStatus(BudgetParentDocument parentDocument) {
         for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
             if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
                 parentDocument.getBudgetParent().setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());

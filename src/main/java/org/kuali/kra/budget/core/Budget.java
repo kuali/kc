@@ -649,7 +649,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     public BudgetPeriod getBudgetPeriod(int index) {
         while (getBudgetPeriods().size() <= index) {
-            getBudgetPeriods().add(new BudgetPeriod());
+            BudgetPeriod budgetPeriod = new BudgetPeriod();
+            budgetPeriod.setBudget(this);
+            getBudgetPeriods().add(budgetPeriod);
         }
         return getBudgetPeriods().get(index);
     }
@@ -1062,7 +1064,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     public Date loadFiscalYearStart() {
-        return createDateFromString(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+        return createDateFromString(getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
     }
     
     /**
@@ -1237,7 +1239,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         if (getParameterService().parameterExists(BudgetDocument.class, parmName)) {
             parmValue = FALSE_FLAG;
         } else {
-            parmValue = this.parameterService.getParameterValue(BudgetDocument.class, parmName);
+            parmValue = getParameterService().getParameterValue(BudgetDocument.class, parmName);
         }
         
         return parmValue.equalsIgnoreCase(TRUE_FLAG);

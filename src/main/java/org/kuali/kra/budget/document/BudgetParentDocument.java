@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,8 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
-public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase implements BudgetVersionCollection,Permissionable {
+public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase 
+                                                            implements BudgetVersionCollection, Permissionable  {
     private ParameterService parameterService;
     
     /**
@@ -57,6 +59,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         return this.parameterService;
     }
     
+
     public BudgetDocumentVersion getFinalBudgetVersion() {
       for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
           if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
@@ -107,22 +110,8 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
     public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
         return getBudgetDocumentVersions().get(selectedLine);
     }
-//    public abstract String getBudgetStatus();
-//    public abstract void setBudgetStatus(String budgetStatus);
-//    public abstract String getActivityTypeCode();
-//    public abstract Date getRequestedStartDateInitial();
-//    public abstract Date getRequestedEndDateInitial();
-//    public abstract ActivityType getActivityType();
-//    public abstract String getUnitNumber();
-//    public abstract Unit getUnit();
-//    public abstract List<PersonRolodex> getPersonRolodexList();
-//    public abstract ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId);
-//    public abstract PersonRolodex getProposalEmployee(String personId);
-//    public abstract PersonRolodex getProposalNonEmployee(Integer rolodexId);
-//    public abstract ProposalPersonRole getProposalEmployeeRole(String personId);
-//    public abstract boolean isNih();
-//    public abstract Map<String, String> getNihDescription();
-    
+    public abstract Permissionable getBudgetPermissionable();
+
     public abstract boolean isComplete();
     public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
     public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);

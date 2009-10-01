@@ -51,6 +51,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -149,6 +152,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 budgetDocument.refreshReferenceObject("parentDocument");
             }
             Budget budget = budgetDocument.getBudget();
+
             if (!budget.getActivityTypeCode().equals(pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
                 budget.setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
             }
@@ -259,7 +263,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             }
         }
 
-        this.setProposalStatus(pdForm.getDocument());
+        this.setBudgetParentStatus(pdForm.getDocument());
         //this.setBudgetStatuses(pdForm.getDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
             
@@ -270,7 +274,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             
             return forward;
     }
-    
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
         if(pdForm.getFinalBudgetVersion() != null) {
             return pdForm.getFinalBudgetVersion().intValue();

@@ -57,7 +57,7 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.web.struts.action.ProposalActionBase;
+import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -76,7 +76,7 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-public class BudgetAction extends ProposalActionBase {
+public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
     
     /**
@@ -577,7 +577,7 @@ public class BudgetAction extends ProposalActionBase {
 
     
     /**
-     * @see org.kuali.kra.web.struts.action.ProposalActionBase#getPessimisticLockService()
+     * @see org.kuali.kra.web.struts.action.BudgetActionBase#getPessimisticLockService()
      */
     @Override
     protected PessimisticLockService getPessimisticLockService() {

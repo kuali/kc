@@ -374,4 +374,24 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return null;
     }
 
+    @Override
+    public Permissionable getBudgetPermissionable() {
+        return new Permissionable(){
+
+            public String getDocumentKey() {
+                return Permissionable.PROPOSAL_BUDGET_KEY;
+            }
+
+            public String getDocumentNumberForPermission() {
+                return getDevelopmentProposal().getProposalNumber();
+            }
+
+            public List<String> getRoleNames() {
+                List<String> roleNames = new ArrayList<String>();
+                return roleNames;
+            }
+            
+        };
+    }
+
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.document;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kim.bo.Person;
@@ -34,10 +37,11 @@ import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 
 @NAMESPACE(namespace=Constants.PARAMETER_MODULE_BUDGET)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
-public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -60,6 +64,16 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         super.processAfterRetrieve();
         if(getParentDocumentKey()!=null){
             getParentDocument().processAfterRetrieveForBudget(this);
+        }
+        Long budgetId = getBudget().getBudgetId();
+        try {
+            List<BudgetPeriod> budgetPeriods = getBudget().getBudgetPeriods();
+            for (BudgetPeriod budgetPeriod : budgetPeriods) {
+                ObjectUtils.setObjectPropertyDeep(budgetPeriod, "budgetId", Long.class, budgetId);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -225,7 +239,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }
-
     /** {@inheritDoc} */
     @Override
     public boolean useCustomLockDescriptors() {
@@ -245,6 +258,18 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }
         
         return null;
+    }
+
+    public String getDocumentKey() {
+        return getParentDocument().getBudgetPermissionable().getDocumentKey();
+    }
+
+    public String getDocumentNumberForPermission() {
+        return getDocumentNumber();
+    }
+
+    public List<String> getRoleNames() {
+        return getParentDocument().getBudgetPermissionable().getRoleNames();
     }
 }
 
