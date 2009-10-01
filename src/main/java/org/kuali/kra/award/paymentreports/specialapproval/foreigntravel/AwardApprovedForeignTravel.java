@@ -18,10 +18,16 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ServiceHelper;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -32,50 +38,37 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedForeignTravelId;
-    private Person traveler;
-    private String travelerId;
-    private Serializable genericId;
-    /**
-     * Gets the genericId attribute. 
-     * @return Returns the genericId.
-     */
-    public Serializable getGenericId() {
-        return genericId;
-    }
-
-    /**
-     * Sets the genericId attribute value.
-     * @param genericId The genericId to set.
-     */
-    public void setGenericId(Serializable genericId) {
-        this.genericId = genericId;        
-    }
-
+    private String personId;
+    private Integer rolodexId;
     private String travelerName;
     private String destination;
     private Date startDate;
     private Date endDate;
     private KualiDecimal amount;
-    
-    private static int instanceCount;
-    private int instanceNumber;
+
+    private Person personTraveler;
+    private NonOrganizationalRolodex rolodexTraveler;
+
+    private static int instanceCount;   // used in tag
+    private int instanceNumber;         // used in tag
+
     /**
      * Constructs a AwardApprovedForeignTravel
      */
     public AwardApprovedForeignTravel() {
         instanceNumber = instanceCount++;
     }
-
-    public int getInstanceNumber() {
-        return instanceNumber;
-    }
     
     /**
      * Constructs a AwardApprovedForeignTravel
      */
-    public AwardApprovedForeignTravel(Person traveler, String destination, Date startDate, Date endDate, double amount) {
+    public AwardApprovedForeignTravel(Object traveler, String destination, Date startDate, Date endDate, double amount) {
         super();
-        setTraveler(traveler);
+        if(traveler instanceof Person) {
+            setPersonTraveler((Person) traveler);
+        } else if(traveler instanceof NonOrganizationalRolodex) {
+            setRolodexTraveler((NonOrganizationalRolodex) traveler);
+        }
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -87,7 +80,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      * @param tripToCopy
      */
     AwardApprovedForeignTravel(AwardApprovedForeignTravel tripToCopy) {
-        setTraveler(tripToCopy.traveler);
+        setPersonTraveler(tripToCopy.personTraveler);
         setApprovedForeignTravelId(null);
         setDestination(tripToCopy.destination);
         setStartDate(tripToCopy.startDate);
@@ -116,19 +109,35 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      * This method returns the traveler
      * @return
      */
-    public Person getTraveler() {
-        return traveler;
+    public Person getPersonTraveler() {
+        return personTraveler;
     }
     
-    public String getTravelerId() {
-        if(travelerId == null && genericId != null) {
-            travelerId = genericId.toString();
-        }
-        return travelerId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setTravelerId(String travelerId) {
-        this.travelerId = travelerId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public int getInstanceNumber() {
+        return instanceNumber;
+    }
+
+    public Contactable getTraveler() {
+        Contactable contact = personTraveler != null ? personTraveler : (rolodexTraveler != null ? rolodexTraveler : null);
+        if(contact == null) {
+            contact = loadTraveler();
+        }
+        return contact;
+    }
+
+    /**
+     * @return Returns the contactId.
+     */
+    public Serializable getContactId() {
+        return personId != null ? personId : (rolodexId != null ? rolodexId : null);
     }
 
     /**
@@ -138,21 +147,35 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public String getDestination() {
         return destination;
     }
-    
-    /**
-     * Gets the start date attribute. 
-     * @return Returns the start date.
-     */
-    public Date getStartDate() {
-        return startDate;
-    }
 
     /**
-     * Gets the end date attribute. 
+     * Gets the end date attribute.
      * @return Returns the end date.
      */
     public Date getEndDate() {
         return endDate;
+    }
+
+    /**
+     * @return
+     */
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    /**
+     * @return
+     */
+    public NonOrganizationalRolodex getRolodexTraveler() {
+        return rolodexTraveler;
+    }
+
+    /**
+     * Gets the start date attribute.
+     * @return Returns the start date.
+     */
+    public Date getStartDate() {
+        return startDate;
     }
 
     /**
@@ -164,6 +187,20 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     }
 
     /**
+     * @return
+     */
+    public boolean isEmployee() {
+        return personId != null;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isNonemployee() {
+        return rolodexId != null;
+    }
+
+    /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
@@ -172,7 +209,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     
     /**
      * Sets the approvedForeignTravelId attribute value.
-     * @param approvedEquipmentId The approvedForeignTravelId to set.
+     * @param approvedForeignTravelId The approvedForeignTravelId to set.
      */
     public void setApprovedForeignTravelId(final Long approvedForeignTravelId) {
         this.approvedForeignTravelId = approvedForeignTravelId;
@@ -180,19 +217,42 @@ public class AwardApprovedForeignTravel extends AwardAssociate
 
     /**
      * Sets the traveler attribute value.
-     * @param traveler The Person to set.
+     * @param personTraveler The Person to set.
      */
-    public void setTraveler(final Person traveler) {
-        this.traveler = traveler;
-        if(traveler != null) {
-            this.travelerName = traveler.getFullName();
-            this.travelerId = traveler.getPersonId();
+    public void setPersonTraveler(final Person personTraveler) {
+        this.personTraveler = personTraveler;
+        if(personTraveler != null) {
+            this.travelerName = personTraveler.getFullName();
+            this.personId = personTraveler.getPersonId();
+            setRolodexTraveler(null);
         } else {
-            this.travelerName = null;
-            this.travelerId = null;
+            this.personId = null;
+            this.travelerName = rolodexTraveler != null ? rolodexTraveler.getFullName() : null;
         }
     }
-    
+
+    /**
+     * @param rolodexId
+     */
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    /**
+     * @param rolodexTraveler
+     */
+    public void setRolodexTraveler(NonOrganizationalRolodex rolodexTraveler) {
+        this.rolodexTraveler = rolodexTraveler;
+        if(rolodexTraveler != null) {
+            this.travelerName = rolodexTraveler.getFullName();
+            this.rolodexId = rolodexTraveler.getRolodexId();
+            setPersonTraveler(null);
+        } else {
+            this.rolodexId = null;
+            this.travelerName = personTraveler != null ? personTraveler.getFullName() : null;
+        }
+    }
+
     /**
      * This method sets the traveler name
      * @param travelerName
@@ -252,10 +312,10 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         int result = 1;
         result = PRIME * result + ((destination == null) ? 0 : destination.hashCode());
         result = PRIME * result + ((startDate == null) ? 0 : startDate.hashCode());
-        if(traveler == null) {
+        if(personTraveler == null) {
             result = PRIME * result + ((travelerName == null) ? 0 : travelerName.hashCode());
         } else {
-            result = PRIME * result + traveler.hashCode();
+            result = PRIME * result + personTraveler.hashCode();
         }
         
         return result;
@@ -292,8 +352,8 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         } else if (!startDate.equals(other.startDate)) {
             return false;
         }
-        if (traveler == null) {
-            if (other.traveler != null) {
+        if (personTraveler == null) {
+            if (other.personTraveler != null) {
                 return false;
             } else {
                 if (travelerName == null) {
@@ -305,24 +365,20 @@ public class AwardApprovedForeignTravel extends AwardAssociate
                 }
             }
         } else {
-            if (other.traveler == null) {
-                return false;
-            } else {
-                return traveler.getFullName().equalsIgnoreCase(other.traveler.getFullName());
-            }
+            return other.personTraveler != null && personTraveler.getFullName().equalsIgnoreCase(other.personTraveler.getFullName());
         }
         
         return true;
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @return
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> map = super.toStringMapper();
         map.put("approvedEquipmentId", approvedForeignTravelId);
-        map.put("traveler", traveler);
+        map.put("traveler", personTraveler);
         map.put("destination", destination);
         map.put("startDate", startDate);
         map.put("endDate", endDate);
@@ -331,23 +387,44 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     }
 
     public String toString() {
-        return String.format("********** %s=%s;%s=%s [%d]", "travelerId", travelerId, "travelerName", travelerName, instanceNumber);
+        return String.format("********** %s=%s;%s=%s [%d]", "travelerId", personId, "travelerName", travelerName, instanceNumber);
     }
     
     public int compareTo(AwardApprovedForeignTravel other) {
         int result = startDate != null ? startDate.compareTo(other.startDate) : 0;
         if(result == 0) {
-            if(traveler != null && other.traveler != null) {
-                result = compareTravelerNames(traveler.getLastName(), other.traveler.getLastName());
+            Contactable thisTraveler = getTraveler();
+            Contactable otherTraveler = other.getTraveler();
+            if(thisTraveler != null && otherTraveler != null) {
+                result = thisTraveler.getLastName().compareToIgnoreCase(otherTraveler.getLastName());
                 if(result == 0) {
-                    result = compareTravelerNames(traveler.getFirstName(), other.traveler.getFirstName());
+                    result = thisTraveler.getFirstName().compareToIgnoreCase(otherTraveler.getFirstName());
                 }
             }
         }
         return result;
     }       
-    
-    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) {
-        return thisTravelerName.compareToIgnoreCase(otherTravelerName);
+
+    Contactable loadTraveler() {
+        Contactable contact;
+        if(personId != null) {
+            Map map = ServiceHelper.getInstance().buildCriteriaMap("personId", personId);
+            contact = (Contactable) getBusinessObjectService().findMatching(Person.class, map).iterator().next();
+        } else if(rolodexId != null) {
+            Map map = ServiceHelper.getInstance().buildCriteriaMap("rolodexId", rolodexId);
+            contact = (Contactable) getBusinessObjectService().findMatching(NonOrganizationalRolodex.class, map).iterator().next();
+        } else {
+            contact = null;
+        }
+
+        return contact;
     }
+
+    BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+//    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) {
+//        return thisTravelerName.compareToIgnoreCase(otherTravelerName);
+//    }
 }

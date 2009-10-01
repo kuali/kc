@@ -25,6 +25,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -56,6 +58,7 @@ public class AwardApprovedForeignTravelRuleTest {
     private Award award;
     private AwardApprovedForeignTravel trip1;
     private AwardApprovedForeignTravel trip2;
+    private AwardApprovedForeignTravel trip3;
     
     @Before
     public void setUp() throws Exception {
@@ -67,10 +70,10 @@ public class AwardApprovedForeignTravelRuleTest {
         GlobalVariables.setErrorMap(new ErrorMap());
         
         trip1 = createForeignTravelTrip(1L, TRAVELER1_NAME, DESTINATION1_NAME, START1_DATE, END1_DATE, AMOUNT1);
-        trip1.setApprovedForeignTravelId(1L);
         
         trip2 = createForeignTravelTrip(2L, TRAVELER2_NAME, DESTINATION2_NAME, START2_DATE, END2_DATE, AMOUNT2);
-        trip2.setApprovedForeignTravelId(2L);
+
+        trip3 = createForeignTravelTrip(1L, TRAVELER1_NAME, DESTINATION1_NAME, START1_DATE, END1_DATE, AMOUNT1, NonOrganizationalRolodex.class);
     }
     
     @After
@@ -109,14 +112,21 @@ public class AwardApprovedForeignTravelRuleTest {
     @Test
     public void testIsUnique_TravelerEditCausesDuplicateTrip() {
         award.add(trip1);
+
         AwardApprovedForeignTravel anotherTrip = new AwardApprovedForeignTravel(trip1);
-        anotherTrip.setTraveler(trip2.getTraveler());
-        
-        award.add(anotherTrip);        
+        anotherTrip.setPersonTraveler(trip2.getPersonTraveler());
+        award.add(anotherTrip);
+
         Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
         
-        Person newTraveler = getTraveler(3L, trip1.getTravelerName());
-        anotherTrip.setTraveler(newTraveler);
+        anotherTrip = new AwardApprovedForeignTravel(trip1);
+        anotherTrip.setRolodexTraveler(trip3.getRolodexTraveler());
+        award.add(anotherTrip);
+
+        Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
+        
+        Person newTraveler = getPersonTraveler(3L, trip1.getTravelerName());
+        anotherTrip.setPersonTraveler(newTraveler);
         Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
     }
     
@@ -134,45 +144,28 @@ public class AwardApprovedForeignTravelRuleTest {
     }
     
     @Test
-    public void testRequiredFieldPresent() {
-        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        
-        trip1.setTraveler(null);
-        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        trip1.setTraveler(getTraveler(1L, TRAVELER1_NAME));
-        
-        trip1.setDestination(null);
-        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        trip1.setDestination(DESTINATION1_NAME);
-        
-        trip1.setStartDate(null);
-        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        trip1.setStartDate(START1_DATE);
-        
-        trip1.setEndDate(null);
-        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        trip1.setEndDate(START1_DATE);
-        
-        trip1.setAmount(null);
-        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
-        trip1.setAmount(AMOUNT1);
-        
-        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip1));
+    public void testRequiredFieldPresent_Person() {
+        testRequiredFieldsPresent(trip1);
+    }
+
+    @Test
+    public void testRequiredFieldPresent_Rolodex() {
+        testRequiredFieldsPresent(trip3);
     }
 
     @Test
     public void testValidatingAmount() {
         trip1.setAmount(null);
         checkValidAmount(trip1, 1);
-        
+
         trip1.setAmount(ZERO_AMOUNT);
         checkValidAmount(trip1, 0);
-        
+
         trip1.setAmount(ZERO_AMOUNT - ONE_PENNY);
         checkValidAmount(trip1, 1);
-        
+
         trip1.setAmount(AMOUNT2);
-        checkValidAmount(trip1, 0);        
+        checkValidAmount(trip1, 0);
     }
 
     private void checkExistingEntriesDontTriggerDuplicationError() {
@@ -181,25 +174,68 @@ public class AwardApprovedForeignTravelRuleTest {
             Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, trips, trip));
         }
     }
-    
+
     private void checkValidAmount(AwardApprovedForeignTravel trip, int expectedErrorCount) {
         approvedForeignTravelRule.isAmountValid(AwardApprovedForeignTravelRule.ERROR_AWARD_APPROVED_FOREIGN_INVALID_FIELD, trip);
         Assert.assertEquals(expectedErrorCount, GlobalVariables.getErrorMap().size());
         GlobalVariables.getErrorMap().clear();
     }
-    
+
     private AwardApprovedForeignTravel createForeignTravelTrip(Long travelerId, String travelerName, String destination, Date startDate, Date endDate, double amount) {
-        return new AwardApprovedForeignTravel(getTraveler(travelerId, travelerName), destination, startDate, endDate, amount);
+        return createForeignTravelTrip(travelerId, travelerName, destination, startDate, endDate, amount, Person.class);
     }
-    
-    private Person getTraveler(Long travelerId, String travelerName) {
+
+    private AwardApprovedForeignTravel createForeignTravelTrip(Long travelerId, String travelerName, String destination, Date startDate, Date endDate,
+                                                               double amount, Class contactClass) {
+        Contactable traveler = contactClass.equals(Person.class) ? getPersonTraveler(travelerId, travelerName) :
+                                                                    getRolodexTraveler((int)(travelerId % Integer.MAX_VALUE), travelerName);
+        return new AwardApprovedForeignTravel(traveler, destination, startDate, endDate, amount);
+    }
+
+    private Person getPersonTraveler(Long travelerId, String travelerName) {
         Person person = new Person();
         person.setKimPersonId(travelerId);
         person.setFullName(travelerName);
         return person;
     }
-    
+
+    private NonOrganizationalRolodex getRolodexTraveler(Integer travelerId, String fullName) {
+        NonOrganizationalRolodex traveler = new NonOrganizationalRolodex();
+        traveler.setRolodexId(travelerId);
+        String[] nameParts = fullName.split(" ");
+        traveler.setFirstName(nameParts[0]);
+        traveler.setLastName(nameParts[1]);
+        return traveler;
+    }
+
     private AwardApprovedForeignTravelRuleImpl prepareTestReadyAwardApprovedForeignTravelRule() {
         return new AwardApprovedForeignTravelRuleImpl();
+    }
+
+    private void testRequiredFieldsPresent(AwardApprovedForeignTravel trip) {
+        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+
+        trip.setPersonTraveler(null);
+        trip.setRolodexTraveler(null);        
+        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+        trip.setPersonTraveler(getPersonTraveler(1L, TRAVELER1_NAME));
+
+        trip.setDestination(null);
+        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+        trip.setDestination(DESTINATION1_NAME);
+
+        trip.setStartDate(null);
+        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+        trip.setStartDate(START1_DATE);
+
+        trip.setEndDate(null);
+        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+        trip.setEndDate(START1_DATE);
+
+        trip.setAmount(null);
+        Assert.assertFalse(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
+        trip.setAmount(AMOUNT1);
+
+        Assert.assertTrue(approvedForeignTravelRule.areRequiredFieldsComplete(trip));
     }
 }
