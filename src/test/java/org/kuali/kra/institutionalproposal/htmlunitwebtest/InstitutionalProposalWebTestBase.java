@@ -99,7 +99,7 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     protected final HtmlPage buildProposalDocumentPage() throws Exception {
         HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
         HtmlPage proposalPage = lookupAndSelectProposalLog(centralAdminPage);
-        assertTrue("Kuali :: KC Institutional Proposal".equals(proposalPage.getTitleText()));
+        assertEquals("Kuali :: KC Institutional Proposal", proposalPage.getTitleText());
         setDefaultRequiredFields(proposalPage);
         return proposalPage;
     }
