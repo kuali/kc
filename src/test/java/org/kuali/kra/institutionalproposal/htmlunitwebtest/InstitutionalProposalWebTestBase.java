@@ -16,19 +16,35 @@
 package org.kuali.kra.institutionalproposal.htmlunitwebtest;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
+import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
+import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 /**
  * This class...
  */
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_FILES }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG.sql", delimiter = ";")
+                })
+        )
 public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
@@ -81,11 +97,32 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
      */
     protected final HtmlPage buildProposalDocumentPage() throws Exception {
         HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
-        HtmlPage tempProposalPage = clickOn(centralAdminPage, "Institutional Proposal");
-        HtmlPage createProposalPage = getInnerPages(tempProposalPage).get(0);
-        assertTrue("Kuali :: KC Institutional Proposal".equals(createProposalPage.getTitleText()));
-        setDefaultRequiredFields(createProposalPage);
-        return createProposalPage;
+        HtmlPage proposalPage = lookupAndSelectProposalLog(centralAdminPage);
+        assertTrue("Kuali :: KC Institutional Proposal".equals(proposalPage.getTitleText()));
+        setDefaultRequiredFields(proposalPage);
+        return proposalPage;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected final HtmlPage lookupAndSelectProposalLog(HtmlPage centralAdminPage) throws IOException {    
+        HtmlPage lookupPage = clickOn(centralAdminPage, "Institutional Proposal");
+
+        // click on the search button
+        HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
+        HtmlPage resultsPage = (HtmlPage) searchBtn.click();
+
+        HtmlTable table = (HtmlTable) getElement(resultsPage, "row");
+        HtmlAnchor anchor;
+        HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
+        List rows = body.getRows();
+
+        HtmlTableRow row = (HtmlTableRow) rows.get(0);
+        List cells = row.getCells();
+        HtmlTableCell cell = (HtmlTableCell) cells.get(0);
+        anchor = (HtmlAnchor) getFirstChild(cell);
+        HtmlPage returnPage = (HtmlPage) anchor.click();
+        
+        return returnPage;
     }
 
     /**
