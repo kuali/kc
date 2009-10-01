@@ -330,7 +330,8 @@
 	<class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" table="AWARD_APPROVED_FOREIGN_TRAVEL">
 		<field-descriptor name="approvedForeignTravelId" column="AWARD_APPR_FORN_TRAVEL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
-		<field-descriptor name="travelerId" column="TRAVELER_ID" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
 		<field-descriptor name="travelerName" column="TRAVELER_NAME" jdbc-type="VARCHAR" nullable="true" />
 		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" nullable="false" />

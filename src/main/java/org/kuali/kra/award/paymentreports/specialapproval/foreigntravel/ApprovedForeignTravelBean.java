@@ -16,11 +16,17 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class supports the AwardForm class
@@ -38,7 +44,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
         super(form);
         init();
     }
-    
+
     /**
      * This method is called when adding a new apprved equipment item
      * @param formHelper
@@ -76,7 +82,11 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     public AwardApprovedForeignTravel getNewApprovedForeignTravel() {
         return newApprovedForeignTravel;
     }
-    
+
+    public String getSelectedTravelerId() {
+        return newApprovedForeignTravel.getContactId().toString();
+    }
+
     /**
      * Initialize subform
      */
@@ -92,11 +102,11 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     }
 
     private void refreshTraveler(AwardApprovedForeignTravel trip) {
-        String travelerId = trip.getTravelerId();
+        String travelerId = trip.getPersonId();
         if(travelerId != null) {
             Map<String, Object> pkMap = new HashMap<String, Object>();
             pkMap.put("PERSON_ID", travelerId);
-            trip.setTraveler((Person) getBusinessObjectService().findByPrimaryKey(Person.class, pkMap));
+            trip.setPersonTraveler((Person) getBusinessObjectService().findByPrimaryKey(Person.class, pkMap));
         }
     }
     
@@ -115,5 +125,53 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
                                                             getAward(),
                                                             getNewApprovedForeignTravel());
         return event;
+    }
+
+    /**
+     * @return
+     */
+    public List<KeyLabelPair> getKnownTravelers() {
+        return new ApprovedForeignTravelerValuesFinder().getKeyValues();
+    }
+
+    /**
+     * @param travelerId
+     */
+    public void setSelectedTravelerId(String travelerId) {
+        if(StringUtils.isEmpty(travelerId)) {
+            return;
+        }
+        
+        boolean foundKeyPerson = false;
+        for(AwardPerson pp: getAward().getProjectPersons()) {
+            if(pp.getContact().getIdentifier().equals(travelerId)) {
+                if(pp.isEmployee()) {
+                    newApprovedForeignTravel.setPersonTraveler(pp.getPerson());
+                    newApprovedForeignTravel.setPersonId(pp.getPersonId());
+                } else {
+                    newApprovedForeignTravel.setRolodexTraveler(pp.getRolodex());
+                    newApprovedForeignTravel.setRolodexId(pp.getRolodexId());
+                }
+                foundKeyPerson = true;
+                break;
+            }
+        }
+        if(!foundKeyPerson) {
+            for(AwardApprovedForeignTravel aft: getAward().getApprovedForeignTravelTrips()) {
+                Contactable traveler = aft.getTraveler();
+                if(traveler.getIdentifier().equals(travelerId)) {
+                    if(traveler instanceof Person) {
+                        Person person = (Person) traveler;
+                        newApprovedForeignTravel.setPersonTraveler(person);
+                        newApprovedForeignTravel.setPersonId(person.getPersonId());
+                    } else {
+                        NonOrganizationalRolodex rolodex = (NonOrganizationalRolodex) traveler;
+                        newApprovedForeignTravel.setRolodexTraveler(rolodex);
+                        newApprovedForeignTravel.setRolodexId(rolodex.getRolodexId());
+                    }
+                    break;
+                }
+            }
+        }
     }
 }
