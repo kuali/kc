@@ -36,14 +36,32 @@
 		<tr>
         	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
         	<td class="infoline">
-        	  	<div align="center">
-        	  		<c:set var="dummy" value="${KualiForm.approvedForeignTravelBean.newApprovedForeignTravel.travelerId}" /> <%-- coerce setting from genericId --%> 
-        	  	 	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.travelerName" 
-        	  	 							attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true" />
-        	  	 	<kul:lookup boClassName="org.kuali.kra.award.contacts.AwardPerson" 
-        	  	 				fieldConversions="genericId:approvedForeignTravelBean.newApprovedForeignTravel.travelerId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"  
-        	  	 				lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.travelerId:genericId,${docAward}.awardNumber:awardNumber,${docAward}.sequenceNumber:sequenceNumber" 
-        	  	 				anchor="${tabKey}" />
+        	  	<div align="left">
+        	  		<c:set var="contactId" value="${KualiForm.approvedForeignTravelBean.newApprovedForeignTravel.contactId}" />
+                    <div style="float: left; margin-top: 5; margin-right:20">
+                        <span id="ApprovedForeignTravel_TravelerName"><kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
+        	  	 				                			attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true" /></span><br/>
+                        <html:select property="approvedForeignTravelBean.selectedTravelerId" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"
+                                     onchange="clearApprovedForeignTravelerTravelerName();">
+                            <html:option value="" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">--Select--</html:option>
+                            <html:optionsCollection property="approvedForeignTravelBean.knownTravelers" value="key" label="label" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"/>
+                        </html:select>
+
+                    </div>
+                    <div>
+                        <div align="left">
+                            <kul:lookup boClassName="org.kuali.kra.bo.Person"
+                                fieldConversions="personId:approvedForeignTravelBean.newApprovedForeignTravel.personId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
+                                lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.personId:contactIdId"
+                                anchor="${tabKey}" /> Employee Lookup
+                        </div>
+                        <div align="left">
+                            <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex"
+                                fieldConversions="rolodexId:approvedForeignTravelBean.newApprovedForeignTravel.rolodexId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
+                                lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.rolodexId:contactId"
+                                anchor="${tabKey}" /> Non-employee Lookup
+                        </div>
+                    </div>
         	 	</div>
         	</td>
             <td class="infoline">
@@ -75,8 +93,8 @@
 				</div>
             </td>
       	</tr>
-		
-		<c:forEach var="approvedForeignTravelTrip" items="${formAward.approvedForeignTravelTrips}" varStatus="status">
+
+        <c:forEach var="approvedForeignTravelTrip" items="${formAward.approvedForeignTravelTrips}" varStatus="status">
              <tr>
 				<th width="10%" class="infoline">
 					<c:out value="${status.index+1}" />
@@ -85,9 +103,16 @@
                 	<div align="center">
                 		<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].travelerName" 
                 								attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true"/>
-                		<kul:lookup boClassName="org.kuali.kra.bo.Person" 
-                				fieldConversions="personId:${docAward}.approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}" 
-        	  	 				lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
+                        <c:if test="${formAward.approvedForeignTravelTrips[status.index].employee}">
+                		    <kul:lookup boClassName="org.kuali.kra.bo.Person"
+                			    	fieldConversions="personId:${docAward}.approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}"
+        	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
+                        </c:if>
+                        <c:if test="${formAward.approvedForeignTravelTrips[status.index].nonemployee}">
+                		    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex"
+                			    	fieldConversions="rolodexId:${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId" anchor="${tabKey}"
+        	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId:rolodexId" />
+                        </c:if>
 					</div>
 				</td>
                 <td width="15%" valign="middle">

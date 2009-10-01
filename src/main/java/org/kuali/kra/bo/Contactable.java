@@ -68,4 +68,14 @@ public interface Contactable {
      * @return
      */
     String getPhoneNumber();
+
+    /**
+     * @return
+     */
+    String getFirstName();
+
+    /**
+     * @return
+     */
+    String getLastName();
 }
