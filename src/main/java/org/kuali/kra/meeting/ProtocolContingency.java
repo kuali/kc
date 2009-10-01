@@ -24,6 +24,10 @@ import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is standard protocol review comment.
+ */
 @Entity 
 @Table(name="PROTOCOL_CONTINGENCY")
 public class ProtocolContingency extends KraPersistableBusinessObjectBase { 
