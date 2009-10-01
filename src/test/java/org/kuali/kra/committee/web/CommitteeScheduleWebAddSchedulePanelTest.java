@@ -30,41 +30,41 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
     
     public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
     
-    public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeScheduleHelper.scheduleData.recurrenceType";
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeHelper.scheduleData.recurrenceType";
     
-    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "committeeScheduleHelper.scheduleData.dailySchedule.scheduleEndDate";
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "committeeHelper.scheduleData.dailySchedule.scheduleEndDate";
     
     public static final String DAILY = "DAILY";
     
-    public static final String SCHEDULEDATA_DAILYSCHEDULE_DAYOPTION = "committeeScheduleHelper.scheduleData.dailySchedule.dayOption";
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_DAYOPTION = "committeeHelper.scheduleData.dailySchedule.dayOption";
     
     public static final String XDAY = "XDAY";
     
     public static final String WEEKLY = "WEEKLY";
     
-    public static final String  SCHEDULEDATA_WEEKLYSCHEDULE_SCHEDULEENDDATE = "committeeScheduleHelper.scheduleData.weeklySchedule.scheduleEndDate";
+    public static final String  SCHEDULEDATA_WEEKLYSCHEDULE_SCHEDULEENDDATE = "committeeHelper.scheduleData.weeklySchedule.scheduleEndDate";
     
     public static final String MONTHLY = "MONTHLY";
     
-    public static final String SCHEDULEDATE_MONTHLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.monthlySchedule.day";
+    public static final String SCHEDULEDATE_MONTHLYSCHEDULE_DAY = "committeeHelper.scheduleData.monthlySchedule.day";
     
-    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_SHCEDULEENDDATE = "committeeScheduleHelper.scheduleData.monthlySchedule.scheduleEndDate";
+    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_SHCEDULEENDDATE = "committeeHelper.scheduleData.monthlySchedule.scheduleEndDate";
     
-    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_MONTHOPTION = "committeeScheduleHelper.scheduleData.monthlySchedule.monthOption";
+    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_MONTHOPTION = "committeeHelper.scheduleData.monthlySchedule.monthOption";
     
     public static final String XDAYOFWEEKANDXMONTH = "XDAYOFWEEKANDXMONTH";
     
     public static final String YEARLY = "YEARLY";
     
-    public static final String SCHEDULEDATA_YEARLYSCHEDULE_YEAROPTION = "committeeScheduleHelper.scheduleData.yearlySchedule.yearOption";
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_YEAROPTION = "committeeHelper.scheduleData.yearlySchedule.yearOption";
     
-    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION1MONTH = "committeeScheduleHelper.scheduleData.yearlySchedule.selectedOption1Month";
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION1MONTH = "committeeHelper.scheduleData.yearlySchedule.selectedOption1Month";
     
-    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION2MONTH = "committeeScheduleHelper.scheduleData.yearlySchedule.selectedOption2Month";
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION2MONTH = "committeeHelper.scheduleData.yearlySchedule.selectedOption2Month";
     
-    public static final String SCHEDULEDATA_YEARLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.yearlySchedule.day";
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
-    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SCHEDULEENDDATE = "committeeScheduleHelper.scheduleData.yearlySchedule.scheduleEndDate";
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SCHEDULEENDDATE = "committeeHelper.scheduleData.yearlySchedule.scheduleEndDate";
     
     public static final String CMPLX = "CMPLX";
     

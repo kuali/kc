@@ -16,9 +16,19 @@
 package org.kuali.kra.committee.web.struts.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.rice.shim.UniversalUser;
@@ -31,14 +41,25 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class CommitteeHelper implements Serializable {
     
-    @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeHelper.class);
-    
+    private static final long serialVersionUID = 1744329032797755384L;
+
     private CommitteeForm committeeForm;
     private boolean modifyCommittee = false;
-    
+    private CommitteeMembership newCommitteeMembership;
+    private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
+    private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
+    private ScheduleData scheduleData;
+
+
+    // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
+    // so it know which CommitteeMembership should get them.
+    private int memberIndex;
+
     public CommitteeHelper(CommitteeForm committeeForm) {
         this.committeeForm = committeeForm;
+        this.newCommitteeMembership = new CommitteeMembership();
+        this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
+        this.setScheduleData(new ScheduleData());
     }
     
     public Committee getCommittee() {
@@ -54,8 +75,32 @@ public class CommitteeHelper implements Serializable {
         } else {
             modifyCommittee = canModifyCommittee();
         }
+        prepareCommitteeScheduleDeleteView();
+
     }
     
+    /**
+     * Helper method prepares view for deleteable CommitteeSchedules.
+     */
+    private void prepareCommitteeScheduleDeleteView(){
+        
+        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        boolean flag = false;
+        CommitteeScheduleService service = getCommitteeScheduleService();
+        for(CommitteeSchedule committeeSchedule: committeeSchedules) {            
+            flag = service.isCommitteeScheduleDeletable(committeeSchedule);
+            committeeSchedule.setDelete(flag);
+        }    
+    }
+    
+    /**
+     * This method returns CommitteeScheduleService.
+     * @return
+     */
+    private CommitteeScheduleService getCommitteeScheduleService() {
+        return KraServiceLocator.getService(CommitteeScheduleService.class);
+    }
+
     public boolean canModifyCommittee() {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
@@ -81,4 +126,84 @@ public class CommitteeHelper implements Serializable {
     public void setModifyCommittee(boolean modifyCommittee) {
         this.modifyCommittee = modifyCommittee;
     }
+    
+    public CommitteeMembership getNewCommitteeMembership() {
+        return newCommitteeMembership;
+    }
+
+    public void setNewCommitteeMembership(CommitteeMembership newCommitteeMembership) {
+        this.newCommitteeMembership = newCommitteeMembership;
+    }
+    
+    public List<CommitteeMembershipRole> getNewCommitteeMembershipRoles() {
+        if (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipRoles.size()) {
+            this.newCommitteeMembershipRoles.add(this.newCommitteeMembershipRoles.size(), new CommitteeMembershipRole());
+        }
+        return newCommitteeMembershipRoles;
+    }
+
+    public void setNewCommitteeMembershipRoles(List <CommitteeMembershipRole> newCommitteeMembershipRoles) {
+        this.newCommitteeMembershipRoles = newCommitteeMembershipRoles;
+    }
+    
+    public List<CommitteeMembershipExpertise> getNewCommitteeMembershipExpertise() {
+        if (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipExpertise.size()) {
+            this.newCommitteeMembershipExpertise.add(this.newCommitteeMembershipExpertise.size(), new CommitteeMembershipExpertise());
+        }
+        return newCommitteeMembershipExpertise;
+    }
+
+    public void setNewCommitteeMembershipExpertise(List <CommitteeMembershipExpertise> newCommitteeMembershipExpertise) {
+        this.newCommitteeMembershipExpertise = newCommitteeMembershipExpertise;
+    }
+
+    public ScheduleData getScheduleData() {
+        return scheduleData;
+    }
+
+    public void setScheduleData(ScheduleData scheduleData) {
+        this.scheduleData = scheduleData;
+    }    
+    
+    public void setMemberIndex(int memberIndex) {
+        this.memberIndex = memberIndex;
+    }
+
+    public int getMemberIndex() {
+        return memberIndex;
+    }
+    
+    /**
+     * This method prepares view to filter dates between start and end date.
+     * @param startDate
+     * @param endDate
+     */
+    public void prepareFilterDatesView(Date startDate, Date endDate) {
+        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        startDate = DateUtils.addDays(startDate, -1);
+        endDate = DateUtils.addDays(endDate, 1);
+        Date scheduleDate = null;
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {            
+            scheduleDate = committeeSchedule.getScheduledDate();
+            if(scheduleDate.after(startDate) && scheduleDate.before(endDate)) 
+                committeeSchedule.setFilter(true);            
+            else
+                committeeSchedule.setFilter(false);
+        }
+    }
+
+    /**
+     * This method prepares view to reset filtered dates.
+     */
+    public void resetFilterDatesView() {
+        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+                committeeSchedule.setFilter(true);            
+        }
+        getScheduleData().setFilterStartDate(null);
+        getScheduleData().setFilerEndDate(null);
+    }
+    
+
+
 }

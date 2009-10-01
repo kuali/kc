@@ -39,7 +39,7 @@ import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
-import org.kuali.kra.committee.web.struts.form.MembershipHelper;
+import org.kuali.kra.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -63,7 +63,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        ((CommitteeForm)form).getMembershipHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
         
         return actionForward;
     }
@@ -81,13 +81,13 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward addCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeMembership newCommitteeMembership = committeeForm.getMembershipHelper().getNewCommitteeMembership();
+        CommitteeMembership newCommitteeMembership = committeeForm.getCommitteeHelper().getNewCommitteeMembership();
         
         // check any business rules
         boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
         if (rulePassed) {
             getCommitteeMembershipService().addCommitteeMembership(committeeForm.getCommitteeDocument().getCommittee(), newCommitteeMembership);
-            committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
+            committeeForm.getCommitteeHelper().setNewCommitteeMembership(new CommitteeMembership());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -125,8 +125,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
-        membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
+        CommitteeHelper committeeHelper = committeeForm.getCommitteeHelper();
+        committeeHelper.setNewCommitteeMembership(new CommitteeMembership());
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -147,7 +147,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
         Committee committee = committeeForm.getCommitteeDocument().getCommittee();
         int selectedMembershipIndex = getSelectedMembershipIndex(request);
         CommitteeMembershipRole newCommitteeMembershipRole 
-            = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
+            = committeeForm.getCommitteeHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
     
         // check any business rules
         boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), 
@@ -155,7 +155,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
 
         if (rulePassed) {
             getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
-            committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
+            committeeForm.getCommitteeHelper().setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
         }
     
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -192,7 +192,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String memberIndex = StringUtils.substringBetween(parameterName, "memberIndex", ".");
         if (StringUtils.isNotBlank(memberIndex)) {
-            ((CommitteeForm)form).getMembershipExpertiseHelper().setMemberIndex(Integer.parseInt(memberIndex));
+            ((CommitteeForm)form).getCommitteeHelper().setMemberIndex(Integer.parseInt(memberIndex));
         }
         return super.performLookup(mapping, form, request, response);
     }
@@ -210,7 +210,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
-        int membershipIndex = committeeForm.getMembershipExpertiseHelper().getMemberIndex();
+        int membershipIndex = committeeForm.getCommitteeHelper().getMemberIndex();
         CommitteeMembership committeeMembership = committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(membershipIndex);
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
