@@ -203,7 +203,9 @@ public class ProtocolAction extends ProtocolAssociate {
         if (protocolSubmission == null) {
             return "";
         }
-       // protocolSubmission.refreshReferenceObject("submissionStatus");
+        if (protocolSubmission.getSubmissionStatus() == null && submissionIdFk != null) {
+            protocolSubmission.refreshReferenceObject("submissionStatus");
+        }
         if (protocolSubmission.getSubmissionStatus() == null) {
             return "";
         }
@@ -229,10 +231,15 @@ public class ProtocolAction extends ProtocolAssociate {
         hashMap.put("actionDate", this.getActionDate());
         return hashMap;
     }
-
+    
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
     }
-
+    
+    public void resetForeignKeys() {
+        if (protocolSubmission != null) {
+            submissionIdFk = protocolSubmission.getSubmissionId();
+        }
+    }
 }
