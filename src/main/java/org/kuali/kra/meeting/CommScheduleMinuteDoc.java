@@ -29,6 +29,10 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
+/**
+ * 
+ * This class is for meeting generated minute doc.
+ */
 @Entity 
 @Table(name="COMM_SCHEDULE_MINUTE_DOC")
 public class CommScheduleMinuteDoc extends KraPersistableBusinessObjectBase { 

@@ -31,6 +31,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
 
+/**
+ * 
+ * This class is for member abstained from vote.
+ */
 @Entity 
 @Table(name="PROTOCOL_VOTE_ABSTAINEES")
 public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase { 
