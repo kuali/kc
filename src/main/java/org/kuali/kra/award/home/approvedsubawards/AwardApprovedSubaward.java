@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
+import org.kuali.kra.bo.Organization;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -30,8 +31,11 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
      */
     private static final long serialVersionUID = -5025168632828604306L;
     private Long awardApprovedSubawardId;
+    private String organizationId;
     private String organizationName;
     private KualiDecimal amount;
+    
+    private Organization organization;
 
     public AwardApprovedSubaward() {
         setAmount(new KualiDecimal(0.00));
@@ -74,8 +78,42 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
+    
+    
+    
 
 
+    /**
+     * Gets the organizationId attribute. 
+     * @return Returns the organizationId.
+     */
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    /**
+     * Sets the organizationId attribute value.
+     * @param organizationId The organizationId to set.
+     */
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    /**
+     * Gets the organization attribute. 
+     * @return Returns the organization.
+     */
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute value.
+     * @param organization The organization to set.
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
     /**
      * This method...
