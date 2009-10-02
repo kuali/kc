@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -247,18 +248,12 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
-        List<PropScienceKeyword> hierarchyKeywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
-        List<PropScienceKeyword> newKeywords = new ArrayList<PropScienceKeyword>();
-        for (Iterator<PropScienceKeyword> iter = keywords.iterator(); iter.hasNext();) {
+        for (ListIterator<PropScienceKeyword> iter = keywords.listIterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = iter.next();
-            if (!propScienceKeyword.getSelectKeyword()) {
-                newKeywords.add(propScienceKeyword);
-            }
-            else {
-                hierarchyKeywords.remove(propScienceKeyword);
+            if (propScienceKeyword.getSelectKeyword()) {
+                iter.remove();
             }
         }
-        proposalDevelopmentDocument.getDevelopmentProposal().setPropScienceKeywords(newKeywords);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
