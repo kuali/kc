@@ -41,10 +41,10 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        boolean hasModifyPermission = KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
+        boolean hasModifyPermission = getQuestionnaireAuthorizationService().hasPermission(
                 PermissionConstants.MODIFY_QUESTIONNAIRE);
         boolean hasViewPermission = hasModifyPermission
-                || KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
+                || getQuestionnaireAuthorizationService().hasPermission(
                         PermissionConstants.VIEW_QUESTIONNAIRE);
         if (hasModifyPermission) {
             documentActions = getDocumentActionsWithModifyPermission(document);
@@ -58,6 +58,10 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
         return documentActions;
     }
 
+    private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
+        return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
+    }
+    
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
         if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")
