@@ -43,6 +43,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
                 UnitTestData.Type.SQL_FILES }, 
         sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_TYPE.sql", delimiter = ";"),
+                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_STATUS.sql", delimiter = ";"),
                 @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG.sql", delimiter = ";")
                 })
         )
