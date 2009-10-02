@@ -38,7 +38,8 @@
             	<td class="infoline">
             	  	<div align="center">
             	  	 	<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
-            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName" anchor="${tabKey}" />
+            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName,organizationId:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId" anchor="${tabKey}" />
+            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId:organizationId" anchor="${tabKey}" />      	  	 	
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -60,6 +61,7 @@
 					</th>
 	                <td width="10%" valign="middle">
 						${awardApprovedSubawards.organizationName}
+						<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.awardList[0].awardApprovedSubawards[${status.index}].organizationId:organizationId" anchor="${tabKey}" />      	  	 		
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="right">
