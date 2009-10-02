@@ -18,6 +18,7 @@ package org.kuali.kra.irb;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,6 +87,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1461551957662921433L;
+    
     private Long protocolId; 
     private String protocolNumber; 
     private Integer sequenceNumber; 
@@ -1303,6 +1305,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     private ProtocolSummary createProtocolSummary() {
         ProtocolSummary summary = new ProtocolSummary();
+        summary.setLastProtocolAction(getLastProtocolAction());
         summary.setProtocolNumber(getProtocolNumber().toString());
         summary.setPiName(this.getPrincipalInvestigator().getPersonName());
         summary.setPiProtocolPersonId(this.getPrincipalInvestigator().getProtocolPersonId());
