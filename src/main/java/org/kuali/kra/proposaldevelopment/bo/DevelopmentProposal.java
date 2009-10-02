@@ -1750,7 +1750,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing
+     * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing.
+     * 
+     * TODO update with budget info once it is added to syncing
      */
     public int hierarchyChildHashCode() {
         final int prime = 31;
