@@ -32,6 +32,7 @@
         <ref bean="AwardPerson-summerEffort" />
         <ref bean="AwardPerson-totalEffort" />
         <ref bean="AwardPerson-contactRoleCode" />
+        <ref bean="AwardPerson-keyPersonRole" />
       </list>
     </property>
   </bean>
@@ -172,6 +173,19 @@
 	    <property name="summary" value="Project Role" />
 	    <property name="description" value="Project Role" />
 	</bean>
+	
+	<bean id="AwardPerson-keyPersonRole" parent="AwardPerson-keyPersonRole-parentBean" />
+	<bean id="AwardPerson-keyPersonRole-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="keyPersonRole" />
+		<property name="label" value="Project Role" />
+		<property name="shortLabel" value="Project Role" />
+		<property name="maxLength" value="60"/>
+		<property name="control" >
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Project Role" />
+		<property name="description" value="Project Role" />
+	</bean>	
 
 	<bean id="AwardPerson-lookupDefinition" parent="AwardPerson-lookupDefinition-parentBean" />
   	<bean id="AwardPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">

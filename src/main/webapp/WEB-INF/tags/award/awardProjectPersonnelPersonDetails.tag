@@ -19,6 +19,7 @@
 
 <%@ attribute name="awardContact" required="true" type="org.kuali.kra.award.contacts.AwardPerson" %>
 <%@ attribute name="awardContactRowStatusIndex" required="true" %>
+<c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
@@ -65,8 +66,22 @@
 			</td>
 		</tr>
 		<tr>
+		  <c:choose>
+		   <c:when test="${KualiForm.document.awardList[0].projectPersons[awardContactRowStatusIndex].contactRole.roleCode == keypersonrole}">
+		    <th class="infoline">
+		    	<div align="right">
+					*<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
+				</div>
+		    </th> 
+		    <td>
+				<kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].keyPersonRole" 
+										attributeEntry="${awardPersonAttributes.keyPersonRole}"/>		    
+		    </td>
+		   </c:when><c:otherwise>
 			<th class="infoline">&nbsp;</th>
 			<td>&nbsp;</td>
+		   </c:otherwise>
+		  </c:choose>
 			<th class="infoline">
 				<div align="right">
 					<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.calendarYearEffort}" useShortLabel="true" noColon="false" />

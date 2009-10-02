@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%-- member of AwardContacts.jsp --%>
-
+<script src="scripts/jquery/jquery.js"></script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
@@ -68,11 +68,28 @@
 	        			<c:out value="${KualiForm.projectPersonnelBean.newAwardContact.contactOrganizationName}" />&nbsp;
 	        		</div>
 	        	</td>
-	        	<td class="infoline" style="font-size: 80%">
+	        	<td class="infoline">
 	        		<div align="center">
 		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
-	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" />
-					</div>
+	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
+	                	<span class="keypersononly">
+					    *<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" /><span class="noscriptonly">(Required for Key Persons only)</span> 
+				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.keyPersonRole" 
+										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
+					    </span>
+                <script type="text/javascript">
+                  function proposalRoleChange(formItem, speed) {
+                      if ( $(formItem).val() == 'KP' ) {
+                          $('.keypersononly').slideDown(speed);
+                      } else {
+                          $('.keypersononly').slideUp(speed);
+                      }
+                  }
+                  $(document).ready(function() {
+                      proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
+                      $('.noscriptonly').hide();
+                  });
+                </script>
 	        	</td>
 	        	<td class="infoline">
 	        		<div align="center">
