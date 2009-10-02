@@ -26,6 +26,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * This class...
@@ -48,7 +49,7 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.link.noPrincipleInvestigator";
     private static final String ERROR_LINK_NO_BUDGET_VERSION = "error.hierarchy.link.noBudgetVersion";
     private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
-    private static final String ERROR_UNKNOWN = "error.hierarchy.unknown";
+    private static final String ERROR_UNEXPECTED = "error.hierarchy.unexpected";
 
     ProposalHierarchyService hierarchyService;
     
@@ -60,7 +61,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            doUnexpectedError(e, FIELD_GENERIC, true);
         }
     }
     
@@ -72,7 +73,7 @@ public class ProposalHierarcyActionHelper {
     
             }
             catch (Exception e) {
-                GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
     }
@@ -85,7 +86,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            doUnexpectedError(e, FIELD_GENERIC, true);
         }
     }
 
@@ -99,7 +100,7 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (Exception e) {
-                GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
     }
@@ -110,11 +111,12 @@ public class ProposalHierarcyActionHelper {
             valid &= validateChildCandidate(newChildProposal);
             if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
                 try {
+                      
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (Exception e) {
-                    GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                    doUnexpectedError(e, FIELD_GENERIC, true);
                 }
             }
         }
@@ -126,7 +128,7 @@ public class ProposalHierarcyActionHelper {
             retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
         }
         catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            doUnexpectedError(e, FIELD_GENERIC, false);
         }
         return retval;
     }
@@ -186,6 +188,17 @@ public class ProposalHierarcyActionHelper {
         if (!StringUtils.equalsIgnoreCase(hierarchy.getSponsorCode(), child.getSponsorCode())) {
             GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
         }
+        try {
+            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child);
+            if (budgetError != null) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
+            }
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
+            valid = false;            
+        }
         return valid;
     }
     
@@ -200,7 +213,7 @@ public class ProposalHierarcyActionHelper {
         
         }
         catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
             valid = false;
         }
         return valid;
@@ -228,5 +241,13 @@ public class ProposalHierarcyActionHelper {
             }
         }
         return retval;
+    }
+    
+    private void doUnexpectedError (Exception e, String field, boolean rollback) {
+        if (rollback) {
+            PlatformTransactionManager txMgr = KraServiceLocator.getService("transactionManager");
+            txMgr.rollback(txMgr.getTransaction(null));
+        }
+        GlobalVariables.getMessageMap().putError(field, ERROR_UNEXPECTED, e.toString());
     }
 }
