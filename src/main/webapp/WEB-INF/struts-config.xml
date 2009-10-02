@@ -150,8 +150,7 @@
             <forward name="basic" path="/researchAreaSearch.jsp" />
         </action> -->
         
- 		<!-- action path="/sponsorHierarchy*" name="SponsorHierarchyForm" input="/SponsorHierarchy{1}.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request" -->
- 		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">
+ 		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request">
             <forward name="copy" path="/SponsorHierarchyCopy.jsp" />
             <forward name="new" path="/SponsorHierarchyNew.jsp" />
             <forward name="basic" path="/sponsorHierarchyInit.jsp" />
