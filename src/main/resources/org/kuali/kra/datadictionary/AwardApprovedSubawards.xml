@@ -22,6 +22,7 @@
         <ref bean="AwardApprovedSubaward-awardNumber" />
         <ref bean="AwardApprovedSubaward-sequenceNumber" />
         <ref bean="AwardApprovedSubaward-organizationName" />
+        <ref bean="AwardApprovedSubaward-organizationId" />
         <ref bean="AwardApprovedSubaward-amount" />    
       </list>
     </property>
@@ -91,6 +92,25 @@
     </property>
     <property name="summary" value="Organization Name" />
     <property name="description" value="Organization Name" />
+  </bean>
+  
+  <bean id="AwardApprovedSubaward-organizationId" parent="AwardApprovedSubaward-organizationId-parentBean" />
+
+  <bean id="AwardApprovedSubaward-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization ID" />
+    <property name="shortLabel" value="Organization ID" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Organization ID" />
+    <property name="description" value="Organization ID" />
   </bean>
   
   
