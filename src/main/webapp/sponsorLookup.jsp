@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<html>
 <kul:page lookup="true" 
           docTitle="Add Sponsor Hierarchy" 
           transactionalDocument="false" 
@@ -37,21 +38,23 @@
          		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
          	
          	<!-- <p><a href="javascript:returnSponsor();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> -->
-         	
-          	<script type="text/javascript">
-          	  
-          	     function returnSponsor() {
-          	            var sponsors = document.getElementById("selectedSponsors").value
-          	            var mapKey = document.getElementById("mapKey").value
-          	         	window.opener.returnSponsor(sponsors, mapKey);
-          	     
-          	     }
-                 var lookupBtn=document.getElementById("lookupBtn");
-                 if (document.getElementById("methodToCall").value != "refresh") {
-                 	lookupBtn.click();
-                 } else {
-                 	returnSponsor();
-                 	window.close();
-                 }
-            </script>
 </kul:page>
+            
+<script type="text/javascript">
+  
+     function returnSponsor() {
+            var sponsors = document.getElementById("selectedSponsors").value
+            var mapKey = document.getElementById("mapKey").value
+            window.opener.returnSponsor(sponsors, mapKey);
+     
+     }
+     var lookupBtn=document.getElementById("lookupBtn");
+     if (document.getElementById("methodToCall").value != "refresh") {
+        lookupBtn.click();
+     } else {
+        returnSponsor();
+        window.close();
+     }
+</script>
+
+</html>
