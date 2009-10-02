@@ -346,6 +346,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
+            setMultipleNodeHierarchyOnAwardFormTrue(awardForm);
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
             forward = mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
@@ -353,6 +354,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
+    }
+    
+    /**
+     * Since a child award will always be part of a multiple award hierarchy, we need to set the boolean to true so that the anticipated
+     * and obligated totals on Details & Dates tab will be uneditable on initial creation.  After the initial save of document
+     * this is handled in the docHandler and home methods of AwardAction.
+     * @param awardForm
+     */
+    private void setMultipleNodeHierarchyOnAwardFormTrue(AwardForm awardForm) {
+         awardForm.setAwardInMultipleNodeHierarchy(true);
     }
 
     private String getHierarchyTargetAwardNumber(HttpServletRequest request) {
