@@ -33,7 +33,7 @@
 				<th scope="row" width="5%">&nbsp;</th>
 				<th width="15%">Person</th>
 				<th width="15%">Unit</th>
-				<th width="20%">Project Role</th>
+				<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" /></div></th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
 				<th width="15%"><div align="center">Actions</div></th>
