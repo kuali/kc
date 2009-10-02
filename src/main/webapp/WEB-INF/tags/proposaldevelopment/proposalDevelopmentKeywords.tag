@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
@@ -35,6 +35,7 @@
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
+            <kra:section permission="modifyProposal">
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.developmentProposalList[0].newDescription}
@@ -47,6 +48,7 @@
               &nbsp;
               </div></td>
             </tr>
+			</kra:section>            
 
             <logic:iterate name="KualiForm" id="proposalKeywords" property="document.developmentProposalList[0].propScienceKeywords" indexId="ctr">
               <tr>
