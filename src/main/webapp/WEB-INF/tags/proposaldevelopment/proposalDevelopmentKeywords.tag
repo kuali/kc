@@ -22,7 +22,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].propScienceKeyword">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>
