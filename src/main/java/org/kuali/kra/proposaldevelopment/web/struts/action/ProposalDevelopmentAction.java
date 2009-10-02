@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -49,8 +51,10 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -73,10 +77,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -133,12 +139,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             // TODO: not sure it's should be here - for audit error display.
             
             new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
-            if (proposalDevelopmentForm.isAuditActivated()) {
-                if (document != null && 
-                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
-                    getService(S2SService.class).validateApplication(document);            
-                }
-            }
+//            if (proposalDevelopmentForm.isAuditActivated()) {
+//                if (document != null && 
+//                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
+//                    getService(S2SService.class).validateApplication(document);            
+//                }
+//            }
 
             //if(isPrincipalInvestigator){
             //}
@@ -570,6 +576,73 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         return super.headerTab(mapping, form, request, response);
     }
+    /**
+     * 
+     * This method is called to print forms
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+//        proposalDevelopmentForm.setAuditActivated(true);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        new AuditActionHelper().auditUnconditionally(proposalDevelopmentDocument);
+        boolean errorExists = false;
+        boolean warningExists = false;
+        boolean grantsGovErrorExists = false;
+        for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                errorExists=true;
+                break;
+            }
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                warningExists = true;
+            }
+            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                grantsGovErrorExists = true;
+                break;
+            }
+
+        }
+//        super.save(mapping, form, request, response);
+        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                    grantsGovErrorExists = true;
+                    break;
+                }
+            }
+        }
+        if(grantsGovErrorExists || errorExists){
+            proposalDevelopmentForm.setAuditActivated(true);
+//            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        }
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
+            baos.write(attachmentDataSource.getContent());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }        
+        return null;
+    }
+
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
