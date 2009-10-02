@@ -19,10 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
+import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.service.ParameterService;
@@ -33,7 +40,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule{
 
     private ParameterService parameterService;
-    
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAuditRule.class);
+
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -67,7 +75,20 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.AUDIT_ERRORS));
         }
-
+        
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
+            try {
+                valid &= getS2sValidatorService().validateApplication(proposalDevelopmentDocument,auditErrors);
+            }catch (S2SException e) {
+                valid = false;
+                LOG.error("Unknown error while validating grants.gov data", e);
+                throw new RuntimeException(e);
+            }
+        }
         return valid;
+    }
+
+    private S2SService getS2sValidatorService() {
+        return KraServiceLocator.getService(S2SService.class);
     }
 }
