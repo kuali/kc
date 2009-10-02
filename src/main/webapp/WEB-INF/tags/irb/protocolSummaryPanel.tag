@@ -18,7 +18,7 @@
                 <tr>
                     <th colspan="4" style="text-align:center">
                         Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}:&nbsp;
-                       
+                        ${KualiForm.actionHelper.protocolSummary.lastProtocolActionDescription}
                         <c:if test="${!prevDisabled}">
                             <html:image property="methodToCall.viewPreviousProtocolSummary.line${status.index}.anchor${currentTabIndex}"
                                         src="${ConfigProperties.kra.externalizable.images.url}tinybutton-previous3.gif"
@@ -79,7 +79,8 @@
                     <tbody>
                         <tr>
                             <th colspan="4" style="text-align:center">
-                                Sequence ${KualiForm.actionHelper.currentSequenceNumber}/${KualiForm.actionHelper.sequenceCount}
+                                Sequence ${KualiForm.actionHelper.currentSequenceNumber}/${KualiForm.actionHelper.sequenceCount}:&nbsp;
+                                ${KualiForm.actionHelper.prevProtocolSummary.lastProtocolActionDescription}
                             </th>
                         </tr>
                     </tbody>
