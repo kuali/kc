@@ -316,15 +316,30 @@
         <th>
             <div align="right">Anticipated Amount:</div>
         </th>
-        <td align="left" valign="middle">
-            <fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.award.anticipatedTotal}"/>
-        </td>
-        <th>
-            <div align="right">Obligated Amount:</div>
-        </th>
-        <td align="left" valign="middle">
-            <fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.award.obligatedTotal}"/>
-        </td>
+        <c:choose>
+			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">
+	                <td align="left" valign="middle">
+            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoWithHighestTransactionId].anticipatedTotalAmount}"/>
+        			</td>
+        			<th>
+            			<div align="right">Obligated Amount:</div>
+        			</th>
+        			<td align="left" valign="middle">
+           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoWithHighestTransactionId].amountObligatedToDate}"/>
+        			</td>
+	        </c:when>
+	        <c:otherwise>
+					<td align="left" valign="middle">
+            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoWithHighestTransactionId}].anticipatedTotalAmount" attributeEntry="${awardAttributes.anticipatedTotal}"/>
+        			</td>
+        			<th>
+            			<div align="right">Obligated Amount:</div>
+        			</th>
+        			<td align="left" valign="middle">
+            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoWithHighestTransactionId}].amountObligatedToDate" attributeEntry="${awardAttributes.obligatedTotal}"/>
+        			</td>
+			</c:otherwise>
+		</c:choose>
     </tr>
 </table>
 </kra:innerTab>	

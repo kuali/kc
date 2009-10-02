@@ -127,6 +127,8 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardAttachmentFormBean awardAttachmentFormBean;
     
     private boolean auditActivated;
+    private boolean awardInMultipleNodeHierarchy;
+    private int indexOfAwardAmountInfoWithHighestTransactionId;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
@@ -512,6 +514,42 @@ public class AwardForm extends BudgetVersionFormBase
     /** {@inheritDoc} */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
+    }
+    
+    
+
+    /**
+     * Gets the awardInMultipleNodeHierarchy attribute. 
+     * @return Returns the awardInMultipleNodeHierarchy.
+     */
+    public boolean isAwardInMultipleNodeHierarchy() {
+        return awardInMultipleNodeHierarchy;
+    }
+
+    /**
+     * Sets the awardInMultipleNodeHierarchy attribute value.
+     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
+     */
+    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
+        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+    }
+    
+    
+
+    /**
+     * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
+     * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
+     */
+    public int getIndexOfAwardAmountInfoWithHighestTransactionId() {
+        return indexOfAwardAmountInfoWithHighestTransactionId;
+    }
+
+    /**
+     * Sets the indexOfAwardAmountInfoWithHighestTransactionId attribute value.
+     * @param indexOfAwardAmountInfoWithHighestTransactionId The indexOfAwardAmountInfoWithHighestTransactionId to set.
+     */
+    public void setIndexOfAwardAmountInfoWithHighestTransactionId(int indexOfAwardAmountInfoWithHighestTransactionId) {
+        this.indexOfAwardAmountInfoWithHighestTransactionId = indexOfAwardAmountInfoWithHighestTransactionId;
     }
 
     public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
