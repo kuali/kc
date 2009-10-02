@@ -672,7 +672,7 @@ public class BudgetForm extends BudgetVersionFormBase {
         
         //Document Number TODO replace universal user inquiry
         HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
-        HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
         HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
                 parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
                         parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
