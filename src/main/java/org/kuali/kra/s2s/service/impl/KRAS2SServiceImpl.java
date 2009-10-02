@@ -372,9 +372,16 @@ public class KRAS2SServiceImpl implements S2SService {
      * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public boolean validateApplication(ProposalDevelopmentDocument pdDoc) throws S2SException {
-        return generateAndValidateForms(null, null, pdDoc);
+        return generateAndValidateForms(null, null, pdDoc,new ArrayList<AuditError>());
     }
 
+    public boolean validateApplication(ProposalDevelopmentDocument pdDoc,List<AuditError> auditErrors) throws S2SException {
+        return generateAndValidateForms(null, null, pdDoc,auditErrors);
+    }
+    private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) 
+                throws S2SException{
+        return generateAndValidateForms(forms, attList, pdDoc, new ArrayList<AuditError>());
+    }
     /**
      * 
      * This method is to generate and validate the generated forms.
@@ -385,10 +392,9 @@ public class KRAS2SServiceImpl implements S2SService {
      * @return validation result true if valid false otherwise.
      * @throws S2SException
      */
-    private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc)
+    private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc, List<AuditError> auditErrors)
             throws S2SException {
         boolean validationSucceeded = true;
-        List<AuditError> errors = new ArrayList<AuditError>();
         for (S2sOppForms opportunityForm : pdDoc.getDevelopmentProposal().getS2sOppForms()) {
             if (!opportunityForm.getInclude()) {
                 continue;
@@ -404,7 +410,7 @@ public class KRAS2SServiceImpl implements S2SService {
             }
             try {
                 XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-                if (s2SValidatorService.validate(formObject, errors)) {
+                if (s2SValidatorService.validate(formObject, auditErrors)) {
                     if (forms != null && attList != null) {
                         setFormObject(forms, formObject);
                         attList.addAll(s2sFormGenerator.getAttachments());
@@ -420,7 +426,7 @@ public class KRAS2SServiceImpl implements S2SService {
             }
         }
         if (!validationSucceeded) {
-            setValidationErrorMessage(errors);
+            setValidationErrorMessage(auditErrors);
         }
         return validationSucceeded;
     }

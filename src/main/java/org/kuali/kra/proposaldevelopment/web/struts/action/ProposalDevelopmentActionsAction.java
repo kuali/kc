@@ -890,59 +890,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.setAuditActivated(true);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        boolean errorExists = false;
-        boolean warningExists = false;
-        boolean grantsGovErrorExists = false;
-        for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                errorExists=true;
-                break;
-            }
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                warningExists = true;
-            }
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                grantsGovErrorExists = true;
-                break;
-            }
-
-        }
-//        super.save(mapping, form, request, response);
-        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
-        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                    grantsGovErrorExists = true;
-                    break;
-                }
-            }
-        }
-        if(grantsGovErrorExists || errorExists){
-//            proposalDevelopmentForm.setAuditActivated(true);
-            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-            return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
-        }
-        ByteArrayOutputStream baos = null;
-        try{
-            baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
-            baos.write(attachmentDataSource.getContent());
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
-                }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }        
-        return null;
+        return super.printForms(mapping, form, request, response);
     }
     
     @Override

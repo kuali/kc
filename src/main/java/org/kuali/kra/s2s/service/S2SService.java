@@ -22,6 +22,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.rice.kns.util.AuditError;
 
 /**
  * 
@@ -97,4 +98,13 @@ public interface S2SService {
      * @throws S2SException 
      */
     public boolean validateApplication(ProposalDevelopmentDocument pdDoc) throws S2SException;
+    /**
+     * 
+     * This method is used to validate application before submission.
+     * 
+     * @param pdDoc Proposal Development Document.
+     * @return boolean true if valid false otherwise.
+     * @throws S2SException 
+     */
+    public boolean validateApplication(ProposalDevelopmentDocument pdDoc,List<AuditError> auditErrors) throws S2SException;
 }
