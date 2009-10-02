@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -41,8 +43,22 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
         }
         
         boolean valid = checkForDuplicateUnits(projectPersons);
+        valid &= checkForKeyPersonProjectRoles(projectPersons);
         
         return true;
+    }
+    
+    boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
+       boolean valid = true;
+       for ( AwardPerson person : projectPersons ) {
+           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+                   StringUtils.isBlank(person.getKeyPersonRole()) ) {
+               valid = false;
+               GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
+                       ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, person.getPerson().getFullName());
+           }
+       }
+       return valid;
     }
     
     boolean checkForDuplicateUnits(List<AwardPerson> projectPersons) {
