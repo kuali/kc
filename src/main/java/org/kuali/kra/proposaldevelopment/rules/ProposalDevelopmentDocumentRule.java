@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -123,6 +124,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
+        valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
@@ -429,6 +431,21 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             valid = false;
          }
         return valid;
+    }
+    
+    private boolean processKeywordBusinessRule(ProposalDevelopmentDocument document) {
+        List<PropScienceKeyword> keywords = document.getDevelopmentProposal().getPropScienceKeywords();
+        for ( PropScienceKeyword keyword : keywords ) {
+            for ( PropScienceKeyword keyword2 : keywords ) {
+                if ( keyword == keyword2 ) {
+                    continue;
+                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
+                    GlobalVariables.getErrorMap().putError("developmentProposalList[0].propScienceKeyword", "error.proposalKeywords.duplicate");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
    
       
