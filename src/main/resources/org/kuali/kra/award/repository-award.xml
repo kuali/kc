@@ -223,6 +223,7 @@
 		<field-descriptor name="faculty" column="FACULTY_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		
 		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="keyPersonRole" column="KEY_PERSON_PROJECT_ROLE" jdbc-type="VARCHAR"/>
 		
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />

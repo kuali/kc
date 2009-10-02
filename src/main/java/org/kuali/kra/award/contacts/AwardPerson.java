@@ -39,6 +39,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
     private boolean faculty;
     private KualiDecimal summerEffort;
     private KualiDecimal totalEffort;
+    private String keyPersonRole;
     private List<AwardPersonUnit> units;
     private List<AwardPersonCreditSplit> creditSplits;
     
@@ -285,5 +286,11 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
     }
     public boolean isOtherSignificantContributorFlag() {
         return false;
+    }
+    public String getKeyPersonRole() {
+        return keyPersonRole;
+    }
+    public void setKeyPersonRole(String keyPersonRole) {
+        this.keyPersonRole = keyPersonRole;
     }
 }
