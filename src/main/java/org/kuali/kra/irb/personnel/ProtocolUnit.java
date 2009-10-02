@@ -19,6 +19,7 @@ package org.kuali.kra.irb.personnel;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.ProtocolAssociate;
 
@@ -37,6 +38,7 @@ public class ProtocolUnit extends ProtocolAssociate {
 	
 	private Unit unit; 
 	
+	@SkipVersioning
     private ProtocolPerson protocolPerson; 
 
     public ProtocolUnit() { 
