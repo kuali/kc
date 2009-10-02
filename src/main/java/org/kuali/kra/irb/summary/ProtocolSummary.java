@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.irb.actions.ProtocolAction;
 
 public class ProtocolSummary implements Serializable {
 
@@ -29,6 +30,7 @@ public class ProtocolSummary implements Serializable {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
+    private String lastProtocolActionDescription;
     private String protocolNumber;
     private String approvalDate;
     private String lastApprovalDate;
@@ -60,6 +62,20 @@ public class ProtocolSummary implements Serializable {
     
     public ProtocolSummary() {
         
+    }
+    
+    public void setLastProtocolAction(ProtocolAction protocolAction) {
+        if (protocolAction == null) {
+            lastProtocolActionDescription = "";
+        }
+        else {
+            lastProtocolActionDescription = protocolAction.getProtocolActionType().getDescription() + " " + 
+                                            dateFormat.format(protocolAction.getActionDate());
+        }
+    }
+    
+    public String getLastProtocolActionDescription() {
+        return lastProtocolActionDescription;
     }
 
     public String getProtocolNumber() {
