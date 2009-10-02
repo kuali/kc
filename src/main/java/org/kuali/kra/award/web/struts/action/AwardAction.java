@@ -32,8 +32,8 @@ import org.kuali.kra.award.AwardLockService;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.AwardTemplateSyncService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
@@ -55,6 +55,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -66,7 +67,6 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -88,7 +88,10 @@ public class AwardAction extends BudgetParentActionBase {
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, awardForm);
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         awardForm.initializeFormOrDocumentBasedOnCommand();
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
+        
         
         return forward;
     }
@@ -222,7 +225,7 @@ public class AwardAction extends BudgetParentActionBase {
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
         populateStaticCloseoutReports(awardForm);
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
@@ -321,7 +324,41 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward home(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
+        ActivePendingTransactionsService activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        int index = activePendingTransactionsService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
+        awardForm.setIndexOfAwardAmountInfoWithHighestTransactionId(index);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
+    }
+    
+    /**
+     * This method...
+     * @param awardDocument
+     * @param awardForm
+     */
+    @SuppressWarnings("unchecked")
+    public void setBooleanAwardInMultipleNodeHierarchyOnForm (AwardDocument awardDocument, AwardForm awardForm) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        String awardNumber = awardDocument.getAward().getAwardNumber();
+        fieldValues.put("awardNumber", awardNumber);
+        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        List<AwardHierarchy> awardHierarchies = (ArrayList) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        if (awardHierarchies.size() == 0) {
+            awardForm.setAwardInMultipleNodeHierarchy(false);
+        }else {
+            Map<String, Object> newFieldValues = new HashMap<String, Object>();
+            String rootAwardNumber = awardHierarchies.get(0).getRootAwardNumber();
+            newFieldValues.put("rootAwardNumber", rootAwardNumber);
+            int matchingValues = businessObjectService.countMatching(AwardHierarchy.class, newFieldValues);
+            if (matchingValues > 1) {
+                awardForm.setAwardInMultipleNodeHierarchy(true);
+            }else {
+                awardForm.setAwardInMultipleNodeHierarchy(false);
+            }
+        }
     }
 
     /**

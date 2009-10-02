@@ -635,6 +635,34 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         return awardAmountInfo;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
+     */
+    public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
+        AwardAmountInfo awardAmountInfo = null;
+        int returnVal = 0;
+        int index = 0;
+        for(AwardAmountInfo aai : awardAmountInfos){
+            if(awardAmountInfo == null){
+                awardAmountInfo = aai;
+                returnVal = index;
+                index++;
+            }else if(awardAmountInfo.getTransactionId() == null && aai.getTransactionId()!=null){
+                awardAmountInfo = aai;
+                returnVal = index;
+                index++;
+            }else if(awardAmountInfo.getTransactionId()!=null && aai.getTransactionId()!=null && awardAmountInfo.getTransactionId() < aai.getTransactionId()){
+                awardAmountInfo = aai;
+                returnVal = index;
+                index++;
+            }else {
+                index++;
+            }
+        }
+        return returnVal;
+    }
+    
     private List<String> findChildren(String parent) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("parentAwardNumber", parent);

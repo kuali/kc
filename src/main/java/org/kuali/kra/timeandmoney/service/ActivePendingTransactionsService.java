@@ -46,6 +46,13 @@ public interface ActivePendingTransactionsService {
     AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
     
     /**
+     * This method...
+     * @param awardAmountInfos
+     * @return
+     */
+    int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
+    
+    /**
      * 
      * This method retrieves the active award using the version history service.
      * @param awardNumber
