@@ -15,16 +15,39 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.SortedMap;
 
+import org.kuali.kra.bo.InstituteLaRate;
+import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.BudgetCategoryType;
+import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.BudgetProposalLaRate;
+import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.kra.budget.rates.RateClassType;
+import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
 
@@ -40,6 +63,61 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     private List<ProposalPerson> proposalPersons;
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<Narrative> narratives;
+    
+//    private Integer budgetVersionNumber;
+//    private Long budgetId;
+//    private BudgetDocument budgetDocument;
+//    private String comments;
+//    private BudgetDecimal costSharingAmount;
+//    private String budgetJustification;
+//    private Date endDate;
+//    private boolean finalVersionFlag;
+//    private Boolean modularBudgetFlag;
+//    private String ohRateClassCode;
+//    private String ohRateTypeCode;
+//    private BudgetDecimal residualFunds;
+//    private Date startDate;
+//    private BudgetDecimal totalCost;
+//    private BudgetDecimal totalCostLimit;
+//    private BudgetDecimal totalDirectCost;
+//    private BudgetDecimal totalIndirectCost;
+//    private BudgetDecimal underrecoveryAmount;
+//    private String urRateClassCode;
+//    private RateClass rateClass;
+//    private List<BudgetProposalRate> budgetProposalRates;
+//    private List<BudgetProposalLaRate> budgetProposalLaRates;
+//    private List<BudgetPeriod> budgetPeriods;
+//    private List<BudgetProjectIncome> budgetProjectIncomes;
+//    private List<BudgetCostShare> budgetCostShares;
+//    private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
+//    
+//    private String activityTypeCode="x";
+//    private boolean budgetLineItemDeleted;
+//
+//    private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
+//    private List<BudgetPerson> budgetPersons;
+//    
+//    private Date summaryPeriodStartDate;
+//    private Date summaryPeriodEndDate;    
+//        
+//    private SortedMap <CostElement, List<BudgetDecimal>> objectCodeTotals;
+//    private SortedMap <RateType, List<BudgetDecimal>> calculatedExpenseTotals;
+//        
+//    private SortedMap <RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals; 
+//    private SortedMap <RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals; 
+//    
+//    private List<KeyLabelPair> budgetCategoryTypeCodes;
+//    
+//    private SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType;   
+//    private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
+//    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals;
+//    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals;
+//    private SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals;
+//    
+//    private String budgetStatus;
+//    private String onOffCampusFlag;
+       
+
 
     public ProposalHierarchyChild() {
         propScienceKeywords = new ArrayList<PropScienceKeyword>();

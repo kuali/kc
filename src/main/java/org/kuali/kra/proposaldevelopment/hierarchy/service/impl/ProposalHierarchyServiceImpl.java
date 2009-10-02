@@ -15,13 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -33,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
@@ -52,6 +64,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class...
  */
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
+    
+    private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
+    private static final String ERROR_BUDGET_START_DATE_INCONSISTENT = "error.hierarchy.budget.startDateInconsistent";
+    private static final String ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT = "error.hierarchy.budget.periodDurationInconsistent";
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -122,6 +138,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // persist the document
         try {
             documentService.saveDocument(newDoc);
+            budgetService.addBudgetVersion(newDoc, "Hierarchy Budget");
         }
         catch (WorkflowException x) {
             throw new ProposalHierarchyException("Error saving new document: " + x);
@@ -131,6 +148,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
+        
+        createInitialBudgetPeriods(hierarchy, initialChild);
 
         // link the child to the parent
         linkChild(hierarchy, initialChild);
@@ -138,7 +157,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         // add a budget and persist the document again
         try {
-            budgetService.addBudgetVersion(newDoc, "Hierarchy Budget");
             documentService.saveDocument(newDoc);
         }
         catch (WorkflowException x) {
@@ -353,11 +371,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throws ProposalHierarchyException {
         
         String principleInvestigatorId = null;
-
+/*  TODO uncomment after testing
         if (childProposal.hierarchyChildHashCode() == hierarchyChild.getProposalHashCode()) {
             return false;
         }
-
+*/
         // remove and copy PropScienceKeywords
         List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>(hierarchyProposal.getPropScienceKeywords());
         for (PropScienceKeyword keyword : hierarchyChild.getPropScienceKeywords()) {
@@ -434,10 +452,69 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             hierarchyProposal.addProposalPerson(newPerson);
             hierarchyChild.getProposalPersons().add(newPerson);
         }
-
+        /*
+        Budget hierarchyBudget = getHierarchyBudget(hierarchyProposal);
+        Budget childBudget = getFinalOrLatestChildBudget(childProposal);
+        synchronizeChildBudget(hierarchyBudget, hierarchyChild, childBudget);
+        businessObjectService.save(hierarchyBudget);
+        */
         hierarchyChild.setProposalHashCode(childProposal.hierarchyChildHashCode());
 
         return true;
+    }
+    
+    private void synchronizeChildBudget(Budget hierarchyBudget, ProposalHierarchyChild hierarchyChild, Budget childBudget) throws ProposalHierarchyException {
+        int parentStartPeriod = getCorrespondingParentPeriod(hierarchyBudget, childBudget);
+        if (parentStartPeriod == -1) {
+            throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
+        }
+        List<BudgetPeriod> parentPeriods = hierarchyBudget.getBudgetPeriods();
+        List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
+        BudgetPeriod parentPeriod, childPeriod;
+        for (int i=0, j=parentStartPeriod; i<childPeriods.size(); i++, j++) {
+            childPeriod = childPeriods.get(i);
+            if (j>=parentPeriods.size()) {
+                parentPeriod = new BudgetPeriod();
+                parentPeriod.setBudgetPeriod(j+1);
+                parentPeriod.setBudget(hierarchyBudget);
+                parentPeriod.setStartDate(childPeriod.getStartDate());
+                parentPeriod.setEndDate(childPeriod.getEndDate());
+                hierarchyBudget.add(parentPeriod);
+            }
+            else parentPeriod = parentPeriods.get(j);
+            
+            // TODO change delete all to remove only those contained in hierarchy child
+            parentPeriod.getBudgetLineItems().clear();
+            BudgetLineItem parentLineItem;
+            try {
+                for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
+                    parentLineItem = (BudgetLineItem)ObjectUtils.deepCopy(childLineItem);
+                    ObjectUtils.setObjectPropertyDeep(parentLineItem, "budgetPeriodId", Long.class, parentPeriod.getBudgetPeriodId());
+                    ObjectUtils.setObjectPropertyDeep(parentLineItem, "budgetId", Long.class, parentPeriod.getBudgetId());
+                    parentPeriod.getBudgetLineItems().add(parentLineItem);
+                }
+            }
+            catch (Exception e) {
+                throw new ProposalHierarchyException("Problem copying line items to parent", e);
+            }
+        }
+
+        
+        
+        
+        for (BudgetPeriod period : hierarchyBudget.getBudgetPeriods()) {
+            LOG.warn("***" + period);
+            for (BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                LOG.warn("******" + lineItem);
+                for (BudgetPersonnelDetails details : lineItem.getBudgetPersonnelDetailsList()) {
+                    LOG.warn("*********" + details);
+                }
+                for (BudgetLineItemCalculatedAmount amount : lineItem.getBudgetLineItemCalculatedAmounts()) {
+                    LOG.warn("*********" + amount);
+                }
+            }
+        }
+        return;
     }
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
@@ -498,4 +575,100 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
+    private Budget getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
+        BudgetDocument budgetDocument = null;
+        try {
+            budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException(e);
+        }
+        return budgetDocument.getBudget();
+    }
+ 
+    private Budget getFinalOrLatestChildBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        Budget childBudget = childProposal.getProposalDocument().getFinalBudgetForThisProposal();
+        if (childBudget == null) {
+            List<BudgetDocumentVersion> budgetDocumentVersions = childProposal.getProposalDocument().getBudgetDocumentVersions();
+            String budgetDocumentNumber = budgetDocumentVersions.get(budgetDocumentVersions.size()-1).getBudgetVersionOverview().getDocumentNumber();
+            BudgetDocument budgetDocument = null;
+            try {
+                budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+            }
+            catch (WorkflowException e) {
+                throw new ProposalHierarchyException(e);
+            }
+            childBudget = budgetDocument.getBudget();
+        }
+        return childBudget;
+    }
+    
+    private void createInitialBudgetPeriods (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        Budget parentBudget = getHierarchyBudget(hierarchyProposal);
+        Budget childBudget = getFinalOrLatestChildBudget(childProposal);
+        BudgetPeriod newPeriod;
+        for (BudgetPeriod period : childBudget.getBudgetPeriods()) {
+            newPeriod = new BudgetPeriod();
+            newPeriod.setStartDate(period.getStartDate());
+            newPeriod.setEndDate(period.getEndDate());
+            newPeriod.setBudget(parentBudget);
+            newPeriod.setBudgetPeriod(period.getBudgetPeriod());
+            parentBudget.add(newPeriod);
+        }
+        businessObjectService.save(parentBudget);
+    }
+    
+    public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
+            DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        Budget parentBudget = getHierarchyBudget(hierarchyProposal);
+        Budget childBudget = getFinalOrLatestChildBudget(childProposal);
+        return validateChildBudgetPeriods(parentBudget, childBudget);
+    }
+    
+    private ProposalHierarchyErrorDto validateChildBudgetPeriods(Budget parentBudget,
+            Budget childBudget) throws ProposalHierarchyException {
+        ProposalHierarchyErrorDto retval = null;
+        // check that child budget starts on one of the budget period starts
+        int correspondingStart = getCorrespondingParentPeriod(parentBudget, childBudget);
+        if (correspondingStart == -1) {
+            retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_START_DATE_INCONSISTENT);
+        }
+        // check that child budget periods map to parent periods
+        else {
+            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
+            List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
+            BudgetPeriod parentPeriod, childPeriod;
+            for (int i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
+                parentPeriod = parentPeriods.get(i);
+                childPeriod = childPeriods.get(j);
+                if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
+                        || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
+                    retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, "" + j);
+                    break;
+                }
+            }
+        }
+
+        return retval;
+    }
+    
+    private int getCorrespondingParentPeriod(Budget parentBudget, Budget childBudget) {
+        int correspondingStart = -1;
+ 
+        Date childStart = childBudget.getStartDate();
+        // check that child budget starts somewhere during parent budget
+        if (childStart.compareTo(parentBudget.getStartDate()) >= 0
+                && childStart.compareTo(parentBudget.getEndDate()) < 0) {
+            // check that child budget starts on one of the budget period starts
+            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
+            for (int i=0; i<parentPeriods.size(); i++) {
+                if (childStart.equals(parentPeriods.get(i).getStartDate())) {
+                    correspondingStart = i;
+                    break;
+                }
+            }
+        }
+        return correspondingStart;
+    }
 }
