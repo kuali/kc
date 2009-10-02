@@ -27,6 +27,8 @@
 
 	<input type="hidden" id="methodToCall"
 		name="methodToCall" value="${SponsorHierarchyForm.methodToCall}"/>
+    <input type="hidden" id="anchor"
+        name="anchor" value="topOfForm"/>
 
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
