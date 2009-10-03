@@ -264,7 +264,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     public void add(AwardFundingProposal afp) {
         awardFundingProposals.add(afp);
-        updateFundingStatus();
     }
     
     /**

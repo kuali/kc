@@ -16,6 +16,7 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,15 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -215,8 +220,27 @@ public class AwardHomeAction extends AwardAction {
         Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
         getKeywordService().addKeywords(awardDocument, awardMultiLookupForm);
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }    
-    
+    }
+
+    /**
+     * Override to update funding proposal status as needed
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.save(mapping, form, request, response);
+        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
+            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
+        }
+
+        return forward;
+    }
+
     /**
      * 
      * This method...

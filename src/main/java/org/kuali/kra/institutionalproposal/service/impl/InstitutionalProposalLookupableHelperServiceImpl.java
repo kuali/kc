@@ -84,14 +84,19 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     // Determine whether lookup is being called from a location that shouldn't include the custom action links
     protected void configureCustomActions(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get("backLocation");
-        if (returnLocation.contains("awardHome.do")) {
+        if(returnLocation != null) {
+            if (returnLocation.contains("awardHome.do")) {
+                includeMainSearchCustomActionUrls = false;
+                includeMergeCustomActionUrls = false;
+            } else if (returnLocation.contains("mergeProposalLog.do")) {
+                includeMainSearchCustomActionUrls = false;
+                includeMergeCustomActionUrls = true;
+            } else {
+                includeMainSearchCustomActionUrls = true;
+                includeMergeCustomActionUrls = false;
+            }
+        } else {    // if service is not being called from UI, returnLocation will be null and no custom actions apply
             includeMainSearchCustomActionUrls = false;
-            includeMergeCustomActionUrls = false;
-        } else if (returnLocation.contains("mergeProposalLog.do")) {
-            includeMainSearchCustomActionUrls = false;
-            includeMergeCustomActionUrls = true;
-        } else {
-            includeMainSearchCustomActionUrls = true;
             includeMergeCustomActionUrls = false;
         }
     }
