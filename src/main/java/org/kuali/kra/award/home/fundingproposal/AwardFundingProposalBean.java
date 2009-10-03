@@ -16,16 +16,15 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -124,7 +123,24 @@ public class AwardFundingProposalBean implements Serializable {
     public void setNewFundingProposal(InstitutionalProposal newFundingProposal) {
         this.newFundingProposal = newFundingProposal;
     }
-    
+
+    /**
+     * Update all funding proposals associated with this award from PENDING to FUNDED 
+     */
+    public void updateProposalStatuses() {
+        List<InstitutionalProposal> modifiedProposals = new ArrayList<InstitutionalProposal>();
+        for(AwardFundingProposal afp: getAward().getFundingProposals()) {
+            InstitutionalProposal proposal = afp.getProposal();
+            if(proposal.getStatusCode() == ProposalStatus.PENDING) {
+                proposal.setStatusCode(ProposalStatus.FUNDED);
+                modifiedProposals.add(proposal);
+            }
+        }
+        if(modifiedProposals.size() > 0) {
+            getBusinessObjectService().save(modifiedProposals);
+        }
+    }
+
     /**
      * @return
      */
@@ -171,9 +187,8 @@ public class AwardFundingProposalBean implements Serializable {
     private InstitutionalProposal findProposalByProposalNumber(String proposalNumber) {
         LookupableHelperService service = getInstitutionalProposalLookupService();
         service.setBusinessObjectClass(InstitutionalProposal.class);
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", proposalNumber);
-        @SuppressWarnings("unchecked") List foundProposals = service.getSearchResults(criteria);        
+        @SuppressWarnings("unchecked") Map criteria = ServiceHelper.getInstance().buildCriteriaMap("proposalNumber", proposalNumber);
+        @SuppressWarnings("unchecked") List foundProposals = service.getSearchResults(criteria);
         InstitutionalProposal proposal = foundProposals.size() == 1 ? (InstitutionalProposal) foundProposals.toArray()[0] : null;
         return proposal;
     }
