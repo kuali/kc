@@ -30,13 +30,13 @@
     <property name="title" value="Review Data"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="reviewSubmissionDate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="reviewReceiveDate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="ipReviewer" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="ipReviewRequirementTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="reviewResultCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="generalComments" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="reviewerComments" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reviewSubmissionDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reviewReceiveDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="ipReviewer" />
+        <bean parent="MaintainableFieldDefinition" p:name="ipReviewRequirementTypeCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="reviewResultCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="generalComments" />
+        <bean parent="MaintainableFieldDefinition" p:name="reviewerComments" />
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="proposalNumber"/>
       </list>
@@ -73,9 +73,9 @@
              -->
             <property name="maintainableFields">
                 <list>
-                    <bean parent="MaintainableFieldDefinition" p:name="activityNumber" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="activityNumber"/>
                     <bean parent="MaintainableFieldDefinition" p:name="ipReviewActivityTypeCode" p:required="true"/>
-                    <bean parent="MaintainableFieldDefinition" p:name="activityDate" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="activityDate" />
                     <bean parent="MaintainableFieldDefinition" p:name="comments"/>
                     <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
                 </list>
