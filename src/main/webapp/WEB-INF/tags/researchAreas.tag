@@ -12,7 +12,6 @@
      <br/>
                                           <div align="left" style = " margin-left : 20px">
                                             <img src="static/images/jquery/hierarchy-root.png" width="14" height="14" border="0"> <a id="listcontrol00" style="margin-left:2px;">000001 : All Research Areas</a>
-			                                <a href="#" id="paste0"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>
                                            </div> 
                                             <%-- <div id="treecontrol" style="display:inline;">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
@@ -41,6 +40,16 @@
                                                                             <span class="fineprint">Area of Research root can not be moved.</span>
                                                                         </th>
                                                                     </tr>-->
+                                                                     <tr>
+                                                                        <th style="text-align:right;">
+                                                                            Node:
+                                                                        </th>
+                                                                        <th colspan="4">                                                                 
+			                                                               <a href="#" id="paste0">
+			                                                                 <img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node">
+			                                                               </a>
+                                                                        </th>
+                                                                    </tr>
                                                                      <tr>
                                                                         <td class="infoline" style="width:60px;">&nbsp;
                                                                             
