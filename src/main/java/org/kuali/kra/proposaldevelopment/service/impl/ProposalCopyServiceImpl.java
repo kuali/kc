@@ -1010,9 +1010,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budgetDocument.toCopy();
         budgetDocument.setVersionNumber(null);
         budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
-        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetId", Long.class, null);
-        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetPeriodId", Long.class, null);
-        ObjectUtils.setObjectPropertyDeep(budgetDocument, "versionNumber", Integer.class, null);
+        Map<String, Object> objectMap = new HashMap<String, Object>();
+        fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setVersionNumber", Long.class, null, objectMap);
+        objectMap.clear(); 
         
         ObjectUtils.materializeAllSubObjects(budgetDocument);
 
