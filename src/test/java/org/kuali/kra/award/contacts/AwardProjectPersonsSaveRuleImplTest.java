@@ -140,4 +140,21 @@ public class AwardProjectPersonsSaveRuleImplTest {
         
         Assert.assertTrue("Lead unit should have been found", rule.checkForDuplicateUnits(award.getProjectPersons()));
     }
+    
+    @Test
+    public void testCheckForKeyPersonRole_NotFound() {
+        AwardPerson p = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        award.getProjectPersons().add(p);
+        Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
+        award.getProjectPersons().remove(p);
+    }
+    
+    @Test
+    public void testCheckForKeyPersonRole_Found() {
+        AwardPerson p = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        p.setKeyPersonRole("Tester");
+        award.getProjectPersons().add(p);
+        Assert.assertTrue("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
+        award.getProjectPersons().remove(p);
+    }
 }
