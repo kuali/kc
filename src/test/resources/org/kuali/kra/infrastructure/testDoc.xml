@@ -975,7 +975,7 @@
     <pessimisticLocks>
       <org.kuali.rice.kns.document.authorization.PessimisticLock>
         <id>2182</id>
-        <ownedByPersonUniversalIdentifier>quickstart</ownedByPersonUniversalIdentifier>
+        <ownedByPrincipalIdentifier>quickstart</ownedByPrincipalIdentifier>
         <lockDescriptor>2271-PROPOSAL</lockDescriptor>
         <generatedTimestamp>2008-04-03 11:24:40.513</generatedTimestamp>
         <documentNumber>2271</documentNumber>

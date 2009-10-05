@@ -290,7 +290,7 @@
                         </display-el:column>
 					</c:if>
 					<c:if test="${preferences.showDocumentStatus == Constants.PREFERENCES_YES_VAL}">
-						<display-el:column property="routeHeader.docRouteStatusLabel"
+						<display-el:column property="routeHeader.combinedStatus"
 							sortable="true" title="${routeStatusLabel}" class="infocell" />
 					</c:if>
 					<c:if test="${preferences.showActionRequested == Constants.PREFERENCES_YES_VAL}">
