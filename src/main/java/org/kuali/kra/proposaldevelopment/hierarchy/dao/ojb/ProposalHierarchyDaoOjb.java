@@ -116,7 +116,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private String lookupNoticeOfOpportunityDescription(Object o){
         String retval = " ";
         if (o != null) {
-            Map primaryKeys = new HashMap();
+            Map<String,Object> primaryKeys = new HashMap<String,Object>();
             primaryKeys.put("noticeOfOpportunityCode", o);
             Object result = businessObjectService.findByPrimaryKey(NoticeOfOpportunity.class, primaryKeys);
             if (result != null) {
@@ -130,7 +130,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private String lookupSponsorDeadlineTypeDescription(Object o){
         String retval = " ";
         if (o != null) {
-            Map primaryKeys = new HashMap();
+            Map<String,Object> primaryKeys = new HashMap<String,Object>();
             primaryKeys.put("deadlineTypeCode", o);
             Object result = businessObjectService.findByPrimaryKey(DeadlineType.class, primaryKeys);
             if (result != null) {
@@ -143,7 +143,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private String lookupNsfCodeDescription(Object o){
         String retval = " ";
         if (o != null) {
-            Map primaryKeys = new HashMap();
+            Map<String,Object> primaryKeys = new HashMap<String,Object>();
             primaryKeys.put("nsfCode", o);
             Object result = businessObjectService.findByPrimaryKey(NsfCode.class, primaryKeys);
             if (result != null) {
@@ -156,7 +156,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private String lookupSponsorName(Object o){
         String retval = " ";
         if (o != null) {
-            Map primaryKeys = new HashMap();
+            Map<String,Object> primaryKeys = new HashMap<String,Object>();
             primaryKeys.put("sponsorCode", o);
             Object result = businessObjectService.findByPrimaryKey(Sponsor.class, primaryKeys);
             if (result != null) {
