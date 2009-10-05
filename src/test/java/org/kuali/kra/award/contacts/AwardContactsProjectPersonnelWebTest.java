@@ -78,7 +78,7 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     
     private void addUnit(boolean leadUnit) throws Exception {
         selectUnit();
-        setFieldValue(contactsPage, "projectPersonnelBean.newAwardPersonUnit.leadUnit", leadUnit ? CHECKED : UNCHECKED);
+        setFieldValue(contactsPage, "projectPersonnelBean.newAwardPersonUnit[0].leadUnit", leadUnit ? CHECKED : UNCHECKED);
         checkForErrorsOnPage();
         addSelectedUnit();        
     }
@@ -93,22 +93,12 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     }
     
     private void selectUnit() throws Exception {
-        contactsPage = lookup(contactsPage, "projectPersonnelBean.newUnitNumber", "unitNumber", "IN-CARD");
+        contactsPage = lookup(contactsPage, "projectPersonnelBean.newAwardPersonUnit[0].unitNumber", "unitNumber", "IN-CARD");
     }
 
     @Test
     public void testAddingProjectPerson_Nonemployee() throws Exception {
         addNonEmployeeContact(CONTACT_ROLE_CODE);
-    }
-    
-    @Test
-    public void testClearingProjectPerson_Employee() throws Exception {
-        checkClearingEmployeeContact();
-    }
-    
-    @Test
-    public void testClearingProjectPerson_NonEmployee() throws Exception {
-        checkClearingNonEmployeeContact();
     }
 
     protected String getAddSelectedContactButtonContext() {
