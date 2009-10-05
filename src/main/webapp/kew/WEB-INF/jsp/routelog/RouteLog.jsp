@@ -77,7 +77,7 @@
                     pattern="${RiceConstants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</td>
 
             </tr>
-          <c:if test="${routeHeader.docStatusPolicy == 'app' || routeHeader.docStatusPolicy == 'both'}">
+          <c:if test="${routeHeader.docStatusPolicy == 'APP' || routeHeader.docStatusPolicy == 'BOTH'}">
             <tr>
                 <kul:htmlAttributeHeaderCell scope="col" align="left"><bean-el:message
                     key="routeLog.RouteLog.header.label.appDocStatus" /></kul:htmlAttributeHeaderCell>

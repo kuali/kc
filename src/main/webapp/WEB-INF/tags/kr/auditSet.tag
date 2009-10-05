@@ -20,17 +20,17 @@
     <tr><td colspan="4" class="subhead">${category}</td></tr>
 
 <c:forEach items="${AuditErrors}" var="cluster">
-	<c:if test="${cluster.value.category == category && cluster.value.size != 0}">
-		<c:if test="${!found}"><c:set var="found" value="${true}"/></c:if>
-		<kul:auditRow tabTitle="${cluster.value.label}" defaultOpen="false" totalErrors="${cluster.value.size}" category="${cluster.value.category}">
-			<kul:auditErrors cluster="${cluster.key}" isLink="true"/>
-		</kul:auditRow>
-	</c:if>
+    <c:if test="${cluster.value.category == category && cluster.value.size != 0}">
+        <c:if test="${!found}"><c:set var="found" value="${true}"/></c:if>
+        <kul:auditRow tabTitle="${cluster.value.label}" defaultOpen="false" totalErrors="${cluster.value.size}" category="${cluster.value.category}">
+            <kul:auditErrors cluster="${cluster.key}" isLink="true"/>
+        </kul:auditRow>
+    </c:if>
 </c:forEach>
 <c:if test="${!found}">
-	<tr>
-		<td colspan="4" height="70" align=left valign=middle class="datacell">
-			<div align="center">No ${category} present.</div>
-		</td>
-	</tr>
+    <tr>
+        <td colspan="4" height="70" align=left valign=middle class="datacell">
+            <div align="center">No ${category} present.</div>
+        </td>
+    </tr>
 </c:if>
