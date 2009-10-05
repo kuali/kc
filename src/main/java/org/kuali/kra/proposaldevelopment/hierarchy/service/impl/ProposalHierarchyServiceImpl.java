@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,12 +24,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
@@ -135,7 +136,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 .getDocumentDescription();
         newDoc.getDocumentHeader().setDocumentDescription(docDescription);
 
-        // persist the document
+        // persist the document and add a budget
         try {
             documentService.saveDocument(newDoc);
             budgetService.addBudgetVersion(newDoc, "Hierarchy Budget");
@@ -149,13 +150,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         String username = user.getPersonUserIdentifier();
         kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
         
-        createInitialBudgetPeriods(hierarchy, initialChild);
+        initializeBudget(hierarchy, initialChild);
 
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
         
-        // add a budget and persist the document again
+        // persist the document again
         try {
             documentService.saveDocument(newDoc);
         }
@@ -452,23 +453,36 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             hierarchyProposal.addProposalPerson(newPerson);
             hierarchyChild.getProposalPersons().add(newPerson);
         }
-        /*
+        
         Budget hierarchyBudget = getHierarchyBudget(hierarchyProposal);
         Budget childBudget = getFinalOrLatestChildBudget(childProposal);
         synchronizeChildBudget(hierarchyBudget, hierarchyChild, childBudget);
         businessObjectService.save(hierarchyBudget);
-        */
+        
         hierarchyChild.setProposalHashCode(childProposal.hierarchyChildHashCode());
 
         return true;
     }
     
-    private void synchronizeChildBudget(Budget hierarchyBudget, ProposalHierarchyChild hierarchyChild, Budget childBudget) throws ProposalHierarchyException {
-        int parentStartPeriod = getCorrespondingParentPeriod(hierarchyBudget, childBudget);
+    private void synchronizeChildBudget(Budget parentBudget, ProposalHierarchyChild hierarchyChild, Budget childBudget) throws ProposalHierarchyException {
+        BudgetPerson newPerson;
+        for (BudgetPerson person : childBudget.getBudgetPersons()) {
+            newPerson = (BudgetPerson)ObjectUtils.deepCopy(person);
+            newPerson.setBudget(parentBudget);
+            parentBudget.addBudgetPerson(person);
+        }
+        
+        parentBudget.setCostSharingAmount(parentBudget.getCostSharingAmount().add(childBudget.getCostSharingAmount()));
+        parentBudget.setTotalCost(parentBudget.getTotalCost().add(childBudget.getTotalCost()));
+        parentBudget.setTotalDirectCost(parentBudget.getTotalDirectCost().add(childBudget.getTotalDirectCost()));
+        parentBudget.setTotalIndirectCost(parentBudget.getTotalIndirectCost().add(childBudget.getTotalIndirectCost()));
+        parentBudget.setUnderrecoveryAmount(parentBudget.getUnderrecoveryAmount().add(childBudget.getUnderrecoveryAmount()));
+        
+        int parentStartPeriod = getCorrespondingParentPeriod(parentBudget, childBudget);
         if (parentStartPeriod == -1) {
             throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
         }
-        List<BudgetPeriod> parentPeriods = hierarchyBudget.getBudgetPeriods();
+        List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
         List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
         BudgetPeriod parentPeriod, childPeriod;
         for (int i=0, j=parentStartPeriod; i<childPeriods.size(); i++, j++) {
@@ -476,10 +490,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             if (j>=parentPeriods.size()) {
                 parentPeriod = new BudgetPeriod();
                 parentPeriod.setBudgetPeriod(j+1);
-                parentPeriod.setBudget(hierarchyBudget);
+                parentPeriod.setBudget(parentBudget);
                 parentPeriod.setStartDate(childPeriod.getStartDate());
                 parentPeriod.setEndDate(childPeriod.getEndDate());
-                hierarchyBudget.add(parentPeriod);
+                parentBudget.add(parentPeriod);
             }
             else parentPeriod = parentPeriods.get(j);
             
@@ -502,7 +516,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         
         
-        for (BudgetPeriod period : hierarchyBudget.getBudgetPeriods()) {
+        for (BudgetPeriod period : parentBudget.getBudgetPeriods()) {
             LOG.warn("***" + period);
             for (BudgetLineItem lineItem : period.getBudgetLineItems()) {
                 LOG.warn("******" + lineItem);
@@ -604,18 +618,23 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return childBudget;
     }
     
-    private void createInitialBudgetPeriods (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
+    private void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
         Budget parentBudget = getHierarchyBudget(hierarchyProposal);
         Budget childBudget = getFinalOrLatestChildBudget(childProposal);
-        BudgetPeriod newPeriod;
-        for (BudgetPeriod period : childBudget.getBudgetPeriods()) {
-            newPeriod = new BudgetPeriod();
-            newPeriod.setStartDate(period.getStartDate());
-            newPeriod.setEndDate(period.getEndDate());
-            newPeriod.setBudget(parentBudget);
-            newPeriod.setBudgetPeriod(period.getBudgetPeriod());
-            parentBudget.add(newPeriod);
+        BudgetPeriod parentPeriod, childPeriod;
+        for (int i=0; i < childBudget.getBudgetPeriods().size(); i++) {
+            parentPeriod = parentBudget.getBudgetPeriod(i);
+            childPeriod = childBudget.getBudgetPeriod(i);
+            parentPeriod.setStartDate(childPeriod.getStartDate());
+            parentPeriod.setEndDate(childPeriod.getEndDate());
+            parentPeriod.setBudgetPeriod(childPeriod.getBudgetPeriod());
         }
+        
+        parentBudget.setCostSharingAmount(new BudgetDecimal(0));
+        parentBudget.setTotalCost(new BudgetDecimal(0));
+        parentBudget.setTotalDirectCost(new BudgetDecimal(0));
+        parentBudget.setTotalIndirectCost(new BudgetDecimal(0));
+        parentBudget.setUnderrecoveryAmount(new BudgetDecimal(0));
         businessObjectService.save(parentBudget);
     }
     
