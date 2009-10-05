@@ -55,7 +55,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
                GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
-                       ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, person.getPerson().getFullName());
+                       ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, person.getFullName());
            }
        }
        return valid;

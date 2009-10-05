@@ -22,6 +22,7 @@ import org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
 /**
  * This class loads the Award SpecialReview tab page
@@ -37,23 +38,27 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
     protected static final String PERSON_ID_FIELD = "personId";
     protected static final String PERSON_ID_VALUE = "000000008";
     
-    protected static final String ROLODEX_FULL_NAME = "Pauline Ho";
+    protected static final String ROLODEX_FULL_NAME = "Ho, Pauline";
     protected static final String ROLODEX_ID_FIELD = "rolodexId";
     protected static final String ROLODEX_ID_VALUE = "1727";
 
     private static final String SUBCLASSES_SHOULD_OVERRIDE_THIS_METHOD_MSG = "Subclasses should override this method";
     
     protected HtmlPage contactsPage; 
+    protected boolean javascriptEnabled;
     
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        javascriptEnabled = webClient.isJavaScriptEnabled();
+        webClient.setJavaScriptEnabled(false);
         contactsPage = clickOnTab(getAwardHomePage(), CONTACTS_LINK_NAME);
     }
     
     @Override
     public void tearDown() throws Exception {
         contactsPage = null;
+        webClient.setJavaScriptEnabled(javascriptEnabled);
         super.tearDown();
     }
     
@@ -165,6 +170,7 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
     }
     
     private void selectContactRole(String contactRoleCode) throws IOException {
-        contactsPage = lookup(contactsPage, getContactRoleLookupContext(), ROLE_CODE_FIELD_ID, contactRoleCode);
+        ((HtmlSelect)getElement(contactsPage, getContactRoleLookupContext())).setSelectedAttribute(contactRoleCode, true);
+        //contactsPage = lookup(contactsPage, getContactRoleLookupContext(), ROLE_CODE_FIELD_ID, contactRoleCode);
     }
 }
