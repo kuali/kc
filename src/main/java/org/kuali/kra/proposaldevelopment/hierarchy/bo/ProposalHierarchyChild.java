@@ -15,39 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.SortedMap;
 
-import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.core.BudgetCategoryType;
-import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.distributionincome.BudgetCostShare;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
-import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.rates.RateClassType;
-import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
 
@@ -262,7 +238,7 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
 
 
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap<String,Object> toStringMapper() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -271,6 +247,7 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedList = super.buildListOfDeletionAwareLists();

@@ -15,29 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-/**
- * This class...
- */
 public class ProposalHierarchyException extends Exception {
+
+    private static final long serialVersionUID = -8511067467413187019L;
 
     public ProposalHierarchyException() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     public ProposalHierarchyException(String message, Throwable cause) {
         super(message, cause);
-        // TODO Auto-generated constructor stub
     }
 
     public ProposalHierarchyException(String message) {
         super(message);
-        // TODO Auto-generated constructor stub
     }
 
     public ProposalHierarchyException(Throwable cause) {
         super(cause);
-        // TODO Auto-generated constructor stub
     }
 
 }
