@@ -40,7 +40,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     }
     
     public void addNewProjectPersonUnit(int projectPersonIndex) {
-        AwardPerson person = (AwardPerson) getAward().getProjectPersons().get(projectPersonIndex);
+        AwardPerson person = getAward().getProjectPersons().get(projectPersonIndex);
         AwardPersonUnitRuleAddEvent event = generateAddPersonUnitEvent(person, projectPersonIndex);
         boolean success = new AwardPersonUnitAddRuleImpl().processAddAwardPersonUnitBusinessRules(event);
         if(success) {
@@ -62,12 +62,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             getAward().add(getNewProjectPerson());
             init();
         }
-    }
-    /**
-     * This method clears the NewProjectPersonUnit
-     */
-    public void clearNewProjectPersonUnit() {
-        initNewAwardPersonUnits();
     }
 
     /**
@@ -98,7 +92,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         if(newAwardPersonUnits == null | newAwardPersonUnits.length == 0) {
             initNewAwardPersonUnits();
         }
-        return newAwardPersonUnits[projectPersonIndex]; 
+        return newAwardPersonUnits[projectPersonIndex];
     }
     
     /**
@@ -168,28 +162,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     public String getUnitNumber(int projectPersonIndex) {
         return getNewUnitNumber(projectPersonIndex);
     }
-    
-//    /**
-//     * Sets the newAwardPersonUnit attribute value.
-//     * @param newAwardPersonUnit The newAwardPersonUnit to set.
-//     */
-//    public void setNewAwardPersonUnit(AwardPersonUnit newAwardPersonUnit) {
-//        this.newAwardPersonUnit = newAwardPersonUnit;
-//    }
-    
-//    /**
-//     * Sets the newUnitNumber attribute value.
-//     * @param newUnitNumber The newUnitNumber to set.
-//     */
-//    public void setNewUnitNumber(String newUnitNumber) {
-//        Unit newUnit = null;
-//        if(newUnitNumber != null) {
-//            Map<String, Object> identifiers = new HashMap<String, Object>();
-//            identifiers.put("unitNumber", newUnitNumber);
-//            newUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, identifiers);
-//        }
-//        newAwardPersonUnit.setUnit(newUnit);        
-//    }
 
     /**
      * Sets the selectedLeadUnit attribute value.
@@ -253,7 +225,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     }
 
     /**
-     * This method...
      * @param awardPersonUnit
      */
     private void lazyLoadUnit(AwardPersonUnit awardPersonUnit) {
