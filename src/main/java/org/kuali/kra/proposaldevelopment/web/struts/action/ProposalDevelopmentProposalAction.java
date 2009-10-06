@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static java.util.Collections.sort;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +54,6 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -512,6 +510,16 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward clearApplicantOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        
+        proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization(new ProposalSite());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward clearPerformingOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -528,21 +536,17 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
         
         // if performing org. not set, default to applicant org
-        String performingOrganizationId = proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganization().getOrganizationId();
-        if (proposalDevelopmentDocument != null && performingOrganizationId != null 
-				&& proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit() != null && proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId() != null 
-				&& ((StringUtils.equalsIgnoreCase(performingOrganizationId, proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId())) 
-						|| (StringUtils.equalsIgnoreCase(performingOrganizationId.trim(), "")))) {
-            String applicationOrganizationId = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization().getOrganizationId();
-            ProposalSite performingOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganization();
+        String performingOrganizationId = developmentProposal.getPerformingOrganization().getOrganizationId();
+        if (StringUtils.isEmpty(performingOrganizationId)) {
+            String applicationOrganizationId = developmentProposal.getApplicantOrganization().getOrganizationId();
+            ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
             performingOrganization.setOrganizationId(applicationOrganizationId);
-            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
         }
         
-        for(ProposalSite proposalSite: proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites()) {
+        for(ProposalSite proposalSite: developmentProposal.getProposalSites()) {
             proposalSite.refreshReferenceObject("rolodex");
             proposalSite.refreshReferenceObject("organization");
         }
@@ -560,12 +564,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                     for (Iterator<PersistableBusinessObject> iter = rawValues.iterator(); iter.hasNext();) {
                         ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
-                        PropScienceKeyword propScienceKeyword = new PropScienceKeyword(proposalDevelopmentDocument
-                                .getDevelopmentProposal().getProposalNumber(), scienceKeyword);
+                        PropScienceKeyword propScienceKeyword = new PropScienceKeyword(developmentProposal.getProposalNumber(), scienceKeyword);
                         // ignore / drop duplicates
-                        if (!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument
-                                .getDevelopmentProposal().getPropScienceKeywords())) {
-                            proposalDevelopmentDocument.getDevelopmentProposal().addPropScienceKeyword(propScienceKeyword);
+                        if (!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), developmentProposal.getPropScienceKeywords())) {
+                            developmentProposal.addPropScienceKeyword(propScienceKeyword);
                         }
                     }
                 }

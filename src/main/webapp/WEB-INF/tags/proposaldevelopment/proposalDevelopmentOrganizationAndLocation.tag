@@ -35,7 +35,8 @@
             proposalSiteBoName="document.developmentProposal.applicantOrganization"
             congressionalDistrictHelper="applicantOrganizationHelper"
             addDistrictMethodToCall="addApplicantOrgCongDistrict"
-            deleteDistrictMethodToCall="deleteApplicantOrgCongDistrict" />
+            deleteDistrictMethodToCall="deleteApplicantOrgCongDistrict"
+            clearSiteMethodToCall="clearApplicantOrganization" />
         <kra-pd:proposalSite
             tabTitle="Performing Organization"
             showTabTitle="true"
