@@ -63,7 +63,11 @@
 					<c:choose>                  
 						<c:when test="${empty targetAwardPersonUnit.unit}">
 							<div>
-								<label><span style="margin-right: 3;">(select)</span></label>
+								<kul:htmlAttributeLabel attributeEntry="${awardPersonUnitAttributes.unitNumber}" skipHelpUrl="true"/>
+		    	  	 	        &nbsp;
+                                <kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber"
+		    	  	 								attributeEntry="${awardPersonUnitAttributes.unitNumber}"
+		    	  	 								readOnly="false" />
 								<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber" 
   											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber:unitNumber"/>
 		  	 				</div>
@@ -96,27 +100,23 @@
 				</div>
 			</th>			
 			<th class="infoline">
-				<c:choose>
-					<c:when test="${not empty targetAwardPersonUnit.unit}">
-		        		<div align="center">	        			
-		        			<html:image property="methodToCall.addNewProjectPersonUnit.line${awardPersonIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
-		        			<html:image property="methodToCall.clearNewProjectPersonUnit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton" />
-		        		</div>
-		        	</c:when>
-		        	<c:otherwise>&nbsp;</c:otherwise>
-		        </c:choose>
+				<div align="center">
+                    <html:image property="methodToCall.addNewProjectPersonUnit.line${awardPersonIndex}"
+                                src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact"
+                                styleClass="tinybutton" />                    
+                </div>
 			</th>
 		</tr>
 		
 		<c:forEach var="awardPersonUnit" items="${awardContact.units}" varStatus="awardPersonUnitRowStatus">
-			<tr>
+            <tr>
 				<th class="infoline" scope="row">
 					<c:out value="${awardPersonUnitRowStatus.index + 1}" />
 				</th>
 				<c:if test="${isPrincipalInvestigator}">
 	                <td valign="middle">
 	                	<div align="center">
-	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}"/>	                		
+	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}"/>               		
 						</div>
 					</td>
 				</c:if>

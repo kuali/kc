@@ -114,20 +114,6 @@ public class AwardContactsAction extends AwardAction {
         getUnitContactsBean(form).addUnitContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-
-    /**
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward clearNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getProjectPersonnelBean(form).clearNewProjectPersonUnit();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
     
     /**
      * @param mapping
