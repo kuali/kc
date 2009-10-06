@@ -529,7 +529,10 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_SPONSOR_CODE = "error.invalid.sponsorCode";
     public static final String ERROR_INVALID_PRIME_SPONSOR_CODE = "error.invalid.primeSponsorCode";
     public static final String ERROR_INVALID_AWARD_ID = "error.invalid.awardId";
-
+    
+    //Institutional Proposal Financial Validation
+    public static final String ERROR_FINANCIAL_DATES = "error.financial.dates";
+    public static final String ERROR_FINANCIAL_COSTS = "error.financial.costs";
 
     
     //Institutional Proposal Cost Share
