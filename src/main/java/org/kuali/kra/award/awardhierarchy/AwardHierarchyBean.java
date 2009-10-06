@@ -98,6 +98,12 @@ public class AwardHierarchyBean implements Serializable {
         return newBranchNode;
     }
 
+    public AwardHierarchy copyAwardAsChildOfAnotherAward(String sourceAwardNumber, String targetParentAwardNumber) {
+        return getRootNode().findNodeInHierarchy(targetParentAwardNumber) != null ?
+                        copyAwardAsChildOfAnAwardInCurrentHierarchy(sourceAwardNumber, targetParentAwardNumber) :
+                        copyAwardAsChildOfAnAwardInAnotherHierarchy(sourceAwardNumber, targetParentAwardNumber);
+    }
+
     public AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy targetParentNode = sourceNode.findNodeInHierarchy(targetParentAwardNumber);
