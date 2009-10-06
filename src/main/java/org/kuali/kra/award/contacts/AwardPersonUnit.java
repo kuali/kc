@@ -20,8 +20,12 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ServiceHelper;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class associates an AwardContact and a Unit
@@ -181,16 +185,17 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      * @return
      */
     public Unit getUnit() {
+        lazilyLoadUnit();
         return unit;
     }
-    
+
     /**
      * @return
      */
     public String getUnitName() {
         return unit != null ? unit.getUnitName() : null;
     }
-    
+
     /**
      * @return
      */
@@ -209,14 +214,14 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         result = PRIME * result + ((unit == null) ? 0 : unit.hashCode());
         return result;
     }
-    
+
     /**
      * @return
      */
     public boolean isLeadUnit() {
         return leadUnit;
     }
-    
+
     /**
      * Sets the awardPersonId attribute value.
      * @param awardPersonId The awardPersonId to set.
@@ -224,7 +229,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public void setAwardContactId(Long awardPersonId) {
         this.awardContactId = awardPersonId;
     }
-    
+
     /**
      * @param awardPerson
      */
@@ -232,7 +237,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         this.awardPerson = awardPerson;
         this.awardContactId = awardPerson != null ? awardPerson.getAwardContactId() : null;
     }
-    
+
     /**
      * Sets the awardPersonUnitId attribute value.
      * @param awardPersonUnitId The awardPersonUnitId to set.
@@ -240,7 +245,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public void setAwardPersonUnitId(Long awardPersonUnitId) {
         this.awardPersonUnitId = awardPersonUnitId;
     }
-    
+
     /**
      * Sets the creditSplits attribute value.
      * @param creditSplits The creditSplits to set.
@@ -248,14 +253,14 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public void setCreditSplits(List<AwardPersonUnitCreditSplit> creditSplits) {
         this.creditSplits = creditSplits;
     }
-    
+
     /**
      * @param leadUnit
      */
     public void setLeadUnit(boolean leadUnit) {
         this.leadUnit = leadUnit;
     }
-    
+
     /**
      * @param unit
      */
@@ -263,7 +268,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         this.unit = unit;
         this.unitNumber = unit != null ? unit.getUnitNumber() : null;
     }
-    
+
     /**
      * Sets the unitNumber attribute value.
      * @param unitNumber The unitNumber to set.
@@ -271,12 +276,28 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
- 
+
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("unitName", unit);
         map.put("leadUnit", leadUnit);
         return map;
-    }   
+    }
+
+    /**
+     * @return
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    private void lazilyLoadUnit() {
+        if(StringUtils.isNotEmpty(unitNumber) && unit == null) {
+            Collection c = getBusinessObjectService().findMatching(Unit.class, ServiceHelper.getInstance().buildCriteriaMap("unitNumber", unitNumber));
+            if(c.size() > 0) {
+                unit = (Unit) c.iterator().next();
+            }
+        }
+    }
 }
