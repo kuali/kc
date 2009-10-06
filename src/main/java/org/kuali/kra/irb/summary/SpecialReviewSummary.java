@@ -105,7 +105,9 @@ public class SpecialReviewSummary implements Serializable {
             if (!StringUtils.isBlank(this.exemptionNumbers)) {
                 this.exemptionNumbers += ", ";
             }
-            exemption.refreshReferenceObject("exemptionType");
+            if (exemption.getExemptionType() == null) {
+                exemption.refreshReferenceObject("exemptionType");
+            }
             this.exemptionNumbers += exemption.getExemptionType().getDescription();
         }
     }
