@@ -34,7 +34,6 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -142,8 +141,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "ProposalStateTypeCode",
                                                    "ProposalState",
                                                    "ProposalDocument" };
-    
-    private static String forceCopyProperty = "documentNextvalues";
     
     /**
      * Each property in the document that can be copied is represented
@@ -486,9 +483,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
-        fixOrganizationAndLocations(newDoc);
+        // reset organization / location info only if lead unit changed
+        if (!StringUtils.equals(srcDoc.getDevelopmentProposal().getUnitNumber(), newDoc.getDevelopmentProposal().getUnitNumber())) {
+            fixOrganizationAndLocations(newDoc);
+        }
         list.clear();
-        fixVersionNumbers(newDoc, list);
         fixBudgetVersions(newDoc);
     }
 
@@ -500,35 +499,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
         DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
-
-        // update applicant org Id, then refresh applicant org
-        developmentProposal.setApplicantOrganizationId(developmentProposal.getOwnedByUnit().getOrganizationId());
         
-        developmentProposal.initializeOwnedByUnitNumber();
-        // Remove the first Location because it's probably the old one.
-        Integer firstProposalLocationSeqeunceNumber = null;
-        ProposalSite firstSite = null;
-        if (developmentProposal.getPerformanceSites().size() > 0) {
-            firstSite = developmentProposal.getPerformanceSites().get(0);
-            firstProposalLocationSeqeunceNumber = firstSite.getSiteNumber();
-            developmentProposal.removePerformanceSite(0);
+        Unit ownedByUnit = developmentProposal.getOwnedByUnit();
+        if (ownedByUnit != null) {
+            String unitOrganizationId = ownedByUnit.getOrganizationId();
+            for (ProposalSite proposalSite: developmentProposal.getProposalSites()) {
+                // set location name to default from Organization
+                proposalSite.setOrganizationId(unitOrganizationId);
+                proposalSite.refreshReferenceObject("organization");
+                proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
+                proposalSite.setRolodexId(proposalSite.getOrganization().getContactAddressId());
+                proposalSite.refreshReferenceObject("rolodex");
+            }
         }
-        else if (developmentProposal.getOtherOrganizations().size() > 0) {
-            firstSite = developmentProposal.getOtherOrganizations().get(0);
-            firstProposalLocationSeqeunceNumber = firstSite.getSiteNumber();
-            developmentProposal.removeOtherOrganization(0);
-        }
-        
-        // re-initialize Proposal Sites with Organization details
-        ProposalSite newProposalSite = new ProposalSite();
-        newProposalSite.setLocationName(doc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
-        newProposalSite.setRolodexId(doc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getContactAddressId());
-        newProposalSite.refreshReferenceObject("rolodex");
-        if(firstProposalLocationSeqeunceNumber == null || firstProposalLocationSeqeunceNumber.intValue() <= 0) {
-            firstProposalLocationSeqeunceNumber = doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
-        }
-        newProposalSite.setSiteNumber(firstProposalLocationSeqeunceNumber);
-        doc.getDevelopmentProposal().addOtherOrganization(newProposalSite);
     }
     
     /**
@@ -557,48 +540,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         }
                     } else {
                         fixProposalNumbers(value, proposalNumber, list);
-                    }   
-                }
-            }
-        }
-    }
-    
-    /**
-     * Recurse through all of the BOs and reset all of the Version Number
-     * properties to null.  Note that the version number for the top-level
-     * document (ProposalDevelopmentDocument) and the DevelopmentProposal
-     * must be left as is.
-     * @param object the object
-     */
-    @SuppressWarnings("unchecked")
-    private void fixVersionNumbers(Object object, List<Object> list) throws Exception {
-        
-        if (object instanceof BusinessObject) {
-            if (list.contains(object)) return;
-            list.add(object);
-            Method[] methods = object.getClass().getMethods();
-            for (Method method : methods) {
-                if (method.getName().equals("setVersionNumber")) {
-                    if (!(object instanceof ProposalDevelopmentDocument) &&
-                            !(object instanceof DevelopmentProposal)) {
-                        method.invoke(object, (Long) null);
-                    }
-                    break;
-                }
-            }
-            methods = object.getClass().getDeclaredMethods();
-            for (Method method : methods) {
-                if (isPropertyGetterMethod(method, methods)) {
-                    Object value = method.invoke(object);
-                    if (value instanceof Collection) {
-                        Collection c = (Collection) value;
-                        Iterator iter = c.iterator();
-                        while (iter.hasNext()) {
-                            Object entry = iter.next();
-                            fixVersionNumbers(entry, list);
-                        }
-                    } else {
-                        fixVersionNumbers(value, list);
                     }   
                 }
             }
