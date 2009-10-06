@@ -1217,15 +1217,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private void addSpecialReviewSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
             SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
-            specialReview.refreshReferenceObject("specialReview");
+            if (specialReview.getSpecialReview() == null) {
+                specialReview.refreshReferenceObject("specialReview");
+            }
             specialReviewSummary.setType(specialReview.getSpecialReview().getDescription());
-            specialReview.refreshReferenceObject("specialReviewApprovalType");
+            if (specialReview.getSpecialReviewApprovalType() == null) {
+                specialReview.refreshReferenceObject("specialReviewApprovalType");
+            }
             specialReviewSummary.setApprovalStatus(specialReview.getSpecialReviewApprovalType().getDescription());
             specialReviewSummary.setProtocolNumber(specialReview.getProtocolNumber());
             specialReviewSummary.setApplicationDate(specialReview.getApplicationDate());
             specialReviewSummary.setApprovalDate(specialReview.getApprovalDate());
             specialReviewSummary.setExpirationDate(specialReview.getExpirationDate());
-            specialReview.refreshReferenceObject("specialReviewExemptions");
+            if (specialReview.getSpecialReviewExemptions() == null) {
+                specialReview.refreshReferenceObject("specialReviewExemptions");
+            }
             specialReviewSummary.setExemptionNumbers(specialReview.getSpecialReviewExemptions());
             specialReviewSummary.setComment(specialReview.getComments());
             protocolSummary.add(specialReviewSummary);
@@ -1293,7 +1299,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
                 personnelSummary.setAffiliation("");
             }
             else {
-                person.refreshReferenceObject("affiliationType");
+                if (person.getAffiliationType() == null) {
+                    person.refreshReferenceObject("affiliationType");
+                }
                 personnelSummary.setAffiliation(person.getAffiliationType().getDescription());
             }
             for (ProtocolUnit unit : person.getProtocolUnits()) {
@@ -1307,15 +1315,19 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         ProtocolSummary summary = new ProtocolSummary();
         summary.setLastProtocolAction(getLastProtocolAction());
         summary.setProtocolNumber(getProtocolNumber().toString());
-        summary.setPiName(this.getPrincipalInvestigator().getPersonName());
-        summary.setPiProtocolPersonId(this.getPrincipalInvestigator().getProtocolPersonId());
+        summary.setPiName(getPrincipalInvestigator().getPersonName());
+        summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
         summary.setApplicationDate(getApplicationDate());
-        summary.setApplicationDate(getApprovalDate());
+        summary.setApprovalDate(getApprovalDate());
         summary.setLastApprovalDate(getLastApprovalDate());
         summary.setExpirationDate(getExpirationDate());
-        refreshReferenceObject("protocolType");
+        if (getProtocolType() == null) {
+            refreshReferenceObject("protocolType");
+        }
         summary.setType(getProtocolType().getDescription());
-        refreshReferenceObject("protocolStatus");
+        if (getProtocolStatus() == null) {
+            refreshReferenceObject("protocolStatus");
+        }
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
         return summary;
