@@ -74,6 +74,8 @@ public class PersonnelSummary implements Serializable {
         PersonnelSummary otherPerson = other.findPerson(name);
         if (otherPerson == null) {
             nameChanged = true;
+            roleNameChanged = true;
+            affiliationChanged = true;
             for (UnitSummary unit : units) {
                 unit.setChanged(true);
             }
