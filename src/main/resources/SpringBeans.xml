@@ -1651,6 +1651,9 @@
 		<property name="budgetService">
 			<ref bean="budgetService" />
 		</property> 
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
 	</bean>
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
