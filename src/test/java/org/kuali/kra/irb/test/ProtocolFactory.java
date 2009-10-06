@@ -125,7 +125,7 @@ public class ProtocolFactory {
      * @param personRole
      * @return
      */
-    private static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole, String protocolNumber) {
+    public static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole, String protocolNumber) {
         ProtocolPerson protocolPerson = new ProtocolPerson();
         protocolPerson.setPersonId(personId);
         protocolPerson.setPersonName(personName);
