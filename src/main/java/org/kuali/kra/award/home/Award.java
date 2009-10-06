@@ -2729,5 +2729,9 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     public boolean isPersisted() {
         return awardId != null;
     }
+    
+    public AwardApprovedSubaward getAwardApprovedSubawards(int index) {
+        return getAwardApprovedSubawards().get(index);    
+    }
 
 }
