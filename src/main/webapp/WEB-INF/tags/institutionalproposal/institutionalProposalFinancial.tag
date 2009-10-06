@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 
 
-<kul:tab tabTitle="Financial" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Financial" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].requestedStartDateTotal,document.institutionalProposalList[0].requestedStartDateInitial,document.institutionalProposalList[0].totalDirectCostInitial,document.institutionalProposalList[0].totalDirectCostTotal,document.institutionalProposalList[0].totalIndirectCostInitial,document.institutionalProposalList[0].totalIndirectCostTotal">
 	<!-- Institution -->
 
 <div class="tab-container" align="center">
@@ -60,12 +60,12 @@
     	</th>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposal.requestedStartDateInitial" attributeEntry="${institutionalProposalAttributes.requestedStartDateInitial}" datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateInitial" attributeEntry="${institutionalProposalAttributes.requestedStartDateInitial}" datePicker="true"/>
 			</div>
 		</td>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposal.requestedStartDateTotal" attributeEntry="${institutionalProposalAttributes.requestedStartDateTotal}"datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateTotal" attributeEntry="${institutionalProposalAttributes.requestedStartDateTotal}"datePicker="true"/>
 			</div>
 		</td>
   	</tr>
@@ -75,12 +75,12 @@
     	</th>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposal.requestedEndDateInitial" attributeEntry="${institutionalProposalAttributes.requestedEndDateInitial}" datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateInitial" attributeEntry="${institutionalProposalAttributes.requestedEndDateInitial}" datePicker="true"/>
 			</div>
 		</td>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposal.requestedEndDateTotal" attributeEntry="${institutionalProposalAttributes.requestedEndDateTotal}"datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateTotal" attributeEntry="${institutionalProposalAttributes.requestedEndDateTotal}"datePicker="true"/>
 			</div>
 		</td>
   	</tr>
@@ -90,12 +90,12 @@
     	</th>
     	<td>
     		<div align="right">
-    			<kul:htmlControlAttribute property="document.institutionalProposal.totalDirectCostInitial" attributeEntry="${institutionalProposalAttributes.totalDirectCostInitial}" styleClass="amount"/>
+    			<kul:htmlControlAttribute property="document.institutionalProposalList[0].totalDirectCostInitial" attributeEntry="${institutionalProposalAttributes.totalDirectCostInitial}" styleClass="amount"/>
 			</div>
 		</td>
     	<td>
     		<div align="right">
-    			<kul:htmlControlAttribute property="document.institutionalProposal.totalDirectCostTotal" attributeEntry="${institutionalProposalAttributes.totalDirectCostTotal}" styleClass="amount"/>
+    			<kul:htmlControlAttribute property="document.institutionalProposalList[0].totalDirectCostTotal" attributeEntry="${institutionalProposalAttributes.totalDirectCostTotal}" styleClass="amount"/>
 			</div>
 		</td>
   	</tr>
@@ -105,12 +105,12 @@
     	</th>
     	<td>
     		<div align="right">
-    			<kul:htmlControlAttribute property="document.institutionalProposal.totalIndirectCostInitial" attributeEntry="${institutionalProposalAttributes.totalIndirectCostInitial}" styleClass="amount"/>
+    			<kul:htmlControlAttribute property="document.institutionalProposalList[0].totalIndirectCostInitial" attributeEntry="${institutionalProposalAttributes.totalIndirectCostInitial}" styleClass="amount"/>
     		</div>	
 		</td>
     	<td>
     		<div align="right">
-    			<kul:htmlControlAttribute property="document.institutionalProposal.totalIndirectCostTotal" attributeEntry="${institutionalProposalAttributes.totalIndirectCostTotal}" styleClass="amount"/>
+    			<kul:htmlControlAttribute property="document.institutionalProposalList[0].totalIndirectCostTotal" attributeEntry="${institutionalProposalAttributes.totalIndirectCostTotal}" styleClass="amount"/>
     		</div>	
 		</td>
   	</tr>
