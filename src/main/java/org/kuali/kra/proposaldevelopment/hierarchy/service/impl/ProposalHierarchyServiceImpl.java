@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -35,6 +36,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -76,28 +78,45 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ProposalHierarchyDao proposalHierarchyDao;
     private NarrativeService narrativeService;
     private BudgetService budgetService;
+    private BudgetCalculationService budgetCalculationService;
+
 
     /**
-     * Set the Business Object Service. It is set via dependency injection.
-     * 
-     * @param businessObjectService the Business Object Service
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * Sets the documentService attribute value.
+     * @param documentService The documentService to set.
+     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
+    /**
+     * Sets the kraAuthorizationService attribute value.
+     * @param kraAuthorizationService The kraAuthorizationService to set.
+     */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 
+    /**
+     * Sets the proposalHierarchyDao attribute value.
+     * @param proposalHierarchyDao The proposalHierarchyDao to set.
+     */
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
         this.proposalHierarchyDao = proposalHierarchyDao;
     }
-    
+
+    /**
+     * Sets the narrativeService attribute value.
+     * @param narrativeService The narrativeService to set.
+     */
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
@@ -108,6 +127,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
+    }
+
+    /**
+     * Sets the budgetCalculationService attribute value.
+     * @param budgetCalculationService The budgetCalculationService to set.
+     */
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
     }
 
     /**
@@ -471,13 +498,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             newPerson.setBudget(parentBudget);
             parentBudget.addBudgetPerson(person);
         }
-        
-        parentBudget.setCostSharingAmount(parentBudget.getCostSharingAmount().add(childBudget.getCostSharingAmount()));
-        parentBudget.setTotalCost(parentBudget.getTotalCost().add(childBudget.getTotalCost()));
-        parentBudget.setTotalDirectCost(parentBudget.getTotalDirectCost().add(childBudget.getTotalDirectCost()));
-        parentBudget.setTotalIndirectCost(parentBudget.getTotalIndirectCost().add(childBudget.getTotalIndirectCost()));
-        parentBudget.setUnderrecoveryAmount(parentBudget.getUnderrecoveryAmount().add(childBudget.getUnderrecoveryAmount()));
-        
         int parentStartPeriod = getCorrespondingParentPeriod(parentBudget, childBudget);
         if (parentStartPeriod == -1) {
             throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
@@ -512,23 +532,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 throw new ProposalHierarchyException("Problem copying line items to parent", e);
             }
         }
-
-        
-        
-        
-        for (BudgetPeriod period : parentBudget.getBudgetPeriods()) {
-            LOG.warn("***" + period);
-            for (BudgetLineItem lineItem : period.getBudgetLineItems()) {
-                LOG.warn("******" + lineItem);
-                for (BudgetPersonnelDetails details : lineItem.getBudgetPersonnelDetailsList()) {
-                    LOG.warn("*********" + details);
-                }
-                for (BudgetLineItemCalculatedAmount amount : lineItem.getBudgetLineItemCalculatedAmounts()) {
-                    LOG.warn("*********" + amount);
-                }
-            }
-        }
-        return;
     }
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
@@ -544,6 +547,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             else person.setHiddenInHierarchy(true);
         }
+        
+        Budget hierarchyBudget = getHierarchyBudget(hierarchy);
+        budgetCalculationService.calculateBudget(hierarchyBudget);
+        businessObjectService.save(hierarchyBudget);
     }
 
     private DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
@@ -690,4 +697,5 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         return correspondingStart;
     }
+    
 }
