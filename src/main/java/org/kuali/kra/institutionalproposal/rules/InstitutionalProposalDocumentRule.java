@@ -65,6 +65,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processUnrecoveredFandABusinessRules(document);
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
+        retval &= processInstitutionalProposalFinancialRules(document);
         
         return retval;
     }    
@@ -148,6 +149,21 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         InstitutionalProposalSponsorAndProgramRuleEvent event = new InstitutionalProposalSponsorAndProgramRuleEvent(errorPath, 
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
+        return valid;
+    }    
+    
+    /**
+     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
+     * @param proposalDevelopmentDocument
+     * @return
+    */
+    private boolean processInstitutionalProposalFinancialRules(Document document) {
+        boolean valid = true;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        String errorPath = "institutionalProposalFinancial";
+        InstitutionalProposalFinancialRuleEvent event = new InstitutionalProposalFinancialRuleEvent(errorPath, 
+                                                               institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
+        valid &= new InstitutionalProposalFinancialRuleImpl().processInstitutionalProposalFinancialRules(event);
         return valid;
     }    
     
