@@ -62,7 +62,8 @@
 					</th>
 	                <td width="10%" valign="middle">
 						${awardApprovedSubawards.organizationName}
-						<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.awardList[0].awardApprovedSubawards[${status.index}].organizationId:organizationId" anchor="${tabKey}" />      	  	 		
+						<input type="hidden" name="award_subaward.identifier_${status.index}" value="${awardApprovedSubawards.organizationId}"/>
+						<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="award_subaward.identifier_${status.index}:organizationId" anchor="${tabKey}" />      	  	 		
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="right">
