@@ -27,8 +27,8 @@
 <%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
-<%@ attribute name="clearSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should clear the proposal site. If this parameter is present, a Clear button and a lookup control is shown." %>
-<%@ attribute name="deleteSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should delete the proposal site. If this parameter is present, a Delete button and a lookup control is shown." %>
+<%@ attribute name="clearSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should clear the proposal site. If this parameter is present, a Clear button is shown." %>
+<%@ attribute name="deleteSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should delete the proposal site. If this parameter is present, a Delete button is shown." %>
 <%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
@@ -75,23 +75,21 @@
                 <c:if test="${rolodexLookup}">
                     <c:out value="${proposalSiteBo.rolodex.organization}" />
                     
-                    <%-- Lookup control --%>
+                    <%-- The lookup control --%>
                     <kra:section permission="modifyProposal">
-                        <c:if test="${!empty clearSiteMethodToCall || !empty deleteSiteMethodToCall}">
-                            <kul:lookup
-                                boClassName="org.kuali.kra.bo.Rolodex" 
-                                fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.rolodex.organization,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
-                                anchor="${currentTabIndex}" /> 
+                        <kul:lookup
+                            boClassName="org.kuali.kra.bo.Rolodex" 
+                            fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.rolodex.organization,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
+                            anchor="${currentTabIndex}" /> 
 
-                            <input
-                                type="hidden" name="${proposalSiteBoName}_rolodexId"
-                                value="${proposalSiteBo.rolodexId}" />
-                            <kul:directInquiry
-                                boClassName="org.kuali.kra.bo.Rolodex"
-                                inquiryParameters="${proposalSiteBoName}_rolodexId:rolodexId"
-                                anchor="${currentTabIndex}" />
-                            <br/>
-                        </c:if>
+                        <input
+                            type="hidden" name="${proposalSiteBoName}_rolodexId"
+                            value="${proposalSiteBo.rolodexId}" />
+                        <kul:directInquiry
+                            boClassName="org.kuali.kra.bo.Rolodex"
+                            inquiryParameters="${proposalSiteBoName}_rolodexId:rolodexId"
+                            anchor="${currentTabIndex}" />
+                        <br/>
                     </kra:section>
                     
                     <%-- Site address --%>
@@ -119,20 +117,18 @@
                     <%-- Site name --%>
                     <c:out value="${proposalSiteBo.organization.organizationName}" />
                     
-                    <%-- Lookup control --%>
+                    <%-- The lookup control --%>
                     <kra:section permission="modifyProposal">
-                        <c:if test="${!empty clearSiteMethodToCall || !empty deleteSiteMethodToCall}">
-                            <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                                fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.organization.organizationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
-                                anchor="${currentTabIndex}" />
-                            <input
-                                type="hidden" name="${proposalSiteBoName}_organizationId"
-                                value="${proposalSiteBo.organizationId}" />
-                            <kul:directInquiry
-                                boClassName="org.kuali.kra.bo.Organization"
-                                inquiryParameters="${proposalSiteBoName}_organizationId:organizationId"
-                                anchor="${currentTabIndex}" />
-                        </c:if>
+                        <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+                            fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.organization.organizationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
+                            anchor="${currentTabIndex}" />
+                        <input
+                            type="hidden" name="${proposalSiteBoName}_organizationId"
+                            value="${proposalSiteBo.organizationId}" />
+                        <kul:directInquiry
+                            boClassName="org.kuali.kra.bo.Organization"
+                            inquiryParameters="${proposalSiteBoName}_organizationId:organizationId"
+                            anchor="${currentTabIndex}" />
                     </kra:section>
                     <br/>
                     
