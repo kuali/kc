@@ -18,13 +18,18 @@ package org.kuali.kra.irb.test;
 import java.util.ArrayList;
 
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Base class for Protocol business rule tests.
@@ -53,6 +58,12 @@ public class ProtocolFactory {
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
         setProtocolRequiredFields(protocolDocument, null);
+        
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
+        String userName = user.getPersonUserIdentifier();
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
+        
         documentService.saveDocument(protocolDocument);
         return protocolDocument;
     }
