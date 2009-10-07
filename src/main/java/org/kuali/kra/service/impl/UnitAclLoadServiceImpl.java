@@ -69,7 +69,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
     public void loadUnitAcl(UnitAclLoadable unitAclLoadable) {
         String creatorUsername = getCreator();
         
-        Collection<UnitAclEntry> kraRoleTemplates = getRoleTemplates(unitAclLoadable.getDocumentUnitNumber(), unitAclLoadable.getDocumentRoleTypeCode());
+        Collection<UnitAclEntry> kraRoleTemplates = getDocumentDefaultAcl(unitAclLoadable.getDocumentUnitNumber(), unitAclLoadable.getDocumentRoleTypeCode());
         for (UnitAclEntry kraRoleTemplate : kraRoleTemplates) {
             String personId = kraRoleTemplate.getPersonId();
             String username = personService.getPerson(personId).getUserName();
@@ -91,12 +91,13 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
     }
 
     /**
-     * Get the role templates for the proposal.  The retrieved role templates correspond
-     * to the proposal's lead unit.
+     * Get the access control list for the document type as specified by the system administrator.
+     * The retrieved access control list correspond to the document's unit.
      * @param unitNumber of the document
-     * @return the collection of role templates
+     * @param documentTypeCode
+     * @return the access control list for the document type
      */
-    private Collection<UnitAclEntry> getRoleTemplates(String unitNumber, String documentTypeCode) {
+    private Collection<UnitAclEntry> getDocumentDefaultAcl(String unitNumber, String documentTypeCode) {
         Collection<UnitAclEntry> list = new ArrayList<UnitAclEntry>();
         
         // get all acl for this unit
