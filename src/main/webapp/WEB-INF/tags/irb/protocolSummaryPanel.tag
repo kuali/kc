@@ -17,8 +17,8 @@
             <tbody>
                 <tr>
                     <th colspan="4" style="text-align:center">
-                        Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}:&nbsp;
-                        ${KualiForm.actionHelper.protocolSummary.lastProtocolActionDescription}
+                        <span id="summarySequence">Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}:&nbsp;
+                        ${KualiForm.actionHelper.protocolSummary.lastProtocolActionDescription}</span>
                         <c:if test="${!prevDisabled}">
                             <html:image property="methodToCall.viewPreviousProtocolSummary.line${status.index}.anchor${currentTabIndex}"
                                         src="${ConfigProperties.kra.externalizable.images.url}tinybutton-previous3.gif"
