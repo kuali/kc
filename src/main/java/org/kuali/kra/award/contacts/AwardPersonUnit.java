@@ -72,7 +72,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     AwardPersonUnit(AwardPerson awardPerson, Unit unit, boolean isLeadUnit) {
         this();
         this.awardPerson = awardPerson;
-        this.unit = unit;
+        setUnit(unit);
         leadUnit = isLeadUnit;        
     }
     
