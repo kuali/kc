@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -59,8 +58,12 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         AwardProjectPersonRuleAddEvent event = generateAddProjectPersonEvent();
         boolean success = new AwardProjectPersonAddRuleImpl().processAddAwardProjectPersonBusinessRules(event);
         if(success){
-            getAward().add(getNewProjectPerson());
+            AwardPerson awardPerson = getNewProjectPerson();
+            getAward().add(awardPerson);
             init();
+            if(awardPerson.isEmployee()) {
+                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getHomeUnitRef(), awardPerson.isPrincipalInvestigator()));
+            }
         }
     }
 
