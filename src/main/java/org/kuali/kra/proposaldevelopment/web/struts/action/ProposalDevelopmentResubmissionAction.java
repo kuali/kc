@@ -99,7 +99,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
             KualiWorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
-            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), (UniversalUser) GlobalVariables.getUserSession().getPerson());
+            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), new UniversalUser(GlobalVariables.getUserSession().getPerson()));
             DocumentService docService = KNSServiceLocator.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
