@@ -665,6 +665,18 @@
 		</property>
 	</bean>
 	
+	<bean id="unitAclLoadService" class="org.kuali.kra.service.impl.UnitAclLoadServiceImpl">
+	    <property name="kraAuthorizationService">
+	        <ref bean="kraAuthorizationService" />
+	    </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+	</bean>
+	
 	<bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
 		<property name="unitAuthorizationService">
 			<ref bean="unitAuthorizationService" />
