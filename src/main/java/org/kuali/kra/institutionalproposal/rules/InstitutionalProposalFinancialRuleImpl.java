@@ -42,23 +42,29 @@ public class InstitutionalProposalFinancialRuleImpl extends ResearchDocumentRule
             InstitutionalProposalFinancialRuleEvent institutionalProposalFinancialRuleEvent) {
         boolean valid = true;
        InstitutionalProposal institutionalProposal = institutionalProposalFinancialRuleEvent.getInstitutionalProposalForValidation();
-       if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateInitial(),
-               institutionalProposal.getRequestedEndDateInitial()))) {
-           this.reportError("document.institutionalProposalList[0].requestedStartDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
-                   REQUESTED_INITIAL_START_DATE, REQUESTED_INITIAL_END_DATE);
-           valid = false;
+       if(institutionalProposal.getRequestedStartDateInitial() != null && institutionalProposal.getRequestedEndDateInitial() != null) {
+           if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateInitial(),
+                   institutionalProposal.getRequestedEndDateInitial()))) {
+               this.reportError("document.institutionalProposalList[0].requestedStartDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
+                       REQUESTED_INITIAL_START_DATE, REQUESTED_INITIAL_END_DATE);
+               valid = false;
+           }
        }
-       if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateTotal(),
-               institutionalProposal.getRequestedEndDateTotal())))  {
-           this.reportError("document.institutionalProposalList[0].requestedStartDateTotal", KeyConstants.ERROR_FINANCIAL_DATES, 
-                   REQUESTED_TOTAL_START_DATE, REQUESTED_TOTAL_END_DATE);
-           valid = false;
+       if(institutionalProposal.getRequestedStartDateTotal() != null && institutionalProposal.getRequestedEndDateTotal() != null) {
+           if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateTotal(),
+                   institutionalProposal.getRequestedEndDateTotal())))  {
+               this.reportError("document.institutionalProposalList[0].requestedStartDateTotal", KeyConstants.ERROR_FINANCIAL_DATES, 
+                       REQUESTED_TOTAL_START_DATE, REQUESTED_TOTAL_END_DATE);
+               valid = false;
+           }
        }
-       if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateTotal(),
-               institutionalProposal.getRequestedStartDateInitial()))) {
-           this.reportError("document.institutionalProposalList[0].requestedStartDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
-                   REQUESTED_TOTAL_START_DATE, REQUESTED_TOTAL_START_DATE);
-           valid = false;
+       if(institutionalProposal.getRequestedStartDateTotal() != null && institutionalProposal.getRequestedStartDateInitial() != null) {
+           if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateTotal(),
+                   institutionalProposal.getRequestedStartDateInitial()))) {
+               this.reportError("document.institutionalProposalList[0].requestedStartDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
+                       REQUESTED_TOTAL_START_DATE, REQUESTED_TOTAL_START_DATE);
+               valid = false;
+           }
        }
        valid = testFinancialCostFields(institutionalProposal);
        return valid;
