@@ -660,7 +660,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
-        applicant.setRolodex(applicant.getOrganization().getRolodex());
+        if(applicant!=null) applicant.setRolodex(applicant.getOrganization()==null?null:applicant.getOrganization().getRolodex());
         return applicant;//getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
     }
 
