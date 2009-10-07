@@ -2126,13 +2126,13 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.Parameter" table="OSP$PARAMETER">
+	<!--<class-descriptor class="org.kuali.kra.bo.Parameter" table="OSP$PARAMETER">
 		<field-descriptor name="parameter" column="PARAMETER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-	</class-descriptor>
+	</class-descriptor>-->
 	
 	<!-- Award Tables - moved to award-repository.xml -->
 
