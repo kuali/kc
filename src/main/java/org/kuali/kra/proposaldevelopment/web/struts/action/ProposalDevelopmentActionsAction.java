@@ -778,7 +778,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode());
             s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode());
         }            
-        s2sSubmissionHistory.setSubmittedBy(((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+        s2sSubmissionHistory.setSubmittedBy(new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
         s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
         return s2sSubmissionHistory;
     }
