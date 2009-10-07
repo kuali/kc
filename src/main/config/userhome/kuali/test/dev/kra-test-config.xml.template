@@ -16,6 +16,8 @@
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
 	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
 
+	<param name="title.inquiry.url.value.prependtext"></param>
+
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="kr.url">${application.url}/kr</param>
 	<param name="appserver.url">http://127.0.0.1:8080</param>
