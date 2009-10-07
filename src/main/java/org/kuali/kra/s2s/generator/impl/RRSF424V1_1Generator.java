@@ -54,6 +54,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -84,21 +85,23 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
      */
     private RRSF424Document getRRSF424() {
+        DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
 
         RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
         RRSF424 rrsf424 = RRSF424.Factory.newInstance();
         rrsf424.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = devProp.getS2sOpportunity();
         if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
-            rrsf424.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forString(pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType()
+            rrsf424.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forString(devProp.getS2sOpportunity().getS2sSubmissionType()
                     .getDescription()));
         }
 
         rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getRolodex();
-        if (rolodex != null) {
-            rrsf424.setStateID(rolodex.getState());
+        Organization applicantOrganization = devProp.getApplicantOrganization().getOrganization();
+        if (applicantOrganization != null && applicantOrganization.getRolodex() != null) {
+            String state = applicantOrganization.getRolodex().getState();
+            rrsf424.setStateID(state);
         }
 
         String federalId = s2sUtilService.getFederalId(pdDoc);
@@ -108,33 +111,30 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         rrsf424.setApplicantInfo(getApplicationInfo());
         rrsf424.setApplicantType(getApplicantType());
         rrsf424.setApplicationType(getApplicationType());
-        ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
         if (applicantOrganization != null) {
-            rrsf424.setEmployerID(applicantOrganization.getOrganization().getFedralEmployerId());
+            rrsf424.setEmployerID(applicantOrganization.getFedralEmployerId());
         }
-        Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
+        Sponsor sponsor = devProp.getSponsor();
         if (sponsor != null) {
             rrsf424.setFederalAgencyName(sponsor.getSponsorName());
         }
-        rrsf424.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
-        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
+        rrsf424.setCFDANumber(devProp.getCfdaNumber());
+        if (devProp.getProgramAnnouncementTitle() != null) {
             String announcementTitle;
-            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > 120) {
-                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0, 120);
+            if (devProp.getProgramAnnouncementTitle().length() > 120) {
+                announcementTitle = devProp.getProgramAnnouncementTitle().substring(0, 120);
             }
             else {
-                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
+                announcementTitle = devProp.getProgramAnnouncementTitle();
             }
             rrsf424.setActivityTitle(announcementTitle);
         }
-        rrsf424.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
+        rrsf424.setProjectTitle(devProp.getTitle());
 
-        Rolodex rolodexOrganization = null;
-        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            rolodexOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganization().getRolodex();
-        }
-        if (rolodexOrganization != null) {
-            rrsf424.setLocation(rolodexOrganization.getState());
+        Organization performingOrganization = devProp.getPerformingOrganization().getOrganization();
+        if (performingOrganization != null && performingOrganization.getRolodex() != null) {
+            String state = performingOrganization.getRolodex().getState();
+            rrsf424.setLocation(state);
         }
         rrsf424.setProposedProjectPeriod(getProjectPeriod());
         rrsf424.setCongressionalDistrict(getCongDistrict());
@@ -151,7 +151,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         // Value is hardcoded
         rrsf424.setTrustAgree(YesNoDataType.Y_YES);
         rrsf424.setAORInfo(getAORInfoType());
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+        for (Narrative narrative : devProp.getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
                 AttachedFileDataType preAttachment = AttachedFileDataType.Factory.newInstance();
                 preAttachment = getAttachedFileType(narrative);
