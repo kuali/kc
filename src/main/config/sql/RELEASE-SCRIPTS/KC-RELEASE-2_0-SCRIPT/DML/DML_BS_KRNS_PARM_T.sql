@@ -187,4 +187,7 @@ VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.h
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-IP', 'D', 'InstitutionalProposalUnitAdministratorHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Unit Administrator Help', 'A') ;
+
 COMMIT;
