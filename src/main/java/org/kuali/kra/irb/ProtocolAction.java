@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,6 +35,7 @@ import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -190,13 +192,21 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        
+        // Assign the creator of the protocol the AGGREGATOR role.
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument doc = protocolForm.getDocument();
-        
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+
+        // Add the users defined in the access control list for the protocol's lead unit
+        
+        UnitAclLoadable unitAclLoadable = protocolForm.getDocument().getProtocol();
+        UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
+        unitAclLoadService.loadUnitAcl(unitAclLoadable);
     }
 
     /** {@inheritDoc} */
