@@ -18,7 +18,6 @@ package org.kuali.kra.irb;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
@@ -82,7 +82,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, 
                                                                           SequenceOwner<Protocol>, 
-                                                                          Permissionable {
+                                                                          Permissionable,
+                                                                          UnitAclLoadable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -1367,4 +1368,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             action.resetForeignKeys();
         }
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.UnitAclLoadable#getUnitNumberOfDocument()
+     */
+    public String getDocumentUnitNumber() {
+        return getLeadUnitNumber();
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
+     */
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.PROTOCOL_ROLE_TYPE;
+    }
+
 }
