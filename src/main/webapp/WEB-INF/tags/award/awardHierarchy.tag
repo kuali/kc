@@ -18,7 +18,7 @@
 <c:set var="awardHierarchyAttributes" value="${DataDictionary.AwardHierarchy.attributes}" />
 <c:set var="action" value="awardHierarchy" />
 
-<kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="document.awardList[0].awardReportTermItems" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempOjbect*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left">Hierarchy</span>

@@ -31,15 +31,15 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
@@ -70,59 +70,108 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return forward;
     }
     
-    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * 
+     * This method corresponds copy award action on Award Hierarchy UI. Depending on various options selected appropriate helper methods get called.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward copyAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardForm awardForm = (AwardForm)form;
         String awardNumber = getAwardNumber(request);
         String reversedAwardNumber = StringUtils.reverse(awardNumber);
-        String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
+        String indexStr = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
         ActionForward forward = null;        
-        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio()!=null){
-            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio();
-            Boolean copyDescendants = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyDescendants();
+        int index = Integer.parseInt(indexStr);
+        if(awardForm.getAwardHierarchyTempOjbect().get(index).getCopyAwardRadio()!=null){
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(index).getCopyAwardRadio();
+            Boolean copyDescendants = awardForm.getAwardHierarchyTempOjbect().get(index).getCopyDescendants();
+            AwardHierarchy targetNode = findTargetNode(request, awardForm);
             if(StringUtils.equalsIgnoreCase(radio, "a")){
                 if(copyDescendants!=null && copyDescendants){
-                    forward = this.copyAwardAsANewHierarchyWithDescendants(mapping, form, request, response);
+                    AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
+                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
                 }else{
-                    forward = this.copyAwardAsANewHierarchy(mapping, form, request, response);    
+                    AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
+                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);    
                 }
             }else if(StringUtils.equalsIgnoreCase(radio, "b")){
-                String copyAwardPanelAward = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardPanelTargetAward();
-                if(StringUtils.equalsIgnoreCase(StringUtils.substring(copyAwardPanelAward, 0, 6),StringUtils.substring(awardNumber, 0, 6))){
-                    if(copyDescendants){
-                        forward = this.copyAwardAsAChildInCurrentHierarchyWithDescendants(mapping, form, request, response);
+                String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempOjbect().get(index).getSelectBox2();
+                if(awardNumberOfNodeToBeParent!=null){
+                    if(copyDescendants!=null && copyDescendants){    
+                        if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+                            awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+                        }
+                        forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                     }else{
-                        forward = this.copyAwardAsAChildInCurrentHierarchy(mapping, form, request, response);    
-                    }
+                        awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+                        populateAwardHierarchy(awardForm);
+                        forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+                    }    
                 }else{
-                    if(copyDescendants){
-                        forward = this.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants(mapping, form, request, response);
-                    }else{
-                        forward = this.copyAwardAsAChildOfAwardInAnotherHierarchy(mapping, form, request, response);    
-                    }
+                    GlobalVariables.getMessageMap().putError("awardHierarchyTempOjbect[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
+                    forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
                 }
-                forward = createANewChildAwardBasedOnParent(mapping, form, request, response);
             }
+        }else{
+            GlobalVariables.getMessageMap().putError("awardHierarchyTempOjbect[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_NO_OPTION_SELECTED, awardNumber);
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
     }
     
-    
+    /**
+     * 
+     * This method corresponds to the Create New Child behavior on Award Hierarchy JQuery UI. It calls various helper methods based on the options 
+     * selected in the UI.
+     *  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         String awardNumber = getAwardNumber(request);
         String reversedAwardNumber = StringUtils.reverse(awardNumber);
-        String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
+        String indexStr = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
         ActionForward forward = null;
-        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio()!=null){
-            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio();
+        int index = Integer.parseInt(indexStr);
+        if(awardForm.getAwardHierarchyTempOjbect().get(index).getCreateNewChildRadio()!=null){
+            AwardHierarchy targetNode = findTargetNode(request, awardForm);
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(index).getCreateNewChildRadio();
             if(StringUtils.equalsIgnoreCase(radio, "a")){
-                forward = createANewChildAward(mapping, form, request, response);
+                AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAward(targetNode.getAwardNumber());                
+                forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
             }else if(StringUtils.equalsIgnoreCase(radio, "b")){
-                forward = createANewChildAwardBasedOnParent(mapping, form, request, response);
+                AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewAwardBasedOnParent(targetNode.getAwardNumber());
+                forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
             }else if(StringUtils.equalsIgnoreCase(radio, "c")){
-                forward = createANewChildAwardBasedOnAnotherAwardInHierarchy(mapping, form, request, response);
+                String awardNumberOfNodeToCopyFrom = awardForm.getAwardHierarchyTempOjbect().get(index).getSelectBox1();
+                if(awardNumberOfNodeToCopyFrom!=null){
+                    if(StringUtils.isEmpty(awardNumberOfNodeToCopyFrom)) {
+                        forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+                    }else{
+                        AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(awardNumberOfNodeToCopyFrom,
+                                                                                                                                            targetNode.getAwardNumber());
+                        forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);    
+                    }    
+                }else{
+                    GlobalVariables.getMessageMap().putError("awardHierarchyTempOjbect[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED, awardNumber);
+                    forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+                }                
             }
+        }else{
+            GlobalVariables.getMessageMap().putError("awardHierarchyTempOjbect[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED, awardNumber);
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
         
@@ -185,6 +234,25 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
     }
+    
+    public ActionForward copyAwardAsChildOfAnotherAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardHierarchy targetNode = findTargetNode(request, awardForm);
+        String awardNumberOfNodeToBeParent = getHierarchyTargetAwardNumber(request);
+        awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+        populateAwardHierarchy(awardForm);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAndDescendantsAsChildOfAnotherAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardHierarchy targetNode = findTargetNode(request, awardForm);
+        String awardNumberOfNodeToBeParent = getHierarchyTargetAwardNumber(request);
+        if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+            awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+        }
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
 
     public ActionForward copyAwardAsAChildInCurrentHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
@@ -220,7 +288,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
+    }    
 
     public ActionForward selectAllAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
@@ -332,11 +400,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     private AwardHierarchy findTargetNode(HttpServletRequest request, AwardForm awardForm) {
         return awardForm.getAwardHierarchyBean().getRootNode().findNodeInHierarchy(getAwardNumber(request));
-    }
-
-
-    private AwardHierarchyUIService getAwardHierarchyUIService(){
-        return KraServiceLocator.getService(AwardHierarchyUIService.class);
     }
 
     private ActionForward prepareToForwardToNewChildAward(ActionMapping mapping, AwardForm awardForm, AwardHierarchy targetNode,
