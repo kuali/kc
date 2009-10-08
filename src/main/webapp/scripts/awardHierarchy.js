@@ -323,7 +323,7 @@
 	    trTag.appendTo(tblTag);
 	    
 	    var tdTag3=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
-	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copy.awardNumber"+text1).attr("name","methodToCall.copy.awardNumber"+text1);;
+	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copyAward.awardNumber"+text1).attr("name","methodToCall.copyAward.awardNumber"+text1);;
 	    copyButton.appendTo(tdTag3);	    
 	    tdTag3.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
