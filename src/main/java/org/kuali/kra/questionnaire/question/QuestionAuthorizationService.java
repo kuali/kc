@@ -17,6 +17,12 @@ package org.kuali.kra.questionnaire.question;
 
 public interface QuestionAuthorizationService {
 
-    public boolean hasPermission(String permissionName);
+    /**
+     * 
+     * This method checks if the current user has the specified permission.
+     * @param permissionName the name of the permission
+     * @return true if the user has permission; otherwise false
+     */
+    boolean hasPermission(String permissionName);
     
 }
