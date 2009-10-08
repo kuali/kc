@@ -47,16 +47,17 @@
 					<div>
 						<label><span style="margin-right: 30;">Add Employee: </span></label>
     					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
-          							attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
+          							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/>
           				<label>
-          					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}" 
+          					<kul:lookup boClassName="org.kuali.kra.bo.Person"
+                                        fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
   	 									lookupParameters="projectPersonnelBean.personId:personId"/>
   	 					</label>
   	 				</div>
   	 				<div>
           				<label><span style="margin-right: 3;">Add Non-employee:</span></label>
       					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
-          								attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
+          								attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/>
       					<label>
       						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
       									anchor="${tabKey}" lookupParameters="projectPersonnelBean.rolodexId:rolodexId"/>
