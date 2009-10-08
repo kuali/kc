@@ -27,12 +27,31 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
+/**
+ * 
+ * This the document authorizer class of question maintenance.
+ * Based on user permission and document routing status; the documentactions set is created.
+ */
 public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
+    /**
+     * Create the documentActons based on user permission and document routing status.
+     * 
+     * @param document
+     * @param user
+     * @param documentActions - existing document actions (are ignored and wiped out)
+     * @return documentActions
+     */
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         return getDocumentActions(document);
     }
 
+    /**
+     * Create the documentActons based on user permission and document routing status.
+     * 
+     * @param document
+     * @return documentActions
+     */
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
         if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)

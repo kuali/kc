@@ -23,6 +23,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * Implementation of the various Question services.
+ * 
+ * @see org.kuali.kra.questionnaire.question.QuestionService
+ */
 public class QuestionServiceImpl implements QuestionService {
 
     private static final String QUESTION_REF_ID = "questionRefId";
