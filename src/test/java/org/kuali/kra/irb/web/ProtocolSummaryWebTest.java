@@ -33,11 +33,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-/**
- * Test the simple Request Actions for a Protocol.  These actions are:
- * Request Close, Request a Suspension, Request Close Enrollment, Request Re-open Enrollment,
- * and Request Data Analysis.
- */
 @PerSuiteUnitTestData(
         @UnitTestData(
             sqlFiles = {
@@ -50,15 +45,19 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ProtocolSummaryWebTest extends ProtocolWebTestBase {
     
     private ProtocolVersionService versionService;
-    private ProtocolDocument protocolDocument1;
-    private ProtocolDocument protocolDocument2;
-    private ProtocolDocument protocolDocument3;
+    static private ProtocolDocument protocolDocument1;
+    static private ProtocolDocument protocolDocument2;
+    static private ProtocolDocument protocolDocument3;
+    static private boolean initialized;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();    
         versionService = KraServiceLocator.getService(ProtocolVersionService.class);
-        loadProtocolVersions();
+        if (!initialized) {
+            initialized = true;
+            loadProtocolVersions();
+        }
     }
     
     private void loadProtocolVersions() throws Exception {
@@ -90,7 +89,9 @@ public class ProtocolSummaryWebTest extends ProtocolWebTestBase {
      * Open up the third (latest) protocol version and go to the 
      * Action tab.  From there click on the "previous" button to traverse
      * back to the previous versions.  Then click on the "next" button
-     * to get back to the third version again.
+     * to get back to the third version again.  Also, if a version has
+     * a previous version, then it must have that previous summary for
+     * comparison purposes.  Just verify that the Comparison title is there (or not there).
      * @throws Exception
      */
     @Test
@@ -107,29 +108,34 @@ public class ProtocolSummaryWebTest extends ProtocolWebTestBase {
         assertNotNull(element);
         String text = element.asText().trim();
         assertEquals("Sequence 3/3:", text);
+        assertContains(actionsPage, "Compare to Previous Sequence");
         
         HtmlElement viewPrev = getElementByName(actionsPage, "methodToCall.viewPreviousProtocolSummary", true);
         actionsPage = clickOn(viewPrev);
         element = getElement(actionsPage, "summarySequence");
         text = element.asText().trim();
         assertEquals("Sequence 2/3:", text);
+        assertContains(actionsPage, "Compare to Previous Sequence");
         
         viewPrev = getElementByName(actionsPage, "methodToCall.viewPreviousProtocolSummary", true);
         actionsPage = clickOn(viewPrev);
         element = getElement(actionsPage, "summarySequence");
         text = element.asText().trim();
         assertEquals("Sequence 1/3:", text);
+        assertDoesNotContain(actionsPage, "Compare to Previous Sequence");
         
         HtmlElement viewNext = getElementByName(actionsPage, "methodToCall.viewNextProtocolSummary", true);
         actionsPage = clickOn(viewNext);
         element = getElement(actionsPage, "summarySequence");
         text = element.asText().trim();
         assertEquals("Sequence 2/3:", text);
+        assertContains(actionsPage, "Compare to Previous Sequence");
         
         viewNext = getElementByName(actionsPage, "methodToCall.viewNextProtocolSummary", true);
         actionsPage = clickOn(viewNext);
         element = getElement(actionsPage, "summarySequence");
         text = element.asText().trim();
         assertEquals("Sequence 3/3:", text);
+        assertContains(actionsPage, "Compare to Previous Sequence");
     }
 }
