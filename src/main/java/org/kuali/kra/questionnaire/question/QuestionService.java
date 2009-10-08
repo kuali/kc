@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import org.kuali.kra.questionnaire.question.Question;
-
 /**
  * The Question Service provides a set of methods for
  * working with questions.
@@ -28,13 +26,13 @@ public interface QuestionService {
      * @param questionRefId of the question
      * @return the question or null if not found
      */
-    public Question getQuestionByRefId(String questionRefId);
+    Question getQuestionByRefId(String questionRefId);
 
     /**
      * Retrieve a question from the database based upon its questionId.
      * @param questionId of the question
      * @return the most recent active question or null if not found
      */
-    public Question getQuestionById(Integer questionId);
+    Question getQuestionById(Integer questionId);
 
 }
