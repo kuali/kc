@@ -66,7 +66,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
@@ -78,13 +78,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Id" />
         <property name="shortLabel" value="Question Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="6" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="6" />
         </property>
         <property name="summary" value="Question Id" />
         <property name="description" value="Question Id" />
@@ -97,13 +97,13 @@
         <property name="label" value="Sequence Number" />
         <property name="shortLabel" value="Sequence Number" />
         <property name="required" value="true" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="4" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="4" />
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -157,13 +157,13 @@
         <property name="label" value="Category" />
         <property name="shortLabel" value="Category" />
         <property name="required" value="true" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="3" />
         </property>
         <property name="summary" value="Category Type Code" />
         <property name="description" value="Category Type Code" />
@@ -175,7 +175,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Type Id" />
         <property name="shortLabel" value="Question Type Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -237,7 +237,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Displayed Answers" />
         <property name="shortLabel" value="Displayed Answers" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="2" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -255,7 +255,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Max Answers" />
         <property name="shortLabel" value="Max Answers" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="2" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -273,7 +273,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Answer Max Length" />
         <property name="shortLabel" value="Answer Max Length" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="4" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>

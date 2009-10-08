@@ -32,6 +32,11 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     private static final long serialVersionUID = -5431630475561370731L;
 
+    private static final String MAINTENANCE = "maintenance";
+    private static final String NEW_MAINTENANCE = "../maintenance";
+    private static final String LOOKUP_RETURN ="lookupReturn";
+    private static final String LOOKUP_CLASS ="lookupClass";
+
     private transient QuestionAuthorizationService questionAuthorizationService;
     
     /**
@@ -43,7 +48,7 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
         String url = "";
         if (questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             url =  super.getCreateNewUrl();
-            url = url.replace("maintenance","../maintenance");
+            url = url.replace(MAINTENANCE, NEW_MAINTENANCE);
         }
         return url;
     }
@@ -56,14 +61,14 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
      * @see org.kuali.core.lookup.KualiLookupableImpl#checkForAdditionalFields(java.util.Map)
      */
     public boolean checkForAdditionalFields(Map fieldValues) {
-        String lookupReturnFieldName = (String) fieldValues.get("lookupReturn");
-        String lookupClassName = (String) fieldValues.get("lookupClass");
+        String lookupReturnFieldName = (String) fieldValues.get(LOOKUP_RETURN);
+        String lookupClassName = (String) fieldValues.get(LOOKUP_CLASS);
         if (StringUtils.isNotBlank(lookupClassName)) {
             for (Iterator iter = getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
                 for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                     Field field = (Field) iterator.next();
-                    if (field.getPropertyName().equals("lookupReturn")) {
+                    if (field.getPropertyName().equals(LOOKUP_RETURN)) {
                         GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) lookupClassName);
                         LookupReturnValuesFinder finder = new LookupReturnValuesFinder();
                         field.setFieldValidValues(finder.getKeyValues());
