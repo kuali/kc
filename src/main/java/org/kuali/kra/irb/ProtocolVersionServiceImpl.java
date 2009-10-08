@@ -66,6 +66,8 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
       
         fixNextValues(protocolDocument, newProtocolDocument);
+        fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
+        
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
         
@@ -79,6 +81,20 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         return newProtocolDocument;
     }
     
+    /**
+     * The Versioning Service increments all of the sequence numbers.  
+     * This is incorrect for Protocol Actions.  The original sequence
+     * numbers must be maintained.  Therefore, they are restored from
+     * the original protocol.
+     * @param protocol
+     * @param newProtocol
+     */
+    private void fixActionSequenceNumbers(Protocol protocol, Protocol newProtocol) {
+        for (int i = 0; i < protocol.getProtocolActions().size(); i++) {
+            newProtocol.getProtocolActions().get(i).setSequenceNumber(protocol.getProtocolActions().get(i).getSequenceNumber());
+        }
+    }
+
     /**
      * The document next values must be the same in the new version as in
      * the old document.  Note that the next document values must be assigned
