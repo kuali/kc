@@ -31,6 +31,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
+/**
+ * Question specific lookupable helper service methods.
+ */
 public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
