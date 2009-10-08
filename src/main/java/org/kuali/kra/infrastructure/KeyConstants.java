@@ -593,6 +593,11 @@ public final class KeyConstants {
     //Time And Money
     public static final String ERROR_TRANSACTION_TYPE_CODE_REQUIRED = "error.transaction.type.code.required";
     
+    //Award Hierarchy
+    public static final String ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED = "error.create.new.child.other.award.not.selected";
+    public static final String ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED = "error.create.new.child.no.option.selected";
+    public static final String ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED = "error.copy.award.childOf.award.not.selected";
+    public static final String ERROR_COPY_AWARD_NO_OPTION_SELECTED = "error.copy.award.no.option.selected";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
