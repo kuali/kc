@@ -21,27 +21,30 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class AwardPrintNotice extends BusinessObjectBase {
     
-    private Boolean addressList;
-    private Boolean closeout;
-    private Boolean comments;
-    private Boolean costShare;
+    private Boolean terms;
+    private Boolean specialReview;
     private Boolean equipment;
-    private Boolean faCost;
-    private Boolean flowThru;
     private Boolean foreignTravel;
+    private Boolean subAward;
+    private Boolean costShare;
+    private Boolean faRates;
+    private Boolean benefitsRates;
+    private Boolean flowThru;
+    private Boolean comments;
     private Boolean fundingSummary;
     private Boolean hierarchy;
-    private Boolean keywords;
-    private Boolean otherData;
+    private Boolean technicalReports;
+    private Boolean reports;
     private Boolean payment;
-    private Boolean proposalsDue;
-    private Boolean reporting;
-    private Boolean specialReview;
-    private Boolean subAward;
-    private Boolean technicalReporting;
-    private Boolean terms;
+    private Boolean closeout;
+    private Boolean sponsorContacts;
+    private Boolean otherData;
+    private Boolean keywords;    
     private Boolean requireSignature;
     
+    public AwardPrintNotice() {
+        setDefaults();
+    }
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -51,6 +54,29 @@ public class AwardPrintNotice extends BusinessObjectBase {
 
     public void refresh() {
         //do nothing
+    }
+    
+    public void setDefaults() {
+        terms = 
+            specialReview =
+            equipment =
+            foreignTravel =
+            subAward =
+            costShare =
+            faRates =
+            benefitsRates =
+            flowThru =
+            comments =
+            technicalReports =
+            reports =
+            payment =
+            closeout =
+            sponsorContacts =
+            otherData =
+            keywords = true;
+        fundingSummary =
+            hierarchy =
+            requireSignature = false;
     }
     
     /**
@@ -70,18 +96,25 @@ public class AwardPrintNotice extends BusinessObjectBase {
      * Sets all items, except requireSignature for the select all/none button
      */
     private void setAllItems(Boolean value) {
-        addressList = closeout = comments = costShare = equipment = faCost =
-            flowThru = foreignTravel = fundingSummary = hierarchy = keywords =
-            otherData = payment = proposalsDue = reporting = specialReview =
-            subAward = technicalReporting = terms = value;
-    }
-
-    public Boolean getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(Boolean addressList) {
-        this.addressList = addressList;
+        terms = 
+        specialReview =
+        equipment =
+        foreignTravel =
+        subAward =
+        costShare =
+        faRates =
+        benefitsRates =
+        flowThru =
+        comments =
+        fundingSummary =
+        hierarchy =
+        technicalReports =
+        reports =
+        payment =
+        closeout =
+        sponsorContacts =
+        otherData =
+        keywords = true;
     }
 
     public Boolean getCloseout() {
@@ -90,14 +123,6 @@ public class AwardPrintNotice extends BusinessObjectBase {
 
     public void setCloseout(Boolean closeout) {
         this.closeout = closeout;
-    }
-
-    public Boolean getComments() {
-        return comments;
-    }
-
-    public void setComments(Boolean comments) {
-        this.comments = comments;
     }
 
     public Boolean getCostShare() {
@@ -114,14 +139,6 @@ public class AwardPrintNotice extends BusinessObjectBase {
 
     public void setEquipment(Boolean equipment) {
         this.equipment = equipment;
-    }
-
-    public Boolean getFaCost() {
-        return faCost;
-    }
-
-    public void setFaCost(Boolean faCost) {
-        this.faCost = faCost;
     }
 
     public Boolean getFlowThru() {
@@ -180,22 +197,6 @@ public class AwardPrintNotice extends BusinessObjectBase {
         this.payment = payment;
     }
 
-    public Boolean getProposalsDue() {
-        return proposalsDue;
-    }
-
-    public void setProposalsDue(Boolean proposalsDue) {
-        this.proposalsDue = proposalsDue;
-    }
-
-    public Boolean getReporting() {
-        return reporting;
-    }
-
-    public void setReporting(Boolean reporting) {
-        this.reporting = reporting;
-    }
-
     public Boolean getSpecialReview() {
         return specialReview;
     }
@@ -212,14 +213,6 @@ public class AwardPrintNotice extends BusinessObjectBase {
         this.subAward = subAward;
     }
 
-    public Boolean getTechnicalReporting() {
-        return technicalReporting;
-    }
-
-    public void setTechnicalReporting(Boolean technicalReporting) {
-        this.technicalReporting = technicalReporting;
-    }
-
     public Boolean getTerms() {
         return terms;
     }
@@ -234,6 +227,54 @@ public class AwardPrintNotice extends BusinessObjectBase {
 
     public void setRequireSignature(Boolean requireSignature) {
         this.requireSignature = requireSignature;
+    }
+
+    public Boolean getFaRates() {
+        return faRates;
+    }
+
+    public void setFaRates(Boolean faRates) {
+        this.faRates = faRates;
+    }
+
+    public Boolean getBenefitsRates() {
+        return benefitsRates;
+    }
+
+    public void setBenefitsRates(Boolean benefitsRates) {
+        this.benefitsRates = benefitsRates;
+    }
+
+    public Boolean getTechnicalReports() {
+        return technicalReports;
+    }
+
+    public void setTechnicalReports(Boolean technicalReports) {
+        this.technicalReports = technicalReports;
+    }
+
+    public Boolean getReports() {
+        return reports;
+    }
+
+    public void setReports(Boolean reports) {
+        this.reports = reports;
+    }
+
+    public Boolean getSponsorContacts() {
+        return sponsorContacts;
+    }
+
+    public void setSponsorContacts(Boolean sponsorContacts) {
+        this.sponsorContacts = sponsorContacts;
+    }
+
+    public Boolean getComments() {
+        return comments;
+    }
+
+    public void setComments(Boolean comments) {
+        this.comments = comments;
     }
 
 }

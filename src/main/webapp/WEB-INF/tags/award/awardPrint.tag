@@ -58,83 +58,83 @@
 				<td style="padding: 5px;">
 				 <div class="multi-col-list" id="awardPrintNoticeItems">
 				 <dl><dd><ul>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.addressList" 
-      							attributeEntry="${awardPrintNoticeAttributes.addressList}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.addressList}" useShortLabel="true" noColon="true" />
+				  <li><kul:htmlControlAttribute property="awardPrintNotice.terms" 
+      							attributeEntry="${awardPrintNoticeAttributes.terms}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.terms}" useShortLabel="true" noColon="true" />
       			  </li>
-      			  <li><kul:htmlControlAttribute property="awardPrintNotice.closeout" 
-      							attributeEntry="${awardPrintNoticeAttributes.closeout}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.closeout}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <li><kul:htmlControlAttribute property="awardPrintNotice.comments" 
-      							attributeEntry="${awardPrintNoticeAttributes.comments}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.comments}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <li><kul:htmlControlAttribute property="awardPrintNotice.costShare" 
-      							attributeEntry="${awardPrintNoticeAttributes.costShare}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.costShare}" useShortLabel="true" noColon="true" />
+				  <li><kul:htmlControlAttribute property="awardPrintNotice.specialReview" 
+      							attributeEntry="${awardPrintNoticeAttributes.specialReview}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.specialReview}" useShortLabel="true" noColon="true" />
       			  </li>
       			  <li><kul:htmlControlAttribute property="awardPrintNotice.equipment" 
       							attributeEntry="${awardPrintNoticeAttributes.equipment}" readOnly="false"/>
       				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.equipment}" useShortLabel="true" noColon="true" />
       			  </li>
-      			  <li><kul:htmlControlAttribute property="awardPrintNotice.faCost" 
-      							attributeEntry="${awardPrintNoticeAttributes.faCost}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.faCost}" useShortLabel="true" noColon="true" />
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.foreignTravel" 
+      							attributeEntry="${awardPrintNoticeAttributes.foreignTravel}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.foreignTravel}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.subAward" 
+      							attributeEntry="${awardPrintNoticeAttributes.subAward}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.subAward}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.costShare" 
+      							attributeEntry="${awardPrintNoticeAttributes.costShare}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.costShare}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			 </ul></dd><dd><ul>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.faRates" 
+      							attributeEntry="${awardPrintNoticeAttributes.faRates}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.faRates}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.benefitsRates" 
+      							attributeEntry="${awardPrintNoticeAttributes.benefitsRates}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.benefitsRates}" useShortLabel="true" noColon="true" />
       			  </li>
       			  <li><kul:htmlControlAttribute property="awardPrintNotice.flowThru" 
       							attributeEntry="${awardPrintNoticeAttributes.flowThru}" readOnly="false"/>
       				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.flowThru}" useShortLabel="true" noColon="true" />
       			  </li>
-      			 </ul></dd><dd><ul>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.foreignTravel" 
-      							attributeEntry="${awardPrintNoticeAttributes.foreignTravel}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.foreignTravel}" useShortLabel="true" noColon="true" />
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.comments" 
+      							attributeEntry="${awardPrintNoticeAttributes.comments}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.comments}" useShortLabel="true" noColon="true" />
       			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.fundingSummary" 
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.fundingSummary" 
       							attributeEntry="${awardPrintNoticeAttributes.fundingSummary}" readOnly="false"/>
       				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.fundingSummary}" useShortLabel="true" noColon="true" />
       			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.hierarchy" 
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.hierarchy" 
       							attributeEntry="${awardPrintNoticeAttributes.hierarchy}" readOnly="false"/>
       				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.hierarchy}" useShortLabel="true" noColon="true" />
       			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.keywords" 
-      							attributeEntry="${awardPrintNoticeAttributes.keywords}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.keywords}" useShortLabel="true" noColon="true" />
+      			 </ul></dd><dd><ul>
+      			 <li><kul:htmlControlAttribute property="awardPrintNotice.technicalReports" 
+      							attributeEntry="${awardPrintNoticeAttributes.technicalReports}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.technicalReports}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.reports" 
+      							attributeEntry="${awardPrintNoticeAttributes.reports}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.reports}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.payment" 
+      							attributeEntry="${awardPrintNoticeAttributes.payment}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.payment}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.closeout" 
+      							attributeEntry="${awardPrintNoticeAttributes.closeout}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.closeout}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="awardPrintNotice.sponsorContacts" 
+      							attributeEntry="${awardPrintNoticeAttributes.sponsorContacts}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.sponsorContacts}" useShortLabel="true" noColon="true" />
       			  </li>
 				  <li><kul:htmlControlAttribute property="awardPrintNotice.otherData" 
       							attributeEntry="${awardPrintNoticeAttributes.otherData}" readOnly="false"/>
       				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.otherData}" useShortLabel="true" noColon="true" />
       			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.payment" 
-      							attributeEntry="${awardPrintNoticeAttributes.payment}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.payment}" useShortLabel="true" noColon="true" />
-      			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.proposalsDue" 
-      							attributeEntry="${awardPrintNoticeAttributes.proposalsDue}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.proposalsDue}" useShortLabel="true" noColon="true" />
-      			  </li>      			        			        			        			        			        			  
-				 </ul></dd><dd><ul>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.reporting" 
-      							attributeEntry="${awardPrintNoticeAttributes.reporting}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.reporting}" useShortLabel="true" noColon="true" />
-      			  </li>				
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.specialReview" 
-      							attributeEntry="${awardPrintNoticeAttributes.specialReview}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.specialReview}" useShortLabel="true" noColon="true" />
-      			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.subAward" 
-      							attributeEntry="${awardPrintNoticeAttributes.subAward}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.subAward}" useShortLabel="true" noColon="true" />
-      			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.technicalReporting" 
-      							attributeEntry="${awardPrintNoticeAttributes.technicalReporting}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.technicalReporting}" useShortLabel="true" noColon="true" />
-      			  </li>
-				  <li><kul:htmlControlAttribute property="awardPrintNotice.terms" 
-      							attributeEntry="${awardPrintNoticeAttributes.terms}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.terms}" useShortLabel="true" noColon="true" />
+				  <li><kul:htmlControlAttribute property="awardPrintNotice.keywords" 
+      							attributeEntry="${awardPrintNoticeAttributes.keywords}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.keywords}" useShortLabel="true" noColon="true" />
       			  </li>
       			 </ul></dd></dl></div>
       			 <div style="clear:both; text-align:center;">
@@ -148,10 +148,10 @@
       			 </div>
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printNotice"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Notice" styleClass="tinybutton"/></td>
 			</tr><tr> 
-				<th scope="row" style="width:150px; text-align: left;">Award Change Report</th>
+				<th scope="row" style="width:150px; text-align: left;">Award Modification</th>
 				 <td style="padding: 5px;">
 				   <span style="float:left; width:33.3%; padding: 5px;">
 					<kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.awardVersion}" useShortLabel="true" />
@@ -170,42 +170,42 @@
 				</td>
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printChangeReport"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Change Report" styleClass="tinybutton"/></td>			
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Award Hierarchy
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printHierarchy"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Hierarchy" styleClass="tinybutton"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Award Hierarchy Modification
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printHierarchyModification"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Hierarchy Modification" styleClass="tinybutton"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Budget
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printBudget"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Budget" styleClass="tinybutton"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Time & Money History
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTimeMoneyHistory"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Time & Money History" styleClass="tinybutton"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Transaction Detail
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTransactionDetail"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Transaction Detail" styleClass="tinybutton"/></td>			 
 			</tr>
 			 
