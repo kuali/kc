@@ -80,7 +80,14 @@ public class AwardHierarchyBean implements Serializable {
         this.awardHierarchyService = awardHierarchyService;
         init();
     }
+    
+    public AwardHierarchy copyAwardAndDescendantsAsChildOfAnotherAward(String sourceAwardNumber, String targetParentAwardNumber) {
+        return getRootNode().findNodeInHierarchy(targetParentAwardNumber) != null ?
+                    copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(sourceAwardNumber, targetParentAwardNumber) :
+                    copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(sourceAwardNumber, targetParentAwardNumber);
+    }
 
+    //TODO: Make it protected once the old table UI is removed
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy targetParentNode = getRootNode().findNodeInHierarchy(targetParentAwardNumber);
@@ -88,6 +95,7 @@ public class AwardHierarchyBean implements Serializable {
         return newNode;
     }
 
+    //TODO: Make it protected once the old table UI is removed 
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy foreignRoot = awardHierarchyService.loadFullHierarchyFromAnyNode(targetParentAwardNumber);
@@ -104,12 +112,14 @@ public class AwardHierarchyBean implements Serializable {
                         copyAwardAsChildOfAnAwardInAnotherHierarchy(sourceAwardNumber, targetParentAwardNumber);
     }
 
+    //TODO: Make it protected once the old table UI is removed
     public AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy targetParentNode = sourceNode.findNodeInHierarchy(targetParentAwardNumber);
         return awardHierarchyService.copyAwardAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
     }
 
+    //TODO: Make it protected once the old table UI is removed
     public AwardHierarchy copyAwardAsChildOfAnAwardInAnotherHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy foreignRoot = awardHierarchyService.loadFullHierarchyFromAnyNode(targetParentAwardNumber);
