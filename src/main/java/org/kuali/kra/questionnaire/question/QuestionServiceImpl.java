@@ -43,20 +43,12 @@ public class QuestionServiceImpl implements QuestionService {
      * 
      * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionByRefId(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public Question getQuestionByRefId(String questionRefId) {
         Question question = null;
         if (!StringUtils.isBlank(questionRefId)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(QUESTION_REF_ID, questionRefId);
-            Collection<Question> questions = businessObjectService.findMatching(Question.class, fieldValues);
-            if (questions.size() > 0) {
-                /*
-                 * Since questionRefId is a unique key for questions (database constraint) we will always get
-                 * at most one result.
-                 */
-                question = questions.iterator().next();
-            }
+            question = (Question) businessObjectService.findByPrimaryKey(Question.class, fieldValues);
         }
         return question;
     }
