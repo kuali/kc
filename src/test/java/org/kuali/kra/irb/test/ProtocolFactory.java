@@ -55,17 +55,7 @@ public class ProtocolFactory {
      * @throws WorkflowException
      */
     public static ProtocolDocument createProtocolDocument() throws WorkflowException {
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
-        setProtocolRequiredFields(protocolDocument, null);
-        
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String userName = user.getPersonUserIdentifier();
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
-        
-        documentService.saveDocument(protocolDocument);
-        return protocolDocument;
+        return createProtocolDocument(null);
     }
     
     /**
@@ -75,11 +65,7 @@ public class ProtocolFactory {
      * @throws WorkflowException
      */
     public static ProtocolDocument createProtocolDocument(String protocolNumber) throws WorkflowException {
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
-        setProtocolRequiredFields(protocolDocument, protocolNumber);
-        documentService.saveDocument(protocolDocument);
-        return protocolDocument;
+        return createProtocolDocument(protocolNumber, 0);
     }
     
     /**
@@ -93,6 +79,12 @@ public class ProtocolFactory {
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
         setProtocolRequiredFields(protocolDocument, protocolNumber);
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
+        
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
+        String userName = user.getPersonUserIdentifier();
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
+        
         documentService.saveDocument(protocolDocument);
         return protocolDocument;
     }
