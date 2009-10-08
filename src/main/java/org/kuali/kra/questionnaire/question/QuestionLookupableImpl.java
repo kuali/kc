@@ -28,6 +28,10 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
+/**
+ * Implements Question specific methods necessary to render the lookup and provides 
+ * search and return methods.
+ */
 public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     private static final long serialVersionUID = -5431630475561370731L;
