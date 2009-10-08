@@ -24,7 +24,7 @@
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
 <kra:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" tabErrorKey="document.award.projectPersons*">
-	<table>
+	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
 		<tr>
 			<th class="infoline">
 				<div align="right">
