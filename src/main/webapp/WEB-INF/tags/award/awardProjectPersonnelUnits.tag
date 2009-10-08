@@ -28,7 +28,7 @@
 
 <kra:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
 				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit*">
-	<table>
+	<table cellpadding="0" cellspacing="0" summary="Project Personnel Units">
 		<tr>
 			<th class="infoline">
 				<div align="center">&nbsp;</div>
