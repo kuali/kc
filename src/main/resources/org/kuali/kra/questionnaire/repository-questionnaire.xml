@@ -75,7 +75,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.questionnaire.question.ArgValueLookup" table="ARG_VALUE_LOOKUP">
+    <class-descriptor class="org.kuali.kra.bo.ArgValueLookup" table="ARG_VALUE_LOOKUP">
         <field-descriptor name="argValueLookupId" column="ARG_VALUE_LOOKUP_ID" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="argumentName" column="ARGUMENT_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />

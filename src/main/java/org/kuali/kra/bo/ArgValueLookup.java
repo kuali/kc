@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.kra.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
 public class ArgValueLookup extends KraPersistableBusinessObjectBase { 

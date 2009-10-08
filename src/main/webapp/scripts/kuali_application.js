@@ -1062,7 +1062,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 				window.status = errorMessage;
 			}
 		};
-		if (lookupClass == "org.kuali.kra.questionnaire.question.ArgValueLookup") {
+		if (lookupClass == "org.kuali.kra.bo.ArgValueLookup") {
 			ArgValueLookupService.getArgumentNames( dwrReply );
 		} else {
 		    CustomAttributeService.getLookupReturnsForAjaxCall( lookupClass, dwrReply );

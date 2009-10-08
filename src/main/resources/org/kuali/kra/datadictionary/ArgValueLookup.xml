@@ -21,7 +21,7 @@
 
     <bean id="ArgValueLookup" parent="ArgValueLookup-parentBean" />
     <bean id="ArgValueLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.ArgValueLookup" />
+        <property name="businessObjectClass" value="org.kuali.kra.bo.ArgValueLookup" />
 		<property name="objectLabel" value="Arg Value Lookup" />
         <property name="inquiryDefinition" >
             <ref bean="ArgValueLookup-inquiryDefinition" />
