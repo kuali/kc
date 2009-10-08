@@ -30,7 +30,7 @@
             </tbody>
         </table>
         
-        <table class="tab" cellpadding="0" cellspacing="0" summary="">
+        <table id="historyTable" class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
                 <tr>
 	                <td class="infoline">&nbsp;</td>
