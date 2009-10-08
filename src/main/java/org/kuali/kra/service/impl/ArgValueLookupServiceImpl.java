@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.kuali.kra.questionnaire.question.ArgValueLookup;
+import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.service.ArgValueLookupService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
