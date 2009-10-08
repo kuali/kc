@@ -35,6 +35,8 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     private static final long serialVersionUID = 7936563894902841571L;
 
+    private static final String MAINTENANCE = "maintenance";
+    private static final String NEW_MAINTENANCE = "../maintenance";
     private static final String VIEW = "view";
     
     private transient QuestionAuthorizationService questionAuthorizationService;
@@ -108,21 +110,21 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if(questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenance"));
+            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(htmlData);
 
             AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            htmlData1.setHref(htmlData1.getHref().replace("maintenance", "../maintenance"));
+            htmlData1.setHref(htmlData1.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(htmlData1);
 
             AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData2.setHref(htmlData2.getHref().replace("maintenance", "../maintenance") + "&readOnly=true");
+            htmlData2.setHref(htmlData2.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
             htmlData2.setDisplayText(VIEW);
             htmlDataList.add(htmlData2);
         } 
         if (questionAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTION)) {
             AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenance") + "&readOnly=true");
+            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
             htmlData.setDisplayText(VIEW);
             htmlDataList.add(htmlData);
         }

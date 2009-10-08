@@ -49,13 +49,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Arg Value Lookup Id" />
         <property name="shortLabel" value="Arg Value Lookup Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Arg Value Lookup Id" />
         <property name="description" value="Arg Value Lookup Id" />

@@ -35,8 +35,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class)
-                .hasPermission(PermissionConstants.MODIFY_QUESTION)
+        if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
                         KEWConstants.ROUTE_HEADER_INITIATED_CD) || document.getDocumentHeader().getWorkflowDocument()
                         .getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD))) {
@@ -51,22 +50,22 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-        } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
-                PermissionConstants.MODIFY_QUESTION)
+        } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()
                         .equals(KEWConstants.ROUTE_HEADER_FINAL_CD))) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-        } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
-                PermissionConstants.VIEW_QUESTION)
-                || KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
-                        PermissionConstants.MODIFY_QUESTION)) {
+        } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.VIEW_QUESTION)
+                || getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
         } else {
-            throw new RuntimeException("Don't have permission to edit/view Questionnaire");
+            throw new RuntimeException("Don't have permission to edit/view Question");
         }
 
         return documentActions;
     }
 
+    private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
+        return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
+    }
 }
