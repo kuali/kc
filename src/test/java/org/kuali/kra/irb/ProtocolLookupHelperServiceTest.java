@@ -46,7 +46,7 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Person&personId=000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 15;
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 22;
     private Mockery context = new JUnit4Mockery();
     @Before
     public void setUp() throws Exception {

@@ -31,6 +31,8 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
@@ -194,7 +196,11 @@ public class ProtocolAuthorizationServiceImplTest {
      * @return
      */
     private Protocol createProtocol(String nbr) {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+            
+        };
         protocol.setProtocolNumber(nbr);
         return protocol;
     }

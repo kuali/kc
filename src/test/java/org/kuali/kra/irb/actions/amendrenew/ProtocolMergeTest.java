@@ -19,12 +19,14 @@ import java.sql.Date;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
@@ -184,6 +186,7 @@ public class ProtocolMergeTest extends KraTestBase {
     @Test
     public void testOrganizationsMerge() {
         Protocol protocol = createProtocol();
+        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
         Protocol amendment = createAmendment(ProtocolModule.PROTOCOL_ORGANIZATIONS);
         
         ProtocolLocation loc = createLocation(ROLODEX_ID_1);
@@ -306,6 +309,7 @@ public class ProtocolMergeTest extends KraTestBase {
      */
     private Protocol createAmendment(String moduleTypeCode) {
         final Protocol protocol = new Protocol();
+        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
         protocol.setProtocolId(2L);
         protocol.setProtocolNumber("0906000001A001");
         addModule(protocol, moduleTypeCode);

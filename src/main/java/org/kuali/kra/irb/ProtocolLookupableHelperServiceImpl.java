@@ -97,6 +97,13 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
                 } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_STATUS_CODE) || field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_TYPE_CODE)) {
                     // to disable lookup/inquiry display
                     field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
+                } else if (field.getPropertyName().startsWith("leadUnit")) {
+                    // This is to set label for search criteria.
+                    if (field.getPropertyName().equals("leadUnitNumber")) {
+                        field.setFieldLabel("Unit Number");
+                    } else {
+                        field.setFieldLabel("Unit Name");                        
+                    }
                 }
             }
         }
