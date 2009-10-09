@@ -58,6 +58,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -126,8 +127,9 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
             rrsf424.setActivityTitle(announcementTitle);
         }
         rrsf424.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
-        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            Rolodex rolodexOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganization().getRolodex();
+        ProposalSite performingOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        if (performingOrganization.getOrganization() != null) {
+            Rolodex rolodexOrganization = performingOrganization.getOrganization().getRolodex();
             if (rolodexOrganization != null) {
                 rrsf424.setLocation(rolodexOrganization.getState());
             }
@@ -445,7 +447,14 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
      */
     private RRSF424.CongressionalDistrict getCongDistrict() {
         Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
-        Organization performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganization();
+        
+        // get the organization property of the Performing Organization
+        ProposalSite performingOrgSite = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        Organization performingOrganization = null;
+        if (performingOrgSite != null) {
+            performingOrganization = performingOrgSite.getOrganization();
+        }
+        
         RRSF424.CongressionalDistrict congressionalDistrict = RRSF424.CongressionalDistrict.Factory.newInstance();
         if (organization != null) {
             congressionalDistrict.setApplicantCongressionalDistrict(organization.getCongressionalDistrict());
@@ -453,8 +462,8 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         else {
             congressionalDistrict.setApplicantCongressionalDistrict("");
         }
-        if (performOrganization != null) {
-            congressionalDistrict.setProjectCongressionalDistrict(performOrganization.getCongressionalDistrict());
+        if (performingOrganization != null) {
+            congressionalDistrict.setProjectCongressionalDistrict(performingOrganization.getCongressionalDistrict());
         }
         else {
             congressionalDistrict.setProjectCongressionalDistrict("");

@@ -82,9 +82,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             developmentProposal.setApplicantOrganization(applicantOrganization);
         }
 
-        // Set Performing Organization if not selected
+        // On first save, set Performing Organization if not selected
         ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
-        if (performingOrganization.getOrganization() == null && developmentProposal.getOwnedByUnitNumber() != null) {
+        if (StringUtils.isEmpty(developmentProposal.getProposalNumber()) && performingOrganization.getOrganization() == null && developmentProposal.getOwnedByUnitNumber() != null) {
             String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
             performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
             developmentProposal.setPerformingOrganization(performingOrganization);
