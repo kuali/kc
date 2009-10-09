@@ -30,13 +30,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -375,17 +372,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setProgramAnnouncementTitle(srcProposal.getProgramAnnouncementTitle());
 
         // Organization/location
-        hierarchyProposal.setApplicantOrganization(srcProposal.getApplicantOrganization());
-        hierarchyProposal.setApplicantOrganizationId(srcProposal.getApplicantOrganization().getOrganizationId());
-        hierarchyProposal.setPerformingOrganization(srcProposal.getPerformingOrganization());
-        hierarchyProposal.setPerformingOrganizationId(srcProposal.getPerformingOrganization().getOrganizationId());
-        for (ProposalSite site : srcProposal.getPerformanceSites()) {
-            hierarchyProposal.addPerformanceSite(site);
-        }
-        for (ProposalSite site : srcProposal.getOtherOrganizations()) {
-            hierarchyProposal.addOtherOrganization(site);
-        }
-
+        hierarchyProposal.setProposalSites(srcProposal.getProposalSites());
+            
         // Delivery info
         hierarchyProposal.setMailBy(srcProposal.getMailBy());
         hierarchyProposal.setMailType(srcProposal.getMailType());
