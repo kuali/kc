@@ -177,7 +177,7 @@ VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.revision',    '485
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.continuation',    '4851951BFFDDF56CE0404F8189D8621D',    1,    'CONFG',    '2',    'ProposalTypeCode of CONTINUATION',    'A',    'WorkflowAdmin',    'Y');
+VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.continuation',    '4851951BFFDDF56CE0404F8189D8621D',    1,    'CONFG',    '4',    'ProposalTypeCode of CONTINUATION',    'A',    'WorkflowAdmin',    'Y');
 
 
 INSERT
