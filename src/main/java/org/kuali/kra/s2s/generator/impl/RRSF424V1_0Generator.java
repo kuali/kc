@@ -304,6 +304,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                                 depPerson.setEmailAddress(person.getEmailAddress());
                                 depPerson.setOfficePhone(person.getOfficePhone());
                                 depPerson.setFaxNumber(person.getFaxNumber());
+                                break;
                             }
                         }
                     }
