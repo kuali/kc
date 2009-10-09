@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -74,6 +75,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);
         setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
+        initializeProtocolLocation();
 	} 
 	
     public void initialize() {
@@ -370,4 +372,13 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             this.setVersionNumber(new Long(0));
         }
     }
+    
+    /*
+     * Initialize protocol location.
+     * Add default organization.
+     */
+    private void initializeProtocolLocation() {
+        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(this.getProtocol());
+    }
+
 }

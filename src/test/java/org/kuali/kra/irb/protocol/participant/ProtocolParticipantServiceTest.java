@@ -27,6 +27,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.ParticipantType;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
@@ -60,7 +62,13 @@ public class ProtocolParticipantServiceTest {
         protocolParticipant3.setParticipantTypeCode("3");
         protocolParticipant3.setParticipantCount(35);
 
-        protocol = new Protocol();
+        protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+
+            
+        };
         protocol.setProtocolParticipants(new ArrayList<ProtocolParticipant>());
         protocol.getProtocolParticipants().add(protocolParticipant1);
         protocol.getProtocolParticipants().add(protocolParticipant2);
