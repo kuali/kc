@@ -1,20 +1,20 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
-<c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 
 <kul:tab defaultOpen="false" tabTitle="Attendance"
-    tabErrorKey="document.committee*">
+    tabErrorKey="meetingHelper.memberAbsentBean.attendance.personId,meetingHelper.newOtherPresentBean.attendance.personName,meetingHelper.memberPresent*,meetingHelper.otherPresent*">
 
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Attendance </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommitteeScheduleAttendance" altText="help"/> </span>
     </h3>
     
-        To Be Implemented
-    <%--  <input type="hidden" id="sqlScripts" name="sqlScripts" value = "${KualiForm.sqlScripts}"/> --%>
-	<%--  <input type="hidden" id="versioned" name="versioned" value = "${KualiForm.versioned}"/>--%>
+            <kra-meeting:meetingMemberPresent />
+            <kra-meeting:meetingOtherPresent/>
+            <kra-meeting:meetingMemberAbsent/>        
+        
 </div>
 
 </kul:tab>
