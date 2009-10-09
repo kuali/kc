@@ -22,7 +22,27 @@
 <head>
 	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title>Kuali :: Meeting</title>
-	
+	<style type="text/css">
+        #workarea td.tab-subhead1
+        {
+	        font-weight: bold;
+	        background-color: #939393;
+	        height: 18px;
+	        text-align: left;
+	        border-left: 1px solid #999999;
+	        color: #FFFFFF;
+	        padding: 2px 6px;
+	        border-bottom-width: 1px;
+	        border-bottom-style: solid;
+	        border-bottom-color: #B2B2B2;
+        }
+
+     </style>
+<%--	<link href="/kra-dev/css/jquery/jq.css"
+				rel="stylesheet" type="text/css" />
+	<link href="/kra-dev/css/jquery/style.css"
+				rel="stylesheet" type="text/css" />
+ --%>				
 	<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
         <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
 			<link href="${pageContext.request.contextPath}/${cssFile}"
@@ -35,10 +55,32 @@
 				src="${pageContext.request.contextPath}/${javascriptFile}"></script>
         </c:if>
     </c:forEach>
+<script type="text/javascript" src="/kra-dev/scripts/jquery/jquery.js"></script> 
+<script type="text/javascript" src="/kra-dev/scripts/jquery/jquery.tablesorter.js"></script> 
+<script language="JavaScript" type="text/javascript"
+				src="/kra-dev/dwr/interface/MeetingService.js"></script>
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
+function showHideDiv(minuteEntryTypeCode) {
+	if (minuteEntryTypeCode.value == '3') {
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+	} else {	
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'none';
+	} 
+	if (minuteEntryTypeCode.value == '2') {
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none'; 
+	} else {	
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none';
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+	} 
+			
+}
 </SCRIPT> 
 
 </head>
@@ -129,6 +171,9 @@ var kualiElements = kualiForm.elements;
         
         <div align="right"><br>
           * required </div>
+          
+          
+          
         <div id="globalbuttons" class="globalbuttons"> 
  	      <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
 	      <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
@@ -137,8 +182,41 @@ var kualiElements = kualiForm.elements;
     <td class="column-right"><img src="static/images/pixel_clear.gif" alt="" width="20" height="20"></td>
   </tr>
 </table>
+ 					<div class="left-errmsg">
+															<kul:errors displayRemaining="true"
+																errorTitle="Other errors:"
+																warningTitle="Other warnings:"
+																infoTitle="Other informational messages:"/>
+					</div>
+          
 </html:form>
 <div id="formComplete"></div> 
 
 </body>
+
+<SCRIPT type="text/javascript">
+
+$(document).ready(function()     {
+	$("#protocolSubmitted-table").tablesorter({         
+		// pass the headers argument and assing a object         
+		headers: {             // assign the first column (we start counting zero)             
+			0: {                 // disable it by setting the property sorter to false                 
+			sorter: false             },             
+			// assign the 10th (Action) column (we start counting zero)             
+			9: {                 // disable it by setting the property sorter to false                 
+				sorter: false             }
+			         }
+	      
+      }); 
+//	$("#protocolSubmitted-table").tablesorter({    
+	    // not working if combined with the above into one
+	    // it behaves weird, it seems only these two columns have sort function, there is no sorting action if click the otehr columns
+//           sortList: [[1,0],[2,0]] 
+//      }); 
+    
+} ); 
+showHideDiv(document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode'));
+
+</SCRIPT> 
+
 </html:html>
