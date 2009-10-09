@@ -520,12 +520,14 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * This method sets an empty ProposalSite for the Performing Organization.
+     */
     public ActionForward clearPerformingOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        
-        proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganization(new ProposalSite());
+        proposalDevelopmentDocument.getDevelopmentProposal().clearPerformingOrganization();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -537,7 +539,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
-        
+
+        // XXX does this code do anything that isn't already done in ProposalDevelopmentServiceImpl?
         // if performing org. not set, default to applicant org
         String performingOrganizationId = developmentProposal.getPerformingOrganization().getOrganizationId();
         if (StringUtils.isEmpty(performingOrganizationId)) {

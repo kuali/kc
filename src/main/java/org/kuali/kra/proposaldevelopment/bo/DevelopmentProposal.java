@@ -657,15 +657,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             setApplicantOrganization(applicantSite);
         }
     }
-    
+
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
         if(applicant!=null) applicant.setRolodex(applicant.getOrganization()==null?null:applicant.getOrganization().getRolodex());
-        return applicant;//getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
+        return applicant;
     }
 
     public void setPerformingOrganization(ProposalSite performingOrganization) {
         setProposalSiteForType(performingOrganization, ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
+    }
+
+    public void clearPerformingOrganization() {
+        ProposalSite performingOrganization = getPerformingOrganization();
+        performingOrganization.setLocationName("");
+        performingOrganization.setOrganizationId("");
+        performingOrganization.setOrganization(new Organization());
     }
 
     /**

@@ -67,6 +67,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
@@ -87,7 +88,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, SaveProposalSitesRule, AddProposalSpecialReviewRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -560,6 +561,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent) {
         return new ProposalDevelopmentProposalLocationRule().processAddProposalSiteBusinessRules(addProposalLocationEvent);    
+    }
+
+    public boolean processSaveProposalSiteBusinessRules(SaveProposalSitesEvent saveProposalSitesEvent) {
+        return new ProposalDevelopmentProposalLocationRule().processSaveProposalSiteBusinessRules(saveProposalSitesEvent);    
     }
 
     /**

@@ -131,7 +131,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         }
         rrsf424.setProjectTitle(devProp.getTitle());
 
-        Organization performingOrganization = devProp.getPerformingOrganization().getOrganization();
+        ProposalSite performingOrganization = devProp.getPerformingOrganization();
         if (performingOrganization != null && performingOrganization.getRolodex() != null) {
             String state = performingOrganization.getRolodex().getState();
             rrsf424.setLocation(state);
