@@ -2121,3 +2121,39 @@ function showAllPanels() {
 	var test = showTab(document, 'Summary');
 	expandAll('true', false); 
 }
+
+/*
+ * get standard review comment for meeting from ProtocolContingency table
+ */
+function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolContingencyDescriptionFieldName ) {
+	// TODO : not sure why dwrutil.getvalue is not working
+	//var protocolContingencyCode = DWRUtil.getValue( protocolContingencyCodeFieldName );
+	var protocolContingencyCode = document.getElementById(protocolContingencyCodeFieldName).value;
+
+	//alert(protocolContingencyCodeFieldName+"-"+document.getElementById(protocolContingencyCodeFieldName).value);
+	if (protocolContingencyCode=='') {
+		clearRecipients( protocolContingencyDescriptionFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( protocolContingencyDescriptionFieldName != null && protocolContingencyDescriptionFieldName != "" ) {
+						//setRecipientValue( protocolContingencyDescriptionFieldName, data );
+						//alert (protocolContingencyDescriptionFieldName+"-"+data);
+						document.getElementById(protocolContingencyDescriptionFieldName).value=data;
+					}
+				} else {
+					if ( protocolContingencyDescriptionFieldName != null && protocolContingencyDescriptionFieldName != "" ) {
+						//setRecipientValue(  protocolContingencyDescriptionFieldName, wrapError( "not found" ), true );
+						document.getElementById(protocolContingencyDescriptionFieldName).value="not found";
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( protocolContingencyDescriptionFieldName, wrapError( "not found" ), true );
+			}
+		};
+		MeetingService.getStandardReviewComment(protocolContingencyCode,dwrReply);
+	}
+}
