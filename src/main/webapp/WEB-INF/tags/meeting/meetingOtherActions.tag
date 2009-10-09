@@ -12,7 +12,7 @@
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleActItem" altText="help"/> </span>
     </h3>
     
-        <table id="otehrActions-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit protocol participants">
+        <table id="otehrActions-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit meeting other actions">
         
         	<%-- Header --%>
         	<tr>
