@@ -89,7 +89,6 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	<field-descriptor name="awardTransactionTypeCode" column="TRANSACTION_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="noticeDate" column="NOTICE_DATE" jdbc-type="DATE" />
-    	<field-descriptor name="currentActionComments" column="CURRENT_ACTION_COMMENTS" jdbc-type="CLOB"/>
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>

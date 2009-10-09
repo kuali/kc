@@ -19,6 +19,8 @@
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
+<c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+
 
 <kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,detailsAndDatesFormHelper*">
 
@@ -46,8 +48,8 @@
 		</td>
     	<td width="1000">
     		<div align="center">
-    			<kul:htmlControlAttribute property="document.awardList[0].currentActionComments" attributeEntry="${awardAttributes.currentActionComments}" />
-    			<kra:expandedTextArea textAreaFieldName="document.awardList[0].currentActionComments" action="awardHome" textAreaLabel="${awardAttributes.currentActionComments.label}" />
+    			<kul:htmlControlAttribute property="document.awardList[0].awardCurrentActionComments.comments" attributeEntry="${awardCurrentActionCommentAttributes.comments}" />
+    			<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardCurrentActionComments.comments" action="awardHome" textAreaLabel="${awardCurrentActionCommentAttributes.comments.label}" />
 			</div>
 		</td>
   	</tr>

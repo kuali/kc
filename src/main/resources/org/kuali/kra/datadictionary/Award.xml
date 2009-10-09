@@ -68,7 +68,6 @@
         <ref bean="Award-closeoutDate" />
         <ref bean="Award-awardTransactionTypeCode" />
         <ref bean="Award-noticeDate" />
-        <ref bean="Award-currentActionComments" />
       </list>
     </property>
   </bean>
@@ -935,26 +934,6 @@
     		<property name="description" value="Notice Date" />
   	</bean>
   	
-  	<bean id="Award-currentActionComments" parent="Award-currentActionComments-parentBean" />
-  	
-  	<bean id="Award-currentActionComments-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="currentActionComments" />
-    	<property name="forceUppercase" value="false" />
-    	<property name="label" value="Comments" />
-    	<property name="shortLabel" value="Comments" />
-    	<property name="maxLength" value="999999999" />
-    	<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
-    	</property>
-    	<property name="control" >
-      		<bean parent="TextareaControlDefinition"
-            	p:rows="5"
-            	p:cols="170" />
-    	</property>
-    	<property name="summary" value="Comments" />
-    	<property name="description" value="Comments" />
-  	</bean>
 	
   	<!-- Business Object Lookup Definition -->
 	<bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
