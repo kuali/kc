@@ -37,6 +37,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.TypedAttachment;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
@@ -64,6 +65,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private Map<String, CritField> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
     private List<String> collectionFieldNames = new ArrayList<String>();
+    private static final String LEAD_UNIT = "leadUnit";
     
     public ProtocolDaoOjb() {
         super();
@@ -89,6 +91,11 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             }
         }
  
+        for (Entry<String, String> entry : fieldValues.entrySet()) {
+            if (entry.getKey().startsWith(LEAD_UNIT) && StringUtils.isNotBlank(entry.getValue())){                
+                crit.addExists(getUnitReportQuery(entry));
+            }
+        }
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
         logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
@@ -233,7 +240,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 if (collectionFieldNames.contains(entry.getKey())) {
                     collectionFieldValues.put(entry.getKey(), getCriteriaEnum(entry));
-                } else {
+                } else if (!entry.getKey().startsWith(LEAD_UNIT)){                
                     baseLookupFieldValues.put(entry.getKey(), entry.getValue());
                 }
             }
@@ -255,6 +262,33 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private boolean isProtocolPersonField (String fieldName) {
         return fieldName.equals(ProtocolLookupConstants.Property.KEY_PERSON) || fieldName.equals(ProtocolLookupConstants.Property.INVESTIGATOR);    
     }
+    
+    /*
+     * This method is to set up the criteria for unitnumber and unitname.
+     * It is using 'leadunitxxx' property name, but the criteria is for all protocol units.
+     * Just like coeus, any unit match, then it will be in the result list.
+     */
+    private ReportQueryByCriteria getUnitReportQuery(Entry<String, String> entry) {
+        Criteria crit = new Criteria();
+        crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
+
+        // unitnumber
+        Criteria subCrit = new Criteria();
+        String nameValue = entry.getValue().replace('*', '%');
+        String propertyName = "";
+        if (entry.getKey().equals(ProtocolLookupConstants.Property.LEAD_UNIT_NUMBER)) {
+            propertyName = getDbPlatform().getUpperCaseFunction() + "(unitNumber)";
+        } else {
+            propertyName = getDbPlatform().getUpperCaseFunction() + "(unit.unitName)";
+            
+        }
+        subCrit.addLike(propertyName, nameValue.toUpperCase());
+        subCrit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID);
+        crit.addExists(QueryFactory.newReportQuery(ProtocolUnit.class, subCrit));
+
+        return QueryFactory.newReportQuery(ProtocolPerson.class, crit);
+    }
+
     
     /**
      * 

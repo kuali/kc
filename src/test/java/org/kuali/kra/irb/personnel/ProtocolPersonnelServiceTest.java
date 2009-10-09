@@ -31,6 +31,8 @@ import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
+import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
 
 public class ProtocolPersonnelServiceTest {
@@ -62,7 +64,11 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testAddProtocolPerson() throws Exception {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+         };
         protocolPersonnelService.addProtocolPerson(protocol, getCoInvestigatorPerson() );
         assertEquals(1, protocol.getProtocolPersons().size());
     }
@@ -73,7 +79,11 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testDelProtocolPerson() throws Exception {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+        };
         ProtocolPerson protocolPerson = getCoInvestigatorPerson();
         protocolPerson.setDelete(true);
         protocol.getProtocolPersons().add(protocolPerson);
@@ -88,7 +98,20 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testAddProtocolUnit() throws Exception {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+            @Override
+            protected ProtocolLocationService getProtocolLocationService() {
+               return new ProtocolLocationService() {
+                public void addDefaultProtocolLocation(Protocol protocol) {}
+                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
+                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+               };
+            }
+            
+        };
         ProtocolPerson protocolPerson = getCoInvestigatorPerson();
         List<ProtocolUnit> protocolPersonUnits = new ArrayList<ProtocolUnit>();
         protocol.getProtocolPersons().add(protocolPerson);

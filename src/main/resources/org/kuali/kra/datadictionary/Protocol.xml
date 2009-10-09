@@ -68,27 +68,54 @@
 				<ref bean="Protocol-performingOrganizationId" />
 				<ref bean="Protocol-fundingSource" />
 				<ref bean="Protocol-submissionDate" />
+				<ref bean="Protocol-protocolType.description" />
+				<ref bean="Protocol-protocolStatus.description" />
 				
 			</list>
 		</property>
 		
 		
-		<!--  
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="researchArea" />
+          <property name="objectAttributeName" value="protocolStatus" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="researchAreaCode"
-                    p:targetName="researchAreaCode" />
+                    p:sourceName="protocolStatusCode"
+                    p:targetName="protocolStatusCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="protocolStatus.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="protocolType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="protocolTypeCode"
+                    p:targetName="protocolTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="protocolType.description"
+                    p:targetName="description" />
             </list>
           </property>
         </bean>
       </list>
     </property>
-		-->
 		
 	</bean>
 
@@ -209,6 +236,23 @@
 		<property name="summary" value="Protocol Status Code" />
 		<property name="description" value="Protocol Status Code" />
 	</bean>
+
+  <bean id="Protocol-protocolStatus.description" parent="Protocol-protocolStatus.description-parentBean" />
+
+  <bean id="Protocol-protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description">
+    <property name="name" value="protocolStatus.description" />
+    <property name="label" value="Protocol Status" />
+    <property name="shortLabel" value="Protocol Status" />
+  </bean>
+
+  <bean id="Protocol-protocolType.description" parent="Protocol-protocolType.description-parentBean" />
+
+  <bean id="Protocol-protocolType.description-parentBean" abstract="true" parent="ProtocolType-description">
+    <property name="name" value="protocolType.description" />
+    <property name="label" value="Protocol Type" />
+    <property name="shortLabel" value="Protocol Type" />
+  </bean>
+
 
 	<bean id="Protocol-leadUnitNumber" parent="Protocol-leadUnitNumber-parentBean" />
 	<bean id="Protocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -739,6 +783,10 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="performingOrganizationId" />
 				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
 				    p:attributeName="active"  p:defaultValue="Y" />
 				<!-- bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
@@ -772,11 +820,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolTypeCode"
-					p:forceInquiry="true"/>
+					p:attributeName="protocolType.description"/>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolStatusCode"
-		            p:forceInquiry="true"/>
+					p:attributeName="protocolStatus.description"/>
 				<bean parent="FieldDefinition"
 					p:attributeName="title" />
 				<bean parent="FieldDefinition"

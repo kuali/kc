@@ -35,7 +35,11 @@ public class ProtocolLocationServiceTest {
         
         ProtocolLocationService service  = new ProtocolLocationServiceImpl();
         
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+            
+        };
         
         service.addProtocolLocation(protocol, getNewProtocolLocation() );
 

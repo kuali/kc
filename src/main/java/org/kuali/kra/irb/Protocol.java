@@ -183,7 +183,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); 
         protocolPersons = new ArrayList<ProtocolPerson>(); 
-        initializeProtocolLocation();
+//        initializeProtocolLocation();
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         specialReviews = new ArrayList<ProtocolSpecialReview>();
         setProtocolActions(new ArrayList<ProtocolAction>());
