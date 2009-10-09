@@ -386,6 +386,9 @@ public interface Constants {
     public static final String PROPOSAL_SUMMARY_COMMENT_TYPE_CODE = "12";
     public static final String PROPOSAL_COMMENT_TYPE_CODE = "13";
     public static final String PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE = "16";
+    public static final String CURRENT_ACTION_COMMENT_TYPE_CODE = "21";
+
+    
    
     public static final Integer MIN_FISCAL_YEAR = 1900;
     public static final Integer MAX_FISCAL_YEAR = 2499;
