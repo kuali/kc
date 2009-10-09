@@ -16,7 +16,23 @@
         <table id="protocolSubmitted-table" cellpadding=0 cellspacing=0 class="datatable" summary="Protocol Submitted">
         
         	<%-- Header --%>
+<thead>
         	<tr>
+        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
+                 <th><div align="center">Protocol No<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">PI<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Protocol Title<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Submission Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Sub. Type Qualifier<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Sub. Review Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Submission Status<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th><div align="center">Submission Date<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+				<c:if test="${!readOnly}">
+					<th class="{sorter: false}">Actions </th>
+				</c:if>
+			</tr>
+</thead>			<%-- Header --%>
+		  <%--    <tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.protocolNumber}" scope="col" />
         		<kul:htmlAttributeHeaderCell literalLabel="PI" scope="col" />
@@ -30,9 +46,8 @@
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
 			</tr>
-			<%-- Header --%>
-			
-			
+	--%>		
+<tbody>			
 			<%-- Existing data --%>
         	<c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
 	             <tr>
@@ -89,7 +104,7 @@
 	            </tr>
         	</c:forEach>
 			<%-- Existing data --%>
-			        				
+</tbody>			        				
         </table>
 </div>
 
