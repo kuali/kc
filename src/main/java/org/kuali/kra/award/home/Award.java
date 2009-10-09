@@ -1354,6 +1354,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     /**
     *
+    * Get the award current action comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardCurrentActionComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createCurrentActionComment();  
+            add(awardComment);  
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
     * Get the award Intellectual Property comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardIntellectualPropertyComments(){

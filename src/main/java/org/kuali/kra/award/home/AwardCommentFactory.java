@@ -139,6 +139,15 @@ public class AwardCommentFactory {
     }
     
     /**
+     * This method creates a Current Action Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createCurrentActionComment() {
+        return createAwardComment(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    /**
      * This method creates a Special Review Comment
      * @param award
      * @return
