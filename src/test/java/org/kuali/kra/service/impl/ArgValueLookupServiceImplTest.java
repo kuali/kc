@@ -50,8 +50,13 @@ public class ArgValueLookupServiceImplTest extends KraTestBase{
         super.tearDown();
     }
     
+    /**
+     * 
+     * This method tests getArgumentNames
+     * @throws Exception
+     */
     @Test
-    public void a() throws Exception {
+    public void testGetArgumentNames() throws Exception {
         String argumentNames = argValueLookupService.getArgumentNames();
         assertEquals(expectedArgumentNames, argumentNames);
     }
