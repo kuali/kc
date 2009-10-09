@@ -28,6 +28,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.auth.ViewProtocolAuthorizer;
+import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.service.KraAuthorizationService;
 
 /**
@@ -44,8 +46,11 @@ public class ViewProtocolAuthorizerTest {
     public void testViewPermission() {
         ViewProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
         
-        final Protocol protocol = new Protocol();
-        
+        final Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+            
+        };
         final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.VIEW_PROTOCOL); will(returnValue(true));
@@ -60,7 +65,11 @@ public class ViewProtocolAuthorizerTest {
     public void testNotViewPermission() {
         ViewProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
         
-        final Protocol protocol = new Protocol();
+        final Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+            
+        };
         
         final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
