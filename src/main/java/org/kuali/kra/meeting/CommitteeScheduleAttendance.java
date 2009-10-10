@@ -55,6 +55,8 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
     private boolean nonEmployeeFlag; 
     @Column(name="COMMENTS")
     private String comments; 
+    @Column(name="PERSON_NAME")
+    private String personName; 
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
@@ -125,6 +127,7 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
         hashMap.put("alternateFor", this.getAlternateFor());
         hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
         hashMap.put("comments", this.getComments());
+        hashMap.put("personName", this.getPersonName());
         return hashMap;
     }
 
@@ -153,6 +156,16 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
 
     public Long getCommScheduleAttendanceId() {
         return commScheduleAttendanceId;
+    }
+
+
+    public String getPersonName() {
+        return personName;
+    }
+
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
     
 }
