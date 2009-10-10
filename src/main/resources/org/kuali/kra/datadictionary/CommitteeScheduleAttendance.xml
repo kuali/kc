@@ -35,6 +35,7 @@
                 <ref bean="CommitteeScheduleAttendance-commScheduleAttendanceId" />
                 <ref bean="CommitteeScheduleAttendance-scheduleIdFk" />
                 <ref bean="CommitteeScheduleAttendance-personId" />
+                <ref bean="CommitteeScheduleAttendance-personName" />
                 <ref bean="CommitteeScheduleAttendance-guestFlag" />
                 <ref bean="CommitteeScheduleAttendance-alternateFlag" />
                 <ref bean="CommitteeScheduleAttendance-alternateFor" />
@@ -101,6 +102,25 @@
         <property name="description" value="Person Id" />
     </bean>
 
+    <bean id="CommitteeScheduleAttendance-personName" parent="CommitteeScheduleAttendance-personName-parentBean" />
+    <bean id="CommitteeScheduleAttendance-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Name" />
+        <property name="shortLabel" value="Name" />
+        <property name="maxLength" value="90" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="30" />
+        </property>
+        <property name="summary" value="Person Name" />
+        <property name="description" value="Person Name" />
+    </bean>
+
     <bean id="CommitteeScheduleAttendance-guestFlag" parent="CommitteeScheduleAttendance-guestFlag-parentBean" />
     <bean id="CommitteeScheduleAttendance-guestFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="guestFlag" />
@@ -157,8 +177,9 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+           <bean parent="TextareaControlDefinition"
+              p:rows="3"
+              p:cols="40" />
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
