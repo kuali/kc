@@ -15,17 +15,12 @@
  */
 package org.kuali.kra.meeting;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,19 +31,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -57,7 +49,14 @@ public class MeetingAction extends KualiAction {
     private static final String CLOSE_QUESTION = "Would you like to save meeting data before close it ?";
 
     private static final String CLOSE_QUESTION_ID = "meeting.close.question";
+//    private MeetingActionHelper meetingActionHelper;
+//
+//    public MeetingAction(){
+//        meetingActionHelper = new MeetingActionHelper();
+//    }
 
+    // TODO : in general : the personid, rolodex id issue
+    // need an actionhelper
 
     /**
      * 
@@ -72,8 +71,13 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        getMeetingService().populateFormHelper(form, request);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        //getMeetingService().populateFormHelper(form, request);
+        Map fieldValues = new HashMap();
+        fieldValues.put("id", request.getParameter("scheduleId"));
+        CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
+                fieldValues);
+        ((MeetingForm)form).getMeetingHelper().populateFormHelper(commSchedule, Integer.parseInt(request.getParameter("lineNum")));
+         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -107,25 +111,26 @@ public class MeetingAction extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-
         CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
-        if (isValidToSave(committeeSchedule)) {
-            getMeetingService().SaveMeetingDetails(committeeSchedule,
-                    ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
-            ((MeetingForm) form).getMeetingHelper().setDeletedOtherActions(new ArrayList<CommScheduleActItem>());
+        if (isValidToSave(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getMemberPresentBeans())) {
+//            meetingActionHelper.populateAttendancePreSave(((MeetingForm) form).getMeetingHelper());
+            ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
+            getMeetingService().SaveMeetingDetails(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getDeletedBos());
+            ((MeetingForm) form).getMeetingHelper().initDeletedList();
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private boolean isValidToSave(CommitteeSchedule committeeSchedule) {
+    
+    private boolean isValidToSave(CommitteeSchedule committeeSchedule, List<MemberPresentBean> memberPresentBeans) {
 
-        boolean valie = true;
         GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.committeeSchedule");
         KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(committeeSchedule);
         GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.committeeSchedule");
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
         valid &= meetingDetailsRule.validateMeetingDetails(committeeSchedule);
+        valid &= meetingDetailsRule.validateDuplicateAlternateFor(memberPresentBeans);
         return valid;
 
     }
@@ -258,11 +263,7 @@ public class MeetingAction extends KualiAction {
         KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(newCommScheduleActItem);
         GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.newOtherAction");
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
-            newCommScheduleActItem.refreshReferenceObject("scheduleActItemType");
-            newCommScheduleActItem.setScheduleIdFk(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getId());
-            newCommScheduleActItem.setActionItemNumber(getNextActionItemNumber(form));
-            meetingForm.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().add(newCommScheduleActItem);
-            meetingForm.getMeetingHelper().setNewOtherAction(new CommScheduleActItem());
+            meetingForm.getMeetingHelper().addOtherAction();
         }
         return mapping.findForward("basic");
     }
@@ -281,36 +282,13 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward deleteOtherAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        MeetingForm meetingForm = (MeetingForm) form;
-        CommScheduleActItem commScheduleActItem = meetingForm.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems()
-                .get(getLineToDelete(request));
-        if (commScheduleActItem.getCommScheduleActItemsId() != null) {
-            meetingForm.getMeetingHelper().getDeletedOtherActions().add(commScheduleActItem);
-        }
-        meetingForm.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().remove(getLineToDelete(request));
-
+        ((MeetingForm) form).getMeetingHelper().deleteOtherAction(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /*
-     * find the max action number and increase by one.
-     */
-    private Integer getNextActionItemNumber(ActionForm form) {
-        Integer nextActionItemNumber = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems()
-                .size();
-        for (CommScheduleActItem commScheduleActItem : ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule()
-                .getCommScheduleActItems()) {
-            if (commScheduleActItem.getActionItemNumber() > nextActionItemNumber) {
-                nextActionItemNumber = commScheduleActItem.getActionItemNumber();
-            }
-        }
-        return nextActionItemNumber + 1;
-
-    }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null) {
@@ -321,9 +299,10 @@ public class MeetingAction extends KualiAction {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
-                if (isValidToSave(committeeSchedule)) {
-                    getMeetingService().SaveMeetingDetails(committeeSchedule,
-                            ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
+                if (isValidToSave(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getMemberPresentBeans())) {
+                    ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
+                    getMeetingService().SaveMeetingDetails(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getDeletedBos());
+                    ((MeetingForm) form).getMeetingHelper().initDeletedList();
                 }
                 else {
                     return mapping.findForward(Constants.MAPPING_BASIC);
@@ -339,5 +318,111 @@ public class MeetingAction extends KualiAction {
             throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
+
+    public ActionForward markAbsent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((MeetingForm) form).getMeetingHelper().markAbsent(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward presentVoting(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        MeetingForm meetingForm = (MeetingForm) form;
+        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get((getLineToDelete(request)));
+        MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
+        if (meetingDetailsRule.validateNotAlternateFor(meetingForm.getMeetingHelper().getMemberPresentBeans(), memberAbsentBean)) {
+            meetingForm.getMeetingHelper().presentVoting(getLineToDelete(request));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward presentOther(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        MeetingForm meetingForm = (MeetingForm) form;
+        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get((getLineToDelete(request)));
+        MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
+        if (meetingDetailsRule.validateNotAlternateFor(meetingForm.getMeetingHelper().getMemberPresentBeans(), memberAbsentBean)) {
+            meetingForm.getMeetingHelper().presentOther(getLineToDelete(request));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward addOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        MeetingForm meetingForm = (MeetingForm) form;
+        OtherPresentBean newOtherPresentBean = meetingForm.getMeetingHelper().getNewOtherPresentBean();
+        // if (StringUtils.isNotEmpty(newOtherPresentBean.getPersonName())) {
+        MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
+        if (meetingDetailsRule.validateNewOther(meetingForm.getMeetingHelper(), newOtherPresentBean)) {
+            meetingForm.getMeetingHelper().addOtherPresent();
+        }
+        // }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((MeetingForm) form).getMeetingHelper().deleteOtherPresent(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
+    public ActionForward addCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        MeetingForm meetingForm = (MeetingForm) form;
+        CommitteeScheduleMinute newCommitteeScheduleMinute = meetingForm.getMeetingHelper().getNewCommitteeScheduleMinute();
+        GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.newCommitteeScheduleMinute");
+        KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(newCommitteeScheduleMinute);
+        GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.newCommitteeScheduleMinute");
+        boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
+        MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
+        valid &= meetingDetailsRule.validateProtocolInMinute(newCommitteeScheduleMinute);
+        if (valid) {
+            meetingForm.getMeetingHelper().addCommitteeScheduleMinute();
+        }
+        return mapping.findForward("basic");
+    }
+
+    /**
+     * 
+     * This method is to remove Committee Schedule Minute from Committee Schedule Minute list. Also keep in a deleted list, which will be used to call
+     * 'bos.delete' to remove them from DB before save.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((MeetingForm) form).getMeetingHelper().deleteCommitteeScheduleMinute(getLineToDelete(request));
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        if (request.getParameter("refreshCaller").equals("nonOrganizationalRolodexLookupable")) {
+            ((MeetingForm)form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(true);
+        } else {
+            ((MeetingForm)form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(false);            
+        }
+        return super.refresh(mapping, form, request, response);
+        
+    }
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        ActionForward forward = super.execute(mapping, form, request, response);
+        ((MeetingForm)form).getMeetingHelper().sortAttendances();
+        return forward;
+    }
+
 
 }

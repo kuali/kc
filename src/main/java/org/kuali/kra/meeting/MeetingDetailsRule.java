@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.meeting;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
@@ -33,6 +35,8 @@ public class MeetingDetailsRule {
     public static final String COLON = ":";
 
     public static final String ID1 = "meetingHelper.committeeSchedule.viewTime.time";
+    public static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
+    public static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
     private ErrorReporter errorReporter;
 
     public boolean validateMeetingDetails(CommitteeSchedule committeeSchedule) {
@@ -51,6 +55,119 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
+    public boolean validateNewOther(MeetingHelper meetingHelper, OtherPresentBean otherPresentBean) {
+
+        boolean rulePassed = true;
+        errorReporter = new ErrorReporter();
+        if (StringUtils.isBlank(meetingHelper.getNewOtherPresentBean().getAttendance().getPersonName())) {
+            errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_EMPTY_PERSON);
+            rulePassed = false;
+        }
+        else {
+            for (MemberPresentBean memberPresentBean : meetingHelper.getMemberPresentBeans()) {
+                if (isMemberPresent(memberPresentBean, otherPresentBean)) {
+                    errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_ADD_MEMBER_PRESENT, otherPresentBean.getAttendance().getPersonName());
+                    rulePassed = false;
+                }
+
+            }
+        }
+        return rulePassed;
+    }
+
+    public boolean validateNotAlternateFor(List<MemberPresentBean> memberPresentBeans, MemberAbsentBean memberAbsentBean) {
+
+        boolean rulePassed = true;
+        errorReporter = new ErrorReporter();
+        for (MemberPresentBean memberPresentBean : memberPresentBeans) {
+            if (isAlternateFor(memberPresentBean, memberAbsentBean)) {
+                errorReporter.reportError("meetingHelper.memberAbsentBean.attendance.personId", KeyConstants.ERROR_PRESENT_MEMBER_ABSENT, memberAbsentBean.getAttendance().getPersonName());
+                rulePassed = false;
+            }
+
+        }
+
+        return rulePassed;
+    }
+
+    public boolean validateDuplicateAlternateFor(List<MemberPresentBean> memberPresentBeans) {
+
+        boolean rulePassed = true;
+        errorReporter = new ErrorReporter();
+        int i = 0;
+        for (MemberPresentBean memberPresentBean : memberPresentBeans) {
+            if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())) {
+                int j = 0;
+                for (MemberPresentBean memberPresentBean1 : memberPresentBeans) {
+                    if (j > i && StringUtils.isNotBlank(memberPresentBean1.getAttendance().getAlternateFor())
+                            && memberPresentBean.getAttendance().getAlternateFor().equals(memberPresentBean1.getAttendance().getAlternateFor())) {
+                        errorReporter.reportError("meetingHelper.memberPresentBeans[" + i + "].attendance.alternateFor",
+                                KeyConstants.ERROR_DUPLICATE_ALTERNATE_FOR);
+                        rulePassed = false;
+                    }
+                    j++;
+                }
+            }
+            i++;
+        }
+
+        return rulePassed;
+    }
+
+    public boolean validateProtocolInMinute(CommitteeScheduleMinute committeeScheduleMinute) {
+
+        boolean rulePassed = true;
+        errorReporter = new ErrorReporter();
+        if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && committeeScheduleMinute.getMinuteEntryTypeCode().equals("3")
+                && committeeScheduleMinute.getProtocolIdFk() == null) {
+            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
+            rulePassed = false;
+        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals("3")
+                && committeeScheduleMinute.getProtocolIdFk() != null) {
+            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
+            rulePassed = false;
+            
+        }
+        return rulePassed;
+    }
+
+    private boolean isAlternateFor(MemberPresentBean memberPresentBean, MemberAbsentBean memberAbsentBean) {
+        boolean isPresent = false;
+
+        if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor()) && StringUtils.isNotBlank(memberAbsentBean.getAttendance().getPersonId())
+        // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
+                // and we can't rule out personid=rolodexid
+                && memberPresentBean.getAttendance().getAlternateFor().equals(memberAbsentBean.getAttendance().getPersonId())) {
+            isPresent = true;
+        }
+        return isPresent;
+    }
+
+    private boolean isMemberPresent(MemberPresentBean memberPresentBean, OtherPresentBean otherPresentBean) {
+        boolean isPresent = false;
+        if (memberPresentBean.getAttendance().getNonEmployeeFlag() && otherPresentBean.getAttendance().getNonEmployeeFlag()
+                && memberPresentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {
+            isPresent = true;
+        }
+        else if (!memberPresentBean.getAttendance().getNonEmployeeFlag() && !otherPresentBean.getAttendance().getNonEmployeeFlag()
+                && memberPresentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {
+            isPresent = true;
+        }
+        else if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
+                && StringUtils.isNotBlank(otherPresentBean.getAttendance().getPersonId())
+                // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
+                // and we can't rule out personid=rolodexid
+                && memberPresentBean.getAttendance().getAlternateFor().equals(otherPresentBean.getAttendance().getPersonId())) {
+            isPresent = true;
+        }
+//        else if (StringUtils.isNotBlank(memberPresentBean.getAlternateFor()) && StringUtils.isBlank(otherPresentBean.getPersonId())
+//                && memberPresentBean.getAlternateFor().equals(otherPresentBean.getRolodexId().toString())) {
+//            isPresent = true;
+//        }
+        return isPresent;
+    }
 
     private boolean processTime(String time, String id) {
         String prefix = "";
@@ -109,21 +226,24 @@ public class MeetingDetailsRule {
         Integer endMins;
 
         if (startTime.getMeridiem().equals("PM") && endTime.getMeridiem().equals("AM")) {
-            errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"), KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
+            errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"),
+                    KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
             rulePassed = false;
-        } else if (startTime.getMeridiem().equals(endTime.getMeridiem())){
-        try {
-            startHrs = new Integer(startTimeSplit[0]);
-            startMins = new Integer(startTimeSplit[1]);
-            endHrs = new Integer(endTimeSplit[0]);
-            endMins = new Integer(endTimeSplit[1]);
-            if ((startHrs !=12 && (startHrs > endHrs || endHrs == 12)) || (startHrs.equals(endHrs)&& startMins > endMins)) {
-                errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"), KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
-                rulePassed = false;
+        }
+        else if (startTime.getMeridiem().equals(endTime.getMeridiem())) {
+            try {
+                startHrs = new Integer(startTimeSplit[0]);
+                startMins = new Integer(startTimeSplit[1]);
+                endHrs = new Integer(endTimeSplit[0]);
+                endMins = new Integer(endTimeSplit[1]);
+                if ((startHrs != 12 && (startHrs > endHrs || endHrs == 12)) || (startHrs.equals(endHrs) && startMins > endMins)) {
+                    errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"),
+                            KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
+                    rulePassed = false;
+                }
             }
-        }
-        catch (NumberFormatException e) {
-        }
+            catch (NumberFormatException e) {
+            }
         }
         return rulePassed;
     }

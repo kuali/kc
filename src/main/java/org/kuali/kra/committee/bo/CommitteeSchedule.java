@@ -40,6 +40,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
@@ -112,6 +113,8 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private ScheduleStatus scheduleStatus;
     
     private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
+    private List<CommitteeScheduleMinute> committeeScheduleMinutes;        
+    @SkipVersioning
     private List<ProtocolSubmission> protocolSubmissions;        
     private List<CommScheduleActItem>  commScheduleActItems;
     //TODO revisit required during meeting management to map Protocol
@@ -124,6 +127,7 @@ public class CommitteeSchedule extends CommitteeAssociate {
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>()); 
+        setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>()); 
 	} 
 	
     public Long getId() {
@@ -167,7 +171,10 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
 	    if (viewTime != null) {
-            dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
+            dt = new java.util.Date(0);
+            dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
+	        dt = new java.util.Date(viewTime.findMinutes() * 60 * 1000); // to set it to 1970-01-01
+            //dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
             //dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
 	        this.time = new Timestamp(dt.getTime());
 	    }
@@ -207,8 +214,8 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	}
 
 	public Timestamp getStartTime() {
-        if (startTime == null) {
-            java.util.Date dt = new java.util.Date(scheduledDate.getTime());
+        if (startTime == null || startTime.getTime() == 0) {
+            java.util.Date dt = new java.util.Date(0);
             dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
             if (viewStartTime != null) {
                 dt = DateUtils.addMinutes(dt, viewStartTime.findMinutes());
@@ -225,9 +232,9 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	}
 
 	public Timestamp getEndTime() {
-        if (endTime == null) {
-            java.util.Date dt = new java.util.Date(scheduledDate.getTime());
-            dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
+        if (endTime == null || endTime.getTime() == 0) {
+            java.util.Date dt = new java.util.Date(0); // set to 1969/12/31 19:00 ?
+            dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH); // force it to 1970-01-01
             if (viewEndTime != null) {
                 dt = DateUtils.addMinutes(dt, viewEndTime.findMinutes());
                 // dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
@@ -461,6 +468,14 @@ public class CommitteeSchedule extends CommitteeAssociate {
 
     public void setCommScheduleActItems(List<CommScheduleActItem> commScheduleActItems) {
         this.commScheduleActItems = commScheduleActItems;
+    }
+
+    public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+        return committeeScheduleMinutes;
+    }
+
+    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
+        this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 
 

@@ -589,6 +589,14 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_LOOKUP_RETURN_INVALID = "error.question.lookup.return.invalid";
     public static final String ERROR_QUESTIONNAIRE_NAME_EXIST = "error.questionnaire.name.exist";
     
+    // meeting
+    public static final String ERROR_ADD_MEMBER_PRESENT = "error.add.member.present";
+    public static final String ERROR_PRESENT_MEMBER_ABSENT = "error.presnt.member.absent";
+    public static final String ERROR_EMPTY_PERSON = "error.empty.person";
+    public static final String ERROR_DUPLICATE_ALTERNATE_FOR = "error.duplicate.alternateFor";
+    public static final String ERROR_EMPTY_PROTOCOL = "error.empty.protocol";
+    public static final String ERROR_NON_EMPTY_PROTOCOL = "error.non.empty.protocol";
+
     
     //Time And Money
     public static final String ERROR_TRANSACTION_TYPE_CODE_REQUIRED = "error.transaction.type.code.required";

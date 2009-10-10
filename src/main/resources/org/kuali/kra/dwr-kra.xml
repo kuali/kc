@@ -121,5 +121,9 @@
             <param name="beanName" value="argValueLookupService" />
             <include method="getArgumentNames" />
         </create>
+		<create creator="spring" javascript="MeetingService">
+			<param name="beanName" value="meetingService" />
+			<include method="getStandardReviewComment" />
+		</create>
 	</allow>
 </dwr>

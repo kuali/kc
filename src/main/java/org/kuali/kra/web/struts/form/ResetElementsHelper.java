@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This class contains methods to help reset an Objects properties to default values.
  */
-final class ResetElementsHelper {
+public final class ResetElementsHelper {
   
     private static final Map<Class<?>, Object> WRAPPER_RESET_VALUES;
     static {
