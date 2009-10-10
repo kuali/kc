@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.meeting;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface MeetingService {
     
@@ -33,7 +35,9 @@ public interface MeetingService {
      */
     public void populateFormHelper(ActionForm form, HttpServletRequest request);
 
-    
-    public void SaveMeetingDetails(CommitteeSchedule committeeSchedule, List<CommScheduleActItem> deletedOtherActions);
+    public Date getAgendaGenerationDate(Long scheduleId);
+    public void initAttendance(CommitteeSchedule commSchedule);
 
+    public void SaveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
+    public String getStandardReviewComment(String protocolContingencyCode);
 }

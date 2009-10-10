@@ -55,7 +55,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Id" />
 		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -73,7 +73,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Schedule Id Fk" />
 		<property name="shortLabel" value="Schedule Id Fk" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -91,7 +91,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Entry Number" />
 		<property name="shortLabel" value="Entry Number" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -107,15 +107,23 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="minuteEntryTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Minute Entry Type Code" />
-		<property name="shortLabel" value="Minute Entry Type Code" />
-		<property name="maxLength" value="22" />
+		<property name="required" value="true" />
+		<property name="label" value="Entry Type" />
+		<property name="shortLabel" value="Entry Type" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.meeting.MinuteEntryType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="minuteEntryTypeCode"
+            	p:labelAttribute="description" 
+                p:script="updateProtocolContingencyDiv(this)" />
+    	</property>
 		<property name="summary" value="Minute Entry Type Code" />
 		<property name="description" value="Minute Entry Type Code" />
 	</bean>
@@ -125,9 +133,9 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolIdFk" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id Fk" />
-		<property name="shortLabel" value="Protocol Id Fk" />
-		<property name="maxLength" value="22" />
+		<property name="label" value="Protocol" />
+		<property name="shortLabel" value="Protocol" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -146,7 +154,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Submission Id Fk" />
 		<property name="shortLabel" value="Submission Id Fk" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -161,8 +169,8 @@
 	<bean id="CommitteeScheduleMinute-privateCommentFlag-parentBean"
 		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="privateCommentFlag" />
-		<property name="label" value="Private Comment Flag" />
-		<property name="shortLabel" value="Private Comment Flag" />
+		<property name="label" value="Private" />
+		<property name="shortLabel" value="Private" />
 		<property name="summary" value="Private Comment Flag" />
 		<property name="description" value="Private Comment Flag" />
 	</bean>
@@ -173,14 +181,14 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolContingencyCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Contingency Code" />
-		<property name="shortLabel" value="Protocol Contingency Code" />
+		<property name="label" value="Standard Review Comment" />
+		<property name="shortLabel" value="Standard Review Comment" />
 		<property name="maxLength" value="4" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
 		<property name="summary" value="Protocol Contingency Code" />
 		<property name="description" value="Protocol Contingency Code" />
@@ -191,14 +199,15 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="minuteEntry" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Minute Entry" />
-		<property name="shortLabel" value="Minute Entry" />
+		<property name="label" value="Description" />
+		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="4000" />
 		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" 
+			      p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="20" />
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
 		</property>
 		<property name="summary" value="Minute Entry" />
 		<property name="description" value="Minute Entry" />

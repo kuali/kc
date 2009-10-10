@@ -59,6 +59,9 @@
 		<collection-descriptor name="commScheduleActItems" proxy="true" element-class-ref="org.kuali.kra.meeting.CommScheduleActItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
+		<collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
 		
 	</class-descriptor>
 
@@ -363,6 +366,7 @@
 		<field-descriptor name="commScheduleAttendanceId" column="COMM_SCHEDULE_ATTENDANCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="guestFlag" column="GUEST_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="alternateFlag" column="ALTERNATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="alternateFor" column="ALTERNATE_FOR" jdbc-type="VARCHAR" />
