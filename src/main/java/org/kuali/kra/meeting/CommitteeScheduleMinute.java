@@ -16,6 +16,7 @@
 package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -27,9 +28,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.Protocol;
 
 @Entity 
 @Table(name="COMM_SCHEDULE_MINUTES")
@@ -42,7 +46,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private Long commScheduleMinutesId; 
 
     @Column(name="SCHEDULE_ID_FK")
-    private Integer scheduleIdFk; 
+    private Long scheduleIdFk; 
 
     @Column(name="ENTRY_NUMBER")
     private Integer entryNumber; 
@@ -76,16 +80,24 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @Basic(fetch=FetchType.LAZY)
     @Column(name="MINUTE_ENTRY")
     private String minuteEntry; 
+    
+    // TODO : not sure how this protocols yet.
+    @SkipVersioning
+    private List<Protocol> protocols;
 
+    // Transient field 
+    @Transient
+    private boolean generateAttendance = false;
+    
     public CommitteeScheduleMinute() { 
 
     } 
     
-    public Integer getScheduleIdFk() {
+    public Long getScheduleIdFk() {
         return scheduleIdFk;
     }
 
-    public void setScheduleIdFk(Integer scheduleIdFk) {
+    public void setScheduleIdFk(Long scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
     }
 
@@ -184,6 +196,22 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setMinuteEntryType(MinuteEntryType minuteEntryType) {
         this.minuteEntryType = minuteEntryType;
+    }
+
+    public List<Protocol> getProtocols() {
+        return protocols;
+    }
+
+    public void setProtocols(List<Protocol> protocols) {
+        this.protocols = protocols;
+    }
+
+    public boolean isGenerateAttendance() {
+        return generateAttendance;
+    }
+
+    public void setGenerateAttendance(boolean generateAttendance) {
+        this.generateAttendance = generateAttendance;
     }
 
 
