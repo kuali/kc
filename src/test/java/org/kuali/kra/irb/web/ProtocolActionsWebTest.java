@@ -24,14 +24,6 @@ import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-            }
-        )
-    )
 public class ProtocolActionsWebTest extends ProtocolWebTestBase {
 
     protected static final String PROTOCOL_DESCRIPTION_ID =  "document.description";

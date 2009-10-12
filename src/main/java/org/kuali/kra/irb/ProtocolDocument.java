@@ -62,6 +62,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 803158468103165087L;
+    
+    private static final String APPROVED_COMMENT = "Approved";
+    private static final String DISAPPROVED_COMMENT = "Disapproved";
+    
     private List<Protocol> protocolList;
     private String protocolWorkflowType;
 	
@@ -192,22 +196,23 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Update the protocol's status to approved.
      */
     private void approveProtocol() {
-        updateProtocolStatus(ProtocolActionType.APPROVED);
+        updateProtocolStatus(ProtocolActionType.APPROVED, APPROVED_COMMENT);
     }
     
     /**
      * Update the protocol's status to disapproved.
      */
     private void disapproveProtocol() {
-        updateProtocolStatus(ProtocolActionType.DISAPPROVED);
+        updateProtocolStatus(ProtocolActionType.DISAPPROVED, DISAPPROVED_COMMENT);
     }
     
     /**
      * Add a new protocol action to the protocol and update the status.
      * @param actionTypeCode the new action
      */
-    private void updateProtocolStatus(String actionTypeCode) {
+    private void updateProtocolStatus(String actionTypeCode, String comments) {
         ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
+        protocolAction.setComments(comments);
         getProtocol().getProtocolActions().add(protocolAction);
         
         getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
@@ -236,7 +241,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
         ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
-        action.setComments(type + "-" + getProtocolNumberIndex());
+        action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
         try {
             getDocumentService().saveDocument(newProtocolDocument);

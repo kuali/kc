@@ -16,6 +16,9 @@
 package org.kuali.kra.irb.web;
 
 import org.junit.Test;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

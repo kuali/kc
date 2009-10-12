@@ -40,17 +40,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * Test the Create Amendment/Renewal actions.
  */
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";")
-            }
-        )
-    )
 public class ProtocolAmendRenewWebTest extends ProtocolWebTestBase {
 
      private static final String SUMMARY = "this is a summary";
