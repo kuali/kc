@@ -47,6 +47,8 @@
                 <ref bean="ProposalLog-logStatus" />
                 <ref bean="ProposalLog-comments" />
                 <ref bean="ProposalLog-deadlineDate" />
+                <ref bean="ProposalLog-updateUser" />
+                <ref bean="ProposalLog-updateTimestamp" />
                 <ref bean="ProposalLog-versionNumber" />
             </list>
         </property>
@@ -316,6 +318,16 @@
         <property name="shortLabel" value="Deadline Date" />
         <property name="summary" value="Deadline Date" />
         <property name="description" value="Deadline Date" />
+    </bean>
+    
+    <bean id="ProposalLog-updateUser" parent="ProposalLog-updateUser-parentBean" />
+    <bean id="ProposalLog-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+        <property name="label" value="Updated By" />
+    </bean>
+    
+    <bean id="ProposalLog-updateTimestamp" parent="ProposalLog-updateTimestamp-parentBean" />
+    <bean id="ProposalLog-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="label" value="Last Update Date" />
     </bean>
 
     <bean id="ProposalLog-versionNumber" parent="ProposalLog-versionNumber-parentBean" />
