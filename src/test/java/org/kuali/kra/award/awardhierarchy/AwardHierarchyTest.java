@@ -22,9 +22,16 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.Assert;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
+import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 
+import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AwardHierarchyTest {
     private static final String AWARD_NUMBER_PATTERN = "%06d-%05d";
@@ -65,6 +72,47 @@ public class AwardHierarchyTest {
     }
 
     @Test
+    public void testFindingAssociatedAward_ActiveAward() {
+        Long awardId = 1001L;
+        Assert.assertEquals(awardId, prepareSingleNode(VersionStatus.ACTIVE, awardId).getAward().getAwardId());
+    }
+
+    @Test
+    public void testFindingAssociatedAward_PendingAward() {
+        Long awardId = 1001L;
+        Assert.assertEquals(awardId, prepareSingleNode(VersionStatus.PENDING, awardId).getAward().getAwardId());
+    }
+
+    @Test
+    public void testFindingAssociatedAward_PendingAndActiveAwardsExist() {
+        List<Award> awards = new ArrayList<Award>();
+        List<VersionHistory> versionHistories = new ArrayList<VersionHistory>();
+
+        Long awardId_Active = 1001L;
+        Award award = new Award();
+        award.setAwardId(awardId_Active);
+        award.setAwardNumber(generateAwardNumber(BASE_AWARD_NUMBER, BASE_HIERACHY_SEQUENCE));
+        awards.add(award);
+        VersionHistory versionHistory = new VersionHistory(award, VersionStatus.ACTIVE, "quickstart", new Date(System.currentTimeMillis()));
+        versionHistories.add(versionHistory);
+
+        Long awardId_Pending = 1002L;
+        award = new Award();
+        award.setAwardId(awardId_Pending);
+        award.setAwardNumber(generateAwardNumber(BASE_AWARD_NUMBER, BASE_HIERACHY_SEQUENCE + 1));
+        awards.add(award);
+        versionHistory = new VersionHistory(award, VersionStatus.PENDING, "quickstart", new Date(System.currentTimeMillis()));
+        versionHistories.add(versionHistory);
+
+        AwardHierarchy node = new AwardHierarchy(award.getAwardNumber(), AwardHierarchy.ROOTS_PARENT_AWARD_NUMBER, award.getAwardNumber());
+        node.setAward(null);
+
+        node.setVersionHistoryService(prepareVersionHistoryService(awards, versionHistories));
+
+        Assert.assertEquals(awardId_Pending, node.getAward().getAwardId());
+    }
+
+    @Test
     public void testGettingFlattenedListOfNodesInHiearchy() {
         Assert.assertEquals(NUMBER_OF_CHILDREN * NUMBER_OF_GRANDCHILDREN + NUMBER_OF_CHILDREN + 1,
                             createFullHierarchy().getFlattenedListOfNodesInHierarchy().size());
@@ -102,5 +150,42 @@ public class AwardHierarchyTest {
 
     private String generateAwardNumber(long baseAwardNumber, int hierarchySequenceNumber) {
         return String.format(AWARD_NUMBER_PATTERN, baseAwardNumber, hierarchySequenceNumber);
+    }
+
+    private AwardHierarchy prepareSingleNode(VersionStatus status, Long awardId) {
+        Award award = new Award();
+        award.setAwardId(awardId);
+        award.setAwardNumber(generateAwardNumber(BASE_AWARD_NUMBER, BASE_HIERACHY_SEQUENCE));
+        VersionHistory versionHistory = new VersionHistory(award, status, "quickstart", new Date(System.currentTimeMillis()));
+        AwardHierarchy node = new AwardHierarchy(award.getAwardNumber(), AwardHierarchy.ROOTS_PARENT_AWARD_NUMBER, award.getAwardNumber());
+        node.setAward(null);
+        node.setVersionHistoryService(prepareVersionHistoryService(award, versionHistory));
+        return node;
+    }
+
+    private VersionHistoryServiceImpl prepareVersionHistoryService(final Award award, final VersionHistory versionHistory) {
+        List<Award> awards = new ArrayList<Award>();
+        awards.add(award);
+        List<VersionHistory> versionHistories = new ArrayList<VersionHistory>();
+        versionHistories.add(versionHistory);
+        return prepareVersionHistoryService(awards, versionHistories);
+    }
+
+    private VersionHistoryServiceImpl prepareVersionHistoryService(final Collection<Award> awards, final Collection<VersionHistory> versionHistories) {
+        BusinessObjectServiceAdapter bosAdapter = new BusinessObjectServiceAdapter() {
+            @Override
+            public Collection findMatching(Class klass, Map fieldValues) {
+                if(klass.equals(Award.class)) {
+                    return awards;
+                } else if(klass.equals(VersionHistory.class)) {
+                    return versionHistories;
+                } else {
+                    return null;
+                }
+            }
+        };
+        VersionHistoryServiceImpl vhs= new VersionHistoryServiceImpl();
+        vhs.setBusinessObjectService(bosAdapter);
+        return vhs;
     }
 }
