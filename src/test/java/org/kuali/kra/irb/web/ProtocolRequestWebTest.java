@@ -41,15 +41,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Request Close, Request a Suspension, Request Close Enrollment, Request Re-open Enrollment,
  * and Request Data Analysis.
  */
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
-            }
-        )
-    )
 public class ProtocolRequestWebTest extends ProtocolWebTestBase {
 
     private static final String REASON = "this is a test";

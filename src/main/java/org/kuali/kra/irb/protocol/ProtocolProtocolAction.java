@@ -18,7 +18,6 @@ package org.kuali.kra.irb.protocol;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -32,10 +31,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
@@ -54,12 +55,34 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
 public class ProtocolProtocolAction extends ProtocolAction {
+    
+    private static final String PROTOCOL_CREATED = "Protocol created";
+    
+    /**
+     * @see org.kuali.kra.irb.ProtocolAction#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.initialDocumentSave(form);
+        
+        /*
+         * Add a Protocol Create Action to the protocol.
+         */
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
+        Protocol protocol = protocolDocument.getProtocol();
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = 
+              new org.kuali.kra.irb.actions.ProtocolAction(protocol, null, ProtocolActionType.PROTOCOL_CREATED);
+        protocolAction.setComments(PROTOCOL_CREATED);
+        protocol.getProtocolActions().add(protocolAction);
+        getBusinessObjectService().save(protocol);
+    }
     
     /**
      * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)

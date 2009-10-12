@@ -92,7 +92,7 @@ public class ProtocolAction extends ProtocolAssociate {
             setSubmissionNumber(protocolSubmission.getSubmissionNumber());
         }
     }
-    
+
     public Long getProtocolActionId() {
         return protocolActionId;
     }
