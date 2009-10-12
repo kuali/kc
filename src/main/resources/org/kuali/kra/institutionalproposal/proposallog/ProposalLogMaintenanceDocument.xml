@@ -90,6 +90,14 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="deadlineDate" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
+                    p:name="updateUser"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
+                    p:name="updateTimestamp" 
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
         </property>
