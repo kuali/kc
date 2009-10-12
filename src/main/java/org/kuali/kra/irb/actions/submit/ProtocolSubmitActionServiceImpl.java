@@ -17,10 +17,12 @@ package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -28,8 +30,14 @@ import org.kuali.rice.kns.service.DocumentService;
  */
 public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
 
+    private static final String AMENDMENT = "Amendment";
+    private static final String RENEWAL = "Renewal";
+    private static final String SUBMIT_TO_IRB = "Submitted to IRB";
+    
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
+    private ProtocolFinderDao protocolFinderDao;
+    private BusinessObjectService businessObjectService;
     
     /**
      * Set the Document Service.
@@ -45,6 +53,22 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      */
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    /**
+     * Set the Protocol Finder DAO.
+     * @param protocolFinderDao
+     */
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
+    }
+    
+    /**
+     * Set the Business Object Service.
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -67,19 +91,45 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
+        protocolAction.setComments(SUBMIT_TO_IRB);
         protocol.getProtocolActions().add(protocolAction);
 
         //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
         ProtocolStatus protocolStatus = new ProtocolStatus();
         protocolStatus.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         protocol.setProtocolStatus(protocolStatus);
-        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);        
+        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);      
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         documentService.saveDocument(protocol.getProtocolDocument());
+        
+        if (protocol.isAmendment()) {
+            addActionToOriginalProtocol(AMENDMENT, protocol.getProtocolNumber());
+        }
+        else if (protocol.isRenewal()) {
+            addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber());
+        }
     }
     
+    /**
+     * When an amendment/renewal is submitted to the IRB office, a corresponding
+     * action entry must be added to the original protocol so that the user will
+     * know when the amendment/renewal was submitted.
+     * @param type
+     * @param origProtocolNumber
+     * @throws Exception
+     */
+    private void addActionToOriginalProtocol(String type, String origProtocolNumber) {
+        String protocolNumber = origProtocolNumber.substring(0, 10);
+        String index = origProtocolNumber.substring(11);
+        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.SUBMIT_TO_IRB);
+        protocolAction.setComments(type + "-" + index + ": " + SUBMIT_TO_IRB);
+        protocol.getProtocolActions().add(protocolAction);
+        businessObjectService.save(protocol);
+    }
+
     /**
      * Create a Protocol Submission.
      * @param protocol the protocol

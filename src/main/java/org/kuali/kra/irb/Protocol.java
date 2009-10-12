@@ -88,6 +88,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1461551957662921433L;
+
+    private static final CharSequence AMENDMENT_LETTER = "A";
+    private static final CharSequence RENEWAL_LETTER = "B";
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -1385,4 +1388,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         return RoleConstants.PROTOCOL_ROLE_TYPE;
     }
 
+    public boolean isAmendment() {
+        return protocolNumber.contains(AMENDMENT_LETTER);
+    }
+    
+    public boolean isRenewal() {
+        return protocolNumber.contains(RENEWAL_LETTER);
+    }
 }
