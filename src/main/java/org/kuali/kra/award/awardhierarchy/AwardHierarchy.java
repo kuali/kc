@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.util.*;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+import java.util.*;
+
+/**
+ * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one
+ * and only pending Award matching the AwardHierarchy awardNumber.
+ */
 public class AwardHierarchy extends KraPersistableBusinessObjectBase {
     public static final String ROOTS_PARENT_AWARD_NUMBER = "000000-00000";
     public static final String UNIQUE_IDENTIFIER_FIELD = "awardNumber";
@@ -39,6 +45,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase {
     private transient Award award;
     private transient List<AwardHierarchy> children;
     private transient BusinessObjectService boService;
+    private transient VersionHistoryService versionHistoryService;
 
     /**
      * Default C'tor
@@ -389,11 +396,22 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase {
         this.boService = boService;
     }
 
+    void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
+    }
+
     BusinessObjectService getBusinessObjectService() {
         if(boService == null) {
             boService = KraServiceLocator.getService(BusinessObjectService.class);
         }
         return boService;
+    }
+
+    VersionHistoryService getVersionHistoryService() {
+        if(versionHistoryService == null) {
+            versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+        }
+        return versionHistoryService;
     }
 
     AwardHierarchy findNode(AwardHierarchy testNode, String awardNumber) {
@@ -426,7 +444,12 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase {
     }
 
     private void lazyLoadAward() {
-        Collection c = getBusinessObjectService().findMatching(Award.class, ServiceHelper.getInstance().buildCriteriaMap("awardNumber", awardNumber));
-        award = c.size() == 1 ? (Award) c.iterator().next() : null;
+        VersionHistory vh = getVersionHistoryService().findActiveVersion(Award.class, awardNumber);
+        if(vh != null) {
+            award = (Award) vh.getSequenceOwner();    
+        } else {
+            List<VersionHistory> histories = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
+            award = histories.size() == 1 ? (Award) histories.get(0).getSequenceOwner(): null;
+        }
     }
 }
