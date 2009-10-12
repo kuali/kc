@@ -62,7 +62,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     }
     
     /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -75,6 +75,8 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
             proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
             proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
         }
+        // We need to set this here so it's in the stored XML
+        proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }
     
     private void setupDefaultValues(ProposalLog proposalLog) {
@@ -85,7 +87,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
             proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
         }
     }
-    
     
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
