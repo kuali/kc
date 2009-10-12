@@ -22,6 +22,8 @@ import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.DocumentServiceAdapter;
 import org.kuali.kra.service.impl.adapters.VersioningServiceAdapter;
@@ -70,7 +72,7 @@ class AwardHierarchyTestHelper {
     void testCopyingAwardAsNewHierarchy() {
         AwardHierarchy newRootNode = service.copyAwardAsNewHierarchy(rootNodeA.getChildren().get(1));
         Assert.assertFalse(newRootNode.hasChildren());
-        newRootNode.setBusinessObjectService(getBusinessObjectService());
+        newRootNode.setVersionHistoryService(getVersionHistoryService());
         Award newAward = newRootNode.getAward();
         String awardNumber = newAward.getAwardNumber();
         Assert.assertEquals("00001", awardNumber.substring(awardNumber.indexOf("-") + 1));
@@ -136,7 +138,7 @@ class AwardHierarchyTestHelper {
 
     void testCreatingBasicHierarchy() {
         AwardHierarchy rootNodeA = createAwardHierarchy(DEFAULT_ROOT_AWARD_NUMBER);
-        rootNodeA.setBusinessObjectService(getBusinessObjectService());
+        rootNodeA.setVersionHistoryService(getVersionHistoryService());
         assertNotNull(rootNodeA);
         String awardNumber = rootNodeA.getAwardNumber();
         assertEquals(awardNumber, rootNodeA.getAwardNumber());
@@ -213,7 +215,7 @@ class AwardHierarchyTestHelper {
     AwardHierarchy createAwardHierarchy(String awardNumber) {
         Award award = createAward(awardNumber);
         AwardHierarchy node = service.createBasicHierarchy(award.getAwardNumber());
-        node.setBusinessObjectService(getBusinessObjectService());
+        node.setVersionHistoryService(getVersionHistoryService());
         return node;
     }
 
@@ -237,11 +239,13 @@ class AwardHierarchyTestHelper {
         for(int i = 0, sequenceNo = i + 2; i < numberOfChildNodes; i++) {
             AwardHierarchy childBranchNode = new AwardHierarchy(rootNodeA, rootNodeA, generateAwardNumber(baseAwardNumber, sequenceNo++), DUMMY_AWARD_NUMBER);
             childBranchNode.setBusinessObjectService(getBusinessObjectService());
+            childBranchNode.setVersionHistoryService(getVersionHistoryService());
             childNodes.add(childBranchNode);
             List<AwardHierarchy> grandchildNodes = new ArrayList<AwardHierarchy>();
             for(int j = 0; j < numberOfGrandChildren; j++) {
                 AwardHierarchy grandChildNode = new AwardHierarchy(rootNodeA, childBranchNode, generateAwardNumber(baseAwardNumber, sequenceNo++), DUMMY_AWARD_NUMBER);
-                grandChildNode.setBusinessObjectService(getBusinessObjectService());
+                childBranchNode.setBusinessObjectService(getBusinessObjectService());
+                grandChildNode.setVersionHistoryService(getVersionHistoryService());
                 grandchildNodes.add(grandChildNode);
             }
             childBranchNode.setChildren(grandchildNodes);
@@ -272,7 +276,10 @@ class AwardHierarchyTestHelper {
     private AwardHierarchy createRootHierarchyNode(Long baseAwardNumber) {
         Award rootAward = new Award();
         rootAward.setAwardNumber(generateAwardNumber(baseAwardNumber, BASE_HIERARCHY_SEQUENCE));
-        return AwardHierarchy.createRootNode(rootAward);
+        AwardHierarchy rootNode = AwardHierarchy.createRootNode(rootAward);
+        rootNode.setVersionHistoryService(getVersionHistoryService());
+        rootNode.setBusinessObjectService(getBusinessObjectService());
+        return rootNode;
     }
 
     static class MockAwardNumberService implements AwardNumberService {
@@ -313,10 +320,20 @@ class AwardHierarchyTestHelper {
         service.persistAwardHierarchy(rootNodeB, AwardHierarchyService.RECURS_HIERARCHY);
     }
 
+//    private VersionHistoryService getVersionHistoryService() {
+//        return ((VersionHistoryService) service).versionHistoryService;
+//    }
+
     private BusinessObjectService getBusinessObjectService() {
         return ((AwardHierarchyServiceImpl) service).businessObjectService;
     }
 
+    private VersionHistoryService getVersionHistoryService() {
+        VersionHistoryServiceImpl vhs = new VersionHistoryServiceImpl();
+        vhs.setBusinessObjectService(getBusinessObjectService());
+        return vhs;
+    }
+    
     private DocumentService getDocumentService() {
         return ((AwardHierarchyServiceImpl) service).documentService;
     }
