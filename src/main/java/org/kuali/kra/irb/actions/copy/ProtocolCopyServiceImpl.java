@@ -24,6 +24,8 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
@@ -73,6 +75,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolCopyServiceImpl implements ProtocolCopyService {
+    
+    private static final String PROTOCOL_CREATED = "Protocol created";
     
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
@@ -155,6 +159,11 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         copyAdditionalProperties(srcDoc, newDoc);
         copyProtocolLists(srcDoc, newDoc);
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
+        
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = 
+              new org.kuali.kra.irb.actions.ProtocolAction(newDoc.getProtocol(), null, ProtocolActionType.PROTOCOL_CREATED);
+        protocolAction.setComments(PROTOCOL_CREATED);
+        newDoc.getProtocol().getProtocolActions().add(protocolAction);
         
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
         documentService.saveDocument(newDoc);  

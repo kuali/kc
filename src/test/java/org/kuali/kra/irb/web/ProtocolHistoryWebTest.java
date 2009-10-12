@@ -97,6 +97,20 @@ public class ProtocolHistoryWebTest extends ProtocolWebTestBase {
     }
     
     /**
+     * Verify that the Protocol Create action is added when a protocol is created.
+     * @throws Exception
+     */
+    @Test
+    public void testCreateAction() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+        HtmlPage actionsPage = clickOnTab(protocolPage, PROTOCOL_ACTIONS_LINK_NAME);
+        HtmlTable table = this.getTable(actionsPage, "historyTable");
+        assertNotNull(table);
+        assertEquals(3, table.getRowCount());
+        assertEquals("Protocol Created", table.getRow(1).getCell(1).asText());
+    }
+    
+    /**
      * Verify that we see the two actions in the history table
      * in the order expected.
      * @throws Exception
@@ -113,7 +127,6 @@ public class ProtocolHistoryWebTest extends ProtocolWebTestBase {
         
         HtmlTable table = this.getTable(actionsPage, "historyTable");
         assertNotNull(table);
-        System.out.println(table.asXml());
         assertEquals(4, table.getRowCount());
         assertEquals("Notify IRB", table.getRow(1).getCell(1).asText());
         assertEquals("Protocol Created", table.getRow(2).getCell(1).asText());   
