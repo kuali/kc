@@ -40,16 +40,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * Test the Notify IRB action.
  */
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";")
-            }
-        )
-    )
 public class ProtocolNotifyIrbWebTest extends ProtocolWebTestBase {
 
     private static final String REASON = "this is a test";

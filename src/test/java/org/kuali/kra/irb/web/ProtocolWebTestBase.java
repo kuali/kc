@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -48,8 +47,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_GROUP.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";")}))
-public abstract class ProtocolWebTestBase extends KraWebTestBase {
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";") }))
+public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     
     protected static final String PERSONNEL_LINK_NAME = "personnel.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.irb.web.IrbWebTestBase;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -40,13 +40,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
         @UnitTestData(
             sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_COMM_MEMBERSHIP_TYPE.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_MEMBERSHIP_ROLE.sql", delimiter = ";")
             }
         )
     )
-public abstract class CommitteeWebTestBase extends KraWebTestBase {
+public abstract class CommitteeWebTestBase extends IrbWebTestBase {
     
     protected static final String COMMITTEE_LINK_NAME = "committee.x";
     protected static final String SCHEDULE_LINK_NAME = "schedule.x";

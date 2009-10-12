@@ -32,12 +32,10 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.
  */
-@Transactional
 public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService {
 
     private static final String AMEND_ID = "A";
@@ -47,7 +45,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private static final String RENEW_NEXT_VALUE = "nextRenewValue";
     private static final String AMENDMENT = "Amendment";
     private static final String RENEWAL = "Renewal";
-    private static final String CREATED = "created";
+    private static final String CREATED = "Created";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String PROTOCOL_STATUS = "protocolStatus";
     
@@ -281,7 +279,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     private ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
-        protocolAction.setComments(AMENDMENT + " " + protocolNumber.substring(11) + " " + CREATED + ".");
+        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
     
@@ -293,7 +291,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     private ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
-        protocolAction.setComments(RENEWAL + " " + protocolNumber.substring(11) + " " + CREATED + ".");
+        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
     }
 
