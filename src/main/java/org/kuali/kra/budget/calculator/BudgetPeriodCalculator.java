@@ -259,10 +259,7 @@ public class BudgetPeriodCalculator {
         }
     }
     private BudgetDocument getBudgetDocument(Budget budget) {
-        // TODO Auto-generated method stub
-        //created as part of refactoring. need to implement
-        BudgetDocument budgetDocument = null;
-        return budgetDocument;
+        return budget.getBudgetDocument();
     }
 
     private BudgetDecimal calculateInflation(Budget budget, BudgetLineItem budgetLineItem, Date endDate) {
