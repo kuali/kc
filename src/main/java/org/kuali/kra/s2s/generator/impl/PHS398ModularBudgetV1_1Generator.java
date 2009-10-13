@@ -119,9 +119,9 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
                 }
             }
             modularBudget.setCummulativeBudgetInfo(getCummBudget());
-            modularBudgetDocument.setPHS398ModularBudget(modularBudget);
+//            modularBudgetDocument.setPHS398ModularBudget(modularBudget);
         }
-
+        modularBudgetDocument.setPHS398ModularBudget(modularBudget);
         return modularBudgetDocument;
     }
 
