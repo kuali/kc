@@ -34,7 +34,7 @@ public class MinimalAwardTest extends KraTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        award = new Award();
+        award = AwardFixtureFactory.createAwardFixture();
         docService = KraServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -47,6 +47,7 @@ public class MinimalAwardTest extends KraTestBase {
     @Test
     public void testSavingAward() throws Exception {
         awardDocument = (AwardDocument) docService.getNewDocument(AwardDocument.class);
+        awardDocument.getDocumentHeader().setDocumentDescription("A description");
         awardDocument.setAward(award);
         docService.saveDocument(awardDocument);
         
