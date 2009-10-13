@@ -336,6 +336,7 @@
 				Create an Awesome Development Proposal
 			</description>
 			<label>Proposal Development Document</label>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposaldevelopmentdocument.htm</helpDefinitionURL>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC:OSP Superuser</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC:OSP Superuser</blanketApproveWorkgroupName>
