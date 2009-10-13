@@ -114,7 +114,9 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         indirectCS = BudgetDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                if (RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassType())) {
+                budgetLineItemCalAmount.refreshReferenceObject("rateClass");
+                if (budgetLineItemCalAmount.getRateClass()!=null && 
+                            RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassType())) {
                     indirectCS = indirectCS.add(budgetLineItemCalAmount.getCalculatedCostSharing());
                 }
             }
