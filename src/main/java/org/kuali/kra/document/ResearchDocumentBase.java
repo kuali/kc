@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -38,6 +39,8 @@ import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -46,8 +49,9 @@ import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
-
     private static final long serialVersionUID = -1879382692835231633L;
+    private static final Logger LOG = Logger.getLogger(ResearchDocumentBase.class);
+
     private String updateUser;
     private Timestamp updateTimestamp;
     private List<DocumentNextvalue> documentNextvalues;
@@ -93,7 +97,21 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         super.processAfterRetrieve();
         populateCustomAttributes();
     }
-    
+
+    /**
+     * Override to provide more meaningful error message
+     * @param event
+     */
+    @Override
+    public void validateBusinessRules(KualiDocumentEvent event) {
+        try {
+            super.validateBusinessRules(event);
+        } catch(ValidationException e) {
+            LOG.error(String.format("ValidationException when validating event: %s. Check log entries preceding this error for details.", event.getName()));
+            throw e;
+        }
+    }
+
     protected void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
         BudgetService budgetService = this.getService(BudgetService.class);
         for (BudgetDocumentVersion budgetDocumentVersion: budgetVersionOverviews) {
