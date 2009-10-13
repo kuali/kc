@@ -96,7 +96,10 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
     
     public Budget getFinalBudget() {
         for (BudgetVersionOverview budgetVersionOverview: this.getBudgetVersionOverviews()) {
-            if (budgetVersionOverview.getBudgetStatus().equals("2") && budgetVersionOverview.isFinalVersionFlag()) {
+            
+            if (budgetVersionOverview!=null && budgetVersionOverview.getBudgetStatus()!=null && 
+                    budgetVersionOverview.getBudgetStatus().equals("2") && 
+                    budgetVersionOverview.isFinalVersionFlag()) {
                 BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
                 Map<String, Object> criteria = new HashMap<String, Object>();
                 criteria.put("budgetId", budgetVersionOverview.getBudgetId());
