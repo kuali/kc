@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -44,14 +42,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -612,8 +605,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 //        super.save(mapping, form, request, response);
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+            Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();
+//            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){
+            while (iter.hasNext()) {
+               String errorKey = (String) iter.next();
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(errorKey);
                 if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
                     grantsGovErrorExists = true;
                     break;
@@ -621,6 +617,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }
         if(grantsGovErrorExists || errorExists){
+//            ActionForward actionForward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
             proposalDevelopmentForm.setAuditActivated(true);
 //            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
