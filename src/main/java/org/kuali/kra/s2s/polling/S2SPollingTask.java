@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -315,15 +315,15 @@ public class S2SPollingTask {
             if (sendEmailFlag) {
                 Map<String, String> proposalMap = new HashMap<String, String>();
                 proposalMap.put(KEY_PROPOSAL_NUMBER, appSubmission.getProposalNumber());
-                ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) businessObjectService.findByPrimaryKey(
-                        ProposalDevelopmentDocument.class, proposalMap);
+                DevelopmentProposal developmentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
+                        DevelopmentProposal.class, proposalMap);
 
                 String dunsNum;
-                if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber() != null) {
-                    dunsNum = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber();
+                if (developmentProposal.getApplicantOrganization().getOrganization().getDunsNumber() != null) {
+                    dunsNum = developmentProposal.getApplicantOrganization().getOrganization().getDunsNumber();
                 }
                 else {
-                    dunsNum = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId();
+                    dunsNum = developmentProposal.getApplicantOrganization().getOrganizationId();
                 }
                 Vector<SubmissionData> mailGrpForDunNum = new Vector<SubmissionData>();
                 mailGrpForDunNum.add(localSubInfo);
