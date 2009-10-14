@@ -64,11 +64,9 @@ import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
-import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -99,13 +97,6 @@ public class PrintServiceImpl implements PrintService {
     private S2SValidatorService s2SValidatorService;
     private ArrayList<String> bookmarksList = null;
     private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
-    private static final String KEY_PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
-    private static final String KEY_SPONSOR_CODE = "SPONSOR_CODE";
-    private static final String KEY_PACKAGE_NUMBER = "PACKAGE_NUMBER";
-    private static final String KEY_PAGE_NUMBER = "PAGE_NUMBER";
-    private static final String KEY_PAGE_DATA = "PAGE_DATA";
-    private static final String KEY_PRINT_PROPOSAL = "PRINT_PROPOSAL";
-    private static final String KEY_PARAMETER = "parameter";
     private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
     private static final String PAGE_NUMBER_DB_KEY = "pageNumber";
 
@@ -424,6 +415,8 @@ public class PrintServiceImpl implements PrintService {
                             LOG.error(e.getMessage(), e);
                             throw new S2SException(e);
                         }
+                        if(!isPdfType(attStream.toByteArray())) 
+                            continue;
                         pdfBaosList.add(attStream);
                         StringBuilder attachment = new StringBuilder();
                         attachment.append("   ATT : ");
@@ -515,11 +508,11 @@ public class PrintServiceImpl implements PrintService {
                 List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
                 if (attachmentList != null && !attachmentList.isEmpty()) {
                     for (AttachmentData attachmentData : attachmentList) {
+                        if(!isPdfType(attachmentData.getContent())) continue;
                         ByteArrayOutputStream attStream = new ByteArrayOutputStream();
                         try {
                             attStream.write(attachmentData.getContent());
-                        }
-                        catch (IOException e) {
+                        }catch (IOException e) {
                             LOG.error(e.getMessage(), e);
                             throw new S2SException(e);
                         }
@@ -848,7 +841,59 @@ public class PrintServiceImpl implements PrintService {
             this.streamData = streamData;
         }
     }
+    private boolean isPdfType(byte[] data) {
+        final int ATTRIBUTE_CHUNK_SIZE = 1200;//increased for ppt
+        final String PRE_HEXA = "0x";
 
+        boolean retValue = false;
+        String str[] = {"25","50","44","46"};
+        byte byteCheckArr[] = new byte[4];
+        byte byteDataArr[] = new byte[4];
+        
+        for(int byteIndex = 0; byteIndex < byteCheckArr.length; byteIndex++){
+            byteCheckArr[byteIndex] = Integer.decode(PRE_HEXA + str[byteIndex]).byteValue();
+        }
+        
+        int startPoint, endPoint;
+        
+        startPoint = 0;
+        endPoint = (ATTRIBUTE_CHUNK_SIZE > (data.length/2)) ? data.length/2 : ATTRIBUTE_CHUNK_SIZE;
+        
+        for(int forwardIndex = startPoint; forwardIndex < endPoint - str.length; forwardIndex++){
+            if(forwardIndex == 0) {
+                //Fill All Data
+                for(int fillIndex = 0; fillIndex < str.length; fillIndex++){
+                    byteDataArr[fillIndex] =  toUnsignedByte(data[fillIndex]);
+                }
+            }else{
+                //Push Data, Fill last index
+                for(int fillIndex = 0; fillIndex < str.length - 1; fillIndex++){
+                    byteDataArr[fillIndex] =  byteDataArr[fillIndex + 1];
+                }
+                byteDataArr[str.length - 1] = toUnsignedByte(data[str.length - 1 + forwardIndex]);
+            }
+            
+            if(new String(byteCheckArr).equals(new String(byteDataArr))) {
+                retValue = true;
+            }
+        }
+        
+        return retValue;
+    }
+    /**
+     * convert int to unsigned byte
+     */
+    private  static byte toUnsignedByte(int intVal) {
+        byte byteVal;
+        if (intVal > 127) {
+            int temp = intVal - 256;
+            byteVal = (byte)temp;
+        } else {
+            byteVal = (byte)intVal;
+        }
+        return byteVal;
+    }
+    
     /**
      * Gets the s2SUtilService attribute. 
      * @return Returns the s2SUtilService.
