@@ -607,83 +607,103 @@ public class PrintServiceImpl implements PrintService {
         com.lowagie.text.Document document = null;
         PdfWriter writer = null;
         ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
-        byte fileBytes[];
-        int totalNumOfPages = 0;
-        PdfReader[] pdfReaderArr = new PdfReader[byteArrayOutputStream.length];
-        for (int count = 0; count < byteArrayOutputStream.length; count++) {
-            if (byteArrayOutputStream[count] == null) {
-                continue;
-            }
-            fileBytes = byteArrayOutputStream[count].toByteArray();
-            PdfReader reader;
-            try {
-                reader = new PdfReader(fileBytes);
-            }
-            catch (IOException e) {
-                LOG.error(e.getMessage(), e);
-                throw new S2SException(e);
-            }
-            pdfReaderArr[count] = reader;
-            totalNumOfPages += reader.getNumberOfPages();
-        }
-
-        StringBuilder footerPhStr = new StringBuilder();
-        footerPhStr.append(" of ");
-        footerPhStr.append(totalNumOfPages);
-        footerPhStr.append("                                                                            ");
-        footerPhStr.append("                                                                            ");
-        footerPhStr.append("                                                            ");
-        Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL, Color.BLACK);
-        Phrase beforePhrase = new Phrase("Page ", font);
-        Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
-        HeaderFooter footer = new HeaderFooter(beforePhrase, afterPhrase);
-        footer.setAlignment(Element.ALIGN_BASELINE);
-        footer.setBorderWidth(0f);
-        for (int count = 0; count < pdfReaderArr.length; count++) {
-            if (byteArrayOutputStream[count] == null) {
-                continue;
-            }
-            PdfReader reader = pdfReaderArr[count];
-            int nop = reader.getNumberOfPages();
-
-            if (count == 0) {
-                document = nop > 0 ? new com.lowagie.text.Document(reader.getPageSizeWithRotation(1))
-                        : new com.lowagie.text.Document();
-                try {
-                    writer = PdfWriter.getInstance(document, mergedPdfReport);
+        try{
+            byte fileBytes[];
+            int totalNumOfPages = 0;
+            PdfReader[] pdfReaderArr = new PdfReader[byteArrayOutputStream.length];
+            for (int count = 0; count < byteArrayOutputStream.length; count++) {
+                ByteArrayOutputStream selectedStreamArray = byteArrayOutputStream[count];
+                if (selectedStreamArray == null) {
+                    continue;
                 }
-                catch (DocumentException e) {
+                try{
+                    fileBytes = selectedStreamArray.toByteArray();
+                }finally{
+                    try {
+                        selectedStreamArray.flush();
+                        selectedStreamArray.close();
+                    }catch (IOException e) {
+                        LOG.warn(e);
+                    }
+                }
+                PdfReader reader;
+                try {
+                    reader = new PdfReader(fileBytes);
+                }
+                catch (IOException e) {
                     LOG.error(e.getMessage(), e);
                     throw new S2SException(e);
                 }
-                document.setFooter(footer);
-                document.open();
+                pdfReaderArr[count] = reader;
+                totalNumOfPages += reader.getNumberOfPages();
             }
-            PdfContentByte cb = writer.getDirectContent();
-            int pageCount = 0;
-            while (pageCount < nop) {
-                document.setPageSize(reader.getPageSize(++pageCount));
-                document.newPage();
-                document.setFooter(footer);
-                PdfImportedPage page = writer.getImportedPage(reader, pageCount);
-
-                cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
-
-                PdfOutline root = cb.getRootOutline();
-                if (pageCount == 1) {
-                    String pageName = bookmarks[count];
-                    cb.addOutline(new PdfOutline(root, new PdfDestination(PdfDestination.FITH), pageName), pageName);
+    
+            StringBuilder footerPhStr = new StringBuilder();
+            footerPhStr.append(" of ");
+            footerPhStr.append(totalNumOfPages);
+            footerPhStr.append("                                                                            ");
+            footerPhStr.append("                                                                            ");
+            footerPhStr.append("                                                            ");
+            Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL, Color.BLACK);
+            Phrase beforePhrase = new Phrase("Page ", font);
+            Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
+            HeaderFooter footer = new HeaderFooter(beforePhrase, afterPhrase);
+            footer.setAlignment(Element.ALIGN_BASELINE);
+            footer.setBorderWidth(0f);
+            for (int count = 0; count < pdfReaderArr.length; count++) {
+                if (byteArrayOutputStream[count] == null) {
+                    continue;
+                }
+                PdfReader reader = pdfReaderArr[count];
+                int nop = reader.getNumberOfPages();
+    
+                if (count == 0) {
+                    document = nop > 0 ? new com.lowagie.text.Document(reader.getPageSizeWithRotation(1))
+                            : new com.lowagie.text.Document();
+                    try {
+                        writer = PdfWriter.getInstance(document, mergedPdfReport);
+                    }
+                    catch (DocumentException e) {
+                        LOG.error(e.getMessage(), e);
+                        throw new S2SException(e);
+                    }
+                    document.setFooter(footer);
+                    document.open();
+                }
+                PdfContentByte cb = writer.getDirectContent();
+                int pageCount = 0;
+                while (pageCount < nop) {
+                    document.setPageSize(reader.getPageSize(++pageCount));
+                    document.newPage();
+                    document.setFooter(footer);
+                    PdfImportedPage page = writer.getImportedPage(reader, pageCount);
+    
+                    cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
+    
+                    PdfOutline root = cb.getRootOutline();
+                    if (pageCount == 1) {
+                        String pageName = bookmarks[count];
+                        cb.addOutline(new PdfOutline(root, new PdfDestination(PdfDestination.FITH), pageName), pageName);
+                    }
                 }
             }
-        }
-        if (document != null) {
-            try {
-                document.close();
-                return mergedPdfReport.toByteArray();
+            if (document != null) {
+                try {
+                    document.close();
+                    byte[] pdfByteArray = mergedPdfReport.toByteArray();
+                    return pdfByteArray;
+                }catch (Exception e) {
+                    LOG.error("Exception occured because the generated PDF document has no pages", e);
+                }
             }
-            catch (Exception e) {
-                // IO Exception occurs when PDF has no pages
-                LOG.error("Exception occured because the generated PDF document has no pages", e);
+        }finally{
+            try {
+                if(mergedPdfReport!=null){
+                    mergedPdfReport.flush();
+                    mergedPdfReport.close();
+                }
+            }catch (IOException e) {
+                LOG.warn(e);
             }
         }
         return null;
@@ -718,16 +738,23 @@ public class PrintServiceImpl implements PrintService {
      * @throws S2SException
      */
     private byte[] generatePdf(String stylesheet, XmlObject xmlObject) throws S2SException {
+        BufferedInputStream stylesheetStream = null;
         try {
-            BufferedInputStream stylesheetStream = new BufferedInputStream(getClass().getResourceAsStream("/" + stylesheet));
+            stylesheetStream = new BufferedInputStream(getClass().getResourceAsStream("/" + stylesheet));
             byte[] stylesheetBytes = new byte[stylesheetStream.available()];
             stylesheetStream.read(stylesheetBytes);
             Document xmlDoc = (Document) xmlObject.getDomNode();
             return generatePdfBytes(xmlDoc, stylesheetBytes);
-        }
-        catch (IOException e) {
+        }catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new S2SException("Not able to read template ");
+        }finally{
+            try {
+                if(stylesheetStream!=null)
+                    stylesheetStream.close();
+            }catch (IOException e) {
+                LOG.warn(e);
+            }
         }
     }
 
