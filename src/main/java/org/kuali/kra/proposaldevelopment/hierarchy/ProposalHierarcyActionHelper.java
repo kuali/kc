@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -32,6 +34,8 @@ import org.springframework.transaction.PlatformTransactionManager;
  * This class...
  */
 public class ProposalHierarcyActionHelper {
+    private static final Log LOG = LogFactory.getLog(ProposalHierarcyActionHelper.class);
+
     public static final String FIELD_GENERIC = "newHierarchyProposal.x";
     public static final String FIELD_PARENT_NUMBER = "newHierarchyProposalNumber";
     public static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposalNumber";
@@ -91,6 +95,7 @@ public class ProposalHierarcyActionHelper {
     }
 
     public void createHierarchy(DevelopmentProposal initialChildProposal) {
+        LOG.info(String.format("createHierarchy called with Proposal $s", initialChildProposal.getProposalNumber()));
         if (validateChildCandidate(initialChildProposal)) {
             try {
                 // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
@@ -103,6 +108,7 @@ public class ProposalHierarcyActionHelper {
                 doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
+        LOG.info(String.format("createHierarchy completed", initialChildProposal.getProposalNumber()));
     }
     
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
@@ -244,6 +250,7 @@ public class ProposalHierarcyActionHelper {
     }
     
     private void doUnexpectedError (Exception e, String field, boolean rollback) {
+        LOG.error(String.format("Unexpected error in Proposal Hierarchy handling: %s", e.toString()), e);
         if (rollback) {
             PlatformTransactionManager txMgr = KraServiceLocator.getService("transactionManager");
             txMgr.rollback(txMgr.getTransaction(null));
