@@ -21,8 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
-public class BudgetLineItem extends BudgetLineItemBase {
+public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable {
     
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
@@ -30,7 +31,10 @@ public class BudgetLineItem extends BudgetLineItemBase {
 	private List<BudgetRateAndBase> budgetRateAndBaseList;
     private Date oldStartDate;
     private Date oldEndDate;
-	
+
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
+
 	public BudgetLineItem(){
 	    super();
 	    budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
@@ -122,6 +126,71 @@ public class BudgetLineItem extends BudgetLineItemBase {
     }
     public void setOldEndDate(Date oldEndDate) {
         this.oldEndDate = oldEndDate;
+    }
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getBudgetPeriodId() == null) ? 0 : getBudgetPeriodId().hashCode());
+        result = prime * result + ((getLineItemNumber() == null) ? 0 : getLineItemNumber().hashCode());
+        return result;
+    }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BudgetLineItem other = (BudgetLineItem) obj;
+        if (getBudgetPeriodId() == null) {
+            if (other.getBudgetPeriodId() != null)
+                return false;
+        }
+        else if (!getBudgetPeriodId().equals(other.getBudgetPeriodId()))
+            return false;
+        if (getLineItemNumber() == null) {
+            if (other.getLineItemNumber() != null)
+                return false;
+        }
+        else if (!getLineItemNumber().equals(other.getLineItemNumber()))
+            return false;
+        return true;
     }
 
 }

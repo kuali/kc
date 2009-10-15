@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -39,67 +41,16 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     private List<ProposalPerson> proposalPersons;
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<Narrative> narratives;
+    private List<BudgetPerson> budgetPersons;
+    private List<BudgetLineItem> budgetLineItems;
     
-//    private Integer budgetVersionNumber;
-//    private Long budgetId;
-//    private BudgetDocument budgetDocument;
-//    private String comments;
-//    private BudgetDecimal costSharingAmount;
-//    private String budgetJustification;
-//    private Date endDate;
-//    private boolean finalVersionFlag;
-//    private Boolean modularBudgetFlag;
-//    private String ohRateClassCode;
-//    private String ohRateTypeCode;
-//    private BudgetDecimal residualFunds;
-//    private Date startDate;
-//    private BudgetDecimal totalCost;
-//    private BudgetDecimal totalCostLimit;
-//    private BudgetDecimal totalDirectCost;
-//    private BudgetDecimal totalIndirectCost;
-//    private BudgetDecimal underrecoveryAmount;
-//    private String urRateClassCode;
-//    private RateClass rateClass;
-//    private List<BudgetProposalRate> budgetProposalRates;
-//    private List<BudgetProposalLaRate> budgetProposalLaRates;
-//    private List<BudgetPeriod> budgetPeriods;
-//    private List<BudgetProjectIncome> budgetProjectIncomes;
-//    private List<BudgetCostShare> budgetCostShares;
-//    private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
-//    
-//    private String activityTypeCode="x";
-//    private boolean budgetLineItemDeleted;
-//
-//    private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
-//    private List<BudgetPerson> budgetPersons;
-//    
-//    private Date summaryPeriodStartDate;
-//    private Date summaryPeriodEndDate;    
-//        
-//    private SortedMap <CostElement, List<BudgetDecimal>> objectCodeTotals;
-//    private SortedMap <RateType, List<BudgetDecimal>> calculatedExpenseTotals;
-//        
-//    private SortedMap <RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals; 
-//    private SortedMap <RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals; 
-//    
-//    private List<KeyLabelPair> budgetCategoryTypeCodes;
-//    
-//    private SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType;   
-//    private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
-//    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals;
-//    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals;
-//    private SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals;
-//    
-//    private String budgetStatus;
-//    private String onOffCampusFlag;
-       
-
-
     public ProposalHierarchyChild() {
         propScienceKeywords = new ArrayList<PropScienceKeyword>();
         proposalPersons = new ArrayList<ProposalPerson>();
         propSpecialReviews = new ArrayList<ProposalSpecialReview>();
         narratives = new ArrayList<Narrative>();
+        budgetPersons = new ArrayList<BudgetPerson>();
+        budgetLineItems = new ArrayList<BudgetLineItem>();
     }
     
     /**
@@ -237,10 +188,47 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     }
 
 
+    /**
+     * Gets the budgetPersons attribute. 
+     * @return Returns the budgetPersons.
+     */
+    public List<BudgetPerson> getBudgetPersons() {
+        return budgetPersons;
+    }
+
+    /**
+     * Sets the budgetPersons attribute value.
+     * @param budgetPersons The budgetPersons to set.
+     */
+    public void setBudgetPersons(List<BudgetPerson> budgetPersons) {
+        this.budgetPersons = budgetPersons;
+    }
+
+    /**
+     * Gets the budgetLineItems attribute. 
+     * @return Returns the budgetLineItems.
+     */
+    public List<BudgetLineItem> getBudgetLineItems() {
+        return budgetLineItems;
+    }
+
+    /**
+     * Sets the budgetLineItems attribute value.
+     * @param budgetLineItems The budgetLineItems to set.
+     */
+    public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
+        this.budgetLineItems = budgetLineItems;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+        toStringMap.put("hierarchyProposalNumber", hierarchyProposalNumber);
+        toStringMap.put("proposalNumber", proposalNumber);
+        return toStringMap;
     }
 
 
@@ -255,6 +243,8 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
         managedList.add(getProposalPersons());
         managedList.add(getPropScienceKeywords());
         managedList.add(getPropSpecialReviews());
+        managedList.add(getBudgetPersons());
+        managedList.add(getBudgetLineItems());
         return managedList;
     }
 
