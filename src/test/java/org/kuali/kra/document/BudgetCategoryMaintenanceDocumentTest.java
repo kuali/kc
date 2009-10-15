@@ -110,7 +110,7 @@ public class BudgetCategoryMaintenanceDocumentTest extends MaintenanceDocumentTe
 
     @Test
     public void testCreateNewBudgetCategory() throws Exception {
-        HtmlPage budgetCategoryMaintenancePage = getMaintenanceDocumentPage("Budget Category","org.kuali.kra.proposaldevelopment.budget.bo.BudgetCategory","Kuali :: Budget Category Maintenance Document");
+        HtmlPage budgetCategoryMaintenancePage = getMaintenanceDocumentPage("Budget Category","org.kuali.kra.budget.core.BudgetCategory","Kuali :: Budget Category Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryMaintenancePage,"Edit Budget Category New * Budget Category Code: Category Type: * Description:");
         setFieldValue(budgetCategoryMaintenancePage, "document.documentHeader.documentDescription", "Budget Category - test");
