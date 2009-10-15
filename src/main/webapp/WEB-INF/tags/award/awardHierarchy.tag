@@ -31,7 +31,7 @@
 	<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
-		${fn:length(KualiForm.awardHierarchyNodes)}Nodes: 
+		${fn:length(KualiForm.awardHierarchyNodes)} Nodes: 
 		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
 		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
 		</span>
