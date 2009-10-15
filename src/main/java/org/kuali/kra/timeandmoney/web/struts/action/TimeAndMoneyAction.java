@@ -79,25 +79,34 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         forward = super.save(mapping, form, request, response);
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
+        
+        updateDocumentFromSession(timeAndMoneyDocument);
+        
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
             Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             AwardAmountInfo aai = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
-            
+            boolean addToList = false;
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
             
-            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null){
-                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());    
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null){                
+                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                addToList = true;
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null){
-                aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());    
+                aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                addToList = true;
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null){
-                aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());    
+                aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                addToList = true;
             }
-            awardAmountInfoObjects.add(aai);
+            if(addToList){
+                awardAmountInfoObjects.add(aai);                
+            }
         }
+        //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
+        getBusinessObjectService().save(timeAndMoneyDocument.getAward());
         getBusinessObjectService().save(awardAmountInfoObjects);
-        getBusinessObjectService().save(timeAndMoneyDocument.getAward());        
         
         return forward;
     }
