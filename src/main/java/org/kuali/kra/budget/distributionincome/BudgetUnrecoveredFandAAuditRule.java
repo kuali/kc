@@ -40,8 +40,11 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
 
     public boolean processRunAuditBusinessRules(Document document) {
         Budget budget = ((BudgetDocument)document).getBudget();
-        
-        getAuditErrors().clear();
+        if (getAuditErrorMap().containsKey(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)) {
+            List auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)).getAuditErrorList();
+            auditErrors.clear();
+        }
+//        getAuditErrors().clear();
         
         // Returns if unrecovered f and a is not applicable
         if (!budget.isUnrecoveredFandAApplicable()) {
