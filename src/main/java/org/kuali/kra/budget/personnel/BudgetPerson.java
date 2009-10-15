@@ -26,11 +26,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
  * BudgetPerson business object
  */
-public class BudgetPerson extends BudgetAssociate {
+public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable {
 	
     private static final long serialVersionUID = 1L;
     
@@ -50,6 +51,9 @@ public class BudgetPerson extends BudgetAssociate {
 	private Person person;
 	private Rolodex rolodex;
     private String role;
+
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -364,5 +368,78 @@ public class BudgetPerson extends BudgetAssociate {
     public void setJobCodeRef(JobCode jobCodeRef) {
         this.jobCodeRef = jobCodeRef;
     }
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getBudgetId() == null) ? 0 : getBudgetId().hashCode());
+        result = prime * result + ((personSequenceNumber == null) ? 0 : personSequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BudgetPerson other = (BudgetPerson) obj;
+        if (getBudgetId() == null) {
+            if (other.getBudgetId() != null)
+                return false;
+        }
+        else if (!getBudgetId().equals(other.getBudgetId()))
+            return false;
+        if (personSequenceNumber == null) {
+            if (other.personSequenceNumber != null)
+                return false;
+        }
+        else if (!personSequenceNumber.equals(other.personSequenceNumber))
+            return false;
+        return true;
+    }
+    
+    
     
 }

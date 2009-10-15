@@ -293,6 +293,8 @@
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
 	</class-descriptor>
 	
@@ -456,6 +458,8 @@
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
 	</class-descriptor>
 	
