@@ -54,6 +54,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -489,6 +490,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         list.clear();
         fixBudgetVersions(newDoc);
+        if (srcDoc.getDevelopmentProposal().isParent()) {
+            newDoc.getDevelopmentProposal().getChildren().clear();
+        }
+        newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
     }
 
     /**

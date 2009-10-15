@@ -2276,6 +2276,13 @@
 			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
 		</collection-descriptor>
 				
+		<collection-descriptor name="budgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.personnel.BudgetPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
