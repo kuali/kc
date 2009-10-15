@@ -115,7 +115,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
 
     @Test
     public void testCreateNewBudgetCategoryMapping() throws Exception {
-        HtmlPage budgetCategoryMappingMaintenancePage = getMaintenanceDocumentPage("Budget Category Mapping","org.kuali.kra.proposaldevelopment.budget.bo.BudgetCategoryMapping","Kuali :: Budget Category Mapping Maintenance Document");
+        HtmlPage budgetCategoryMappingMaintenancePage = getMaintenanceDocumentPage("Budget Category Mapping","org.kuali.kra.budget.core.BudgetCategoryMapping","Kuali :: Budget Category Mapping Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryMappingMaintenancePage,"Edit Budget Category Mapping New * Budget Category Code: * Mapping Name: * Target Category Code:");
 

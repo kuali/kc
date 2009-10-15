@@ -108,7 +108,7 @@ public class RateClassMaintenanceDocumentTest  extends MaintenanceDocumentTestBa
 
         @Test
         public void testCreateNewRateClass() throws Exception {
-            HtmlPage rateClassMaintenancePage = getMaintenanceDocumentPage("Rate Class","org.kuali.kra.proposaldevelopment.budget.bo.RateClass","Kuali :: Rate Class Maintenance Document");
+            HtmlPage rateClassMaintenancePage = getMaintenanceDocumentPage("Rate Class","org.kuali.kra.budget.rates.RateClass","Kuali :: Rate Class Maintenance Document");
             String documentNumber = getFieldValue(rateClassMaintenancePage, "document.documentHeader.documentNumber");
             assertContains(rateClassMaintenancePage,"Edit Rate Class New * Rate Class Code: * Rate Class Type: * Description: ");
             setFieldValue(rateClassMaintenancePage, "document.documentHeader.documentDescription", "Rate Class - test");

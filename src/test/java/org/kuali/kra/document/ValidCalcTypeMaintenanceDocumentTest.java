@@ -139,7 +139,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     @Test
     public void testCreateNewValidCalcTypeMaintenanceDocument() throws Exception {
         HtmlPage validCalcTypeMaintenancePage = getMaintenanceDocumentPage("Valid Calculation Type",
-                "org.kuali.kra.proposaldevelopment.budget.bo.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");
+                "org.kuali.kra.budget.calculator.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");
         String documentNumber = getFieldValue(validCalcTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(
                 validCalcTypeMaintenancePage,
