@@ -113,7 +113,7 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testCreateNewValidCeRateTypeMaintenanceDocument() throws Exception {
-        HtmlPage validCeRateTypeMaintenancePage = getMaintenanceDocumentPage("Valid Cost Element Rate Type","org.kuali.kra.proposaldevelopment.budget.bo.ValidCeRateType","Kuali :: Valid Cost Element Rate Types Maintenance Document");
+        HtmlPage validCeRateTypeMaintenancePage = getMaintenanceDocumentPage("Valid Cost Element Rate Type","org.kuali.kra.budget.rates.ValidCeRateType","Kuali :: Valid Cost Element Rate Types Maintenance Document");
         String documentNumber = getFieldValue(validCeRateTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(validCeRateTypeMaintenancePage,"Edit Valid Cost Element Rate Types New * Cost Element: * Rate Class Code: * Rate Type Code:");
         setFieldValue(validCeRateTypeMaintenancePage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - test");
