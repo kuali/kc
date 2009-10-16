@@ -38,6 +38,7 @@
 				<ref bean="CommitteeScheduleMinute-protocolIdFk" />
 				<ref bean="CommitteeScheduleMinute-submissionIdFk" />
 				<ref bean="CommitteeScheduleMinute-privateCommentFlag" />
+				<ref bean="CommitteeScheduleMinute-finalFlag" />
 				<ref bean="CommitteeScheduleMinute-protocolContingencyCode" />
 				<ref bean="CommitteeScheduleMinute-minuteEntry" />
 				<ref bean="CommitteeScheduleMinute-versionNumber" />
@@ -115,14 +116,10 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.meeting.MinuteEntryType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false" 
-            	p:includeBlankRow="false"
-            	p:keyAttribute="minuteEntryTypeCode"
-            	p:labelAttribute="description" 
-                p:script="updateProtocolContingencyDiv(this)" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.meeting.MinuteEntryTypeValuesFinder"
+            p:includeKeyInLabel="false" 
+            p:script="updateProtocolContingencyDiv(this)" />
     	</property>
 		<property name="summary" value="Minute Entry Type Code" />
 		<property name="description" value="Minute Entry Type Code" />
@@ -173,6 +170,16 @@
 		<property name="shortLabel" value="Private" />
 		<property name="summary" value="Private Comment Flag" />
 		<property name="description" value="Private Comment Flag" />
+	</bean>
+
+	<bean id="CommitteeScheduleMinute-finalFlag" parent="CommitteeScheduleMinute-finalFlag-parentBean" />
+	<bean id="CommitteeScheduleMinute-finalFlag-parentBean"
+		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="finalFlag" />
+		<property name="label" value="Final" />
+		<property name="shortLabel" value="Final" />
+		<property name="summary" value="Final Flag" />
+		<property name="description" value="Final Flag" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-protocolContingencyCode"
@@ -238,6 +245,7 @@
 							<bean parent="FieldDefinition" p:attributeName="protocolIdFk" />
 							<bean parent="FieldDefinition" p:attributeName="submissionIdFk" />
 							<bean parent="FieldDefinition" p:attributeName="privateCommentFlag" />
+							<bean parent="FieldDefinition" p:attributeName="finalFlag" />
 							<bean parent="FieldDefinition" p:attributeName="protocolContingencyCode" />
 							<bean parent="FieldDefinition" p:attributeName="minuteEntry" />
 						</list>
@@ -268,6 +276,7 @@
 				<bean parent="FieldDefinition" p:attributeName="protocolIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="submissionIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="privateCommentFlag" />
+				<bean parent="FieldDefinition" p:attributeName="finalFlag" />
 				<bean parent="FieldDefinition" p:attributeName="protocolContingencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="minuteEntry" />
 			</list>
@@ -282,6 +291,7 @@
 				<bean parent="FieldDefinition" p:attributeName="protocolIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="submissionIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="privateCommentFlag" />
+				<bean parent="FieldDefinition" p:attributeName="finalFlag" />
 				<bean parent="FieldDefinition" p:attributeName="protocolContingencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="minuteEntry" />
 			</list>
