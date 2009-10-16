@@ -13,45 +13,52 @@
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.irb.actions.submit.ProtocolSubmission" altText="help"/> </span>
     </h3>
     
-        <table id="protocolSubmitted-table" cellpadding=0 cellspacing=0 class="datatable" summary="Protocol Submitted">
+        <table id="protocolSubmitted-wrap-table" cellpadding=0 cellspacing=0 class="datatable" summary="Protocol Submitted">
         
         	<%-- Header --%>
-<thead>
+
         	<tr>
-        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-                 <th><div align="center">Protocol No<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">PI<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Protocol Title<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Submission Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Sub. Type Qualifier<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Sub. Review Type<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Submission Status<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th><div align="center">Submission Date<img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+        		<th width="4%" />
+                 <th width="8%"><div align="center">Protocol No</div></th> 
+                 <th width="12%"><div align="center">PI</div></th> 
+                 <th width="16%"><div align="center">Protocol Title</div></th> 
+                 <th width="16%"><div align="center">Submission Type</div></th> 
+                 <th width="12%"><div align="center">Sub. Type Qualifier </div></th> 
+                 <th width="9%"><div align="center">Sub. Review Type </div></th> 
+                 <th width="12%"><div align="center">Submission Status</div></th> 
+                 <th width="6%"><div align="center">Submission Date</div></th> 
 				<c:if test="${!readOnly}">
-					<th class="{sorter: false}">Actions </th>
+					<th class="{sorter: false}" width="5%">Actions </th>
 				</c:if>
 			</tr>
-</thead>			<%-- Header --%>
-		  <%--    <tr>
-        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.protocolNumber}" scope="col" />
-        		<kul:htmlAttributeHeaderCell literalLabel="PI" scope="col" />
-        		<kul:htmlAttributeHeaderCell literalLabel="Protocol Title" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.submissionTypeCode}" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.submissionTypeQualifierCode}" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.protocolReviewTypeCode}" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.submissionStatusCode}" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolSubmissionAttributes.submissionDate}" scope="col" />
+			<%-- Header --%>
+
+             <tr>
+                	<td colspan="10" style="padding:0px;">
+                        
+                        <div>
+                            <table id="protocolSubmitted-table" cellpadding=0 cellspacing="0"  style="border-collapse:collapse;">
+
+<thead>		      <tr>
+        		<th width="4%" />
+                 <th width="8%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="9%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                 <th width="6%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
 				<c:if test="${!readOnly}">
-					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+					<th class="{sorter: false}" width="5%"> </th>
 				</c:if>
 			</tr>
-	--%>		
+</thead>			
 <tbody>			
 			<%-- Existing data --%>
         	<c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
 	             <tr>
-					<th class="infoline">
+					<th class="infoline" align="center">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
@@ -95,16 +102,29 @@
 
                    <c:if test="${!readOnly}">
 						<td>
-							<div align=center>&nbsp;					
+						<%--	<div align=center>&nbsp;					
 								<html:image property="methodToCall.viewProtocolSubmission.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"/>
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+										alt="View Protocol"  /> --%>
+                       <%-- if viewprotocol is using a popupwindow      
+                       onclick="viewProtocolPop('true', ${status.index}, ${currentTabIndex});return false"/>   --%>      
+
+<%-- view protocol popup alternatives --%>
+<a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
+    <img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
+
 							</div>
 		                </td>
 		            </c:if>
 	            </tr>
         	</c:forEach>
 			<%-- Existing data --%>
-</tbody>			        				
+</tbody>		
+  </table>
+  </div>
+  </td>
+  </tr>
+	        				
         </table>
 </div>
 
