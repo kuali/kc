@@ -45,7 +45,11 @@ public class ProtocolValuesFinder extends KeyValuesBase {
     private List<ProtocolSubmission> getProtocols() {
         Map fieldValues = new HashMap();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ProtocolSubmission>)KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolSubmission.class, fieldValues);
+        return (List<ProtocolSubmission>)getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
+    }
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     public String getScheduleId() {

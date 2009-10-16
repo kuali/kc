@@ -58,7 +58,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private String protocolContingencyCode; 
 
     @Column(name="PROTOCOL_ID_FK")
-    private Integer protocolIdFk; 
+    private Long protocolIdFk; 
 
  
     @Column(name="SUBMISSION_ID_FK")
@@ -67,6 +67,10 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @Type(type="yes_no")
     @Column(name="PRIVATE_COMMENT_FLAG")
     private boolean privateCommentFlag; 
+    
+    @Type(type="yes_no")
+    @Column(name="FINAL_FLAG")
+    private boolean finalFlag; 
 
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_CONTINGENCY_CODE", insertable=false, updatable=false)
@@ -84,6 +88,9 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     // TODO : not sure how this protocols yet.
     @SkipVersioning
     private List<Protocol> protocols;
+
+    @SkipVersioning
+    private Protocol protocol;
 
     // Transient field 
     @Transient
@@ -117,11 +124,11 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         this.minuteEntryTypeCode = minuteEntryTypeCode;
     }
 
-    public Integer getProtocolIdFk() {
+    public Long getProtocolIdFk() {
         return protocolIdFk;
     }
 
-    public void setProtocolIdFk(Integer protocolIdFk) {
+    public void setProtocolIdFk(Long protocolIdFk) {
         this.protocolIdFk = protocolIdFk;
     }
 
@@ -169,6 +176,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
         hashMap.put("submissionIdFk", this.getSubmissionIdFk());
         hashMap.put("privateCommentFlag", this.getPrivateCommentFlag());
+        hashMap.put("finalFlag", this.isFinalFlag());
         hashMap.put("protocolContingencyCode", this.getProtocolContingencyCode());
         hashMap.put("minuteEntry", this.getMinuteEntry());
         return hashMap;
@@ -212,6 +220,22 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setGenerateAttendance(boolean generateAttendance) {
         this.generateAttendance = generateAttendance;
+    }
+
+    public boolean isFinalFlag() {
+        return finalFlag;
+    }
+
+    public void setFinalFlag(boolean finalFlag) {
+        this.finalFlag = finalFlag;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 
 
