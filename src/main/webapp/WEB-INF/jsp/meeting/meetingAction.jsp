@@ -87,7 +87,7 @@ var kualiElements = kualiForm.elements;
             
       <kra-meeting:meetingAgenda />
     
-      <kra-meeting:meetingMinutes />
+      <kra-meeting:meetingActionMinutes />
       <kra-meeting:meetingCorrespondence />
           
           
