@@ -92,7 +92,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private static final long serialVersionUID = 1461551957662921433L;
 
     private static final CharSequence AMENDMENT_LETTER = "A";
-    private static final CharSequence RENEWAL_LETTER = "B";
+    private static final CharSequence RENEWAL_LETTER = "R";
     
     private Long protocolId; 
     private String protocolNumber; 
