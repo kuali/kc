@@ -243,13 +243,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Max Protocols" />
 		<property name="shortLabel" value="Max Protocols" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="4" />
 		</property>
 		<property name="summary" value="Max Protocols" />
 		<property name="description" value="Max Protocols" />
