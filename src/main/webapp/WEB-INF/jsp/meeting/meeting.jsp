@@ -60,29 +60,6 @@
 <script language="JavaScript" type="text/javascript"
 				src="/kra-dev/dwr/interface/MeetingService.js"></script>
 
-<SCRIPT type="text/javascript">
-var kualiForm = document.forms['KualiForm'];
-var kualiElements = kualiForm.elements;
-function showHideDiv(minuteEntryTypeCode) {
-	if (minuteEntryTypeCode.value == '3') {
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'block'; 
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
-	} else {	
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'none';
-	} 
-	if (minuteEntryTypeCode.value == '2') {
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'block'; 
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'block'; 
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none'; 
-	} else {	
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none';
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
-		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
-	} 
-			
-}
-</SCRIPT> 
-
 </head>
 	<body onload="if ( !restoreScrollPosition() ) {  }"
 			onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
@@ -195,6 +172,84 @@ function showHideDiv(minuteEntryTypeCode) {
 </body>
 
 <SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+function showHideDiv(minuteEntryTypeCode) {
+	if (minuteEntryTypeCode.value == '3') {
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+	} else {	
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'none';
+	} 
+	if (minuteEntryTypeCode.value == '2') {
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'block'; 
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none'; 
+	} else {	
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none';
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
+		document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+	} 
+			
+}
+
+function generateAttendance(genAtt, noMember, noOther) {
+    var comment="";
+    if (genAtt.checked) {
+	    for (var i = 0; i < noMember; i++) {
+		   // alert(i);
+		    if (comment != "") {
+			    comment = comment +"\n";
+		    }    
+	    	comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value 
+	    	//alert(document.getElementById('alternatePerson['+i+']'))
+	    	if (document.getElementById('alternatePerson['+i+']')) {
+	    		comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value
+	    	} 
+	    }
+	    for (var i = 0; i < noOther; i++) {
+			   // alert(i);
+			    if (comment != "") {
+				    comment = comment +"\n";
+			    }    
+		    	comment = comment + document.getElementById('meetingHelper.otherPresentBeans['+i+'].attendance.personName').value  + " Guest";
+		    }
+
+	    document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntry').value = comment;
+	}
+	//alert(genAtt.checked+"-"+noMember+"-"+noOther+"-"+comment)	
+}
+
+
+/*
+ * if 'view' protocol need a popo window
+ */
+function viewProtocolPop(sessionDocument, line, currentTabIndex) {
+
+	//alert("1")
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+    //alert("2")
+    
+    // TODO : some of the request parameter are not needed; clean it up
+	protocolWindow = window.open(extractUrlBase() +  
+			"/meetingManagement.do?methodToCall=viewProtocolSubmission&methodToCallAttribute=methodToCall.viewProtocolSubmission.line"+line +".anchor"+currentTabIndex
+			+"&line="+line 
+			+ "&currentTabIndex="+currentTabIndex
+			+"&documentWebScope="+documentWebScope,
+    	                               "protocolFundingSourceWindow", 
+    	                               "width=1200, height=1000, scrollbars=yes, resizable=yes"); 
+   // alert("3")  
+}
+
+</SCRIPT> 
+
+
+
+<SCRIPT type="text/javascript">
 
 $(document).ready(function()     {
 	$("#protocolSubmitted-table").tablesorter({         
@@ -215,7 +270,7 @@ $(document).ready(function()     {
 //      }); 
     
 } ); 
-showHideDiv(document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode'));
+//showHideDiv(document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode'));
 
 </SCRIPT> 
 

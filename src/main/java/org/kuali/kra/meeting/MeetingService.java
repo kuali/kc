@@ -18,26 +18,35 @@ package org.kuali.kra.meeting;
 import java.sql.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionForm;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface MeetingService {
     
     
+
     /**
      * 
-     * This method is to load schedule meeting data to form when meeting page is loaded initially.
-     * @param form
-     * @param request
+     * This method is to get the last agenda generation date.
+     * @param scheduleId
+     * @return
      */
-    public void populateFormHelper(ActionForm form, HttpServletRequest request);
-
     public Date getAgendaGenerationDate(Long scheduleId);
-    public void initAttendance(CommitteeSchedule commSchedule);
 
+    /**
+     * 
+     * This method is to save the changed meeting data properly.
+     * @param committeeSchedule
+     * @param deletedBos
+     */
     public void SaveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
+
+    
+    /**
+     * 
+     * This method is for dwr/ajax to fetch protocol contingency description when user enter protocol contingency code.
+     * @param protocolContingencyCode
+     * @return
+     */
     public String getStandardReviewComment(String protocolContingencyCode);
 }

@@ -17,29 +17,40 @@ package org.kuali.kra.meeting;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.web.CommitteeScheduleWebTestBase;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-//@PerSuiteUnitTestData(
-//@UnitTestData(
-//  sqlFiles = {
-//          @UnitTestFile(filename = "classpath:sql/dml/load_MINUTE_ENTRY_TYPE.sql", delimiter = ";"),
-//          @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";"),
-//          @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";")
-//  }
-//)
-//)
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_CONTINGENCY.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_MINUTE_ENTRY_TYPE.sql", delimiter = ";") }))
+/**
+ * 
+ * This class is for meeting web page test.
+ */
 public class MeetingWebTest extends CommitteeScheduleWebTestBase {
+    // need to create committee and protocol, so CommitteeWebTestBase and ProtocolWebTestBase are needed
+    // modified CommitteeWebTestBase to extend ProtocolWebTestBase
 
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeHelper.scheduleData.recurrenceType";
@@ -53,91 +64,53 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
     private static final String ROLODEX_ID_FIELD = "rolodexId";
     private static final String EMPLOYEE_ID = "000000002";
     private static final String EMPLOYEE_ID_3 = "000000003";
-    private static final String EMPLOYEE_NAME = "Philip Berg";
     private static final String NON_EMPLOYEE_ID = "1727";
-    private static final String NON_EMPLOYEE_NAME = "Pauline Ho";
     private static final String ADD_MEMBER_BUTTON = "methodToCall.addCommitteeMembership";
-    private static final String CLEAR_BUTTON = "methodToCall.clearCommitteeMembership";
     
    // private static final String ADD_ROLE_BUTTON = "methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[0].line0";
     private static final String ADD_ROLE_BUTTON = "methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[";
 
-    private HtmlPage membersPage;
+    //private HtmlPage membersPage;
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private String scheduleDate;
+    private String committeeId;
+    private List<String> protocolNumbers;
 
-    /**
-     * The set up method calls the parent super method and gets the 
-     * committee page after saving initial required fields.
-     * Then navigate to committee members page
-     * @see org.kuali.kra.irb.web.CommitteeWebTestBase#setUp()
-     */
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        this.membersPage = getMembersPage();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        //this.membersPage = getMembersPage();
+        protocolNumbers = new ArrayList<String>();
         //Date scheduleDate = new Date(dateFormat.parse("10/12/2009").getTime());
         
     }
 
-    /**
-     * This method calls parent tear down method and than sets membersPage to null
-     * @see org.kuali.kra.irb.web.CommitteeWebTestBase#tearDown()
-     */
+
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        this.membersPage = null;
+        //this.membersPage = null;
     }
-
-//    /**
-//     * This method is to test add an employee
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testAddEmployee() throws Exception {
-//        membersPage = getEmployee(membersPage);
-//        assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
-//        membersPage = addMember(membersPage);
-//        assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-//    }
     
-//    /**
-//     * This method is to test add an non-employee
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testAddNonEmployee() throws Exception {
-//        membersPage = getNonEmployee(membersPage);
-//        assertTrue(membersPage.asText().contains(NON_EMPLOYEE_NAME));
-//        membersPage = addMember(membersPage);
-//        assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-//    }
-//    
-//    /**
-//     * This method is to test clear option.
-//     * Select an employee and clear selected employee to search for a new person.
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testClearEmployee() throws Exception {
-//        membersPage = getEmployee(membersPage);
-//        assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
-//        membersPage = clickOn(getElementByName(membersPage, CLEAR_BUTTON, true));
-//        assertFalse(membersPage.asText().contains(EMPLOYEE_NAME));
-//    }
+    protected String getLoginUserName() {
+        // need quickstart for committee & protocol
+        return "quickstart";
+    }
     
     /**
-     * This method is to test the saving of a committee member.
-     * Select an employee, add required data, and save document
+     * This method is to test the Meeting Page.
+     * Need to set up a committee with members & schedules
+     * Also set up protocol submission that submit to this committee
      * @throws Exception
      */
     @Test
     public void testMeetingPage() throws Exception {
-        
-        getMemberPage();                
+ 
+        HtmlPage membersPage = getMemberPage();              
         String docNbr = this.getDocNbr(membersPage);
         membersPage = docSearch(docNbr);
+        committeeId = StringUtils.substringBetween(membersPage.asText(),"* Committee ID: ", " * Committee Name: ");
         membersPage = clickMembersHyperlink(membersPage);
         
         // set up schedule page
@@ -152,19 +125,29 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertFalse(hasError(schedulePage));
         assertContains(schedulePage, "Document was successfully submitted.");
         
+        // set up 3 protocol submitted
+        setProtocolSubmission();
+        setProtocolSubmission();
+        setProtocolSubmission();
+        
         HtmlPage meetingPage = clickOn(schedulePage, "methodToCall.maintainSchedule.line0.anchor0");
         assertFalse(hasError(meetingPage));
         assertMeeting(meetingPage);
-
+        
         meetingPage = testMeetingDetails(meetingPage);
         meetingPage = testOtherAction(meetingPage);
         meetingPage = testMinutes(meetingPage);
         meetingPage = testAttendancesMember(meetingPage);
         meetingPage = testAttendancesOther(meetingPage);
+        assertProtocolSubmitted(meetingPage);
     }
 
     
-    private void getMemberPage() throws Exception {
+    /*
+     * set up committee members
+     */
+    private HtmlPage getMemberPage() throws Exception {
+        HtmlPage membersPage = getMembersPage();
         membersPage = getEmployee(membersPage);
         // add Philip Berg
         membersPage = addMember(membersPage);
@@ -198,9 +181,15 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         membersPage = clickOn(membersPage, "save");
         assertFalse(hasError(membersPage));
         assertContains(membersPage, "Document was successfully saved.");
+        return membersPage;
 
     }
     
+    
+    
+    /*
+     * validate data on meeting details
+     */
     private void assertMeeting(HtmlPage page)  throws Exception {
         assertTrue(page.asText().contains("Committee Test #1 Meeting "+scheduleDate));
         assertTrue(page.asText().contains("Place: Davis 103"));
@@ -214,6 +203,32 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(page.asText().contains("Minutes Minutes * Entry Type Protocol Description Standard Review Comment Generate Attendance Private Final Actions "));
     }
     
+    /*
+     * validate protocol submitted panel
+     */
+    private void  assertProtocolSubmitted(HtmlPage page)  throws Exception {
+        // TODO : click view button
+        assertTrue(page.asText().contains(protocolNumbers.get(0) +" Terry Durkin New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
+        assertTrue(page.asText().contains(protocolNumbers.get(1) +" Terry Durkin New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
+        assertTrue(page.asText().contains(protocolNumbers.get(2) +" Terry Durkin New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
+        String viewProtocolNumber = StringUtils.substringBetween(page.asText(), "Submission Date Actions 1 ", " Terry Durkin New protocol test Initial Protocol ");
+       // HtmlPage protocolActionPage = clickOnByName(page, "methodToCall.viewProtocolSubmission.line0", true);
+        HtmlAnchor hyperlink = getAnchor(page, "meetingManagement.do?command=viewProtocolSubmission&line=0");
+        assertNotNull(hyperlink);
+        HtmlPage protocolActionPage = clickOn(hyperlink);
+        
+        assertFalse(hasError(protocolActionPage));
+        assertTrue(protocolActionPage.asText().contains("Submitted to IRB "+dateFormat.format(new Date())));
+        assertTrue(protocolActionPage.asText().contains("Protocol Number: "+viewProtocolNumber));
+        assertTrue(protocolActionPage.asText().contains("PI: Terry Durkin Status: Submitted to IRB Title: New protocol test"));
+        assertTrue(protocolActionPage.asText().contains("Status: ENROUTE Initiator: quickstart"));
+        assertTrue(protocolActionPage.asText().contains("Terry Durkin Principal Investigator BL-BL : BLOOMINGTON "));
+
+    }
+    
+    /*
+     * set up weekly schedule for this committee
+     */
     private HtmlPage getWeeklySchedule(HtmlPage page) throws Exception {
         
         HtmlPage schedulePage =  page; 
@@ -241,14 +256,94 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         return pageAfterAdd;
     }
 
+    /*
+     * create protocol submission which will be submitted to the committee/schedule just created
+     */
+    private void setProtocolSubmission() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPageForMeeting();
+        protocolNumbers.add(StringUtils.substringBetween(protocolPage.asText(), "Protocol #: ", " Protocol Status:"));
+        // js is not working well, when committeeid is selected, the schedule is is not generated by dwr/ajax, so
+        // set js disabled, and use refresh button to get schedule list.
+        webClient.setJavaScriptEnabled(false);
+
+        HtmlPage protocolActionsPage = clickOnTab(protocolPage, PROTOCOL_ACTIONS_LINK_NAME);
+
+        // TODO: do I need to expand the inner panel first?
+        
+        // Make a selection in the Submission Type box and the Submission Review Type box
+        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.submissionTypeCode", "100");
+        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.protocolReviewTypeCode", "1");
+  
+        // temp test check
+        HtmlElement element = getElement(protocolActionsPage, "actionHelper.protocolSubmitAction.committeeId");
+        HtmlSelect selectField = (HtmlSelect) element;
+        List options = selectField.getOptions();
+        HtmlOption option = (HtmlOption)options.get(options.size() - 1);
+        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.committeeId", committeeId);
+        
+        protocolActionsPage = clickOnByName(protocolActionsPage, "methodToCall.refreshPage", true);
+        element = getElement(protocolActionsPage, "actionHelper.protocolSubmitAction.scheduleId");
+        selectField = (HtmlSelect) element;
+        options = selectField.getOptions();
+        option = (HtmlOption)options.get(options.size() - 1);
+     //   int optionSize = selectField.getOptionSize();
+        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.scheduleId", option.getAttributeValue("value"));
+
+        // Click Submit
+        HtmlPage resultPage = clickOn(protocolActionsPage, "methodToCall.submitForReview.anchor:SubmitforReview");
+        
+        // Verify that no errors occurred
+        assertNotNull(resultPage);
+        assertFalse(hasError(resultPage));
+        assertDoesNotContain(resultPage, "Submit For Review");
+        webClient.setJavaScriptEnabled(true);
+    }
+        
+    /*
+     * create protocol with required fields.  
+     */
+    protected HtmlPage getProtocolSavedRequiredFieldsPageForMeeting() throws Exception {
+    // need several protocol in the same test.  The original method only create one, so change it here
+        HtmlPage protocolPage = buildProtocolDocumentPage();
+        setProtocolRequiredFields(protocolPage);
+        protocolPage = savePage(protocolPage);
+        validateSavedPage(protocolPage);
+        return protocolPage;
+    }
+
+    /*
+     * validate meeting details
+     */
     private HtmlPage testMeetingDetails(HtmlPage page) throws Exception {
         
         setFieldValue(page, "meetingHelper.committeeSchedule.meetingDate", scheduleDate);
-        setFieldValue(page, "meetingHelper.committeeSchedule.viewStartTime.time", "01:05");
+        setFieldValue(page, "meetingHelper.committeeSchedule.viewStartTime.time", "01:65");
         setFieldValue(page, "meetingHelper.committeeSchedule.viewStartTime.meridiem", "PM");
         setFieldValue(page, "meetingHelper.committeeSchedule.viewEndTime.time", "03:10");
         setFieldValue(page, "meetingHelper.committeeSchedule.viewEndTime.meridiem", "PM");
-        HtmlPage pageAfterSave = clickOn(page, "save");
+        HtmlPage pageAfterSave = clickOn(page, "save");   
+        // minute > 60
+        assertTrue(hasError(pageAfterSave));
+        assertTrue(pageAfterSave.asText().contains("1 error(s) found")); 
+
+        
+        setFieldValue(pageAfterSave, "meetingHelper.committeeSchedule.viewStartTime.time", "13:05");
+        pageAfterSave = clickOn(pageAfterSave, "save");   
+        // hour > 12
+        assertTrue(hasError(pageAfterSave));
+        assertTrue(pageAfterSave.asText().contains("1 error(s) found")); 
+        
+        setFieldValue(pageAfterSave, "meetingHelper.committeeSchedule.viewEndTime.meridiem", "AM");
+        setFieldValue(pageAfterSave, "meetingHelper.committeeSchedule.viewStartTime.time", "01:05");
+        pageAfterSave = clickOn(pageAfterSave, "save");   
+        // start time > end time
+        assertTrue(hasError(pageAfterSave));
+        assertTrue(pageAfterSave.asText().contains("1 error(s) found")); 
+  
+        
+        
+        setFieldValue(pageAfterSave, "meetingHelper.committeeSchedule.viewEndTime.meridiem", "PM");
+        pageAfterSave = clickOn(pageAfterSave, "save");
         
         assertFalse(hasError(pageAfterSave));
         assertTrue(pageAfterSave.asText().contains("Meeting Date: "+scheduleDate));
@@ -257,11 +352,22 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         return pageAfterSave;
     }
 
+    /*
+     * validate other action panel page
+     */
     private HtmlPage testOtherAction(HtmlPage page) throws Exception {
         
-        setFieldValue(page, "meetingHelper.newOtherAction.scheduleActItemTypeCode", "1");
-        setFieldValue(page, "meetingHelper.newOtherAction.itemDesctiption", "Other Action description 1");
         HtmlPage pageAfterAdd = clickOnByName(page,"methodToCall.addOtherAction.anchor", true);
+        assertTrue(hasError(pageAfterAdd));
+        assertTrue(pageAfterAdd.asText().contains("2 error(s) found")); 
+
+        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.scheduleActItemTypeCode", "1");
+        pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addOtherAction.anchor", true);
+        assertTrue(hasError(pageAfterAdd));
+        assertTrue(pageAfterAdd.asText().contains("1 error(s) found")); 
+        
+        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDesctiption", "Other Action description 1");
+        pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addOtherAction.anchor", true);
         assertFalse(hasError(pageAfterAdd));
         setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.scheduleActItemTypeCode", "2");
         setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDesctiption", "Other Action description 2");
@@ -285,11 +391,18 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         return pageAfterSave;
     }
     
+    /*
+     * validate minutes panel
+     */
     private HtmlPage testMinutes(HtmlPage page) throws Exception {
         // TODO : need to add 'protocol, protocol contingency lookup & generate attendance
-        setFieldValue(page, "meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode", "1");
-        setFieldValue(page, "meetingHelper.newCommitteeScheduleMinute.minuteEntry", "Minutes description 1");
         HtmlPage pageAfterAdd = clickOnByName(page,"methodToCall.addCommitteeScheduleMinute", true);
+        assertTrue(hasError(pageAfterAdd));
+        assertTrue(pageAfterAdd.asText().contains("1 error(s) found")); 
+        
+        setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode", "1");
+        setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.minuteEntry", "Minutes description 1");
+        pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addCommitteeScheduleMinute", true);
         assertFalse(hasError(pageAfterAdd));
         setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode", "2");
         setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.minuteEntry", "Minutes description 2");
@@ -310,9 +423,30 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertFalse(pageAfterSave.asText().contains("1 General Comments Minutes description 1"));
         assertTrue(pageAfterSave.asText().contains("1 Attendance Minutes description 2"));
 
+        setFieldValue(pageAfterSave, "meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode", "3");
+        setFieldValue(pageAfterSave, "meetingHelper.newCommitteeScheduleMinute.minuteEntry", "Minutes description 1");
+        pageAfterAdd = clickOnByName(pageAfterSave,"methodToCall.addCommitteeScheduleMinute", true);
+        assertTrue(hasError(pageAfterAdd));
+        assertTrue(pageAfterAdd.asText().contains("1 error(s) found")); 
+        // TODO : how to figure out schedule id
+        HtmlElement element = getElement(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.protocolIdFk");
+        HtmlSelect selectField = (HtmlSelect) element;
+        List options = selectField.getOptions();
+        HtmlOption option = (HtmlOption)options.get(1);
+
+        setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.protocolIdFk", option.getAttributeValue("value"));
+        pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addCommitteeScheduleMinute", true);
+        assertFalse(hasError(pageAfterAdd));
+        pageAfterSave = clickOn(pageAfterAdd, "save");
+        assertFalse(hasError(pageAfterSave));
+
+        
         return pageAfterSave;
     }
     
+    /*
+     * validate attendance member tabs
+     */
     private HtmlPage testAttendancesMember(HtmlPage page) throws Exception {
 
         HtmlPage pageAfterAdd = clickOnByName(page,"methodToCall.presentVoting.line0", true);
@@ -338,6 +472,9 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         return pageAfterSave;
     }
 
+    /*
+     * validate other present tab
+     */
     private HtmlPage testAttendancesOther(HtmlPage page) throws Exception {
 
         HtmlPage pageAfterLookup = lookup(page , PERSON_LOOKUP, PERSON_ID_FIELD, EMPLOYEE_ID_3);;
@@ -362,6 +499,9 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         return pageAfterSave;
     }
 
+    /*
+     * utility methods to validate attendance data
+     */
     private void assertAttendancePanel (HtmlPage page, int memberPresent, int otherPresent, int memberAbsent) throws Exception {
         assertFalse(hasError(page));
         assertTrue(page.asText().contains("Attendance Attendance Voting Members Present: "+memberPresent));
@@ -421,7 +561,6 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
      * @throws Exception
      */
     private HtmlPage addMemberExpertise(HtmlPage membersPage, String researchAreaCode, int memberIndex) throws Exception {
-        //return multiLookup(membersPage, "committeeResearchAreas", "researchAreaCode", researchAreaCode);
         return multiLookup(membersPage, "memberIndex"+memberIndex, "researchAreaCode", researchAreaCode);
     }
 }
