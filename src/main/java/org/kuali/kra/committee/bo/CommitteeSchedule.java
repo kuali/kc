@@ -171,9 +171,9 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
 	    if (viewTime != null) {
-            dt = new java.util.Date(0);
+            dt = new java.util.Date(0); // 12/31/1969 19:00:00
             dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
-	        dt = new java.util.Date(viewTime.findMinutes() * 60 * 1000); // to set it to 1970-01-01
+	        dt = DateUtils.addMinutes(dt, viewTime.findMinutes()); // to set it to 1970-01-01
             //dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
             //dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
 	        this.time = new Timestamp(dt.getTime());
