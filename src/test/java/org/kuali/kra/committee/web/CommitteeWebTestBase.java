@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.irb.web.IrbWebTestBase;
+import org.kuali.kra.irb.web.ProtocolWebTestBase;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -45,10 +45,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
             }
         )
     )
-public abstract class CommitteeWebTestBase extends IrbWebTestBase {
+public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
+//public abstract class CommitteeWebTestBase extends IrbWebTestBase {
     
     protected static final String COMMITTEE_LINK_NAME = "committee.x";
-    protected static final String SCHEDULE_LINK_NAME = "schedule.x";
+    protected static final String SCHEDULE_LINK_NAME = "committeeSchedule.x";
     protected static final String MEMBERS_LINK_NAME = "committeeMembership.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
@@ -327,7 +328,10 @@ public abstract class CommitteeWebTestBase extends IrbWebTestBase {
      * @return String - containing the next available committee ID
      */
     protected String getNextCommitteeID() {
-        nextCommitteeId++;
-        return nextCommitteeId.toString();
+    // TODO : this will cause duplicate committeeID if more than 2 test classes call this.
+    // use timestamp for now.  Can use oracle sequence number too ?
+        //nextCommitteeId++;
+        return (new Long(new java.util.Date().getTime())).toString();
+        //return nextCommitteeId.toString();
     }
 }
