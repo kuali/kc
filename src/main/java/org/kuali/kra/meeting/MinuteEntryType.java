@@ -22,7 +22,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.questionnaire.question.Question;
 
 /**
  * 
@@ -30,7 +32,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @Entity 
 @Table(name="MINUTE_ENTRY_TYPE")
-public class MinuteEntryType extends KraPersistableBusinessObjectBase { 
+public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> { 
     
 
     private static final long serialVersionUID = 3106451618464691958L;
@@ -79,6 +81,10 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase {
         hashMap.put("sortId", this.getSortId());
         hashMap.put("description", this.getDescription());
         return hashMap;
+    }
+
+    public int compareTo(MinuteEntryType arg) {
+        return this.getSortId().compareTo(arg.getSortId());
     }
     
 }

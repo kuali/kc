@@ -5,7 +5,26 @@
 <c:set var="attributeReferenceDummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="scheduleId" value="${KualiForm.meetingHelper.committeeSchedule.id}" />
+<c:set var="showdiv" value="display :block"/>
+<c:set var="hidediv" value="display :none"/>
 
+<c:choose>
+   <c:when test="${empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode or KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '3'}">
+      <c:set var="pcHeaderDivStyle" value="display :block"/>
+      <c:set var="genAttHeaderDivStyle" value="display :none"/>
+      <c:set var="pcDivStyle" value="display :block"/>
+      <c:set var="genAttDivStyle" value="display :none"/>
+   </c:when>
+   <c:otherwise>
+      <c:set var="pcHeaderDivStyle" value="display :none"/>
+      <c:set var="pcDivStyle" value="display :none"/>
+      <c:set var="genAttHeaderDivStyle" value="display :block"/>
+      <c:set var="genAttDivStyle" value="display :block"/>
+   </c:otherwise>
+</c:choose>
+<c:if test="${empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode}">
+      <c:set var="pcDivStyle" value="display :none"/>
+</c:if>
 <kul:tab defaultOpen="false" tabTitle="Minutes"
     tabErrorKey="meetingHelper.newCommitteeScheduleMinute.*">
 
@@ -23,11 +42,12 @@
         		<kul:htmlAttributeHeaderCell literalLabel="Protocol" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" scope="col" />
                  <th>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv">Standard Review Comment</div>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv">Generate Attendance</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Standard Review Comment</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv" style="${genAttHeaderDivStyle}">Generate Attendance</div>
                  </th> 
 				<%--<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.protocolContingencyCode}" scope="col" /> --%>
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" scope="col" />
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -90,18 +110,27 @@
 	               </div>	
 	            </td>
 	            <td align="left" valign="middle" class="infoline" width="20%">
-	               	<div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcDiv">
+	               	<div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcDiv"  style="${pcDivStyle}">
 	               		<kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode" attributeEntry="${committeeScheduleMinuteAttributes.protocolContingencyCode}" onblur="loadStandardReviewComment('meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode', 'meetingHelper.newCommitteeScheduleMinute.minuteEntry');"  />
                         <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
                                     fieldConversions="protocolContingencyCode:meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode,description:meetingHelper.newCommitteeScheduleMinute.minuteEntry" />
                    	 </div>
-	               	<div align="center" id = "meetingHelper.newCommitteeScheduleMinute.genAttDiv">
-	               		<kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.generateAttendance" attributeEntry="${attributeReferenceDummyAttributes.genericBoolean}" readOnly="false" />
+	               	<div align="center" id = "meetingHelper.newCommitteeScheduleMinute.genAttDiv" style="${genAttDivStyle}">
+	               		<kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.generateAttendance" attributeEntry="${attributeReferenceDummyAttributes.genericBoolean}" 
+	               		   onclick="generateAttendance(this, ${fn:length(KualiForm.meetingHelper.memberPresentBeans)}, ${fn:length(KualiForm.meetingHelper.otherPresentBeans)});" />
                    	 </div>
+                     <noscript>
+                         <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
+                     </noscript>
 				</td>
 	            <td align="left" valign="middle" class="infoline" width="20%">
 	               	<div align="center">
 	               		<kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" readOnly="false" />
+	            	</div>
+				</td>
+	            <td align="left" valign="middle" class="infoline" width="20%">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	</div>
 				</td>
 	
@@ -122,10 +151,14 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntryTypeCode" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" readOnly="false" />
+	                    ${committeeScheduleMinute.minuteEntryType.description}
+	               		<%-- <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntryTypeCode" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" readOnly="false" /> --%>
 					</td>
 	                <td align="left" valign="middle">
-	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].protocolIdFk" attributeEntry="${committeeScheduleMinuteAttributes.protocolIdFk}" readOnly="false" />
+	                    <c:if test="${!empty committeeScheduleMinute.protocolIdFk}" >
+	                        ${committeeScheduleMinute.protocol.protocolNumber}
+	                    </c:if>
+	               		<%--<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].protocolIdFk" attributeEntry="${committeeScheduleMinuteAttributes.protocolIdFk}" readOnly="false" />--%>
 					</td>
 	                <td align="left" valign="middle" colspan="2">
 	               		  <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" readOnly="false" />
@@ -134,6 +167,11 @@
 	            <td align="left" valign="middle" class="infoline" width="20%">
 	               	<div align="center">
 	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" readOnly="false" />
+	            	</div>
+				</td>
+	            <td align="left" valign="middle" class="infoline" width="20%">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	</div>
 				</td>
                    <c:if test="${!readOnly}">
