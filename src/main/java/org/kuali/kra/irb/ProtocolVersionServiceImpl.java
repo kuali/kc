@@ -20,7 +20,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -65,6 +67,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         ProtocolDocument newProtocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
       
+        copyCustomDataAttributeValues(protocolDocument, newProtocolDocument);
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
@@ -81,6 +84,27 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         return newProtocolDocument;
     }
     
+    /**
+     * The Custom Data Attribute values are stored in the document.  Unfortunately, the
+     * Versioning Service doesn't version documents, only BOs.  Thus, after the versioning
+     * is complete, this method will copy the custom data attribute values over to the
+     * new document.
+     * @param protocolDocument
+     * @param newProtocolDocument
+     */
+    private void copyCustomDataAttributeValues(ProtocolDocument protocolDocument, ProtocolDocument newProtocolDocument) {
+        newProtocolDocument.initialize();
+        if (protocolDocument.getCustomAttributeDocuments().isEmpty()) {
+            protocolDocument.initialize();
+        }
+        for (Entry<String, CustomAttributeDocument> entry : newProtocolDocument.getCustomAttributeDocuments().entrySet()) {
+            CustomAttributeDocument cad = protocolDocument.getCustomAttributeDocuments().get(entry.getKey());
+            if (cad != null) {
+                entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
+            }
+        }
+    }
+
     /**
      * The Versioning Service increments all of the sequence numbers.  
      * This is incorrect for Protocol Actions.  The original sequence
