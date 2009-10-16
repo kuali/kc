@@ -566,7 +566,10 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage selectedPage = (HtmlPage) selectAllBtn.click();
         setCheckboxes(selectedPage);
 
-        HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.x", null, null);
+        HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;false;::).x", null, null);
+        if (returnAllBtn == null) {
+            returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;true;::).x", null, null);            
+        }
         HtmlPage returnPage = (HtmlPage) returnAllBtn.click();
 
         return returnPage;
@@ -910,7 +913,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return true if there is an error; otherwise false
      */
     protected final boolean hasError(HtmlPage page) {
-        return page.asText().contains("error(s) found on page") || page.asText().contains("Errors Found in Document");
+        return page.asText().contains("error(s) found on page") || page.asText().contains("Errors Found in Document")
+        || page.asText().contains("Kuali :: Incident Report");
     }
 
     /**
