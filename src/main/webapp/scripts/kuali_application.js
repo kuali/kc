@@ -2132,7 +2132,8 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 
 	//alert(protocolContingencyCodeFieldName+"-"+document.getElementById(protocolContingencyCodeFieldName).value);
 	if (protocolContingencyCode=='') {
-		clearRecipients( protocolContingencyDescriptionFieldName, "" );
+		//clearRecipients( protocolContingencyDescriptionFieldName, "" );
+		document.getElementById(protocolContingencyDescriptionFieldName).value="";
 	} else {
 		var dwrReply = {
 			callback:function(data) {
@@ -2145,7 +2146,7 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 				} else {
 					if ( protocolContingencyDescriptionFieldName != null && protocolContingencyDescriptionFieldName != "" ) {
 						//setRecipientValue(  protocolContingencyDescriptionFieldName, wrapError( "not found" ), true );
-						document.getElementById(protocolContingencyDescriptionFieldName).value="not found";
+						document.getElementById(protocolContingencyDescriptionFieldName).value=protocolContingencyCode + " Not found";
 					}
 				}
 			},
