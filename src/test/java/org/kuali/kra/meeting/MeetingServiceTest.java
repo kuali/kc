@@ -44,46 +44,6 @@ public class MeetingServiceTest {
     private Mockery context = new JUnit4Mockery();
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
-    @Test 
-    public void testPopulateFormData() throws Exception {
-        MeetingServiceImpl meetingService = new MeetingServiceImpl();
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        final HttpServletRequest request = context.mock(HttpServletRequest.class);
-        MeetingForm form = new MeetingForm();
-        MeetingHelper meetingHelper = new MeetingHelper(form);
-        context.checking(new Expectations() {{
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("id", "1");
-            one(businessObjectService).findByPrimaryKey(CommitteeSchedule.class, fieldValues);
-            will(returnValue(getCommitteeSchedule()));
-            fieldValues= new HashMap<String, Object>();
-            fieldValues.put("scheduleIdFk", 1L);
-            one(businessObjectService).findMatchingOrderBy(
-                    ScheduleAgenda.class, fieldValues, "createTimestamp", false);
-            will(returnValue(getAgendas()));
-            one(request).getParameter("scheduleId");
-            will(returnValue("1"));
-            one(request).getParameter("lineNum");
-            will(returnValue("2"));
-
-            
-        }});
-        meetingService.setBusinessObjectService(businessObjectService);
-        meetingService.populateFormHelper(form, request);
-        CommitteeSchedule committeeSchedule = form.getMeetingHelper().getCommitteeSchedule();
-        Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeId(), "test");
-        Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeName(), "committeeName");
-        Assert.assertEquals(committeeSchedule.getPlace(), "iu - poplar");
-        Assert.assertEquals(committeeSchedule.getScheduledDate(), new Date(dateFormat.parse("10/01/2009").getTime()));
-        Assert.assertEquals(committeeSchedule.getMaxProtocols(), new Integer(5));
-        Assert.assertEquals(committeeSchedule.getId(), new Long(1));
-        Assert.assertEquals(committeeSchedule.getTime(), new Timestamp(committeeSchedule.getScheduledDate().getTime()));
-        Assert.assertEquals(committeeSchedule.getScheduleStatusCode(), new Integer(1));
-        Assert.assertEquals(form.getMeetingHelper().getAgendaGenerationDate(), new Date(dateFormat.parse("10/02/2009").getTime()));
-        Assert.assertEquals(form.getMeetingHelper().getTabLabel(), "committeeName #2 Meeting 10/01/2009");
-        // TODO : need to set up protocolsubmission/otheractions/attendances/minutes for more testing
-    
-    }
 
     private CommitteeSchedule getCommitteeSchedule()  throws Exception {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
@@ -107,6 +67,28 @@ public class MeetingServiceTest {
     private List<ScheduleAgenda> getAgendas() throws Exception {
         List<ScheduleAgenda> scheduleAgendas = new ArrayList<ScheduleAgenda>();
         ScheduleAgenda scheduleAgenda = new ScheduleAgenda();
+        scheduleAgenda.setScheduleIdFk(1L);
+        scheduleAgenda.setAgendaNumber(3);
+        scheduleAgenda.setAgendaName("test");
+        scheduleAgenda.setScheduleAgendaId(3L);
+        
+        scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/08/2009").getTime()).getTime()));
+        scheduleAgendas.add(scheduleAgenda);
+        scheduleAgenda = new ScheduleAgenda();
+        scheduleAgenda.setScheduleIdFk(1L);
+        scheduleAgenda.setAgendaNumber(2);
+        scheduleAgenda.setAgendaName("test");
+        scheduleAgenda.setScheduleAgendaId(2L);
+        
+        scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/05/2009").getTime()).getTime()));
+        scheduleAgendas.add(scheduleAgenda);
+        scheduleAgenda = new ScheduleAgenda();
+        scheduleAgenda.setScheduleIdFk(1L);
+        scheduleAgenda.setAgendaNumber(1);
+        scheduleAgenda.setAgendaName("test");
+        scheduleAgenda.setScheduleAgendaId(1L);
+        
+
         scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/02/2009").getTime()).getTime()));
         scheduleAgendas.add(scheduleAgenda);
         return scheduleAgendas;
@@ -143,6 +125,67 @@ public class MeetingServiceTest {
         Assert.assertEquals(committeeSchedule.getScheduleStatusCode(), new Integer(1));
         // TODO : need to set up protocolsubmission/otheractions/attendances/minutes for more testing
         // to check whetehr it is really persisted in DB ok or assume the mock 'save' and 'delete' are ok ?
+    
+    }
+
+    @Test 
+    public void testgetStandardReviewComment() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        final ProtocolContingency protocolContingency = new ProtocolContingency();
+        protocolContingency.setProtocolContingencyCode("1");
+        protocolContingency.setDescription("Protocol Contingency comment #1");
+        context.checking(new Expectations() {{
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put("protocolContingencyCode", "1");
+            one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+            will(returnValue(protocolContingency));
+            
+        }});
+        meetingService.setBusinessObjectService(businessObjectService);
+        String description = meetingService.getStandardReviewComment("1");
+        Assert.assertEquals(description, "Protocol Contingency comment #1");
+        context.checking(new Expectations() {{
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put("protocolContingencyCode", "2");
+            one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+            will(returnValue(null));
+            
+        }});
+        description = meetingService.getStandardReviewComment("2");
+        Assert.assertTrue(description == null);
+
+    
+    }
+
+    @Test 
+    public void getAgendaGenerationDate() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        final List<ScheduleAgenda> agendas = getAgendas();
+        context.checking(new Expectations() {{
+            Map queryMap = new HashMap();
+            queryMap.put("scheduleIdFk", 1L);
+            one(businessObjectService).findMatchingOrderBy(
+                    ScheduleAgenda.class, queryMap, "createTimestamp", false);;
+            will(returnValue(agendas));
+            
+        }});
+        meetingService.setBusinessObjectService(businessObjectService);
+        Date agendaGenerationDate = meetingService.getAgendaGenerationDate(1L);
+        Assert.assertEquals(agendaGenerationDate, new Date(dateFormat.parse("10/08/2009").getTime()));
+        final List<ScheduleAgenda> agenda1s = new ArrayList<ScheduleAgenda>(); 
+        context.checking(new Expectations() {{
+            Map queryMap = new HashMap();
+            queryMap.put("scheduleIdFk", 2L);
+            one(businessObjectService).findMatchingOrderBy(
+                    ScheduleAgenda.class, queryMap, "createTimestamp", false);;
+            will(returnValue(agenda1s));
+            
+        }});
+        agendaGenerationDate = meetingService.getAgendaGenerationDate(2L);
+        Assert.assertTrue(agendaGenerationDate == null);
+
     
     }
 

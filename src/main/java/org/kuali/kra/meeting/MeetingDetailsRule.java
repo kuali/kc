@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.meeting;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class MeetingDetailsRule {
     public static final String MSG1 = "hh:mm";
@@ -33,12 +37,20 @@ public class MeetingDetailsRule {
     public static final String MSG4 = "mm as 0-59";
 
     public static final String COLON = ":";
+    public static final String ALTERNATE_ENTRY_TYPE = "3";
 
     public static final String ID1 = "meetingHelper.committeeSchedule.viewTime.time";
     public static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
     public static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
+    public static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
     private ErrorReporter errorReporter;
 
+    /**
+     * 
+     * This method is to validate time/start time/end time to make sure format is ok and als end time >= start time
+     * @param committeeSchedule
+     * @return
+     */
     public boolean validateMeetingDetails(CommitteeSchedule committeeSchedule) {
 
         boolean rulePassed = true;
@@ -55,7 +67,13 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
-    public boolean validateNewOther(MeetingHelper meetingHelper, OtherPresentBean otherPresentBean) {
+    /**
+     * 
+     * This method that new person/rolodex is selected, and the selected is not in member present or alternate for.
+     * @param meetingHelper
+     * @return
+     */
+    public boolean validateNewOther(MeetingHelper meetingHelper) {
 
         boolean rulePassed = true;
         errorReporter = new ErrorReporter();
@@ -65,8 +83,9 @@ public class MeetingDetailsRule {
         }
         else {
             for (MemberPresentBean memberPresentBean : meetingHelper.getMemberPresentBeans()) {
-                if (isMemberPresent(memberPresentBean, otherPresentBean)) {
-                    errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_ADD_MEMBER_PRESENT, otherPresentBean.getAttendance().getPersonName());
+                if (isMemberPresent(memberPresentBean, meetingHelper.getNewOtherPresentBean())) {
+                    errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_ADD_MEMBER_PRESENT, meetingHelper.getNewOtherPresentBean()
+                            .getAttendance().getPersonName());
                     rulePassed = false;
                 }
 
@@ -75,13 +94,21 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
+    /**
+     * 
+     * This method is to validate that the member absent is not an alternate for
+     * @param memberPresentBeans
+     * @param memberAbsentBean
+     * @return
+     */
     public boolean validateNotAlternateFor(List<MemberPresentBean> memberPresentBeans, MemberAbsentBean memberAbsentBean) {
 
         boolean rulePassed = true;
         errorReporter = new ErrorReporter();
         for (MemberPresentBean memberPresentBean : memberPresentBeans) {
             if (isAlternateFor(memberPresentBean, memberAbsentBean)) {
-                errorReporter.reportError("meetingHelper.memberAbsentBean.attendance.personId", KeyConstants.ERROR_PRESENT_MEMBER_ABSENT, memberAbsentBean.getAttendance().getPersonName());
+                errorReporter.reportError("meetingHelper.memberAbsentBean.attendance.personId",
+                        KeyConstants.ERROR_PRESENT_MEMBER_ABSENT, memberAbsentBean.getAttendance().getPersonName());
                 rulePassed = false;
             }
 
@@ -90,6 +117,12 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
+    /**
+     * 
+     * This method is to validate that same person is only selected in one alternate for
+     * @param memberPresentBeans
+     * @return
+     */
     public boolean validateDuplicateAlternateFor(List<MemberPresentBean> memberPresentBeans) {
 
         boolean rulePassed = true;
@@ -99,8 +132,10 @@ public class MeetingDetailsRule {
             if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())) {
                 int j = 0;
                 for (MemberPresentBean memberPresentBean1 : memberPresentBeans) {
-                    if (j > i && StringUtils.isNotBlank(memberPresentBean1.getAttendance().getAlternateFor())
-                            && memberPresentBean.getAttendance().getAlternateFor().equals(memberPresentBean1.getAttendance().getAlternateFor())) {
+                    if (j > i
+                            && StringUtils.isNotBlank(memberPresentBean1.getAttendance().getAlternateFor())
+                            && memberPresentBean.getAttendance().getAlternateFor().equals(
+                                    memberPresentBean1.getAttendance().getAlternateFor())) {
                         errorReporter.reportError("meetingHelper.memberPresentBeans[" + i + "].attendance.alternateFor",
                                 KeyConstants.ERROR_DUPLICATE_ALTERNATE_FOR);
                         rulePassed = false;
@@ -114,30 +149,53 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
+    /**
+     * 
+     * This method is to validate new committee schedule minute. Make sure entry type of 'protocol' selection is ok.
+     * if entry type is Protocol then 'protocol' is selected. and if protocol contingency code is entered, then
+     * verify this code does exist.
+     * @param committeeScheduleMinute
+     * @return
+     */
     public boolean validateProtocolInMinute(CommitteeScheduleMinute committeeScheduleMinute) {
 
         boolean rulePassed = true;
         errorReporter = new ErrorReporter();
         if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && committeeScheduleMinute.getMinuteEntryTypeCode().equals("3")
-                && committeeScheduleMinute.getProtocolIdFk() == null) {
-            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
-            rulePassed = false;
-        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals("3")
+                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(ALTERNATE_ENTRY_TYPE)) {
+            if (committeeScheduleMinute.getProtocolIdFk() == null) {
+                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
+                rulePassed = false;
+            }
+            if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
+                Map fieldValues = new HashMap();
+                fieldValues.put("protocolContingencyCode", committeeScheduleMinute.getProtocolContingencyCode());
+                if (KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProtocolContingency.class,
+                        fieldValues) == null) {
+                    errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
+                    rulePassed = false;
+                }
+            }
+        }
+        else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(ALTERNATE_ENTRY_TYPE)
                 && committeeScheduleMinute.getProtocolIdFk() != null) {
             errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
             rulePassed = false;
-            
+
         }
         return rulePassed;
     }
 
+    /*
+     * check if the member in absent panel is selected as alternate for already
+     */
     private boolean isAlternateFor(MemberPresentBean memberPresentBean, MemberAbsentBean memberAbsentBean) {
         boolean isPresent = false;
 
-        if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor()) && StringUtils.isNotBlank(memberAbsentBean.getAttendance().getPersonId())
-        // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
+        if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
+                && StringUtils.isNotBlank(memberAbsentBean.getAttendance().getPersonId())
+                // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
                 // and we can't rule out personid=rolodexid
                 && memberPresentBean.getAttendance().getAlternateFor().equals(memberAbsentBean.getAttendance().getPersonId())) {
             isPresent = true;
@@ -145,6 +203,9 @@ public class MeetingDetailsRule {
         return isPresent;
     }
 
+    /*
+     * check if the selected person for 'other present' is a member.
+     */
     private boolean isMemberPresent(MemberPresentBean memberPresentBean, OtherPresentBean otherPresentBean) {
         boolean isPresent = false;
         if (memberPresentBean.getAttendance().getNonEmployeeFlag() && otherPresentBean.getAttendance().getNonEmployeeFlag()
@@ -162,13 +223,17 @@ public class MeetingDetailsRule {
                 && memberPresentBean.getAttendance().getAlternateFor().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
         }
-//        else if (StringUtils.isNotBlank(memberPresentBean.getAlternateFor()) && StringUtils.isBlank(otherPresentBean.getPersonId())
-//                && memberPresentBean.getAlternateFor().equals(otherPresentBean.getRolodexId().toString())) {
-//            isPresent = true;
-//        }
+        // else if (StringUtils.isNotBlank(memberPresentBean.getAlternateFor()) &&
+        // StringUtils.isBlank(otherPresentBean.getPersonId())
+        // && memberPresentBean.getAlternateFor().equals(otherPresentBean.getRolodexId().toString())) {
+        // isPresent = true;
+        // }
         return isPresent;
     }
 
+    /*
+     * check 'time' format
+     */
     private boolean processTime(String time, String id) {
         String prefix = "";
         if (id.contains("viewStartTime")) {
@@ -214,6 +279,9 @@ public class MeetingDetailsRule {
         return rulePassed;
     }
 
+    /*
+     * check end time >= start time
+     */
     private boolean checkStartTimeBeforeEndTime(Time12HrFmt startTime, Time12HrFmt endTime) {
 
         boolean rulePassed = true;

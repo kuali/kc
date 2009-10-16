@@ -229,8 +229,10 @@
 							 <input src="${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif"  class="tinybutton" 
                 					alt="maintain selected" title="Maintain Selected" type="image" />
                 					--%>
+                			<c:if test="${KualiForm.workflowDocument.routeHeader.docRouteStatus == 'F'}" >
  								<html:image property="methodToCall.maintainSchedule.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif' styleClass="tinybutton"/>
+							</c:if>			
   
 						</div>
 	                </td>	                
