@@ -83,6 +83,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	} 
 	
     public void initialize() {
+        super.initialize();
     }
 
     
