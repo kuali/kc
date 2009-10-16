@@ -49,7 +49,12 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
         }
         super.tearDown();
     }
-    
+ 
+    protected String getLoginUserName() {
+        // need this because ProtocolWebTestBase.setup is creating protocol doc, and 'quickstart' has permission
+        return "quickstart";
+    }
+
     /**
      * @throws Exception
      */
