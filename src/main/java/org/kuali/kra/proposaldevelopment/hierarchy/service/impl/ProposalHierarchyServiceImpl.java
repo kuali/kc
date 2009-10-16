@@ -190,14 +190,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         setInitialPi(hierarchy, initialChild);
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
-        // persist the document again
-        try {
-            documentService.saveDocument(newDoc);
-        }
-        catch (WorkflowException x) {
-            throw new ProposalHierarchyException("Error saving new document: " + x);
-        }
-        
+        businessObjectService.save(hierarchy);
         businessObjectService.save(initialChild);
         
         // return the parent id
