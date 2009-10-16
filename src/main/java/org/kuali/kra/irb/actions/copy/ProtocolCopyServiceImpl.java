@@ -18,13 +18,14 @@ package org.kuali.kra.irb.actions.copy;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
@@ -159,6 +160,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         copyAdditionalProperties(srcDoc, newDoc);
         copyProtocolLists(srcDoc, newDoc);
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
+        copyCustomDataAttributeValues(srcDoc, newDoc);
         
         org.kuali.kra.irb.actions.ProtocolAction protocolAction = 
               new org.kuali.kra.irb.actions.ProtocolAction(newDoc.getProtocol(), null, ProtocolActionType.PROTOCOL_CREATED);
@@ -275,5 +277,18 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
             return ObjectUtils.deepCopy((Serializable) obj);
         }
         return obj;
+    }
+    
+    /**
+     * Copy the custom attribute values to the new protocol document.
+     * @param srcProtocolDocument
+     * @param destProtocolDocument
+     */
+    private void copyCustomDataAttributeValues(ProtocolDocument srcProtocolDocument, ProtocolDocument destProtocolDocument) {
+        destProtocolDocument.initialize();
+        for (Entry<String, CustomAttributeDocument> entry : destProtocolDocument.getCustomAttributeDocuments().entrySet()) {
+            CustomAttributeDocument cad = srcProtocolDocument.getCustomAttributeDocuments().get(entry.getKey());
+            entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
+        }
     }
 }
