@@ -246,20 +246,24 @@
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="INTEGER" />
 		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="minuteEntry" column="MINUTE_ENTRY" jdbc-type="VARCHAR" />
+		<field-descriptor name="finalFlag" column="FINAL_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.meeting.ProtocolContingency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.meeting.ProtocolContingency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolContingencyCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.kra.meeting.MinuteEntryType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.kra.meeting.MinuteEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="minuteEntryTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
 		

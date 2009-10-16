@@ -595,6 +595,7 @@ public final class KeyConstants {
     public static final String ERROR_EMPTY_PERSON = "error.empty.person";
     public static final String ERROR_DUPLICATE_ALTERNATE_FOR = "error.duplicate.alternateFor";
     public static final String ERROR_EMPTY_PROTOCOL = "error.empty.protocol";
+    public static final String ERROR_EMPTY_PROTOCOL_CONTINGENCY = "error.empty.protocol.contingency";
     public static final String ERROR_NON_EMPTY_PROTOCOL = "error.non.empty.protocol";
 
     
