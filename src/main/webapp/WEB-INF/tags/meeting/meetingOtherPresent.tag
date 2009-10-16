@@ -75,9 +75,10 @@
 					</th>
 	                <td align="left" valign="middle"  width="20%">
 	                    <div align="left"> ${otherPresentBean.attendance.personName} </div>
+	                    <input type="hidden" name="meetingHelper.otherPresentBeans[${status.index}].attendance.personName" id="meetingHelper.otherPresentBeans[${status.index}].attendance.personName"  value="${otherPresentBean.attendance.personName}"/>
 					</td>
 	                <td align="left" valign="middle" width="20%">
-	                    <div align="left"> ${otherPresentBean.role.description} </div>
+	                    <div align="left"> ${otherPresentBean.attendance.roleName} </div>
 					</td>
 	                <td align="left" valign="middle" width="40%">
 	               	<div align="left">
