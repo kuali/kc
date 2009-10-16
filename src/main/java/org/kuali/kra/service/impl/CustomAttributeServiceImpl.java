@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -50,12 +52,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode, String documentNumber) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
 
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
-        // still display the inactive in old doc
-        //queryMap.put(RicePropertyConstants.ACTIVE, "Y");
-
-        List<CustomAttributeDocument> customAttributeDocumentList = (List<CustomAttributeDocument>)getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+        List<CustomAttributeDocument> customAttributeDocumentList = getCustomAttributeDocuments(documentTypeCode);
 
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -80,6 +77,67 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
     }
     
+    /**
+     * Get the Custom Attribute Documents from the database.  Must make a copy of
+     * the BOs.  The current custom attribute software stores the value in the
+     * CustomAttribute BO.  Unfortunately, the BO instance is common to all of 
+     * documents that use that custom attribute.  In other words, suppose two documents
+     * are retrieved from database on the same transaction.  OJB will cache the 
+     * CustomAttribute BO instances and use the same instances for both documents.
+     * But those two documents may have different values for the custom attributes.
+     * In that case, the last to write its value to the CustomAttribute BO will win.
+     * To avoid this problem, this method returns a copy of the BOs so that each
+     * document will have its own instances.
+     * @param documentTypeCode
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private List<CustomAttributeDocument> getCustomAttributeDocuments(String documentTypeCode) {
+        List<CustomAttributeDocument> newCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
+        
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
+
+        List<CustomAttributeDocument> customAttributeDocuments = (List<CustomAttributeDocument>)getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments) {
+            newCustomAttributeDocuments.add(copyCustomAttributeDocument(customAttributeDocument));
+        }
+        
+        return newCustomAttributeDocuments;
+    }
+    
+    private CustomAttributeDocument copyCustomAttributeDocument(CustomAttributeDocument customAttributeDocument) {
+        CustomAttributeDocument newCustomAttributeDocument = new CustomAttributeDocument();
+        
+        newCustomAttributeDocument.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
+        newCustomAttributeDocument.setDocumentTypeName(customAttributeDocument.getDocumentTypeName());
+        newCustomAttributeDocument.setRequired(customAttributeDocument.isRequired());
+        newCustomAttributeDocument.setTypeName(customAttributeDocument.getTypeName());
+        newCustomAttributeDocument.setDocumentType(customAttributeDocument.getDocumentType());
+        newCustomAttributeDocument.setCustomAttribute(copyCustomAttribute(customAttributeDocument.getCustomAttribute()));
+        newCustomAttributeDocument.setActive(customAttributeDocument.isActive());
+        
+        return newCustomAttributeDocument;
+    }
+
+    private CustomAttribute copyCustomAttribute(CustomAttribute customAttribute) {
+        CustomAttribute newCustomAttribute = new CustomAttribute();
+        
+        newCustomAttribute.setId(customAttribute.getId());
+        newCustomAttribute.setDataLength(customAttribute.getDataLength());
+        newCustomAttribute.setDataTypeCode(customAttribute.getDataTypeCode());
+        newCustomAttribute.setDefaultValue(customAttribute.getDefaultValue());
+        newCustomAttribute.setGroupName(customAttribute.getGroupName());
+        newCustomAttribute.setLabel(customAttribute.getLabel());
+        newCustomAttribute.setLookupClass(customAttribute.getLookupClass());
+        newCustomAttribute.setLookupReturn(customAttribute.getLookupReturn());
+        newCustomAttribute.setName(customAttribute.getName());
+        newCustomAttribute.setValue(customAttribute.getValue());
+        newCustomAttribute.setCustomAttributeDataType(customAttribute.getCustomAttributeDataType());
+        
+        return newCustomAttribute;
+    }
+
     /**
      * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
      */
