@@ -23,10 +23,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
@@ -1136,6 +1138,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.SUBJECTS)) {
                 mergeSubjects(amendment);
             }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.OTHERS)) {
+                mergeOthers(amendment);
+            }
         }
     }
 
@@ -1189,6 +1194,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     @SuppressWarnings("unchecked")
     private void mergePersonnel(Protocol amendment) {
         setProtocolPersons((List<ProtocolPerson>) deepCopy(amendment.getProtocolPersons()));
+    }
+    
+    private void mergeOthers(Protocol amendment) {
+        if (protocolDocument.getCustomAttributeDocuments() == null ||
+            protocolDocument.getCustomAttributeDocuments().isEmpty()) {
+            protocolDocument.initialize();
+        }
+        if (amendment.getProtocolDocument().getCustomAttributeDocuments() == null ||
+            amendment.getProtocolDocument().getCustomAttributeDocuments().isEmpty()) {
+            amendment.getProtocolDocument().initialize();
+        }
+        for (Entry<String, CustomAttributeDocument> entry : protocolDocument.getCustomAttributeDocuments().entrySet()) {
+            CustomAttributeDocument cad = amendment.getProtocolDocument().getCustomAttributeDocuments().get(entry.getKey());
+            entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
+        }
     }
     
     private Object deepCopy(Object obj) {
