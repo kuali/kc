@@ -25,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -58,6 +59,9 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
     @Column(name="PERSON_NAME")
     private String personName; 
     
+    @Transient
+    private String roleName; 
+
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule; 
@@ -166,6 +170,16 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
     
 }
