@@ -17,6 +17,9 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
+
 /**
  * This class stores form data for adding a new congressional district to a Proposal Site.
  */
@@ -39,6 +42,11 @@ public class CongressionalDistrictHelper implements Serializable {
     }
 
     public String getNewDistrictNumber() {
+        // pad to CongressionalDistrict.DISTRICT_NUMBER_LENGTH digits
+        if (StringUtils.isNumeric(newDistrictNumber)) {
+            newDistrictNumber = StringUtils.leftPad(newDistrictNumber, CongressionalDistrict.DISTRICT_NUMBER_LENGTH, "0");
+        }
+        
         return newDistrictNumber;
     }
 }
