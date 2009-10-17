@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
@@ -44,14 +45,14 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
             proposalSiteHelper = addCongressionalDistrictEvent.getCongressionalDistrictHelpers().get(siteIndex);
         }
 
+        String stateCode = proposalSiteHelper.getNewState();
         if (isValid) {
-            String stateCode = proposalSiteHelper.getNewState();
             isValid = isStateCodeValid(stateCode);
         }
 
         if (isValid) {
             String districtNumber = proposalSiteHelper.getNewDistrictNumber();
-            isValid &= isDistrictNumberValid(districtNumber);
+            isValid &= isDistrictNumberValid(stateCode, districtNumber);
         }
 
         return isValid;
@@ -70,23 +71,49 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
     }
         
     private boolean isStateCodeValid(String stateCode) {
-        Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put("stateCode", stateCode);
-        if (getBusinessObjectService().countMatching(State.class, fieldValues) < 1) {
+        boolean isValid = false;
+
+        // test against the two special state codes
+        if (StringUtils.equalsIgnoreCase("00", stateCode) || StringUtils.equalsIgnoreCase("US", stateCode)) {
+            isValid = true;
+        }
+        
+        // test against regular state codes
+        if (!isValid) {
+            Map<String,String> fieldValues = new HashMap<String,String>();
+            fieldValues.put("stateCode", stateCode);
+            if (getBusinessObjectService().countMatching(State.class, fieldValues) == 1) {
+                isValid = true;
+            }
+        }
+        
+        if (!isValid) {
             reportError("newPropLocation.location", KeyConstants.ERROR_PROPOSAL_SITES_STATE_CODE_INVALID);
-            return false;
         }
-        else {
-            return true;
-        }
+        
+        return isValid;
     }
     
-    private boolean isDistrictNumberValid(String districtNumber) {
+    private boolean isDistrictNumberValid(String stateCode, String districtNumber) {
         boolean isValid = true;
         
         String propertyName = "newDistrictNumber";
         try {
-            if (Long.parseLong(districtNumber) < 1) {
+            // test against the two special state code /district number combinations
+            if (StringUtils.equals("00", stateCode)) {
+                isValid = StringUtils.equals("000", districtNumber);
+                if (!isValid) {
+                    reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_FOR_00);
+                }
+            }
+            else if (StringUtils.equalsIgnoreCase("US", stateCode)) {
+                isValid = StringUtils.equalsIgnoreCase("all", districtNumber);
+                if (!isValid) {
+                    reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_FOR_US);
+                }
+            }
+            // test against regular district numbers
+            else if (Long.parseLong(districtNumber) < 1) {
                 reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_LESS_THAN_ONE, "District Number");
                 isValid = false;
             }

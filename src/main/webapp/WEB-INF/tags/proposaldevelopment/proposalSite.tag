@@ -164,7 +164,9 @@
                                 <tr>
                                     <th>Add:</th>
                                     <td class="infoline">
-                                        State:<kul:htmlControlAttribute property="${congressionalDistrictHelper}.newState" attributeEntry="${helperAttributes.newState}" />
+                                        State:<kul:htmlControlAttribute property="${congressionalDistrictHelper}.newState"
+                                                attributeEntry="${helperAttributes.newState}"
+                                                onchange="fillCongressionalDistrictNumber('${congressionalDistrictHelper}.newState', '${congressionalDistrictHelper}.newDistrictNumber')" />
                                         District Number:<kul:htmlControlAttribute property="${congressionalDistrictHelper}.newDistrictNumber" attributeEntry="${helperAttributes.newDistrictNumber}" />
                                     </td>
                                     <td class="infoline">
