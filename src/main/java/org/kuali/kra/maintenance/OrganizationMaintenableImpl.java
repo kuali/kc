@@ -16,6 +16,7 @@
 package org.kuali.kra.maintenance;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
@@ -24,6 +25,7 @@ import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -32,6 +34,7 @@ import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
+    private static final long serialVersionUID = 7123853550462673935L;
 
     public OrganizationMaintenableImpl() {
         super();
@@ -58,7 +61,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        Organization organization = ((Organization)getBusinessObject());
+        Organization organization = getOrganization();
         if (organization.getOrganizationYnqs() == null || organization.getOrganizationYnqs().isEmpty()) {
             initOrganizationYnq();
         }
@@ -71,7 +74,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * This method generate organizationynqs list based on ynq type or 'organization'
      */
     private void initOrganizationYnq() {
-        Organization organization = ((Organization)getBusinessObject());
+        Organization organization = getOrganization();
         List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
         AssertionUtils.assertThat(organizationYnqs.isEmpty());
         
@@ -98,4 +101,32 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      }
 
 
+    @SuppressWarnings("unchecked")
+    public Map<String, String> populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
+        Map<String, String> map = super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+        formatCongressionalDistrict(getOrganization());
+        return map;
+    }
+
+    /**
+     * This method pads the district number to CongressionalDistrict.DISTRICT_NUMBER_LENGTH
+     * characters (A congressional district consists of a state code, followed by a dash,
+     * followed by a district number).
+     * @param getOrganization
+     */
+    private void formatCongressionalDistrict(Organization organization) {
+        String district = organization.getCongressionalDistrict();
+        if (district != null) {
+            int dashPosition = district.indexOf('-');
+            if (dashPosition >= 0) {
+                String stateCodePlusDash = district.substring(0, dashPosition+1);   // everything up to, and including, the dash
+                String paddedDistrictNumber = StringUtils.leftPad(district.substring(dashPosition+1), CongressionalDistrict.DISTRICT_NUMBER_LENGTH, '0');
+                organization.setCongressionalDistrict(stateCodePlusDash + paddedDistrictNumber);
+            }
+        }
+    }
+    
+    private Organization getOrganization() {
+        return ((Organization)getBusinessObject());
+    }
 }

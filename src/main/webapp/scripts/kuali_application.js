@@ -2158,3 +2158,17 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 		MeetingService.getStandardReviewComment(protocolContingencyCode,dwrReply);
 	}
 }
+
+/*
+ * Auto-fill the District Number field of a congressional district when the user chooses a "state" that
+ * allows only one district number.
+ */
+function fillCongressionalDistrictNumber(stateField, districtNumberField) {
+    var stateValue = document.getElementById(stateField).value;
+    if (stateValue == "US") {
+        document.getElementById(districtNumberField).value="all";
+    }
+    else if (stateValue == "00") {
+        document.getElementById(districtNumberField).value="000";
+    }
+}

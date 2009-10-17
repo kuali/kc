@@ -24,7 +24,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * state code and a district number, although it is represented by a single string.
  */
 public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
-
+    public static final int DISTRICT_NUMBER_LENGTH = 3;
     private static final long serialVersionUID = 9043098848918407500L;
     
     private Long congressionalDistrictId;
