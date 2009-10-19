@@ -944,7 +944,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         committee.setCommitteeName("Test By Kiltesh");
         this.protocolSubmission.setCommittee(committee);
         
+        this.protocolSubmission.setSubmissionNumber(1);
         this.protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        this.protocolSubmission.setSubmissionStatusCode("100");
         
         ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
         submissionType.setDescription("Initial Protocol Application for Approval ");
