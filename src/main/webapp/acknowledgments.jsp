@@ -92,6 +92,10 @@ Copyright 2005-2009 The Kuali Foundation. All rights reserved. Kuali is licensed
 
 <p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University).  All Rights Reserved.  This work is distributed under the W3C® Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. <!-- Rice 1.0.0 --></p>
 
+<%-- KC Modification Start --%>
+	<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+	<kra:kcAcknowledgements />
+<%-- KC Modification End --%>
 </td>
 </tr>
 </table>
