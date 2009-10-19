@@ -379,7 +379,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void adjustStartEndDatesForLineItems(Budget budget) {
         
         for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
-            if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0 || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0 ) {
+            if ( (budgetPeriod.getOldStartDate() != null && budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) || 
+                    (budgetPeriod.getOldEndDate() != null && budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) ) {
                 List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
                 setupOldStartEndDate(budgetLineItems);
                 for(BudgetLineItem budgetLineItem: budgetLineItems) {
@@ -414,7 +415,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void adjustStartEndDatesForPersonnelLineItems(List <BudgetLineItem > budgetLineItems) {
 
         for(BudgetLineItem budgetLineItem: budgetLineItems) {            
-            if (budgetLineItem.getStartDate().compareTo(budgetLineItem.getOldStartDate()) != 0 || budgetLineItem.getEndDate().compareTo(budgetLineItem.getOldEndDate()) != 0 ) {
+            if ( (budgetLineItem.getOldStartDate() != null && budgetLineItem.getStartDate().compareTo(budgetLineItem.getOldStartDate()) != 0) || 
+                    (budgetLineItem.getOldEndDate() != null && budgetLineItem.getEndDate().compareTo(budgetLineItem.getOldEndDate()) != 0) ) {
                 List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                 for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
                     Date newStartDate = budgetPersonnelDetail.getStartDate();
