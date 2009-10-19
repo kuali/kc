@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.util.Set;
 
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
@@ -32,13 +33,14 @@ implements DocumentPresentationController {
                 && document.getOldMaintainableObject().getBusinessObject() != null
                 && document.getOldMaintainableObject().getBusinessObject() instanceof ProposalLog) {
             ProposalLog proposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
-            if (ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus())) {
+            if (ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus())
+                    || proposalLog.getProposalNumber() == null) {
                 fields.add("logStatus");
             }
-            if (proposalLog.getProposalNumber() != null) {
+            if (proposalLog.getProposalNumber() != null
+                    || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
+                            KEWConstants.ROUTE_HEADER_SAVED_CD)) {
                 fields.add("proposalLogTypeCode");
-            } else {
-                fields.add("logStatus");
             }
         }
         return fields;
