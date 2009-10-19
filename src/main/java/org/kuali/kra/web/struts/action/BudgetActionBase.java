@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -147,10 +148,20 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
         if (copyPeriodOneOnly) {
-            BudgetPeriod firstPeriod = budget.getBudgetPeriods().get(0);
-            List<BudgetPeriod> newBudgetPeriods = new ArrayList<BudgetPeriod>();
-            newBudgetPeriods.add(firstPeriod);
-            budget.setBudgetPeriods(newBudgetPeriods);
+            //Copy full first version, then include empty periods for remainder
+            List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods(); 
+            BudgetPeriod firstPeriod = oldBudgetPeriods.get(0);
+            for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
+                BudgetPeriod period = oldBudgetPeriods.get(i);
+                period.getBudgetLineItems().clear();
+                period.setCostSharingAmount(new BudgetDecimal(0.0));
+                period.setExpenseTotal(new BudgetDecimal(0.0));
+                period.setTotalCost(new BudgetDecimal(0.0));
+                period.setTotalCostLimit(new BudgetDecimal(0.0));
+                period.setTotalDirectCost(new BudgetDecimal(0.0));
+                period.setTotalIndirectCost(new BudgetDecimal(0.0));
+                period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
+            }
         }
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
