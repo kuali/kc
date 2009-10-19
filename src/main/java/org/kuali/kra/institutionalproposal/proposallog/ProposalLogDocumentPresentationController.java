@@ -37,6 +37,8 @@ implements DocumentPresentationController {
             }
             if (proposalLog.getProposalNumber() != null) {
                 fields.add("proposalLogTypeCode");
+            } else {
+                fields.add("logStatus");
             }
         }
         return fields;
