@@ -384,7 +384,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
 
             IndirectCostItems2[] indirectCostItems2Array = null;
             if (budgetModular != null && budgetModular.getBudgetModularIdcs() != null) {
-                indirectCostItems2Array = new IndirectCostItems2[budgetModular.getBudgetModularIdcs().size() - 1];
+                indirectCostItems2Array = new IndirectCostItems2[budgetModular.getBudgetModularIdcs().size()];
             }
             int costItems = 0;
             for (BudgetModularIdc budgetModularIdc : budgetModular.getBudgetModularIdcs()) {
@@ -515,7 +515,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
 
             IndirectCostItems3[] indirectCostItems3Array = null;
             if (budgetModular.getBudgetModularIdcs() != null) {
-                indirectCostItems3Array = new IndirectCostItems3[budgetModular.getBudgetModularIdcs().size() - 1];
+                indirectCostItems3Array = new IndirectCostItems3[budgetModular.getBudgetModularIdcs().size()];
             }
             int costItems = 0;
             for (BudgetModularIdc budgetModularIdc : budgetModular.getBudgetModularIdcs()) {
@@ -642,7 +642,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
 
             IndirectCostItems4[] indirectCostItems4Array = null;
             if (budgetModular.getBudgetModularIdcs() != null) {
-                indirectCostItems4Array = new IndirectCostItems4[budgetModular.getBudgetModularIdcs().size() - 1];
+                indirectCostItems4Array = new IndirectCostItems4[budgetModular.getBudgetModularIdcs().size()];
             }
             int costItems = 0;
             for (BudgetModularIdc budgetModularIdc : budgetModular.getBudgetModularIdcs()) {
@@ -771,7 +771,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
 
         IndirectCostItems5[] indirectCostItems5Array = null;
         if (budgetModular.getBudgetModularIdcs() != null) {
-            indirectCostItems5Array = new IndirectCostItems5[budgetModular.getBudgetModularIdcs().size() - 1];
+            indirectCostItems5Array = new IndirectCostItems5[budgetModular.getBudgetModularIdcs().size() ];
         }
         int costItems = 0;
         for (BudgetModularIdc budgetModularIdc : budgetModular.getBudgetModularIdcs()) {
