@@ -692,7 +692,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
     
     public ProposalSite getPerformingOrganization() {
-        return getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
+        ProposalSite performingOrganization = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
+        performingOrganization.refreshReferenceObject("rolodex");
+        if(performingOrganization.getRolodex()==null && performingOrganization.getOrganization()!=null){
+            performingOrganization.setRolodex(performingOrganization.getOrganization().getRolodex());
+        }
+        return performingOrganization;
     }
     
     public void addProposalSite(ProposalSite proposalSite) {
