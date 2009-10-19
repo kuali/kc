@@ -74,6 +74,8 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private String scheduleDate;
     private String committeeId;
+    private String scheduleId;
+    private int scheduleNumber;
     private List<String> protocolNumbers;
 
     @Before
@@ -130,7 +132,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         setProtocolSubmission();
         setProtocolSubmission();
         
-        HtmlPage meetingPage = clickOn(schedulePage, "methodToCall.maintainSchedule.line0.anchor0");
+        HtmlPage meetingPage = clickOn(schedulePage, "methodToCall.maintainSchedule.line"+(scheduleNumber-1)+".anchor0");
         assertFalse(hasError(meetingPage));
         assertMeeting(meetingPage);
         
@@ -191,7 +193,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
      * validate data on meeting details
      */
     private void assertMeeting(HtmlPage page)  throws Exception {
-        assertTrue(page.asText().contains("Committee Test #1 Meeting "+scheduleDate));
+        assertTrue(page.asText().contains("Committee Test #"+scheduleNumber+" Meeting "+scheduleDate));
         assertTrue(page.asText().contains("Place: Davis 103"));
         assertTrue(page.asText().contains("Max Protocols: 10"));
         assertTrue(page.asText().contains("Agenda Generation: Schedule Status Code: Scheduled Start Time: 12:00 checked AM unchecked PM End Time: 12:00 checked AM unchecked PM Comments: "));
@@ -245,12 +247,18 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertFalse(hasError(pageAfterAdd));
 
         Date monday = null;
-        for(int i=0;i<7; i++) {
+        for(int i=1;i<=7; i++) {
+            // skip if current date is monday
             monday = DateUtils.addDays(new Date(), i);
             if (isMonday(monday))
                 break;
         }
         
+        if (isMonday(new Date())) {
+            scheduleNumber = 2;
+        } else {
+            scheduleNumber = 1;
+        }
         assertRecord(pageAfterAdd, monday);
         scheduleDate = dateFormat.format(monday);
         return pageAfterAdd;
@@ -286,8 +294,11 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         selectField = (HtmlSelect) element;
         options = selectField.getOptions();
         option = (HtmlOption)options.get(options.size() - 1);
+        if (StringUtils.isBlank(scheduleId)) {
+            scheduleId = option.getAttributeValue("value");
+        }
      //   int optionSize = selectField.getOptionSize();
-        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.scheduleId", option.getAttributeValue("value"));
+        setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.scheduleId", scheduleId);
 
         // Click Submit
         HtmlPage resultPage = clickOn(protocolActionsPage, "methodToCall.submitForReview.anchor:SubmitforReview");
