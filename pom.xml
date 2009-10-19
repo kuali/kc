@@ -395,7 +395,7 @@
  							<excludes><exclude></exclude></excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
-							<!-- <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine> -->
+							<argLine>-Xmx1g -XX:MaxPermSize=512m</argLine>
 						</configuration>
 					</plugin>
 					<plugin>
