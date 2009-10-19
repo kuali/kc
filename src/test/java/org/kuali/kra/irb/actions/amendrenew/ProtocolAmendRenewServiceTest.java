@@ -202,7 +202,7 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
      * @throws WorkflowException
      */
     @Test
-    public void testGetAmendmentsAndRenewals() throws WorkflowException {
+    public void testGetAmendmentsAndRenewals() throws Exception {
         ProtocolDocument a1 = ProtocolFactory.createProtocolDocument("0906000001A001");
         ProtocolDocument a2 = ProtocolFactory.createProtocolDocument("0906000001A002");
         ProtocolDocument r1 = ProtocolFactory.createProtocolDocument("0906000001R001");

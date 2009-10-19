@@ -75,7 +75,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     private boolean javaScriptEnabled = true;
     
-    public ProtocolForm() {
+    public ProtocolForm() throws Exception {
         super();
         this.setDocument(new ProtocolDocument());
         initialize();
@@ -85,8 +85,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     /**
      *
      * This method initialize all form variables
+     * @throws Exception 
      */
-    public void initialize() {
+    public void initialize() throws Exception {
         initializeHeaderNavigationTabs(); 
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
