@@ -102,11 +102,12 @@ public class ActionHelper implements Serializable {
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
     
     /**
+     * @throws Exception 
      * Constructs an ActionHelper.
      * @param form the protocol form
      * @throws  
      */
-    public ActionHelper(ProtocolForm form) {
+    public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
@@ -133,8 +134,9 @@ public class ActionHelper implements Serializable {
      * previous amendment has completed (approved, disapproved, etc), then a new
      * amendment can modify the same module.
      * @return
+     * @throws Exception 
      */
-    private ProtocolAmendmentBean createAmendmentBean() {
+    private ProtocolAmendmentBean createAmendmentBean() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
      
         ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();

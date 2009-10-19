@@ -57,8 +57,9 @@ public interface ProtocolAmendRenewService {
      * @param protocolNumber the protocol number
      * @return the list of amendments and renewals
      * @throws Exception 
+     * @throws Exception 
      */
-    public List<Protocol> getAmendmentAndRenewals(String protocolNumber);
+    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception;
     
     /**
      * Get the list of protocol modules that can be amended.  Modules that
@@ -67,6 +68,7 @@ public interface ProtocolAmendRenewService {
      * @param protocolNumber the protocol number
      * @return the list of protocol module type codes the user can amend
      * @throws Exception 
+     * @throws Exception 
      */
-    public List<String> getAvailableModules(String protocolNumber);
+    public List<String> getAvailableModules(String protocolNumber) throws Exception;
 }

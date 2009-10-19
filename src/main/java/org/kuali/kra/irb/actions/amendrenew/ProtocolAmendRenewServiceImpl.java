@@ -296,9 +296,10 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
 
     /**
+     * @throws Exception 
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
      */
-    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) {
+    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception {
         List<Protocol> protocols = new ArrayList<Protocol>();
         protocols.addAll(getAmendments(protocolNumber));
         protocols.addAll(getRenewals(protocolNumber));
@@ -306,19 +307,32 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     @SuppressWarnings("unchecked")
-    private Collection<Protocol> getAmendments(String protocolNumber) {
-        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
+    private Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
+        List<Protocol> amendments = new ArrayList<Protocol>();
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
+        for (Protocol protocol : protocols) {
+            ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+            amendments.add(protocolDocument.getProtocol());
+        }
+        return amendments;
     }
 
     @SuppressWarnings("unchecked")
-    private Collection<Protocol> getRenewals(String protocolNumber) {
-        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+    private Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
+        List<Protocol> renewals = new ArrayList<Protocol>();
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+        for (Protocol protocol : protocols) {
+            ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+            renewals.add(protocolDocument.getProtocol());
+        }
+        return renewals;
     }
   
     /**
+     * @throws Exception 
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAvailableModules(java.lang.String)
      */
-    public List<String> getAvailableModules(String protocolNumber) {
+    public List<String> getAvailableModules(String protocolNumber) throws Exception {
         List<String> moduleTypeCodes = getAllModuleTypeCodes();
         
         /*
