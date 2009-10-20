@@ -15,18 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
-import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -58,7 +56,6 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -185,12 +182,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         initializeBudget(hierarchy, initialChild);
 
+        prepareHierarchySync(hierarchy);
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
-        businessObjectService.save(hierarchy);
+        finalizeHierarchySync(hierarchy);
         businessObjectService.save(initialChild);
         
         // return the parent id
@@ -212,10 +210,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new ProposalHierarchyException("Proposal " + newChildProposal.getProposalNumber()
                     + " is already a member of a hierarchy");
         }
+        prepareHierarchySync(hierarchyProposal);
         linkChild(hierarchyProposal, newChildProposal);
         businessObjectService.save(newChildProposal);
-        businessObjectService.save(hierarchyProposal);
-        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
+        finalizeHierarchySync(hierarchyProposal);
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s) complete", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
@@ -262,6 +260,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposal.getProposalNumber()
                     + " is not a hierarchy parent");
         }
+        prepareHierarchySync(hierarchyProposal);
         boolean changed = false;
         for (ProposalHierarchyChild child : hierarchyProposal.getChildren()) {
             changed |= synchronizeChild(hierarchyProposal, child, getDevelopmentProposal(child.getProposalNumber()));
@@ -269,8 +268,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (changed) {
             aggregateHierarchy(hierarchyProposal);
         }
-        businessObjectService.save(hierarchyProposal);
-        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
+        finalizeHierarchySync(hierarchyProposal);
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s) complete", hierarchyProposal.getProposalNumber()));
     }
 
@@ -285,12 +283,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // the next statement is to avoid an OJB optimistic locking exception because of different object references
         hierarchyChild = hierarchy.getChildren().get(hierarchy.getChildren().indexOf(hierarchyChild));
         
+        prepareHierarchySync(hierarchy);
         boolean changed = synchronizeChild(hierarchy, hierarchyChild, childProposal);
         if (changed) {
             aggregateHierarchy(hierarchy);
         }
-        businessObjectService.save(hierarchy);
-        businessObjectService.save(hierarchy.getProposalDocument().getDocumentNextvalues());
+        finalizeHierarchySync(hierarchy);
         LOG.info(String.format("***Synchronizing Child (#%s) of Parent (#%s) complete", childProposal.getProposalNumber(), hierarchy.getProposalNumber()));
     }
     
@@ -406,7 +404,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             return false;
         }
 */
-        List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>(hierarchyProposal.getPropScienceKeywords());
+        ProposalHierarchyChild oldCollections = copyHierarchyChildCollections(hierarchyChild);
+        //List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>(hierarchyProposal.getPropScienceKeywords());
         Budget hierarchyBudget = getHierarchyBudget(hierarchyProposal);
         Budget childBudget = getFinalOrLatestChildBudget(childProposal);
         ObjectUtils.materializeAllSubObjects(childBudget);
@@ -424,8 +423,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // copy PropScienceKeywords
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
             PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal.getProposalNumber(), keyword.getScienceKeyword());
-            if (oldKeywords.contains(newKeyword)) {
-                newKeyword = oldKeywords.get(oldKeywords.indexOf(newKeyword));
+            int index = oldCollections.getPropScienceKeywords().indexOf(newKeyword);
+            if (index > -1) {
+                newKeyword = oldCollections.getPropScienceKeywords().get(index);
             }
             newKeyword.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addPropScienceKeyword(newKeyword);
@@ -463,17 +463,25 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // copy ProposalPersons
         for (ProposalPerson person : childProposal.getProposalPersons()) {
-            ProposalPerson newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
-            if (StringUtils.equalsIgnoreCase(newPerson.getProposalPersonRoleId(), "PI")) {
+            int index = oldCollections.getProposalPersons().indexOf(person);
+            ProposalPerson newPerson;
+            if (index > -1) {
+                newPerson = oldCollections.getProposalPersons().get(index);
+            }
+            else {
+                newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
+                newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
+                newPerson.setProposalPersonNumber(null);
+                newPerson.setVersionNumber(null);
+                newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
+            }
+            
+            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
                 newPerson.setProposalPersonRoleId("COI");
             }
             if (newPerson.getPersonId().equals(principleInvestigatorId)) {
                 newPerson.setProposalPersonRoleId("PI");
             }
-            newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
-            newPerson.setProposalPersonNumber(null);
-            newPerson.setVersionNumber(null);
-            newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addProposalPerson(newPerson);
             hierarchyChild.getProposalPersons().add(newPerson);
         }
@@ -821,6 +829,30 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             //}
         }
         hierarchyChild.getBudgetLineItems().clear();
+    }
+    
+    private ProposalHierarchyChild copyHierarchyChildCollections(ProposalHierarchyChild hierarchyChild) {
+        ProposalHierarchyChild copyChild = new ProposalHierarchyChild();
+        copyChild.getBudgetLineItems().addAll(hierarchyChild.getBudgetLineItems());
+        copyChild.getBudgetPersons().addAll(hierarchyChild.getBudgetPersons());
+        copyChild.getNarratives().addAll(hierarchyChild.getNarratives());
+        copyChild.getProposalPersons().addAll(hierarchyChild.getProposalPersons());
+        copyChild.getPropScienceKeywords().addAll(hierarchyChild.getPropScienceKeywords());
+        copyChild.getPropSpecialReviews().addAll(hierarchyChild.getPropSpecialReviews());
+        return copyChild;
+    }
+    
+    private void prepareHierarchySync(DevelopmentProposal hierarchyProposal) {
+        hierarchyProposal.getProposalDocument().refreshReferenceObject("documentNextvalues");    
+        List<DocumentNextvalue> dnvs = hierarchyProposal.getProposalDocument().getDocumentNextvalues();
+        System.err.println(dnvs);
+    }
+    
+    private void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) {
+        List<DocumentNextvalue> dnvs = hierarchyProposal.getProposalDocument().getDocumentNextvalues();
+        System.err.println(dnvs);
+        businessObjectService.save(hierarchyProposal);
+        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());       
     }
         
 }
