@@ -360,13 +360,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward deletePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
-        
-        for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
-            ProposalPerson person = person_it.next();
-            if (person.isDelete()) {
-                person_it.remove();
-                document.getDevelopmentProposal().getInvestigators().remove(person);
-                document.getDevelopmentProposal().removePersonnelAttachmentForDeletedPerson(person);
+        if (document.getDevelopmentProposal().isParent()) {
+            GlobalVariables.getMessageMap().putError("newProposalPerson", "error.hierarchy.unexpected", "Cannot remove Personnel from the Parent of a Hierarchy");
+        }
+        else {
+            for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
+                ProposalPerson person = person_it.next();
+                if (person.isDelete()) {
+                    person_it.remove();
+                    document.getDevelopmentProposal().getInvestigators().remove(person);
+                    document.getDevelopmentProposal().removePersonnelAttachmentForDeletedPerson(person);
+                }
             }
         }
         return mapping.findForward(MAPPING_BASIC);
