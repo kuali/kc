@@ -201,7 +201,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         // TODO : not sure why this method is here.  It looks like a temp method.  commented out to see if it is ok.
         // I had to remove the comment in front of the following statement. 
         // By adding the comment, a null pointer exception occurs when navigating to the Protocol Actions tab.
-        populateTempViewDate();
+        //populateTempViewDate();
+
     }
     
     public Long getProtocolId() {
@@ -275,10 +276,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @return the submission date or null if not yet submitted
      */
     public Timestamp getSubmissionDate() {
+        // TODO : the last one in the list may not be the last one submitted
+        // getProtocolSubmission will get the last one.  SO, this method may not needed.
+        // Also, this method only referenced in test once.
         Timestamp submissionDate = null;
         if (protocolSubmissions.size() > 0) {
-            ProtocolSubmission submission = protocolSubmissions.get(protocolSubmissions.size() - 1);
-            submissionDate = submission.getSubmissionDate();
+//            ProtocolSubmission submission = protocolSubmissions.get(protocolSubmissions.size() - 1);
+//            submissionDate = submission.getSubmissionDate();
+            submissionDate = getProtocolSubmission().getSubmissionDate();
         }
         return submissionDate;
     }
@@ -1005,9 +1010,48 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
     
     public ProtocolSubmission getProtocolSubmission() {
+        // TODO : this is a fix to remove 'populateTempViewDate'
+        
+        if (protocolSubmission == null) {
+            if (!protocolSubmissions.isEmpty()) {
+                for (ProtocolSubmission submission : protocolSubmissions) {
+                    if (protocolSubmission == null || submission.getSubmissionNumber() > protocolSubmission.getSubmissionNumber()) {
+                        protocolSubmission = submission;
+                    }
+                }
+                
+            } else {
+                protocolSubmission = new ProtocolSubmission();
+                // TODO : the update protocol rule may not like null
+                protocolSubmission.setProtocolSubmissionType(new ProtocolSubmissionType());
+                protocolSubmission.setSubmissionStatus(new ProtocolSubmissionStatus());
+            }
+        }
+        refreshReferenceObject(protocolSubmission);
         return protocolSubmission;
     }
 
+    private void refreshReferenceObject(ProtocolSubmission submission) {
+        // if submission just added, then these probably are empty
+        if (StringUtils.isNotBlank(submission.getProtocolReviewTypeCode()) 
+                &&  submission.getProtocolReviewType() == null) {
+            submission.refreshReferenceObject("protocolReviewType");
+        }
+        if (StringUtils.isNotBlank(submission.getSubmissionStatusCode()) 
+                &&  submission.getSubmissionStatus() == null) {
+            submission.refreshReferenceObject("submissionStatus");
+        }
+        if (StringUtils.isNotBlank(submission.getSubmissionTypeCode()) 
+                &&  submission.getProtocolSubmissionType() == null) {
+            submission.refreshReferenceObject("protocolSubmissionType");
+        }
+        if (StringUtils.isNotBlank(submission.getSubmissionTypeQualifierCode()) 
+                &&  submission.getProtocolSubmissionQualifierType() == null) {
+            submission.refreshReferenceObject("protocolSubmissionQualifierType");
+        }
+        
+    }
+    
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
