@@ -21,6 +21,10 @@ import java.util.List;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
+/**
+ * 
+ * This class is to set up the 'Alternate For' drop down list for members who have 'Alternate' role.
+ */
 public class AlternateForValuesFinder extends KeyValuesBase {
     private String absenteeList;
 
@@ -28,10 +32,10 @@ public class AlternateForValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        for(String idName : absenteeList.split("#m#")) {
-            String [] valuePair = idName.split("#f#");
+        for (String idName : absenteeList.split("#m#")) {
+            String[] valuePair = idName.split("#f#");
             keyValues.add(new KeyLabelPair(valuePair[0], valuePair[1]));
         }
         keyValues.add(0, new KeyLabelPair("", "select"));
