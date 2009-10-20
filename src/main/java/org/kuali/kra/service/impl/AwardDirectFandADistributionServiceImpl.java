@@ -57,7 +57,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
            Date nextPeriodStartDate = new Date(cl.getTime().getTime());
            cl.add(Calendar.DATE, -1);
            Date periodEndDate = new Date(cl.getTime().getTime());
-           if (periodEndDate.after(projectEndDate)) {
+           if (periodEndDate.after(projectEndDate) || periodEndDate.equals(projectEndDate)) {
                periodEndDate = projectEndDate;
                awardDirectFandADistributions.add(new AwardDirectFandADistribution(budgetPeriodNum, periodStartDate, periodEndDate));
                break;
