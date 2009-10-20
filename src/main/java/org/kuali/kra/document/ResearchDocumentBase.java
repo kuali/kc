@@ -168,7 +168,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
             DocumentNextvalue documentNextvalue = new DocumentNextvalue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
-            
+            documentNextvalue.setDocumentKey(documentNumber);
             documentNextvalues.add(documentNextvalue);
         }
         setDocumentNextvalues(documentNextvalues);
