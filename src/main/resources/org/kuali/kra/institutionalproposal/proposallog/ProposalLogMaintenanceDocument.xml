@@ -91,6 +91,14 @@
                     p:name="deadlineDate" />
                 <bean parent="MaintainableFieldDefinition"
                     p:unconditionallyReadOnly="true"
+                    p:name="createUser"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
+                    p:name="createTimestamp" 
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
                     p:name="updateUser"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"

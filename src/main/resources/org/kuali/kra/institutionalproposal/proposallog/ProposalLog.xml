@@ -49,6 +49,8 @@
                 <ref bean="ProposalLog-deadlineDate" />
                 <ref bean="ProposalLog-updateUser" />
                 <ref bean="ProposalLog-updateTimestamp" />
+                <ref bean="ProposalLog-createUser" />
+                <ref bean="ProposalLog-createTimestamp" />
                 <ref bean="ProposalLog-versionNumber" />
             </list>
         </property>
@@ -320,6 +322,33 @@
         <property name="description" value="Deadline Date" />
     </bean>
     
+    <bean id="ProposalLog-createUser" parent="ProposalLog-createUser-parentBean" />
+    <bean id="ProposalLog-createUser-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="Create User" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Create User" />
+        <property name="description" value="The user who created the object." />
+    </bean>
+    
+    <bean id="ProposalLog-createTimestamp" parent="ProposalLog-createTimestamp-parentBean" />
+    <bean id="ProposalLog-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="createTimestamp" />
+        <property name="label" value="Create Timestamp" />
+        <property name="shortLabel" value="Create Timestamp" />
+        <property name="summary" value="Create Timestamp" />
+        <property name="description" value="The creation timestamp." />
+    </bean>
+    
     <bean id="ProposalLog-updateUser" parent="ProposalLog-updateUser-parentBean" />
     <bean id="ProposalLog-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
         <property name="label" value="Updated By" />
@@ -329,7 +358,7 @@
     <bean id="ProposalLog-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
         <property name="label" value="Last Update Date" />
     </bean>
-
+    
     <bean id="ProposalLog-versionNumber" parent="ProposalLog-versionNumber-parentBean" />
     <bean id="ProposalLog-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
