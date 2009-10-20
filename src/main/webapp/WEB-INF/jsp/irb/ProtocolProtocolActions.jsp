@@ -16,9 +16,13 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+</script>
+
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 
-<script src="scripts/jquery/jquery.js"></script>
 <style type="text/css">
    .compare { color: #666666 }
    .compare td, .compare th { color:#666666; }
