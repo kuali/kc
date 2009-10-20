@@ -36,8 +36,12 @@ public class MeetingServiceImpl implements MeetingService {
 
     BusinessObjectService businessObjectService;
 
+    /**
+     * 
+     * @see org.kuali.kra.meeting.MeetingService#getAgendaGenerationDate(java.lang.Long)
+     */
     public Date getAgendaGenerationDate(Long scheduleId) {
-        Map fieldValues = new HashMap();
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
         List<ScheduleAgenda> scheduleAgendas = (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(
                 ScheduleAgenda.class, fieldValues, "createTimestamp", false);
@@ -49,6 +53,10 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.meeting.MeetingService#SaveMeetingDetails(org.kuali.kra.committee.bo.CommitteeSchedule, java.util.List)
+     */
     public void SaveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
         committeeSchedule.setEndTime(addHrMinToDate(committeeSchedule.getEndTime(), committeeSchedule.getViewEndTime()));
@@ -65,6 +73,10 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.meeting.MeetingService#getStandardReviewComment(java.lang.String)
+     */
     public String getStandardReviewComment(String protocolContingencyCode) {
         String description = null;
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -76,8 +88,12 @@ public class MeetingServiceImpl implements MeetingService {
         return description;
     }
 
+    /*
+     * utility methods by adding minutes to date
+     */
     private Timestamp addHrMinToDate(Timestamp time, Time12HrFmt viewTime) {
-        java.util.Date dt = new java.util.Date(0);
+        java.util.Date dt = new java.util.Date(0); // this is actually 12-31-1969 19:00
+        // really set it to 1-1--1970
         dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
         return new Timestamp(DateUtils.addMinutes(dt, viewTime.findMinutes()).getTime());
     }

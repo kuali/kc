@@ -26,16 +26,20 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
+/**
+ * 
+ * This class is to find protocols submitted to this committee schedule.
+ */
 public class ProtocolValuesFinder extends KeyValuesBase {
     private String scheduleId;
-    
+
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        for(ProtocolSubmission protocolSubmission : getProtocols()) {
+        for (ProtocolSubmission protocolSubmission : getProtocols()) {
             keyValues.add(new KeyLabelPair(protocolSubmission.getProtocolId(), protocolSubmission.getProtocolNumber()));
         }
         keyValues.add(0, new KeyLabelPair("", "select"));
@@ -43,15 +47,15 @@ public class ProtocolValuesFinder extends KeyValuesBase {
     }
 
     private List<ProtocolSubmission> getProtocols() {
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ProtocolSubmission>)getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
+        return (List<ProtocolSubmission>) getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
     }
-    
+
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     public String getScheduleId() {
         return scheduleId;
     }

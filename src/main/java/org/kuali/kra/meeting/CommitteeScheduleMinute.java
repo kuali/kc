@@ -35,6 +35,10 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
+/**
+ * 
+ * This is BO class for committee schedule minute. 
+ */
 @Entity 
 @Table(name="COMM_SCHEDULE_MINUTES")
 public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase { 

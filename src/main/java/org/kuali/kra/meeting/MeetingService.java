@@ -21,10 +21,12 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
+/**
+ * 
+ * This class is to provide service for meeting management
+ */
 public interface MeetingService {
     
-    
-
     /**
      * 
      * This method is to get the last agenda generation date.

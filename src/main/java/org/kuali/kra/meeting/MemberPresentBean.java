@@ -17,13 +17,12 @@ package org.kuali.kra.meeting;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kra.committee.bo.MembershipRole;
-import org.kuali.kra.questionnaire.question.Question;
-
+/**
+ * 
+ * This class is form data for member present.
+ */
 public class MemberPresentBean implements Serializable, Comparable<MemberPresentBean> {
     private CommitteeScheduleAttendance attendance;
-    private MembershipRole role = new MembershipRole();
 
     public CommitteeScheduleAttendance getAttendance() {
         return attendance;
@@ -31,14 +30,6 @@ public class MemberPresentBean implements Serializable, Comparable<MemberPresent
 
     public void setAttendance(CommitteeScheduleAttendance attendance) {
         this.attendance = attendance;
-    }
-
-    public MembershipRole getRole() {
-        return role;
-    }
-
-    public void setRole(MembershipRole role) {
-        this.role = role;
     }
 
     public int compareTo(MemberPresentBean arg) {

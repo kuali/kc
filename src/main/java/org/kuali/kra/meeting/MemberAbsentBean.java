@@ -17,12 +17,13 @@ package org.kuali.kra.meeting;
 
 import java.io.Serializable;
 
-import org.kuali.kra.committee.bo.MembershipRole;
 
-
+/**
+ * 
+ * This class is form data for member absent in meeting page
+ */
 public class MemberAbsentBean implements Serializable, Comparable<MemberAbsentBean> {
     private CommitteeScheduleAttendance attendance;
-    private MembershipRole role = new MembershipRole();
 
     public CommitteeScheduleAttendance getAttendance() {
         return attendance;
@@ -30,14 +31,6 @@ public class MemberAbsentBean implements Serializable, Comparable<MemberAbsentBe
 
     public void setAttendance(CommitteeScheduleAttendance attendance) {
         this.attendance = attendance;
-    }
-
-    public MembershipRole getRole() {
-        return role;
-    }
-
-    public void setRole(MembershipRole role) {
-        this.role = role;
     }
 
     public int compareTo(MemberAbsentBean arg) {
