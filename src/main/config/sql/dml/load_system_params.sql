@@ -683,7 +683,7 @@ VALUES('KRA-PD',    'D',    'proposalDevelopmentNarrativeHelpUrl',    '528ABE6A6
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'A',    'initialUnitLoadDepth',    '532F1AABC0CD73C1E0404F8189D847CE',    1,    'CONFG',    '3',    'Initial UnitHierarchy Load Depth',    'A',    'WorkflowAdmin',    'Y');
+VALUES('KRA-PD',    'D',    'initialUnitLoadDepth',    '532F1AABC0CD73C1E0404F8189D847CE',    1,    'CONFG',    '3',    'Initial UnitHierarchy Load Depth',    'A',    'WorkflowAdmin',    'Y');
 
 
 INSERT
