@@ -30,7 +30,7 @@
 	   <c:if test="${par.key == 'htmlFormAction'}">
 	       <c:set var="htmlFormAction" value="${par.value}" />
 	   </c:if> 
-	   <c:if test="${par.key == 'viewOnly'}">
+	   <c:if test="${par.key == 'popupViewOnly'}">
 	       <c:set var="viewOnly" value="${par.value}" />
 	   </c:if> 
 	</c:forEach>

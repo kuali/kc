@@ -51,6 +51,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     protected String navigateTo;
     
     private boolean viewOnly = false;
+    private boolean popupViewOnly = false;
     
     public String getActionName() {
         return actionName;
@@ -232,6 +233,14 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     
     public final void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
+    }
+    
+    public final boolean isPopupViewOnly() {
+        return popupViewOnly;
+    }
+    
+    public final void setPopupViewOnly(boolean viewOnly) {
+        this.popupViewOnly = viewOnly;
     }
     
     @Override

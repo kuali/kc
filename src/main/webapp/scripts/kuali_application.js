@@ -312,11 +312,11 @@ function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, se
 	  idx2=url.indexOf("/",idx1+1);
 	  extractUrl=url.substr(0,idx2)
 	  if (htmlFormAction == 'maintenance') {
-	      window.open(extractUrl+"/kraMaintUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	      window.open(extractUrl+"/kraMaintUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 	  } else if (htmlFormAction == 'meetingManagement') {
-	      window.open(extractUrl+"/meetingUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	      window.open(extractUrl+"/meetingUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 	  } else {   
-	      window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	      window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 	  }
 	}
 
