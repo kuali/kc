@@ -643,12 +643,6 @@
 			<url>http://maven.atlassian.com/repository/public</url>
 		</repository>
 		<repository>
-			<id>apache.snapshots</id>
-			<name>apache snapshots</name>
-			<url>http://repository.apache.org/snapshots/</url>
-			<snapshots><enabled>true</enabled></snapshots>
-		</repository>
-		<repository>
 			  <snapshots />
 			  <id>maven-repo1</id>
 			  <name>maven2 repo</name>
@@ -656,6 +650,15 @@
 		</repository> 
 
 	</repositories>
+
+    <pluginRepositories>
+	    <pluginRepository>
+	      <id>apache.snapshots</id>
+	      <url>http://repository.apache.org/snapshots/</url>
+	      <snapshots><enabled>true</enabled></snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
+	
 	<reporting>
 		<plugins>
 			<plugin>
