@@ -64,7 +64,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
         // In a Hierarchy Child, the G.g tab is disabled, so this exception should only happen if the app is being hacked.
-        if (proposalDevelopmentDocument.getDevelopmentProposal().isInHierarchy()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
+        if (proposalDevelopmentDocument.getDevelopmentProposal().isChild()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
         
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
             if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
