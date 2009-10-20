@@ -233,6 +233,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
         updateHandle.executeRules(protocolAction);
         businessObjectService.save(protocol);
+        // if there is submission just added, then force this to get the last one.
+        protocol.setProtocolSubmission(null);
     }
 
     /*
