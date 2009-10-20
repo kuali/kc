@@ -50,6 +50,9 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
     
     private MembershipRole membershipRole;
     
+    public static final String ALTERNATE_ROLE = "12";
+    public static final String INACTIVE_ROLE = "14";
+    
     public CommitteeMembershipRole() {
     }
 
