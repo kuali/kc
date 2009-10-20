@@ -18,6 +18,8 @@ package org.kuali.kra.irb.summary;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -101,6 +103,11 @@ public class SpecialReviewSummary implements Serializable {
     
     public void setExemptionNumbers(List<ProtocolSpecialReviewExemption> exemptions) {
         this.exemptionNumbers = "";
+        Collections.sort(exemptions, new Comparator<ProtocolSpecialReviewExemption>() {
+            public int compare(ProtocolSpecialReviewExemption e1, ProtocolSpecialReviewExemption e2) {
+                return e1.getExemptionType().getDescription().compareTo(e2.getExemptionType().getDescription());
+            }
+        });
         for (ProtocolSpecialReviewExemption exemption : exemptions) {
             if (!StringUtils.isBlank(this.exemptionNumbers)) {
                 this.exemptionNumbers += ", ";

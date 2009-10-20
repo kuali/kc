@@ -25,6 +25,7 @@ public class PersonnelSummary implements Serializable {
 
     private static final long serialVersionUID = 5043509130587736483L;
     
+    private String personId;
     private String name;
     private String roleName;
     private String affiliation;
@@ -38,6 +39,14 @@ public class PersonnelSummary implements Serializable {
         
     }
 
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+    
+    public String getPersonId() {
+        return personId;
+    }
+    
     public String getName() {
         return name;
     }
@@ -71,7 +80,7 @@ public class PersonnelSummary implements Serializable {
     }
 
     public void compare(ProtocolSummary other) {
-        PersonnelSummary otherPerson = other.findPerson(name);
+        PersonnelSummary otherPerson = other.findPerson(personId);
         if (otherPerson == null) {
             nameChanged = true;
             roleNameChanged = true;
