@@ -105,6 +105,12 @@ public class SpecialReviewSummary implements Serializable {
         this.exemptionNumbers = "";
         Collections.sort(exemptions, new Comparator<ProtocolSpecialReviewExemption>() {
             public int compare(ProtocolSpecialReviewExemption e1, ProtocolSpecialReviewExemption e2) {
+                if (e1.getExemptionType() == null) {
+                    e1.refreshReferenceObject("exemptionType");
+                }
+                if (e2.getExemptionType() == null) {
+                    e2.refreshReferenceObject("exemptionType");
+                }
                 return e1.getExemptionType().getDescription().compareTo(e2.getExemptionType().getDescription());
             }
         });
