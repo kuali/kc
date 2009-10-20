@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.ProtocolAction;
 
@@ -328,7 +329,7 @@ public class ProtocolSummary implements Serializable {
 
     public PersonnelSummary findPerson(String name) {
         for (PersonnelSummary person : persons) {
-            if (StringUtils.equals(person.getName(), name)) {
+            if (StringUtils.equals(person.getPersonId(), name)) {
                 return person;
             }
         }
@@ -382,9 +383,9 @@ public class ProtocolSummary implements Serializable {
         return null;
     }
 
-    public AttachmentSummary findAttachment(String fileName) {
+    public AttachmentSummary findAttachment(Long id) {
         for (AttachmentSummary attachment : attachments) {
-            if (StringUtils.equals(attachment.getFileName(), fileName)) {
+            if (ObjectUtils.equals(attachment.getAttachmentId(), id)) {
                 return attachment;
             }
         }
