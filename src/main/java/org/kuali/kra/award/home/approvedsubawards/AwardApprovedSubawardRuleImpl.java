@@ -138,7 +138,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
             reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
                     KeyConstants.ERROR_ORGANIZATION_NAME_IS_NULL);
         }else {
-            valid = validateOrganizationExists(organizationName) && validateApprovedSubawardDuplicateOrganization();
+            valid = validateOrganizationExists(organizationName);
         }
         return valid;
     }
@@ -161,24 +161,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
         return isValid;
     }
     
-    /**
-    *
-    * Test Approved Subawards for duplicate organizations
-    * @return Boolean
-    */
-    public boolean validateApprovedSubawardDuplicateOrganization(){
-        boolean valid = true;
-        for (AwardApprovedSubaward loopAwardApprovedSubaward : awardApprovedSubawards) {
-              if(awardApprovedSubaward.getOrganizationName().equals
-                      (loopAwardApprovedSubaward.getOrganizationName())){
-                  valid = false;
-                  reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
-                          KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
-                  break;
-              }
-          }
-        return valid;
-       }
+    
     
     /**
     *
