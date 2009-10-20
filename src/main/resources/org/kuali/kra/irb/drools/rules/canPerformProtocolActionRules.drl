@@ -17,6 +17,14 @@ then
 	setAction(protocolAction, true);
 end
 
+rule "Submit for Review - after withdrawn"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode == "304", submissionStatusCode == "210")
+then	
+	setAction(protocolAction, true);
+end
+
 rule "Assign to Agenda"
 salience 100
 when
