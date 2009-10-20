@@ -20,6 +20,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
+<c:set var="isHierarchyParent" value="${KualiForm.document.developmentProposalList[0].hierarchyStatus == KualiForm.hierarchyParentStatus}" />
 
 <jsp:useBean id="newMap" class="java.util.HashMap" scope="request" />
 
@@ -37,6 +38,7 @@
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
+<c:if test="${not isHierarchyParent}">
     <kra:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
@@ -106,13 +108,14 @@
             </c:choose>
           </div>
     </kra:uncollapsable>
+</c:if>
 </kra:section>
 
     <br/>
 
     <kra-pd:keyPersons/>
 
-  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
+  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0 and !isHierarchyParent }">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Key Person"/>
