@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
@@ -69,11 +71,14 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.prepareForSave();
         // If this is the initial save, we need to set the fiscal year and month.
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
+        Timestamp currentTimestamp = getDateTimeService().getCurrentTimestamp();
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
             proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
             proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
+            proposalLog.setCreateTimestamp(currentTimestamp);
+            proposalLog.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         }
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
