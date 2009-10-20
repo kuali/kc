@@ -22,9 +22,14 @@ import org.kuali.kra.web.struts.form.ResetElementsHelper;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
+/**
+ * 
+ * This class is a form for Meeting management,
+ */
 public class MeetingForm extends KualiForm {
+    private static final long serialVersionUID = -7825455832928793712L;
     private MeetingHelper meetingHelper;
-    // textarea needs formKey & document.  use KualiDocumentFormBase; then this is not needed?
+    // textarea needs formKey & document.  
     private String formKey;
     private Document document;
 

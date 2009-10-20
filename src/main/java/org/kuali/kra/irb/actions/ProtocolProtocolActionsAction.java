@@ -77,7 +77,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-
+    private static final String PROTOCOL_ID = "protocolId";
+    
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -750,14 +751,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
 
+    /**
+     * 
+     * This method is to render protocol action page when 'view' is clicked in meeting page, Protocol submitted panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionHelper actionHelper = ((ProtocolForm)form).getActionHelper();
-        Map fieldValues = new HashMap();
-        fieldValues.put("protocolId", request.getParameter("protocolId"));
-        Protocol protocol = (Protocol) getBusinessObjectService().findByPrimaryKey(Protocol.class,fieldValues);
-        //((ProtocolForm)form).getDocument().getProtocolList().add(0, protocol);
-        ((ProtocolForm)form).setDocument(KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PROTOCOL_ID, request.getParameter(PROTOCOL_ID));
+        Protocol protocol = (Protocol) getBusinessObjectService().findByPrimaryKey(Protocol.class, fieldValues);
+        ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
+                protocol.getProtocolDocument().getDocumentNumber()));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

@@ -25,6 +25,10 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
+/**
+ * 
+ * This class is to get minute entry type code and sorted by sortid
+ */
 public class MinuteEntryTypeValuesFinder extends KeyValuesBase {
 
     /**

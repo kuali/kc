@@ -22,9 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.questionnaire.question.Question;
 
 /**
  * 
@@ -43,6 +41,8 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase implements
     private Integer sortId; 
     @Column(name="DESCRIPTION")
     private String description; 
+    public static final String ATTENDANCE = "2";
+    public static final String PROTOCOL = "3";
     
         
     public MinuteEntryType() { 

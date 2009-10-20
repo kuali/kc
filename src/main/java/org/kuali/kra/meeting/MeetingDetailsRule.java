@@ -28,26 +28,29 @@ import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class MeetingDetailsRule {
-    public static final String MSG1 = "hh:mm";
+    private static final String MSG1 = "hh:mm";
 
-    public static final String MSG2 = "hh as 1-12 & mm as 0-59";
+    private static final String MSG2 = "hh as 1-12 & mm as 0-59";
 
-    public static final String MSG3 = "hh as 1-12";
+    private static final String MSG3 = "hh as 1-12";
 
-    public static final String MSG4 = "mm as 0-59";
+    private static final String MSG4 = "mm as 0-59";
 
-    public static final String COLON = ":";
-    public static final String ALTERNATE_ENTRY_TYPE = "3";
+    private static final String COLON = ":";
+    private static final String ALTERNATE_ENTRY_TYPE = "3";
 
-    public static final String ID1 = "meetingHelper.committeeSchedule.viewTime.time";
-    public static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
-    public static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
-    public static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
+    private static final String ID1 = "meetingHelper.committeeSchedule.viewTime.time";
+    private static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
+    private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
+    private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
+    private static final String VIEW_TIME = "viewTime";
+    private static final String VIEW_START_TIME = "viewStartTime";
+    private static final String VIEW_END_TIME = "viewEndTime";
     private ErrorReporter errorReporter;
 
     /**
      * 
-     * This method is to validate time/start time/end time to make sure format is ok and als end time >= start time
+     * This method is to validate time/start time/end time to make sure format is ok and also end time >= start time
      * @param committeeSchedule
      * @return
      */
@@ -56,9 +59,9 @@ public class MeetingDetailsRule {
         boolean rulePassed = true;
         errorReporter = new ErrorReporter();
         String time = committeeSchedule.getViewStartTime().getTime();
-        rulePassed &= processTime(time, ID1.replace("viewTime", "viewStartTime"));
+        rulePassed &= processTime(time, ID1.replace(VIEW_TIME, VIEW_START_TIME));
         time = committeeSchedule.getViewEndTime().getTime();
-        rulePassed &= processTime(time, ID1.replace("viewTime", "viewEndTime"));
+        rulePassed &= processTime(time, ID1.replace(VIEW_TIME, VIEW_END_TIME));
         if (rulePassed) {
             rulePassed &= checkStartTimeBeforeEndTime(committeeSchedule.getViewStartTime(), committeeSchedule.getViewEndTime());
         }
@@ -69,7 +72,7 @@ public class MeetingDetailsRule {
 
     /**
      * 
-     * This method that new person/rolodex is selected, and the selected is not in member present or alternate for.
+     * This method is to validate that new person/rolodex is selected, and the selected is not in member present or alternate for.
      * @param meetingHelper
      * @return
      */
@@ -168,9 +171,9 @@ public class MeetingDetailsRule {
                 rulePassed = false;
             }
             if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
-                Map fieldValues = new HashMap();
+                Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put("protocolContingencyCode", committeeScheduleMinute.getProtocolContingencyCode());
-                if (KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProtocolContingency.class,
+                if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class,
                         fieldValues) == null) {
                     errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
                     rulePassed = false;
@@ -195,7 +198,7 @@ public class MeetingDetailsRule {
 
         if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
                 && StringUtils.isNotBlank(memberAbsentBean.getAttendance().getPersonId())
-                // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
+                // TODO check alternate for is not perfect because there is no indicator that alternatefor is person or rolodex
                 // and we can't rule out personid=rolodexid
                 && memberPresentBean.getAttendance().getAlternateFor().equals(memberAbsentBean.getAttendance().getPersonId())) {
             isPresent = true;
@@ -218,16 +221,11 @@ public class MeetingDetailsRule {
         }
         else if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
                 && StringUtils.isNotBlank(otherPresentBean.getAttendance().getPersonId())
-                // TODO check alternate for is not perfect because there is no idicator that alternatefor is person or rolodex
+                // TODO check alternate for is not perfect because there is no indicator that alternatefor is person or rolodex
                 // and we can't rule out personid=rolodexid
                 && memberPresentBean.getAttendance().getAlternateFor().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
         }
-        // else if (StringUtils.isNotBlank(memberPresentBean.getAlternateFor()) &&
-        // StringUtils.isBlank(otherPresentBean.getPersonId())
-        // && memberPresentBean.getAlternateFor().equals(otherPresentBean.getRolodexId().toString())) {
-        // isPresent = true;
-        // }
         return isPresent;
     }
 
@@ -236,10 +234,10 @@ public class MeetingDetailsRule {
      */
     private boolean processTime(String time, String id) {
         String prefix = "";
-        if (id.contains("viewStartTime")) {
+        if (id.contains(VIEW_START_TIME)) {
             prefix = "Start";
         }
-        else if (id.contains("viewEndTime")) {
+        else if (id.contains(VIEW_END_TIME)) {
             prefix = "End";
         }
         boolean rulePassed = true;
@@ -294,7 +292,7 @@ public class MeetingDetailsRule {
         Integer endMins;
 
         if (startTime.getMeridiem().equals("PM") && endTime.getMeridiem().equals("AM")) {
-            errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"),
+            errorReporter.reportError(ID1.replace(VIEW_TIME, VIEW_END_TIME),
                     KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
             rulePassed = false;
         }
@@ -305,7 +303,7 @@ public class MeetingDetailsRule {
                 endHrs = new Integer(endTimeSplit[0]);
                 endMins = new Integer(endTimeSplit[1]);
                 if ((startHrs != 12 && (startHrs > endHrs || endHrs == 12)) || (startHrs.equals(endHrs) && startMins > endMins)) {
-                    errorReporter.reportError(ID1.replace("viewTime", "viewEndTime"),
+                    errorReporter.reportError(ID1.replace(VIEW_TIME, VIEW_END_TIME),
                             KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
                     rulePassed = false;
                 }
@@ -321,4 +319,7 @@ public class MeetingDetailsRule {
         return false;
     }
 
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
 }

@@ -17,7 +17,6 @@ package org.kuali.kra.meeting;
 
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,26 +32,26 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
+/**
+ * 
+ * This class is for all meeting actions.  A couple of methods, which are for text area update, 
+ *  are copied from KraTransactionalDocumentActionBase.
+ */
 public class MeetingAction extends KualiAction {
     private static final String CLOSE_QUESTION = "Would you like to save meeting data before close it ?";
 
     private static final String CLOSE_QUESTION_ID = "meeting.close.question";
-
-    // TODO : in general : the personid, rolodex id issue
-    // need an actionhelper
-
+    private static final String NEW_SCHEDULE_MINUTE_ERROR_PATH = "meetingHelper.newCommitteeScheduleMinute";
+    private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
     /**
      * 
      * This method is for the initial load of meeting page. It is called when 'maintain' button of committee schedule is clicked.
@@ -66,7 +65,7 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
         CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
                 fieldValues);
@@ -107,7 +106,6 @@ public class MeetingAction extends KualiAction {
 
         CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
         if (isValidToSave(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getMemberPresentBeans())) {
-            // meetingActionHelper.populateAttendancePreSave(((MeetingForm) form).getMeetingHelper());
             ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
             getMeetingService().SaveMeetingDetails(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getDeletedBos());
             ((MeetingForm) form).getMeetingHelper().initDeletedList();
@@ -122,7 +120,7 @@ public class MeetingAction extends KualiAction {
     private boolean isValidToSave(CommitteeSchedule committeeSchedule, List<MemberPresentBean> memberPresentBeans) {
 
         GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.committeeSchedule");
-        KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(committeeSchedule);
+        getDictionaryValidationService().validateBusinessObject(committeeSchedule);
         GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.committeeSchedule");
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
@@ -161,17 +159,8 @@ public class MeetingAction extends KualiAction {
      */
     private ActionForward viewProtocolSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String line = request.getParameter("line");  
-        int lineNumber;
-//        if (StringUtils.isBlank(line)) {
-//            // js disabled
-//            lineNumber = getLineToDelete(request);
-//        } else {
-//            // js enabled
-           lineNumber = Integer.parseInt(line);
-//        }
         ProtocolSubmission protocolSubmission = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule()
-                .getProtocolSubmissions().get(lineNumber);
+                .getProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
         response.sendRedirect("protocolProtocolActions.do?methodToCall=start&protocolId="
                 + protocolSubmission.getProtocol().getProtocolId());
         return null;
@@ -184,10 +173,6 @@ public class MeetingAction extends KualiAction {
 
     private MeetingService getMeetingService() {
         return KraServiceLocator.getService(MeetingService.class);
-    }
-
-    private KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 
     /**
@@ -248,7 +233,7 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward kraPostTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -265,18 +250,25 @@ public class MeetingAction extends KualiAction {
             HttpServletResponse response) {
         MeetingForm meetingForm = (MeetingForm) form;
         CommScheduleActItem newCommScheduleActItem = meetingForm.getMeetingHelper().getNewOtherAction();
-        GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.newOtherAction");
-        KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(newCommScheduleActItem);
-        GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.newOtherAction");
+        validateBusinessObject(newCommScheduleActItem, NEW_OTHER_ACTION_ERROR_PATH);
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             meetingForm.getMeetingHelper().addOtherAction();
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * Utility methods to validate a bo.
+     */
+    private void validateBusinessObject(BusinessObject bo, String errorPath) {
+        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+        getDictionaryValidationService().validateBusinessObject(bo);
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);        
+    }
+    
     /**
      * 
-     * This method is to remove other action from otehr action list. Also keep in a deleted list, which will be used to call
+     * This method is to remove other action from other action list. Also keep in a deleted list, which will be used to call
      * 'bos.delete' to remove them from DB before save.
      * 
      * @param mapping
@@ -295,7 +287,7 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is for 'close' button clicked.  Confirmation of 'save' is performed.
+     * This method is for 'close' button.  Confirmation of 'save' is performed.
      * @param mapping
      * @param form
      * @param request
@@ -364,7 +356,7 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is called when presentvoting button is clicked.
+     * This method is to move member absent to member present.
      * @param mapping
      * @param form
      * @param request
@@ -385,7 +377,7 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is called when presentother button is clicked.
+     * This method is to move member absent to other present.
      * @param mapping
      * @param form
      * @param request
@@ -406,7 +398,7 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is called when 'add' other present is clicked
+     * This method is to add the selected person/rolodex to otehr present.
      * @param mapping
      * @param form
      * @param request
@@ -416,19 +408,16 @@ public class MeetingAction extends KualiAction {
     public ActionForward addOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
         MeetingForm meetingForm = (MeetingForm) form;
-        OtherPresentBean newOtherPresentBean = meetingForm.getMeetingHelper().getNewOtherPresentBean();
-        // if (StringUtils.isNotEmpty(newOtherPresentBean.getPersonName())) {
         MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
         if (meetingDetailsRule.validateNewOther(meetingForm.getMeetingHelper())) {
             meetingForm.getMeetingHelper().addOtherPresent();
         }
-        // }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
      * 
-     * This method is called when 'delete' button of other present is clicked.
+     * This method is to remove the selected otehr present.
      * @param mapping
      * @param form
      * @param request
@@ -456,9 +445,7 @@ public class MeetingAction extends KualiAction {
             HttpServletResponse response) {
         MeetingForm meetingForm = (MeetingForm) form;
         CommitteeScheduleMinute newCommitteeScheduleMinute = meetingForm.getMeetingHelper().getNewCommitteeScheduleMinute();
-        GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.newCommitteeScheduleMinute");
-        KraServiceLocator.getService(DictionaryValidationService.class).validateBusinessObject(newCommitteeScheduleMinute);
-        GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.newCommitteeScheduleMinute");
+        validateBusinessObject(newCommitteeScheduleMinute, NEW_SCHEDULE_MINUTE_ERROR_PATH);
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         MeetingDetailsRule meetingDetailsRule = new MeetingDetailsRule();
         valid &= meetingDetailsRule.validateProtocolInMinute(newCommitteeScheduleMinute);
@@ -471,7 +458,7 @@ public class MeetingAction extends KualiAction {
     /**
      * 
      * This method is to remove Committee Schedule Minute from Committee Schedule Minute list. Also keep in a deleted list, which
-     * will be used to call 'bos.delete' to remove them from DB before save.
+     * will be used to call 'bos.delete' to remove them from DB when save.
      * 
      * @param mapping
      * @param form
@@ -494,7 +481,6 @@ public class MeetingAction extends KualiAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         if (StringUtils.isNotBlank(request.getParameter("refreshCaller"))) {
             if (request.getParameter("refreshCaller").equals("nonOrganizationalRolodexLookupable")) {
                 ((MeetingForm) form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(true);
@@ -518,11 +504,14 @@ public class MeetingAction extends KualiAction {
         ((MeetingForm) form).getMeetingHelper().sortAttendances();
 // if view protocol is using popup, then need following code        
         String command = request.getParameter("command");
-        if (StringUtils.isNotBlank(command) && command.equals("viewProtocolSubmission")) {
+        if (StringUtils.isNotBlank(command) && "viewProtocolSubmission".equals(command)) {
             forward = viewProtocolSubmission(mapping, form, request, response);
         }
         return forward;
     }
 
+    private DictionaryValidationService getDictionaryValidationService() {
+        return KraServiceLocator.getService(DictionaryValidationService.class);
+    }
 
 }
