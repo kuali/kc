@@ -2136,8 +2136,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public KualiDecimal getObligatedTotal() {
         KualiDecimal returnValue = new KualiDecimal(0.00);
-        returnValue = returnValue.add(awardAmountInfos.get(0).getObligatedTotalDirect());
-        returnValue = returnValue.add(awardAmountInfos.get(0).getObligatedTotalIndirect());
+        returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
         return returnValue;
     }
 
@@ -2147,8 +2146,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public KualiDecimal getAnticipatedTotal() {
         KualiDecimal returnValue = new KualiDecimal(0.00);
-        returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalDirect());
-        returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalIndirect());
+        returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
         return returnValue;
     }
     
