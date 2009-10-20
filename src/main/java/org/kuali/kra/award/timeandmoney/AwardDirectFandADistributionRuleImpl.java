@@ -272,10 +272,12 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         Date targetStartDate = awardDirectFandADistribution.getStartDate();
         Date projectStartDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getBeginDate();
         boolean valid = true;
-        if (projectStartDate.after(targetStartDate)) {
-            valid = false;
-            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_TARGET_START_DATE, 
-                    KeyConstants.ERROR_TARGET_START_DATE);
+        if (!(projectStartDate == null)) {
+            if (projectStartDate.after(targetStartDate)) {
+                valid = false;
+                reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_TARGET_START_DATE, 
+                        KeyConstants.ERROR_TARGET_START_DATE);
+            }
         }
         return valid;
     }
