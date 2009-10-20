@@ -240,6 +240,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         
+        if (document.getDevelopmentProposal().isParent()) {
+            reportError("newProposalPerson", "error.hierarchy.unexpected", "Cannot add Personnel to the Parent of a Hierarchy");
+            retval = false;
+        }
+        
         return retval;
     }
             
