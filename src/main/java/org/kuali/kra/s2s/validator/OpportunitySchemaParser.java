@@ -92,18 +92,25 @@ public class OpportunitySchemaParser {
             String formName = fullFormName.substring(0, fullFormName.indexOf(':'));
             String minOccurs = ((Element) form).getAttribute("minOccurs");
             String nameSpace = schemaElement.getAttribute("xmlns:" + formName);
+            FormMappingInfo info = null;
+            try {
+                info = new FormMappingLoader().getFormInfo(nameSpace);
+            }
+            catch (S2SGeneratorNotFoundException e) {
+            }
+            String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {
                 Node importNode = importList.item(impIndex);
                 if (((Element) importNode).getAttribute("namespace").equalsIgnoreCase(nameSpace)) {
                     String schemaUrl = ((Element) importNode).getAttribute("schemaLocation");
                     S2sOppForms oppForm = new S2sOppForms();
-                    oppForm.setFormName(formName);
+                    oppForm.setFormName(displayFormName);
                     oppForm.setOppNameSpace(nameSpace);
                     oppForm.setSchemaUrl(schemaUrl);
                     mandatory = (minOccurs == null || minOccurs.trim().equals("") || Integer.parseInt(minOccurs) > 0);
                     oppForm.setMandatory(mandatory);
-                    available = isAvailable(nameSpace);
+                    available = info!=null;//isAvailable(nameSpace);
                     oppForm.setAvailable(available);
                     oppForm.setInclude(mandatory && available);
                     schemaList.add(oppForm);
