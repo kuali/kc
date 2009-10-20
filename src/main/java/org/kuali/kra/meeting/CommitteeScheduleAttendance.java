@@ -31,6 +31,10 @@ import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
+/**
+ * 
+ * This is a Bo class for committee schedule attendance.
+ */
 @Entity 
 @Table(name="COMM_SCHEDULE_ATTENDANCE")
 public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase { 

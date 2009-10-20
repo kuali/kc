@@ -18,6 +18,10 @@ package org.kuali.kra.meeting;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * 
+ * This class is form data bean for protocol submitted tab on meeting page.
+ */
 public class ProtocolSubmittedBean implements Serializable {
 
     private static final long serialVersionUID = -5980527218611646250L;
