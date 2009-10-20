@@ -51,6 +51,11 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeUpdate(persistenceBroker);
+        // Optimistic Locking has been disabled so adding null check and setting version number to 0
+        // If we ever turn Optimistic Locking back on, we need to remove this code
+        if (this.getVersionNumber() == null) {
+            this.setVersionNumber(new Long(0));
+        }
         setUpdateFields();
     }
 
