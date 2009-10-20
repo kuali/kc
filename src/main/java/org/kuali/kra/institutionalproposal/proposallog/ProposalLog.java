@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -46,6 +47,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private String proposalLogTypeCode;
     private Integer fiscalMonth;
     private Integer fiscalYear;
+    private String createUser;
+    private Timestamp createTimestamp;
     
     private ProposalType proposalType;
     private Person person;
@@ -240,6 +243,22 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
             return this.getFiscalMonth().toString() + " / " + this.getFiscalYear().toString();
         }
         return "";
+    }
+    
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
     
     /* These methods are for manipulating data before object persistence. */
