@@ -17,6 +17,8 @@
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardDirectFandADistributionAttributes" value="${DataDictionary.AwardDirectFandADistribution.attributes}" />
+<c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
+
 <c:set var="action" value="timeAndMoney" />
 
 
@@ -31,9 +33,9 @@
 				<td  width="20%" align="left">          	  
         			<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />   	 
             	</td>
-				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.projectEndDate}" useShortLabel="true" noColon="false" /></th>
+				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" useShortLabel="true" noColon="false" /></th>
 				<td  width="20%" align="left">          	  
-        			<kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAttributes.projectEndDate}" readOnly="true" />   	 
+        			<kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />   	 
             	</td>
 			</tr>
 			<tr>
