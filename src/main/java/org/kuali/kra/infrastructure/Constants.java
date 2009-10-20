@@ -462,6 +462,7 @@ public interface Constants {
     public static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_KEY = "newProtocolPerson*";
 
     public static final String VIEW_ONLY = "viewOnly";
+    public static final String POPUP_VIEW_ONLY = "popupViewOnly";
     
     // Protocol Action Rules
     public static final String PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY = "actionHelper.protocolSubmitAction";
