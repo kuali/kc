@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.core;
 
-import gov.grants.apply.forms.rrKeyPersonExpandedV10.PersonProfileDataType;
-
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBrokerException;

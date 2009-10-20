@@ -622,6 +622,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 //            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
+            return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        }
         ByteArrayOutputStream baos = null;
         try{
             baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
