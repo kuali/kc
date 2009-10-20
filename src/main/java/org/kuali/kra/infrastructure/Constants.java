@@ -408,6 +408,7 @@ public interface Constants {
     public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";
     public static final String TERMS_AUDIT_RULES_ERROR_KEY = "document.termsAuditRules";
     public static final String PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY = "document.paymentsAuditRules";
+    public static final String SUBAWARD_AUDIT_RULES_ERROR_KEY = "document.subawardAuditRules";
     public static final String AWARD_PAGE = "award";
     public static final String FANDA_RATES_PANEL_ANCHOR = "Rates";
     public static final String FANDA_RATES_PANEL_NAME = "Rates";
@@ -419,6 +420,10 @@ public interface Constants {
     public static final String TERMS_PANEL_NAME = "Terms";
     public static final String PAYMENT_AND_INVOICES_PANEL_ANCHOR = "Payments";
     public static final String PAYMENT_AND_INVOICES_PANEL_NAME = "Payments";
+    public static final String SUBAWARD_PANEL_NAME = "Subaward";
+    public static final String SUBAWARD_PANEL_ANCHOR = "Subaward";
+
+
 
     // Award Rules
     public static final String COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newAwardCostShare";
