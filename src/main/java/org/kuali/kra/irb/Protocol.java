@@ -1319,6 +1319,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private void addPersonnelSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolPerson person : getProtocolPersons()) {
             PersonnelSummary personnelSummary = new PersonnelSummary();
+            personnelSummary.setPersonId(person.getPersonId());
             personnelSummary.setName(person.getPersonName());
             personnelSummary.setRoleName(person.getProtocolPersonRole().getDescription());
             if (person.getAffiliationTypeCode() == null) {

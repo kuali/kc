@@ -51,7 +51,7 @@ public class AttachmentSummary implements Serializable {
     }
 
     public void compare(ProtocolSummary other) {
-        AttachmentSummary otherAttachment = other.findAttachment(fileName);
+        AttachmentSummary otherAttachment = other.findAttachment(attachmentId);
         fileNameChanged = (otherAttachment == null);
     }
 }
