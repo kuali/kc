@@ -103,18 +103,6 @@ public class AwardApprovedSubawardRuleTest {
         Assert.assertTrue(awardApprovedSubawardRule.processCommonValidations());
     }
     
-    /**
-     *Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#
-     *ValidateApprovedSubawardDuplicateOrganization 
-     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
-     */
-    @Test
-    public final void testValidateApprovedSubawardDuplicateOrganization () {
-        Assert.assertTrue(awardApprovedSubawardRule.validateApprovedSubawardDuplicateOrganization());
-        awardApprovedSubawardOne.setOrganizationName(ORGANIZATION_THREE);
-        Assert.assertFalse(awardApprovedSubawardRule.validateApprovedSubawardDuplicateOrganization());
-        awardApprovedSubawardOne.setOrganizationName(ORGANIZATION_ONE);
-    }
     
     /**
      *Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#
