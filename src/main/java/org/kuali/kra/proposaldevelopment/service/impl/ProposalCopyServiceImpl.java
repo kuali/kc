@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
@@ -484,6 +485,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
+        fixCongressionalDistricts(newDoc);
         // reset organization / location info only if lead unit changed
         if (!StringUtils.equals(srcDoc.getDevelopmentProposal().getUnitNumber(), newDoc.getDevelopmentProposal().getUnitNumber())) {
             fixOrganizationAndLocations(newDoc);
@@ -524,6 +526,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * set its value to the new proposal number.
      * @param object the object
      * @param proposalNumber the proposal number
+     * @param list I assume this is the list of objects that have already been processed.
      */
     @SuppressWarnings("unchecked")
     private void fixProposalNumbers(Object object, String proposalNumber, List<Object> list) throws Exception {
@@ -585,6 +588,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
         clearCertifyQuestions(doc);
         fixKeyPersonnelUnits(doc, oldLeadUnitNumber, newLeadUnitNumber);
+    }
+    
+    /**
+     * This method sets all congressional district ids to null, so new ids get assigned to them.
+     * @param doc
+     */
+    private void fixCongressionalDistricts(ProposalDevelopmentDocument doc) {
+        for (ProposalSite proposalSite: doc.getDevelopmentProposal().getProposalSites()) {
+            for (CongressionalDistrict district: proposalSite.getCongressionalDistricts()) {
+                district.setCongressionalDistrictId(null);
+            }
+        }
     }
     
     /**
