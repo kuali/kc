@@ -200,19 +200,26 @@ public class ProtocolAction extends ProtocolAssociate {
     }
     
     public String getSubmissionStatusString() {
+        String status = "";
         if (protocolSubmission == null) {
-            return "";
+            status = "";
         }
-        if (protocolSubmission.getSubmissionStatus() == null && submissionIdFk != null) {
-            protocolSubmission.refreshReferenceObject("submissionStatus");
+        else {
+            if (protocolSubmission.getSubmissionStatus() == null && submissionIdFk != null) {
+                protocolSubmission.refreshReferenceObject("submissionStatus");
+            }
+            
+            if (protocolSubmission.getSubmissionStatus() == null) {
+                status = "";
+            }
+            else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
+                status = "";
+            }
+            else {
+                status = protocolSubmission.getSubmissionStatus().getDescription();
+            }
         }
-        if (protocolSubmission.getSubmissionStatus() == null) {
-            return "";
-        }
-        else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
-            return "";
-        }
-        return protocolSubmission.getSubmissionStatus().getDescription();
+        return status;
     }
     
     /** {@inheritDoc} */
