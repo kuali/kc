@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -47,6 +48,8 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
 }))
 public class ProtocolVersionServiceTest extends KraTestBase {
+    
+    private static final String PROTOCOL_NUMBER = "1021000009";
     
     private ProtocolVersionService protocolVersionService;
     
@@ -77,5 +80,19 @@ public class ProtocolVersionServiceTest extends KraTestBase {
         for (DocumentNextvalue nextValue : nextValues) {
             assertEquals(nextValue.getDocumentKey(), newProtocolDocument.getDocumentNumber());
         }
+    }
+    
+    @Test 
+    public void testGetProtocolVersion() throws Exception {
+        Protocol protocol = protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 1);
+        assertNull(protocol);
+        
+        ProtocolDocument protocolDocument1 = ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER);
+        ProtocolDocument protocolDocument2 = protocolVersionService.versionProtocolDocument(protocolDocument1);
+        ProtocolDocument protocolDocument3 = protocolVersionService.versionProtocolDocument(protocolDocument2);
+        
+        protocol = protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 2);
+        assertNotNull(protocol);
+        assertEquals(new Integer(2), protocol.getSequenceNumber());
     }
 }
