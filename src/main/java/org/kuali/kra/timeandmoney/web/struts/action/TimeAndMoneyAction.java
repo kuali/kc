@@ -30,6 +30,7 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -78,13 +79,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         forward = super.save(mapping, form, request, response);
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
+        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
         
         updateDocumentFromSession(timeAndMoneyDocument);
         
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
-            Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
-            AwardAmountInfo aai = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
+            Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());            
+            AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             boolean addToList = false;
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
             

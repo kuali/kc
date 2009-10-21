@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -92,6 +93,16 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);    
         }
         return sb.toString();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardHierarchyUIService#getAwardRecord(org.kuali.kra.award.home.Award)
+     */
+    public String getAwardRecord(Award award) throws ParseException{
+        
+        String awardNumber = award.getAwardNumber();
+        return buildCompleteRecord(awardNumber, getAwardHierarchyNodes(award.getAwardNumber()).get(awardNumber));
     }
 
     /*

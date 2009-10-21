@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
@@ -36,21 +35,6 @@ public interface ActivePendingTransactionsService {
     
     List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
             , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
-    
-    /**
-     * 
-     * This method should return the awardAmountInfo object having highest transaction id.
-     * @param awardAmountInfos
-     * @return
-     */
-    AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
-    
-    /**
-     * This method...
-     * @param awardAmountInfos
-     * @return
-     */
-    int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
     
     /**
      * 

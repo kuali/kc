@@ -106,6 +106,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="awardAmountInfoService">
+			<ref bean="awardAmountInfoService" />
+		</property>
 	</bean>
 	<bean id="awardCustomAttributeService" class="org.kuali.kra.service.impl.AwardCustomAttributeServiceImpl">
 		<property name="businessObjectService">
@@ -198,7 +201,17 @@
         <property name="versioningService">
             <ref bean="versioningService" />
         </property>
+        <property name="awardAmountInfoService">
+        	<ref bean="awardAmountInfoService" />
+        </property>
+        <property name="activePendingTransactionsService">
+        	<ref bean="activePendingTransactionsService" />
+        </property>
     </bean>
+    
+    <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">		
+	</bean>
+	
 	<bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
