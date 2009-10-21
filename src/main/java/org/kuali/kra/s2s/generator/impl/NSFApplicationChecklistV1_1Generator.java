@@ -55,11 +55,11 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
         nsfChecklist.setCheckRROtherInfo(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_7)));
         nsfChecklist.setCheckProjectSummary(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_8)));
         nsfChecklist.setProjectNarrative(getProjectNarrative());
-        nsfChecklist.setCheckBiblio(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_14)));
-        nsfChecklist.setCheckFacilities(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_15)));
+        nsfChecklist.setCheckBiblio(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_NSF_SMALL_GRANT)));
+        nsfChecklist.setCheckFacilities(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_OTHER_AGENCY)));
         nsfChecklist.setEquipment(getEquipment());
         nsfChecklist.setRRSrProfile(getRRSrProfile());
-        nsfChecklist.setCheckRRPersonalData(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_22)));
+        nsfChecklist.setCheckRRPersonalData(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_PI_CHANGE)));
         nsfChecklist.setRRBudget(getRRBudget());
         nsfChecklist.setNSFCover(getNSFCover());
         nsfChecklistDocument.setNSFApplicationChecklist(nsfChecklist);
@@ -95,9 +95,9 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
         ProjectNarrative projectNarrative = ProjectNarrative.Factory.newInstance();
         projectNarrative.setCheckProjectNarrative(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_9)));
         projectNarrative.setCheckMeritReview(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_10)));
-        projectNarrative.setCheckPriorSupport(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_12)));
-        projectNarrative.setCheckHRInfo(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_13)));
-        projectNarrative.setCheckURL(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_11)));
+        projectNarrative.setCheckPriorSupport(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_NIH_INVESTIGAYOR)));
+        projectNarrative.setCheckHRInfo(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_NSF_INVESTIGATOR)));
+        projectNarrative.setCheckURL(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_SPACE_CHANGE)));
         return projectNarrative;
     }
 
@@ -110,9 +110,9 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
      */
     private Equipment getEquipment() {
         Equipment equipment = Equipment.Factory.newInstance();
-        equipment.setCheckEquipment(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_16)));
-        equipment.setCheckSuppDoc(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_17)));
-        equipment.setCheckAdditionalItems(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_18)));
+        equipment.setCheckEquipment(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_INVENTION_PATENT)));
+        equipment.setCheckSuppDoc(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_CLINICAL_TRIAL)));
+        equipment.setCheckAdditionalItems(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_STEM_CELL)));
         return equipment;
     }
 
@@ -124,9 +124,9 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
      */
     private RRSrProfile getRRSrProfile() {
         RRSrProfile rrSrProfile = RRSrProfile.Factory.newInstance();
-        rrSrProfile.setCheckRRSrProfile(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_19)));
-        rrSrProfile.setCheckBioSketch(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_20)));
-        rrSrProfile.setCheckCurrentPendingSupport(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_21)));
+        rrSrProfile.setCheckRRSrProfile(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_CURRENT_SERVING_PI)));
+        rrSrProfile.setCheckBioSketch(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_HIGH_RESOLUTION)));
+        rrSrProfile.setCheckCurrentPendingSupport(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_FULL_APPLICATION)));
         return rrSrProfile;
     }
 
@@ -138,9 +138,9 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
      */
     private RRBudget getRRBudget() {
         RRBudget rrBudget = RRBudget.Factory.newInstance();
-        rrBudget.setCheckRRBudget(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_23)));
-        rrBudget.setCheckRRBudgetJustification(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_24)));
-        rrBudget.setCheckCostSharing(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_25)));
+        rrBudget.setCheckRRBudget(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_GRANTEE_INSTITUTION_CHANGE)));
+        rrBudget.setCheckRRBudgetJustification(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_PI_PARTICIPATION_US)));
+        rrBudget.setCheckCostSharing(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_PI_PARTICIPATION_FOREIGN)));
         return rrBudget;
     }
 
@@ -152,8 +152,8 @@ public class NSFApplicationChecklistV1_1Generator extends NSFApplicationChecklis
      */
     private NSFCover getNSFCover() {
         NSFCover nsfCover = NSFCover.Factory.newInstance();
-        nsfCover.setCheckNSFCover(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_26)));
-        nsfCover.setCheckNSFUnit(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_27)));
+        nsfCover.setCheckNSFCover(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_EDUCATION_DEPT)));
+        nsfCover.setCheckNSFUnit(YesNoDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_ENVIRINMENT_IMPACT)));
         nsfCover.setCheckNSFOtherInfo(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_28)));
         nsfCover.setCheckNSFSFLLL(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_29)));
         nsfCover.setCheckNSFDevAuth(YesNoNotApplicableDataType.Enum.forInt(getChecklistAnswer(QUESTION_ID_30)));

@@ -285,9 +285,9 @@
     				<version>2.3.2</version>
 				</dependency> 
 				<dependency>
-					<groupId>fop</groupId>
+					<groupId>org.apache.xmlgraphics</groupId>
 					<artifactId>fop</artifactId>
-					<version>0.20.5</version>
+					<version>0.93</version>
 				</dependency>
 				<dependency>
 					<groupId>avalon-framework</groupId>
@@ -330,11 +330,61 @@
 					<artifactId>drools-decisiontables</artifactId>
 					<version>4.0.7</version>
 				</dependency>
+				<!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>MetaGrantApplication</artifactId>
 					<version>0.9.0</version>
 				</dependency>
+				-->
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>MetaGrantApplication</artifactId>                    
+                	<version>0.9.1</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>MetaGrantApplication20</artifactId>                    
+                	<version>0.9.1</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>PHS398_Checklist</artifactId>                    
+                	<version>1.3</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_KeyPersonExpanded</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_OtherProjectInfo</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_PersonalData</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_SF424</artifactId>                    
+                	<version>1.2</version>                
+                </dependency> 
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>kc-printing-xsds</artifactId>                    
+                	<version>0.9.0</version>                
+                </dependency>
+				
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>
@@ -457,9 +507,9 @@
 					</exclusions>
 				</dependency>
 				<dependency>
-					<groupId>fop</groupId>
+					<groupId>org.apache.xmlgraphics</groupId>
 					<artifactId>fop</artifactId>
-					<version>0.20.5</version>
+					<version>0.93</version>
 				</dependency>
 				<dependency>
 					<groupId>avalon-framework</groupId>
@@ -538,11 +588,61 @@
     				<artifactId>xmlbeans-maven-plugin</artifactId>
     				<version>2.3.2</version>
 				</dependency>
+				<!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>MetaGrantApplication</artifactId>
 					<version>0.9.0</version>
 				</dependency>
+				-->
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>MetaGrantApplication</artifactId>                    
+                	<version>0.9.1</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>MetaGrantApplication20</artifactId>                    
+                	<version>0.9.1</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>PHS398_Checklist</artifactId>                    
+                	<version>1.3</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_KeyPersonExpanded</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_OtherProjectInfo</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_PersonalData</artifactId>                    
+                	<version>1.2</version>                
+                </dependency>
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>RR_SF424</artifactId>                    
+                	<version>1.2</version>                
+                </dependency> 
+
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>kc-printing-xsds</artifactId>                    
+                	<version>0.9.0</version>                
+                </dependency>
+				
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>

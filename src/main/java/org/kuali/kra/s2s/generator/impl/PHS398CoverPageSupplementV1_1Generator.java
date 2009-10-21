@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.List;
+
 import gov.grants.apply.forms.phs398CoverPageSupplementV11.PHS398CoverPageSupplementDocument;
 import gov.grants.apply.forms.phs398CoverPageSupplementV11.PHS398CoverPageSupplementDocument.PHS398CoverPageSupplement;
 import gov.grants.apply.forms.phs398CoverPageSupplementV11.PHS398CoverPageSupplementDocument.PHS398CoverPageSupplement.ClinicalTrial;
@@ -84,7 +86,7 @@ public class PHS398CoverPageSupplementV1_1Generator extends PHS398CoverPageSuppl
         // Set default values for mandatory fields
         pdpi.setIsNewInvestigator(YesNoDataType.N_NO);
 
-        ProposalYnq proposalYnq = getAnswer(IS_NEW_INVESTIGATOR, pdDoc);
+        ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
         if (PI != null) {
 
             if (proposalYnq != null) {
@@ -137,7 +139,7 @@ public class PHS398CoverPageSupplementV1_1Generator extends PHS398CoverPageSuppl
                 clinicalTrial.setIsClinicalTrial(YesNoDataType.N_NO);
             }
         }
-        ProposalYnq proposalYnq = getAnswer(PHASE_III_CLINICAL_TRIAL, pdDoc);
+        ProposalYnq proposalYnq = getProposalYnQ(PHASE_III_CLINICAL_TRIAL);
         if (proposalYnq != null) {
             YesNoDataType.Enum answer = null;
             if (proposalYnq.getAnswer() != null) {
@@ -187,7 +189,7 @@ public class PHS398CoverPageSupplementV1_1Generator extends PHS398CoverPageSuppl
 
         StemCells stemCells = StemCells.Factory.newInstance();
         YesNoDataType.Enum answer = null;
-        ProposalYnq proposalYnq = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED, pdDoc);
+        ProposalYnq proposalYnq = getProposalYnQ(IS_HUMAN_STEM_CELLS_INVOLVED);
         if (proposalYnq != null) {
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq.getAnswer())) {
                 answer = YesNoDataType.Y_YES;
@@ -204,46 +206,15 @@ public class PHS398CoverPageSupplementV1_1Generator extends PHS398CoverPageSuppl
                         stemCells.setStemCellsIndicator(answer);
                     }
                     else {
-                        String cellLine = null;
-                        int startPos = 0;
-                        for (int commaPos = 0; commaPos > -1;) {
-                            commaPos = explanation.indexOf(",", startPos);
-                            if (commaPos >= 0) {
-                                cellLine = (explanation.substring(startPos, commaPos).trim());
-                                explanation = explanation.substring(commaPos + 1);
-                                if (cellLine.length() > 0) {
-                                    stemCells.getCellLinesArray();
-                                }
-                            }
-                            else if (explanation.length() > 0) {
-                                stemCells.getCellLinesArray();
-                            }
-                        }
+                    	List<String> cellLines=  getCellLines(explanation);
+                    	if(cellLines.size()>0){
+                    		stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
+                    	}
                     }
                 }
             }
         }
         return stemCells;
-    }
-
-    /**
-     * 
-     * This method is used to get the Ynq answer for ProposalYnq
-     * 
-     * @param questionId to be checked.
-     * @param pdDoc proposal development document.
-     * @return proposalYnq corresponding to the question id.
-     */
-    private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument pdDoc) {
-        String question = null;
-        ProposalYnq ynQ = null;
-        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
-            question = proposalYnq.getQuestionId();
-            if (question != null && question.equals(questionId)) {
-                 ynQ = proposalYnq;
-            }
-        }
-        return ynQ;
     }
 
     /**

@@ -21,51 +21,56 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class KCTestPrintable extends PersistableBusinessObjectBase implements Printable {
+public class KCTestPrintable extends PersistableBusinessObjectBase implements
+		Printable {
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public ArrayList<Source> getXSLT() {
-        ArrayList<Source> ret = new ArrayList<Source>();        
-        File xsltfile = new File( "src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
-        ret.add(new StreamSource(xsltfile));
-        return ret;
-        
-    }
+	public ArrayList<Source> getXSLT() {
+		ArrayList<Source> ret = new ArrayList<Source>();
+		File xsltfile = new File(
+				"src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
+		ret.add(new StreamSource(xsltfile));
+		return ret;
 
-    public InputStream renderXML() {
-        FileInputStream ret = null;
-        File xmlfile = new File( "src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
-        System.out.println("xmlfile="+xmlfile.getAbsolutePath());
-        try {
-            ret  = new FileInputStream(xmlfile);
-        }
-        catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        return ret;
-        
-    }
+	}
 
-    public ResearchDocumentBase getDocument() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public Map<String, InputStream> renderXML() {
+		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
 
+		FileInputStream ret = null;
+		File xmlfile = new File(
+				"src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
+		System.out.println("xmlfile=" + xmlfile.getAbsolutePath());
+		try {
+			ret = new FileInputStream(xmlfile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		xmlStreamMap.put("Bookmark", ret);
+		return xmlStreamMap;
 
+	}
+
+	public ResearchDocumentBase getDocument() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
