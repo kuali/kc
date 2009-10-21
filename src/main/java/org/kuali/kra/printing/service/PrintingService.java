@@ -18,6 +18,8 @@ package org.kuali.kra.printing.service;
 import java.io.OutputStream;
 
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 /**
  * 
@@ -32,7 +34,8 @@ public interface PrintingService {
      * This method invokes the KC printable architecture for reports, notifications, docs and bos. 
      * It will take raw KC XML from bo/docs and perform the XSLT to generate XML-FO,
      * and will render the Printable XML-FO as a PDF OutputStream.
+     * @throws PrintingException 
      */
-    public OutputStream print(Printable printableArtifact);
+    public AttachmentDataSource print(Printable printableArtifact) throws PrintingException;
 
 }

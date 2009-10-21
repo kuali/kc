@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by jenlu (Massachusetts Institute of Technology) -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by jenlu (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="printCertification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="proposalNumber" type="xs:string" minOccurs="0"/>
+				<xs:element name="proposalTitle" type="xs:string" minOccurs="0"/>
+				<xs:element name="investigator" type="Investigator" minOccurs="0"/>
+				<xs:element name="sponsor" type="sponsor" minOccurs="0"/>
+				<xs:element name="schoolInfo" type="PCschoolInfoType" minOccurs="0"/>
+				<xs:element name="organizationInfo" type="organizationType" minOccurs="0"/>
+				<xs:element name="certifications" type="certification" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="LogoPath" type="xs:string" minOccurs="0"/>
+				<xs:element name="CurrentDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="OfficeName" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="sponsor">
+		<xs:sequence>
+			<xs:element name="sponsorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="sponsorName" type="xs:string" minOccurs="0"/>
+			<xs:element name="sponsorType" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Investigator">
+		<xs:sequence>
+			<xs:element name="PersonID" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonName" type="xs:string" minOccurs="0"/>
+			<xs:element name="principalInvFlag" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PCschoolInfoType">
+		<xs:sequence>
+			<xs:element name="SchoolName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Acronym" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="organizationType">
+		<xs:sequence>
+			<xs:element name="OrganizationID" type="xs:string" minOccurs="0"/>
+			<xs:element name="OrganizationName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ContactName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address1" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address2" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address3" type="xs:string" minOccurs="0"/>
+			<xs:element name="City" type="xs:string" minOccurs="0"/>
+			<xs:element name="State" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Country" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="certification">
+		<xs:sequence>
+			<xs:element name="stmt_number" type="xs:int" minOccurs="0"/>
+			<xs:element name="statement" type="xs:string" minOccurs="0"/>
+			<xs:element name="questionID" type="xs:string" minOccurs="0"/>
+			<xs:element name="answer" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,15 +34,20 @@ import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.printing.AwardPrintParameters;
+import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -305,15 +312,127 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    public ActionForward printNotice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
+    public ActionForward printNotice(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(AwardPrintParameters.ADDRESS_LIST
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getSponsorContacts());
+        reportParameters.put(AwardPrintParameters.FOREIGN_TRAVEL
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getForeignTravel());
+        reportParameters.put(AwardPrintParameters.REPORTING
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getReports());
+        reportParameters.put(AwardPrintParameters.CLOSEOUT
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getCloseout());
+        reportParameters.put(AwardPrintParameters.FUNDING_SUMMARY
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getFundingSummary());
+        reportParameters.put(AwardPrintParameters.SPECIAL_REVIEW
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getSpecialReview());
+        reportParameters.put(AwardPrintParameters.COMMENTS
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getComments());
+        reportParameters.put(AwardPrintParameters.HIERARCHY_INFO
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getHierarchy());
+        reportParameters.put(AwardPrintParameters.SUBCONTRACT
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getSubAward());
+        reportParameters.put(AwardPrintParameters.COST_SHARING
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getCostShare());
+        reportParameters.put(AwardPrintParameters.KEYWORDS
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getKeywords());
+        reportParameters.put(AwardPrintParameters.TECHNICAL_REPORTING
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getTechnicalReports());
+        reportParameters.put(AwardPrintParameters.EQUIPMENT
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getEquipment());
+        reportParameters.put(AwardPrintParameters.OTHER_DATA
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getOtherData());
+        reportParameters.put(AwardPrintParameters.TERMS
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getTerms());
+        reportParameters.put(AwardPrintParameters.FA_COST
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getFaRates());
+        reportParameters.put(AwardPrintParameters.PAYMENT
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getPayment());
+        reportParameters.put(AwardPrintParameters.FLOW_THRU
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getFlowThru());
+        reportParameters.put(AwardPrintParameters.PROPOSAL_DUE
+                .getAwardPrintParameter(), false);
+        //awardForm.getAwardPrintNotice().getProposalsDue());
+        
+        reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
+                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
+                .getRequireSignature());
+        AwardPrintingService awardPrintService = KraServiceLocator
+                .getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument(),
+                AwardPrintType.AWARD_NOTICE_REPORT.getAwardPrintType(),
+                reportParameters);
+        streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    public ActionForward printChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
+    public void streamToResponse(AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
+
+    public ActionForward printChangeReport(ActionMapping mapping,
+            ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
+                .getAwardPrintParameter(), awardForm
+                .getAwardPrintChangeReport().getRequireSignature());
+        reportParameters.put(AwardPrintParameters.SEQUENCE_NUMBER
+                .getAwardPrintParameter(), awardForm
+                .getAwardPrintChangeReport().getAwardVersion());
+        reportParameters.put(AwardPrintParameters.TRANSACTION_ID
+                .getAwardPrintParameter(), awardForm
+                .getAwardPrintChangeReport().getTransactionId());
+        AwardPrintingService awardPrintService = KraServiceLocator
+                .getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument(), AwardPrintType.AWARD_DELTA_REPORT
+                        .getAwardPrintType(), reportParameters);
+        streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 

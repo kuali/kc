@@ -44,6 +44,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
@@ -239,21 +240,29 @@ public class BudgetActionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward printBudgetForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm)form;
+    public ActionForward printBudgetForm(ActionMapping mapping,
+            ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+        BudgetPrintService budgetPrintService = KraServiceLocator
+                .getService(BudgetPrintService.class);
         ActionForward forward = null;
         if (budgetForm.getSelectedBudgetPrintFormId() != null) {
-            boolean reportOK = budgetPrintService.printBudgetForms(budget, budgetForm.getSelectedBudgetPrintFormId(), response);
-            budgetForm.setSelectedBudgetPrintFormId(null);
-            if (!reportOK) {
-                forward = mapping.findForward(MAPPING_BASIC);                
+            String[] formArray=budgetForm.getSelectedBudgetPrintFormId();
+                for (int i = 0; i < formArray.length; i++) {
+                    AttachmentDataSource dataStream = budgetPrintService
+                            .readBudgetPrintStream(budget,
+                                    formArray[i]);
+                    streamToResponse(dataStream, response);
+//              }
             }
+            budgetForm.setSelectedBudgetPrintFormId(null);
+            forward = null;//mapping.findForward(MAPPING_BASIC);
         } else {
             forward = mapping.findForward(MAPPING_BASIC);
         }
-        
+
         return forward;
     }
     

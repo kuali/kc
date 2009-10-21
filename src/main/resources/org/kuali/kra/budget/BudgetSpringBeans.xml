@@ -250,8 +250,122 @@
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
   	
-  	<bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl">
+  	<!-- bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl"-->
+  	<!-- Budget Service Configuration Start -->
+	<bean id="budgetSummaryXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetSummaryXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
+	<bean id="budgetSummaryPrint"
+		class="org.kuali.kra.budget.printing.print.BudgetSummaryPrint">
+		<property name="xmlStream" ref="budgetSummaryXmlStream" />
+	</bean>
+	<bean id="budgetCostShareSummaryPrint"
+		class="org.kuali.kra.budget.printing.print.BudgetCostShareSummaryPrint">
+		<property name="xmlStream" ref="budgetSummaryXmlStream" />
+	</bean>
+	<bean id="budgetSalaryXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetSalaryXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="budgetSalaryPrint"
+		class="org.kuali.kra.budget.printing.print.BudgetSalaryPrint">
+		<property name="xmlStream" ref="budgetSalaryXmlStream" />
+	</bean>
+	<bean id="budgetTotalXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetTotalXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="budgetTotalPrint"
+		class="org.kuali.kra.budget.printing.print.BudgetTotalPrint">
+		<property name="xmlStream" ref="budgetTotalXmlStream" />
+	</bean>
+	<bean id="budgetSummaryTotalXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetSummaryTotalXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="budgetSummaryTotalPrint"
+		class="org.kuali.kra.budget.printing.print.BudgetSummaryTotalPrint">
+		<property name="xmlStream" ref="budgetSummaryTotalXmlStream" />
+	</bean>
+	<bean id="industrialCumBudgetXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.IndustrialCumBudgetXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="industrialCumulativeBudgetPrint"
+		class="org.kuali.kra.budget.printing.print.IndustrialCumulativeBudgetPrint">
+		<property name="xmlStream" ref="industrialCumBudgetXmlStream" />
+	</bean>
+	<bean id="budgetCumilativeXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetCumilativeXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="budgetCumulativePrint"
+		class="org.kuali.kra.budget.printing.print.BudgetCumulativePrint">
+		<property name="xmlStream" ref="budgetCumilativeXmlStream" />
+	</bean>
+	<bean id="industrialBudgetXmlStream"
+		class="org.kuali.kra.budget.printing.xmlstream.IndustrialBudgetXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="industrialBudgetPrint"
+		class="org.kuali.kra.budget.printing.print.IndustrialBudgetPrint">
+		<property name="xmlStream" ref="industrialBudgetXmlStream" />
+	</bean>
+	
+	<bean id="budgetPrintService" class="org.kuali.kra.budget.printing.service.impl.BudgetPrintingServiceImpl">
+  	<property name="budgetSummaryPrint" ref="budgetSummaryPrint" />
+		<property name="budgetCostShareSummaryPrint"
+			ref="budgetCostShareSummaryPrint" />
+		<property name="budgetSalaryPrint" ref="budgetSalaryPrint" />
+		<property name="budgetTotalPrint" ref="budgetTotalPrint" />
+		<property name="budgetSummaryTotalPrint"
+			ref="budgetSummaryTotalPrint" />
+		<property name="industrialCumulativeBudgetPrint"
+			ref="industrialCumulativeBudgetPrint" />
+		<property name="budgetCumulativePrint"
+			ref="budgetCumulativePrint" />
+		<property name="industrialBudgetPrint"
+			ref="industrialBudgetPrint" />
+		<property name="printingService" ref="printingService" />
+	</bean>
+	<!-- Budget Service Configuration End -->
+  	
 	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
     <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
     

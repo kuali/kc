@@ -24,9 +24,29 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * This class...
  */
 public interface BudgetPrintService {
+	
+	/**
+	 * Populates the various forms that are part of Budget on UI
+	 * @param budget
+	 */
     public void populateBudgetPrintForms(Budget budget);
+    
+    /**
+     * Generates the report specified and returns the bytes
+     * 
+     * @param budget {@link Budget}
+     * @param selectedBudgetPrintFormId form to print
+     * @return {@link AttachmentDataSource} bytes of the generated form
+     */
     public AttachmentDataSource readBudgetPrintStream(Budget budget, String selectedBudgetPrintFormId);
     
+    /**
+     * Prints all the selected budget forms
+     * @param budget {@link Budget}
+     * @param selectedBudgetPrintFormId list of selected budget forms
+     * @param response
+     * @return boolean status
+     */
     public boolean printBudgetForms(Budget budget, String[] selectedBudgetPrintFormId, HttpServletResponse response);
 
 }

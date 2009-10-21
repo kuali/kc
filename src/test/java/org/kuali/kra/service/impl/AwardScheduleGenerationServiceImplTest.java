@@ -307,7 +307,7 @@ public class AwardScheduleGenerationServiceImplTest {
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
         awardScheduleGenerationServiceImpl.setParameterService(parameterService);
         
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates,0));
     }
     
     @Test
@@ -338,7 +338,7 @@ public class AwardScheduleGenerationServiceImplTest {
         }});
         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);        
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates,0));
     }
     
 }
