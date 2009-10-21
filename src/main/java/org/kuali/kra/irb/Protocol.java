@@ -1345,8 +1345,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getAttachmentProtocols()) {
             AttachmentSummary attachmentSummary = new AttachmentSummary();
-            attachmentSummary.setAttachmentId(attachment.getId());
+            attachmentSummary.setFileType(attachment.getFile().getType());
             attachmentSummary.setFileName(attachment.getFile().getName());
+            attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
             protocolSummary.add(attachmentSummary);
         }
     }
