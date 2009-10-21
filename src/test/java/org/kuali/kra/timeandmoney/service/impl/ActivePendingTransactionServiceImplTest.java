@@ -190,18 +190,6 @@ public class ActivePendingTransactionServiceImplTest {
         
     }
     
-    @Test
-    public void testFetchAwardAmountInfoWithHighestTransactionId(){
-        List<AwardAmountInfo> awardAmountInfos = new ArrayList<AwardAmountInfo>();
-        addAwardAmountInfos(awardAmountInfos, 1);
-        addAwardAmountInfos(awardAmountInfos, 4);
-        addAwardAmountInfos(awardAmountInfos, 3);
-        addAwardAmountInfos(awardAmountInfos, 115);
-        addAwardAmountInfos(awardAmountInfos, 32);
-        addAwardAmountInfos(awardAmountInfos, 13);
-        Assert.assertEquals(new Long(115), activePendingTransactionsServiceImpl.fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos).getTransactionId());
-    }
-    
     public void testValidateAntiDistributableAmount(){
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         pt.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
@@ -232,15 +220,7 @@ public class ActivePendingTransactionServiceImplTest {
         Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber3, awardNumber4));
     }
 
-    /**
-     * This method...
-     * @param awardAmountInfos
-     */
-    private void addAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos, int transactionId) {
-        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-        newAwardAmountInfo.setTransactionId(new Long(transactionId));
-        awardAmountInfos.add(newAwardAmountInfo);
-    }
+    
 
     /**
      * This method...
