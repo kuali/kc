@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+<documentType>
+<name>AbstractTypeMaintenanceDocument</name>
+<description>Create a New Abstract Type</description>
+<label>Abstract Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+			<name>AccountTypeMaintenanceDocument</name>
+			<description>Create a New Account Type</description>
+			<label>Account Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+			<name>ActivityTypeMaintenanceDocument</name>
+			<description>Create a New Activity Type</description>
+			<label>Activity Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+<documentType>
+<name>AffiliationTypeMaintenanceDocument</name>
+<description>Create an Affiliation Type</description>
+<label>Affiliation Type Maintenance Document</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardBasisOfPaymentMaintenanceDocument</name>
+<description>Create a New Award Basis Of Payment</description>
+<label>Award Basis Of Payment</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardMethodOfPaymentMaintenanceDocument</name>
+<description>Create a New Award Method Of Payment</description>
+<label>Award Basis Of Payment</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardStatusMaintenanceDocument</name>
+<description>Create a New Award Status</description>
+<label>Award Status Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateCommentMaintenanceDocument</name>
+<description>Create a New Award Template Comment</description>
+<label>Award Template Comment</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateContactMaintenanceDocument</name>
+<description>Create a New Award Template Contact</description>
+<label>Award Template Contact</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateMaintenanceDocument</name>
+<description>Create a New Award Template</description>
+<label>Award Template</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateReportTermMaintenanceDocument</name>
+<description>Create a New Award Template Report Terms</description>
+<label>Award Template Report Terms</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateReportTermRecipientMaintenanceDocument</name>
+<description>Create a New Award Template Report Term Recipient</description>
+<label>Award Template Report Term Recipient</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardTemplateTermMaintenanceDocument</name>
+<description>Create a New Award Template Terms</description>
+<label>Award Template Report Terms</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+			<name>AwardTypeMaintenanceDocument</name>
+			<description>Create a New Award Type</description>
+			<label>Award Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+<name>BudgetCategoryMaintenanceDocument</name>
+<description>Create/Edit a Budget Category</description>
+<label>Budget Category</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>BudgetCategoryMappingMaintenanceDocument</name>
+<description>Create/Edit a Budget Category Mapping</description>
+<label>Budget Category Mapping</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>BudgetCategoryMapMaintenanceDocument</name>
+<description>Create/Edit a Budget Category Maps</description>
+<label>Budget Category Maps</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>BudgetCategoryTypeMaintenanceDocument</name>
+<description>Create/Edit a Budget Category Type</description>
+<label>Budget Category Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+      <name>BudgetStatusMaintenanceDocument</name>
+      <description>Create/Edit a Budget Status</description>
+      <label>Budget Status</label>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    
+    <documentType>
+			<name>CarrierTypeMaintenanceDocument</name>
+			<description>Create a New Carrier Type</description>
+			<label>Carrier Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+<documentType>
+<name>CommitteeMembershipTypeMaintenanceDocument</name>
+<description>Create/Edit a Committee Membership Type</description>
+<label>Committee Membership Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>CommitteeTypeMaintenanceDocument</name>
+<description>Create/Edit a Committee Type</description>
+<label>Committee Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ContactTypeMaintenanceDocument</name>
+<description>Create a New Contact Type</description>
+<label>Contact Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>CostElementMaintenanceDocument</name>
+<description>Create/Edit a Cost Element</description>
+<label>Cost Element</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+			<name>CustomAttributeDataTypeMaintenanceDocument</name>
+			<description>Create a New Custom Attribute Data Type</description>
+			<label>Custom Attribute Data Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+			<name>CustomAttributeDataTypeMaintenanceDocument</name>
+			<description>Create a New Custom Attribute Data Type</description>
+			<label>Custom Attribute Data Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+<documentType>
+			<name>CustomAttributeDocumentMaintenanceDocument</name>
+			<description>Create a New Custom Attribute Document</description>
+			<label>Custom Attribute Document</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+			<name>CustomAttributeMaintenanceDocument</name>
+			<description>Create a New Custom Attribute</description>
+			<label>Custom Attribute</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+			<name>DeadlineTypeMaintenanceDocument</name>
+			<description>Create a New Deadline Type</description>
+			<label>Deadline Type</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+      <name>DegreeTypeMaintenanceDocument</name>
+      <description>Create/Edit a Degree Type entry</description>
+      <label>Degree Type</label>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    
+<documentType>
+<name>DistributionMaintenanceDocument</name>
+<description>Create a New Osp Distribution</description>
+<label>Osp Distribution</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+      <name>ExemptionTypeMaintenanceDocument</name>
+      <description>Create/Edit a Exemption Type Code</description>
+      <label>Exemption Type</label>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    
+    <documentType>
+<name>ExemptStudiesCheckListMaintenanceDocument</name>
+<description>Create a New Exempt Studies CheckList Item</description>
+<label>Exempt Studies CheckList Item</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+			<name>ExpeditedReviewCheckListMaintenanceDocument</name>
+			<description>Create a New Expedited Review CheckList Item</description>
+			<label>Expedited Review CheckList Item</label>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+		
+<documentType>
+<name>FrequencyBaseMaintenanceDocument</name>
+<description>Create a New Frequency Base</description>
+<label>Frequency Base</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>FrequencyMaintenanceDocument</name>
+<description>Create a New Frequency</description>
+<label>Frequency</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>FundingSourceTypeMaintenanceDocument</name>
+<description>Create/Edit a Funding Source Type</description>
+<label>Funding Source Type</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>InstituteLaRateMaintenanceDocument</name>
+<description>Create/Edit an Institute La Rate</description>
+<label>Institute La Rate</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>InstituteRateMaintenanceDocument</name>
+<description>Create/Edit an Institute Rate</description>
+<label>Institute Rate</label>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<active>true</active>
+<routingVersion>2</routingVersion>
+<routePaths>
+<routePath>
+<start name="Initiated" />
+</routePath>
+</routePaths>
+<routeNodes>
+<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+</routeNodes>
+</documentType>
+
+<documentType>
+      <name>InvestigatorCreditTypeMaintenanceDocument</name>
+      <description>Create/Edit a Investigator Credit Type</description>
+      <label>Investigator Credit Type</label>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+		
+</documentTypes>
+</data>
