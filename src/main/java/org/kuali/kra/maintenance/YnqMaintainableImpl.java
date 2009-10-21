@@ -27,7 +27,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.AssertionUtils;
 import org.kuali.rice.kns.web.ui.Section;
+
 public class YnqMaintainableImpl extends KraMaintainableImpl {
+    private static final long serialVersionUID = -8242765028364970138L;
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
