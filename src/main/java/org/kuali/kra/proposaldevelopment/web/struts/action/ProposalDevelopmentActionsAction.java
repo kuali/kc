@@ -1060,6 +1060,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         else {
             getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+            pdForm.setNewHierarchyChildProposalNumber("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1101,6 +1102,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         else {
             getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+            pdForm.setNewHierarchyProposalNumber("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
