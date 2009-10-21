@@ -1646,16 +1646,16 @@
     	
 	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
 		<property name="businessObjectService">
-					<ref bean="businessObjectService" />
+			<ref bean="businessObjectService" />
 		</property>		
         <property name="documentService">
             <ref bean="documentService" />
         </property>
 		<property name="kraAuthorizationService">
-					<ref bean="kraAuthorizationService" />
+			<ref bean="kraAuthorizationService" />
 		</property>	
 		<property name="narrativeService">
-					<ref bean="narrativeService" />
+			<ref bean="narrativeService" />
 		</property>	
 		<property name="proposalHierarchyDao">
 			<ref bean="proposalHierarchyDao" />
@@ -1666,6 +1666,10 @@
 		<property name="budgetCalculationService">
 			<ref bean="budgetCalculationService"/>
 		</property>
+		<property name="propPersonBioService">
+			<ref bean="proposalPersonBiographyService"/>
+		</property>
+		
 	</bean>
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
