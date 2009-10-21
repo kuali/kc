@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -43,6 +42,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -53,6 +54,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -81,7 +83,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private NarrativeService narrativeService;
     private BudgetService budgetService;
     private BudgetCalculationService budgetCalculationService;
-
+    private ProposalPersonBiographyService propPersonBioService;
 
     /**
      * Sets the businessObjectService attribute value.
@@ -140,6 +142,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     /**
+     * Sets the propPersonBioService attribute value.
+     * @param propPersonBioService The propPersonBioService to set.
+     */
+    public void setPropPersonBioService(ProposalPersonBiographyService propPersonBioService) {
+        this.propPersonBioService = propPersonBioService;
+    }
+
+    /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
      */
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
@@ -183,6 +193,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         initializeBudget(hierarchy, initialChild);
 
         prepareHierarchySync(hierarchy);
+        copyAttachments(initialChild, hierarchy);
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
@@ -386,6 +397,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // Organization/location
         hierarchyProposal.setProposalSites(srcProposal.getProposalSites());
+        hierarchyProposal.setPerformanceSites(srcProposal.getPerformanceSites());
             
         // Delivery info
         hierarchyProposal.setMailBy(srcProposal.getMailBy());
@@ -786,28 +798,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void removeChildElements(DevelopmentProposal parentProposal, Budget parentBudget, ProposalHierarchyChild hierarchyChild) {
-        /*
-        for (PropScienceKeyword keyword : hierarchyChild.getPropScienceKeywords()) {
-            parentProposal.getPropScienceKeywords().remove(keyword);
-        }
-        hierarchyChild.getPropScienceKeywords().clear();
-
-        for (ProposalSpecialReview review : hierarchyChild.getPropSpecialReviews()) {
-            parentProposal.getPropSpecialReviews().remove(review);
-        }
-        hierarchyChild.getPropSpecialReviews().clear();
-
-        for (Narrative narrative : hierarchyChild.getNarratives()) {
-            parentProposal.getNarratives().remove(narrative);
-        }
-        hierarchyChild.getNarratives().clear();
-
-        for (ProposalPerson person : hierarchyChild.getProposalPersons()) {
-            parentProposal.getProposalPersons().remove(person);
-        }
-        hierarchyChild.getProposalPersons().clear();
-        */
-        
         parentProposal.getPropScienceKeywords().removeAll(hierarchyChild.getPropScienceKeywords());
         hierarchyChild.getPropScienceKeywords().clear();
         parentProposal.getPropSpecialReviews().removeAll(hierarchyChild.getPropSpecialReviews());
@@ -843,16 +833,57 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void prepareHierarchySync(DevelopmentProposal hierarchyProposal) {
-        hierarchyProposal.getProposalDocument().refreshReferenceObject("documentNextvalues");    
-        List<DocumentNextvalue> dnvs = hierarchyProposal.getProposalDocument().getDocumentNextvalues();
-        System.err.println(dnvs);
+        hierarchyProposal.getProposalDocument().refreshReferenceObject("documentNextvalues");
     }
     
     private void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) {
-        List<DocumentNextvalue> dnvs = hierarchyProposal.getProposalDocument().getDocumentNextvalues();
-        System.err.println(dnvs);
         businessObjectService.save(hierarchyProposal);
         businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());       
     }
         
+    private void copyAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
+        
+        ProposalPersonBiography destPropPersonBio;
+        for (ProposalPersonBiography srcPropPersonBio : srcProposal.getPropPersonBios()) {
+            loadBioContent(srcPropPersonBio);
+            destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
+            propPersonBioService.addProposalPersonBiography(destProposal.getProposalDocument(), destPropPersonBio);
+        }
+
+        Narrative destNarrative;
+        for (Narrative srcNarrative : srcProposal.getNarratives()) {
+            loadAttachmentContent(srcNarrative);
+            destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
+            destNarrative.setModuleStatusCode("I");
+            narrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
+        }
+        
+        Narrative destInstituteAttachment;
+        for (Narrative srcInstituteAttachment : srcProposal.getInstituteAttachments()) {
+            loadAttachmentContent(srcInstituteAttachment);
+            destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
+            narrativeService.addInstituteAttachment(destProposal.getProposalDocument(), destInstituteAttachment);
+        }
+    }
+
+    private void loadAttachmentContent(Narrative narrative){
+        Map<String,String> primaryKey = new HashMap<String,String>();
+        primaryKey.put("proposalNumber", narrative.getProposalNumber());
+        primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
+        NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+        narrative.getNarrativeAttachmentList().clear();
+        narrative.getNarrativeAttachmentList().add(attachment);
+    }
+    
+    private void loadBioContent(ProposalPersonBiography bio){
+        Map<String,String> primaryKey = new HashMap<String,String>();
+        primaryKey.put("proposalNumber", bio.getProposalNumber());
+        primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
+        primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
+        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
+        bio.getPersonnelAttachmentList().clear();
+        bio.getPersonnelAttachmentList().add(attachment);
+    }
+    
+    
 }
