@@ -489,7 +489,7 @@ public class ActionHelper implements Serializable {
         }
         Date endingOn = historyDateRangeFilter.getEndingOn();
         if (endingOn != null) {
-            Timestamp endTimestamp = new Timestamp(endingOn.getTime() + ONE_DAY);
+            Timestamp endTimestamp = new Timestamp(endingOn.getTime() + ONE_DAY - 1);
             if (protocolAction.getActionDate().after(endTimestamp)) {
                 return false;
             }
