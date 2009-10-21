@@ -1,0 +1,27 @@
+SQL> @kc-rice-093-to-094-data-migration.sql;
+
+0 rows created.
+
+
+5 rows created.
+
+
+4 rows created.
+
+
+146 rows created.
+
+
+3 rows created.
+
+
+3 rows updated.
+
+
+0 rows updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off;
