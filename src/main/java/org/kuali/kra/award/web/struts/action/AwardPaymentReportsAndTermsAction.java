@@ -108,10 +108,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward toggleTabReporting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final ActionForward forward = super.toggleTab(mapping, form, request, response);
         
         ((AwardForm) form).getAwardReportingBean().generateReportSchedules(getAwardReportTermIndex(request));    
         
-        return super.toggleTab(mapping, form, request, response);
+        return forward;
     }
     
     /**

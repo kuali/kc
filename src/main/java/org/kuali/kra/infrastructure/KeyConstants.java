@@ -320,6 +320,7 @@ public final class KeyConstants {
     //Award Payment Schedule    
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED = "error.required";
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE = "error.awardPaymentSchedule.notunique";
+    public static final String ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL = "error.schedule.generation.freq.base.is.null";
     
     //Time & Money - Transactions
     public static final String ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE = "error.awardPendingTransaction.notunique";
@@ -609,6 +610,7 @@ public final class KeyConstants {
     public static final String ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED = "error.create.new.child.no.option.selected";
     public static final String ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED = "error.copy.award.childOf.award.not.selected";
     public static final String ERROR_COPY_AWARD_NO_OPTION_SELECTED = "error.copy.award.no.option.selected";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
