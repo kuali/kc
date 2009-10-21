@@ -383,9 +383,11 @@ public class ProtocolSummary implements Serializable {
         return null;
     }
 
-    public AttachmentSummary findAttachment(Long id) {
+    public AttachmentSummary findAttachment(String fileName, String fileType, long dataLength) {
         for (AttachmentSummary attachment : attachments) {
-            if (ObjectUtils.equals(attachment.getAttachmentId(), id)) {
+            if (StringUtils.equals(attachment.getFileName(), fileName) &&
+                StringUtils.equals(attachment.getFileType(), fileType) &&
+                attachment.getDataLength() == dataLength) {
                 return attachment;
             }
         }
