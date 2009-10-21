@@ -22,7 +22,8 @@ public class AttachmentSummary implements Serializable {
     private static final long serialVersionUID = -6058410492582759356L;
     
     private String fileName;
-    private Long attachmentId;
+    private String fileType;
+    private long dataLength;
     
     private boolean fileNameChanged;
     
@@ -38,12 +39,20 @@ public class AttachmentSummary implements Serializable {
         this.fileName = fileName;
     }
 
-    public Long getAttachmentId() {
-        return attachmentId;
+    public String getFileType() {
+        return fileType;
     }
 
-    public void setAttachmentId(Long attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+    
+    public long getDataLength() {
+        return dataLength;
+    }
+    
+    public void setDataLength(long dataLength) {
+        this.dataLength = dataLength;
     }
 
     public boolean isFileNameChanged() {
@@ -51,7 +60,7 @@ public class AttachmentSummary implements Serializable {
     }
 
     public void compare(ProtocolSummary other) {
-        AttachmentSummary otherAttachment = other.findAttachment(attachmentId);
+        AttachmentSummary otherAttachment = other.findAttachment(fileName, fileType, dataLength);
         fileNameChanged = (otherAttachment == null);
     }
 }
