@@ -1,0 +1,170 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.award.printing.xmlstream;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import noNamespace.AmountInfoType;
+import noNamespace.AwardType;
+import noNamespace.AwardNoticeDocument.AwardNotice;
+import noNamespace.AwardType.AwardAmountInfo;
+
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.document.ResearchDocumentBase;
+
+/**
+ * This class generates XML that conforms with the XSD related to Award Budget
+ * hierarchy Report. The data for XML is derived from
+ * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * 
+ * @author
+ * 
+ */
+public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
+	/**
+	 * This method generates XML for Award Budget Hierarchy Report. It uses data
+	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * XMl once generated is returned as {@link XmlObject}
+	 * 
+	 * @param document
+	 *            using which XML is generated
+	 * @param reportParameters
+	 *            parameters related to XML generation
+	 * @return {@link XmlObject} representing the XML
+	 */
+	public Map<String, XmlObject> generateXmlStream(
+			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
+		AwardDocument awardDocument = (AwardDocument) document;
+		Award award = awardDocument.getAward();
+		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
+		if (award != null) {
+			awardNotice.setAward(getAwardType(award));
+			awardNotice.setSchoolInfo(getSchoolInfoType());
+		}
+		budgetHierarchyMap.put(AwardPrintType.AWARD_BUDGET_HIERARCHY
+				.getAwardPrintType(), awardNotice);
+		return budgetHierarchyMap;
+	}
+
+	/*
+	 * This method will set the values to Award type xml object attributes. It
+	 * will set the following values like award amount info , Transaction info .
+	 * 
+	 */
+	private AwardType getAwardType(Award award) {
+		AwardType awardType = AwardType.Factory.newInstance();
+		awardType.setAwardAmountInfo(getAwardAmountInfo(award));
+		awardType.setAwardTransactionInfo(getAwardTransactiontInfo(award));
+		return awardType;
+	}
+
+	/*
+	 * This method will set the values to award amount info xml object
+	 * attributes.
+	 */
+	private AwardAmountInfo getAwardAmountInfo(Award award) {
+		AmountInfoType amountInfoType = null;
+		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
+		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
+		for (org.kuali.kra.award.home.AwardAmountInfo awardAmount : award
+				.getAwardAmountInfos()) {
+			amountInfoType = setAwardAmountInfo(award, awardAmount);
+			amountInfoTypes.add(amountInfoType);
+		}
+		awardAmountInfo.setAmountInfoArray(amountInfoTypes
+				.toArray(new AmountInfoType[0]));
+		return awardAmountInfo;
+	}
+
+	/*
+	 * This method will set the values to award amount info xml object
+	 * attributes .
+	 */
+	private AmountInfoType setAwardAmountInfo(Award award,
+			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {
+		AmountInfoType amountInfoType;
+		amountInfoType = AmountInfoType.Factory.newInstance();
+		if (award.getAccountNumber() != null) {
+			amountInfoType.setAccountNumber(award.getAccountNumber());
+		}
+		if (awardAmount.getTransactionId() != null) {
+			amountInfoType.setAmountSequenceNumber(awardAmount
+					.getTransactionId().intValue());
+		}
+		if (awardAmount.getAmountObligatedToDate() != null) {
+			amountInfoType.setAmtObligatedToDate(awardAmount
+					.getAmountObligatedToDate().bigDecimalValue());
+		}
+		if (awardAmount.getAnticipatedChange() != null) {
+			amountInfoType.setAnticipatedChange(awardAmount
+					.getAnticipatedChange().bigDecimalValue());
+		}
+		if (awardAmount.getAnticipatedChangeDirect() != null) {
+			amountInfoType.setAnticipatedChangeDirect(BigDecimal
+					.valueOf(awardAmount.getAnticipatedChangeDirect()));
+		}
+		if (awardAmount.getAnticipatedChangeIndirect() != null) {
+			amountInfoType.setAnticipatedChangeIndirect(BigDecimal
+					.valueOf(awardAmount.getAnticipatedChangeIndirect()));
+		}
+		if (awardAmount.getAntDistributableAmount() != null) {
+			amountInfoType.setAnticipatedDistributableAmt(awardAmount
+					.getAntDistributableAmount().bigDecimalValue());
+		}
+		if (awardAmount.getAnticipatedTotalAmount() != null) {
+			amountInfoType.setAnticipatedTotalAmt(awardAmount
+					.getAnticipatedTotalAmount().bigDecimalValue());
+		}
+		if (awardAmount.getAnticipatedTotalDirect() != null) {
+			amountInfoType.setAnticipatedTotalDirect(awardAmount
+					.getAnticipatedTotalDirect().bigDecimalValue());
+		}
+		if (awardAmount.getAnticipatedTotalIndirect() != null) {
+			amountInfoType.setAnticipatedTotalIndirect(awardAmount
+					.getAnticipatedTotalIndirect().bigDecimalValue());
+		}
+		if (award.getAwardNumber() != null) {
+			amountInfoType.setAwardNumber(award.getAwardNumber());
+		}
+		if (awardAmount.getObligationExpirationDate() != null) {
+			amountInfoType.setObligationExpirationDate(dateTimeService
+					.getCalendar(awardAmount.getObligationExpirationDate()));
+		}
+		if (awardAmount.getObligatedTotalIndirect() != null) {
+			amountInfoType.setObligatedTotalIndirect(awardAmount
+					.getObligatedTotalIndirect().bigDecimalValue());
+		}
+		if (awardAmount.getObligatedTotalDirect() != null) {
+			amountInfoType.setObligatedTotalDirect(awardAmount
+					.getObligatedTotalDirect().bigDecimalValue());
+		}
+		if (awardAmount.getCurrentFundEffectiveDate() != null) {
+			amountInfoType.setCurrentFundEffectiveDate(dateTimeService
+					.getCalendar(awardAmount.getCurrentFundEffectiveDate()));
+		}
+		// TODO : to be fixed
+		// amountInfoType.setTreeLevel(awardAmount.get);
+		return amountInfoType;
+	}
+}

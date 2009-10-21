@@ -18,37 +18,42 @@ package org.kuali.kra.printing;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.xml.transform.Source;
 
 import org.kuali.kra.document.ResearchDocumentBase;
 
-
 /**
  * 
- * This interface marks reports, notifications, BOs and Documents as printable in Kuali-Coeus. 
- * KC Docs & BOs that will be printed via KC printing services should implement this interface.
+ * This interface marks reports, notifications, BOs and Documents as printable
+ * in Kuali-Coeus. KC Docs & BOs that will be printed via KC printing services
+ * should implement this interface.
  */
 public interface Printable extends Serializable {
-    
 
-    /**
-     * 
-     * This method provides a way to get the XSL Transform(s) for the KC generated XML. This XSLT will create a
-     * transformed XML-FO stream that will be converted to PDF. Note that multiple transforms are possible on this data.
-     */
-    public ArrayList<Source> getXSLT();
-    
-    /**
-     * 
-     * This method will provide the either reflected or XML-Bean based XML for input to the 
-     * Transform into XML-FO.
-     */
-    public InputStream renderXML();
-    /**
-     * 
-     * This method will provide the document object associated with the printable
-     * @return ResearchDocument
-     */
-    public ResearchDocumentBase getDocument();
+	/**
+	 * 
+	 * This method provides a way to get the XSL Transform(s) for the KC
+	 * generated XML. This XSLT will create a transformed XML-FO stream that
+	 * will be converted to PDF. Note that multiple transforms are possible on
+	 * this data.
+	 */
+	public ArrayList<Source> getXSLT();
+
+	/**
+	 * 
+	 * This method will provide the either reflected or XML-Bean based XML for
+	 * input to the Transform into XML-FO.
+	 */
+	public Map<String, InputStream> renderXML() throws PrintingException;
+
+	/**
+	 * 
+	 * This method will provide the document object associated with the
+	 * printable
+	 * 
+	 * @return ResearchDocument
+	 */
+	public ResearchDocumentBase getDocument();
 }

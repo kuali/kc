@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Geo Thomas (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:propbudget="http://v2.xml.utils.coeus.mit.edu/budget" targetNamespace="http://v2.xml.utils.coeus.mit.edu/budget" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<xs:element name="BUDGET">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="BudgetMaster">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VERSION_NUMBER">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="3"/>
+										<xs:fractionDigits value="0"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="START_DATE">
+								<xs:simpleType>
+									<xs:restriction base="xs:dateTime"/>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="END_DATE">
+								<xs:simpleType>
+									<xs:restriction base="xs:dateTime"/>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TOTAL_COST" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TOTAL_DIRECT_COST" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TOTAL_INDIRECT_COST" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="COST_SHARING_AMOUNT" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="UNDERRECOVERY_AMOUNT" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="RESIDUAL_FUNDS" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TOTAL_COST_LIMIT" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="12"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OH_RATE_CLASS_CODE">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="3"/>
+										<xs:fractionDigits value="0"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OH_RATE_TYPE_CODE" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="3"/>
+										<xs:fractionDigits value="0"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="COMMENTS" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="2147483647"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="FINAL_VERSION_FLAG" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="1"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="UPDATE_TIMESTAMP">
+								<xs:simpleType>
+									<xs:restriction base="xs:dateTime"/>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="UPDATE_USER">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="8"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="UR_RATE_CLASS_CODE">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="3"/>
+										<xs:fractionDigits value="0"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="MODULAR_BUDGET_FLAG" default="1" nillable="true" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="1"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="PROPOSAL_NUMBER" default="N">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="8"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

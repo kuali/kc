@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mike Goodman (NIH/OD/OER) -->
+<xs:schema targetNamespace="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" xmlns:common="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!-- ****************** Simple Types Definitions ****************** -->
+	<xs:simpleType name="StateCodeType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="PostalCodeType">
+		<xs:restriction base="xs:token"/>
+		<!-- should be either 99999 or 99999-9999 -->
+	</xs:simpleType>
+	<xs:simpleType name="CountryCodeType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneNumberType">
+		<xs:restriction base="xs:token"/>
+		<!-- should be either 1234567890 or 123-456-7890 -->
+	</xs:simpleType>
+	<xs:simpleType name="CompleteNameType">
+		<xs:restriction base="xs:token"/>
+		<!-- alphabetical characters -->
+	</xs:simpleType>
+	<xs:simpleType name="FirstNameType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="MiddleNameType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="LastNameType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="CurrencyType">
+		<xs:restriction base="xs:decimal"/>
+		<!-- should be 548755.90 -->
+	</xs:simpleType>
+	<xs:simpleType name="CountType">
+		<xs:restriction base="xs:integer"/>
+		<!-- number -->
+	</xs:simpleType>
+	<xs:simpleType name="GenderType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="EthnicityType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="CitizenshipType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="DisabilityStatusType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="DisabilityType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="RaceType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="AppointmentCategoryType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="MonthNumberType">
+		<xs:restriction base="xs:decimal"/>
+		<!-- x.xx or xx.xx  only numbers -->
+	</xs:simpleType>
+	<xs:simpleType name="DUNSType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="AnswerType">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="FileIdentifierType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<!-- ****************** Complex Type Definitions ****************** -->
+	<xs:complexType name="PostalAddressType">
+		<xs:sequence>
+			<xs:element name="Street" type="xs:token" minOccurs="0" maxOccurs="4"/>
+			<xs:element name="MailStopCode" type="xs:token" minOccurs="0"/>
+			<xs:element name="City" type="xs:token"/>
+			<xs:element name="State" type="common:StateCodeType" minOccurs="0"/>
+			<xs:element name="PostalCode" type="common:PostalCodeType"/>
+			<xs:element name="Country" type="common:CountryCodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="ElectronicContactInfoType">
+		<xs:sequence>
+			<xs:element name="PhoneNumber" type="common:PhoneNumberType"/>
+			<xs:element name="FaxNumber" type="common:PhoneNumberType" minOccurs="0"/>
+			<xs:element name="Email" type="xs:token"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ContactInfoType">
+		<xs:sequence>
+			<xs:element name="PostalAddress" type="common:PostalAddressType"/>
+			<xs:group ref="common:ElectronicContactInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactPersonType">
+		<xs:sequence>
+			<xs:group ref="common:PersonFullNameType"/>
+			<xs:element name="ContactInfo" type="common:ContactInfoType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssuranceType">
+		<xs:sequence>
+			<xs:element name="YesNoAnswer" type="xs:boolean"/>
+			<xs:element name="Explanation" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="PersonFullNameType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="FirstName" type="common:FirstNameType"/>
+				<xs:element name="MiddleName" type="common:MiddleNameType" minOccurs="0"/>
+				<xs:element name="LastName" type="common:LastNameType"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>

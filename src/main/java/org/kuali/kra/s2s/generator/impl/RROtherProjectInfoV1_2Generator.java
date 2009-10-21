@@ -1,0 +1,551 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.s2s.generator.impl;
+
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.AbstractAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.BibliographyAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.EnvironmentalImpact;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.EquipmentAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.FacilitiesAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.HumanSubjectsSupplement;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.InternationalActivities;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.OtherAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.ProjectNarrativeAttachments;
+import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.VertebrateAnimalsSupplement;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+
+import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.util.S2SConstants;
+
+/**
+ * <p>
+ * Class for generating the XML object for grants.gov RROtherProjectInfoV1.2.
+ * Form is generated using XMLBean classes and is based on RROtherProjectInfo
+ * schema.
+ * <p>
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
+public class RROtherProjectInfoV1_2Generator extends
+		RROtherProjectInfoBaseGenerator {
+	private static final String HISTORIC_DESTIONATION_YNQ = "G6";
+	private static final String EMPTY_STRING = " ";
+	private static final String SPLIT_DELIMETER = ",";
+	private static final Logger LOG = Logger
+			.getLogger(RROtherProjectInfoV1_2Generator.class);
+
+	/*
+	 * This method gives information about RROtherProjectInfo of proposal
+	 * special reviews based on the data in the proposal development document.
+	 * 
+	 */
+	private RROtherProjectInfo12Document getRROtherProjectInfo() {
+		RROtherProjectInfo12Document rrOtherProjectInfoDocument = RROtherProjectInfo12Document.Factory
+				.newInstance();
+		RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo = RROtherProjectInfo12Document.RROtherProjectInfo12.Factory
+				.newInstance();
+		rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_2);
+		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
+		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
+
+		InternationalActivities internationalActivities = setEnvironmentalImpactDetails(rrOtherProjectInfo);
+		setHistoricDestionation(rrOtherProjectInfo);
+		setInternationalActivities(internationalActivities);
+		rrOtherProjectInfo.setInternationalActivities(internationalActivities);
+		Organization organization = pdDoc.getDevelopmentProposal()
+				.getApplicantOrganization().getOrganization();
+		setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo, organization);
+
+		setAttachments(rrOtherProjectInfo);
+		rrOtherProjectInfoDocument.setRROtherProjectInfo12(rrOtherProjectInfo);
+		return rrOtherProjectInfoDocument;
+	}
+
+	/*
+	 * This method will set the values to historic destination
+	 */
+	private void setHistoricDestionation(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
+		ProposalYnq proposalYnq = null;
+		ProposalYnq proposalYnq2 = getAnswer(HISTORIC_DESTIONATION_YNQ);
+		if (proposalYnq != null) {
+			YesNoDataType.Enum answer = (proposalYnq.getAnswer().equals("Y") ? YesNoDataType.Y_YES
+					: YesNoDataType.N_NO);
+			String answerExplanation = proposalYnq2.getExplanation();
+			rrOtherProjectInfo.setHistoricDesignation(answer);
+			if (answerExplanation != null) {
+				rrOtherProjectInfo
+						.setHistoricDesignationExplanation(answerExplanation);
+			}
+		}
+	}
+
+	/*
+	 * This method will set the values to environmental impact
+	 */
+	private InternationalActivities setEnvironmentalImpactDetails(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
+		ProposalYnq proposalYnq = getAnswer(PROPRIETARY_INFORMATION_INDICATOR);
+		YesNoDataType.Enum answer = YesNoDataType.N_NO;
+		EnvironmentalImpact environmentalImpact = EnvironmentalImpact.Factory
+				.newInstance();
+		InternationalActivities internationalActivities = InternationalActivities.Factory
+				.newInstance();
+		rrOtherProjectInfo
+				.setProprietaryInformationIndicator(YesNoDataType.N_NO);
+		environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.N_NO);
+		internationalActivities
+				.setInternationalActivitiesIndicator(YesNoDataType.N_NO);
+		if (proposalYnq != null) {
+			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
+					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+			rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
+		}
+		setEnvironmentalImpactIndicatorAndExplanation(environmentalImpact);
+		proposalYnq = getAnswer(ENVIRONMENTAL_EXEMPTION_YNQ);
+		setEnvironmentalExemption(proposalYnq, environmentalImpact);
+		rrOtherProjectInfo.setEnvironmentalImpact(environmentalImpact);
+		return internationalActivities;
+	}
+
+	/*
+	 * This method will set the values to environmental impact indicator and
+	 * environmental impact explanation
+	 */
+	private void setEnvironmentalImpactIndicatorAndExplanation(
+			EnvironmentalImpact environmentalImpact) {
+		ProposalYnq proposalYnq = null;
+		proposalYnq = getAnswer(ENVIRONMENTAL_IMPACT_YNQ);
+		String answerExplanation = EMPTY_STRING;
+		if (proposalYnq != null) {
+			YesNoDataType.Enum answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y
+					.equals(proposalYnq.getAnswer()) ? YesNoDataType.Y_YES
+					: YesNoDataType.N_NO);
+			answerExplanation = proposalYnq.getExplanation();
+			environmentalImpact.setEnvironmentalImpactIndicator(answer);
+			if (answerExplanation != null) {
+				environmentalImpact
+						.setEnvironmentalImpactExplanation(answerExplanation);
+			}
+		}
+	}
+
+	/*
+	 * This method will set the values to human subject supplement and
+	 * vertebrate animals supplement
+	 */
+	private void setHumanSubjAndVertebrateAnimals(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Organization organization) {
+		for (ProposalSpecialReview proposalSpecialReview : pdDoc
+				.getDevelopmentProposal().getPropSpecialReviews()) {
+			if (proposalSpecialReview.getSpecialReviewCode() != null) {
+				if (Integer.valueOf(proposalSpecialReview
+						.getSpecialReviewCode()) == HUMAN_SUBJECT_SUPPLEMENT) {
+					setHumaSubjectSupplementDetails(rrOtherProjectInfo,
+							organization, proposalSpecialReview);
+				} else if (Integer.valueOf(proposalSpecialReview
+						.getSpecialReviewCode()) == VERTEBRATE_ANIMALS_SUPPLEMENT) {
+					setVertebrateAnimalsSupplementDetails(rrOtherProjectInfo,
+							organization, proposalSpecialReview);
+				}
+			}
+		}
+	}
+
+	/*
+	 * This method will set the values to environmental exemption
+	 */
+	private void setEnvironmentalExemption(ProposalYnq proposalYnq,
+			EnvironmentalImpact environmentalImpact) {
+		YesNoDataType.Enum answer = YesNoDataType.N_NO;
+		String answerExplanation;
+		if (proposalYnq != null) {
+			answerExplanation = proposalYnq.getExplanation();
+			String ynqAnswer = proposalYnq.getAnswer();
+			if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
+				answer = YesNoDataType.Y_YES;
+			} else {
+				answer = YesNoDataType.N_NO;
+			}
+			if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
+				// Answer not equal to X (not-applicable)
+				EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
+						.newInstance();
+				environmentalExemption
+						.setEnvironmentalExemptionIndicator(answer);
+				environmentalExemption
+						.setEnvironmentalExemptionExplanation(answerExplanation);
+				environmentalImpact
+						.setEnvironmentalExemption(environmentalExemption);
+
+			}
+		}
+	}
+
+	/*
+	 * This method will set the International Activities are
+	 * InternationalActivitiesIndicator ,ActivitiesPartnershipsCountries
+	 */
+	private void setInternationalActivities(
+			InternationalActivities internationalActivities) {
+		YesNoDataType.Enum answer = YesNoDataType.N_NO;
+		String answerExplanation;
+		ProposalYnq proposalYnq;
+		proposalYnq = getAnswer(INTERNATIONAL_ACTIVITIES_YNQ);
+		if (proposalYnq != null) {
+			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
+					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+			answerExplanation = proposalYnq.getExplanation();
+			internationalActivities.setInternationalActivitiesIndicator(answer);
+			if (answerExplanation != null) {
+				internationalActivities
+						.setInternationalActivitiesIndicator(answer);
+				internationalActivities
+						.setActivitiesPartnershipsCountries(answerExplanation);
+			}
+		}
+	}
+
+	/*
+	 * This method will set the values to vertebrate animals supplement details
+	 */
+	private void setVertebrateAnimalsSupplementDetails(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Organization organization,
+			ProposalSpecialReview proposalSpecialReview) {
+		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.Y_YES);
+		VertebrateAnimalsSupplement vertebrateAnimalsSupplement = VertebrateAnimalsSupplement.Factory
+				.newInstance();
+		setVertebrateAnimalsIACUCReviewDetails(proposalSpecialReview,
+				vertebrateAnimalsSupplement);
+		if (organization != null && organization.getHumanSubAssurance() != null) {
+			vertebrateAnimalsSupplement.setAssuranceNumber(organization
+					.getHumanSubAssurance().substring(3));
+		}
+		rrOtherProjectInfo
+				.setVertebrateAnimalsSupplement(vertebrateAnimalsSupplement);
+	}
+
+	/*
+	 * This method will set the values to human subject supplement details
+	 */
+	private void setHumaSubjectSupplementDetails(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Organization organization,
+			ProposalSpecialReview proposalSpecialReview) {
+		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.Y_YES);
+		HumanSubjectsSupplement humanSubjectsSupplement = HumanSubjectsSupplement.Factory
+				.newInstance();
+		HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers = HumanSubjectsSupplement.ExemptionNumbers.Factory
+				.newInstance();
+
+		if (proposalSpecialReview.getApprovalTypeCode() != null) {
+			setExemptions(proposalSpecialReview, humanSubjectsSupplement,
+					exemptionNumbers);
+			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
+					humanSubjectsSupplement);
+		}
+		if (organization != null && organization.getHumanSubAssurance() != null) {
+			humanSubjectsSupplement.setHumanSubjectAssuranceNumber(organization
+					.getHumanSubAssurance().substring(3));
+		}
+		if (humanSubjectsSupplement != null) {
+			rrOtherProjectInfo
+					.setHumanSubjectsSupplement(humanSubjectsSupplement);
+		}
+	}
+
+	/*
+	 * This method will set the Vertebrate Animals IACUC Review details are date
+	 * and indicator based on condition
+	 */
+	private void setVertebrateAnimalsIACUCReviewDetails(
+			ProposalSpecialReview proposalSpecialReview,
+			VertebrateAnimalsSupplement vertebrateAnimalsSupplement) {
+		if (SPECIAL_REVIEW_ANIMAL_USAGE.equals(proposalSpecialReview
+				.getSpecialReviewCode())) {
+			vertebrateAnimalsSupplement
+					.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
+		} else {
+			vertebrateAnimalsSupplement
+					.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.N_NO);
+			if (proposalSpecialReview.getApprovalDate() != null) {
+				vertebrateAnimalsSupplement
+						.setVertebrateAnimalsIACUCApprovalDateReviewDate(s2sUtilService
+								.convertDateToCalendar(proposalSpecialReview
+										.getApprovalDate()));
+			}
+		}
+	}
+
+	/*
+	 * This method will set the exemptions to human subjects supplement
+	 */
+	private void setExemptions(ProposalSpecialReview proposalSpecialReview,
+			HumanSubjectsSupplement humanSubjectsSupplement,
+			HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers) {
+		String newDescription = proposalSpecialReview.getComments();
+		if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
+			if (newDescription != null) {
+				String[] exemptions = newDescription.split(SPLIT_DELIMETER);
+				HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum[] exceptionNumberArray = new HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum[exemptions.length];
+				for (int exceptionNumber = 0; exceptionNumber < exemptions.length; exceptionNumber++) {
+					HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exceptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum
+							.forString(exemptions[exceptionNumber]);
+					exceptionNumberArray[exceptionNumber] = exceptionNumberEnum;
+				}
+				exemptionNumbers.setExemptionNumberArray(exceptionNumberArray);
+				humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);
+			}
+			humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);
+		}
+	}
+
+	/*
+	 * This method will set the Human Subject IRB Review Indicator
+	 */
+	private void setHumanSubjectIRBReviewIndicator(
+			ProposalSpecialReview proposalSpecialReview,
+			HumanSubjectsSupplement humanSubjectsSupplement) {
+		if (SPECIAL_REVIEW_HUMAN_SUBJECTS.equals(proposalSpecialReview
+				.getSpecialReviewCode())) {
+			humanSubjectsSupplement
+					.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
+		} else {
+			humanSubjectsSupplement
+					.setHumanSubjectIRBReviewIndicator(YesNoDataType.N_NO);
+			if (proposalSpecialReview.getApprovalDate() != null) {
+				humanSubjectsSupplement
+						.setHumanSubjectIRBReviewDate(s2sUtilService
+								.convertDateToCalendar(proposalSpecialReview
+										.getApprovalDate()));
+			}
+		}
+	}
+
+	/*
+	 * This method will set the attachments to RR Other Project info document
+	 * based on the type of attachment
+	 */
+	private void setAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
+		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+				.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null) {
+				setEquipmentAttachments(rrOtherProjectInfo, narrative);
+				setFacilitiesAttachments(rrOtherProjectInfo, narrative);
+				setProjectNarrativeAttachments(rrOtherProjectInfo, narrative);
+				setBibliographyAttachments(rrOtherProjectInfo, narrative);
+				setAbstractAttachments(rrOtherProjectInfo, narrative);
+				setOtherAttachments(rrOtherProjectInfo, narrative);
+			}
+		}
+	}
+
+	/*
+	 * This method will set the other attachments to RR other Project info
+	 * document
+	 */
+	private void setOtherAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT
+				|| Integer.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT) {
+			OtherAttachments otherAttachments = OtherAttachments.Factory
+					.newInstance();
+			otherAttachments
+					.setOtherAttachmentArray(getAttachedFileDataTypes());
+			rrOtherProjectInfo.setOtherAttachments(otherAttachments);
+		}
+	}
+
+	/*
+	 * This method will set the abstract attachments to RR other Project info
+	 * document
+	 */
+	private void setAbstractAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
+			AbstractAttachments abstractAttachments = AbstractAttachments.Factory
+					.newInstance();
+			abstractAttachments
+					.setAbstractAttachment(getAttachedFileType(narrative));
+			rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
+		}
+	}
+
+	/*
+	 * This method will set the bibliography attachments to RR other Project
+	 * info document
+	 */
+	private void setBibliographyAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
+			BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory
+					.newInstance();
+			bibliographyAttachments
+					.setBibliographyAttachment(getAttachedFileType(narrative));
+			rrOtherProjectInfo
+					.setBibliographyAttachments(bibliographyAttachments);
+		}
+	}
+
+	/*
+	 * This method will set the project narrative attachments to RR other
+	 * Project info document
+	 */
+	private void setProjectNarrativeAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
+			ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory
+					.newInstance();
+			projectNarrativeAttachments
+					.setProjectNarrativeAttachment(getAttachedFileType(narrative));
+			rrOtherProjectInfo
+					.setProjectNarrativeAttachments(projectNarrativeAttachments);
+		}
+	}
+
+	/*
+	 * This method will set the facilities attachments to RR other Project info
+	 * document
+	 */
+	private void setFacilitiesAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
+			FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory
+					.newInstance();
+			facilitiesAttachments
+					.setFacilitiesAttachment(getAttachedFileType(narrative));
+			rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+		}
+	}
+
+	/*
+	 * This method will set the equipment attachments to RR other Project info
+	 * document
+	 */
+	private void setEquipmentAttachments(
+			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
+			Narrative narrative) {
+		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
+			EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory
+					.newInstance();
+			equipmentAttachments
+					.setEquipmentAttachment(getAttachedFileType(narrative));
+			rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+		}
+	}
+
+	/*
+	 * 
+	 * This method is used to get the answer for ProposalYnq
+	 * 
+	 */
+	private ProposalYnq getAnswer(String questionId) {
+		String question;
+		ProposalYnq ynQ = null;
+		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
+				.getProposalYnqs()) {
+			question = proposalYnq.getQuestionId();
+			if (question != null && question.equals(questionId)) {
+				ynQ = proposalYnq;
+				break;
+			}
+		}
+		return ynQ;
+	}
+
+	/*
+	 * 
+	 * This method is used to get List of attachments from
+	 * NarrativeAttachmentList
+	 */
+	private AttachedFileDataType[] getAttachedFileDataTypes() {
+		int size = 0;
+		AttachedFileDataType[] attachedFileDataTypes = null;
+		DevelopmentProposal developmentProposal = pdDoc
+				.getDevelopmentProposal();
+		for (Narrative narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer
+							.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
+				size++;
+			}
+		}
+		attachedFileDataTypes = new AttachedFileDataType[size];
+		int attachments = 0;
+		for (Narrative narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer
+							.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
+				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
+				attachments++;
+			}
+		}
+		return attachedFileDataTypes;
+	}
+
+	/**
+	 * This method creates {@link XmlObject} of type
+	 * {@link RROtherProjectInfo12Document} by populating data from the given
+	 * {@link ProposalDevelopmentDocument}
+	 * 
+	 * @param proposalDevelopmentDocument
+	 *            for which the {@link XmlObject} needs to be created
+	 * @return {@link XmlObject} which is generated using the given
+	 *         {@link ProposalDevelopmentDocument}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 */
+	public XmlObject getFormObject(
+			ProposalDevelopmentDocument proposalDevelopmentDocument) {
+		this.pdDoc = proposalDevelopmentDocument;
+		return getRROtherProjectInfo();
+	}
+
+	/**
+	 * This method typecasts the given {@link XmlObject} to the required
+	 * generator type and returns back the document of that generator type.
+	 * 
+	 * @param xmlObject
+	 *            which needs to be converted to the document type of the
+	 *            required generator
+	 * @return {@link XmlObject} document of the required generator type
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+	 */
+	public XmlObject getFormObject(XmlObject xmlObject) {
+		RROtherProjectInfo12 rrOtherProjectInfo = (RROtherProjectInfo12) xmlObject;
+		RROtherProjectInfo12Document rrOtherProjectInfoDocument = RROtherProjectInfo12Document.Factory
+				.newInstance();
+		rrOtherProjectInfoDocument.setRROtherProjectInfo12(rrOtherProjectInfo);
+		return rrOtherProjectInfoDocument;
+	}
+}
