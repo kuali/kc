@@ -46,7 +46,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="noOfAnswers" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="explanationRequiredFor"/>
         <bean parent="MaintainableFieldDefinition" p:name="dateRequiredFor"/>
-        <bean parent="MaintainableFieldDefinition" p:name="groupName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="groupName" p:required="true" p:defaultValue="General Y/N Questions"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

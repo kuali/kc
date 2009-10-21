@@ -19,7 +19,6 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,6 +47,7 @@ public class YnqServiceImpl implements YnqService {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
      */
+    @SuppressWarnings("unchecked")
     public List<YnqExplanationType> getYnqExplanationTypes() {
         Collection<YnqExplanationType> allTypes = new ArrayList();
         allTypes = businessObjectService.findAll(YnqExplanationType.class);
@@ -61,6 +61,7 @@ public class YnqServiceImpl implements YnqService {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public List<Ynq> getYnq(String questionType) {
         Map<String, String> questionTypeMap = new HashMap<String, String>();
         /* filter by question type */
@@ -228,7 +229,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /* check existing proposal YNQ and add new questions if exists */
-    public void addNewProposalQuestions(List<ProposalYnq> proposalYnqs, List<Ynq> ynqs, List<YnqGroupName> ynqGroupNames) {
+    private void addNewProposalQuestions(List<ProposalYnq> proposalYnqs, List<Ynq> ynqs, List<YnqGroupName> ynqGroupNames) {
         List<Ynq> newYnqs = new ArrayList<Ynq>();
         Set<String> proposalQuestionIds = new HashSet<String>();
         
@@ -286,6 +287,7 @@ public class YnqServiceImpl implements YnqService {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getProposalPerson()
      */
+    @SuppressWarnings("unchecked")
     public List<ProposalPerson> getProposalPerson() {
         Collection<ProposalPerson> allTypes = new ArrayList<ProposalPerson>();
         allTypes = businessObjectService.findAll(ProposalPerson.class);
