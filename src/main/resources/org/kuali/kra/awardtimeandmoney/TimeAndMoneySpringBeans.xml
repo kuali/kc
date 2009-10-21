@@ -65,6 +65,9 @@
     <bean id="activePendingTransactionsService" class="org.kuali.kra.timeandmoney.service.impl.ActivePendingTransactionsServiceImpl">
     	<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="awardAmountInfoService">
+			<ref bean="awardAmountInfoService" />
 		</property>        
     </bean>
     

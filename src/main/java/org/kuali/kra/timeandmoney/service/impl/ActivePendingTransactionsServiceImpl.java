@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -42,6 +43,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     
     BusinessObjectService businessObjectService;
+    AwardAmountInfoService awardAmountInfoService;
 
     /**
      * 
@@ -567,7 +569,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             , AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
         Award award = getActiveAwardVersion(awardNumber);
-        AwardAmountInfo awardAmountInfo = fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
+        AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         if(updateAmounts){
             if(!addOrSubtract){
                 KualiDecimal totalPendingObligated = new KualiDecimal(0);
@@ -617,51 +619,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         }
     }
    
-    /**
-     * 
-     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#fetchAwardAmountInfoWithHighestTransactionId(java.util.List)
-     */
-    public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
-        AwardAmountInfo awardAmountInfo = null;
-        for(AwardAmountInfo aai : awardAmountInfos){
-            if(awardAmountInfo == null){
-                awardAmountInfo = aai;
-            }else if(awardAmountInfo.getTransactionId() == null && aai.getTransactionId()!=null){
-                awardAmountInfo = aai;
-            }else if(awardAmountInfo.getTransactionId()!=null && aai.getTransactionId()!=null && awardAmountInfo.getTransactionId() < aai.getTransactionId()){
-                awardAmountInfo = aai;
-            }
-        }
-        return awardAmountInfo;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
-     */
-    public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
-        AwardAmountInfo awardAmountInfo = null;
-        int returnVal = 0;
-        int index = 0;
-        for(AwardAmountInfo aai : awardAmountInfos){
-            if(awardAmountInfo == null){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else if(awardAmountInfo.getTransactionId() == null && aai.getTransactionId()!=null){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else if(awardAmountInfo.getTransactionId()!=null && aai.getTransactionId()!=null && awardAmountInfo.getTransactionId() < aai.getTransactionId()){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else {
-                index++;
-            }
-        }
-        return returnVal;
-    }
     
     private List<String> findChildren(String parent) {
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -828,6 +785,22 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the awardAmountInfoService attribute. 
+     * @return Returns the awardAmountInfoService.
+     */
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        return awardAmountInfoService;
+    }
+
+    /**
+     * Sets the awardAmountInfoService attribute value.
+     * @param awardAmountInfoService The awardAmountInfoService to set.
+     */
+    public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
+        this.awardAmountInfoService = awardAmountInfoService;
     }
 
 }

@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardLockService;
 import org.kuali.kra.award.AwardNumberService;
@@ -55,7 +56,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -327,8 +327,8 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
-        ActivePendingTransactionsService activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
-        int index = activePendingTransactionsService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
+        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
         awardForm.setIndexOfAwardAmountInfoWithHighestTransactionId(index);
         
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);

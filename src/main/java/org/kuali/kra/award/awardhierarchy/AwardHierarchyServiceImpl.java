@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -52,6 +52,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     BusinessObjectService businessObjectService;
     DocumentService documentService;
     VersioningService versioningService;
+    AwardAmountInfoService awardAmountInfoService;
+    ActivePendingTransactionsService activePendingTransactionsService;
 
     /**
      * 
@@ -495,13 +497,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
     
     /**
-     * This method...
-     * @param awardHierarchyItems
-     * @param aptService
+     * 
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes) {
         AwardHierarchyNode awardHierarchyNode;
-        ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
         
         for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
             awardHierarchyNode = new AwardHierarchyNode();
@@ -509,8 +509,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
             
-            Award award = aptService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
-            AwardAmountInfo awardAmountInfo = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
+            Award award = activePendingTransactionsService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
             
             awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
             awardHierarchyNode.setLeadUnitName(award.getUnitName());
@@ -530,4 +530,38 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
     }
+
+    /**
+     * Gets the awardAmountInfoService attribute. 
+     * @return Returns the awardAmountInfoService.
+     */
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        return awardAmountInfoService;
+    }
+
+    /**
+     * Sets the awardAmountInfoService attribute value.
+     * @param awardAmountInfoService The awardAmountInfoService to set.
+     */
+    public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
+        this.awardAmountInfoService = awardAmountInfoService;
+    }
+
+    /**
+     * Gets the activePendingTransactionsService attribute. 
+     * @return Returns the activePendingTransactionsService.
+     */
+    public ActivePendingTransactionsService getActivePendingTransactionsService() {
+        return activePendingTransactionsService;
+    }
+
+    /**
+     * Sets the activePendingTransactionsService attribute value.
+     * @param activePendingTransactionsService The activePendingTransactionsService to set.
+     */
+    public void setActivePendingTransactionsService(ActivePendingTransactionsService activePendingTransactionsService) {
+        this.activePendingTransactionsService = activePendingTransactionsService;
+    }
+
+
 }

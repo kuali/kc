@@ -25,11 +25,12 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class supports the AwardForm class
@@ -95,6 +96,10 @@ public class AwardReportingBean implements Serializable {
         dates = getAwardScheduleGenerationService().generateSchedules(getAward(), awardReportTerms, true);
         
         getAward().getAwardReportTermItems().get(index).setAwardReportings(new ArrayList<AwardReporting>());
+        
+        if(dates.size() == 0){
+            GlobalVariables.getMessageMap().putError("document.awardList[0].awardReportTermItems["+ index + "].frequencyBaseCode", KeyConstants.ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL);
+        }
         
         for(Date date: dates){
             newAwardReporting = new AwardReporting();
