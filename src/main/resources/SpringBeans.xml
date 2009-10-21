@@ -1693,5 +1693,169 @@
 			<ref bean="awardHierarchyService" />
 		</property>        
 	</bean>
+	<!--  Report config start -->
+	<bean id="printingService"
+		class="org.kuali.kra.printing.service.impl.PrintingServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+	<!-- Award Service Configuration Start -->
+	<bean id="awardDeltaXmlStream"
+		class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="versionHistoryService">
+			<ref bean="versionHistoryService" />
+		</property>
+	</bean>
+	<bean id="awardNoticeXmlStream"
+		class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="versionHistoryService">
+			<ref bean="versionHistoryService" />
+		</property>
+	</bean>
+
+	<bean id="awardTemplateXmlStream"
+		class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="awardTemplatePrint"
+		class="org.kuali.kra.award.printing.print.AwardTemplatePrint">
+		<property name="xmlStream" ref="awardTemplateXmlStream" />
+	</bean>
+	<bean id="awardDeltaPrint"
+		class="org.kuali.kra.award.printing.print.AwardDeltaPrint">
+		<property name="xmlStream" ref="awardDeltaXmlStream" />
+	</bean>
+	<bean id="awardNoticePrint"
+		class="org.kuali.kra.award.printing.print.AwardNoticePrint">
+		<property name="xmlStream" ref="awardNoticeXmlStream" />
+	</bean>
+
+	<bean id="awardPrintingService"
+		class="org.kuali.kra.award.printing.service.impl.AwardPrintingServiceImpl">
+		<property name="awardDeltaPrint" ref="awardDeltaPrint" />
+		<property name="awardNoticePrint" ref="awardNoticePrint" />
+		<property name="awardTemplatePrint" ref="awardTemplatePrint" />
+		<property name="printingService" ref="printingService" />
+	</bean>
+	<!-- Award Service Configuration End -->
+
+	<!-- Institute Proposal Service Configuration Start -->
+	<bean id="institutionalProposalPersonService"
+		class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPersonServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	<bean id="institutionalProposalXmlStream"
+		class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="institutionalProposalPersonService">
+			<ref bean="institutionalProposalPersonService" />
+		</property>
+	</bean>
+	<bean id="currentProposalXmlStream"
+		class="org.kuali.kra.institutionalproposal.printing.xmlstream.CurrentProposalXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="pendingProposalXmlStream"
+		class="org.kuali.kra.institutionalproposal.printing.xmlstream.PendingProposalXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="institutionalProposalPersonService">
+			<ref bean="institutionalProposalPersonService" />
+		</property>
+	</bean>
+	<bean id="currentProposalPrint"
+		class="org.kuali.kra.institutionalproposal.printing.print.CurrentProposalPrint">
+		<property name="xmlStream" ref="currentProposalXmlStream" />
+	</bean>
+	<bean id="pendingProposalPrint"
+		class="org.kuali.kra.institutionalproposal.printing.print.PendingProposalPrint">
+		<property name="xmlStream" ref="pendingProposalXmlStream" />
+	</bean>
+	<bean id="institutionalProposalPrint"
+		class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint">
+		<property name="xmlStream" ref="institutionalProposalXmlStream" />
+	</bean>
+	<bean id="institutionalProposalPrintingService"
+		class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPrintingServiceImpl">
+		<property name="currentProposalPrint"
+			ref="currentProposalPrint" />
+		<property name="pendingProposalPrint"
+			ref="pendingProposalPrint" />
+		<property name="institutionalProposalPrint"
+			ref="institutionalProposalPrint" />
+		<property name="printingService" ref="printingService" />
+	</bean>
+	<!-- Institute Proposal Service Configuration End -->
+
+	<!--Proposal Development Printing Service Configuration Start -->
+	<bean id="printCertificationXmlStream"
+		class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	<bean id="printCertificationPrint"
+		class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint">
+		<property name="xmlStream" ref="printCertificationXmlStream" />
+	</bean>
+	<bean id="proposalDevelopmentPrintingService"
+		class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
+		<property name="printCertificationPrint"
+			ref="printCertificationPrint" />
+		<property name="printingService" ref="printingService" />
+	</bean>
+
+	<!--Proposal Development Printing Service Configuration End -->
+
+	<!--<bean id="printingUtils"
+		class="org.kuali.kra.printing.util.PrintingUtils">
+		<property name="kualiConfigurationService"
+		ref="kualiConfigurationService" />
+		</bean>
+	--><!--  Report config end -->
 	
 </beans>
