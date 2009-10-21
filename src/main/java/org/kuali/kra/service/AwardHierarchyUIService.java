@@ -17,6 +17,8 @@ package org.kuali.kra.service;
 
 import java.text.ParseException;
 
+import org.kuali.kra.award.home.Award;
+
 /**
  * 
  * This interface declares services that would populate the Award Hierarchy in UI.
@@ -40,6 +42,19 @@ public interface AwardHierarchyUIService {
      * @throws ParseException
      */
     public String getRootAwardNode(String awardNumber) throws ParseException;
+    
+    /**
+     * 
+     * This method retrieves the award details in a string form for a single award.
+     * 
+     * This will be used in AwardInquirable to show the custom inquiry results for Award.
+     * 
+     * @param award
+     * @return
+     * @throws ParseException
+     */
+    public String getAwardRecord(Award award) throws ParseException;
+    
 
 
 }
