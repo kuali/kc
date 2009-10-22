@@ -46,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDist
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
@@ -73,7 +74,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
                 proposalDevelopmentDocument);
         
-        return super.save(mapping, form, request, response);
+        SaveProposalSitesEvent ruleEvent = new SaveProposalSitesEvent("document.developmentProposal", proposalDevelopmentDocument);
+        if (getKualiRuleService().applyRules(ruleEvent)) {
+            return super.save(mapping, form, request, response);
+        }
+        else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
 
     @Override
@@ -175,6 +182,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * This method checks rules on a new {@link ProposalSite} and sets the proposal number.
+     * @param errorPathPrefix
+     * @param proposalDevelopmentDocument
+     * @param newProposalSite
+     * @return
+     */
     private boolean checkAndInitNewLocation(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite newProposalSite) {
         if (getKualiRuleService().applyRules(
                 new AddProposalSiteEvent(errorPathPrefix, proposalDevelopmentDocument, newProposalSite))) {
