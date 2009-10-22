@@ -39,13 +39,8 @@ public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRul
      */
     public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalSiteEvent) {
         ProposalSite proposalSite = addProposalSiteEvent.getProposalSite();
-        boolean rulePassed = true;
 
-        rulePassed = checkLocationName(proposalSite);
-        if (StringUtils.isBlank(proposalSite.getLocationName())) {
-            rulePassed = false;
-            reportError(LOCATION_NAME_PROPERTY, KeyConstants.ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED);
-        }
+        boolean rulePassed = checkLocationName(proposalSite, LOCATION_NAME_PROPERTY);
 
         if (proposalSite.getOrganization()==null && proposalSite.getRolodex()==null) {
             rulePassed = false;
@@ -63,26 +58,32 @@ public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRul
     public boolean processSaveProposalSiteBusinessRules(SaveProposalSitesEvent saveProposalSiteEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)saveProposalSiteEvent.getDocument();
         DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
-        List<ProposalSite> proposalSites = developmentProposal.getProposalSites();
         
         boolean isValid = true;
         
-        if (StringUtils.isEmpty(developmentProposal.getProposalNumber())) {
-            for (ProposalSite site: proposalSites) {
-                isValid &= checkLocationName(site);
-            }
+        isValid &= checkLocationName(developmentProposal.getApplicantOrganization(), "applicantOrganization.locationName");
+        isValid &= checkLocationName(developmentProposal.getPerformingOrganization(), "performingOrganization.locationName");
+        
+        List<ProposalSite> performanceSites = developmentProposal.getPerformanceSites();
+        for (int i=0; i<performanceSites.size(); i++) {
+            isValid &= checkLocationName(performanceSites.get(i), "performanceSites[" + i + "].locationName");
+        }
+        
+        List<ProposalSite> otherOrganizations = developmentProposal.getOtherOrganizations();
+        for (int i=0; i<otherOrganizations.size(); i++) {
+            isValid &= checkLocationName(otherOrganizations.get(i), "otherOrganizations[" + i + "].locationName");
         }
         
         return isValid;
     }
     
     // check that location name is not blank
-    private boolean checkLocationName(ProposalSite proposalSite) {
+    private boolean checkLocationName(ProposalSite proposalSite, String propertyName) {
         boolean isValid = true;
         
         if (StringUtils.isBlank(proposalSite.getLocationName())) {
             isValid = false;
-            reportError(LOCATION_NAME_PROPERTY, KeyConstants.ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED);
+            reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED);
         }
         
         return isValid;
