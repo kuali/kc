@@ -61,8 +61,16 @@ public class InstitutionalProposalFinancialRuleImpl extends ResearchDocumentRule
        if(institutionalProposal.getRequestedStartDateTotal() != null && institutionalProposal.getRequestedStartDateInitial() != null) {
            if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedStartDateTotal(),
                    institutionalProposal.getRequestedStartDateInitial()))) {
-               this.reportError("document.institutionalProposalList[0].requestedStartDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
-                       REQUESTED_TOTAL_START_DATE, REQUESTED_TOTAL_START_DATE);
+               this.reportError("document.institutionalProposalList[0].requestedStartDateTotal", KeyConstants.ERROR_FINANCIAL_DATES, 
+                       REQUESTED_TOTAL_START_DATE, REQUESTED_INITIAL_START_DATE);
+               valid = false;
+           }
+       }
+       if(institutionalProposal.getRequestedStartDateTotal() != null && institutionalProposal.getRequestedStartDateInitial() != null) {
+           if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedEndDateInitial(),
+                   institutionalProposal.getRequestedEndDateTotal()))) {
+               this.reportError("document.institutionalProposalList[0].requestedEndDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
+                       REQUESTED_INITIAL_END_DATE, REQUESTED_TOTAL_END_DATE);
                valid = false;
            }
        }
@@ -76,7 +84,7 @@ public class InstitutionalProposalFinancialRuleImpl extends ResearchDocumentRule
      * @return
      */
     private boolean validateFirstDatePriorToSecondDate(Date firstDate, Date secondDate) {
-        return firstDate.before(secondDate);
+        return firstDate.before(secondDate) || firstDate.equals(secondDate);
     }
     
     /**
