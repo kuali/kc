@@ -279,4 +279,26 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
     }
+    
+    /**
+     * In documents that support it, this method should answer T/F for a SplitNode question
+     * regarding routing.  The SimpleBooleanSplitNode will supply the route node name which implementations
+     * should use to answer the question.
+     * 
+     * For example, isHierarchyChild would be answered by ProposalDevelopementDocument as T if the document
+     * is a child within a proposal hierarchy and false otherwise.
+     * 
+     * If a document does not support answering the question, it should throw an UnsupportedOperationException.
+     *  
+     * The stub implementation throws an UnsupportedOperationException for any input.
+     * 
+     * @param routeNodeName The name of the routeNode as it appears in the document workflow definition.
+     * @return boolean value representing the answer.
+     * @throws UnsupportedOperationException if the document does not support answering a split node question, or
+     * if it does not support answering the question for the supplied route name.
+     * 
+     */
+    public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
+       throw new UnsupportedOperationException( "Document does not support answerSplitNodeQuestion for routeNodeName:"+routeNodeName );   
+    }
 }
