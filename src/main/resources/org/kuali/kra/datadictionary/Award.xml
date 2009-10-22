@@ -607,7 +607,7 @@
     <property name="shortLabel" value="Modification ID" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
