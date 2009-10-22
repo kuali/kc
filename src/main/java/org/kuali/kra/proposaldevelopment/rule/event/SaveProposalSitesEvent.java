@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rules.SaveProposalSitesRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;

@@ -24,7 +24,7 @@
 <c:set var="propLocationAttributes" value="${DataDictionary.ProposalLocation.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
-<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="newPerformanceSite.*,newOtherOrganization.*,applicantOrganizationHelper*,performingOrganizationHelper*,performanceSiteHelpers[*,otherOrganizationHelpers[*">
+<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.developmentProposal.*,newPerformanceSite.*,newOtherOrganization.*,applicantOrganizationHelper*,performingOrganizationHelper*,performanceSiteHelpers[*,otherOrganizationHelpers[*">
 	<div class="tab-container" align="center">
         <kra-pd:proposalSite
             tabTitle="Applicant Organization"
