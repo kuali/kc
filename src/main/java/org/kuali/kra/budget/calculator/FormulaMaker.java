@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,7 +48,8 @@ public class FormulaMaker {
 
 
     private void initValidCalcTypes() {
-        List validCalcTypesFromDB = (List)businessObjectService.findAll(ValidCalcType.class);
+        Map<String, String> searchValues = new HashMap<String, String>();
+        List validCalcTypesFromDB = (List)businessObjectService.findMatchingOrderBy(ValidCalcType.class, searchValues, "rateClassType", true);
         this.validCalcTypes = new QueryList<ValidCalcType>(validCalcTypesFromDB);
     }
 
