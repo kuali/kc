@@ -193,7 +193,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         initializeBudget(hierarchy, initialChild);
 
         prepareHierarchySync(hierarchy);
-        copyAttachments(initialChild, hierarchy);
+        copyInitialAttachments(initialChild, hierarchy);
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
@@ -483,6 +483,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             else {
                 newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
+                newPerson.getCreditSplits().clear();
                 newPerson.setProposalPersonNumber(null);
                 newPerson.setVersionNumber(null);
                 newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
@@ -841,7 +842,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());       
     }
         
-    private void copyAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
+    private void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
         
         ProposalPersonBiography destPropPersonBio;
         for (ProposalPersonBiography srcPropPersonBio : srcProposal.getPropPersonBios()) {
@@ -852,10 +853,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         Narrative destNarrative;
         for (Narrative srcNarrative : srcProposal.getNarratives()) {
-            loadAttachmentContent(srcNarrative);
-            destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
-            destNarrative.setModuleStatusCode("I");
-            narrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
+            if (StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getAllowMultiple(), "N")) {
+                loadAttachmentContent(srcNarrative);
+                destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
+                destNarrative.setModuleStatusCode("I");
+                narrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
+            }
         }
         
         Narrative destInstituteAttachment;
