@@ -33,7 +33,7 @@
   	<tr>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTransactionTypeCode}" /></div></th>
     	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.noticeDate}" /></div></th>
-    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.currentActionComments}" /></div></th>
+    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardCurrentActionCommentAttributes.comments}" /></div></th>
   	</tr>
   	<tr>
    		<td width="150">
