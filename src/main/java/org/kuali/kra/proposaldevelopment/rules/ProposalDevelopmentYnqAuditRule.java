@@ -15,73 +15,104 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentYnqAuditRule.class);
+   
+    
+    private static final String PROPOSAL_QUESTIONS_KEY="document.developmentProposalList[0].proposalYnq[%d].%s";
+    private static final String PROPOSAL_QUESTIONS_PANEL_KEY="ynqAuditErrors%s";
     
     /**
      * 
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
+    
         boolean valid = true;
-        Map<String, List<AuditError>> auditErrorsMap = new HashMap<String, List<AuditError>>();
-        List<AuditError> auditErrors;
-        Set<String> ynqPanelNames = new HashSet<String>();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         
-        if(errorMap.containsKeyMatchingPattern("document.developmentProposalList[0].proposalYnq*")) {
-            List erroredProperties = errorMap.getPropertiesWithErrors();
-            for(Object property : erroredProperties) {
-                String key = (String) property;
-                if(key.startsWith("document.developmentProposalList[0].proposalYnq")) {
+        for (int j = 0; j < proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().size(); j++) {
+            ProposalYnq proposalYnq = proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().get(j);
+            String groupName = proposalYnq.getYnq().getGroupName();
+            String ynqAnswer = proposalYnq.getAnswer();
+            HashMap<String,Integer> questionSerials = ProposalDevelopmentDocumentRule.getQuestionSerialNumberBasedOnGroup( proposalDevelopmentDocument );
+            /* look for answers - required for routing */
+            if (StringUtils.isBlank(proposalYnq.getAnswer())) {
+                valid = false;
+                getProposalYnqAuditErrorsByGroup(groupName).add(
+                        new AuditError(String.format(PROPOSAL_QUESTIONS_KEY, j, "answer"), KeyConstants.ERROR_REQUIRED_ANSWER,
+                                Constants.QUESTIONS_PAGE + "." + groupName, new String[] { questionSerials.get( proposalYnq.getQuestionId() ).toString(),groupName }));
+            }
+            /* look for date requried */
+            String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
+            if (dateRequiredFor != null) {
+                if (StringUtils.isNotBlank(ynqAnswer) && dateRequiredFor.contains(ynqAnswer) && proposalYnq.getReviewDate() == null) {
                     valid = false;
-                    String groupName = key.substring(key.indexOf("[",37)+1, key.indexOf("]",37));
-                    boolean newlyAdded = ynqPanelNames.add(groupName);
-                    
-                    if(newlyAdded) {
-                        auditErrors = new ArrayList<AuditError>();
-                        auditErrorsMap.put(groupName, auditErrors);
-                    } else {
-                        auditErrors = auditErrorsMap.get(groupName);
-                    }
-                    
-                    TypedArrayList errorMessageList = (TypedArrayList) errorMap.get(property);
-                    
-                    for(int i=0; i< errorMessageList.size(); i++) {
-                        ErrorMessage message = (ErrorMessage) errorMessageList.get(i);
-                        AuditError auditError = new AuditError(key, message.getErrorKey(), Constants.QUESTIONS_PAGE + "." + groupName, message.getMessageParameters());
-                        auditErrors.add(auditError);
-                    }
-                    
-                    errorMap.remove(property);
+                    getProposalYnqAuditErrorsByGroup(groupName).add(
+                            new AuditError(String.format(PROPOSAL_QUESTIONS_KEY, j, "reviewDate"),
+                                KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE,  Constants.QUESTIONS_PAGE + "." + groupName,
+                                new String[] { questionSerials.get( proposalYnq.getQuestionId() ).toString(),groupName }));
+                }
+            }
+
+            /* look for explanation requried */
+            String explanationRequiredFor = proposalYnq.getYnq().getExplanationRequiredFor();
+            if (explanationRequiredFor != null) {
+                if (StringUtils.isNotBlank(ynqAnswer) && explanationRequiredFor.contains(ynqAnswer)
+                        && StringUtils.isBlank(proposalYnq.getExplanation())) {
+                    valid = false;
+                    getProposalYnqAuditErrorsByGroup(groupName).add(
+                            new AuditError(String.format(PROPOSAL_QUESTIONS_KEY, j, "explanation"),
+                                KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION,  Constants.QUESTIONS_PAGE + "." + groupName,
+                                new String[] { questionSerials.get( proposalYnq.getQuestionId() ).toString(),groupName }));
                 }
             }
         }
+
+        return valid;
+    }
+    
+   
+    /**
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * to the auditErrorMap.
+     * 
+     * @return List of AuditError instances
+     */
+    @SuppressWarnings("unchecked")
+    private List<AuditError> getProposalYnqAuditErrorsByGroup(String groupName) {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (ynqPanelNames.size() > 0) {
-            for(String panel: ynqPanelNames) {
-                GlobalVariables.getAuditErrorMap().put("ynqAuditErrors" + panel, new AuditCluster(panel, auditErrorsMap.get(panel), Constants.AUDIT_ERRORS));
-            }
+        String key = String.format( PROPOSAL_QUESTIONS_PANEL_KEY, groupName );
+        
+        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
+           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(groupName, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
-        return valid;   
+        return auditErrors;
     }
+
+    
+    
 }

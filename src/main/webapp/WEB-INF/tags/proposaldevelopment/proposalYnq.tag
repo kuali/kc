@@ -31,6 +31,26 @@
 <c:set var="answerYesNo" value="${KualiForm.answerYesNo}" /> 
 <c:set var="answerYesNoNa" value="${KualiForm.answerYesNoNA}" /> 
 <div id="workarea">
+
+<jsp:useBean id="tabErrorKeys" scope = "page" class = "java.util.HashMap"/>
+<c:forEach items="${KualiForm.document.developmentProposalList[0].ynqGroupNames}" var="groupName" varStatus="status">
+	<c:forEach items="${KualiForm.document.developmentProposalList[0].proposalYnqs}" var="ynq" varStatus="ystatus">
+		<c:if test="${ynq.ynq.groupName == groupName.groupName}">
+			<c:choose>
+				<c:when test = "${ empty tabErrorKeys[groupName.groupName] }">
+					<c:set target = "${tabErrorKeys}" property = "${groupName.groupName}" value = "document.developmentProposalList[0].proposalYnq[${ystatus.index}]*"/>
+					
+				</c:when>
+				<c:otherwise>
+					<c:set target = "${tabErrorKeys}" property = "${groupName.groupName}" value = "${tabErrorKeys[groupName.groupName]},document.developmentProposalList[0].proposalYnq[${ystatus.index}]*"/>
+				</c:otherwise> 
+			</c:choose> 
+		</c:if>
+	</c:forEach>
+</c:forEach>
+
+
+
 <c:forEach items="${KualiForm.document.developmentProposalList[0].ynqGroupNames}" var="groups" varStatus="gps">
     <bean:define id="groupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
     <c:if test="${gps.first}">
@@ -38,19 +58,8 @@
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].truncGroupName"/>
 <bean:define id="fullGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
-  <c:set var="dateValidationError" value="" />
-			<c:forEach items="${KualiForm.document.developmentProposalList[0].proposalYnqs}" var="ynqs" varStatus="status">
-    			  <c:set var="iproposalYnq" value="document.developmentProposalList[0].proposalYnq[${status.index}]" /> 
-				  <bean:define id="igroupName" name="KualiForm" property="${iproposalYnq}.ynq.groupName"/>
-    			  <c:if test="${igroupName == groupName}">
-						<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalYnq[${status.index}].reviewDate"/>
-	                	<c:if test="${hasErrors}">
-	                    	<c:set var="dateValidationError" value="${dateValidationError},document.developmentProposalList[0].proposalYnq[${status.index}].reviewDate" />
-	                	</c:if>
-				  </c:if>
-			</c:forEach>
 
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="document.developmentProposalList[0].proposalYnq[${groupName}]*" transparentBackground="${transparent}" useRiceAuditMode="true" >
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="${tabErrorKeys[groups.groupName]}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="${tabErrorKeys[groups.groupName]}" transparentBackground="${transparent}" useRiceAuditMode="true" >
 <c:set var="tabErrorKey" value="document.developmentProposalList[0].proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.developmentProposalList[0].proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />

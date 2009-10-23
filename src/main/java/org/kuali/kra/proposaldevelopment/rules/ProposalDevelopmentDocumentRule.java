@@ -80,6 +80,8 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
+
+
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
@@ -90,6 +92,12 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  */
 public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, SaveProposalSitesRule, AddProposalSpecialReviewRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
+    @SuppressWarnings("unused")
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocumentRule.class); 
+    private static final String PROPOSAL_QUESTIONS_KEY="developmentProposalList[0].proposalYnq[%d].%s";
+    private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
+    private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
+    private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -127,7 +135,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
-
+     
         return valid;
     }
 
@@ -178,9 +186,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     * @param proposalDevelopmentDocument
     * @return
     */
+    
+
     public boolean processProposalPersonYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-
         //checkErrors();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
@@ -211,30 +220,20 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     */
     public boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean docRouting) {
         boolean valid = true;
-
-        //checkErrors();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int i = 0;
         
-        if(!errorMap.getErrorPath().contains("document")) {
-            errorMap.clearErrorPath();
-            errorMap.addToErrorPath("document");
-            errorMap.addToErrorPath("developmentProposalList[0]");
-        }
-        HashMap ynqGroupSerial = getQuestionSerialNumberBasedOnGroup(proposalDevelopmentDocument);
-        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
+        for( int j = 0; j < proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().size();j++) {
+            ProposalYnq proposalYnq = proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().get(j);
             
             String groupName = proposalYnq.getYnq().getGroupName();
-            Integer serialNumber = (Integer)ynqGroupSerial.get(proposalYnq.getQuestionId());
-            String errorPath = "proposalYnq[" + groupName + "][" + i + "]";
-            errorMap.addToErrorPath(errorPath);
-            String[] errorParameter = {serialNumber+"", groupName};
+            HashMap<String,Integer> questionSerial = getQuestionSerialNumberBasedOnGroup( proposalDevelopmentDocument );
+            String[] errorParameter = {groupName};
             String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
                 info("no answer");
                 valid = false;
-                errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER, errorParameter);
+                
+                reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER), KeyConstants.ERROR_REQUIRED_ANSWER, questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
             }
             /* look for date requried */
             String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
@@ -244,7 +243,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                         proposalYnq.getReviewDate() == null) {
                     info("No review date");
                     valid = false;
-                    errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+                    reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE), KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE,  questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
+     
                 }
             }
 
@@ -256,18 +256,17 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                     StringUtils.isBlank(proposalYnq.getExplanation())) {
                     info("No explanation date");
                     valid = false;
-                    errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
+                    reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION),  KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION,  questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
                 }
             }
-            errorMap.removeFromErrorPath(errorPath);
-            i++;
         }
+        
         return valid;
-
     }
-
-    private HashMap getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        HashMap ynqGroupSerial = new HashMap();
+    
+    
+    public static HashMap<String,Integer> getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        HashMap<String,Integer> ynqGroupSerial = new HashMap<String,Integer>();
         for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames()) {
             Integer serialNumber = Integer.valueOf(1);
             for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
@@ -279,6 +278,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         return ynqGroupSerial;
     }
+    
+    
     
     /**
      * This method validates Required Fields related fields on
@@ -368,6 +369,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     /**
+    *
     *
     * Validate Grants.gov business rules.
     * @param proposalDevelopmentDocument
@@ -483,12 +485,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         proposalDevelopmentDocument.getDevelopmentProposal().getYnqService().populateProposalQuestions(
                 proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs(),
                 proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames(), proposalDevelopmentDocument);
-        processProposalYNQBusinessRule((ProposalDevelopmentDocument) document, true);
+        
         retval &= new ProposalDevelopmentYnqAuditRule().processRunAuditBusinessRules(document);
         //Change for KRACOEUS-1403 ends here
-        
         retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);        
-        
         retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
         // audit check for budgetversion with final status
@@ -498,6 +498,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             // TODO : should log it here
             throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
         }
+       
         return retval;
     }
 
@@ -627,4 +628,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
         return new ProposalDevelopmentDataOverrideRule().processProposalDataOverrideRules(proposalDataOverrideEvent);
     }
+
+
+
+
 }
