@@ -33,6 +33,7 @@
             addTable="true"
             proposalSiteBo="${KualiForm.document.developmentProposal.applicantOrganization}"
             proposalSiteBoName="document.developmentProposal.applicantOrganization"
+            locationEditable="false"
             congressionalDistrictHelper="applicantOrganizationHelper"
             addDistrictMethodToCall="addApplicantOrgCongDistrict"
             deleteDistrictMethodToCall="deleteApplicantOrgCongDistrict"
