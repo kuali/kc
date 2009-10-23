@@ -213,6 +213,7 @@ public final class KeyConstants {
     public static final String ERROR_BUDGET_PERSONNEL_NOT_SELECTED = "error.budgetPersonnel.notSelected";
     public static final String ERROR_BUDGET_PERSONNEL_INCOMPLETE = "error.budgetPersonnel.incomplete";
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
+    public static final String WARNING_TOTAL_COST_LIMIT_EXCEEDED= "warning.budgetCostLimit.exceeded";
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
     public static final String WARNING_UNRECOVERED_FA_NEGATIVE= "warning.unrecoveredFA.negative";
 
