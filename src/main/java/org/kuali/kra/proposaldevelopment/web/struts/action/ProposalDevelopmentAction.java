@@ -49,6 +49,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
@@ -67,7 +68,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -533,9 +533,15 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     protected void loadDocumentInForm(HttpServletRequest request, ProposalDevelopmentForm proposalDevelopmentForm)
     throws WorkflowException {
         String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        ProposalDevelopmentDocument retrievedDocument = (ProposalDevelopmentDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         proposalDevelopmentForm.setDocument(retrievedDocument);
         request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        
+        // Set lead unit on form when copying a document. This is needed so the lead unit shows up on the "Copy to New Document" panel under Proposal Actions.
+        ProposalCopyCriteria cCriteria = proposalDevelopmentForm.getCopyCriteria();
+        if (cCriteria != null) {
+            cCriteria.setOriginalLeadUnitNumber(retrievedDocument.getDevelopmentProposal().getOwnedByUnitNumber());
+        }
     }
     
     /**
