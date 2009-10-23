@@ -50,6 +50,7 @@ public interface Constants {
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";
+    public static final String BIOSKETCH_ATTACHMENT_TYPE_CODE = "1";
 
     public static final String MAPPING_BASIC = "basic";
     public static final String MAPPING_ERROR = "error";
@@ -116,7 +117,12 @@ public interface Constants {
     public static final String REQUIRED_FIELDS_PANEL_ANCHOR = "RequiredFieldsforSavingDocument";
     public static final String REQUIRED_FIELDS_PANEL_NAME = "Required Fields for Saving Document ";
     
-    public static final String BUDGET_EXPENSES_PAGE_KEY = "budgetExpenses";
+    public static final String BUDGET_PARAMETERS_PAGE_METHOD = "summary";
+    public static final String BUDGET_PARAMETERS_OVERVIEW_PANEL_ANCHOR = "topOfForm";
+    public static final String BUDGET_PARAMETERS_OVERVIEW_PANEL_NAME = "Budget Overview";
+    public static final String BUDGET_PARAMETERS_TOTALS_PANEL_ANCHOR = "BudgetPeriodsTotals";
+    public static final String BUDGET_PARAMETERS_TOTALS_PANEL_NAME = "Budget Periods & Totals";
+    public static final String BUDGET_EXPENSES_PAGE_METHOD = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
     // Proposal Document Property Constants
