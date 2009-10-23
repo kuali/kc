@@ -534,18 +534,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-     * This method sets an empty ProposalSite for the Performing Organization.
-     */
-    public ActionForward clearPerformingOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        proposalDevelopmentDocument.getDevelopmentProposal().clearPerformingOrganization();
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     @SuppressWarnings("unchecked")
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
