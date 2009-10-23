@@ -17,6 +17,7 @@ package org.kuali.kra.meeting;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class MeetingHelper implements Serializable {
 
     private static final long serialVersionUID = 2363534404324211441L;
+    private static final String FIELD_SEPARAATOR = "#f#";
     private MeetingForm form;
     private Date agendaGenerationDate;
     private CommitteeSchedule committeeSchedule;
@@ -54,10 +56,7 @@ public class MeetingHelper implements Serializable {
     private List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes;
     // It is for minute entry/attendance, and generate attendance comment by server if js is disabled.
     private boolean jsDisabled = false;
-    
-    private static final String FIELD_SEPARAATOR = "#f#";
-    // TODO : still not sure whetehr to use scheduledate/meetingdate as a base to decide such as
-    // member is active or not
+
     public MeetingHelper(MeetingForm form) {
         this.form = form;
         committeeSchedule = new CommitteeSchedule();
@@ -71,7 +70,7 @@ public class MeetingHelper implements Serializable {
         initDeletedList();
     }
 
-    
+
     public MeetingForm getForm() {
         return form;
     }
@@ -250,7 +249,6 @@ public class MeetingHelper implements Serializable {
      * This method populate committeescheduleattendance from 3 beans, memberpresent/otherpresent/memberabsent.
      */
     protected void populateAttendancePreSave() {
-        CommitteeSchedule committeeSchedule = this.getCommitteeSchedule();
         List<CommitteeScheduleAttendance> attendances = new ArrayList<CommitteeScheduleAttendance>();
         for (MemberPresentBean memberPresentBean : this.getMemberPresentBeans()) {
             memberPresentBean.getAttendance().setGuestFlag(false);
@@ -260,8 +258,6 @@ public class MeetingHelper implements Serializable {
             otherPresentBean.getAttendance().setGuestFlag(true);
             attendances.add(otherPresentBean.getAttendance());
         }
-        // TODO : just delete old one and then insert new ones
-        // need to think it again
         this.setDeletedAttendances(committeeSchedule.getCommitteeScheduleAttendances());
         committeeSchedule.setCommitteeScheduleAttendances(attendances);
     }
@@ -319,7 +315,6 @@ public class MeetingHelper implements Serializable {
         MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
         memberPresentBean.getAttendance().setAlternateFor(null);
         memberAbsentBean.setAttendance(memberPresentBean.getAttendance());
-//        memberAbsentBean.setRole(memberPresentBean.getRole());
         getMemberAbsentBeans().add(memberAbsentBean);
         getMemberPresentBeans().remove(itemNumber);
     }
@@ -334,7 +329,6 @@ public class MeetingHelper implements Serializable {
         MemberAbsentBean memberAbsentBean = getMemberAbsentBeans().get(itemNumber);
         MemberPresentBean memberPresentBean = new MemberPresentBean();
         memberPresentBean.setAttendance(memberAbsentBean.getAttendance());
-//        memberPresentBean.setRole(memberAbsentBean.getRole());
         getMemberPresentBeans().add(memberPresentBean);
         getMemberAbsentBeans().remove(itemNumber);
     }
@@ -350,7 +344,6 @@ public class MeetingHelper implements Serializable {
         MemberAbsentBean memberAbsentBean = getMemberAbsentBeans().get(itemNumber);
         OtherPresentBean otherPresentBean = new OtherPresentBean();
         otherPresentBean.setAttendance(memberAbsentBean.getAttendance());
-//        otherPresentBean.setRole(memberAbsentBean.getRole());
         otherPresentBean.setMember(true);
         getOtherPresentBeans().add(otherPresentBean);
         getMemberAbsentBeans().remove(itemNumber);
@@ -365,8 +358,7 @@ public class MeetingHelper implements Serializable {
         otherPresentBean.setMember(false);
         getNewOtherPresentBean().getAttendance().setRoleName("Guest");
         otherPresentBean.setAttendance(getNewOtherPresentBean().getAttendance());
-        memberHandling(getMemberAbsentBeans(), otherPresentBean);
-//        otherPresentBean.getRole().setDescription("Guest");
+        memberHandling(otherPresentBean);
         getOtherPresentBeans().add(otherPresentBean);
         setNewOtherPresentBean(new OtherPresentBean());
 
@@ -379,14 +371,14 @@ public class MeetingHelper implements Serializable {
      * @param memberAbsentBeans
      * @param otherPresentBean
      */
-    private void memberHandling(List<MemberAbsentBean> memberAbsentBeans, OtherPresentBean otherPresentBean) {
+    private void memberHandling(OtherPresentBean otherPresentBean) {
         MemberAbsentBean matchedMemberAbsentBean = null;
         for (MemberAbsentBean memberAbsentBean : memberAbsentBeans) {
             if (isAbsentMember(memberAbsentBean, otherPresentBean)) {
                 // TODO : should 'role' be set here too ?
                 otherPresentBean.setMember(true);
-                //getRole(otherPresentBean.getAttendance(), getCommitteeSchedule().getCommittee().getCommitteeMemberships(), getCommitteeSchedule().getScheduledDate());
-                getRoleName(otherPresentBean.getAttendance(), getCommitteeSchedule().getCommittee().getCommitteeMemberships(), getCommitteeSchedule().getScheduledDate());
+                getRoleName(otherPresentBean.getAttendance(), getCommitteeSchedule().getCommittee().getCommitteeMemberships(),
+                        getCommitteeSchedule().getScheduledDate());
                 matchedMemberAbsentBean = memberAbsentBean;
             }
         }
@@ -414,7 +406,8 @@ public class MeetingHelper implements Serializable {
 
     /**
      * 
-     * This method is to delete other present. if the deleted other present is a member, then this person will be added to absent list.
+     * This method is to delete other present. if the deleted other present is a member, then this person will be added to absent
+     * list.
      * 
      * @param itemNumber
      */
@@ -423,7 +416,6 @@ public class MeetingHelper implements Serializable {
         if (otherPresentBean.isMember()) {
             MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
             memberAbsentBean.setAttendance(otherPresentBean.getAttendance());
-//            memberAbsentBean.setRole(otherPresentBean.getRole());
             getMemberAbsentBeans().add(memberAbsentBean);
         }
         getOtherPresentBeans().remove(itemNumber);
@@ -438,10 +430,10 @@ public class MeetingHelper implements Serializable {
         newCommitteeScheduleMinute.refreshReferenceObject("protocol");
         newCommitteeScheduleMinute.setScheduleIdFk(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getId());
         newCommitteeScheduleMinute.setEntryNumber(getNextMinuteEntryNumber());
-        if (MinuteEntryType.ATTENDANCE.equals(newCommitteeScheduleMinute.getMinuteEntryTypeCode()) && newCommitteeScheduleMinute.isGenerateAttendance()
-                && isJsDisabled()) {
+        if (MinuteEntryType.ATTENDANCE.equals(newCommitteeScheduleMinute.getMinuteEntryTypeCode())
+                && newCommitteeScheduleMinute.isGenerateAttendance() && isJsDisabled()) {
             // in case JS is disabled
-            newCommitteeScheduleMinute.setMinuteEntry(generateAttendanceComment());            
+            newCommitteeScheduleMinute.setMinuteEntry(generateAttendanceComment());
         }
         getCommitteeSchedule().getCommitteeScheduleMinutes().add(newCommitteeScheduleMinute);
         setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
@@ -449,7 +441,7 @@ public class MeetingHelper implements Serializable {
     }
 
     /*
-     * This is to generate comment for minute entry Type of 'Attendance' and 'generate attendance is checked 
+     * This is to generate comment for minute entry Type of 'Attendance' and 'generate attendance is checked
      */
     private String generateAttendanceComment() {
         String comment = "";
@@ -471,7 +463,7 @@ public class MeetingHelper implements Serializable {
         }
         return comment;
     }
-    
+
     /*
      * Utility method to figure out next entry number for this schedule.
      */
@@ -486,20 +478,23 @@ public class MeetingHelper implements Serializable {
     }
 
     /*
-     * Utility to get person name for 'alternate for'.  This name is used when 'generate attendance' is checked.
+     * Utility to get person name for 'alternate for'. This name is used when 'generate attendance' is checked.
      */
     private String getAlternateForName(String alternateFor) {
-        
+
         String personName = "";
         for (CommitteeMembership committeeMembership : getCommitteeSchedule().getCommittee().getCommitteeMemberships()) {
-            if ((StringUtils.isNotBlank(committeeMembership.getPersonId()) && committeeMembership.getPersonId().equals(alternateFor)) 
-                    || (StringUtils.isBlank(committeeMembership.getPersonId()) && committeeMembership.getRolodexId().equals(alternateFor))){
+            if ((StringUtils.isNotBlank(committeeMembership.getPersonId()) && committeeMembership.getPersonId()
+                    .equals(alternateFor))
+                    || (StringUtils.isBlank(committeeMembership.getPersonId()) && committeeMembership.getRolodexId().equals(
+                            alternateFor))) {
                 personName = committeeMembership.getPersonName();
                 break;
-            }                 
+            }
         }
         return personName;
     }
+
     /**
      * 
      * This method is to delete committee schedule minute entry from minute entry list.
@@ -518,6 +513,7 @@ public class MeetingHelper implements Serializable {
     /**
      * 
      * This method is to populate meeting form/helper data when meeting page is loaded.
+     * 
      * @param commSchedule
      * @param lineNumber
      */
@@ -528,39 +524,36 @@ public class MeetingHelper implements Serializable {
             protocolSubmittedBean.setPersonId(pi.getPersonId());
             protocolSubmittedBean.setPersonName(pi.getPersonName());
             protocolSubmittedBean.setRolodexId(pi.getRolodexId());
-            // protocolSubmittedBean.setProtocolPersonId(pi.getProtocolPersonId());
-            ((MeetingForm) form).getMeetingHelper().getProtocolSubmittedBeans().add(protocolSubmittedBean);
+            form.getMeetingHelper().getProtocolSubmittedBeans().add(protocolSubmittedBean);
         }
-        boolean isEmptyAttendance = commSchedule.getCommitteeScheduleAttendances().isEmpty();
-        if (commSchedule.getCommitteeScheduleAttendances().isEmpty() 
+        if (commSchedule.getCommitteeScheduleAttendances().isEmpty()
                 && !commSchedule.getCommittee().getCommitteeMemberships().isEmpty()) {
-          //  KraServiceLocator.getService(MeetingService.class).initAttendance(commSchedule);
             initAttendance(commSchedule);
-        } else {
+        }
+        else {
             populateAttendanceToForm(commSchedule.getCommittee().getCommitteeMemberships(), commSchedule);
         }
 
-        ((MeetingForm) form).getMeetingHelper().setAgendaGenerationDate(getAgendaGenerationDate(commSchedule.getId()));
-        ((MeetingForm) form).getMeetingHelper().setCommitteeSchedule(commSchedule);
-        ((MeetingForm) form).getMeetingHelper().setTabLabel(getMeetingTabTitle(lineNumber));
+        form.getMeetingHelper().setAgendaGenerationDate(getAgendaGenerationDate(commSchedule.getId()));
+        form.getMeetingHelper().setCommitteeSchedule(commSchedule);
+        form.getMeetingHelper().setTabLabel(getMeetingTabTitle(lineNumber));
 
     }
 
     /*
-     * set up title of the first header tab in meeting page.
-     * lineNumber is this selected schedule's item number in committee schedule list
+     * set up title of the first header tab in meeting page. lineNumber is this selected schedule's item number in committee
+     * schedule list
      */
     private String getMeetingTabTitle(int lineNumber) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
-        dateFormat.applyPattern("MM/dd/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         return getCommitteeSchedule().getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
                 + dateFormat.format(getCommitteeSchedule().getScheduledDate());
 
     }
-    
+
     /*
-     * call meeeting service to get the last agenda generation date.
+     * call meeting service to get the last agenda generation date.
      */
     private Date getAgendaGenerationDate(Long scheduleId) {
         return KraServiceLocator.getService(MeetingService.class).getAgendaGenerationDate(scheduleId);
@@ -569,8 +562,7 @@ public class MeetingHelper implements Serializable {
     /*
      * populate 3 attendance form beans
      */
-    private void populateAttendanceToForm(List<CommitteeMembership> committeeMemberships,
-            CommitteeSchedule commSchedule) {
+    private void populateAttendanceToForm(List<CommitteeMembership> committeeMemberships, CommitteeSchedule commSchedule) {
         populatePresentBean(committeeMemberships, commSchedule);
         populateMemberAbsentBean(committeeMemberships, commSchedule);
 
@@ -581,19 +573,12 @@ public class MeetingHelper implements Serializable {
      */
     private void populatePresentBean(List<CommitteeMembership> committeeMemberships, CommitteeSchedule commSchedule) {
         for (CommitteeScheduleAttendance committeeScheduleAttendance : commSchedule.getCommitteeScheduleAttendances()) {
-            Date meetingDate = commSchedule.getMeetingDate();
-// TODO : temporary comment out to use schedule date until further decision
-//            if (meetingDate == null) {
-//                meetingDate = commSchedule.getScheduledDate();
-//            }
-            //MembershipRole role = getRole(committeeScheduleAttendance, committeeMemberships, meetingDate);
-            getRoleName(committeeScheduleAttendance, committeeMemberships, meetingDate);
+            getRoleName(committeeScheduleAttendance, committeeMemberships, commSchedule.getScheduledDate());
             if (committeeScheduleAttendance.getGuestFlag()) {
                 OtherPresentBean otherPresentBean = new OtherPresentBean();
                 otherPresentBean.setAttendance(committeeScheduleAttendance);
-                // TODO : is it based on role or membership start/end date & 'inactive' role
-                // to decide whetehr he/she is member ?
-                otherPresentBean.setMember(isActiveMember(committeeScheduleAttendance, committeeMemberships, meetingDate));
+                otherPresentBean.setMember(isActiveMember(committeeScheduleAttendance, committeeMemberships, commSchedule
+                        .getScheduledDate()));
                 if (StringUtils.isBlank(committeeScheduleAttendance.getRoleName())) {
                     committeeScheduleAttendance.setRoleName("Guest");
                 }
@@ -602,26 +587,20 @@ public class MeetingHelper implements Serializable {
             }
             else {
                 MemberPresentBean memberPresentBean = new MemberPresentBean();
-//                committeeScheduleAttendance.setRoleName(committeeScheduleAttendance.getRoleName());
                 memberPresentBean.setAttendance(committeeScheduleAttendance);
                 getMemberPresentBeans().add(memberPresentBean);
             }
         }
     }
-    
+
     /*
      * populate memberabsentbean
      */
     private void populateMemberAbsentBean(List<CommitteeMembership> committeeMemberships, CommitteeSchedule commSchedule) {
         for (CommitteeMembership committeeMembership : committeeMemberships) {
-            if (!isInMemberPresent(committeeMembership)
-                    && !isInOtherPresent(committeeMembership)) {
-            //if (!isPresent && !isAlternate(committeeMembership, commSchedule.getScheduledDate())) {
+            if (!isInMemberPresent(committeeMembership) && !isInOtherPresent(committeeMembership)) {
                 MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
-//                memberAbsentBean.setRole(getRole(committeeMembership, commSchedule.getScheduledDate()));
                 CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
-//                attendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getMeetingDate() != null 
-//                        ? commSchedule.getMeetingDate() : commSchedule.getScheduledDate()));
                 attendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getScheduledDate()));
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
                     attendance.setPersonId(committeeMembership.getRolodexId().toString());
@@ -706,16 +685,15 @@ public class MeetingHelper implements Serializable {
 
                 }
                 MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
-//                memberAbsentBean.setRole(getRole(committeeMembership, commSchedule.getScheduledDate()));
-//                committeeScheduleAttendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getMeetingDate() != null ? commSchedule.getMeetingDate() : commSchedule.getScheduledDate()));
-                committeeScheduleAttendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getScheduledDate()));
+                committeeScheduleAttendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule
+                        .getScheduledDate()));
                 memberAbsentBean.setAttendance(committeeScheduleAttendance);
                 getMemberAbsentBeans().add(memberAbsentBean);
             }
         }
     }
 
-    /* 
+    /*
      * check if this membership is active based on schedule date
      */
     private boolean isActiveMembership(CommitteeMembership committeeMembership, Date scheduledDate) {
@@ -743,8 +721,8 @@ public class MeetingHelper implements Serializable {
     private boolean isAlternate(CommitteeMembership committeeMembership, Date scheduledDate) {
         boolean isAlternate = false;
         for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
-            if (membershipRole.getMembershipRoleCode().equals(CommitteeMembershipRole.ALTERNATE_ROLE) && !membershipRole.getStartDate().after(scheduledDate)
-                    && !membershipRole.getEndDate().before(scheduledDate)) {
+            if (membershipRole.getMembershipRoleCode().equals(CommitteeMembershipRole.ALTERNATE_ROLE)
+                    && !membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
                 isAlternate = true;
                 break;
             }
@@ -756,45 +734,42 @@ public class MeetingHelper implements Serializable {
      * get a person's role name within this committee memberships based on schedule date.
      */
     private void getRoleName(CommitteeScheduleAttendance committeeScheduleAttendance,
-            List<CommitteeMembership> committeeMemberships, Date meetingDate) {
+            List<CommitteeMembership> committeeMemberships, Date scheduleDate) {
         String roleName = "";
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if ((committeeScheduleAttendance.getNonEmployeeFlag() && committeeMembership.getRolodexId() != null && committeeScheduleAttendance
                     .getPersonId().equals(committeeMembership.getRolodexId().toString()))
                     || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
                             committeeMembership.getPersonId()))) {
-                roleName = getRoleNameForMembership(committeeMembership, meetingDate);
+                roleName = getRoleNameForMembership(committeeMembership, scheduleDate);
                 break;
             }
         }
         committeeScheduleAttendance.setRoleName(roleName);
-        //return roleName;
+        // return roleName;
     }
 
     /*
-     * Check if this member is active in this committee.
-     * Inactive scenario :
-     *  - not defined in membership.
-     *  - in membership, but non of the memberships period cover schedule date
-     *  - an 'Inactive' role period cover schedule date.
+     * Check if this member is active in this committee. Inactive scenario : - not defined in membership. - in membership, but non
+     * of the memberships period cover schedule date - an 'Inactive' role period cover schedule date.
      */
     private boolean isActiveMember(CommitteeScheduleAttendance committeeScheduleAttendance,
-            List<CommitteeMembership> committeeMemberships, Date meetingDate) {
+            List<CommitteeMembership> committeeMemberships, Date scheduleDate) {
         boolean isActiveMember = false;
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if ((committeeScheduleAttendance.getNonEmployeeFlag() && committeeMembership.getRolodexId() != null && committeeScheduleAttendance
                     .getPersonId().equals(committeeMembership.getRolodexId().toString()))
                     || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
                             committeeMembership.getPersonId()))) {
-                if (!committeeMembership.getTermStartDate().after(meetingDate)
-                     && !committeeMembership.getTermEndDate().before(meetingDate)) {
-                    isActiveMember = isActiveMembership(committeeMembership, meetingDate);
+                if (!committeeMembership.getTermStartDate().after(scheduleDate)
+                        && !committeeMembership.getTermEndDate().before(scheduleDate)) {
+                    isActiveMember = isActiveMembership(committeeMembership, scheduleDate);
                 }
             }
         }
         return isActiveMember;
     }
-    
+
     /*
      * get rolename, concatenated with ',' separator if multiple roles exist for this membership
      */
@@ -802,7 +777,7 @@ public class MeetingHelper implements Serializable {
         String roleName = "";
         for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
             if (!membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
-                roleName = roleName +"," + membershipRole.getMembershipRole().getDescription();
+                roleName = roleName + "," + membershipRole.getMembershipRole().getDescription();
             }
         }
         if (StringUtils.isNotBlank(roleName)) {
