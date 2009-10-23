@@ -48,8 +48,7 @@
             locationEditable="false"
             congressionalDistrictHelper="performingOrganizationHelper"
             addDistrictMethodToCall="addPerformingOrgCongDistrict"
-            deleteDistrictMethodToCall="deletePerformingOrgCongDistrict"
-            clearSiteMethodToCall="clearPerformingOrganization" />
+            deleteDistrictMethodToCall="deletePerformingOrgCongDistrict" />
         <kra-pd:multipleProposalSites
             tabTitle="Performance Site Locations"
             proposalSitesList="${KualiForm.document.developmentProposal.performanceSites}"
