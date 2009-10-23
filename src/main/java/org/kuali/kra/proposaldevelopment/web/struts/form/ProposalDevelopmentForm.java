@@ -16,8 +16,6 @@
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.warn;
@@ -254,11 +252,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }       
-      
-        ProposalCopyCriteria cCriteria = this.getCopyCriteria();
-        if (cCriteria != null) {
-            cCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnitNumber());
-        }
     }
     
     @Override
