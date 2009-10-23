@@ -24,6 +24,7 @@
 <%@ attribute name="addTable" required="false" type="java.lang.Boolean" description="If true, the HTML code is wrapped in a HTML table. Otherwise, the tag needs to be called from within a rowspan=2 row." %>
 <%@ attribute name="proposalSiteBo" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="The BO of type ProposalSite that is to be displayed" %>
 <%@ attribute name="proposalSiteBoName" required="true" description="The JSP name of the ProposalSite BO" %>
+<%@ attribute name="locationEditable" required="false" description="If this is set to false, the location name cannot be edited." %>
 <%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
@@ -37,6 +38,10 @@
 <c:set var="helperAttributes" value="${DataDictionary.CongressionalDistrictHelper.attributes}" /> 
 
 <c:set var="proposalSiteAttributes" value="${DataDictionary.ProposalSite.attributes}" />
+
+<c:if test="${empty locationEditable}">
+    <c:set var="locationEditable" value="true"/>
+</c:if>
 
 <c:set var="canEdit" value="false" />
 <kra:section permission="modifyProposal">
@@ -58,10 +63,10 @@
             </th>
 </c:if>
 
-            <%-- Show Location Name edit field if document is editable, print name if not editable --%>
+            <%-- Show Location Name edit field if the location name is editable, print name if not editable --%>
             <th width="40%"><div align="left">
                 <c:choose>
-                    <c:when test="${canEdit}">
+                    <c:when test="${canEdit && locationEditable}">
                         <kul:htmlControlAttribute property="${proposalSiteBoName}.locationName" attributeEntry="${proposalSiteAttributes.locationName}" />
                     </c:when>
                     <c:otherwise>
