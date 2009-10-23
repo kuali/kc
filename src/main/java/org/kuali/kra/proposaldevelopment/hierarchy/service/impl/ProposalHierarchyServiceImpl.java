@@ -37,6 +37,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
@@ -44,6 +45,8 @@ import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -396,8 +399,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setProgramAnnouncementTitle(srcProposal.getProgramAnnouncementTitle());
 
         // Organization/location
-        hierarchyProposal.setProposalSites(srcProposal.getProposalSites());
-        hierarchyProposal.setPerformanceSites(srcProposal.getPerformanceSites());
+        ProposalSite newSite;
+        hierarchyProposal.getProposalSites().clear();
+        for (ProposalSite site : srcProposal.getProposalSites()) {
+            newSite = (ProposalSite)ObjectUtils.deepCopy(site);
+            newSite.setProposalNumber(null);
+            newSite.setVersionNumber(null);
+            for (CongressionalDistrict cd : newSite.getCongressionalDistricts()) {
+                cd.setProposalNumber(null);
+                cd.setCongressionalDistrictId(null);
+                cd.setVersionNumber(null);
+            }
+            hierarchyProposal.addProposalSite(newSite);
+        }
             
         // Delivery info
         hierarchyProposal.setMailBy(srcProposal.getMailBy());
@@ -484,6 +498,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
                 newPerson.getCreditSplits().clear();
+                for (ProposalPersonUnit unit : newPerson.getUnits()) {
+                    unit.getCreditSplits().clear();
+                }
                 newPerson.setProposalPersonNumber(null);
                 newPerson.setVersionNumber(null);
                 newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
