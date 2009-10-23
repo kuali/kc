@@ -130,8 +130,14 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                     ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
+            // ES: Still do not know how exactly *how* this should be done, 
+            // but I added a check to only call the auditConditionally when the audit error 
+            // map is empty - otherwise the display during a submit 
+            //check to see if the audit errors are filled out.  This happens on a submit
+            //that fails.
             
-            new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
+            if( GlobalVariables.getAuditErrorMap().isEmpty())
+                new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
 //            if (proposalDevelopmentForm.isAuditActivated()) {
 //                if (document != null && 
 //                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
