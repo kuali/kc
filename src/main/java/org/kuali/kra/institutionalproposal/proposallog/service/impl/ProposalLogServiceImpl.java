@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -31,7 +32,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         criteria.put("proposalNumber", proposalNumber);
         ProposalLog proposalLog = 
             (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
-        proposalLog.setLogStatus("2");
+        proposalLog.setLogStatus(ProposalLogUtils.getProposalLogMergedStatusCode());
         this.getBusinessObjectService().save(proposalLog);
     }
 
