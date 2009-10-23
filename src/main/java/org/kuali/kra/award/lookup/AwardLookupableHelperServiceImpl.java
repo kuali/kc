@@ -104,7 +104,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         Award award = (Award) bo;
-        HtmlData inquiryUrl = null;
+        HtmlData inquiryUrl = super.getInquiryUrl(bo, propertyName);
         if (propertyName.equals(UNIT_NUMBER)) {
             inquiryUrl = getUnitNumberInquiryUrl(award);
         } else if (propertyName.equals(AwardDao.PI_NAME)) {
