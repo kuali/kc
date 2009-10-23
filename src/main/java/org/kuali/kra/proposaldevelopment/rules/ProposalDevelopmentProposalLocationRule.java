@@ -51,18 +51,14 @@ public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRul
     }
 
     /**
-     * This method validates location names on the first save.
+     * This method validates editable location names.
      * @param saveProposalSiteEvent
      * @return
      */
     public boolean processSaveProposalSiteBusinessRules(SaveProposalSitesEvent saveProposalSiteEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)saveProposalSiteEvent.getDocument();
         DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
-        
         boolean isValid = true;
-        
-        isValid &= checkLocationName(developmentProposal.getApplicantOrganization(), "applicantOrganization.locationName");
-        isValid &= checkLocationName(developmentProposal.getPerformingOrganization(), "performingOrganization.locationName");
         
         List<ProposalSite> performanceSites = developmentProposal.getPerformanceSites();
         for (int i=0; i<performanceSites.size(); i++) {
@@ -77,7 +73,7 @@ public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRul
         return isValid;
     }
     
-    // check that location name is not blank
+    // check that the location name is not blank
     private boolean checkLocationName(ProposalSite proposalSite, String propertyName) {
         boolean isValid = true;
         

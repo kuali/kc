@@ -668,13 +668,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         setProposalSiteForType(performingOrganization, ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
     }
 
-    public void clearPerformingOrganization() {
-        ProposalSite performingOrganization = getPerformingOrganization();
-        performingOrganization.setLocationName("");
-        performingOrganization.setOrganizationId("");
-        performingOrganization.setOrganization(new Organization());
-    }
-
     /**
      * This method sets the Performing Organization based on a Organization object.
      * @param organization

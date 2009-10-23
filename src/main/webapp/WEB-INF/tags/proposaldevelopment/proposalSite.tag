@@ -143,12 +143,12 @@
             </td>
             <td>
                 <kra:section permission="modifyProposal">
-                    <c:if test="${!empty clearSiteMethodToCall}">
-                        <div align=center>
+                    <div align=center style="width:40px;">
+                        <c:if test="${!empty clearSiteMethodToCall}">
                             <html:image property="methodToCall.${clearSiteMethodToCall}"
                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
-                        </div>
-                    </c:if>
+                        </c:if>
+                    </div>
                     <c:if test="${!empty deleteSiteMethodToCall}">
                         <div align=center>
                             <html:image property="methodToCall.${deleteSiteMethodToCall}"
