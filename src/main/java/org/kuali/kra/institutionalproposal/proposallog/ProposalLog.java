@@ -26,6 +26,8 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 
 public class ProposalLog extends KraPersistableBusinessObjectBase { 
@@ -57,6 +59,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private ProposalLogStatus proposalLogStatus;
     private Unit unit;
     private ProposalLogType proposalLogType;
+    
+    private String proposalLogToMerge;
     
     public ProposalLog() { 
 
@@ -261,6 +265,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.createTimestamp = createTimestamp;
     }
     
+    public String getProposalLogToMerge() {
+        return proposalLogToMerge;
+    }
+
+    public void setProposalLogToMerge(String proposalLogToMerge) {
+        this.proposalLogToMerge = proposalLogToMerge;
+    }
+    
     /* These methods are for manipulating data before object persistence. */
     
     /**
@@ -270,6 +282,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeInsert(persistenceBroker);
         setSponsorName();
+        mergeTemporaryLog();
     }
 
     /**
@@ -291,6 +304,12 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
             if (this.getSponsor() != null) {
                 this.setSponsorName(this.getSponsor().getSponsorName());
             }
+        }
+    }
+    
+    private void mergeTemporaryLog() {
+        if (this.getProposalLogToMerge() != null) {
+            KraServiceLocator.getService(ProposalLogService.class).mergeProposalLog(this.getProposalLogToMerge());
         }
     }
     

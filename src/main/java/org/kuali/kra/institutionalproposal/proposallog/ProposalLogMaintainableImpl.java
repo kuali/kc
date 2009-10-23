@@ -21,7 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
