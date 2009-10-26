@@ -1,0 +1,53 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.meeting;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
+import org.kuali.rice.kew.exception.WorkflowException;
+
+public class ViewScheduleAuthorizerTest {
+    private static final String USERNAME = "quickstart";
+
+    @Test
+    public void testViewSchedulePermission() throws WorkflowException {
+        ViewScheduleAuthorizer authorizer = new ViewScheduleAuthorizer();
+        
+        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        authorizer.setKraAuthorizationService(kraAuthorizationService);
+        
+        Committee committee = createCommittee("viewschedule1", "view schedule test");
+        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committee);
+        assertEquals(true, authorizer.isAuthorized(USERNAME, task));
+        final KraAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
+        authorizer.setKraAuthorizationService(kraAuthorizationService1);
+        assertEquals(false, authorizer.isAuthorized("tdurkin", task));
+    }
+    
+    private Committee createCommittee(String committeeId, String committeeName) {
+        Committee committee = new Committee();
+        committee.setCommitteeId(committeeId);
+        committee.setCommitteeName(committeeName);
+        return committee;
+    }
+
+}

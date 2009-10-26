@@ -256,10 +256,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;          
-        String applicationUrl = getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
         CommitteeSchedule commSchedule = ((CommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
-        response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1));
-        //return mapping.findForward("maintainSchedule");
+        response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
+                +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule() && committeeForm.getCommitteeHelper().canViewSchedule()));
         return null;
     }    
 

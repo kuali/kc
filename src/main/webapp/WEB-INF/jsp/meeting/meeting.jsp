@@ -79,13 +79,21 @@
 </div>
 
 <!--TABBED TOP NAVIGATION-->
+<c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/>
 <div class="horz-links-bkgrnd" id="horz-links">
   <div id="tabs">
     <dl class="tabul">
      	<dt class="licurrent" ><span class="tabright tabcurrent">
         <input type="submit" name="methodToCall.meetingMain" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
         </span></dt> <dt><span class="tabright">
-        <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+        <c:choose>
+            <c:when test="${!readOnly}">
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+            </c:when>
+            <c:otherwise>
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+            </c:otherwise>
+        </c:choose>
         </span></dt>
     </dl>
   </div>
@@ -152,8 +160,10 @@
           
           
         <div id="globalbuttons" class="globalbuttons"> 
+         <c:if test="${!readOnly}">
  	      <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
 	      <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
+        </c:if>
 	      <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
        </div></td>
     <td class="column-right"><img src="static/images/pixel_clear.gif" alt="" width="20" height="20"></td>

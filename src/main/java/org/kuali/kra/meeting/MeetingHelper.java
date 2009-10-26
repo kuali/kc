@@ -26,11 +26,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.bo.MembershipRole;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -56,6 +60,8 @@ public class MeetingHelper implements Serializable {
     private List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes;
     // It is for minute entry/attendance, and generate attendance comment by server if js is disabled.
     private boolean jsDisabled = false;
+    private boolean modifySchedule = false;
+    private boolean viewSchedule = false;
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
@@ -808,5 +814,44 @@ public class MeetingHelper implements Serializable {
 
     public void setJsDisabled(boolean jsDisabled) {
         this.jsDisabled = jsDisabled;
+    }
+
+    public boolean canModifySchedule() {
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+
+    public boolean canViewSchedule() {
+        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+
+    public boolean isModifySchedule() {
+        return modifySchedule;
+    }
+
+    public void setModifySchedule(boolean modifySchedule) {
+        this.modifySchedule = modifySchedule;
+    }
+
+    public boolean isViewSchedule() {
+        return viewSchedule;
+    }
+
+    public void setViewSchedule(boolean viewSchedule) {
+        this.viewSchedule = viewSchedule;
+    }
+
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
+    /**
+     * Get the userName of the user for the current session.
+     * @return the current session's userName
+     */
+    protected String getUserName() {
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+         return user.getPersonUserIdentifier();
     }
 }

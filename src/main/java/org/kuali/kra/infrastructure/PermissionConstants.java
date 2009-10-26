@@ -67,6 +67,7 @@ public interface PermissionConstants {
     public static final String GENERATE_MINUTES = "GENERATE_MINUTES";
     public static final String GENERATE_SCHEDULE = "GENERATE_SCHEDULE";
     public static final String MODIFY_SCHEDULE = "MODIFY_SCHEDULE";
+    public static final String VIEW_SCHEDULE = "VIEW_SCHEDULE";
     public static final String MAINTAIN_MEMBERSHIPS = "MAINTAIN_MEMBERSHIPS";
     public static final String MAINTAIN_MINUTES = "MAINTAIN_MINUTES";
     public static final String GENERATE_AGENDA = "GENERATE_AGENDA";

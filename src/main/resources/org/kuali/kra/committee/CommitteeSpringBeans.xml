@@ -55,6 +55,12 @@
                 <bean class="org.kuali.kra.committee.document.authorizer.ViewCommitteeAuthorizer" parent="parentCommitteeAuthorizer">
                     <property name="taskName" value="viewCommittee" />
                 </bean>
+                <bean class="org.kuali.kra.meeting.ModifyScheduleAuthorizer" parent="parentCommitteeAuthorizer">
+                    <property name="taskName" value="modifySchedule" />
+                </bean>
+                <bean class="org.kuali.kra.meeting.ViewScheduleAuthorizer" parent="parentCommitteeAuthorizer">
+                    <property name="taskName" value="viewSchedule" />
+                </bean>
             </list>
         </property>
     </bean>

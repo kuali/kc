@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeAttribute" value="${DataDictionary.Committee.attributes}" />
 <c:set var="committeeScheduleAttribute" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
