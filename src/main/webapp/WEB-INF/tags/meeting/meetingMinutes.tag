@@ -57,6 +57,7 @@
 	
             <%-- New data --%>
         	<%-- <kra:permission value="${KualiForm.meetingHelper.modifySubjects}">--%>
+              <c:if test="${!readOnly}">
 	            <tr>
 				<th class="infoline" width="5%">
 					<c:out value="Add:" />
@@ -141,6 +142,7 @@
 					</div>
 	               </td>
 	            </tr>
+	           </c:if> 
             <%--</kra:permission> --%>
 			<%-- New data --%>
 			
@@ -166,7 +168,7 @@
 					</td>
 	            <td align="left" valign="middle" class="infoline" width="20%">
 	               	<div align="center">
-	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" readOnly="false" />
+	               		<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" />
 	            	</div>
 				</td>
 	            <td align="left" valign="middle" class="infoline" width="20%">
