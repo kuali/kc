@@ -56,7 +56,7 @@
                 </c:otherwise>
             </c:choose>
             
-            <%-- Lookup control --%>
+            <%-- The lookup control --%>
             <kul:checkErrors keyMatch="${newProposalSiteField}.address" />
             <c:if test="${hasErrors}">
                 <kul:fieldShowErrorIcon />
@@ -64,7 +64,7 @@
             <kra:section permission="modifyProposal">
                 <kul:lookup
                     boClassName="org.kuali.kra.bo.Rolodex" 
-                    fieldConversions="rolodexId:${newProposalSiteField}.rolodexId,organization:${newProposalSiteField}.rolodex.organization,postalCode:${newProposalSiteField}.rolodex.postalCode,addressLine1:${newProposalSiteField}.rolodex.addressLine1,addressLine2:${newProposalSiteField}.rolodex.addressLine2,addressLine3:${newProposalSiteField}.rolodex.addressLine3,city:${newProposalSiteField}.rolodex.city,state:${newProposalSiteField}.rolodex.state"
+                    fieldConversions="rolodexId:${newProposalSiteField}.rolodexId,organization:${newProposalSiteField}.locationName,postalCode:${newProposalSiteField}.rolodex.postalCode,addressLine1:${newProposalSiteField}.rolodex.addressLine1,addressLine2:${newProposalSiteField}.rolodex.addressLine2,addressLine3:${newProposalSiteField}.rolodex.addressLine3,city:${newProposalSiteField}.rolodex.city,state:${newProposalSiteField}.rolodex.state"
                     anchor="${currentTabIndex}"/> 
                 <kul:directInquiry
                     boClassName="org.kuali.kra.bo.Rolodex"
@@ -105,14 +105,14 @@
                 </c:otherwise>
             </c:choose>
             
-            <%-- Lookup control --%>
+            <%-- The lookup control --%>
             <kul:checkErrors keyMatch="${newProposalSiteField}.address" />
             <c:if test="${hasErrors}">
                 <kul:fieldShowErrorIcon />
             </c:if>
             <kra:section permission="modifyProposal">
                 <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                    fieldConversions="organizationId:${newProposalSiteField}.organizationId,organizationName:${newProposalSiteField}.organization.organizationName,address:${newProposalSiteField}.organization.address"
+                    fieldConversions="organizationId:${newProposalSiteField}.organizationId,organizationName:${newProposalSiteField}.locationName,address:${newProposalSiteField}.organization.address"
                     anchor="${currentTabIndex}"/> 
                 <kul:directInquiry
                     boClassName="org.kuali.kra.bo.Organization"
