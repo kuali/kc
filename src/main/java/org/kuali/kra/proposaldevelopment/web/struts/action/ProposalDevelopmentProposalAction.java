@@ -555,6 +555,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             proposalSite.refreshReferenceObject("rolodex");
             proposalSite.refreshReferenceObject("organization");
         }
+        proposalDevelopmentForm.getNewPerformanceSite().refreshReferenceObject("rolodex");
+        proposalDevelopmentForm.getNewOtherOrganization().refreshReferenceObject("organization");
         
         // check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
