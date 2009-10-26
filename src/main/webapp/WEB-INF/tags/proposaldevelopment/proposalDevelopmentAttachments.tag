@@ -30,8 +30,20 @@
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
 
+
+
+<%-- We used to calculate the # of proposal attachements by fn:length(KualiForm.document.developmentProposalList[0].narratives), but this counts all of them including the 
+internal attachements.  We are just going to loop through the narratives and see which ones are going to be rendered on this panel and count them up. --%>
+<c:set scope = "page" var = "proposalAttachementCount" value = "0"/>
+<c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
+        		<c:set scope = "page" var = "proposalAttachementCount" value = "${proposalAttachementCount + 1}"/>
+  			</c:if>
+</c:forEach>
+
+
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.developmentProposalList[0].narratives)})" defaultOpen="false" tabErrorKey="newNarrative*,document.developmentProposalList[0].narrative*">
+<kul:tabTop tabTitle="Proposal Attachments (${proposalAttachementCount})" defaultOpen="false" tabErrorKey="newNarrative*,document.developmentProposalList[0].narrative*">
 	<div class="tab-container" align="center">
 	    <kra:section permission="addNarratives">
 	    	<h3>
