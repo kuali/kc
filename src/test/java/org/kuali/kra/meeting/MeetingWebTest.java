@@ -153,12 +153,13 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         membersPage = getEmployee(membersPage);
         // add Philip Berg
         membersPage = addMember(membersPage);
-        
+        String endDt = dateFormat.format(DateUtils.addDays(new Date(), 60));
+
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].membershipTypeCode", "1");
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termStartDate", "01/01/2009");
-        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termEndDate", "12/31/2009");
+        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termEndDate", endDt);
         
-        membersPage = addMemberRole(membersPage, 0, "2", "01/01/2009", "12/31/2009");
+        membersPage = addMemberRole(membersPage, 0, "2", "01/01/2009", endDt);
         membersPage = addMemberRole(membersPage, 0, "1", "01/01/2009", "01/10/2009");
         membersPage = addMemberRole(membersPage, 0, "1", "02/01/2009", "02/10/2009");
         membersPage = addMemberExpertise(membersPage, "01.0101", 0);
@@ -170,9 +171,9 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[1].membershipTypeCode", "1");
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[1].termStartDate", "01/01/2009");
-        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[1].termEndDate", "12/31/2009");
+        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[1].termEndDate", endDt);
         
-        membersPage = addMemberRole(membersPage, 1, "7", "01/01/2009", "12/31/2009");
+        membersPage = addMemberRole(membersPage, 1, "7", "01/01/2009", endDt);
         membersPage = addMemberRole(membersPage, 1, "2", "01/01/2009", "01/10/2009");
         membersPage = addMemberRole(membersPage, 1, "14", "02/01/2009", "02/10/2009");
         membersPage = addMemberExpertise(membersPage, "01.0101", 1);
