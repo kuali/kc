@@ -50,8 +50,7 @@
 					<th width="20%" align="right" valign="middle">Sub-Award(s) Included:</th><td width="30%" align="left" valign="middle">${summary.subcontracts}&nbsp;</td></tr>
 				<tr><th width="20%" align="right" valign="middle">Sponsor Div Code:</th><td width="30%" align="left" valign="middle">${summary.agencyDivisionCode}&nbsp;</td>
 					<th width="20%" align="right" valign="middle">Sponsor Program Code:</th><td width="30%" align="left" valign="middle">${summary.agencyProgramCode}&nbsp;</td></tr>
-				<tr><th width="20%" align="right" valign="middle">Opportunity Title:</th><td width="30%" align="left" valign="middle" colspan="3">${summary.programAnnouncementTitle}&nbsp;</td>
-					</tr>
+				<tr><th width="20%" align="right" valign="middle">Opportunity Title:</th><td width="80%" align="left" valign="middle" colspan="3">${summary.programAnnouncementTitle}&nbsp;</td></tr>
 			</table>
 		</div>
 	</kra:innerTab>
@@ -69,4 +68,20 @@
 	</kra:innerTab>
 	<br />
 	<h3><span class="subhead-left">Budget Summary</span><span class="subhead-right"><!-- "Open Budget" button here? --></span></h3>
+	<c:forEach var="budgetOverview" items="${summary.budgetVersionOverviews}"  varStatus="status">
+		<kra:innerTab parentTab="${parentTabTitle}" tabTitle="${budgetOverview.documentDescription}" tabDescription="${budgetOverview.documentDescription}" defaultOpen="false">
+			<div class="innerTab-container" align="left">
+				<table cellpadding=0 cellspacing=0 summary="">
+		          	<tr><th width="20%" align="right" valign="middle">Residual Funds:</th><td width="30%" align="left" valign="middle">${budgetOverview.residualFunds}&nbsp;</td>
+		          		<th width="20%" align="right" valign="middle">F&amp;A Rate Type:</th><td width="30%" align="left" valign="middle">${budgetOverview.rateClass.description}&nbsp;</td></tr>
+		          	<tr><th width="20%" align="right" valign="middle">Cost Sharing:</th><td width="30%" align="left" valign="middle">${budgetOverview.costSharingAmount}&nbsp;</td>
+		          		<th width="20%" align="right" valign="middle">Last Updated:</th><td width="30%" align="left" valign="middle">${budgetOverview.updateTimestamp}&nbsp;</td></tr>	
+					<tr><th width="20%" align="right" valign="middle">Unrecovered F&amp;A:</th><td width="30%" align="left" valign="middle">${budgetOverview.underrecoveryAmount}&nbsp;</td>
+						<th width="20%" align="right" valign="middle">Last Updated By:</th><td width="30%" align="left" valign="middle">${budgetOverview.updateUser}&nbsp;</td></tr>
+					<tr><th width="20%" align="right" valign="middle">Comments:</th><td width="80%" align="left" valign="middle" colspan="3">${budgetOverview.comments}&nbsp;</td></tr>
+				</table>
+			</div>
+		</kra:innerTab>
+	</c:forEach>
+
 </div>
