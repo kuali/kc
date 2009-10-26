@@ -19,10 +19,18 @@
 					</fo:block>
 				</fo:static-content>
 				<fo:flow flow-name="xsl-region-body">
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="96.96969696969697px" width="533.3333333333334px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="701.96969696969697px" width="533.3333333333334px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="96.3939393939394px" width="0.6060606060606061px" height="605.3636363636364px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="543.8787878787879px" top="96.96969696969697px" width="0.6060606060606061px" height="605.3636363636364px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="96.96969696969697px" width="533.3333333333334px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="701.96969696969697px" width="533.3333333333334px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.96969696969697px" top="96.3939393939394px" width="0.6060606060606061px" height="605.3636363636364px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="543.8787878787879px" top="96.96969696969697px" width="0.6060606060606061px" height="605.3636363636364px">
+                                            <fo:block/>
+                                        </fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="161.8181818181818px" hyphenate="true" language="en" top="115.75757575757576px" height="13.333333333333334px" width="318.7878787878788px">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal" border-top-style="solid" border-bottom-style="solid" border-start-style="solid" border-end-style="solid">
 							<xsl:choose>

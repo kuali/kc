@@ -81,13 +81,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
  */
 public class InstitutionalProposalXmlStream extends
 		InstitutionalProposalBaseStream {
-
-	private static final String PROPOSAL_SUMMARY_COMMENT_CODE = "PROPOSAL_SUMMARY_COMMENT_CODE";
-	private static final String COST_SHARING_COMMENT_CODE = "COST_SHARING_COMMENT_CODE";
-	private static final String INDIRECT_COST_COMMENT_CODE = "INDIRECT_COST_COMMENT_CODE";
+	
+	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
+	private static final String COST_SHARING_COMMENT_CODE;
+	private static final String INDIRECT_COST_COMMENT_CODE;
 	private static final String PROTOCOL_NUMBER = "protocolNumber";
 	private static final String SPECIAL_REVIEW_APPROVAL_CODE = "5";
-	private static final String PERSON_ID = "personId";
 	private static final String SPONSOR_CODE = "sponsorCode";
 	private static final String NSF_CODE = "nsfCode";
 	private static final String NOTICE_OF_OPPORTUNITY_CODE = "noticeOfOpportunityCode";
@@ -96,7 +95,15 @@ public class InstitutionalProposalXmlStream extends
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 	private InstitutionalProposalPersonService institutionalProposalPersonService;
-
+	
+	static{
+		//FIXME below hardcoded values to be fixed once InstituteProposalComments BO is fully integrated
+		PROPOSAL_SUMMARY_COMMENT_CODE = "21";
+		COST_SHARING_COMMENT_CODE = "22";
+		INDIRECT_COST_COMMENT_CODE = "23";
+	}
+	
+	
 	/**
 	 * This method generates XML for Institution Proposal Report. It uses data
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
@@ -135,7 +142,7 @@ public class InstitutionalProposalXmlStream extends
 		InstituteProposal instituteProposalXmlObject = InstituteProposal.Factory
 				.newInstance();
 		List<ProposalPerson> proposalPersons = institutionalProposalPersonService
-				.getProposalPersonsFromDevelopmentProposal(institutionalProposal
+				.getInvestigatorsFromDevelopmentProposal(institutionalProposal
 						.getProposalNumber());
 		instituteProposalXmlObject
 				.setInstProposalMaster(getInstProposalMasterData(institutionalProposal));

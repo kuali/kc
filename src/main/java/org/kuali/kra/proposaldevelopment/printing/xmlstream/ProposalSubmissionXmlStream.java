@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.impl.common.XmlObjectList;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -100,6 +101,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	private static final String OPEN_BRACES = "(";
 	private static final String CLOSE_BRACES = ")";
 	private static final String IMAGES_PATH = "/images/";
+	private static final String REPORT_NAME = "Proposal Submission";
 
 	/**
 	 * This method generates XML for Proposal Development Report. It uses data
@@ -116,20 +118,17 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 */
 	public Map<String, XmlObject> generateXmlStream(
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
-		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-		Budget finalBudget = null;
-		for (Budget budget : ((BudgetDocument) document).getBudgets()) {
-			if (budget.getFinalVersionFlag()) {
-				finalBudget = budget;
-			}
-		}
+		Budget budget = getBudget(proposalDevelopmentDocument);
 		DevelopmentProposal developmentProposal = proposalDevelopmentDocument
 				.getDevelopmentProposal();
 		PROPOSALDocument proposalDocument = PROPOSALDocument.Factory
 				.newInstance();
-		PROPOSAL proposal = getProposal(developmentProposal, finalBudget);
+		PROPOSAL proposal = getProposal(developmentProposal, budget);
 		proposalDocument.setPROPOSAL(proposal);
+
+		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+		xmlObjectList.put(REPORT_NAME, proposalDocument);
 		return xmlObjectList;
 	}
 
@@ -386,11 +385,14 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * unitName
 	 */
 	private String getUnitForCreditSplit(Unit unit) {
-		String unitName = unit.getUnitName();
-		String unitCredit = new StringBuilder(unit.getUnitNumber()).append(
-				STRING_SEPRATOR).append(unitName.substring(0, 29)).append(
-				unitName.length() <= 30 ? Constants.EMPTY_STRING
-						: INCOMPLETE_STRING_TERMINATOR).toString();
+		String unitCredit = null;
+		if (unit != null) {
+			String unitName = unit.getUnitName();
+			unitCredit = new StringBuilder(unit.getUnitNumber()).append(
+					STRING_SEPRATOR).append(unitName.substring(0, 29)).append(
+					unitName.length() <= 30 ? Constants.EMPTY_STRING
+							: INCOMPLETE_STRING_TERMINATOR).toString();
+		}
 		return unitCredit;
 	}
 
@@ -434,9 +436,11 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		PROPOSALMASTER proposalMaster = PROPOSALMASTER.Factory.newInstance();
 		proposalMaster.setPROPOSALNUMBER(developmentProposal
 				.getProposalNumber());
-		proposalMaster
-				.setORGANIZATION(getDevelopmentProposalOrganizationXMLObject(developmentProposal
-						.getApplicantOrganization().getRolodex()));
+		if (developmentProposal.getApplicantOrganization().getRolodex() != null) {
+			proposalMaster
+					.setORGANIZATION(getDevelopmentProposalOrganizationXMLObject(developmentProposal
+							.getApplicantOrganization().getRolodex()));
+		}
 		proposalMaster.setLEADUNIT(getProposalLeadUnit(developmentProposal
 				.getProposalPersons()));
 		proposalMaster.setTITLE(developmentProposal.getTitle());
@@ -571,13 +575,11 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 */
 	private String getMailType(String mailType) {
 		String submissionMethod = Constants.EMPTY_STRING;
-		if (mailType.equals(MAIL_TYPE_ELECTRONIC)) {
+		if (MAIL_TYPE_ELECTRONIC.equals(mailType)) {
 			submissionMethod = MAIL_SUBMISSINON_METHOD_ELECTRONIC;
-		}
-		if (mailType.equals(MAIL_TYPE_REGULAR)) {
+		} else if (MAIL_TYPE_REGULAR.equals(mailType)) {
 			submissionMethod = MAIL_SUBMISSINON_METHOD_REGULAR;
-		}
-		if (mailType.equals(MAIL_TYPE_DHL)) {
+		} else if (MAIL_TYPE_DHL.equals(mailType)) {
 			submissionMethod = MAIL_SUBMISSINON_METHOD_DHL;
 		}
 		return submissionMethod;
@@ -755,7 +757,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 */
 	private String getCenterInstitute(String columnValue, Unit unit) {
 		String centerInstitue = columnValue;
-		if (unit.getUnitNumber() != null) {
+		if (unit != null && unit.getUnitNumber() != null) {
 			centerInstitue = new StringBuilder(columnValue).append(
 					STRING_SEPRATOR).append(unit.getUnitName()).toString();
 		}
@@ -823,10 +825,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		String sponsorDeadLineType = Constants.EMPTY_STRING;
 		String deadLineDateFormated = DateFormatUtils.format(deadLineDate,
 				Constants.DEFAULT_DATE_FORMAT_PATTERN);
-		if (deadLineType.equals(SPONSOR_DEADLINE_TYPE_POSTMARK)) {
+		if (SPONSOR_DEADLINE_TYPE_POSTMARK.equals(deadLineType)) {
 			sponsorDeadLineType = SPONSOR_DEADLINE_POSTMARK_DESCRIPTION;
-		}
-		if (deadLineType.equals(SPONSOR_DEADLINE_TYPE_RECEIPT)) {
+		} else if (SPONSOR_DEADLINE_TYPE_RECEIPT.equals(deadLineType)) {
 			sponsorDeadLineType = SPONSOR_DEADLINE_RECEIPT_DESCRIPTION;
 		}
 		String sponsorDeadLine = new StringBuilder(deadLineDateFormated)

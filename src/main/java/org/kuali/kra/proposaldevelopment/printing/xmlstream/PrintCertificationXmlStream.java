@@ -32,7 +32,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-public class PrintCertificationXmlStream extends PrintCertificationBaseStream {
+public class PrintCertificationXmlStream extends ProposalBaseStream {
 
 	private static final String NSF_SPONSOR_CODE = "000100";
 	private static final String NSF_SPONSOR_ACRONYM = "NSF";
@@ -52,6 +52,12 @@ public class PrintCertificationXmlStream extends PrintCertificationBaseStream {
 	private static final String SPONSOR_TYPE_NONFED = "NONFED";
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
+	private static final String STATEMENT_CONFLICT = "I have indicated whether or not there is any potential for a real or perceived conflict of interest as defined in MIT Policies and Procedures, 4.4:  http://web.mit.edu/afs/athena.mit.edu/org/p/policies/4.4.html";
+	private static final String STATEMENT_CERTIFICATION_NOT_NEEDED = "Certification is not needed";
+	private static final String STATEMENT_NIH_PROPOSAL = "For NSF & NIH proposals, only: I have submitted the required financial conflict of interest documentation to the Director, Office of Sponsored Programs: http://web.mit.edu/osp/www/resources_policy.htm";
+	private static final String STATEMENT_NOT_DEBARRED = "I am not debarred, suspended or proposed for debarment or suspended by any agency of the U.S. government: http://web.mit.edu/osp/www/debarmen.htm";
+	private static final String STATEMENT_FEDERAL_AGENCY_LOBBY = "I certify that I have not and will not lobby any federal agency on behalf of this award: http://web.mit.edu/osp/www/fedlobrg.htm";
+	private static final String STATEMENT_REQUIREMENT_FAMILIARITY = "I am familiar with the requirements of the Procurement Integrity Act [OFPP, Section 27 (a-e)] and will report any violations to the Office of Sponsored Programs: http://web.mit.edu/osp/www/Procuint.htm";
 
 	/**
 	 * This method generates XML for Print Certification Report. It uses data
@@ -73,19 +79,17 @@ public class PrintCertificationXmlStream extends PrintCertificationBaseStream {
 
 		DevelopmentProposal developmentProposal = proposalDevDocument
 				.getDevelopmentProposal();
-		if (developmentProposal != null) {
-			for (ProposalPerson proposalPerson : developmentProposal
-					.getProposalPersons()) {
-				PrintCertificationDocument printCertDocument = PrintCertificationDocument.Factory
-						.newInstance();
-				PrintCertification printCertification = PrintCertification.Factory
-						.newInstance();
-				printCertification = getPrintCertification(developmentProposal,
-						proposalPerson);
-				printCertDocument.setPrintCertification(printCertification);
-				xmlObjectList.put(proposalPerson.getPerson().getFullName(),
-						printCertDocument);
-			}
+		for (ProposalPerson proposalPerson : developmentProposal
+				.getProposalPersons()) {
+			PrintCertificationDocument printCertDocument = PrintCertificationDocument.Factory
+					.newInstance();
+			PrintCertification printCertification = PrintCertification.Factory
+					.newInstance();
+			printCertification = getPrintCertification(developmentProposal,
+					proposalPerson);
+			printCertDocument.setPrintCertification(printCertification);
+			xmlObjectList.put(proposalPerson.getPerson().getFullName(),
+					printCertDocument);
 		}
 		return xmlObjectList;
 	}
@@ -120,9 +124,7 @@ public class PrintCertificationXmlStream extends PrintCertificationBaseStream {
 		printCertification.setCertificationsArray(certifications);
 		printCertification.setLogoPath(IMAGES_PATH);
 		printCertification.setCurrentDate(dateTimeService.getCurrentCalendar());
-		String officeName = getOfficeName(proposalPerson);
-		printCertification.setOfficeName(officeName);
-
+		printCertification.setOfficeName(getOfficeName(proposalPerson));
 		return printCertification;
 	}
 
@@ -225,22 +227,22 @@ public class PrintCertificationXmlStream extends PrintCertificationBaseStream {
 	private String getStatementForCertification(String questionId) {
 		String statement = Constants.EMPTY_STRING;
 		if (questionId.equals(QUESTION_ID_Z1)) {
-			statement = "Certification is not needed";
+			statement = STATEMENT_CERTIFICATION_NOT_NEEDED;
 		}
 		if (questionId.equals(QUESTION_ID_Z2)) {
-			statement = "I have indicated whether or not there is any potential for a real or perceived conflict of interest as defined in MIT Policies and Procedures, 4.4:  http://web.mit.edu/afs/athena.mit.edu/org/p/policies/4.4.html";
+			statement = STATEMENT_CONFLICT;
 		}
 		if (questionId.equals(QUESTION_ID_Z3)) {
-			statement = "For NSF & NIH proposals, only: I have submitted the required financial conflict of interest documentation to the Director, Office of Sponsored Programs: http://web.mit.edu/osp/www/resources_policy.htm";
+			statement = STATEMENT_NIH_PROPOSAL;
 		}
 		if (questionId.equals(QUESTION_ID_Z4)) {
-			statement = "I am not debarred, suspended or proposed for debarment or suspended by any agency of the U.S. government: http://web.mit.edu/osp/www/debarmen.htm";
+			statement = STATEMENT_NOT_DEBARRED;
 		}
 		if (questionId.equals(QUESTION_ID_Z5)) {
-			statement = "I certify that I have not and will not lobby any federal agency on behalf of this award: http://web.mit.edu/osp/www/fedlobrg.htm";
+			statement = STATEMENT_FEDERAL_AGENCY_LOBBY;
 		}
 		if (questionId.equals(QUESTION_ID_Z6)) {
-			statement = "I am familiar with the requirements of the Procurement Integrity Act [OFPP, Section 27 (a-e)] and will report any violations to the Office of Sponsored Programs: http://web.mit.edu/osp/www/Procuint.htm";
+			statement = STATEMENT_REQUIREMENT_FAMILIARITY;
 		}
 		return statement;
 	}

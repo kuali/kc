@@ -58,6 +58,7 @@
 							</fo:table-row>
 							<fo:table-row font-size="8pt">
 								<fo:table-cell>
+                                                                    <fo:block>
 									<fo:table width="100%">
 										<fo:table-column column-width="1.25in"/>
 										<fo:table-column/>
@@ -77,6 +78,7 @@
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+								    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row font-size="8pt">
@@ -104,6 +106,7 @@
 
 							<fo:table-row font-size="8pt">
 								<fo:table-cell>
+                                                                    <fo:block>
 									<fo:table width="100%">
 										<fo:table-column column-width="1.48in"/>
 										<fo:table-column/>
@@ -118,6 +121,7 @@
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+								    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row font-size="8pt">

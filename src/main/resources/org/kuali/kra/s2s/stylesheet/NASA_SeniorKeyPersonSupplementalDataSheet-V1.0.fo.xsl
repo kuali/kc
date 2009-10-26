@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $Revision:   1.5  $ -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:footer="http://apply.grants.gov/system/Footer-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NASA_SeniorKeyPersonSupplementalDataSheet="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:footer="http://apply.grants.gov/system/Footer-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NASA_SeniorKeyPersonSupplementalDataSheet="http://apply.grants.gov/forms/NASA_SenKPSupDtSht-V1.0">
 	<xsl:output method="xml" indent="yes"/>
 	<xsl:variable name="fo:layout-master-set">
 		<fo:layout-master-set>
@@ -297,11 +297,21 @@
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">OMB Number:  2700-0087 </fo:block>
 					</fo:block-container>
 					<!--Draw lines-->
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.72727272727273px" width="555.1515151515151px" height="0.6060606060606061px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="336.969696969697px" width="555.1515151515151px" height="0.6060606060606061px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="389.69696969696975px" width="555.1515151515151px" height="0.6060606060606061px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.12121212121212px" width="0.6060606060606061px" height="298.7878787878788px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="565.4545454545455px" top="92.72727272727273px" width="0.6060606060606061px" height="298.7878787878788px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.72727272727273px" width="555.1515151515151px" height="0.6060606060606061px">
+                        <fo:block/>
+                   </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="336.969696969697px" width="555.1515151515151px" height="0.6060606060606061px">
+                        <fo:block/>
+                   </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="389.69696969696975px" width="555.1515151515151px" height="0.6060606060606061px">
+                        <fo:block/>
+                   </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.12121212121212px" width="0.6060606060606061px" height="298.7878787878788px">
+                        <fo:block/>
+                   </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="565.4545454545455px" top="92.72727272727273px" width="0.6060606060606061px" height="298.7878787878788px">
+                        <fo:block/>
+                   </fo:block-container>
 					<!--Extract Att-->
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="23.03030303030303px" hyphenate="true" language="en" keep-together="always" top="446.66666666666669px" height="12.121212121212121px" width="52.121212121212125px">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">Important:</fo:block>
@@ -778,11 +788,21 @@
 			<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">OMB Number:  2700-0087 </fo:block>
 		</fo:block-container>
 		<!--Draw lines-->
-		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.72727272727273px" width="555.1515151515151px" height="0.6060606060606061px"/>
-		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="336.969696969697px" width="555.1515151515151px" height="0.6060606060606061px"/>
-		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="389.69696969696975px" width="555.1515151515151px" height="0.6060606060606061px"/>
-		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.12121212121212px" width="0.6060606060606061px" height="298.7878787878788px"/>
-		<fo:block-container background-color="black" border-style="none" position="absolute" left="565.4545454545455px" top="92.72727272727273px" width="0.6060606060606061px" height="298.7878787878788px"/>
+		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.72727272727273px" width="555.1515151515151px" height="0.6060606060606061px">
+            <fo:block/>
+        </fo:block-container>
+		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="336.969696969697px" width="555.1515151515151px" height="0.6060606060606061px">
+            <fo:block/>
+        </fo:block-container>
+		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="389.69696969696975px" width="555.1515151515151px" height="0.6060606060606061px">
+            <fo:block/>
+        </fo:block-container>
+		<fo:block-container background-color="black" border-style="none" position="absolute" left="10.90909090909091px" top="92.12121212121212px" width="0.6060606060606061px" height="298.7878787878788px">
+            <fo:block/>
+        </fo:block-container>
+		<fo:block-container background-color="black" border-style="none" position="absolute" left="565.4545454545455px" top="92.72727272727273px" width="0.6060606060606061px" height="298.7878787878788px">
+            <fo:block/>
+        </fo:block-container>
 	</xsl:template>
 	
 <!-- attachment information -->

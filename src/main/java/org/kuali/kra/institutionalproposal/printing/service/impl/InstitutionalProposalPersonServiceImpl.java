@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -43,7 +45,7 @@ public class InstitutionalProposalPersonServiceImpl implements
 	 *            number.
 	 * @return list of proposal persons
 	 */
-	public List<ProposalPerson> getProposalPersonsFromDevelopmentProposal(
+	public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
 			String proposalNumber) {
 		List<ProposalPerson> proposalPersonsList = new ArrayList<ProposalPerson>();
 		Map<String, String> proposalPersonMap = new HashMap<String, String>();
@@ -54,7 +56,11 @@ public class InstitutionalProposalPersonServiceImpl implements
 			DevelopmentProposal developmentProposal = developmentProposals
 					.get(0);
 			if (developmentProposal.getProposalPersons() != null) {
-				proposalPersonsList = developmentProposal.getProposalPersons();
+				for(ProposalPerson proposalPerson:developmentProposal.getProposalPersons()){
+					if(proposalPerson.getProjectRole().equals(ContactRole.PI_CODE) || proposalPerson.getProjectRole().equals(ContactRole.COI_CODE)){
+						proposalPersonsList.add(proposalPerson);
+					}
+				}
 			}
 		}
 		return proposalPersonsList;

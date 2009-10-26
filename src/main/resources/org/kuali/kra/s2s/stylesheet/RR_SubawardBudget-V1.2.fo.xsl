@@ -62,7 +62,7 @@
 						<fo:table-column column-width="0.2in"/>
 						<fo:table-body>
 							<fo:table-row>
-								<fo:table-cell width="0.2in">&#160;</fo:table-cell>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
 								<fo:table-cell width="9.0in">
 									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
 									<fo:block>&#160;</fo:block>
@@ -79,13 +79,16 @@
                            </fo:block>
 									<fo:block>&#160;</fo:block>
 								</fo:table-cell>
-								<fo:table-cell width="0.2in">&#160;</fo:table-cell>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
 							</fo:table-row>
 						</fo:table-body>
 					</fo:table>
 					<fo:table width="100%">
 						<fo:table-column/>
 						<fo:table-body>
+                                                     <fo:table-row>
+                                                         <fo:table-cell>
+                                                         	<fo:block>
 							<xsl:if test="RR_SubawardBudget:ATT1!=''">
 								<xsl:call-template name="attach_block">
 									<xsl:with-param name="block_num"/>
@@ -176,6 +179,9 @@
 									</xsl:with-param>
 								</xsl:call-template>
 							</xsl:if>
+                                                        </fo:block>
+                                                            </fo:table-cell>
+                                                                </fo:table-row>
 						</fo:table-body>
 					</fo:table>
 				</fo:flow>
@@ -571,6 +577,9 @@
 								<fo:table-column column-width="proportional-column-width(20)"/>
 								<fo:table-column column-width="proportional-column-width(20)"/>
 								<fo:table-body>
+                                                                <fo:table-row>
+                                                                   <fo:table-cell>
+                                                                     <fo:block>
 									<!--============= ROWS Begin ======================-->
 									<xsl:for-each select="RR_Budget:BudgetSummary">
 										<fo:table-row>
@@ -1096,6 +1105,9 @@
 										</fo:table-row>
 										<!--============ ROWS End ================================-->
 									</xsl:for-each>
+                                                                          </fo:block>
+                                                                    </fo:table-cell>
+                                                                </fo:table-row>
 								</fo:table-body>
 							</fo:table>
 						</fo:block>
@@ -2351,6 +2363,9 @@
 										</fo:table-row>
 									</fo:table-header>
 									<fo:table-body>
+                                                                              <fo:table-row>
+                                                                                 <fo:table-cell>
+                                                                                  <fo:block>
 										<xsl:for-each select="RR_Budget:Equipment">
 											<xsl:for-each select="RR_Budget:EquipmentList">
 												<fo:table-row>
@@ -2377,8 +2392,11 @@
 												</fo:table-row>
 											</xsl:for-each>
 										</xsl:for-each>
-									</fo:table-body>
-								</fo:table>
+                                                                      </fo:block>
+                                                                   </fo:table-cell>
+                                                               </fo:table-row>
+                                                            </fo:table-body>
+							</fo:table>
 								<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 									<fo:table-column column-width="proportional-column-width(85)"/>
 									<fo:table-column column-width="proportional-column-width(16)"/>
@@ -3009,6 +3027,9 @@
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
+                                      <fo:table-row>
+                                          <fo:table-cell>
+                                              <fo:block>
 					<xsl:for-each select="RR_Budget:IndirectCosts">
 						<xsl:for-each select="RR_Budget:IndirectCost">
 							<fo:table-row>
@@ -3053,6 +3074,9 @@
 							</fo:table-row>
 						</xsl:for-each>
 					</xsl:for-each>
+                                        </fo:block>
+                                      </fo:table-cell>
+                                    </fo:table-row>
 					<fo:table-row>
 						<fo:table-cell number-columns-spanned="3" text-align="right" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before">
 							<fo:block>
@@ -3074,7 +3098,8 @@
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell hyphenate="true" language="en" number-columns-spanned="4" text-align="left" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="0pt" display-align="before">
-							<fo:table>
+                                                    <fo:block>
+                                                    <fo:table>
 								<fo:table-column column-width="proportional-column-width(40)"/>
 								<fo:table-column column-width="proportional-column-width(60)"/>
 								<fo:table-body>
@@ -3102,6 +3127,7 @@
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
+						</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 				</fo:table-body>
