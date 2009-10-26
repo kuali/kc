@@ -32,6 +32,7 @@ public class MeetingForm extends KualiForm {
     // textarea needs formKey & document.  
     private String formKey;
     private Document document;
+    private boolean readOnly;
 
     public MeetingForm() {
         super();
@@ -83,6 +84,14 @@ public class MeetingForm extends KualiForm {
         // resetElements is related to checkbox values.
         ResetElementsHelper.resetElements(this, ResetElementsHelper.getElementsToReset(request));
         this.getMeetingHelper().setAbsenteeList("");
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 
 }

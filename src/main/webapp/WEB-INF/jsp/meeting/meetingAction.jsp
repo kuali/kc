@@ -64,7 +64,14 @@ var kualiElements = kualiForm.elements;
         <input type="submit" name="methodToCall.meetingMain" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
         </span></dt> 
         <dt class="licurrent" ><span class="tabright tabcurrent">
-        <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+        <c:choose>
+            <c:when test="${!readOnly}">
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+            </c:when>
+            <c:otherwise>
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.meetingAction.x" value="Meeting Actions" alt="Meeting Actions">
+            </c:otherwise>
+        </c:choose>
         </span></dt>
     </dl>
   </div>

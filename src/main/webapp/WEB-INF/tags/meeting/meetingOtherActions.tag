@@ -27,6 +27,7 @@
 			
             <%-- New data --%>
         	<%-- <kra:permission value="${KualiForm.meetingHelper.modifySubjects}">--%>
+             <c:if test="${!readOnly}">
 	            <tr>
 				<th class="infoline" width="5%">
 					<c:out value="Add:" />
@@ -52,6 +53,7 @@
 					</div>
 	               </td>
 	            </tr>
+	            </c:if>
             <%--</kra:permission> --%>
 			<%-- New data --%>
 			

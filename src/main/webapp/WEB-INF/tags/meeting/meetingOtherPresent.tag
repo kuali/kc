@@ -5,6 +5,7 @@
                  <td colspan="5" class="tab-subhead1">Other Presents: ${fn:length(KualiForm.meetingHelper.otherPresentBeans)}</td>
             </tr>
         
+              <c:if test="${!readOnly}">
 
                 <tr> 
                     <th>Add:</th>
@@ -42,6 +43,7 @@
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                     </td>
                 </tr>
+                </c:if>
         	<%-- Header --%>
 
         <%--	<tr>

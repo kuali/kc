@@ -57,6 +57,7 @@
                        <c:set var="hasAlternateError" value="true"/>
 				    </c:if>
 			     </c:forEach>
+                   <c:if test="${!readOnly}">
 	                       <html:select property="meetingHelper.memberPresentBeans[${status.index}].attendance.alternateFor" tabindex="0"  >
                             <c:set var="alternatePerson" value="" />
 		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.meeting.AlternateForValuesFinder', paramMap)}" var="option">
@@ -73,6 +74,16 @@
 		                    </c:forEach>
 		                        <input type="hidden" name="alternatePerson[${status.index}]" id="alternatePerson[${status.index}]" value="${alternatePerson}" />
 		                    </html:select>
+		               </c:if>
+		               <c:if test="${readOnly and !empty KualiForm.meetingHelper.memberPresentBeans[status.index].attendance.alternateFor}">
+		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.meeting.AlternateForValuesFinder', paramMap)}" var="option">
+		                    	<c:if test="${KualiForm.meetingHelper.memberPresentBeans[status.index].attendance.alternateFor == option.key}">
+		                             ${option.label} 
+		                        </c:if>
+		                    </c:forEach>
+		               
+		               </c:if>
+		               
                 <c:if test="${hasAlternateError}">
 	 		                <kul:fieldShowErrorIcon />
                       </c:if>
