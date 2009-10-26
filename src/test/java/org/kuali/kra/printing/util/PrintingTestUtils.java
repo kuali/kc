@@ -1857,12 +1857,13 @@ public class PrintingTestUtils {
 		proposal.getInstitutionalProposalCostShares().add(ipCostShare);
 		
 		
-//		InstitutionalProposalComments comments=new InstitutionalProposalComments();
-//		comments.setComments("comments");
-//		comments.setCommentTypeCode("commentTypeCode");
-//		CommentType commentType=new CommentType();
-//		commentType.setChecklistFlag(true);
-//		comments.setCommentType(commentType);
+		InstitutionalProposalComments summaryComments=new InstitutionalProposalComments();
+		summaryComments.setComments("Proposal Summary comments");
+		summaryComments.setCommentTypeCode("21");
+		
+		
+		proposal.setProposalComments(summaryComments);
+		
 		ipd.setInstitutionalProposal(proposal);
 		return ipd;
 	}
@@ -1978,6 +1979,11 @@ public class PrintingTestUtils {
 	}
 
 	public static Map<String, Object> getAwardTemplateReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+
+	public static Map<String, Object> getProposalDevelopmentReportParameters() {
 		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
 		return reportParamsMap;
 	}

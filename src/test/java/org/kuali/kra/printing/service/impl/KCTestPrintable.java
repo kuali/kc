@@ -56,7 +56,6 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 		FileInputStream ret = null;
 		File xmlfile = new File(
 				"src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
-		System.out.println("xmlfile=" + xmlfile.getAbsolutePath());
 		try {
 			ret = new FileInputStream(xmlfile);
 		} catch (FileNotFoundException e) {
