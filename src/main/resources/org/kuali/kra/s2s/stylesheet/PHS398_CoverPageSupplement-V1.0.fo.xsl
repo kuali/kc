@@ -19,14 +19,30 @@
 					</fo:block>
 				</fo:static-content>
 				<fo:flow flow-name="xsl-region-body">
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="23.03030303030303px" top="83.03030303030303px" width="546.6666666666667px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="724.2424242424242px" width="546.6666666666667px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.212121212121215px" top="83.03030303030303px" width="1.2121212121212122px" height="642.4242424242425px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="567.8787878787879px" top="83.63636363636364px" width="1.2121212121212122px" height="642.4242424242425px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="22.424242424242426px" top="203.63636363636365px" width="546.6666666666667px" height="0.6060606060606061px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="556.3636363636364px" width="546.6666666666667px" height="0.6060606060606061px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="280.6060606060606px" width="546.6666666666667px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="22.424242424242426px" top="373.33333333333337px" width="546.6666666666667px" height="1.2121212121212122px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="23.03030303030303px" top="83.03030303030303px" width="546.6666666666667px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="724.2424242424242px" width="546.6666666666667px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.212121212121215px" top="83.03030303030303px" width="1.2121212121212122px" height="642.4242424242425px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="567.8787878787879px" top="83.63636363636364px" width="1.2121212121212122px" height="642.4242424242425px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="22.424242424242426px" top="203.63636363636365px" width="546.6666666666667px" height="0.6060606060606061px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="556.3636363636364px" width="546.6666666666667px" height="0.6060606060606061px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="21.81818181818182px" top="280.6060606060606px" width="546.6666666666667px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="22.424242424242426px" top="373.33333333333337px" width="546.6666666666667px" height="1.2121212121212122px">
+                                            <fo:block/>
+                                        </fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="470.1212121212121px" top="60.6060606060606px" height="12.121212121212121px" width="100.121212121212125px">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">OMB Number: 0925-0001</fo:block>
 					</fo:block-container>
@@ -559,10 +575,18 @@
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="169.69696969696972px" hyphenate="true" language="en" keep-together="always" top="27.272727272727273px" height="20.606060606060606px" width="237.5757575757576px">
 						<fo:block background-color="transparent" color="#000000" text-align="center" font-size="14pt" font-style="normal" font-family="Helvetica" font-weight="bold">PHS 398 Cover Page Supplement</fo:block>
 					</fo:block-container>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18.181818181818183px" top="76.42424242424243px" width="546.6666666666667px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="19.393939393939394px" top="525.4545454545455px" width="546.6666666666667px" height="1.2121212121212122px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18.78787878787879px" top="76.42424242424243px" width="1.2121212121212122px" height="450.8484848484849px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="564.8484848484849px" top="76.42424242424243px" width="1.2121212121212122px" height="450.8484848484849px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18.181818181818183px" top="76.42424242424243px" width="546.6666666666667px" height="1.2121212121212122px">
+                                        <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="19.393939393939394px" top="525.4545454545455px" width="546.6666666666667px" height="1.2121212121212122px">
+                                        <fo:block/>    
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18.78787878787879px" top="76.42424242424243px" width="1.2121212121212122px" height="450.8484848484849px">
+                                        <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="564.8484848484849px" top="76.42424242424243px" width="1.2121212121212122px" height="450.8484848484849px">
+                                        <fo:block/>
+                                        </fo:block-container>
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="470.1212121212121px" top="54.6060606060606px" height="12.121212121212121px" width="100.121212121212125px">
 						<fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal">OMB Number: 0925-0001</fo:block>
 					</fo:block-container>

@@ -237,19 +237,16 @@ public class PHS398ResearchPlanV1_2Generator extends
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		if (developmentProposal != null) {
-			if (developmentProposal.getProposalTypeCode() != null
-					&& Integer.parseInt(developmentProposal
-							.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
-				// Check <6 to ensure that if proposalType='TASk ORDER", it must
-				// not be
-				// set. THis is because enum ApplicationType has no
-				// entry for TASK ORDER
-				TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum
-						.forInt(Integer.parseInt(developmentProposal
-								.getProposalTypeCode()));
-				applicationType.setTypeOfApplication(typeOfApplication);
-			}
+		if (developmentProposal.getProposalTypeCode() != null
+				&& Integer.parseInt(developmentProposal.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+			// Check <6 to ensure that if proposalType='TASk ORDER", it must
+			// not be
+			// set. THis is because enum ApplicationType has no
+			// entry for TASK ORDER
+			TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum
+					.forInt(Integer.parseInt(developmentProposal
+							.getProposalTypeCode()));
+			applicationType.setTypeOfApplication(typeOfApplication);
 		}
 		return applicationType;
 	}
@@ -267,21 +264,19 @@ public class PHS398ResearchPlanV1_2Generator extends
 		AttachedFileDataType[] attachedFileDataTypes = null;
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		if (developmentProposal != null) {
-			for (Narrative narrative : developmentProposal.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
-					size++;
-				}
+		for (Narrative narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+				size++;
 			}
-			attachedFileDataTypes = new AttachedFileDataType[size];
-			int attachments = 0;
-			for (Narrative narrative : developmentProposal.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
-					attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-					attachments++;
-				}
+		}
+		attachedFileDataTypes = new AttachedFileDataType[size];
+		int attachments = 0;
+		for (Narrative narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
+				attachments++;
 			}
 		}
 		return attachedFileDataTypes;

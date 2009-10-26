@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.CurrentAndPendingSupportDocument;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 
@@ -42,6 +43,7 @@ public class PendingProposalXmlStream extends InstitutionalProposalBaseStream {
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		InstitutionalProposalDocument ipDoc = (InstitutionalProposalDocument) document;
+		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory
 				.newInstance();
 		InstitutionalProposal institutionalProposal = ipDoc
@@ -64,8 +66,9 @@ public class PendingProposalXmlStream extends InstitutionalProposalBaseStream {
 		if (personName != null) {
 			currentAndPendingSupport.setPersonName(personName);
 		}
+		currentAndPendingSupportDocument.setCurrentAndPendingSupport(currentAndPendingSupport);
 		xmlObjectList.put(InstitutionalProposalPrintType.PENDING_REPORT
-				.getInstitutionalProposalPrintType(), currentAndPendingSupport);
+				.getInstitutionalProposalPrintType(), currentAndPendingSupportDocument);
 		return xmlObjectList;
 	}
 
@@ -136,7 +139,7 @@ public class PendingProposalXmlStream extends InstitutionalProposalBaseStream {
 			InstitutionalProposal instituteProposal,
 			PendingSupport pendingSupport, String persionId) {
 		List<ProposalPerson> proposalPersons = institutionalProposalPersonService
-				.getProposalPersonsFromDevelopmentProposal(instituteProposal
+				.getInvestigatorsFromDevelopmentProposal(instituteProposal
 						.getProposalNumber());
 		for (ProposalPerson proposalPerson : proposalPersons) {
 			if (proposalPerson.getPersonId() != null

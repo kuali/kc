@@ -33,6 +33,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
    <fo:table-body>
       <fo:table-row>
          <fo:table-cell font-size="8.5pt" text-align="center" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="1pt" display-align="center" border-style="solid" border-width="0pt" border-color="white">
+             <fo:block/>
          </fo:table-cell>
          <fo:table-cell font-size="8.5pt" text-align="center" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="1pt" display-align="center" border-style="solid" border-width="0pt" border-color="white">
             <fo:block font-size="8.5pt">
@@ -143,7 +144,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                             <fo:block>5.&#160;&#160;&#160;&#160; Totals</fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell font-size="8.5pt" padding-start="3pt" padding-end="3pt" padding-before="1pt" padding-after="1pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                            <fo:block />
+                                            <fo:block/>
                                         </fo:table-cell>
                                         <fo:table-cell font-size="8.5pt" padding-start="3pt" padding-end="3pt" padding-before="1pt" padding-after="1pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                             <fo:block>
@@ -2946,6 +2947,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -2968,6 +2970,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -2989,6 +2992,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -3010,6 +3014,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -3031,6 +3036,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -3064,6 +3070,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                                <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetApplicantContributionAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3081,6 +3088,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetStateContributionAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3098,6 +3106,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                                <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetOtherContributionAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3115,6 +3124,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                             <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block>
@@ -3148,6 +3158,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetFirstYearAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3165,6 +3176,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetSecondYearAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3182,6 +3194,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetThirdYearAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>
@@ -3199,6 +3212,7 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424A="http://app
                                                     <fo:table-body>
                                                         <fo:table-row>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block/>
                                                             </fo:table-cell>
                                                             <fo:table-cell font-size="8.5pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" text-align="right" display-align="center" border-style="solid" border-width="1pt" border-color="white">
                                                                 <fo:block><xsl:for-each select="SF424A:BudgetFourthYearAmount"><xsl:value-of select="format-number(., '$#,##0.00')" /></xsl:for-each> </fo:block>

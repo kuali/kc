@@ -704,7 +704,9 @@
 						<fo:block background-color="transparent" color="#000000" font-size="10pt" font-style="normal" font-family="Helvetica" font-weight="normal">Additional Senior/Key Person Form Attachments</fo:block>
 					</fo:block-container>
 					<!--Draw lines-->
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="15.757575757575758px" top="415.1515151515152px" width="551.5151515151515px" height="1.8181818181818183px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="15.757575757575758px" top="415.1515151515152px" width="551.5151515151515px" height="1.8181818181818183px">
+                            <fo:block/>
+                        </fo:block-container>
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>

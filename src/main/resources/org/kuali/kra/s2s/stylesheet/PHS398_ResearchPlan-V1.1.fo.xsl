@@ -18,17 +18,35 @@
 					</fo:block>
 				</fo:static-content>
 				<fo:flow flow-name="xsl-region-body">
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="55px" width="530px" height="0.60px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="79px" width="530px" height="0.60px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="195px" width="530px" height="0.60px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="715px" width="530px" height="0.60px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="55px" width="530px" height="0.60px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="79px" width="530px" height="0.60px">
+                                        <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="195px" width="530px" height="0.60px">
+                                        <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="715px" width="530px" height="0.60px">
+                                        <fo:block/>
+                                        </fo:block-container>
 					
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="390px" width="530px" height="0.30px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="530px" width="530px" height="0.30px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px"  top="685px" width="530px" height="0.20px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="390px" width="530px" height="0.30px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px" top="530px" width="530px" height="0.30px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px"  top="685px" width="530px" height="0.20px">
+                                            <fo:block/>
+                                        </fo:block-container>
 
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px"  top="55px" width="0.60px" height="660px"/>
-					<fo:block-container background-color="black" border-style="none" position="absolute" left="548px" top="55px" width="0.60px" height="660px"/>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="18px"  top="55px" width="0.60px" height="660px">
+                                            <fo:block/>
+                                        </fo:block-container>
+					<fo:block-container background-color="black" border-style="none" position="absolute" left="548px" top="55px" width="0.60px" height="660px">
+                                            <fo:block/>
+                                        </fo:block-container>
 
 					
 					<fo:block-container background-color="transparent" border-style="none" position="absolute" left="188.4848484848485px" hyphenate="true" language="en" top="239.39393939393943px" height="13.333333333333334px" width="340.21212121212122px">

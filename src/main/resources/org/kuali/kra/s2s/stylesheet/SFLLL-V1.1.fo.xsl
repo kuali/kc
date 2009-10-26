@@ -54,8 +54,8 @@
 														<fo:table-cell border-after-color="white" border-before-color="white" border-end-color="white" border-start-color="white" font-size="8px" height="13pt" number-columns-spanned="2" text-align="center" width="172.75pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">Complete this form to disclose lobbying activities pursuant to 31 U.S.C. 1352 </fo:inline>
-																<fo:block>
-                                                                                    </fo:block>
+																<fo:block></fo:block>
+                                                                                                                          
 																<fo:inline font-size="8px" font-style="normal">(See reverse for public burden disclosure.)</fo:inline>
 															</fo:block>
 														</fo:table-cell>
@@ -312,7 +312,8 @@
 																	<fo:table-body>
 																		<fo:table-row>
 																			<fo:table-cell font-size="8px" display-align="before" width="20pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                                                                            <fo:block/>
+                                                                                                                                                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 																					<fo:table-column column-width="20pt"/>
 																					<fo:table-column column-width="40pt"/>
 																					<fo:table-column column-width="30pt"/>
@@ -944,7 +945,8 @@
 																	<fo:table-body>
 																		<fo:table-row>
 																			<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+                                                                                                                                                            <fo:block/>
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<fo:inline font-size="8px">* Signature: </fo:inline>
 																						<xsl:for-each select="SFLLL:Signature">
@@ -958,7 +960,8 @@
 																		</fo:table-row>
 																		<fo:table-row>
 																			<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+                                                                                                                                                            <fo:block/>
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<fo:inline font-size="8px">* Name: </fo:inline>
 																						<xsl:for-each select="SFLLL:Name">
@@ -986,7 +989,8 @@
 																		</fo:table-row>
 																		<fo:table-row>
 																			<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+																			<fo:block/>	
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<xsl:for-each select="SFLLL:Name">
 																							<xsl:for-each select="globLib:LastName">
@@ -1007,7 +1011,8 @@
 																		</fo:table-row>
 																		<fo:table-row>
 																			<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+                                                                                                                                                            <fo:block/>
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<fo:inline font-size="8px">Title: </fo:inline>
 																						<xsl:for-each select="SFLLL:Title">
@@ -1021,7 +1026,8 @@
 																		</fo:table-row>
 																		<fo:table-row>
 																			<fo:table-cell font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+                                                                                                                                                            <fo:block/>	
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<fo:inline font-size="8px">Telephone No.: </fo:inline>
 																						<xsl:for-each select="SFLLL:Telephone">
@@ -1035,7 +1041,8 @@
 																		</fo:table-row>
 																		<fo:table-row>
 																			<fo:table-cell font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-																				<xsl:for-each select="SFLLL:SignatureBlock">
+                                                                                                                                                            <fo:block/>	
+                                                                                                                                                            <xsl:for-each select="SFLLL:SignatureBlock">
 																					<fo:block>
 																						<fo:inline font-size="8px">Date: </fo:inline>
 																						<xsl:for-each select="SFLLL:SignedDate">
@@ -1069,7 +1076,7 @@ Standard Form - LLL (Rev. 7-97)</fo:block>
 													<fo:table-row>
 														<fo:table-cell number-columns-spanned="4">
 															<fo:block font-size="10pt" text-decoration="underline" font-weight="bold"> Public Burden Disclosure Statement</fo:block>
-															<fo:leader leader-pattern="space"/>
+															<fo:block><fo:leader leader-pattern="space"/></fo:block>
 															<fo:block width="8.5pt">
 					According to the Paperwork Reduction Act, as amended, no persons are required to respond to a collection of information unless it displays a valid OMB Control Number.  The valid OMB control number for this information collection is OMB No. 0348-0046.  Public reporting burden for this collection of information is estimated to average 10 minutes per response, including time for reviewing instructions, searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. Send comments regarding the burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to the Office of Management and Budget, Paperwork Reduction Project (0348-0046), Washington, DC 20503.</fo:block>
 														</fo:table-cell>

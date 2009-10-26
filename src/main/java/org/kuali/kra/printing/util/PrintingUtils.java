@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -30,6 +31,7 @@ import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -54,6 +56,7 @@ public class PrintingUtils {
 	private static final String XSL_CURRENT_REPORT = "CurrentSupport.xsl";
 	private static final String XSL_PENDING_REPORT = "PendingSupport.xsl";
 	private static final String XSL_INSTITUTIONAL_PROPOSAL_REPORT = "instituteProposal.xsl";
+	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	
 	/**
 	 * This method fetches system constant parameters
@@ -181,4 +184,23 @@ public class PrintingUtils {
 				Country.class, countryMap);
 		return country;
 	}
+	
+	/**
+     * This method is to get PrincipalInvestigator for a given Proposal Development Document
+     * 
+     * @param proposalPersons Proposal development document.
+     * @return ProposalPerson PrincipalInvestigator for the proposal.
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public static ProposalPerson getPrincipalInvestigator(List<ProposalPerson> proposalPersons) {
+        ProposalPerson proposalPerson = null;
+        if (proposalPersons != null) {
+            for (ProposalPerson person : proposalPersons) {
+                if (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)) {
+                    proposalPerson = person;
+                }
+            }
+        }
+        return proposalPerson;
+    }
 }
