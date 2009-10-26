@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="permissions">
+  	headerTabActive="permissions"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
   	

@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="awardActions">
+  	headerTabActive="awardActions"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
 <kra-a:awardDataValidation />
 <%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
