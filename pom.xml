@@ -766,7 +766,6 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.4.2</version>
 				<configuration>
-					<aggregate>true</aggregate>
 					<outputDirectory>/opt/hudson/home/userContent/reports/2.0</outputDirectory>
 				</configuration>
 			</plugin>
