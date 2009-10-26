@@ -3129,7 +3129,9 @@
 									<fo:table-column column-width="proportional-column-width(16)"/>
 									<fo:table-header>
 										<fo:table-row>
-											<fo:table-cell/>
+											<fo:table-cell>
+                                                                                            <fo:block/>
+                                                                                        </fo:table-cell>
 											<fo:table-cell border-before-color="white" text-align="center" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before">
 												<fo:block>
 													<fo:inline font-weight="bold" font-size="8pt">*Equipment Item</fo:inline>
@@ -4434,7 +4436,8 @@
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell hyphenate="true" language="en" number-columns-spanned="6" text-align="left" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="0pt" display-align="before">
-							<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
+                            <fo:block>
+                                                    <fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 								<fo:table-column column-width="proportional-column-width(20)"/>
 								<fo:table-column column-width="proportional-column-width(60)"/>
 								<fo:table-column column-width="proportional-column-width(50)"/>
@@ -4463,6 +4466,7 @@
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
+                            </fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 				</fo:table-body>

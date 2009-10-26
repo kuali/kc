@@ -239,6 +239,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -398,6 +399,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -626,6 +628,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                            <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -1424,6 +1427,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="80%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -1711,6 +1715,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -2226,6 +2231,7 @@
           border-style="solid"
           border-width="0pt"
           border-color="white">
+            <fo:block/>
             <fo:table width="100%"
                space-before.optimum="0pt"
                space-after.optimum="0pt"

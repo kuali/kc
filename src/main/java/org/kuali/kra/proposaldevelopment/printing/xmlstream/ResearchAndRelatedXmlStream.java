@@ -65,6 +65,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,6 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -89,6 +89,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -102,7 +103,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Submission Report or Sponsor Report. The data for XML is derived from
  * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
  * 
- * @author
  * 
  */
 public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
@@ -155,6 +155,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	private static final String CATEGORY_CODE_TRAVEL_DOMESTIC = "7";
 	private static final String CATEGORY_CODE_EQUIPMENT = "20";
 	private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
+	private static final String REPORT_NAME = "Research and Related";
 
 	/**
 	 * This method generates XML for Proposal Submission Report or Sponsor
@@ -171,19 +172,16 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	public Map<String, XmlObject> generateXmlStream(
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
 		ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-		Budget finalBudget = null;
-		for (Budget budget : ((BudgetDocument) document).getBudgets()) {
-			if (budget.getFinalVersionFlag()) {
-				finalBudget = budget;
-			}
-		}
+		Budget budget = getBudget(proposalDevelopmentDocument);
 		ResearchAndRelatedProjectDocument researchAndRelatedProjectDocument = ResearchAndRelatedProjectDocument.Factory
 				.newInstance();
 		researchAndRelatedProjectDocument
 				.setResearchAndRelatedProject(getResearchAndRelatedProject(
-						proposalDevelopmentDocument, finalBudget));
-		// TODO : returning Map To be fixed
-		return null;
+						proposalDevelopmentDocument, budget));
+
+		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+		xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
+		return xmlObjectList;
 	}
 
 	/*
@@ -199,23 +197,23 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 				.newInstance();
 		DevelopmentProposal developmentProposal = proposalDevelopmentDocument
 				.getDevelopmentProposal();
-		if (developmentProposal != null) {
+		researchAndRelatedProject
+				.setProjectDescription(getProjectDescription(developmentProposal));
+		researchAndRelatedProject
+				.setOrgAssurances(getOrgAssurances(developmentProposal));
+		researchAndRelatedProject
+				.setKeyPerson(getKeyPersonType(developmentProposal));
+
+		try {
 			researchAndRelatedProject
-					.setProjectDescription(getProjectDescription(developmentProposal));
-			researchAndRelatedProject
-					.setOrgAssurances(getOrgAssurances(developmentProposal));
-			researchAndRelatedProject
-					.setKeyPerson(getKeyPersonType(developmentProposal));
-			try {
-				researchAndRelatedProject
-						.setResearchCoverPage(getResearchCoverPage(
-								developmentProposal, budget));
-			} catch (PrintingException e) {
-				LOG.error("Unable to parse String date");
-			}
-			researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,
-					developmentProposal.getProposalNumber()));
+					.setResearchCoverPage(getResearchCoverPage(
+							developmentProposal, budget));
+		} catch (PrintingException e) {
+			LOG.error("Unable to parse String date");
 		}
+
+		researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,
+				developmentProposal.getProposalNumber()));
 		return researchAndRelatedProject;
 	}
 
@@ -239,12 +237,12 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 					.getBudgetPeriods()));
 			budgetSummaryType
 					.setBudgetJustification(getBudgetJustification(proposalNumber));
-			budgetSummaryType.setBudgetDirectCostsTotal((XmlObject) budget
-					.getTotalDirectCost());
-			budgetSummaryType.setBudgetIndirectCostsTotal((XmlObject) budget
-					.getTotalIndirectCost());
-			budgetSummaryType.setBudgetCostsTotal((XmlObject) budget
-					.getTotalCost());
+//			budgetSummaryType.setBudgetDirectCostsTotal(budget
+//					.getTotalDirectCost().bigDecimalValue());
+//			budgetSummaryType.setBudgetIndirectCostsTotal(budget
+//					.getTotalIndirectCost().bigDecimalValue());
+//			budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost()
+//					.bigDecimalValue());
 		}
 		return budgetSummaryType;
 	}
@@ -270,46 +268,48 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 			List<BudgetPeriod> budgetPeriodList) {
 		List<BudgetPeriodType> budgetPeriodTypeList = new ArrayList<BudgetPeriodType>();
 		for (BudgetPeriod budgetPeriod : budgetPeriodList) {
-			List<BudgetLineItem> budgetLineItems = budgetPeriod
-					.getBudgetLineItems();
-			BudgetPeriodType budgetPeriodType = BudgetPeriodType.Factory
-					.newInstance();
-			budgetPeriodType.setBudgetPeriodID(new BigInteger(String
-					.valueOf(budgetPeriod.getBudgetPeriod())));
-			budgetPeriodType.setStartDate(dateTimeService
-					.getCalendar(budgetPeriod.getStartDate()));
-			budgetPeriodType.setEndDate(dateTimeService
-					.getCalendar(budgetPeriod.getEndDate()));
-			budgetPeriodType.setFee(new BigDecimal(0));
-			budgetPeriodType
-					.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
-			budgetPeriodType
-					.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
-			budgetPeriodType
-					.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
-			budgetPeriodType
-					.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
-			budgetPeriodType
-					.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
-			budgetPeriodType
-					.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
-			budgetPeriodType
-					.setTravelCostsArray(getTravelCosts(budgetLineItems));
-			budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
-			budgetPeriodType
-					.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
-			budgetPeriodType
-					.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
-			budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod
-					.getTotalDirectCost().bigDecimalValue());
-			budgetPeriodType.setIndirectCostsTotal(budgetPeriod
-					.getTotalIndirectCost().bigDecimalValue());
-			budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost()
-					.bigDecimalValue());
-			budgetPeriodType.setProgramIncome(new BigDecimal(0));
-			budgetPeriodTypeList.add(budgetPeriodType);
+			if (budgetPeriod.getBudgetPeriod() != null) {
+				List<BudgetLineItem> budgetLineItems = budgetPeriod
+						.getBudgetLineItems();
+				BudgetPeriodType budgetPeriodType = BudgetPeriodType.Factory
+						.newInstance();
+				budgetPeriodType.setBudgetPeriodID(new BigInteger(String
+						.valueOf(budgetPeriod.getBudgetPeriod())));
+				budgetPeriodType.setStartDate(dateTimeService
+						.getCalendar(budgetPeriod.getStartDate()));
+				budgetPeriodType.setEndDate(dateTimeService
+						.getCalendar(budgetPeriod.getEndDate()));
+				budgetPeriodType.setFee(new BigDecimal(0));
+				budgetPeriodType
+						.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
+				budgetPeriodType
+						.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
+				budgetPeriodType
+						.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
+				budgetPeriodType
+						.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
+				budgetPeriodType
+						.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
+				budgetPeriodType
+						.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
+				budgetPeriodType
+						.setTravelCostsArray(getTravelCosts(budgetLineItems));
+				budgetPeriodType
+						.setTravelTotal(getTravelTotal(budgetLineItems));
+				budgetPeriodType
+						.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
+				budgetPeriodType
+						.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
+				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod
+						.getTotalDirectCost().bigDecimalValue());
+				budgetPeriodType.setIndirectCostsTotal(budgetPeriod
+						.getTotalIndirectCost().bigDecimalValue());
+				budgetPeriodType.setPeriodCostsTotal(budgetPeriod
+						.getTotalCost().bigDecimalValue());
+				budgetPeriodType.setProgramIncome(new BigDecimal(0));
+				budgetPeriodTypeList.add(budgetPeriodType);
+			}
 		}
-
 		return budgetPeriodTypeList.toArray(new BudgetPeriodType[0]);
 	}
 
@@ -645,41 +645,46 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
 					.getBudgetPersonnelDetailsList()) {
 				BudgetPerson budgetPerson = budgetPersDetails.getBudgetPerson();
-				SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
-						.newInstance();
-				salariesAndWagesType
-						.setAppointmentType(budgetPerson
-								.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
-								: budgetPerson.getAppointmentTypeCode());
-				salariesAndWagesType
-						.setAppointmentMonths(new BigDecimal(
-								budgetPerson.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
-										: budgetPerson.getAppointmentTypeCode()));
-				salariesAndWagesType
-						.setSummerFundingMonths(new BigDecimal(0.0));
-				salariesAndWagesType.setAcademicFundingMonths(new BigDecimal(
-						0.0));
-				salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
-				Person person = budgetPerson.getPerson();
-				salariesAndWagesType.setName(getContactPersonFullName(person
-						.getLastName(), person.getFirstName(), person
-						.getMiddleName()));
-				salariesAndWagesType
-						.setProjectRole(getProjectRoleType(budgetPerson));
-				salariesAndWagesType.setProjectRoleDescription(budgetPerson
-						.getRole());
-				salariesAndWagesType.setSalariesTotal(budgetPersDetails
-						.getSalaryRequested().bigDecimalValue());
-				BigDecimal fringe = getFringeCost(budgetPersDetails)
-						.bigDecimalValue();
-				salariesAndWagesType.setFringeCost(fringe);
-				salariesAndWagesType.setRequestedCost(budgetPersDetails
-						.getSalaryRequested().bigDecimalValue());
-				salariesAndWagesType.setBaseSalary(budgetPerson
-						.getCalculationBase().bigDecimalValue());
-				salariesAndWagesType.setSalaryAndFringeTotal(budgetPersDetails
-						.getSalaryRequested().bigDecimalValue().add(fringe));
-				salariesAndWagesTypeList.add(salariesAndWagesType);
+				if (budgetPerson != null) {
+					SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
+							.newInstance();
+					salariesAndWagesType
+							.setAppointmentType(budgetPerson
+									.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
+									: budgetPerson.getAppointmentTypeCode());
+					salariesAndWagesType
+							.setAppointmentMonths(new BigDecimal(
+									budgetPerson.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
+											: budgetPerson
+													.getAppointmentTypeCode()));
+					salariesAndWagesType.setSummerFundingMonths(new BigDecimal(
+							0.0));
+					salariesAndWagesType
+							.setAcademicFundingMonths(new BigDecimal(0.0));
+					salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
+					Person person = budgetPerson.getPerson();
+					salariesAndWagesType.setName(getContactPersonFullName(
+							person.getLastName(), person.getFirstName(), person
+									.getMiddleName()));
+					salariesAndWagesType
+							.setProjectRole(getProjectRoleType(budgetPerson));
+					salariesAndWagesType.setProjectRoleDescription(budgetPerson
+							.getRole());
+					salariesAndWagesType.setSalariesTotal(budgetPersDetails
+							.getSalaryRequested().bigDecimalValue());
+					BigDecimal fringe = getFringeCost(budgetPersDetails)
+							.bigDecimalValue();
+					salariesAndWagesType.setFringeCost(fringe);
+					salariesAndWagesType.setRequestedCost(budgetPersDetails
+							.getSalaryRequested().bigDecimalValue());
+					salariesAndWagesType.setBaseSalary(budgetPerson
+							.getCalculationBase().bigDecimalValue());
+					salariesAndWagesType
+							.setSalaryAndFringeTotal(budgetPersDetails
+									.getSalaryRequested().bigDecimalValue()
+									.add(fringe));
+					salariesAndWagesTypeList.add(salariesAndWagesType);
+				}
 			}
 		}
 		return salariesAndWagesTypeList.toArray(new SalariesAndWagesType[0]);
@@ -860,8 +865,9 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 			DevelopmentProposal developmentProposal) {
 		ProgramDirectorPrincipalInvestigator principalInvestigatorType = ProgramDirectorPrincipalInvestigator.Factory
 				.newInstance();
-		ProposalPerson principalInvestigator = developmentProposal
-				.getPrincipalInvestigator();
+		ProposalPerson principalInvestigator = PrintingUtils
+				.getPrincipalInvestigator(developmentProposal
+						.getProposalPersons());
 		principalInvestigatorType
 				.setContactInformation(getPersonContactInformation(principalInvestigator));
 		principalInvestigatorType

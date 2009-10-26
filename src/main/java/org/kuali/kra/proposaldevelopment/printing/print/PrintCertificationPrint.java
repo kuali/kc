@@ -76,8 +76,6 @@ public class PrintCertificationPrint extends AbstractPrint {
 			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey)
 					.newInputStream());
 		}
-		System.out.println("MAP Size:" + xmlStreamMap.size());
-		System.out.println("OBJ Size:" + xmlObjectMap.size());
 		return xmlStreamMap;
 	}
 }

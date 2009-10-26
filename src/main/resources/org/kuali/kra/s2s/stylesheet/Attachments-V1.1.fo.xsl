@@ -31,7 +31,7 @@ xmlns:Attachments="http://apply.grants.gov/forms/Attachments-V1.1" xmlns:att="ht
 <fo:table-column column-width="0.2in"/>
 						<fo:table-body>				
 													<fo:table-row>
-	<fo:table-cell width="0.2in">&#160;</fo:table-cell><fo:table-cell width="9.0in">
+	<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell><fo:table-cell width="9.0in">
 	<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">
         Attachments Form</fo:block>
         <fo:block>&#160;</fo:block>
@@ -43,7 +43,7 @@ xmlns:Attachments="http://apply.grants.gov/forms/Attachments-V1.1" xmlns:att="ht
 					</fo:block>
 					        <fo:block>&#160;</fo:block>
 </fo:table-cell>
-<fo:table-cell width="0.2in">&#160;</fo:table-cell>
+<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
 </fo:table-row>
 </fo:table-body>
 </fo:table>

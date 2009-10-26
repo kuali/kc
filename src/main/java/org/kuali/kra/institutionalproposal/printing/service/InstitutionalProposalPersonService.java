@@ -33,7 +33,7 @@ public interface InstitutionalProposalPersonService {
 	 *            number.
 	 * @return list of proposal persons
 	 */
-	public List<ProposalPerson> getProposalPersonsFromDevelopmentProposal(
+	public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
 			String proposalNumber);
 
 }

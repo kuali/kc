@@ -15,7 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
+import org.apache.log4j.Logger;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -26,10 +33,34 @@ import org.kuali.rice.kns.service.DateTimeService;
  * 
  */
 public abstract class ProposalBaseStream implements XmlStream {
-
+	
+	private final static Logger LOG=Logger.getLogger(ProposalBaseStream.class);
 	protected DateTimeService dateTimeService;
 	protected BusinessObjectService businessObjectService = null;
 
+	/**
+	 * This method fetches the final/latest Budget associated with the given {@link ProposalDevelopmentDocument}
+	 * @param proposalDevelopmentDocument
+	 * @return {@link Budget} final/latest version
+	 */
+	protected Budget getBudget(
+			ProposalDevelopmentDocument proposalDevelopmentDocument) {
+		BudgetDocument bdDoc = null;
+		try {
+			bdDoc = KraServiceLocator.getService(
+					S2SBudgetCalculatorService.class).getFinalBudgetVersion(
+					proposalDevelopmentDocument);
+		} catch (S2SException e) {
+			LOG.error("Error while fetching final Budget Version", e);
+		}
+
+		Budget budget = null;
+		if (bdDoc != null) {
+			budget = bdDoc.getBudget();
+		}
+		return budget;
+	}
+	
 	/**
 	 * @return the dateTimeService
 	 */

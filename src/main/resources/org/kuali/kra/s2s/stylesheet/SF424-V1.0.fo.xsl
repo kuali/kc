@@ -51,119 +51,9 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424="http://appl
                                                 <fo:inline color="black" font-size="12pt" font-weight="bold">FEDERAL ASSISTANCE</fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" height="0pt" number-rows-spanned="2" text-align="left" width="60%" border-style="solid" border-width="1pt" border-color="white">
-                                            <fo:block>
-                                                <fo:table padding="0" text-align="left" width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                                    <fo:table-column column-width="proportional-column-width(30)" />
-                                                    <fo:table-column column-width="proportional-column-width(20)" />
-                                                    <fo:table-column />
-                                                    <fo:table-body>
-                                                        <fo:table-row>
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="2pt" padding-end="0pt" padding-start="0pt">
-                                                                            <fo:inline color="black" font-size="8pt" font-weight="bold">&#160; 2. DATE SUBMITTED</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:SubmittedDate">
-                                                                        <fo:inline font-size="8pt" font-style="normal">
-                                                                              <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
-                                                                        </fo:inline>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
-                                                                            <fo:inline font-size="8pt">&#160; Applicant Identifier</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:SubmittingOrganization">
-                                                                        <xsl:for-each select="SF424:OrganizationIdentifyingInformation">
-                                                                            <xsl:for-each select="SF424:ApplicantID">
-                                                                                <fo:inline font-size="8pt" font-style="normal">
-                                                                                    <xsl:apply-templates />
-                                                                                </fo:inline>
-                                                                            </xsl:for-each>
-                                                                        </xsl:for-each>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
-                                                                            <fo:inline font-size="8pt" font-weight="bold">&#160; 3. DATE RECEIVED BY STATE</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:StateReceivedDate">
-                                                                        <fo:inline font-size="8pt" font-style="normal">
-                                                                           <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
-                                                                        </fo:inline>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
-                                                                            <fo:inline font-size="8pt">&#160; State Application Identifier</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:StateID">
-                                                                        <fo:inline font-size="8pt" font-style="normal">
-                                                                            <xsl:apply-templates />
-                                                                        </fo:inline>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row width="100%">
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" width="30%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
-                                                                            <fo:inline font-size="8pt" font-weight="bold">&#160; 4. DATE RECEIVED BY FEDERAL AGENCY</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:AgencyReceivedDate">
-                                                                        <fo:inline font-size="8pt" font-style="normal">
-                                                                        <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
-									       <xsl:text>-</xsl:text>
-									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
-                                                                        </fo:inline>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                                <fo:block>
-                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                        <fo:block font-size="7pt" padding-before="1pt">
-                                                                            <fo:inline font-size="8pt">&#160; Federal Identifier</fo:inline>
-                                                                        </fo:block>
-                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:FederalID">
-                                                                        <fo:inline font-size="8pt" font-style="normal" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt">
-                                                                            <xsl:apply-templates />
-                                                                        </fo:inline>
-                                                                    </xsl:for-each>
-                                                                </fo:block>
-                                                            </fo:table-cell>
-                                                        </fo:table-row>
-                                                    </fo:table-body>
-                                                </fo:table>
-                                            </fo:block>
-                                        </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
+                                      
                                         <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="0pt" padding-end="1pt" padding-start="0pt" display-align="after" text-align="left" border-style="solid" border-width="1pt" border-color="white">
                                             <fo:block>
                                                 <fo:table padding="0" width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
@@ -300,6 +190,117 @@ xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424="http://appl
                                                                             </fo:table-row>
                                                                         </fo:table-body>
                                                                     </fo:table>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                        </fo:table-row>
+                                                    </fo:table-body>
+                                                </fo:table>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                          <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" height="0pt" text-align="left" width="60%" border-style="solid" border-width="1pt" border-color="white">
+                                            <fo:block>
+                                                <fo:table padding="0" text-align="left" width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                    <fo:table-column column-width="proportional-column-width(30)" />
+                                                    <fo:table-column column-width="proportional-column-width(20)" />
+                                                    <fo:table-column />
+                                                    <fo:table-body>
+                                                        <fo:table-row>
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="2pt" padding-end="0pt" padding-start="0pt">
+                                                                            <fo:inline color="black" font-size="8pt" font-weight="bold">&#160; 2. DATE SUBMITTED</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:SubmittedDate">
+                                                                        <fo:inline font-size="8pt" font-style="normal">
+                                                                              <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
+                                                                        </fo:inline>
+                                                                    </xsl:for-each>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
+                                                                            <fo:inline font-size="8pt">&#160; Applicant Identifier</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:SubmittingOrganization">
+                                                                        <xsl:for-each select="SF424:OrganizationIdentifyingInformation">
+                                                                            <xsl:for-each select="SF424:ApplicantID">
+                                                                                <fo:inline font-size="8pt" font-style="normal">
+                                                                                    <xsl:apply-templates />
+                                                                                </fo:inline>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                        </fo:table-row>
+                                                        <fo:table-row>
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
+                                                                            <fo:inline font-size="8pt" font-weight="bold">&#160; 3. DATE RECEIVED BY STATE</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:StateReceivedDate">
+                                                                        <fo:inline font-size="8pt" font-style="normal">
+                                                                           <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
+                                                                        </fo:inline>
+                                                                    </xsl:for-each>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
+                                                                            <fo:inline font-size="8pt">&#160; State Application Identifier</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:StateID">
+                                                                        <fo:inline font-size="8pt" font-style="normal">
+                                                                            <xsl:apply-templates />
+                                                                        </fo:inline>
+                                                                    </xsl:for-each>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                        </fo:table-row>
+                                                        <fo:table-row width="100%">
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" width="30%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt">
+                                                                            <fo:inline font-size="8pt" font-weight="bold">&#160; 4. DATE RECEIVED BY FEDERAL AGENCY</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:AgencyReceivedDate">
+                                                                        <fo:inline font-size="8pt" font-style="normal">
+                                                                        <xsl:value-of select="format-number(substring(.,6,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,9,2), '00')"/>
+									       <xsl:text>-</xsl:text>
+									                 <xsl:value-of select="format-number(substring(.,1,4), '0000')"/>
+                                                                        </fo:inline>
+                                                                    </xsl:for-each>
+                                                                </fo:block>
+                                                            </fo:table-cell>
+                                                            <fo:table-cell font-size="7pt" padding-after="0pt" padding-before="1pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="2" width="20%" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+                                                                <fo:block>
+                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:block font-size="7pt" padding-before="1pt">
+                                                                            <fo:inline font-size="8pt">&#160; Federal Identifier</fo:inline>
+                                                                        </fo:block>
+                                                                    </fo:block>&#160;&#160; <xsl:for-each select="SF424:FederalID">
+                                                                        <fo:inline font-size="8pt" font-style="normal" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt">
+                                                                            <xsl:apply-templates />
+                                                                        </fo:inline>
+                                                                    </xsl:for-each>
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>

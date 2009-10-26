@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.CurrentAndPendingSupportDocument;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport;
 
@@ -43,6 +44,7 @@ public class CurrentProposalXmlStream extends InstitutionalProposalBaseStream {
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		InstitutionalProposalDocument ipDoc = (InstitutionalProposalDocument) document;
+		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory
 				.newInstance();
 		InstitutionalProposal institutionalProposal = ipDoc
@@ -58,8 +60,9 @@ public class CurrentProposalXmlStream extends InstitutionalProposalBaseStream {
 			currentAndPendingSupport.setPersonName(personName);
 		}
 		currentAndPendingSupport.setCurrentSupportArray(currentSupports);
+		currentAndPendingSupportDocument.setCurrentAndPendingSupport(currentAndPendingSupport);
 		xmlObjectList.put(InstitutionalProposalPrintType.CURRENT_REPORT
-				.getInstitutionalProposalPrintType(), currentAndPendingSupport);
+				.getInstitutionalProposalPrintType(), currentAndPendingSupportDocument);
 		return xmlObjectList;
 	}
 
@@ -163,12 +166,12 @@ public class CurrentProposalXmlStream extends InstitutionalProposalBaseStream {
 	 */
 	private String getPersonIdFromReportParams(
 			Map<String, Object> reportParameters) {
-		String persionId = null;
+		String personId = null;
 		if (reportParameters != null && !reportParameters.isEmpty()
 				&& reportParameters.get(PERSON_ID) != null) {
-			persionId = (String) reportParameters.get(PERSON_ID);
+			personId = (String) reportParameters.get(PERSON_ID);
 		}
-		return persionId;
+		return personId;
 	}
 
 	/*
