@@ -22,7 +22,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="questions">
+  	headerTabActive="questions"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 
 
