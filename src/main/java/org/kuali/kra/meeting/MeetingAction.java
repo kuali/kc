@@ -65,14 +65,31 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
         CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
                 fieldValues);
+        ((MeetingForm) form).setReadOnly(request.getParameter("readOnly").equals("true"));
+        ((MeetingForm) form).getMeetingHelper().setCommitteeSchedule(commSchedule);
+        if (!hasViewModifySchedulePermission(form)) {
+            throw new RuntimeException("Don't have permission to Maintain/view Meeting Schedule");
+        }
+
         ((MeetingForm) form).getMeetingHelper().populateFormHelper(commSchedule, Integer.parseInt(request.getParameter("lineNum")));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * Utility method to check whether user has permission to view/modify schedule.  This is needed
+     * if user enter here thru url not from the schedule 'maintain' button.
+     */
+    private boolean hasViewModifySchedulePermission(ActionForm form) {        
+        MeetingForm meetingForm = (MeetingForm) form;
+        return meetingForm.getMeetingHelper().canModifySchedule() 
+            || (meetingForm.getMeetingHelper().canViewSchedule() && meetingForm.isReadOnly()) ;
+    }
+    
     /**
      * 
      * This method is called when 'meeting detail' tab is clicked.
@@ -512,6 +529,11 @@ public class MeetingAction extends KualiAction {
 
     private DictionaryValidationService getDictionaryValidationService() {
         return KraServiceLocator.getService(DictionaryValidationService.class);
+    }
+
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }

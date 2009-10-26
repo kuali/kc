@@ -49,6 +49,8 @@ public class CommitteeHelper implements Serializable {
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
     private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
     private ScheduleData scheduleData;
+    private boolean modifySchedule = false;
+    private boolean viewSchedule = false;
 
 
     // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
@@ -72,8 +74,12 @@ public class CommitteeHelper implements Serializable {
     public void prepareView() {
         if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
             modifyCommittee = false;
+            modifySchedule = canModifySchedule();
+            viewSchedule = canViewSchedule();
         } else {
             modifyCommittee = canModifyCommittee();
+            modifySchedule = false;
+            viewSchedule = false;
         }
         prepareCommitteeScheduleDeleteView();
 
@@ -204,6 +210,31 @@ public class CommitteeHelper implements Serializable {
         getScheduleData().setFilerEndDate(null);
     }
     
+    public boolean canModifySchedule() {
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+
+    public boolean canViewSchedule() {
+        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+
+    public boolean isModifySchedule() {
+        return modifySchedule;
+    }
+
+    public void setModifySchedule(boolean modifySchedule) {
+        this.modifySchedule = modifySchedule;
+    }
+
+    public boolean isViewSchedule() {
+        return viewSchedule;
+    }
+
+    public void setViewSchedule(boolean viewSchedule) {
+        this.viewSchedule = viewSchedule;
+    }
 
 
 }
