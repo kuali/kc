@@ -35,7 +35,7 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
     public boolean doPrompts(Document document) {
         ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
         String piId = proposalLog.getPiId();
-        if (piId != null) {
+        if (piId != null && proposalLog.getProposalLogTypeCode().equals(ProposalLogUtils.getProposalLogPermanentTypeCode())) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("piId", piId);
             criteria.put("proposalLogTypeCode", ProposalLogUtils.getProposalLogTemporaryTypeCode());
