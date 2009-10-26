@@ -16,8 +16,11 @@
 package org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -25,6 +28,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.DeadlineType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
@@ -40,7 +45,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private BusinessObjectService businessObjectService;
     
     public static String[] HIERARCHY_PROPOSAL_ATTRIBUTES = {
-        "proposalNumber",
+        "proposalDocument.documentNumber",
         "requestedStartDateInitial",
         "requestedEndDateInitial",
         "ownedByUnit.organizationId", "ownedByUnit.unitName",
@@ -73,6 +78,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao#getProposalSummary(java.lang.String)
      */
     public HierarchyProposalSummary getProposalSummary(String proposalNumber) {
+        
         Criteria crit = new Criteria();
         crit.addEqualTo("proposalNumber", proposalNumber);
         
@@ -82,7 +88,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Object[] result = (Object[])iter.next();
         HierarchyProposalSummary retval = new HierarchyProposalSummary();
-        retval.setProposalNumber((String)result[0]);
+        retval.setProposalNumber(proposalNumber);
         retval.setRequestedStartDateInitial((Date)result[1]);
         retval.setRequestedEndDateInitial((Date)result[2]);
         retval.setOwnedByUnitName((String)result[3] + " : " + (String)result[4]);
@@ -108,8 +114,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         retval.setSponsorProposalNumber((String)result[21]);
         retval.setSubcontracts((Boolean)result[22]);
         retval.setAgencyProgramCode((String)result[23]);
-        
-        
+        retval.setBudgetVersionOverviews(getBudgetVersionOverviews(result[0].toString()));
         return retval;
     }
     
@@ -172,6 +177,17 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    private List<BudgetVersionOverview> getBudgetVersionOverviews(String proposalDocumentNumber) {
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("parentDocumentKey", proposalDocumentNumber);
+        Collection budgetDocumentVersions = businessObjectService.findMatchingOrderBy(BudgetDocumentVersion.class, fieldValues, "documentNumber", true);
+        List<BudgetVersionOverview> retval = new ArrayList<BudgetVersionOverview>();
+        for (Object version : budgetDocumentVersions) {
+            retval.add(((BudgetDocumentVersion)version).getBudgetVersionOverview());
+        }
+        return retval;
     }
 
 }
