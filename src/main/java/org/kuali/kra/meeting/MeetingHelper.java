@@ -578,6 +578,8 @@ public class MeetingHelper implements Serializable {
      * populate memberpresentbean & otherpresentbean
      */
     private void populatePresentBean(List<CommitteeMembership> committeeMemberships, CommitteeSchedule commSchedule) {
+        setOtherPresentBeans(new ArrayList<OtherPresentBean>());
+        setMemberPresentBeans(new ArrayList<MemberPresentBean>());
         for (CommitteeScheduleAttendance committeeScheduleAttendance : commSchedule.getCommitteeScheduleAttendances()) {
             getRoleName(committeeScheduleAttendance, committeeMemberships, commSchedule.getScheduledDate());
             if (committeeScheduleAttendance.getGuestFlag()) {
@@ -603,6 +605,7 @@ public class MeetingHelper implements Serializable {
      * populate memberabsentbean
      */
     private void populateMemberAbsentBean(List<CommitteeMembership> committeeMemberships, CommitteeSchedule commSchedule) {
+        setMemberAbsentBeans(new ArrayList<MemberAbsentBean>());
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (!isInMemberPresent(committeeMembership) && !isInOtherPresent(committeeMembership)) {
                 MemberAbsentBean memberAbsentBean = new MemberAbsentBean();

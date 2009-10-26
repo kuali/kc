@@ -46,7 +46,7 @@
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="committeeIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="scheduleStatus" class-ref="org.kuali.kra.committee.bo.ScheduleStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scheduleStatus" class-ref="org.kuali.kra.committee.bo.ScheduleStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleStatusCode"/>
 		</reference-descriptor>		
 		

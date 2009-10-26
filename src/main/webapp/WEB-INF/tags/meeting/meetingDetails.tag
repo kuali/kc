@@ -97,7 +97,8 @@
             </th>
             <td align="left" valign="middle">
              <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.scheduleStatusCode" 
-                                          attributeEntry="${committeeScheduleAttribute.scheduleStatusCode}" /> 
+                                          attributeEntry="${committeeScheduleAttribute.scheduleStatusCode}" 
+                                          readOnlyAlternateDisplay="${KualiForm.meetingHelper.committeeSchedule.scheduleStatus.description}" /> 
             </td>            
         </tr>
         <tr>
