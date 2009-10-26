@@ -22,7 +22,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="paymentReportsAndTerms">
+  	headerTabActive="paymentReportsAndTerms"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
  	
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Payment%2C%20Reports%20%26%20Terms" /></div>

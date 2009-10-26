@@ -27,7 +27,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="customData">
+  	headerTabActive="customData"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
 

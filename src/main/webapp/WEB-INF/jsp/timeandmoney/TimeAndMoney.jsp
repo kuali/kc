@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="timeAndMoney">
+  	headerTabActive="timeAndMoney"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
 	
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time And Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />

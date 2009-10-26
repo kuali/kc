@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="home">
+  	headerTabActive="home"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
 <c:set var="displayKeywordPanel" value="true" />
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award" /></div>

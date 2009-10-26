@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="contacts">
+  	headerTabActive="contacts"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>

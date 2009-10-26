@@ -22,7 +22,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="notesAndAttachments">
+  	headerTabActive="notesAndAttachments"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
 <kra-a:awardComments/>
 <kra-a:awardCommentTemplate/>
