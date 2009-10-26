@@ -346,6 +346,7 @@
                                border-style="solid"
                                border-width="0pt"
                                border-color="white">
+                                 <fo:block/>
                                  <xsl:choose>
                                     <xsl:when test="count(RR_PersonalData:Race) = 6">
                                        <xsl:call-template name="raceCheckbox">
@@ -414,6 +415,7 @@
                                border-style="solid"
                                border-width="0pt"
                                border-color="white">
+                                 <fo:block/>
                                  <xsl:choose>
                                     <xsl:when test="count(RR_PersonalData:DisabilityStatus) = 6">
                                        <xsl:call-template name="disabilityCheckbox">

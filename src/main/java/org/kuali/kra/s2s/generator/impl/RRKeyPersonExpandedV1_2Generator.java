@@ -206,17 +206,14 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		String departmentName;
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		if (developmentProposal != null) {
-			if (developmentProposal.getOwnedByUnit() != null) {
-				departmentName = developmentProposal.getOwnedByUnit()
-						.getUnitName();
-				if (departmentName != null) {
-					if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-						profile.setDepartmentName(departmentName.substring(0,
-								DEPARTMENT_NAME_MAX_LENGTH));
-					} else {
-						profile.setDepartmentName(departmentName);
-					}
+		if (developmentProposal.getOwnedByUnit() != null) {
+			departmentName = developmentProposal.getOwnedByUnit().getUnitName();
+			if (departmentName != null) {
+				if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+					profile.setDepartmentName(departmentName.substring(0,
+							DEPARTMENT_NAME_MAX_LENGTH));
+				} else {
+					profile.setDepartmentName(departmentName);
 				}
 			}
 		}
@@ -292,10 +289,8 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		List<ProposalPerson> keyPersons = null;
-		if (developmentProposal != null) {
-			keyPersons = developmentProposal.getProposalPersons();
-		}
+		List<ProposalPerson> keyPersons = developmentProposal
+				.getProposalPersons();
 		if (keyPersons != null) {
 			Collections.sort(keyPersons, new ProposalPersonComparator());
 		}

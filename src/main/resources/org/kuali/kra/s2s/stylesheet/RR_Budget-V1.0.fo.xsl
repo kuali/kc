@@ -598,6 +598,11 @@
                      <fo:table-column column-width="proportional-column-width(20)"/>
                      <fo:table-column column-width="proportional-column-width(20)"/>
                      <fo:table-body>
+                         <fo:table-row>
+                             <fo:table-cell>
+                                 <fo:block></fo:block>
+                             </fo:table-cell>
+                         </fo:table-row>
                         <!--============= ROWS Begin ======================-->
                         <xsl:for-each select="RR_Budget:BudgetSummary">
                            <fo:table-row>
@@ -1132,7 +1137,7 @@
                            </fo:table-row>
                            <!--============ ROWS End ================================-->
                         </xsl:for-each>
-                     </fo:table-body>
+                    </fo:table-body>
                   </fo:table>
                </fo:block>
                <!--</xsl:for-each>-->
@@ -1159,7 +1164,7 @@
             </fo:table-body>
          </fo:table>
 <fo:block font-size="8pt">
-   <fo:inline fontweight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
+   <fo:inline font-weight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
    <fo:inline><xsl:value-of select="../globLib:DUNSID"/></fo:inline>
 </fo:block>
          <fo:inline font-size="8pt" font-weight="bold">*&#160;Budget Type:&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
@@ -2221,7 +2226,7 @@
             </fo:table-body>
          </fo:table>
 <fo:block font-size="8pt">
-   <fo:inline fontweight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
+   <fo:inline font-weight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
    <fo:inline><xsl:value-of select="../globLib:DUNSID"/></fo:inline>
 </fo:block>
          <fo:inline font-size="8pt" font-weight="bold">* Budget Type:&#160;&#160; </fo:inline>
@@ -2305,6 +2310,7 @@
                                           
                                        </fo:block>
                         <fo:inline font-size="8pt" font-weight="bold">List items and dollar amount for each item exceeding $5,000</fo:inline>
+                       
                         <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                            <fo:table-column column-width="proportional-column-width(85)"/>
                            <fo:table-column column-width="proportional-column-width(16)"/>
@@ -2321,36 +2327,43 @@
                                     </fo:block>
                                  </fo:table-cell>
                               </fo:table-row>
-                           </fo:table-header>
-                           <fo:table-body>
-                              <xsl:for-each select="RR_Budget:Equipment">
-                                 <xsl:for-each select="RR_Budget:EquipmentList">
-                                    <fo:table-row>
-                                       <fo:table-cell hyphenate="true" language="en" line-height="9pt" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before" text-align="start">
-                                          <fo:block>
-                                             <fo:inline font-size="8pt">
-                                                <xsl:value-of select="position()"/>.&#160;</fo:inline>
-                                             <xsl:for-each select="RR_Budget:EquipmentItem">
-                                                <fo:inline font-size="8pt">
-                                                   <xsl:apply-templates/>
-                                                </fo:inline>
-                                             </xsl:for-each>
-                                          </fo:block>
-                                       </fo:table-cell>
-                                       <fo:table-cell line-height="9pt" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before" text-align="right">
-                                          <fo:block>
-                                             <xsl:for-each select="RR_Budget:FundsRequested">
-                                                <fo:inline font-size="8pt">
-                                                   <xsl:value-of select="format-number(., '#,##0.00')"/>
-                                                </fo:inline>
-                                             </xsl:for-each>
-                                          </fo:block>
-                                       </fo:table-cell>
-                                    </fo:table-row>
-                                 </xsl:for-each>
-                              </xsl:for-each>
-                           </fo:table-body>
+                           </fo:table-header>                            
+                            <fo:table-body>    
+                                        <fo:table-row>
+                                            <fo:table-cell><fo:block></fo:block>
+                                            </fo:table-cell>
+                                        </fo:table-row>
+                                        <xsl:for-each select="RR_Budget:Equipment">
+                                            <xsl:for-each select="RR_Budget:EquipmentList">
+                                                
+                                                <fo:table-row>
+                                                    <fo:table-cell hyphenate="true" language="en" line-height="9pt" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before" text-align="start">
+                                                        <fo:block>
+                                                            <fo:inline font-size="8pt">
+                                                            <xsl:value-of select="position()"/>.&#160;</fo:inline>
+                                                            <xsl:for-each select="RR_Budget:EquipmentItem">
+                                                                <fo:inline font-size="8pt">
+                                                                    <xsl:apply-templates/>
+                                                                </fo:inline>
+                                                            </xsl:for-each>
+                                                        </fo:block>
+                                                    </fo:table-cell>
+                                                    <fo:table-cell line-height="9pt" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before" text-align="right">
+                                                        <fo:block>
+                                                            <xsl:for-each select="RR_Budget:FundsRequested">
+                                                                <fo:inline font-size="8pt">
+                                                                    <xsl:value-of select="format-number(., '#,##0.00')"/>
+                                                                </fo:inline>
+                                                            </xsl:for-each>
+                                                        </fo:block>
+                                                    </fo:table-cell>
+                                                </fo:table-row>    
+                                            </xsl:for-each>
+                                        </xsl:for-each>
+                                  
+                            </fo:table-body>                           
                         </fo:table>
+                       
                         <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                            <fo:table-column column-width="proportional-column-width(85)"/>
                            <fo:table-column column-width="proportional-column-width(16)"/>
@@ -2656,7 +2669,7 @@
             </fo:table-body>
          </fo:table>
 <fo:block font-size="8pt">
-   <fo:inline fontweight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
+   <fo:inline font-weight="bold">* ORGANIZATIONAL DUNS:&#160;&#160;</fo:inline>
    <fo:inline><xsl:value-of select="../globLib:DUNSID"/></fo:inline>
 </fo:block>
          <fo:inline font-size="8pt" font-weight="bold">* Budget Type:&#160;&#160; </fo:inline>
@@ -2980,6 +2993,11 @@
                </fo:table-row>
             </fo:table-header>
             <fo:table-body>
+                <fo:table-row>
+                    <fo:table-cell> 
+                        <fo:block></fo:block>
+                    </fo:table-cell>
+                </fo:table-row>
                <xsl:for-each select="RR_Budget:IndirectCosts">
                   <xsl:for-each select="RR_Budget:IndirectCost">
                      <fo:table-row>
@@ -3024,6 +3042,7 @@
                      </fo:table-row>
                   </xsl:for-each>
                </xsl:for-each>
+            
                <fo:table-row>
                   <fo:table-cell number-columns-spanned="3" text-align="right" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before">
                      <fo:block>
@@ -3045,10 +3064,12 @@
                </fo:table-row>
                <fo:table-row>
                   <fo:table-cell hyphenate="true" language="en" number-columns-spanned="4" text-align="left" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="0pt" display-align="before">
+                      <fo:block>
                      <fo:table>
                      <fo:table-column column-width="proportional-column-width(40)"/>
-                     <fo:table-column column-width="proportional-column-width(60)"/>                                                <fo:table-body>
-   <fo:table-row>
+                     <fo:table-column column-width="proportional-column-width(60)"/>
+                     <fo:table-body>
+                        <fo:table-row>
                               <fo:table-cell>
                                  <fo:block>
                                     <fo:block>
@@ -3072,6 +3093,7 @@
                            </fo:table-row>
                         </fo:table-body>
                      </fo:table>
+                     </fo:block>
                   </fo:table-cell>
                </fo:table-row>
             </fo:table-body>

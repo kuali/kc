@@ -239,6 +239,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -302,7 +303,8 @@
                                           <fo:inline> Application</fo:inline>
                                        </fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell hyphenate="true" language="en"
+                                    <!-- JIRA COEUSDEV-248 START-->
+                                    <!--fo:table-cell hyphenate="true" language="en"
                                      number-rows-spanned="2"
                                      padding-start="0pt"
                                      padding-end="0pt"
@@ -316,7 +318,8 @@
                                        <fo:block>
                                           <fo:leader leader-pattern="space"/>
                                        </fo:block>
-                                    </fo:table-cell>
+                                    </fo:table-cell-->
+                                    <!-- JIRA COEUSDEV-248 END-->
                                  </fo:table-row>
                                  <fo:table-row>
                                     <fo:table-cell hyphenate="true" language="en"
@@ -398,6 +401,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -627,6 +631,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -1426,6 +1431,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="80%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -1713,6 +1719,7 @@
                          border-style="solid"
                          border-width="1pt"
                          border-color="black">
+                           <fo:block/>
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
@@ -2274,6 +2281,7 @@
           border-style="solid"
           border-width="0pt"
           border-color="white">
+            <fo:block/>
             <fo:table width="100%"
                space-before.optimum="0pt"
                space-after.optimum="0pt"
@@ -2337,6 +2345,7 @@
           border-style="solid"
           border-width="0pt"
           border-color="white">
+            <fo:block/>
             <fo:table width="100%"
                space-before.optimum="0pt"
                space-after.optimum="0pt"

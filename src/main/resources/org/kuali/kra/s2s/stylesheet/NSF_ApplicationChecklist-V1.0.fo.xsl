@@ -292,9 +292,15 @@
                </fo:block-container>
 
 <!-- TEXT -->
-               <fo:block-container background-color="black" border-style="none" position="absolute" left="15.428571428571429px" top="46.857142857142854px" width="499.42857142857144px" height="1.1428571428571428px"/>
-               <fo:block-container background-color="black" border-style="none" position="absolute" left="9.714285714285714px" top="692px" width="122.85714285714286px" height="1.1428571428571428px"/>
-               <fo:block-container background-color="black" border-style="none" position="absolute" left="14.285714285714286px" top="208px" width="499.42857142857144px" height="1.1428571428571428px"/>
+               <fo:block-container background-color="black" border-style="none" position="absolute" left="15.428571428571429px" top="46.857142857142854px" width="499.42857142857144px" height="1.1428571428571428px">
+               <fo:block/>     
+               </fo:block-container>
+               <fo:block-container background-color="black" border-style="none" position="absolute" left="9.714285714285714px" top="692px" width="122.85714285714286px" height="1.1428571428571428px">
+               <fo:block/>
+               </fo:block-container>
+               <fo:block-container background-color="black" border-style="none" position="absolute" left="14.285714285714286px" top="208px" width="499.42857142857144px" height="1.1428571428571428px">
+               <fo:block/>
+               </fo:block-container>
                <fo:block-container background-color="transparent" border-style="none" position="absolute" left="100px" hyphenate="true" language="en" top="652.5714285714286px" height="12.571428571428571px" width="110.85714285714286px">
                   <fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal"/>
                </fo:block-container>
@@ -1108,7 +1114,9 @@
                </fo:block-container>
 
 <!-- TEXT -->
-               <fo:block-container background-color="black" border-style="none" position="absolute" left="12.571428571428571px" top="473.14285714285717px" width="499.42857142857144px" height="1.1428571428571428px"/>
+               <fo:block-container background-color="black" border-style="none" position="absolute" left="12.571428571428571px" top="473.14285714285717px" width="499.42857142857144px" height="1.1428571428571428px">
+                   <fo:block/>
+               </fo:block-container> 
                <fo:block-container background-color="transparent" border-style="none" position="absolute" left="94.28571428571429px" hyphenate="true" language="en" top="713.1428571428571px" height="12.571428571428571px" width="212.57142857142858px">
                   <fo:block background-color="transparent" color="#000000" font-size="8pt" font-style="normal" font-family="Helvetica" font-weight="normal"/>
                </fo:block-container>

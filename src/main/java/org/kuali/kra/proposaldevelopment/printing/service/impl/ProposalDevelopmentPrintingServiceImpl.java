@@ -35,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPri
 
 public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
-	public static final String PRINT_CERTIFICATION_REPORT = "PrintCertification";
+	public static final String PRINT_CERTIFICATION_REPORT = "Print Certification";
 	private PrintCertificationPrint printCertificationPrint;
 	private PrintingService printingService;
 

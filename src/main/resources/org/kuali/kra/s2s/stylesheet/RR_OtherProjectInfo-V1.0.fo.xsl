@@ -52,11 +52,13 @@
 							<!-- Block 1 Begin -->
 							<fo:table-row font-size="8pt">
 								<fo:table-cell line-height="15pt">
+                                    <fo:block>
 									<fo:table border-style="solid" border-color="black" width="100%">
 										<fo:table-column/>
 										<fo:table-body>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="0.2in"/>
 														<fo:table-column column-width="2.0in"/>
@@ -105,6 +107,7 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
@@ -114,6 +117,7 @@
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.2in"/>
 														<fo:table-column column-width="0.2in"/>
@@ -154,10 +158,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.0in"/>
 														<fo:table-column/>
@@ -176,10 +182,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="1.5in"/>
 														<fo:table-column column-width="3.0in"/>
@@ -189,6 +197,7 @@
 																	<fo:block>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Exemption Number:</fo:block>
 																</fo:table-cell>
 																<fo:table-cell line-height="15pt">
+                                                                    <fo:block>
 																	<fo:table width="100%">
 																		<fo:table-column column-width="0.2in"/>
 																		<fo:table-column column-width="0.2in"/>
@@ -309,14 +318,17 @@
 																			</fo:table-row>
 																		</fo:table-body>
 																	</fo:table>
+                                                                    </fo:block>
 																</fo:table-cell>
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="3.0in"/>
 														<fo:table-column/>
@@ -333,21 +345,25 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<!-- Block 1 End -->
 							<!-- Block 2 Begin -->
 							<fo:table-row font-size="8pt">
 								<fo:table-cell line-height="15pt">
+                                    <fo:block>
 									<fo:table border-style="solid" border-color="black" width="100%">
 										<fo:table-column/>
 										<fo:table-body>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="0.2in"/>
 														<fo:table-column column-width="2.0in"/>
@@ -396,6 +412,7 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
@@ -405,6 +422,7 @@
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.2in"/>
 														<fo:table-column column-width="0.2in"/>
@@ -445,10 +463,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.0in"/>
 														<fo:table-column/>
@@ -467,10 +487,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="3.0in"/>
 														<fo:table-column/>
@@ -487,21 +509,25 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<!-- Block 2 End -->
 							<!-- Block 3 Begin -->
 							<fo:table-row font-size="8pt">
 								<fo:table-cell line-height="15pt">
+                                    <fo:block>
 									<fo:table border-style="solid" border-color="black" width="100%">
 										<fo:table-column/>
 										<fo:table-body>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="0.2in"/>
 														<fo:table-column column-width="2.0in"/>
@@ -550,21 +576,25 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<!-- Block 3 End -->
 							<!-- Block 4 Begin -->
 							<fo:table-row font-size="8pt">
 								<fo:table-cell line-height="15pt">
+                                    <fo:block>
 									<fo:table border-style="solid" border-color="black" width="100%">
 										<fo:table-column/>
 										<fo:table-body>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="0.2in"/>
 														<fo:table-column column-width="3.0in"/>
@@ -613,10 +643,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.0in"/>
 														<fo:table-column/>
@@ -633,6 +665,7 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
@@ -642,6 +675,7 @@
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="3.2in"/>
 														<fo:table-column column-width="0.2in"/>
@@ -682,10 +716,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="2.0in"/>
 														<fo:table-column/>
@@ -702,21 +738,25 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<!-- Block 4 End -->
 							<!-- Block 5 Begin -->
 							<fo:table-row font-size="8pt">
 								<fo:table-cell line-height="15pt">
+                                    <fo:block>
 									<fo:table border-style="solid" border-color="black" width="100%">
 										<fo:table-column/>
 										<fo:table-body>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="0.2in"/>
 														<fo:table-column column-width="3.5in"/>
@@ -765,10 +805,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="4.6in"/>
 														<fo:table-column/>
@@ -785,10 +827,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 											<fo:table-row>
 												<fo:table-cell line-height="15pt">
+                                                    <fo:block>
 													<fo:table width="100%">
 														<fo:table-column column-width="1.5in"/>
 														<fo:table-column/>
@@ -805,10 +849,12 @@
 															</fo:table-row>
 														</fo:table-body>
 													</fo:table>
+                                                    </fo:block>
 												</fo:table-cell>
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                    </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<!-- Block 5  End -->
