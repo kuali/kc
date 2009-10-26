@@ -63,7 +63,6 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private static final long serialVersionUID = -8853937659597422800L;
     
-    private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
@@ -237,7 +236,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     public List<ExtraButton> getExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif";
         String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
         String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
@@ -251,7 +250,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     public List<ExtraButton> getExtraPersonnelBudgetButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String returnToExpensesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif";
         addExtraButton("methodToCall.returnToExpenses", returnToExpensesImage, "Return To Expenses");
         String calculateImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculate.gif";
@@ -261,7 +260,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     public List<ExtraButton> getExtraExpensesButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
         //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
@@ -272,7 +271,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     public List<ExtraButton> getRatesExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String syncAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
         String resetAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
@@ -284,7 +283,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     public List<ExtraButton> getExtraPersonnelButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         
 //        String syncToProposalImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
 //        addExtraButton("methodToCall.synchToProposal", syncToProposalImage, "Synch to Proposal");
@@ -622,7 +621,7 @@ public class BudgetForm extends BudgetVersionFormBase {
      * @return
      */
     private String buildExtraButtonSourceURI(String buttonFileName) {
-        return lookupKualiConfigurationService().getPropertyString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+        return lookupKualiConfigurationService().getPropertyString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
     /**

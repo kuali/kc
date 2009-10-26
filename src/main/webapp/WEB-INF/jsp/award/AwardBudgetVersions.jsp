@@ -25,7 +25,8 @@
 	htmlFormAction="awardBudgetVersions"
 	documentTypeName="AwardDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="budgetVersions">
+  	headerTabActive="budgetVersions"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Budget Versions" /></div>
   	

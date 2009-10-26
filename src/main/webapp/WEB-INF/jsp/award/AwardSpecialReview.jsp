@@ -22,7 +22,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="specialReview">
+  	headerTabActive="specialReview"
+  	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
 

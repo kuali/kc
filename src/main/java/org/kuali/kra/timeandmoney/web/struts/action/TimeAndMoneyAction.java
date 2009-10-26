@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
@@ -459,6 +460,26 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public BusinessObjectService getBusinessObjectService() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
+    }
+    
+    /**
+     * 
+     * This method retrieves the awardDocument from the session and redirects the user to the appropriate Award
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward returnToAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardDocument awardDocument = (AwardDocument)GlobalVariables.getUserSession().retrieveObject(Constants.DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD);
+        
+        Long routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+
+        String forward = buildForwardUrl(routeHeaderId);
+        return new ActionForward(forward, true);
     }
 
 }

@@ -71,8 +71,10 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -966,6 +968,43 @@ public class AwardForm extends BudgetVersionFormBase
             ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
         }
         return "";
+    }
+    
+    public List<ExtraButton> getExtraTopButtons() {
+        extraButtons.clear();
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "tinybutton-timemoney.gif";
+        
+        addExtraButton("methodToCall.timeAndMoney", generatePeriodImage, "Time And Money");
+        
+        return extraButtons;
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    private KualiConfigurationService lookupKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
     }
 
 }

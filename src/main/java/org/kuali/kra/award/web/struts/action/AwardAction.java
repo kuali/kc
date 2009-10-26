@@ -440,6 +440,8 @@ public class AwardAction extends BudgetParentActionBase {
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setAward(award);
         }
+        
+        addDocumentToSession(awardForm.getAwardDocument());
 
         documentService.saveDocument(timeAndMoneyDocument);
 
@@ -448,6 +450,16 @@ public class AwardAction extends BudgetParentActionBase {
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
 
+    }
+
+    /*
+     * 
+     * This adds the awardDocument to the user session which will be retrieved later when returning the the Award.
+     * @param awardDocument
+     */
+    private void addDocumentToSession(AwardDocument awardDocument) {
+        GlobalVariables.getUserSession().addObject(Constants.DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD, awardDocument);
+        
     }
 
     /**
