@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s;
 
+import org.kuali.kra.infrastructure.KeyConstants;
+
 /**
  * This class is used to handle general Exceptions
  * 
@@ -23,7 +25,7 @@ package org.kuali.kra.s2s;
 public class S2SException extends java.lang.Exception {
 
     private String errorMessage;
-    private int errorID;
+    private String errorKey = KeyConstants.ERROR_S2S_UNKNOWN;
     private int messageType;
 
     /**
@@ -42,6 +44,7 @@ public class S2SException extends java.lang.Exception {
      */
     public S2SException(Exception ex) {
         super(ex);
+        this.errorMessage = ex.getMessage();
     }
 
     /**
@@ -64,6 +67,11 @@ public class S2SException extends java.lang.Exception {
         this.errorMessage = msg;
     }
 
+    public S2SException(String errorKey,String msg) {
+        super(msg);
+        this.errorMessage = msg;
+        this.errorKey = errorKey;
+    }
     public S2SException(String msg, int messageType) {
         super();
         this.errorMessage = msg;
@@ -99,28 +107,6 @@ public class S2SException extends java.lang.Exception {
     }
 
     /**
-     * This method is used to get the Error ID.
-     * 
-     * @return int Error ID.
-     */
-    public int getErrorId() {
-        int index = 0;
-        if (errorMessage != null) {
-            index = errorMessage.indexOf("exceptionCode");
-            if (index != -1) {
-                try {
-                    errorID = Integer.parseInt(errorMessage
-                            .substring((index + "exceptionCode".length() + 1), errorMessage.length()));
-                }
-                catch (java.lang.NumberFormatException ex) {
-                }
-            }
-        }
-        return errorID;
-    }
-
-
-    /**
      * Getter for property messageType.
      * 
      * @return Value of property messageType.
@@ -136,6 +122,22 @@ public class S2SException extends java.lang.Exception {
      */
     public void setMessageType(int messageType) {
         this.messageType = messageType;
+    }
+
+    /**
+     * Gets the errorKey attribute. 
+     * @return Returns the errorKey.
+     */
+    public String getErrorKey() {
+        return errorKey;
+    }
+
+    /**
+     * Sets the errorKey attribute value.
+     * @param errorKey The errorKey to set.
+     */
+    public void setErrorKey(String errorKey) {
+        this.errorKey = errorKey;
     }
 
 }

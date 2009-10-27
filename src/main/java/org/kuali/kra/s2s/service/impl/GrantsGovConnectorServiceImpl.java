@@ -57,6 +57,7 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -110,7 +111,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             return port.getOpportunityList(getOpportunityListRequest);
         }catch (ErrorMessage e) {
             LOG.error("Error while getting list of opportunities", e);
-            throw new S2SException(e);
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,e.getMessage());
         }
     }
 
@@ -133,7 +134,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         }
         catch (ErrorMessage e) {
             LOG.error("Error while getting proposal submission status details", e);
-            throw new S2SException(e);
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_STATUS_REFRESH,e.getMessage());
         }
     }
 
@@ -170,7 +171,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         }
         catch (ErrorMessage e) {
             LOG.error("Error occured while fetching application list", e);
-            throw new S2SException(e);
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_APPLICATION_LIST_REFRESH,e.getMessage());
         }
     }
 
@@ -196,7 +197,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             return port.submitApplication(request);
         }catch (ErrorMessage e) {
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
-            throw new S2SException(e);
+            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION,e.getMessage());
         }
     }
 
@@ -253,10 +254,10 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             conduit.setTlsClientParameters(tlsConfig);
         }catch(IOException ioEx){
             LOG.error(ioEx);
-            throw new S2SException(ioEx.getMessage());
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,ioEx.getMessage());
         }catch (GeneralSecurityException e) {
             LOG.error(e);
-            throw new S2SException(e.getMessage());
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG_SECURITY,e.getMessage());
         }
         return applicantWebService;
     }
