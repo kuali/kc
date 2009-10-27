@@ -25,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 public class DeleteProposalSiteEvent extends ProposalSiteEventBase {
 
     public DeleteProposalSiteEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        super("adding congressional district to document " + getDocumentId(proposalDevelopmentDocument),
+        super("deleting a proposal site from document " + getDocumentId(proposalDevelopmentDocument),
                 errorPathPrefix, proposalDevelopmentDocument, null);
     }
     
