@@ -688,6 +688,8 @@
 				
 			</dependencies>
 		</profile>
+		
+		<!--
                 <profile>
                         <id>siteDeploy</id>
                         <activation>
@@ -713,6 +715,7 @@
                                   </plugins>
                            </build>
                </profile>
+               -->
  		
 	</profiles>
 	<repositories>
@@ -766,6 +769,8 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.4.2</version>
 				<configuration>
+					<aggregate>true</aggregate>
+					<showSuccess>false</showSuccess>
 					<outputDirectory>/opt/hudson/home/userContent/reports/2.0</outputDirectory>
 				</configuration>
 			</plugin>
