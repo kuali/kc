@@ -681,7 +681,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          * If there is an opportunity, then this is a Grants.gov submission.  
          */
         if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-            submitS2sApplication(proposalDevelopmentDocument);
+            try{
+                submitS2sApplication(proposalDevelopmentDocument);
+            }catch(S2SException ex){
+                LOG.error(ex.getMessage(), ex);
+                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
             createSubmissionHistory(proposalDevelopmentDocument);
         }
        
@@ -730,8 +736,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
-//        s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
-      s2sService.submitApplication(proposalDevelopmentDocument);
+        s2sService.submitApplication(proposalDevelopmentDocument);
     }
         
     /**
