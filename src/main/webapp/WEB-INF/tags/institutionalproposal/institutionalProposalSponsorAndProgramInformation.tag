@@ -45,9 +45,9 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.primeSponsorCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.institutionalProposal.primeSponsorCode" attributeEntry="${institutionalProposalAttributes.primeSponsorCode}" onblur="loadSponsorName('document.institutionalProposal.primeSponsorCode', 'primeSponsorName');" />
-                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.institutionalProposal.primeSponsorCode" anchor="${tabKey}"/>
-                	<kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.institutionalProposal.sponsorCode:primeSponsorCode" anchor="${tabKey}"/>
+                	<kul:htmlControlAttribute property="document.institutionalProposalList[0].primeSponsorCode" attributeEntry="${institutionalProposalAttributes.primeSponsorCode}" onblur="loadSponsorName('document.institutionalProposalList[0].primeSponsorCode', 'primeSponsorName');" />
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.institutionalProposalList[0].primeSponsorCode,sponsorName:document.institutionalProposalList[0].primeSponsor.sponsorName" anchor="${tabKey}"/>
+                	<kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.institutionalProposalList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}"/>
                 	<br />
                 	<div id="primeSponsorName.div" class="fineprint">
                 		${KualiForm.document.institutionalProposal.primeSponsor.sponsorName}&nbsp;
