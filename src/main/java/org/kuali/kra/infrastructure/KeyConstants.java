@@ -614,6 +614,15 @@ public final class KeyConstants {
     public static final String ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED = "error.copy.award.childOf.award.not.selected";
     public static final String ERROR_COPY_AWARD_NO_OPTION_SELECTED = "error.copy.award.no.option.selected";
     
+    //grants.gov server errors
+    public static final String ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE = "error.grantsgov.opportunity.server.unavailable";
+    public static final String ERROR_GRANTSGOV_SERVER_STATUS_REFRESH = "error.grantsgov.server.status.refresh";
+    public static final String ERROR_GRANTSGOV_SERVER_APPLICATION_LIST_REFRESH = "error.grantsgov.server.applicationList.refresh";
+    public static final String ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION = "error.grantsgov.server.submit.application";
+    public static final String ERROR_KEYSTORE_CONFIG = "error.s2s.keystore.config";
+    public static final String ERROR_KEYSTORE_CONFIG_SECURITY = "error.s2s.keystore.config.security";
+    public static final String ERROR_S2S_UNKNOWN = "error.s2s.unknown";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
