@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.Constants.*;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -34,6 +29,10 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Temporary class until this can be gotten working via table.
@@ -62,12 +61,14 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
         final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).getDocument();
+        final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
+
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
          for (ProposalPersonRole role : roles) {
             info("Adding role ", role.getProposalPersonRoleId());
-            info("With description ", findRoleDescription(role,document));
+            info("With description ", findRoleDescription(role, developmentProposal));
 
             boolean showRole = true;
 
@@ -79,41 +80,20 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             info("showRole = ", showRole);
 
             if (showRole) {
-                if(document.getDevelopmentProposal().isNih()){
-                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findNIHRoleDescription(role,document)));
-                }
-                else
-                {
-                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role,document)));
-                }
+                keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
             }
 
             info("Returning ", keyValues);
         }
         return keyValues;
     }
-    protected String getRoleIdPrefix(ProposalDevelopmentDocument document) {
-        if(document.getDevelopmentProposal().isNih()){
-            return "nonnih.";
-        }
-        else
-        {
-            return new String();
-        }
-    }
-    protected String findRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
-          return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
-                PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                + getRoleIdPrefix(document)
-                + role.getProposalPersonRoleId().toLowerCase());    
+    protected String getRoleIdPrefix(DevelopmentProposal proposal) {
+        return proposal.isNih() ? "nih." : "";
     }
 
-
-    protected String findNIHRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
-            return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
-                PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                + getRoleIdPrefix(document)
-                + role.getProposalPersonRoleId().toLowerCase());    
+    protected String findRoleDescription(ProposalPersonRole role, DevelopmentProposal proposal) {
+          return this.getParameterService().getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                PERSON_ROLE_PARAMETER_PREFIX + getRoleIdPrefix(proposal) + role.getProposalPersonRoleId().toLowerCase());
     }
     /**
      * Used to indicate to the values finder whether the role has already been rendered

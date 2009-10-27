@@ -15,31 +15,29 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class SponsorServiceImpl implements SponsorService {
+import java.util.*;
+
+public class SponsorServiceImpl implements SponsorService, Constants {
 
     private SponsorHierarchyDao sponsorHierarchyDao;
     private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(SponsorServiceImpl.class);
-
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.service.SponsorService#getSponsorName(java.lang.String)
      */
@@ -140,6 +138,23 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     /**
+     * 
+     * @param sponsorable
+     * @return
+     */
+    public boolean isSponsorNih(Sponsorable sponsorable) {
+        sponsorable.setNih(false);
+
+        for (SponsorHierarchy sponsorHierarchy : loadSponsorHierarchies(sponsorable.getSponsorCode())) {
+            sponsorable.setNih(evaluateWhetherSponsorHierarchyIncludesNih(sponsorHierarchy));
+            if(sponsorable.isNih()) {
+                break;
+            }
+        }
+        return sponsorable.isNih();
+    }
+
+    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.
@@ -155,6 +170,13 @@ public class SponsorServiceImpl implements SponsorService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public SponsorHierarchyDao getSponsorHierarchyDao() {
@@ -211,5 +233,30 @@ public class SponsorServiceImpl implements SponsorService {
         
         GlobalVariables.getUserSession().addObject(key, (Object)sciptsInSession);
     }
-   
+
+    private boolean evaluateWhetherSponsorHierarchyIncludesNih(SponsorHierarchy sponsorHierarchy) {
+        String nihIndicator = findNihIndicatorForSponsorHierarchyLevel();
+        return sponsorHierarchy.isNihSponsorInAnylevel(nihIndicator);
+    }
+
+    private String findNihIndicatorForSponsorHierarchyLevel() {
+        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
+    }
+
+    private String findSponsorHierarchyName() {
+        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
+    }
+
+    private Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {
+        Map valueMap = new HashMap();
+        valueMap.put("sponsorCode", sponsorCode);
+        valueMap.put("hierarchyName", findSponsorHierarchyName());
+        Collection<SponsorHierarchy> sponsorHierarchies = businessObjectService.findMatching(SponsorHierarchy.class, valueMap);
+        if(sponsorHierarchies == null) {
+            sponsorHierarchies = new ArrayList<SponsorHierarchy>();
+        }
+        return sponsorHierarchies;
+    }
+
+
 }

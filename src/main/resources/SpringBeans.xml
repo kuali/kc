@@ -485,6 +485,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
       <property name="sponsorHierarchyDao">
         <ref bean="sponsorHierarchyDao" />
       </property>

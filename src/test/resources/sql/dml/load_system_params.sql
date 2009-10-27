@@ -1,8 +1,10 @@
+insert into krns_nmspc_t(NMSPC_CD,NM,ACTV_IND) values('KC-GEN','General Kuali Coeus','Y');
 insert into krns_nmspc_t(NMSPC_CD,NM,ACTV_IND) values('KRA-PD','Proposal Development','Y');
 insert into krns_nmspc_t(NMSPC_CD,NM,ACTV_IND) values('KRA-B','Budget','Y');
 insert into krns_nmspc_t(NMSPC_CD,NM,ACTV_IND) values('KC-IP','Institutional Proposal','Y');
 INSERT INTO krns_nmspc_t(NMSPC_CD,NM, ACTV_IND, OBJ_ID, VER_NBR) values('KC-AWARD', 'Award','Y',sys_guid(),'1');
 Insert into krns_nmspc_t( NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) Values  ('KC-PROTOCOL', sys_guid(), 1, 'KC IRB Protocol', 'Y');
+INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND) VALUES('KC-T', 'Time And Money', 'Y') ;
 
 insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND) values ('KRA-PD','D','Document','Y');
 insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND) values ('KRA-PD','L','Lookup','Y');
@@ -15,18 +17,18 @@ insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND) values ('K
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','L','multipleValueLookupResultsPerPage','CONFG','200','Limit results returned for lookup - multiple results','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.creditsplit.enabled','CONFG','Y','Determines whether the Credit Split is turned on for proposal','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.readonly.roles','CONFG','KP','Proposal Person Role Id list for roles that are read-only','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.nonnih.kp','CONFG','Key Person','Description of key person for Non-NIH Proposals','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.nonnih.pi','CONFG','Proposal Investigator Contact','Description of principal investigator contact for Non-NIH Proposals','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.nonnih.coi','CONFG','Proposal Investigator Multiple','Description of principal investigator multiple for Non-NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.readonly.roles','CONFG','KP','Proposal Person Role Id list for roles that are read-only','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.nih.kp','CONFG','Key Person','Description of key person for Non-NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.nih.pi','CONFG','PI/Contact','Description of principal investigator contact for Non-NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.nih.coi','CONFG','PI/Multiple','Description of principal investigator multiple for Non-NIH Proposals','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.new','CONFG','1','ProposalTypeCode of NEW','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.renewal','CONFG','3','ProposalTypeCode of RENEWAL','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.revision','CONFG','5','ProposalTypeCode of REVISION','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.continuation','CONFG','4','ProposalTypeCode of CONTINUATION','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.displayKeywordPanel','CONFG','TRUE','Display Proposal Keyword panel','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.kp','CONFG','Key Person','Description of key person for NIH Proposals','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.coi','CONFG','Co-Investigator','Description of co-investigator for NIH Proposals','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.personrole.pi','CONFG','Principal Investigator','Description of principal investigator for NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.kp','CONFG','Key Person','Description of key person for NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.coi','CONFG','Co-Investigator','Description of co-investigator for NIH Proposals','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.pi','CONFG','Principal Investigator','Description of principal investigator for NIH Proposals','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposalNarrativeTypeGroup','CONFG','P','Define Narrative Type Group for Proposal Attachments','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','instituteNarrativeTypeGroup','CONFG','O','Define Narrative Type Group for Institute Attachments','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','deliveryInfoDisplayIndicator','CONFG','Y','Flag to display delivery infor panel','A');
@@ -204,8 +206,9 @@ insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_D
 values ('KRA-PD','D','proposalDevelopmentCopyCriteriaHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcopytab.htm','Proposal Copy Criteria Help','A');
 
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD)
- values ('KRA-PD','D','sponsorGroupHierarchyName','823CF24F070046C8A65E86EA8EAD9C6B',1,'HELP','Sponsor Groups','Sponsor Group Hierarchy Name','A');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+ values ('KC-GEN','A','sponsorGroupHierarchyName','823CF24F070046C8A65E86EA8EAD9C6B',1,'HELP','Sponsor Groups','Sponsor Group Hierarchy Name','A');
+
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD)
 values ('KRA-PD','D','proposaldevelopment.autogenerate.institutionalproposal','CONFG','Y','Should an Institutional Proposal be automatically generated','A');
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
@@ -405,11 +408,7 @@ insert into KRNS_PARM_T
  Values
    ('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', sys_guid(), 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A');
 
-INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
-	VALUES('KC-T', 'Time And Money', 'Y') ;
-INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
-	VALUES('KC-GEN', 'General Kuali Coeus', 'Y') ;
-INSERT INTO krns_PARM_T 
+INSERT INTO krns_PARM_T
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
 	('KC-IP','D','InstitutionalProposalHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Help','A');
@@ -582,11 +581,18 @@ insert into KRNS_PARM_T
 	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
 	values 
 	('KRA-PD','A','SCHOOL_ACRONYM','CONFG','KC','School acronym','A');
-insert into KRNS_PARM_T 
+
+insert into KRNS_PARM_T
 	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
 	values 
 	('KRA-PD','A','ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST','CONFG','2143','obligated direct indirect cost','A');
-insert into KRNS_PARM_T 
+
+insert into KRNS_PARM_T
 	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
 	values 
-	('KRA-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A');	
+	('KRA-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A');
+
+insert into krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd)
+    VALUES
+    ('KC-GEN', 'A', 'sponsorLevelHierarchy', '5183FC8FA0B11606E0404F8189D8140F', 1, 'HELP', 'NIH', 'Sponsor Level Hierarchy', 'A');
