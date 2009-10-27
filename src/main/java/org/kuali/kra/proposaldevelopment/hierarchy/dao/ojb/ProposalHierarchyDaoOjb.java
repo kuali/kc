@@ -23,19 +23,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DeadlineType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 
 /**
@@ -43,7 +49,7 @@ import org.kuali.rice.kns.util.OjbCollectionAware;
  */
 public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProposalHierarchyDao {
     private BusinessObjectService businessObjectService;
-    
+    private ParameterService parameterService;
     public static String[] HIERARCHY_PROPOSAL_ATTRIBUTES = {
         "proposalDocument.documentNumber",
         "requestedStartDateInitial",
@@ -53,8 +59,6 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         
         "proposalState.description",
         "proposalType.description",
-        "title", // TODO replace with some indication of narrative status
-        "title", // TODO replace with some indication of budget status
         "title",
         
         "deadlineDate",
@@ -70,9 +74,25 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         "programAnnouncementNumber",
         "sponsorProposalNumber",
         "subcontracts",
-        "agencyProgramCode"
+        "agencyProgramCode",
         
     };
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao#getProposalSummary(java.lang.String)
@@ -96,25 +116,42 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         
         retval.setProposalStateName((String)result[6]);
         retval.setProposalTypeName((String)result[7]);
-        retval.setNarrative("??"); // TODO 
-        retval.setBudget("??"); // TODO
-        retval.setTitle((String)result[10]);
+        retval.setNarrative(lookupNarrativeStatus(proposalNumber)); 
+        retval.setTitle((String)result[8]);
         
-        retval.setDeadlineDate((Date)result[11]);
-        retval.setDeadlineType(lookupSponsorDeadlineTypeDescription(result[12]));
-        retval.setSponsorName(lookupSponsorName(result[13]));
-        retval.setPrimeSponsorCode(lookupSponsorName(result[14]));
-        retval.setNsfCode(lookupNsfCodeDescription(result[15]));
-        retval.setAgencyDivisionCode((String)result[16]);
-        retval.setProgramAnnouncementTitle((String)result[17]);
+        retval.setDeadlineDate((Date)result[9]);
+        retval.setDeadlineType(lookupSponsorDeadlineTypeDescription(result[10]));
+        retval.setSponsorName(lookupSponsorName(result[11]));
+        retval.setPrimeSponsorCode(lookupSponsorName(result[12]));
+        retval.setNsfCode(lookupNsfCodeDescription(result[13]));
+        retval.setAgencyDivisionCode((String)result[14]);
+        retval.setProgramAnnouncementTitle((String)result[15]);
         
-        retval.setNoticeOfOpportunityName(lookupNoticeOfOpportunityDescription(result[18]));
-        retval.setCfdaNumber((String)result[19]);
-        retval.setProgramAnnouncementNumber((String)result[20]);
-        retval.setSponsorProposalNumber((String)result[21]);
-        retval.setSubcontracts((Boolean)result[22]);
-        retval.setAgencyProgramCode((String)result[23]);
+        retval.setNoticeOfOpportunityName(lookupNoticeOfOpportunityDescription(result[16]));
+        retval.setCfdaNumber((String)result[17]);
+        retval.setProgramAnnouncementNumber((String)result[18]);
+        retval.setSponsorProposalNumber((String)result[19]);
+        retval.setSubcontracts((Boolean)result[20]);
+        retval.setAgencyProgramCode((String)result[21]);
         retval.setBudgetVersionOverviews(getBudgetVersionOverviews(result[0].toString()));
+        
+        retval.setBudget("Incomplete");
+        for (BudgetVersionOverview budget : retval.getBudgetVersionOverviews()) {
+            if (budget.isFinalVersionFlag()) {
+                String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class,
+                        Constants.BUDGET_STATUS_COMPLETE_CODE);
+                if (StringUtils.equalsIgnoreCase(budgetStatusCompleteCode, budget.getBudgetStatus())) {
+                    retval.setBudget("Complete");
+                }
+                else {
+                    retval.setBudget("Final");
+                }
+                break;
+            }
+        }
+        
+        populatePersonnel(retval, proposalNumber);
+        
         return retval;
     }
     
@@ -171,14 +208,6 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return retval;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
     private List<BudgetVersionOverview> getBudgetVersionOverviews(String proposalDocumentNumber) {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put("parentDocumentKey", proposalDocumentNumber);
@@ -189,5 +218,44 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
         return retval;
     }
-
+    
+    private void populatePersonnel(HierarchyProposalSummary summary, String proposalNumber) {
+        Map<String,String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("proposalNumber", proposalNumber);
+        Collection personnel = businessObjectService.findMatching(ProposalPerson.class, fieldValues);
+        List<ProposalPerson> coInvestigators = new ArrayList<ProposalPerson>();
+        List<ProposalPerson> keyPersons = new ArrayList<ProposalPerson>();
+        ProposalPerson person;
+        String roleId;
+        for (Object o : personnel) {
+            person = (ProposalPerson)o;
+            roleId = person.getProposalPersonRoleId();
+            if (StringUtils.equalsIgnoreCase(roleId,"PI")) {
+                summary.setPrincipleInvestigator(person);
+            }
+            else if(StringUtils.equalsIgnoreCase(roleId, "COI")) {
+                coInvestigators.add(person);
+            }
+            else {
+                keyPersons.add(person);
+            }
+        }
+        summary.setCoInvestigators(coInvestigators);
+        summary.setKeyPersons(keyPersons);
+    }
+    
+    private String lookupNarrativeStatus(String proposalNumber) {
+        String retval = "none";
+        Map<String,String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("proposalNumber", proposalNumber);
+        fieldValues.put("narrativeType.narrativeTypeCode", "1");
+        Collection narratives = businessObjectService.findMatching(Narrative.class, fieldValues);
+        Narrative narrative;
+        for (Object o: narratives) {
+            narrative = (Narrative)o;
+            retval = narrative.getNarrativeStatus().getDescription();
+        }
+        return retval;
+    }
+    
 }
