@@ -118,7 +118,7 @@ public class ProposalDevelopmentCongressionalDistrictRuleTest extends ProposalDe
         GlobalVariables.getErrorMap().clearErrorMessages();
         proposalDevelopmentCongressionalDistrictRule = new ProposalDevelopmentCongressionalDistrictRule();
         result = proposalDevelopmentCongressionalDistrictRule.processAddCongressionalDistrictRules(addCongressionalDistrictEvent);
-        assertOneError(result, proposalDevelopmentCongressionalDistrictRule, addCongressionalDistrictEvent, "newPropLocation.location", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_INVALID_FORMAT);
+        assertOneError(result, proposalDevelopmentCongressionalDistrictRule, addCongressionalDistrictEvent, "newPropLocation.location", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT);
     }
     
     private void assertNoErrors(boolean ruleCheckResult) {

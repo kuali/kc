@@ -43,7 +43,7 @@ public class CongressionalDistrictHelper implements Serializable {
 
     public String getNewDistrictNumber() {
         // pad to CongressionalDistrict.DISTRICT_NUMBER_LENGTH digits
-        if (StringUtils.isNumeric(newDistrictNumber)) {
+        if (StringUtils.isNumeric(newDistrictNumber) && !StringUtils.isEmpty(newDistrictNumber)) {
             newDistrictNumber = StringUtils.leftPad(newDistrictNumber, CongressionalDistrict.DISTRICT_NUMBER_LENGTH, "0");
         }
         
