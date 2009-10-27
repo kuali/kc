@@ -178,7 +178,7 @@ public class PrintingTestUtils {
 
 	private static Award getAwardTwo() {
 		Award award = new Award();
-		award.setAwardId(21l);
+		award.setAwardId(21L);
 		award.setAwardNumber("000044-00001");
 		award.setSequenceNumber(2);
 		award.setSponsorCode("sponsorCode");
@@ -347,7 +347,7 @@ public class PrintingTestUtils {
 		rolodex.setPrefix("preffix");
 		rolodex.setUnit(unit);
 		rolodex.setUpdateUser("quickstart");
-		rolodex.setVersionNumber(1l);
+		rolodex.setVersionNumber(1L);
 		List<AwardUnitContact> awardUnitContacts = new ArrayList<AwardUnitContact>();
 		AwardUnitContact administrator = new AwardUnitContact();
 		administrator.setUnitContactType(UnitContactType.ADMINISTRATOR);
@@ -384,16 +384,16 @@ public class PrintingTestUtils {
 		awardUnitContacts.add(keyPersonAwardUnitContact);
 		AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
 		awardAmountInfo.setSequenceNumber(1);
-		awardAmountInfo.setTransactionId(2l);
-		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000l));
-		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000l));
-		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23l));
-		awardAmountInfo.setAnticipatedChangeDirect(2l);
-		awardAmountInfo.setAnticipatedChangeIndirect(3l);
-		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000l));
+		awardAmountInfo.setTransactionId(2L);
+		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000L));
+		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000L));
+		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23L));
+		awardAmountInfo.setAnticipatedChangeDirect(2L);
+		awardAmountInfo.setAnticipatedChangeIndirect(3L);
+		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfo.setAnticipatedTotalIndirect(new KualiDecimal(3));
-		awardAmountInfo.setAwardAmountInfoId(2312l);
+		awardAmountInfo.setAwardAmountInfoId(2312L);
 		awardAmountInfo.setAwardNumber(award.getAwardNumber());
 		awardAmountInfo.setSequenceNumber(1);
 		awardAmountInfo.setCurrentFundEffectiveDate(new Date(System
@@ -402,36 +402,36 @@ public class PrintingTestUtils {
 		awardAmountInfo.setEomProcessFlag(true);
 		awardAmountInfo.setFinalExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000l));
-		awardAmountInfo.setObligatedChange(new KualiDecimal(324l));
-		awardAmountInfo.setObligatedChangeDirect(234l);
-		awardAmountInfo.setObligatedChangeIndirect(3434l);
+		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000L));
+		awardAmountInfo.setObligatedChange(new KualiDecimal(324L));
+		awardAmountInfo.setObligatedChangeDirect(234L);
+		awardAmountInfo.setObligatedChangeIndirect(3434L);
 		awardAmountInfo.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfo.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfo.setObligationExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfo.setTransactionId(2l);
+		awardAmountInfo.setTransactionId(2L);
 		awardAmountInfo.setUpdateUser("quick start");
 		awardAmountInfo.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
-		awardAmountInfo.setVersionNumber(1l);
+		awardAmountInfo.setVersionNumber(1L);
 		AwardAmountInfo awardAmountInfoForNextSeq = new AwardAmountInfo();
 		awardAmountInfoForNextSeq.setSequenceNumber(1);
-		awardAmountInfoForNextSeq.setTransactionId(2l);
+		awardAmountInfoForNextSeq.setTransactionId(2L);
 		awardAmountInfoForNextSeq.setAmountObligatedToDate(new KualiDecimal(
-				2000l));
+				2000L));
 		awardAmountInfoForNextSeq.setAntDistributableAmount(new KualiDecimal(
-				3000l));
-		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23l));
-		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2l);
-		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3l);
+				3000L));
+		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23L));
+		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2L);
+		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3L);
 		awardAmountInfoForNextSeq.setAnticipatedTotalAmount(new KualiDecimal(
-				3000l));
+				3000L));
 		awardAmountInfoForNextSeq
 				.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfoForNextSeq.setAnticipatedTotalIndirect(new KualiDecimal(
 				3));
-		awardAmountInfoForNextSeq.setAwardAmountInfoId(2312l);
+		awardAmountInfoForNextSeq.setAwardAmountInfoId(2312L);
 		awardAmountInfoForNextSeq.setAwardNumber(award.getAwardNumber());
 		awardAmountInfoForNextSeq.setSequenceNumber(1);
 		awardAmountInfoForNextSeq.setCurrentFundEffectiveDate(new Date(System
@@ -441,20 +441,20 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setFinalExpirationDate(new Date(System
 				.currentTimeMillis()));
 		awardAmountInfoForNextSeq.setObliDistributableAmount(new KualiDecimal(
-				3000l));
-		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324l));
-		awardAmountInfoForNextSeq.setObligatedChangeDirect(234l);
-		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434l);
+				3000L));
+		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324L));
+		awardAmountInfoForNextSeq.setObligatedChangeDirect(234L);
+		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434L);
 		awardAmountInfoForNextSeq.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfoForNextSeq
 				.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfoForNextSeq.setObligationExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfoForNextSeq.setTransactionId(2l);
+		awardAmountInfoForNextSeq.setTransactionId(2L);
 		awardAmountInfoForNextSeq.setUpdateUser("quick start");
 		awardAmountInfoForNextSeq.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
-		awardAmountInfoForNextSeq.setVersionNumber(1l);
+		awardAmountInfoForNextSeq.setVersionNumber(1L);
 		List<AwardAmountInfo> awardAmountInfos = new ArrayList<AwardAmountInfo>();
 		awardAmountInfos.add(awardAmountInfoForNextSeq);
 		awardAmountInfos.add(awardAmountInfo);
@@ -462,13 +462,13 @@ public class PrintingTestUtils {
 		AwardCloseout awardCloseout = new AwardCloseout();
 		awardCloseout.setAwardNumber(award.getAwardNumber());
 		awardCloseout.setSequenceNumber(award.getSequenceNumber());
-		awardCloseout.setAwardCloseoutId(1l);
+		awardCloseout.setAwardCloseoutId(1L);
 		awardCloseout.setCloseoutReportCode("1");
 		awardCloseout.setFinalSubmissionDate(new Date(System
 				.currentTimeMillis()));
 		awardCloseout.setCloseoutReportName("Test closeout report");
 		awardCloseout.setUpdateUser("quick start");
-		awardCloseout.setVersionNumber(1l);
+		awardCloseout.setVersionNumber(1L);
 		awardCloseout.setDueDate(new Date(System.currentTimeMillis()));
 		awardCloseout.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
@@ -480,7 +480,7 @@ public class PrintingTestUtils {
 		awardCloseoutItems.add(awardCloseout);
 		award.setAwardCloseoutItems(awardCloseoutItems);
 		AwardPerson awardPerson = new AwardPerson();
-		awardPerson.setVersionNumber(1l);
+		awardPerson.setVersionNumber(1L);
 		awardPerson.setUpdateUser("quick start");
 		awardPerson
 				.setUpdateTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -492,7 +492,7 @@ public class PrintingTestUtils {
 		awardPerson.setPerson(person);
 		awardPerson.setTotalEffort(new KualiDecimal(23234));
 		AwardPerson piAwardPerson = new AwardPerson();
-		piAwardPerson.setVersionNumber(1l);
+		piAwardPerson.setVersionNumber(1L);
 		piAwardPerson.setUpdateUser("quick start");
 		piAwardPerson.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
@@ -552,7 +552,7 @@ public class PrintingTestUtils {
 		approvedEquipmentItems.add(approvedEquipment);
 		award.setApprovedEquipmentItems(approvedEquipmentItems);
 		AwardSpecialReview awardSpecialReview = new AwardSpecialReview();
-		awardSpecialReview.setAwardSpecialReviewId(2l);
+		awardSpecialReview.setAwardSpecialReviewId(2L);
 		awardSpecialReview.setAward(award);
 		awardSpecialReview.setUpdateUser("quick start");
 		awardSpecialReview.setSpecialReviewCode("2");
@@ -577,7 +577,7 @@ public class PrintingTestUtils {
 		AwardCustomData awardCustomData = new AwardCustomData();
 		awardCustomData.setAwardNumber(award.getAwardNumber());
 		awardCustomData.setSequenceNumber(award.getSequenceNumber());
-		awardCustomData.setCustomAttributeId(1l);
+		awardCustomData.setCustomAttributeId(1L);
 		CustomAttribute customAttribute = new CustomAttribute();
 		customAttribute.setLookupClass("W_ARG_CODE_TBL");
 		customAttribute.setLookupReturn("STATE");
@@ -592,7 +592,7 @@ public class PrintingTestUtils {
 	}
 
 	private static Award getAwardOne(Award award) {
-		award.setAwardId(21l);
+		award.setAwardId(21L);
 		award.setAwardNumber("000044-00001");
 		award.setSequenceNumber(1);
 		award.setSponsorCode("sponsorCode");
@@ -761,7 +761,7 @@ public class PrintingTestUtils {
 		rolodex.setPrefix("preffix");
 		rolodex.setUnit(unit);
 		rolodex.setUpdateUser("quickstart");
-		rolodex.setVersionNumber(1l);
+		rolodex.setVersionNumber(1L);
 		List<AwardUnitContact> awardUnitContacts = new ArrayList<AwardUnitContact>();
 		AwardUnitContact administrator = new AwardUnitContact();
 		administrator.setUnitContactType(UnitContactType.ADMINISTRATOR);
@@ -798,16 +798,16 @@ public class PrintingTestUtils {
 		awardUnitContacts.add(keyPersonAwardUnitContact);
 		AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
 		awardAmountInfo.setSequenceNumber(1);
-		awardAmountInfo.setTransactionId(1l);
-		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000l));
-		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000l));
-		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23l));
-		awardAmountInfo.setAnticipatedChangeDirect(2l);
-		awardAmountInfo.setAnticipatedChangeIndirect(3l);
-		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000l));
+		awardAmountInfo.setTransactionId(1L);
+		awardAmountInfo.setAmountObligatedToDate(new KualiDecimal(2000L));
+		awardAmountInfo.setAntDistributableAmount(new KualiDecimal(3000L));
+		awardAmountInfo.setAnticipatedChange(new KualiDecimal(23L));
+		awardAmountInfo.setAnticipatedChangeDirect(2L);
+		awardAmountInfo.setAnticipatedChangeIndirect(3L);
+		awardAmountInfo.setAnticipatedTotalAmount(new KualiDecimal(3000L));
 		awardAmountInfo.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfo.setAnticipatedTotalIndirect(new KualiDecimal(3));
-		awardAmountInfo.setAwardAmountInfoId(2312l);
+		awardAmountInfo.setAwardAmountInfoId(2312L);
 		awardAmountInfo.setAwardNumber(award.getAwardNumber());
 		awardAmountInfo.setSequenceNumber(1);
 		awardAmountInfo.setCurrentFundEffectiveDate(new Date(System
@@ -816,36 +816,36 @@ public class PrintingTestUtils {
 		awardAmountInfo.setEomProcessFlag(true);
 		awardAmountInfo.setFinalExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000l));
-		awardAmountInfo.setObligatedChange(new KualiDecimal(324l));
-		awardAmountInfo.setObligatedChangeDirect(234l);
-		awardAmountInfo.setObligatedChangeIndirect(3434l);
+		awardAmountInfo.setObliDistributableAmount(new KualiDecimal(3000L));
+		awardAmountInfo.setObligatedChange(new KualiDecimal(324L));
+		awardAmountInfo.setObligatedChangeDirect(234L);
+		awardAmountInfo.setObligatedChangeIndirect(3434L);
 		awardAmountInfo.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfo.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfo.setObligationExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfo.setTransactionId(2l);
+		awardAmountInfo.setTransactionId(2L);
 		awardAmountInfo.setUpdateUser("quick start");
 		awardAmountInfo.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
-		awardAmountInfo.setVersionNumber(1l);
+		awardAmountInfo.setVersionNumber(1L);
 		AwardAmountInfo awardAmountInfoForNextSeq = new AwardAmountInfo();
 		awardAmountInfoForNextSeq.setSequenceNumber(1);
-		awardAmountInfoForNextSeq.setTransactionId(2l);
+		awardAmountInfoForNextSeq.setTransactionId(2L);
 		awardAmountInfoForNextSeq.setAmountObligatedToDate(new KualiDecimal(
-				2000l));
+				2000L));
 		awardAmountInfoForNextSeq.setAntDistributableAmount(new KualiDecimal(
-				3000l));
-		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23l));
-		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2l);
-		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3l);
+				3000L));
+		awardAmountInfoForNextSeq.setAnticipatedChange(new KualiDecimal(23L));
+		awardAmountInfoForNextSeq.setAnticipatedChangeDirect(2L);
+		awardAmountInfoForNextSeq.setAnticipatedChangeIndirect(3L);
 		awardAmountInfoForNextSeq.setAnticipatedTotalAmount(new KualiDecimal(
-				3000l));
+				3000L));
 		awardAmountInfoForNextSeq
 				.setAnticipatedTotalDirect(new KualiDecimal(2));
 		awardAmountInfoForNextSeq.setAnticipatedTotalIndirect(new KualiDecimal(
 				3));
-		awardAmountInfoForNextSeq.setAwardAmountInfoId(2312l);
+		awardAmountInfoForNextSeq.setAwardAmountInfoId(2312L);
 		awardAmountInfoForNextSeq.setAwardNumber(award.getAwardNumber());
 		awardAmountInfoForNextSeq.setSequenceNumber(1);
 		awardAmountInfoForNextSeq.setCurrentFundEffectiveDate(new Date(System
@@ -855,20 +855,20 @@ public class PrintingTestUtils {
 		awardAmountInfoForNextSeq.setFinalExpirationDate(new Date(System
 				.currentTimeMillis()));
 		awardAmountInfoForNextSeq.setObliDistributableAmount(new KualiDecimal(
-				3000l));
-		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324l));
-		awardAmountInfoForNextSeq.setObligatedChangeDirect(234l);
-		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434l);
+				3000L));
+		awardAmountInfoForNextSeq.setObligatedChange(new KualiDecimal(324L));
+		awardAmountInfoForNextSeq.setObligatedChangeDirect(234L);
+		awardAmountInfoForNextSeq.setObligatedChangeIndirect(3434L);
 		awardAmountInfoForNextSeq.setObligatedTotalDirect(new KualiDecimal(3));
 		awardAmountInfoForNextSeq
 				.setObligatedTotalIndirect(new KualiDecimal(34));
 		awardAmountInfoForNextSeq.setObligationExpirationDate(new Date(System
 				.currentTimeMillis()));
-		awardAmountInfoForNextSeq.setTransactionId(2l);
+		awardAmountInfoForNextSeq.setTransactionId(2L);
 		awardAmountInfoForNextSeq.setUpdateUser("quick start");
 		awardAmountInfoForNextSeq.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
-		awardAmountInfoForNextSeq.setVersionNumber(1l);
+		awardAmountInfoForNextSeq.setVersionNumber(1L);
 		List<AwardAmountInfo> awardAmountInfos = new ArrayList<AwardAmountInfo>();
 		awardAmountInfos.add(awardAmountInfoForNextSeq);
 		awardAmountInfos.add(awardAmountInfo);
@@ -876,13 +876,13 @@ public class PrintingTestUtils {
 		AwardCloseout awardCloseout = new AwardCloseout();
 		awardCloseout.setAwardNumber(award.getAwardNumber());
 		awardCloseout.setSequenceNumber(award.getSequenceNumber());
-		awardCloseout.setAwardCloseoutId(1l);
+		awardCloseout.setAwardCloseoutId(1L);
 		awardCloseout.setCloseoutReportCode("1");
 		awardCloseout.setFinalSubmissionDate(new Date(System
 				.currentTimeMillis()));
 		awardCloseout.setCloseoutReportName("Test closeout report");
 		awardCloseout.setUpdateUser("quick start");
-		awardCloseout.setVersionNumber(1l);
+		awardCloseout.setVersionNumber(1L);
 		awardCloseout.setDueDate(new Date(System.currentTimeMillis()));
 		awardCloseout.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
@@ -894,7 +894,7 @@ public class PrintingTestUtils {
 		awardCloseoutItems.add(awardCloseout);
 		award.setAwardCloseoutItems(awardCloseoutItems);
 		AwardPerson awardPerson = new AwardPerson();
-		awardPerson.setVersionNumber(1l);
+		awardPerson.setVersionNumber(1L);
 		awardPerson.setUpdateUser("quick start");
 		awardPerson
 				.setUpdateTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -906,7 +906,7 @@ public class PrintingTestUtils {
 		awardPerson.setPerson(person);
 		awardPerson.setTotalEffort(new KualiDecimal(23234));
 		AwardPerson piAwardPerson = new AwardPerson();
-		piAwardPerson.setVersionNumber(1l);
+		piAwardPerson.setVersionNumber(1L);
 		piAwardPerson.setUpdateUser("quick start");
 		piAwardPerson.setUpdateTimestamp(new Timestamp(System
 				.currentTimeMillis()));
@@ -966,7 +966,7 @@ public class PrintingTestUtils {
 		approvedEquipmentItems.add(approvedEquipment);
 		award.setApprovedEquipmentItems(approvedEquipmentItems);
 		AwardSpecialReview awardSpecialReview = new AwardSpecialReview();
-		awardSpecialReview.setAwardSpecialReviewId(2l);
+		awardSpecialReview.setAwardSpecialReviewId(2L);
 		awardSpecialReview.setAward(award);
 		awardSpecialReview.setUpdateUser("quick start");
 		awardSpecialReview.setSpecialReviewCode("2");
@@ -991,7 +991,7 @@ public class PrintingTestUtils {
 		AwardCustomData awardCustomData = new AwardCustomData();
 		awardCustomData.setAwardNumber(award.getAwardNumber());
 		awardCustomData.setSequenceNumber(award.getSequenceNumber());
-		awardCustomData.setCustomAttributeId(1l);
+		awardCustomData.setCustomAttributeId(1L);
 		CustomAttribute customAttribute = new CustomAttribute();
 		customAttribute.setLookupClass("W_ARG_CODE_TBL");
 		customAttribute.setLookupReturn("STATE");
