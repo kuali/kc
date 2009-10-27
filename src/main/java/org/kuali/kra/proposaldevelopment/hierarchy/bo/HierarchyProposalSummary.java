@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 
 /**
@@ -59,7 +60,9 @@ public class HierarchyProposalSummary implements Serializable {
     private Boolean subcontracts;
     private String agencyProgramCode;
 
-
+    private ProposalPerson principleInvestigator;
+    private List<ProposalPerson> coInvestigators;
+    private List<ProposalPerson> keyPersons;
     private List<BudgetVersionOverview> budgetVersionOverviews;
 
 
@@ -477,6 +480,54 @@ public class HierarchyProposalSummary implements Serializable {
      */
     public void setAgencyProgramCode(String agencyProgramCode) {
         this.agencyProgramCode = agencyProgramCode;
+    }
+
+    /**
+     * Gets the principleInvestigator attribute. 
+     * @return Returns the principleInvestigator.
+     */
+    public ProposalPerson getPrincipleInvestigator() {
+        return principleInvestigator;
+    }
+
+    /**
+     * Sets the principleInvestigator attribute value.
+     * @param principleInvestigator The principleInvestigator to set.
+     */
+    public void setPrincipleInvestigator(ProposalPerson principleInvestigator) {
+        this.principleInvestigator = principleInvestigator;
+    }
+
+    /**
+     * Gets the coInvestigators attribute. 
+     * @return Returns the coInvestigators.
+     */
+    public List<ProposalPerson> getCoInvestigators() {
+        return coInvestigators;
+    }
+
+    /**
+     * Sets the coInvestigators attribute value.
+     * @param coInvestigators The coInvestigators to set.
+     */
+    public void setCoInvestigators(List<ProposalPerson> coInvestigators) {
+        this.coInvestigators = coInvestigators;
+    }
+
+    /**
+     * Gets the keyPersons attribute. 
+     * @return Returns the keyPersons.
+     */
+    public List<ProposalPerson> getKeyPersons() {
+        return keyPersons;
+    }
+
+    /**
+     * Sets the keyPersons attribute value.
+     * @param keyPersons The keyPersons to set.
+     */
+    public void setKeyPersons(List<ProposalPerson> keyPersons) {
+        this.keyPersons = keyPersons;
     }
 
     /**

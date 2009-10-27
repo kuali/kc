@@ -57,12 +57,29 @@
 	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
-	          	<tr><th width="20%" align="right" valign="middle">Principle Investigator:</th><td width="30%" align="left" valign="middle">??</td>
-	          		<th width="20%" align="right" valign="middle">Lead Unit:</th><td width="30%" align="left" valign="middle">??</td></tr>
-	          	<tr><th width="20%" align="right" valign="middle">Investigator(s):</th><td width="30%" align="left" valign="middle">??</td>
-	          		<th width="20%" align="right" valign="middle">Unit(s):</th><td width="30%" align="left" valign="middle">??</td></tr>	
-				<tr><th width="20%" align="right" valign="middle">Key Person(s):</th><td width="30%" align="left" valign="middle">??</td>
-					<th width="20%" align="right" valign="middle">Unit(s):</th><td width="30%" align="left" valign="middle">??</td></tr>
+				<tr><th width="20%" align="right" valign="middle">Principle Investigator:</th><td width="30%" align="left" valign="middle">${summary.principleInvestigator.fullName}&nbsp;</td>
+	          		<th width="20%" align="right" valign="middle">Unit(s):</th>
+	          		<td width="30%" align="left" valign="middle">${summary.ownedByUnitName} (Lead Unit)<br />
+	          			<c:forEach var="unit" items="${summary.principleInvestigator.units}" varStatus="unitStatus">
+	          				<c:if test="${not unit.leadUnit}">${unit.unitNumber} : ${unit.unit.unitName}<br /></c:if>
+	          			</c:forEach>
+	          		</td></tr>
+				<c:forEach var="coInvestigator" items="${summary.coInvestigators}" varStatus="status">
+	          	<tr><th width="20%" align="right" valign="middle">Investigator:</th><td width="30%" align="left" valign="middle">${coInvestigator.fullName}</td>
+	          		<th width="20%" align="right" valign="middle">Unit(s):</th>
+	          		<td width="30%" align="left" valign="middle">
+	          			<c:forEach var="unit" items="${coInvestigator.units}" varStatus="unitStatus">${unit.unitNumber} : ${unit.unit.unitName}<br /></c:forEach>
+	          			<c:if test="${empty coInvestigator.units}">&nbsp;</c:if>
+					</td></tr>	
+				</c:forEach>
+				<c:forEach var="keyPerson" items="${summary.keyPersons}" varStatus="status">
+	          	<tr><th width="20%" align="right" valign="middle">Key Person:</th><td width="30%" align="left" valign="middle">${keyPerson.fullName}</td>
+	          		<th width="20%" align="right" valign="middle">Unit(s):</th>
+	          		<td width="30%" align="left" valign="middle">
+	          			<c:forEach var="unit" items="${keyPerson.units}" varStatus="unitStatus">${unit.unitNumber} : ${unit.unit.unitName}<br /></c:forEach>
+	          			<c:if test="${empty keyPerson.units}">&nbsp;</c:if>
+					</td></tr>	
+				</c:forEach>
 			</table>
 		</div>
 	</kra:innerTab>

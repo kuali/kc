@@ -1645,6 +1645,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
     </bean>
     	
 	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
