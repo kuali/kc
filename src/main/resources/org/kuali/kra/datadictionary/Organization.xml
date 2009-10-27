@@ -303,7 +303,7 @@
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
-            p:pattern="^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|00-000|US-all$" 
+            p:pattern="^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|[a-zA-Z][a-zA-Z]-all|00-000|US-all$" 
             p:validationErrorMessageKey="error.congressionalDistrict.format"/>
     </property>
     <property name="control" >
