@@ -21,7 +21,7 @@ package org.kuali.kra.infrastructure;
  */
 public final class KeyConstants {
     
-    // Generic error messages
+    // Generic error messages and questions
     public static final String ERROR_MINLENGTH = "error.minLength";
     public static final String ERROR_MAXLENGTH = "error.maxLength";
     
@@ -41,6 +41,8 @@ public final class KeyConstants {
     public static final String ERROR_SPECIAL_REVIEW_DATE_ORDERING = "error.special.review.date.ordering";
     public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
+    
+    public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
