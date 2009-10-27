@@ -49,6 +49,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
@@ -58,7 +59,6 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -77,7 +77,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    private static final String PROTOCOL_ID = "protocolId";
+    private static final String SUBMISSION_ID = "submissionId";
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -764,10 +764,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PROTOCOL_ID, request.getParameter(PROTOCOL_ID));
-        Protocol protocol = (Protocol) getBusinessObjectService().findByPrimaryKey(Protocol.class, fieldValues);
+        fieldValues.put(SUBMISSION_ID, request.getParameter(SUBMISSION_ID));
+        ProtocolSubmission protocolSubmission = (ProtocolSubmission) getBusinessObjectService().findByPrimaryKey(ProtocolSubmission.class, fieldValues);
+        protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
         ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
-                protocol.getProtocolDocument().getDocumentNumber()));
+                protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber()));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
