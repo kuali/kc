@@ -24,7 +24,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase {
     
     /**
-     * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
      * org.kuali.rice.kns.document.Document)
      */
@@ -35,7 +34,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
         
         if (!isProposalStatusChangeValid(document)) {
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                     "document.newMaintainableObject.logStatus", 
                     KeyConstants.ERROR_INVALID_STATUS_CHANGE, 
                     proposalLog.getProposalLogStatus().getDescription());
@@ -43,7 +42,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         }
         
         if (ObjectUtils.isNotNull(proposalLog.getPiId()) && ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
-            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rolodexId", KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rolodexId", 
+                    KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");
             valid = false;
         }
         
@@ -56,7 +56,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
         if (oldProposalLog.getProposalNumber() != null
                 && oldProposalLog.getLogStatus() != newProposalLog.getLogStatus() 
-                && !ProposalLogUtils.getProposalLogVoidStatusCode().equals(newProposalLog.getLogStatus())) {
+                && !(ProposalLogUtils.getProposalLogVoidStatusCode().equals(newProposalLog.getLogStatus()) 
+                        || ProposalLogUtils.getProposalLogPendingStatusCode().equals(newProposalLog.getLogStatus()))) {
             return false;
         }
         
