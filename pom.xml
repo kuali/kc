@@ -64,8 +64,8 @@
 	  </issueManagement>
 	
 	<ciManagement>
-	    <system>hudson</system>
-	    <url>https://ci.kc.kuali.net/</url>
+	    <system>continuum</system>
+	    <url>https://test.kuali.org/continuum</url>
 	    <notifiers>
 	      <notifier>
 	        <type>mail</type>
@@ -73,11 +73,11 @@
 	        <sendOnFailure>true</sendOnFailure>
 	        <sendOnSuccess>true</sendOnSuccess>
 	        <sendOnWarning>true</sendOnWarning>
-	        <configuration><address>hudson@127.0.0.1</address></configuration>
+	        <configuration><address>continuum@127.0.0.1</address></configuration>
 	      </notifier>
 	    </notifiers>
 	  </ciManagement>
-
+	  
 	<profiles>
 		<profile>
 			<id>s2s-wsdl</id>
