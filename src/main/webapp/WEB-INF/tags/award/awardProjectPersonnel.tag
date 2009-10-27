@@ -70,6 +70,7 @@
 	        		</div>
 	        	</td>
 	        	<td class="infoline">
+                    ${KualiForm.valueFinderResultDoNotCache}
 	        		<div align="center">
 		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
 	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
@@ -78,19 +79,20 @@
 				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.keyPersonRole" 
 										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
 					    </span>
-                <script type="text/javascript">
-                  function proposalRoleChange(formItem, speed) {
-                      if ( $(formItem).val() == 'KP' ) {
-                          $('.keypersononly').slideDown(speed);
-                      } else {
-                          $('.keypersononly').slideUp(speed);
+                    <script type="text/javascript">
+                      function proposalRoleChange(formItem, speed) {
+                          if ( $(formItem).val() == 'KP' ) {
+                              $('.keypersononly').slideDown(speed);
+                          } else {
+                              $('.keypersononly').slideUp(speed);
+                          }
                       }
-                  }
-                  $(document).ready(function() {
-                      proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
-                      $('.noscriptonly').hide();
-                  });
-                </script>
+                      $(document).ready(function() {
+                          proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
+                          $('.noscriptonly').hide();
+                      });
+                    </script>
+                    ${KualiForm.valueFinderResultCache}
 	        	</td>
 	        	<td class="infoline">
 	        		<div align="center">
@@ -144,7 +146,14 @@
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-	                		${awardContact.contactRole.description}&nbsp;
+                            <c:set var="isNih" value="${KualiForm.document.awardList[0].nih}" />
+                            <c:if test="${isNih}">
+                                <c:set var="roleDescription" value="${KualiForm.document.awardList[0].nihDescription[awardContact.contactRole.roleCode]}" />
+                            </c:if>
+                            <c:if test="${!isNih}">
+                                <c:set var="roleDescription" value="${awardContact.contactRole.description}" />
+                            </c:if>
+	                		${roleDescription}&nbsp;
 	                	</div> 
 					</td>
 					<td valign="middle">

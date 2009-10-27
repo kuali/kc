@@ -47,6 +47,7 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -57,7 +58,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable {
 
     private static final long serialVersionUID = -9211313487776934111L;
 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -28,7 +25,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * A Service for persisted modifications of Key Personnel related business objects
@@ -174,22 +173,22 @@ public interface KeyPersonnelService {
     public boolean isCreditSplitEnabled();
         
     /**
-     * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
+     * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is 
      * read only or not.
      * 
      * @param roleId to check
-     * @return true if the <code>roleId</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
+     * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <coderoleId</code> is null
      * @see #isRoleReadOnly(ProposalPersonRole)
      */
     public boolean isRoleReadOnly(String roleId);
     
     /**
-     * Compares the <code>roleId</code> of the given {@link ProposalPersonRole} against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
+     * Compares the <code>roleId</code> of the given {@link ProposalPersonRole} against the <code>personrole.readonly.roles</code> to see if it is 
      * read only or not.
      * 
      * @param role to check
-     * @return true if the <code>role</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
+     * @return true if the <code>role</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <code>role</code> is null
      * @see #isRoleReadOnly(String)
      */
@@ -215,10 +214,19 @@ public interface KeyPersonnelService {
     /**
      * Determines whether the sponsor on the document is NIH
      *
+     * Now deprecated. Use {@link }SponsorService} isSponsorNih(String) instead.
+     * 
      * @param document
      * @return true or false
      */
-    
+    @Deprecated
     public boolean isSponsorNIH(ProposalDevelopmentDocument document);
-     
+
+    /**
+     * Load role descriptions based on whether sponsor is NIH-related
+     * @param sponsorIsNih
+     * @return
+     */
+    public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih);
+
 }

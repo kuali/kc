@@ -27,6 +27,6 @@ public class NonNihProposalPersonRoleValuesFinder extends ProposalPersonRoleValu
      * @see org.kuali.kra.proposaldevelopment.lookup.keyvalues.ProposalPersonRoleValuesFinder#getRoleIdPrefix()
      */
     protected String getRoleIdPrefix() {
-        return "nonnih.";
+        return "nih.";
     }
 }
