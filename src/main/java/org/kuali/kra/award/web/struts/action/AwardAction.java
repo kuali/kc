@@ -48,13 +48,9 @@ import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.AwardDirectFandADistributionService;
-import org.kuali.kra.service.AwardReportsService;
-import org.kuali.kra.service.AwardSponsorTermService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.service.*;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -370,8 +366,15 @@ public class AwardAction extends BudgetParentActionBase {
      * @param response
      * @return
      */
-    public ActionForward contacts(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SponsorService sponsorService = getSponsorService();
+        Award award = getAward(form);
+
+        if(sponsorService.isSponsorNih(award)) {
+            award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
+        } else {
+            award.setNihDescription(null);
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_CONTACTS_PAGE);
     }
 
@@ -717,6 +720,14 @@ public class AwardAction extends BudgetParentActionBase {
             syncPropertyName = StringUtils.substringBetween(parameterName, ".syncPropertyName", ".anchor");
         }
         return syncPropertyName;
+    }
+
+    protected KeyPersonnelService getKeyPersonnelService() {
+        return KraServiceLocator.getService(KeyPersonnelService.class);
+    }
+
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
 
     @Override

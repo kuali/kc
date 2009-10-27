@@ -16,47 +16,23 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
-import static org.kuali.kra.infrastructure.Constants.SPONSOR_HIERARCHY_NAME;
-import static org.kuali.kra.infrastructure.Constants.SPONSOR_LEVEL_HIERARCHY;
+import org.kuali.kra.bo.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+
+import java.util.*;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -67,8 +43,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.34 $
  */
-public class KeyPersonnelServiceImpl implements KeyPersonnelService {
-    private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
+public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
+    private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
+    private static final String NIH_PARM_KEY = "nih.";
+
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
@@ -635,8 +613,24 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     }
 
     /**
+     * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is
+     * read only or not.
+     *
+     * @param roleId to check
+     * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
+     *         if the <coderoleId</code> is null
+     */
+    public boolean isRoleReadOnly(String roleId) {
+        if (roleId == null) {
+            return false;
+        }
+        String parmValue = parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
+        return parmValue.toLowerCase().contains(roleId.toLowerCase());
+    }
+
+    /**
      * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
-     * 
+     *
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
      */
     public boolean isCreditSplitEnabled() {
@@ -645,25 +639,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
-     * read only or not.
-     * 
-     * @param roleId to check
-     * @return true if the <code>roleId</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
-     *         if the <coderoleId</code> is null
-     */
-    public boolean isRoleReadOnly(String roleId) {
-        if (roleId == null) {
-            return false;
-        }
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, READ_ONLY_ROLES_PARAM_NAME).toLowerCase().contains(roleId.toLowerCase());
     }
 
     /**
@@ -682,85 +661,42 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
-        String parameterName = "proposaldevelopment.personrole.pi";
-        if (document.getDevelopmentProposal().getSponsor() != null && document.getDevelopmentProposal().getSponsor().getAcronym() != null && document.getDevelopmentProposal().getSponsor().getAcronym().toLowerCase().equals("nih")) {
-            parameterName = "proposaldevelopment.personrole.nonnih.pi";
+        String parameterName = "personrole.pi";
+        final Sponsor sponsor = document.getDevelopmentProposal().getSponsor();
+        if (sponsor != null && sponsor.getAcronym() != null && sponsor.getAcronym().toLowerCase().equals("nih")) {
+            parameterName = "personrole.nih.pi";
         }
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, parameterName);
+        return this.parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parameterName);
     }
 
+    @Deprecated
     public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-
-        boolean nih=false;
-        Map valueMap = new HashMap();
-        HashMap nihDescription=new HashMap<String, String>();
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
-        final Collection<ProposalPersonRole> roles = bos.findAll(ProposalPersonRole.class);
-        document.getDevelopmentProposal().setNih(false);
-        valueMap.put("sponsorCode", document.getDevelopmentProposal().getSponsorCode());
-        valueMap.put("hierarchyName", this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, SPONSOR_HIERARCHY_NAME ));
-        Collection<SponsorHierarchy> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
-        if (CollectionUtils.isNotEmpty(sponsor_hierarchy)) {
-            for (Object variable : sponsor_hierarchy) {
-                SponsorHierarchy sponhierarchy=(SponsorHierarchy) variable;
-                if(StringUtils.isNotEmpty(sponhierarchy.getLevel1()) && (sponhierarchy.getLevel1().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel2().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel3().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel4().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel5().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel6().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel7().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel8().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel9().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel10()) && (sponhierarchy.getLevel10().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, 
-                        SPONSOR_LEVEL_HIERARCHY )))){
-                    document.getDevelopmentProposal().setNih(true);
-                    nih=true;
-                }
-            }
-        }
-        if(document.getDevelopmentProposal().isNih()){
-            for (ProposalPersonRole role : roles) {
-                nihDescription.put(role.getProposalPersonRoleId(), findNIHRoleDescription(role));
-
-            }
-            document.getDevelopmentProposal().setNihDescription(nihDescription);
-        }
-        return nih;
-        // TODO Auto-generated method stub
-
+        return getSponsorService().isSponsorNih(document.getDevelopmentProposal());
     }
-    protected String findNIHRoleDescription(ProposalPersonRole role) {
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
-                PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                + "nonnih."
-                + role.getProposalPersonRoleId().toLowerCase());    
+
+    /**
+     * @param sponsorIsNih
+     * @return
+     */
+    public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
+        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = businessObjectService.findAll(ProposalPersonRole.class);
+        Map<String, String> roleDescriptions = new HashMap<String, String>();
+        for (ProposalPersonRole role : roles) {
+            roleDescriptions.put(role.getProposalPersonRoleId(), findRoleDescription(role, sponsorIsNih));
+        }
+        return roleDescriptions;
+    }
+
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
+
+    protected String findRoleDescription(ProposalPersonRole role, boolean sponsorIsNih) {
+        String parmName = createRoleDescriptionParameterName(role, sponsorIsNih ? NIH_PARM_KEY : "");
+        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
+    }
+
+    private String createRoleDescriptionParameterName(ProposalPersonRole role, String nihToken) {
+        return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getProposalPersonRoleId().toLowerCase());
     }
 }

@@ -17,8 +17,12 @@ package org.kuali.kra.award.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.service.SponsorService;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -187,7 +191,20 @@ public class AwardContactsAction extends AwardAction {
         getSponsorContactsBean(form).deleteSponsorContact(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+
+        SponsorService sponsorService = getSponsorService();
+        Award award = getAward(form);
+
+        if(sponsorService.isSponsorNih(award)) {
+            award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
+        }
+
+        return actionForward;
+    }
 
     /**
      * Simply returns and the recalculation will happen

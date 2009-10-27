@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Collection;
-
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+
+import java.util.Collection;
 
 public interface SponsorService {
     /**
@@ -91,6 +91,16 @@ public interface SponsorService {
     public String getSponsorCodes(String hierarchyName, String depth, String groups);
 
     /**
+     * Determine if sponsorable's sponsor is NIH-related.
+     *
+     * Side-effect: The sponsorable's setNih method should be called to record the finding
+     *  
+     * @param sponsorable
+     * @return True if sponsor is NIH-related
+     */
+    public boolean isSponsorNih(Sponsorable sponsorable);
+
+    /**
      * 
      * This method is to put the sponsorcodes for the hierarchy in session. so it can be checked to be excluded for search.
      * @param sponsorCodes
@@ -99,4 +109,4 @@ public interface SponsorService {
 
     public void uploadScripts(String key, String scripts);
 
- }
+}

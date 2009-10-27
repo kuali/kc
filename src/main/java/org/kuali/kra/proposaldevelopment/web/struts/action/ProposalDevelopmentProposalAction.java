@@ -47,7 +47,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -88,7 +87,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        KeyPersonnelService kpservice=KraServiceLocator.getService(KeyPersonnelService.class);
         setKeywordsPanelFlag(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         if (proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization() != null
@@ -111,7 +109,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         // and it is only populated by a lookup or through AJAX/DWR
         String primeSponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
         if (StringUtils.isNotEmpty(primeSponsorCode)) {
-            String primeSponsorName = (KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
+            String primeSponsorName = (getSponsorService().getSponsorName(primeSponsorCode));
             if (StringUtils.isEmpty(primeSponsorName)) {
                 primeSponsorName = "not found";
             }
@@ -128,15 +126,23 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
             sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
            
-        kpservice.isSponsorNIH(proposalDevelopmentDocument);
+        SponsorService sponsorService = getSponsorService();
+        DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        if(sponsorService.isSponsorNih(proposal)) {
+            proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
+        }
         
         return actionForward;
     }
 
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
+
     /**
-     * 
+     *
      * This method sets the flag for keyword display panel - display keyword panel if parameter is set to true
-     * 
+     *
      * @param request
      */
     private void setKeywordsPanelFlag(HttpServletRequest request) {

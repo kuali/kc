@@ -60,6 +60,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -71,7 +72,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner<Award>,
-                                                                        BudgetParent{
+                                                                        BudgetParent, Sponsorable {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     
@@ -189,7 +190,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String principalInvestigatorName;
     private String statusDescription;
     private String sponsorName;
-    
+
+    private transient boolean sponsorIsNih;
+    private transient Map<String, String> nihDescriptions;
+
     /**
      * 
      * Constructs an Award BO.
@@ -298,6 +302,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public String getSponsorCode() {
         return sponsorCode;
+    }
+
+    /**
+     * @param sponsorIsNih
+     */
+    public void setNih(boolean sponsorIsNih) {
+        this.sponsorIsNih = sponsorIsNih;
+    }
+
+    /**
+     * @param nihDescriptionMap
+     */
+    public void setNihDescription(Map<String, String> nihDescriptionMap) {
+        this.nihDescriptions = nihDescriptionMap;
     }
 
     /**
@@ -2636,7 +2654,7 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     }
 
     public Map<String, String> getNihDescription() {
-        return new HashMap<String, String>();
+        return nihDescriptions;
     }
 
     public List getPersonRolodexList() {
@@ -2690,7 +2708,7 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     }
 
     public boolean isNih() {
-        return false;
+        return sponsorIsNih;
     }
 
     public void setBudgetStatus(String budgetStatus) {

@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.bo;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.LinkedHashMap;
 
 public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
+    private static final long serialVersionUID = 2255685234044720175L;
 
 	private String hierarchyName;
 	private String sponsorCode;
@@ -42,8 +45,8 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 	private String level9;
 	private Integer level9Sortid;
 	private Sponsor sponsor;
-
-	public SponsorHierarchy(){
+    
+    public SponsorHierarchy(){
 		super();
 	}
 
@@ -223,8 +226,18 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 		this.level9Sortid = level9Sortid;
 	}
 
+    public boolean isNihSponsorInAnylevel(String nihIndicator) {
+        boolean isNih = false;
+        for(String levelValue: getAllLevelValues()) {
+            isNih = StringUtils.isNotEmpty(levelValue) && (levelValue.equals(nihIndicator));
+            if(isNih) {
+                break;
+            }
+        }
+        return isNih;
+    }
 
-	@Override 
+    @Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("hierarchyName", getHierarchyName());
@@ -258,5 +271,10 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
+    }
+
+    private String[] getAllLevelValues() {
+        return new String[] { getLevel1(), getLevel2(), getLevel3(), getLevel4(), getLevel5(), getLevel5(), getLevel6(), getLevel7(), getLevel8(), getLevel9(),
+                getLevel10() };
     }
 }
