@@ -72,7 +72,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        
+        webClient.setJavaScriptEnabled(false);
         setProposalDevelopmentPage(buildProposalDevelopmentPage());
     }
         
