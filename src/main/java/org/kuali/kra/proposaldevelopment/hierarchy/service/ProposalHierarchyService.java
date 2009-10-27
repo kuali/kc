@@ -18,15 +18,26 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service;
 import java.util.List;
 
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
+
 
 /**
  * This class...
  */
 
 public interface ProposalHierarchyService {
+
+    //Constants for Proposal Hierarchy Child Routing
+    public static final String PROPOSAL_HIERARCHY_PARENT_ENROUTE="Parent Enroute";
+    public static final String PROPOSAL_HIERARCHY_PARENT_CANCEL="Parent Cancel";
+    public static final String PROPOSAL_HIERARCHY_PARENT_DISAPPROVE="Parent Disapproved";
+    public static final String PROPOSAL_HIERARCHY_PARENT_FINAL="Parent Final";
 
     /**
      * This method takes a proposal, creates a Hierarchy
@@ -74,4 +85,27 @@ public interface ProposalHierarchyService {
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    
+    
+    /**
+     * Get the parent workflow document of the hierarchy child document.
+     * This is a utility method.
+     * 
+     * @param doc The child in question
+     * @return The KualiWorklowDocument of the child's parent.
+     * @throws ProposalHierarchyException if the provided proposal is not in a hierarchy.
+     */
+    public KualiWorkflowDocument getParentWorkflowDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
+
+    /**
+     * Calculate the AppDocStatus that should be applied to children of 
+     * a parent moving from oldStatus to newStatus.
+     * 
+     * @param oldStatus The old workflow status of the parent document.
+     * @param newStatus The new workflow status of the parent document.
+     * 
+     * @return The AppWorkDocStatus that should be set in a children.
+     */
+    public String getHierarchyChildRouteCode( String oldStatus, String newStatus );
+
 }

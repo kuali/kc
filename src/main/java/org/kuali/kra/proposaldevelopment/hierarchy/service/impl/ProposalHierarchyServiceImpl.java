@@ -36,6 +36,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -61,12 +62,14 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -905,5 +908,42 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         bio.getPersonnelAttachmentList().add(attachment);
     }
     
-    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildRouteCode(java.lang.String, java.lang.String)
+     */
+    public String getHierarchyChildRouteCode( String oldStatus, String newStatus) {
+        
+        LOG.info( String.format( "Route status change %s:%s",oldStatus,newStatus));
+        
+        String retCd = null;
+        if( StringUtils.equals(newStatus,KEWConstants.ROUTE_HEADER_ENROUTE_CD) && ( StringUtils.equals( oldStatus, KEWConstants.ROUTE_HEADER_INITIATED_CD) || StringUtils.equals(oldStatus, KEWConstants.ROUTE_HEADER_SAVED_CD) ) ) {
+                retCd = PROPOSAL_HIERARCHY_PARENT_ENROUTE;
+        } else if ( StringUtils.equals(newStatus, KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                retCd = PROPOSAL_HIERARCHY_PARENT_FINAL;
+        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
+                retCd = PROPOSAL_HIERARCHY_PARENT_DISAPPROVE;
+        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_CANCEL_CD ) ) {
+               retCd = PROPOSAL_HIERARCHY_PARENT_CANCEL;
+        } else {
+            LOG.warn(String.format("Do not know how to calculate hierarchy child status for %s to %s",oldStatus,newStatus) );
+        }
+  
+        LOG.info(String.format("Route status for children:%s",retCd ));
+        return retCd;
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
+     */
+    public  KualiWorkflowDocument getParentWorkflowDocument( ProposalDevelopmentDocument child) throws ProposalHierarchyException {
+        try {
+            KualiWorkflowDocument pWorkflow = KraServiceLocator.getService(DocumentService.class)
+                .getByDocumentHeaderId( getHierarchy( getHierarchyChild( child.getDevelopmentProposal().getProposalNumber() ).getHierarchyProposalNumber() ).getProposalDocument().getDocumentNumber()).getDocumentHeader().getWorkflowDocument();
+                                 
+            return pWorkflow;
+        } catch (WorkflowException e) {
+            LOG.error( "Workflow exception thrown getting hierarchy routing status.", e );
+            throw new ProposalHierarchyException( String.format("Could not lookup hierarchy workflow status for child:%s",child.getDocumentHeader().getDocumentNumber()),e);
+        }
+    }
 }
