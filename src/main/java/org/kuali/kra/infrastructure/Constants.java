@@ -16,12 +16,6 @@
 
 package org.kuali.kra.infrastructure;
 
-import java.util.List;
-
-import org.kuali.kra.questionnaire.question.QuestionCategory;
-import org.kuali.kra.questionnaire.question.QuestionExplanation;
-import org.kuali.kra.questionnaire.question.QuestionType;
-
 public interface Constants {
     
     // This is a meaningless comment to test the merge.  I should still be here post-merge.
@@ -78,7 +72,7 @@ public interface Constants {
     public static final String PROPOSAL_ATTACHMENT_TYPE_NAME = "Proposal Attachment";
     public static final String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
 
-    public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
+    public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
     public static final String NIH_SPONSOR_CODE = "000340";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
@@ -535,4 +529,8 @@ public interface Constants {
     public static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     
     public static final String DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD = "DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD";
+
+    //
+    public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
+    public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "A";
 }

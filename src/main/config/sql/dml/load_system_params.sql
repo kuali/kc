@@ -19,22 +19,6 @@ INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'proposaldevelopment.creditsplit.enabled',    '40B51A08D074A044E043814FD881A044',    1,    'CONFG',    'Y',    'Determines whether the Credit Split is turned on for proposal',    'A',    'WorkflowAdmin',    'Y');
 
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.nonnih.kp',    '40B51A08D075A044E043814FD881A044',    1,    'CONFG',    'Key Person',    'Description of key person for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.nonnih.pi',    '40B51A08D076A044E043814FD881A044',    1,    'CONFG',    'PI/Contact',    'Description of principal investigator contact for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.nonnih.coi',    '40B51A08D077A044E043814FD881A044',    1,    'CONFG',    'PI/Multiple',    'Description of principal investigator multiple for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
-
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.new',    '40B51A08D078A044E043814FD881A044',    1,    'CONFG',    '1',    'ProposalTypeCode of NEW',    'A',    'WorkflowAdmin',    'Y');
@@ -43,22 +27,6 @@ VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.new',    '40B51A08
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'proposaldevelopment.displayKeywordPanel',    '40B51A08D079A044E043814FD881A044',    1,    'CONFG',    'TRUE',    'Display Proposal Keyword panel',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.kp',    '40B51A08D07AA044E043814FD881A044',    1,    'CONFG',    'Key Person',    'Description of key person for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.coi',    '40B51A08D07BA044E043814FD881A044',    1,    'CONFG',    'Co-Investigator',    'Description of co-investigator for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.pi',    '40B51A08D07CA044E043814FD881A044',    1,    'CONFG',    'Principal Investigator',    'Description of principal investigator for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
-
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
@@ -133,12 +101,6 @@ VALUES('KRA-B',    'D',    'defaultModularFlag',    '46C7119435677CB9E0404F8189D
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KR-NS',    'Document',    'PESSIMISTIC_LOCK_ADMIN_GROUP',    '49BCDEC5F67329F8E0404F8189D85CC3',    1,    'AUTH',    'WorkflowAdmin',    'Workgroup which can perform admin deletion and lookup functions for Pessimistic Locks.',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.personrole.readonly.roles',    '4B6D874259ABE9FEE0404F8189D8167C',    1,    'CONFG',    'KP',    'Proposal Person Role Id list for roles that are read-only',    'A',    'WorkflowAdmin',    'Y');
-
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
@@ -223,17 +185,6 @@ VALUES('KRA-PD',    'D',    's2s.submissiontype.changedCorrected',    '4C872EF54
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KR-NS',    'All',    'MAX_FILE_SIZE_DEFAULT_UPLOAD',    '4CBAA7A57E0581C1E0404F8189D82E3D',    1,    'CONFG',    '5M',    'Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'sponsorLevelHierarchy',    '5183FC8FA0B11606E0404F8189D8140F',    1,    'HELP',    'NIH',    'Sponsor Level Hierarchy',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'sponsorGroupHierarchyName',    '5183FC8FA0B21606E0404F8189D8140F',    1,    'HELP',    'Sponsor Groups',    'Sponsor Group Hierarchy Name',    'A',    'WorkflowAdmin',    'Y');
-
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
@@ -986,6 +937,59 @@ INSERT INTO krns_PARM_T
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
 	('KC-GEN','D','permissionsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
-	
-	
+
+# Sponsor Hierarchy Support
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'sponsorLevelHierarchy',    '5183FC8FA0B11606E0404F8189D8140F',    1,    'HELP',    'NIH',    'Sponsor Level Hierarchy',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'sponsorGroupHierarchyName',    '5183FC8FA0B21606E0404F8189D8140F',    1,    'HELP',    'Sponsor Groups',    'Sponsor Group Hierarchy Name',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.nih.kp',    '40B51A08D075A044E043814FD881A044',    1,    'CONFG',    'Key Person',    'Description of key person for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.nih.pi',    '40B51A08D076A044E043814FD881A044',    1,    'CONFG',    'PI/Contact',    'Description of principal investigator contact for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.nih.coi',    '40B51A08D077A044E043814FD881A044',    1,    'CONFG',    'PI/Multiple',    'Description of principal investigator multiple for Non-NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.kp',    '40B51A08D07AA044E043814FD881A044',    1,    'CONFG',    'Key Person',    'Description of key person for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.coi',    '40B51A08D07BA044E043814FD881A044',    1,    'CONFG',    'Co-Investigator',    'Description of co-investigator for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.pi',    '40B51A08D07CA044E043814FD881A044',    1,    'CONFG',    'Principal Investigator',    'Description of principal investigator for NIH Proposals',    'A',    'WorkflowAdmin',    'Y');
+
+INSERT INTO krns_parm_t
+    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
+    VALUES
+    ('KC-GEN',    'A',    'personrole.readonly.roles',    '4B6D874259ABE9FEE0404F8189D8167C',    1,    'CONFG',    'KP',    'Proposal Person Role Id list for roles that are read-only',    'A',    'WorkflowAdmin',    'Y');
+
+
 commit;
