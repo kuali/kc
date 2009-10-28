@@ -46,17 +46,13 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 @SuppressWarnings("serial")
 public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase 
                                                             implements BudgetVersionCollection, Permissionable  {
-    private ParameterService parameterService;
     
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
      */
     protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
-        }
-        return this.parameterService;
+            return KraServiceLocator.getService(ParameterService.class);        
     }
     
 
