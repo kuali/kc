@@ -1717,6 +1717,10 @@ function loadScheduleDates(committeeElementId, scheduleElementId) {
     if (reviewersElement != null) {
         reviewersElement.style.display = 'none';
     }
+    onlyLoadScheduleDates(committeeElementId, scheduleElementId);
+}
+
+function onlyLoadScheduleDates(committeeElementId, scheduleElementId) {
 	var committeeId = DWRUtil.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
 	var dwrReply = {

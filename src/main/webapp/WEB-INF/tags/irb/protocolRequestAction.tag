@@ -23,6 +23,7 @@
 		</h3>
 		<kra-irb-action:submitAction />
 		<kra-irb-action:withdrawAction />
+		<kra-irb-action:assignCmtSchedAction />
 		<kra-irb-action:notifyIrbAction />
 		<kra-irb-action:createAmendmentAction />
 		<kra-irb-action:createRenewalWithAmendmentAction />
