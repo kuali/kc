@@ -65,6 +65,7 @@
             tabTitle="Other Organizations"
             proposalSitesList="${KualiForm.document.developmentProposal.otherOrganizations}"
             proposalSitesListName="document.developmentProposal.otherOrganizations"
+            locationEditable="false"
             congressionalDistrictHelperList="otherOrganizationHelpers"
             newProposalSite="${KualiForm.newOtherOrganization}"
             newProposalSiteField="newOtherOrganization"
