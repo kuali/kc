@@ -26,6 +26,9 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
@@ -74,7 +77,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
@@ -370,5 +373,12 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
         return new ProtocolSubmitActionRule().processSubmitAction(document, submitAction);
+    }
+
+    /**
+     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
+     */
+    public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
+        return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
     }
 }
