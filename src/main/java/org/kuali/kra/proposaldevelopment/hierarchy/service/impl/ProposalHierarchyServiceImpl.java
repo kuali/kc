@@ -438,6 +438,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget hierarchyBudget = getHierarchyBudget(hierarchyProposal);
         Budget childBudget = getFinalOrLatestChildBudget(childProposal);
         ObjectUtils.materializeAllSubObjects(childBudget);
+        hierarchyChild.setProposalHashCode(computeHierarchyHashCode(childProposal, childBudget));
 
         String principleInvestigatorId = null;
         for (ProposalPerson person : hierarchyChild.getProposalPersons()) {
@@ -526,8 +527,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.save(hierarchyBudget.getBudgetDocument().getDocumentNextvalues());
         LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
         
-        hierarchyChild.setProposalHashCode(computeHierarchyHashCode(childProposal, childBudget));
-
         return true;
     }
     
@@ -698,8 +697,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private boolean isSynchronized(String childProposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
         Budget childBudget = getFinalOrLatestChildBudget(childProposal);
+        ObjectUtils.materializeAllSubObjects(childBudget);
         ProposalHierarchyChild hierarchyChild = getHierarchyChild(childProposalNumber);
-        return computeHierarchyHashCode(childProposal, childBudget) == hierarchyChild.getProposalHashCode();
+        int hc1 = computeHierarchyHashCode(childProposal, childBudget);
+        int hc2 = hierarchyChild.getProposalHashCode();
+        return hc1 == hc2;
     }
     
     private void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
