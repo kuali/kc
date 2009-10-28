@@ -160,9 +160,8 @@ public class PrintingUtils {
 			xsl = XSL_PRINT_CERTIFICATION;
 		}
 
-		Source src = new StreamSource(new File(Class.class.getResource(
-				XSL_CONTEXT_DIR).getPath()
-				+ "/" + xsl));
+        Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(XSL_CONTEXT_DIR+ "/" + xsl));
+
 		ArrayList<Source> sourceList = new ArrayList<Source>();
 		sourceList.add(src);
 		return sourceList;
