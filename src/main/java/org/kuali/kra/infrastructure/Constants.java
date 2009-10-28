@@ -471,6 +471,7 @@ public interface Constants {
     public static final String PROTOCOL_CLOSE_ENROLLMENT_REQUEST_PROPERTY_KEY = "actionHelper.protocolCloseEnrollmentRequest";
     public static final String PROTOCOL_REOPEN_ENROLLMENT_REQUEST_PROPERTY_KEY = "actionHelper.protocolReOpenEnrollmentRequest";
     public static final String PROTOCOL_DATA_ANALYSIS_REQUEST_PROPERTY_KEY = "actionHelper.protocolDataAnalysisRequest";
+    public static final String PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY = "actionHelper.protocolAssignCmtSchedAction";
     
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
