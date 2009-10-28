@@ -240,6 +240,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(budgetDocument.getParentDocument());
 
+        populateBudgetPrintForms(budgetDocument.getBudget());
         return forward;
     }
     
@@ -420,12 +421,21 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
+        populateBudgetPrintForms(budget);
+        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
+        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
+    }
+
+
+    /**
+     * This method...
+     * @param budget
+     */
+    private void populateBudgetPrintForms(Budget budget) {
         if(budget.getBudgetPrintForms().isEmpty()){
             BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
             budgetPrintService.populateBudgetPrintForms(budget);
         }
-        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
-        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
     
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -535,7 +545,9 @@ public class BudgetAction extends BudgetActionBase {
      */
     public void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
         byte[] xbts = attachmentDataSource.getContent();
+        
         ByteArrayOutputStream baos = null;
+        if(xbts!=null)
         try{
             baos = new ByteArrayOutputStream(xbts.length);
             baos.write(xbts);

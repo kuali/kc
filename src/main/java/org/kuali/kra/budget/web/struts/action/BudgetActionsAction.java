@@ -247,22 +247,18 @@ public class BudgetActionsAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         BudgetPrintService budgetPrintService = KraServiceLocator
                 .getService(BudgetPrintService.class);
-        ActionForward forward = null;
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
         if (budgetForm.getSelectedBudgetPrintFormId() != null) {
             String[] formArray=budgetForm.getSelectedBudgetPrintFormId();
-                for (int i = 0; i < formArray.length; i++) {
-                    AttachmentDataSource dataStream = budgetPrintService
-                            .readBudgetPrintStream(budget,
-                                    formArray[i]);
+            for (int i = 0; i < formArray.length; i++) {
+                AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,formArray[i]);
+                if(dataStream.getContent()!=null){
                     streamToResponse(dataStream, response);
-//              }
+                    forward = null;
+                }
             }
             budgetForm.setSelectedBudgetPrintFormId(null);
-            forward = null;//mapping.findForward(MAPPING_BASIC);
-        } else {
-            forward = mapping.findForward(MAPPING_BASIC);
         }
-
         return forward;
     }
     
