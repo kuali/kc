@@ -34,6 +34,7 @@ import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
@@ -75,6 +76,7 @@ public class ActionHelper implements Serializable {
     private boolean canRequestReOpenEnrollment = false;
     private boolean canRequestDataAnalysis = false;
     private boolean canDeleteProtocolAmendRenew = false;
+    private boolean canAssignCmtSched = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -87,6 +89,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
     private ProtocolDeleteBean protocolDeleteBean;
+    private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private transient ParameterService parameterService;
     
     /*
@@ -125,6 +128,8 @@ public class ActionHelper implements Serializable {
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
+        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
+        assignCmtSchedBean.init();
     }
     
     /**
@@ -195,6 +200,7 @@ public class ActionHelper implements Serializable {
     public void prepareView() {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
+        assignCmtSchedBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
@@ -207,6 +213,7 @@ public class ActionHelper implements Serializable {
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
+        canAssignCmtSched = hasAssignCmtSchedPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -310,6 +317,11 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
     
+    private boolean hasAssignCmtSchedPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -378,6 +390,10 @@ public class ActionHelper implements Serializable {
     public ProtocolDeleteBean getProtocolDeleteBean() {
         return protocolDeleteBean;
     }
+    
+    public ProtocolAssignCmtSchedBean getAssignCmtSchedBean() {
+        return assignCmtSchedBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -417,6 +433,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanDeleteProtocolAmendRenew() {
         return canDeleteProtocolAmendRenew;
+    }
+    
+    public boolean getCanAssignCmtSched() {
+        return canAssignCmtSched;
     }
     
     public void setPrintTag(String printTag) {
