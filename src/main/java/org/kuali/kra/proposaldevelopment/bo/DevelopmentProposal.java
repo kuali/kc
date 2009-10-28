@@ -1758,29 +1758,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing.
-     * 
-     * TODO update with budget info once it is added to syncing
-     */
-    public int hierarchyChildHashCode() {
-        final int prime = 31;
-        int result = 1;
-        for (ProposalPerson person : proposalPersons) {
-            result = prime * result + person.hashCode();
-        }
-        for (Narrative narrative : narratives) {
-            result = prime * result + narrative.hierarchyHashCode();
-        }
-        for (PropScienceKeyword keyword : propScienceKeywords) {
-            result = prime * result + keyword.getScienceKeywordCode().hashCode();
-        }
-        for (ProposalSpecialReview review : propSpecialReviews) {
-            result = prime * result + review.hierarchyHashCode();
-        }
-        return result;
-    }
-
-    /**
      * Gets the children attribute. 
      * @return Returns the children.
      */
