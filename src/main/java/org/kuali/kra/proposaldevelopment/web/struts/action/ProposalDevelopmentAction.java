@@ -594,6 +594,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
 //        proposalDevelopmentForm.setAuditActivated(true);
+        super.save(mapping, form, request, response);
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         new AuditActionHelper().auditUnconditionally(proposalDevelopmentDocument);
         boolean errorExists = false;
@@ -614,7 +615,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
 
         }
-//        super.save(mapping, form, request, response);
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
             Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();
