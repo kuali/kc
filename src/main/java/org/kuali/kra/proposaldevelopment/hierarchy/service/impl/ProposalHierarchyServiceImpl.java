@@ -526,7 +526,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.save(hierarchyBudget.getBudgetDocument().getDocumentNextvalues());
         LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
         
-        hierarchyChild.setProposalHashCode(childProposal.hierarchyChildHashCode());
+        hierarchyChild.setProposalHashCode(computeHierarchyHashCode(childProposal, childBudget));
 
         return true;
     }
@@ -697,8 +697,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private boolean isSynchronized(String childProposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
+        Budget childBudget = getFinalOrLatestChildBudget(childProposal);
         ProposalHierarchyChild hierarchyChild = getHierarchyChild(childProposalNumber);
-        return childProposal.hierarchyChildHashCode() == hierarchyChild.getProposalHashCode();
+        return computeHierarchyHashCode(childProposal, childBudget) == hierarchyChild.getProposalHashCode();
     }
     
     private void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
@@ -945,5 +946,28 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             LOG.error( "Workflow exception thrown getting hierarchy routing status.", e );
             throw new ProposalHierarchyException( String.format("Could not lookup hierarchy workflow status for child:%s",child.getDocumentHeader().getDocumentNumber()),e);
         }
+    }
+    
+    /**
+     * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing. 
+     */
+    private int computeHierarchyHashCode(DevelopmentProposal proposal, Budget budget) {
+        int prime = 31;
+        int result = 1;
+        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        for (ProposalPerson person : proposal.getProposalPersons()) {
+            result = prime * result + person.hashCode();
+        }
+        for (Narrative narrative : proposal.getNarratives()) {
+            result = prime * result + narrative.hierarchyHashCode();
+        }
+        for (PropScienceKeyword keyword : proposal.getPropScienceKeywords()) {
+            result = prime * result + keyword.getScienceKeywordCode().hashCode();
+        }
+        for (ProposalSpecialReview review : proposal.getPropSpecialReviews()) {
+            result = prime * result + review.hierarchyHashCode();
+        }
+        result = prime * result + budget.getBudgetSummaryTotals().hashCode();
+        return result;
     }
 }
