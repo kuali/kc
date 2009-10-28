@@ -65,6 +65,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
     private static final String CONFIRM_DELETE_PROPOSAL_SITE_KEY = "confirmDeleteProposalSite";
+    private static final String CONFIRM_DELETE_CONG_DISTRICT_KEY = "confirmDeleteCongDistrict";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -203,6 +204,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private boolean checkAndInitNewLocation(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite newProposalSite) {
         if (getKualiRuleService().applyRules(
                 new AddProposalSiteEvent(errorPathPrefix, proposalDevelopmentDocument, newProposalSite))) {
+            newProposalSite.initializeDefaultCongressionalDistrict();
             newProposalSite.setSiteNumber(proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             return true;
         }
@@ -245,14 +247,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         
         DeleteProposalSiteEvent deleteEvent = new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
-            StrutsConfirmation deleteConfirmation = buildDeleteProposalSiteConfirmationQuestion(mapping, form, request, response);
+            StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                    CONFIRM_DELETE_PROPOSAL_SITE_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Organization");
             return confirm(deleteConfirmation, yesMethodName, "");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    private StrutsConfirmation buildDeleteProposalSiteConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_SITE_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Organization");
     }
 
     /**
@@ -487,24 +486,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return addCongressionalDistrict(mapping, proposalSites.get(siteIndex), proposalSiteHelpers.get(siteIndex));
     }
 
-    /**
-     * This method deletes the districtIndexStr-th congressional district from the siteIndexStr-th Proposal Site.
-     * @param mapping
-     * @param proposalSites
-     * @param proposalDevelopmentForm
-     * @param siteIndexStr
-     * @param districtIndexStr
-     * @return
-     */
-    public ActionForward deleteCongressionalDistrict(ActionMapping mapping, List<ProposalSite> proposalSites, ProposalDevelopmentForm proposalDevelopmentForm,
-            String siteIndexStr, String districtIndexStr) {
-        int siteIndex = new Integer(siteIndexStr);
-        int districtIndex = new Integer(districtIndexStr);
-        ProposalSite proposalSite = proposalSites.get(siteIndex);
-        proposalSite.deleteCongressionalDistrict(districtIndex);
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     private String getDistrictIndex(HttpServletRequest request) {
         return getMethodToCallParameter(request, "district");
     }
@@ -525,7 +506,23 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
 
     /**
-     * This method deletes a congressional district from the Applicant Organization.
+     * This method asks the user whether they really want to delete the district. If the answer is "yes",
+     * the delete action is called.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     * @see confirmDeleteApplicantOrgCongDistrict
+     */
+    public ActionForward deleteApplicantOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteCongressionalDistrict(mapping, form, request, response, "confirmDeleteApplicantOrgCongDistrict");
+    }
+
+    /**
+     * This method deletes a congressional district from the Applicant Organization if a valid district index was supplied.
      * @param mapping
      * @param form
      * @param request
@@ -533,7 +530,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @return
      * @throws Exception
      */
-    public ActionForward deleteApplicantOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward confirmDeleteApplicantOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
@@ -547,9 +544,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-            
+    
     /**
-     * This method deletes a congressional district from the Performing Organization.
+     * This method asks the user whether they really want to delete the district. If the answer is "yes",
+     * the delete action is called.
      * @param mapping
      * @param form
      * @param request
@@ -558,6 +556,20 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @throws Exception
      */
     public ActionForward deletePerformingOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteCongressionalDistrict(mapping, form, request, response, "confirmDeletePerformingOrgCongDistrict");
+    }
+            
+    /**
+     * This method deletes a congressional district from the Performing Organization if a valid district index was supplied.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeletePerformingOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
@@ -573,7 +585,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
             
     /**
-     * This method deletes a congressional district from one of the Performance Sites.
+     * This method asks the user whether they really want to delete the district. If the answer is "yes",
+     * the delete action is called.
      * @param mapping
      * @param form
      * @param request
@@ -582,6 +595,20 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @throws Exception
      */
     public ActionForward deletePerformanceSiteCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteCongressionalDistrict(mapping, form, request, response, "confirmDeletePerformanceSiteCongDistrict");
+    }
+    
+    /**
+     * This method deletes a congressional district from one of the Performance Sites if a valid district index was supplied.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeletePerformanceSiteCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
@@ -598,7 +625,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
 
     /**
-     * This method deletes a congressional district from one of the Other Organizations.
+     * This method asks the user whether they really want to delete the district. If the answer is "yes",
+     * the delete action is called.
      * @param mapping
      * @param form
      * @param request
@@ -607,6 +635,20 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @throws Exception
      */
     public ActionForward deleteOtherOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteCongressionalDistrict(mapping, form, request, response, "confirmDeleteOtherOrgCongDistrict");
+    }
+    
+    /**
+     * This method deletes a congressional district from one of the Other Organizations.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteOtherOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
@@ -622,6 +664,37 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward deleteCongressionalDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String yesMethodName) throws Exception {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        
+        DeleteProposalSiteEvent deleteEvent = new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
+        if (getKualiRuleService().applyRules(deleteEvent)) {
+            StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                    CONFIRM_DELETE_CONG_DISTRICT_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Congressional District");
+            return confirm(deleteConfirmation, yesMethodName, "");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method deletes the districtIndexStr-th congressional district from the siteIndexStr-th Proposal Site.
+     * @param mapping
+     * @param proposalSites
+     * @param proposalDevelopmentForm
+     * @param siteIndexStr
+     * @param districtIndexStr
+     * @return
+     */
+    public ActionForward deleteCongressionalDistrict(ActionMapping mapping, List<ProposalSite> proposalSites, ProposalDevelopmentForm proposalDevelopmentForm,
+            String siteIndexStr, String districtIndexStr) {
+        int siteIndex = new Integer(siteIndexStr);
+        int districtIndex = new Integer(districtIndexStr);
+        ProposalSite proposalSite = proposalSites.get(siteIndex);
+        proposalSite.deleteCongressionalDistrict(districtIndex);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     private ActionForward deleteCongressionalDistrict(ActionMapping mapping, ProposalSite proposalSite, HttpServletRequest request,
             ProposalDevelopmentForm proposalDevelopmentForm) {
         String districtIndexStr = getDistrictIndex(request);
