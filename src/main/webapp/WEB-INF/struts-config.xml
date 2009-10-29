@@ -123,6 +123,7 @@
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsRoleRights.jsp" />
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
+          <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
       </action>
       
 		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
@@ -168,6 +169,10 @@
             <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
             <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
         </action>
+        
+      <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
+        <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
+      </action>
 
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -240,6 +245,10 @@
           <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />                    
       </action>
       
+      <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
+        <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
+      </action>
+      
       <!--  KRA IRB Mapping START -->    
       <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
@@ -295,10 +304,6 @@
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
      </action>    
      
-     <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
-        <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
-     </action>
-
      <action path="/meetingManagement" name="MeetingForm" type="org.kuali.kra.meeting.MeetingAction" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting.jsp" />
             <forward name="meetingAction" path="/WEB-INF/jsp/meeting/meetingAction.jsp" />
