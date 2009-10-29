@@ -46,6 +46,9 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedEvent;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -840,5 +843,33 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
         return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+    }
+    
+    /**
+     * Assign a protocol to some reviewers.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward assignReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
+            if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
+                getProtocolAssignReviewersService().assignReviewers(protocolForm.getProtocolDocument().getProtocol(), actionBean.getReviewers());
+            }
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
+        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
     }
 }

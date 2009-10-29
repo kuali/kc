@@ -364,4 +364,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
         committeeIdFk = null;
         scheduleIdFk = null;
     }
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(protocolReviewers);
+        return managedLists;
+    }
 }
