@@ -90,6 +90,7 @@ public interface TaskName {
     public static final String PROTOCOL_REQUEST_DATA_ANALYSIS = "protocolRequestDataAnalysis";
     public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
     public static final String ASSIGN_TO_COMMITTEE_SCHEDULE = "protocolAssignToCmtSched";
+    public static final String ASSIGN_REVIEWERS = "protocolAssignReviewers";
     
     /*
      * Committee Tasks.
