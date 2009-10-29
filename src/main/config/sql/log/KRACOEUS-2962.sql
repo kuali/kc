@@ -1,0 +1,1 @@
+ALTER TABLE eps_prop_sites MODIFY location_name NULL;
