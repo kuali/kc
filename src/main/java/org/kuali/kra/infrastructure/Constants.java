@@ -54,6 +54,7 @@ public interface Constants {
     public static final String MAPPING_CLOSE_PAGE = "closePage";
     public static final String MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE = "attachmentRights";
     public static final String MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE = "instituteAttachmentRights";
+    public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
  
     public static final String CREDIT_SPLIT_ENABLED_RULE_NAME = "proposaldevelopment.creditsplit.enabled";
     public static final String CREDIT_SPLIT_ENABLED_FLAG = "creditSplitEnabledFlag";

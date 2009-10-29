@@ -552,6 +552,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
       
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())
+                && proposalDevelopmentForm.getResubmissionOption() == null) {
+            return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
+        }
 
         proposalDevelopmentForm.setAuditActivated(true);
         
@@ -564,7 +569,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             StrutsConfirmation question = buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response);
             forward = confirm(question, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
         }
-       
+        
+        proposalDevelopmentForm.setResubmissionOption(null);
+        proposalDevelopmentForm.setInstitutionalProposalToVersion(null);
         return forward;      
     }
     
@@ -700,16 +707,24 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         documentService.saveDocument(proposalDevelopmentDocument);
         
         if (true) { // If param is set
-            generateInstitutionalProposal(proposalDevelopmentDocument);
+            generateInstitutionalProposal(proposalDevelopmentForm);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private void generateInstitutionalProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
+    private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        if ("X".equals(proposalDevelopmentForm.getResubmissionOption())) {
+            return;
+        }
+        if ("O".equals(proposalDevelopmentForm.getResubmissionOption())) {
+            proposalDevelopmentForm.setInstitutionalProposalToVersion(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
+        }
+        if ("O".equals(proposalDevelopmentForm.getResubmissionOption())
+                || "A".equals(proposalDevelopmentForm.getResubmissionOption())) {
             String versionNumber = createInstitutionalProposalVersion(
-                    proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(), 
+                    proposalDevelopmentForm.getInstitutionalProposalToVersion(),
                     proposalDevelopmentDocument.getDevelopmentProposal(),
                     proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
@@ -723,9 +738,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private String getRevisionProposalTypeCode() {
-        return this.getParameterService().getParameterValue(
-                ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        return "4";
+//        return this.getParameterService().getParameterValue(
+//                ProposalDevelopmentDocument.class,
+//                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
     }
     
     
