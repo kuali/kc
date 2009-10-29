@@ -70,7 +70,7 @@ public class S2SCronTrigger extends CronTriggerBean {
     }
 
     private Date getS2sCronStartTime() {
-        Date defaultDate = new Date(System.currentTimeMillis()+(365*24*60*60*1000l));
+        Date defaultDate = new Date(System.currentTimeMillis()+(365*24*60*60*1000L));
         String DATE_FORMAT = "dd-MMM-yyyy hh:mm a";
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String defaultDateStr = dateFormat.format(defaultDate);
