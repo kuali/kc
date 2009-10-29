@@ -100,6 +100,76 @@ VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'sponsorGroupHierarchyName';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'sponsorLevelHierarchy';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.pi' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.pi';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.nih.pi' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.nonnih.pi';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.kp' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.kp';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.nih.kp' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.nonnih.kp';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.coi' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.coi';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.nih.coi' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.nonnih.coi';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-GEN', 
+    PARM_DTL_TYP_CD='A', 
+    PARM_NM='personrole.readonly.roles' 
+WHERE NMSPC_CD = 'KRA-PD'
+      AND PARM_DTL_TYP_CD = 'D'
+      AND PARM_NM = 'proposaldevelopment.personrole.readonly.roles';
+
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-IP', 'D', 'InstitutionalProposalUnitAdministratorHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Unit Administrator Help', 'A') ;
 
@@ -172,7 +242,7 @@ VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'defau
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
 
-UPDATE krns_parm_t 
+UPDATE KRNS_PARM_T 
 SET TXT='4' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
@@ -201,5 +271,23 @@ VALUES ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', SYS_GUID () , 1, 'CONFG', '0
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', SYS_GUID () , 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'A', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'A', 'ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST', 'CONFG', '2143', 'obligated direct indirect cost', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '01-JAN-2010 00:00 AM', 'It defines where the citizenship info should fetch from', 'A') ;
 
 COMMIT;
