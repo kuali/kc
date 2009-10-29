@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-Hi!  This is a JSP.
-
 <html:hidden name="KualiForm" property="proposalLogNumber" />
 
 Institutional Proposal number to merge:

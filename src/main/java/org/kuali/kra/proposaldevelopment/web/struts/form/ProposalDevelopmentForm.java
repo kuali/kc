@@ -159,6 +159,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     /* This is just a list of sponsor form package details - large objects not loaded */
     private List<SponsorFormTemplateList> sponsorFormTemplates;
     
+    /* These 2 properties are used for autogenerating an institutional proposal for a resubmission */
+    private String resubmissionOption;
+    private String institutionalProposalToVersion;
+    
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -1520,5 +1524,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      */
     public void setGrantsGovAuditActivated(boolean grantsGovAuditActivated) {
         this.grantsGovAuditActivated = grantsGovAuditActivated;
+    }
+
+    public String getResubmissionOption() {
+        return resubmissionOption;
+    }
+
+    public void setResubmissionOption(String resubmissionOption) {
+        this.resubmissionOption = resubmissionOption;
+    }
+
+    public String getInstitutionalProposalToVersion() {
+        return institutionalProposalToVersion;
+    }
+
+    public void setInstitutionalProposalToVersion(String institutionalProposalToVersion) {
+        this.institutionalProposalToVersion = institutionalProposalToVersion;
     }    
+    
 }
