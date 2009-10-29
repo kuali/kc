@@ -100,6 +100,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+        budgetVersion.setFinalVersionFlag(false);
         
         getBudgetDocumentVersions().add(budgetDocumentVersion);
     }
