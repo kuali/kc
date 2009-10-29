@@ -201,6 +201,10 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToCmtSched" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignReviewers" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -304,5 +308,9 @@
 	<bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeService" ref="committeeService" />
+    </bean>
+    
+    <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 </beans>
