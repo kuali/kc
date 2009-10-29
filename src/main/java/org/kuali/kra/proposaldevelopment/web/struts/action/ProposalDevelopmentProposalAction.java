@@ -140,6 +140,12 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         
         return actionForward;
     }
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return super.route(mapping, form, request, response);
+    }
 
     protected SponsorService getSponsorService() {
         return KraServiceLocator.getService(SponsorService.class);
