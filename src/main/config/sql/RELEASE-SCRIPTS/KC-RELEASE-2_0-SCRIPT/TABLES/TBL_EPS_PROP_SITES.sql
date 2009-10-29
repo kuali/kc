@@ -1,7 +1,7 @@
 CREATE TABLE EPS_PROP_SITES (
     PROPOSAL_NUMBER varchar2 (8) NOT NULL, 
     SITE_NUMBER decimal (3) NOT NULL, 
-    LOCATION_NAME varchar2 (60) NOT NULL, 
+    LOCATION_NAME varchar2 (60), 
     LOCATION_TYPE_CODE decimal (3) NOT NULL, 
     ORGANIZATION_ID varchar2 (8) , 
     ROLODEX_ID decimal (6) , 
