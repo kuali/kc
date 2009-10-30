@@ -37,7 +37,13 @@ public interface ProtocolDao {
      */
     List<Protocol> getProtocols(Map<String,String> fieldValues);
     
-    Integer getProtocolSubmissionCountFromProtocol(String protocolNumber);
+    /**
+     * 
+     * This method Check if there are any pending amendmends/renewals for this protocols.
+     * @param protocolNumber
+     * @return
+     */
+    boolean getProtocolSubmissionCountFromProtocol(String protocolNumber);
     
     /**
      * Gets all the attachment versions based on the passed in attachment.  This will include the pass-in attachment. 
