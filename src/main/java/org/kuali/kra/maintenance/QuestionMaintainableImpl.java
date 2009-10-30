@@ -23,6 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.questionnaire.question.QuestionService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -38,6 +39,8 @@ import org.kuali.rice.kns.web.ui.Section;
 public class QuestionMaintainableImpl extends KraMaintainableImpl {
     
     private static final long serialVersionUID = 713068582185818373L;
+    
+    private static final String SEQUENCE_STATUS_ARCHIVED = "A";
 
     /**
     *
@@ -73,13 +76,11 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         // This is a solution to enable the lookreturn have a proper dropdown list
-        if (businessObject instanceof Question) {
-            if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
-                Question question = (Question)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
-                if (StringUtils.isNotBlank(question.getLookupClass())) {
-                    if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
-                        GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)question.getLookupClass());                    
-                    }
+        if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
+            Question question = (Question)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
+            if (StringUtils.isNotBlank(question.getLookupClass())) {
+                if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
+                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)question.getLookupClass());                    
                 }
             }
         }
@@ -100,44 +101,61 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
      * This method sets the unused fields of the question response type to null.
      */
     private void clearUnusedFieldValues() {
-        if (businessObject instanceof Question) {
-            Question question = (Question) businessObject;
-            if (question.getQuestionType() != null) {
-                switch (question.getQuestionTypeId()) {
-                    case Constants.QUESTION_RESPONSE_TYPE_YES_NO:
-                        question.setLookupClass(null);
-                        question.setLookupReturn(null);
-                        question.setDisplayedAnswers(null);
-                        question.setMaxAnswers(null);
-                        question.setAnswerMaxLength(null);
-                        break;
-                    case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
-                        question.setLookupClass(null);
-                        question.setLookupReturn(null);
-                        question.setDisplayedAnswers(null);
-                        question.setMaxAnswers(null);
-                        question.setAnswerMaxLength(null);
-                        break;
-                    case Constants.QUESTION_RESPONSE_TYPE_NUMBER:
-                        question.setLookupClass(null);
-                        question.setLookupReturn(null);
-                        break;
-                    case Constants.QUESTION_RESPONSE_TYPE_DATE:
-                        question.setLookupClass(null);
-                        question.setLookupReturn(null);
-                        question.setAnswerMaxLength(null);
-                        break;
-                    case Constants.QUESTION_RESPONSE_TYPE_TEXT:
-                        question.setLookupClass(null);
-                        question.setLookupReturn(null);
-                        break;
-                    case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
-                        question.setDisplayedAnswers(null);
-                        question.setAnswerMaxLength(null);
-                        break;
-                }
+        Question question = (Question) businessObject;
+        if (question.getQuestionType() != null) {
+            switch (question.getQuestionTypeId()) {
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setDisplayedAnswers(null);
+                    question.setMaxAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setDisplayedAnswers(null);
+                    question.setMaxAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_NUMBER:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_DATE:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_TEXT:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
+                    question.setDisplayedAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
             }
         }
+    }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
+     * 
+     * This method will set the sequence status of the original question from current to
+     * archived before the revision for the question is saved.
+     */
+    public void saveBusinessObject() {
+        Question newQuestion = (Question) businessObject;
+        QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
+        Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionId());
+        if (oldQuestion != null) {
+            oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
+            getBusinessObjectService().save(oldQuestion);
+        }
+
+        super.saveBusinessObject();
     }
 
 }
