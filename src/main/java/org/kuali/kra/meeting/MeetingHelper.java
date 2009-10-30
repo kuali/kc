@@ -335,6 +335,9 @@ public class MeetingHelper implements Serializable {
         MemberAbsentBean memberAbsentBean = getMemberAbsentBeans().get(itemNumber);
         MemberPresentBean memberPresentBean = new MemberPresentBean();
         memberPresentBean.setAttendance(memberAbsentBean.getAttendance());
+        memberPresentBean.getAttendance().setAlternateFlag(
+                isAlternateForMember(memberPresentBean.getAttendance(), getCommitteeSchedule().getScheduledDate()));
+
         getMemberPresentBeans().add(memberPresentBean);
         getMemberAbsentBeans().remove(itemNumber);
     }
@@ -734,6 +737,25 @@ public class MeetingHelper implements Serializable {
                     && !membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
                 isAlternate = true;
                 break;
+            }
+        }
+        return isAlternate;
+    }
+
+    /*
+     * This is a utility method to reset alternate flag before 'present voting'
+     */
+    private boolean isAlternateForMember(CommitteeScheduleAttendance committeeScheduleAttendance, Date scheduledDate) {
+        boolean isAlternate = false;
+        for (CommitteeMembership committeeMembership : getCommitteeSchedule().getCommittee().getCommitteeMemberships()) {
+            if ((committeeScheduleAttendance.getNonEmployeeFlag() && committeeMembership.getRolodexId() != null && committeeScheduleAttendance
+                    .getPersonId().equals(committeeMembership.getRolodexId().toString()))
+                    || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
+                            committeeMembership.getPersonId()))) {
+                if (isActiveMembership(committeeMembership, scheduledDate) && isAlternate(committeeMembership, scheduledDate)) {
+                    isAlternate = true;
+                    break;
+                }
             }
         }
         return isAlternate;
