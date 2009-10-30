@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +44,10 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.OjbCollectionAware;
@@ -56,6 +60,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
 
     private static final Log LOG = LogFactory.getLog(ProtocolDaoOjb.class);
     
+    private static final String LEAD_UNIT = "leadUnit";
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -65,7 +71,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private Map<String, CritField> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
     private List<String> collectionFieldNames = new ArrayList<String>();
-    private static final String LEAD_UNIT = "leadUnit";
     
     public ProtocolDaoOjb() {
         super();
@@ -407,47 +412,28 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
 
      * @see org.kuali.kra.irb.ProtocolDao#getProtocolSubmissionCount(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
-    public Integer getProtocolSubmissionCountFromProtocol(String protocolNumber) {
+    @SuppressWarnings({ "unchecked" })
+    public boolean getProtocolSubmissionCountFromProtocol(String protocolNumber) {
         Criteria crit = new Criteria();
         
-        crit.addLike("protocolNumber", protocolNumber + "%");
-        
-        List<String> list = new ArrayList<String>();
-        list.add("100");
-        list.add("101");
-        list.add("102");
-        list.add("103");
-        list.add("104");
-        list.add("105");
-        list.add("106");
-        crit.addIn("protocolStatusCode", list);
+        crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
+        crit.addEqualTo("sequenceNumber", getMaxSequenceNumberQuery());
+        crit.addIn("protocolStatusCode", Arrays.asList(new String[]{"100", "101", "102", "103", "104", "105", "106"}));
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Protocol.class, crit);
-        query.setAttributes(new String[] { "sequenceNumber" });
         
         logQuery(query);
         
-        Iterator<Object[]> it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        return !getPersistenceBrokerTemplate().getCollectionByQuery(query).isEmpty();
         
-        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
-       
-        while(it.hasNext()) {
-            Object[] row = it.next();
-            Integer key = ((BigDecimal) row[0]).intValue();
-            Integer val = map.get(key);
-            if(null != val) {
-                map.put(key, ++val);
-            } else {
-                map.put(key, 1);
-            }           
-        }        
-        Integer count = null;
-        if(map.isEmpty())
-            count = 0;      
-        else
-            count = map.get(map.lastKey());
-
-        return count;
+    }
+    
+    private ReportQueryByCriteria getMaxSequenceNumberQuery() {
+        ReportQueryByCriteria subQuery;
+        Criteria subCrit = new Criteria();
+        subCrit.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        subQuery = QueryFactory.newReportQuery(Protocol.class, subCrit);
+        subQuery.setAttributes(new String[] { "max(sequence_number)" });
+        return subQuery;
     }
 }
