@@ -48,7 +48,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
@@ -218,6 +218,21 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return false;
     }
 
+    public ActionForward clearPerformanceSiteAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        
+        BasicProposalSiteEvent clearEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
+        if (getKualiRuleService().applyRules(clearEvent)) {
+            int siteIndex = getSiteIndexForConfirmation(form, request);
+            if (siteIndex >= 0) {
+                proposalDevelopmentDocument.getDevelopmentProposal().clearPerformanceSiteAddress(siteIndex);
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * This method shows a delete confirmation page. If the user clicks "yes", the selected Performance Site is deleted.
      * @see confirmDeletePerformanceSite
@@ -251,7 +266,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response, String yesMethodName) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         
-        DeleteProposalSiteEvent deleteEvent = new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
+        BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
             StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                     CONFIRM_DELETE_PROPOSAL_SITE_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Organization");
@@ -271,7 +286,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward confirmDeletePerformanceSite(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        int siteIndex = validateSiteIndexForDeletion(form, request);
+        int siteIndex = getSiteIndexForConfirmation(form, request, CONFIRM_DELETE_PROPOSAL_SITE_KEY);
         if (siteIndex >= 0) {
             ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
             proposalDevelopmentDocument.getDevelopmentProposal().removePerformanceSite(siteIndex);
@@ -290,7 +305,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward confirmDeleteOtherOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        int siteIndex = validateSiteIndexForDeletion(form, request);
+        int siteIndex = getSiteIndexForConfirmation(form, request, CONFIRM_DELETE_PROPOSAL_SITE_KEY);
         if (siteIndex >= 0) {
             ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
             proposalDevelopmentDocument.getDevelopmentProposal().removeOtherOrganization(siteIndex);
@@ -299,24 +314,39 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
     
     /**
-     * This method checks that the <CODE>request</CODE> contains a valid site index for a Proposal Site that is to be
-     * deleted.
+     * This method returns the "site index" parameter from a <CODE>request</CODE> if the <CODE>confirmationKey</CODE>
+     * matches the current struts confirmation, and if it passes validation. Otherwise, -1 is returned.
+     * @param form
+     * @param request
+     * @param confirmationKey
+     * @return The site index from the request, or -1 if the request contains no valid site index.
+     */
+    private int getSiteIndexForConfirmation(ActionForm form, HttpServletRequest request, String confirmationKey) {
+        int siteIndex = -1;
+
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (confirmationKey.equals(question)) {
+            return getSiteIndexForConfirmation(form, request);
+        }
+        
+        return siteIndex;
+    }
+    
+    /**
+     * This method returns the "site index" parameter from a <CODE>request</CODE> if the site index
+     * passes validation. Otherwise, -1 is returned.
      * @param form
      * @param request
      * @return The site index from the request, or -1 if the request contains no valid site index.
      */
-    private int validateSiteIndexForDeletion(ActionForm form, HttpServletRequest request) {
+    private int getSiteIndexForConfirmation(ActionForm form, HttpServletRequest request) {
         int siteIndex = -1;
-        
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
-        
-        if (CONFIRM_DELETE_PROPOSAL_SITE_KEY.equals(question)) { 
-            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
-            if (getKualiRuleService().applyRules(
-                    new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
-                String siteIndexStr = getSiteIndex(request);
-                siteIndex = new Integer(siteIndexStr);   // this is safe to do because the site index passed validation
-            }
+
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getDocument();
+        if (getKualiRuleService().applyRules(
+                new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
+            String siteIndexStr = getSiteIndex(request);
+            siteIndex = new Integer(siteIndexStr);   // this is safe to do because the site index passed validation
         }
         
         return siteIndex;
@@ -329,7 +359,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         if (CONFIRM_DELETE_PROPOSAL_SITE_KEY.equals(question)) { 
             ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
             if (getKualiRuleService().applyRules(
-                    new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
+                    new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
                 String siteIndexStr = getSiteIndex(request);
                 int siteIndex = new Integer(siteIndexStr);   // this is safe to do because the site index passed validation
                 proposalDevelopmentDocument.getDevelopmentProposal().removePerformanceSite(siteIndex);
@@ -674,7 +704,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response, String yesMethodName) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         
-        DeleteProposalSiteEvent deleteEvent = new DeleteProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
+        BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
             StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                     CONFIRM_DELETE_CONG_DISTRICT_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Congressional District");

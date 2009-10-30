@@ -28,6 +28,7 @@
 <%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
+<%@ attribute name="clearAddressMethodToCall" required="false" description="The method to call when the user clicks the Clear Address button; this method should delete the proposal site. If this parameter is not present, no Clear Address button is shown." %>
 <%@ attribute name="clearSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should clear the proposal site. If this parameter is present, a Clear button is shown." %>
 <%@ attribute name="deleteSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should delete the proposal site. If this parameter is present, a Delete button is shown." %>
 <%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
@@ -94,6 +95,10 @@
                             boClassName="org.kuali.kra.bo.Rolodex"
                             inquiryParameters="${proposalSiteBoName}_rolodexId:rolodexId"
                             anchor="${currentTabIndex}" />
+                        <c:if test="${!empty clearAddressMethodToCall && !empty proposalSiteBo.rolodexId}">
+                            <html:image property="methodToCall.${clearAddressMethodToCall}"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
+                        </c:if>
                         <br/>
                     </kra:section>
                     
@@ -144,7 +149,7 @@
             <td>
                 <kra:section permission="modifyProposal">
                     <div align=center style="width:40px;">
-                        <c:if test="${!empty clearSiteMethodToCall}">
+                        <c:if test="${!empty clearAddressMethodToCall && !empty newProposalSite.organizationId}">
                             <html:image property="methodToCall.${clearSiteMethodToCall}"
                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
                         </c:if>
