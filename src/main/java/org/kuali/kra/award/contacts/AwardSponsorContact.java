@@ -18,7 +18,7 @@ package org.kuali.kra.award.contacts;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 
 /**
  * This class models the SponsorContact
@@ -36,7 +36,7 @@ public class AwardSponsorContact extends AwardContact {
         super(rolodex, contactRole);
     }
 
-    public AwardSponsorContact(Person person, ContactRole role) {
+    public AwardSponsorContact(KcPerson person, ContactRole role) {
         super(person, role);
     }
 

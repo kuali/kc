@@ -16,7 +16,7 @@
 package org.kuali.kra.infrastructure;
 
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 
 import java.util.Collection;
 import java.util.Date;
@@ -74,7 +74,7 @@ public class KraServiceLocatorTest extends KraTestBase {
     @Test public void testProposalDevelopmentParameters() throws Exception {
 
         Map<String, String> criteria = new HashMap<String, String>(2);
-        criteria.put("parameterNamespaceCode", PARAMETER_MODULE_PROPOSAL_DEVELOPMENT);
+        criteria.put("parameterNamespaceCode", MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         criteria.put("parameterDetailTypeCode", PARAMETER_COMPONENT_DOCUMENT);
 
         List<Parameter> parameters = this.parameterService.retrieveParametersGivenLookupCriteria(criteria);

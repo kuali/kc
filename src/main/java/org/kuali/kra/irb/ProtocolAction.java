@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.common.customattributes.CustomDataAction;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -197,16 +198,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument doc = protocolForm.getDocument();
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
-
+        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+        
         // Add the users defined in the access control list for the protocol's lead unit
         
-        UnitAclLoadable unitAclLoadable = protocolForm.getDocument().getProtocol();
+        Permissionable permissionable = protocolForm.getDocument().getProtocol();
         UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
-        unitAclLoadService.loadUnitAcl(unitAclLoadable);
+        unitAclLoadService.loadUnitAcl(permissionable);
+
     }
 
     /** {@inheritDoc} */

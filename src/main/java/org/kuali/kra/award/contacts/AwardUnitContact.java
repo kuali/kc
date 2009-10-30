@@ -18,7 +18,7 @@ package org.kuali.kra.award.contacts;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.UnitContactType;
 
@@ -56,7 +56,7 @@ public class AwardUnitContact extends AwardContact {
      * @param role
      * @param unitContactType
      */
-    public AwardUnitContact(Person person, ContactRole role, UnitContactType unitContactType) {
+    public AwardUnitContact(KcPerson person, ContactRole role, UnitContactType unitContactType) {
         super(person, role);
         this.unitContactType = unitContactType;
     }

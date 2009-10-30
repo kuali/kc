@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -29,7 +28,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -43,7 +42,8 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
-    ProtocolDao protocolDao;
+    private ProtocolDao protocolDao;
+    private KcPersonService kcPersonService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -59,7 +59,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(getKraAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
+        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
             //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             // Chnage "edit" to edit same document, NOT initializing a new Doc
             AnchorHtmlData editHtmlData = getViewLink(((Protocol) businessObject).getProtocolDocument());
@@ -74,7 +74,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
                     + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
             htmlDataList.add(htmlData);
         }
-        if(getKraAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
+        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
             htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));
         }
         return htmlDataList;
@@ -118,6 +118,14 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     public void setProtocolDao(ProtocolDao protocolDao) {
         this.protocolDao = protocolDao;
     }
+    
+    /**
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
@@ -137,8 +145,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
-                    inqBo = new Person();
-                    ((Person) inqBo).setPersonId(principalInvestigator.getPersonId());
+                    inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
                     inqPropertyName = ProtocolLookupConstants.Property.PERSON_ID;
                 } else {
                     if (principalInvestigator.getRolodexId() != null) {
@@ -164,16 +171,15 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     
     @Override
     protected String getKeyFieldName() {
-        return "protocolNumber";
+        return "protocolNumber"; 
     }
 
     private KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
-    private String getUserName() {
-         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
 

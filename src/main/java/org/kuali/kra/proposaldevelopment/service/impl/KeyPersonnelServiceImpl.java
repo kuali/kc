@@ -16,23 +16,40 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
-import org.kuali.kra.proposaldevelopment.bo.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import java.util.*;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -47,6 +64,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
     private static final String NIH_PARM_KEY = "nih.";
 
+    private KcPersonService kcPersonService;
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
@@ -329,6 +347,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
+     * assign the <code>{@link KcPersonService}</code> to use.
+     * 
+     * @param kcPersonService <code>{@link KcPersonService}</code> instance to assign
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+
+    /**
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isPrincipalInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     public boolean isPrincipalInvestigator(ProposalPerson person) {
@@ -443,7 +470,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses a <code>rolodexId</code> obtained from the <code>{@link Person}</code> or <code>{@link Rolodex}</code> lookup on the 
+     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param rolodexId
@@ -493,85 +520,76 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses a <code>personId</code> obtained from the <code>{@link Person}</code> lookup on the 
+     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param personId
      * @return ProposalPerson
      */
     public ProposalPerson createProposalPersonFromPersonId(String personId) {
-        Map valueMap = new HashMap();
-        valueMap.put("personId", personId);
-
-        Collection<Person> persons= getBusinessObjectService().findMatching(Person.class, valueMap);
-        if (persons == null || persons.size() < 1) {
-            return null;
-        }
-
         ProposalPerson prop_person = new ProposalPerson();
 
-        for (Person person : persons) {
-            prop_person.setPersonId(personId);
-            prop_person.setSocialSecurityNumber(person.getSocialSecurityNumber());
-            prop_person.setLastName(person.getLastName());
-            prop_person.setFirstName(person.getFirstName());
-            prop_person.setMiddleName(person.getMiddleName());
-            prop_person.setFullName(person.getFullName());
-            prop_person.setPriorName(person.getPriorName());
-            prop_person.setUserName(person.getUserName());
-            prop_person.setEmailAddress(person.getEmailAddress());
-            prop_person.setDateOfBirth(person.getDateOfBirth());
-            prop_person.setAge(person.getAge());
-            prop_person.setAgeByFiscalYear(person.getAgeByFiscalYear());
-            prop_person.setGender(person.getGender());
-            prop_person.setRace(person.getRace());
-            prop_person.setEducationLevel(person.getEducationLevel());
-            prop_person.setDegree(person.getDegree());
-            prop_person.setMajor(person.getMajor());
-            prop_person.setHandicappedFlag(person.getHandicappedFlag());
-            prop_person.setHandicapType(person.getHandicapType());
-            prop_person.setVeteranFlag(person.getVeteranFlag());
-            prop_person.setVeteranType(person.getVeteranType());
-            prop_person.setVisaCode(person.getVisaCode());
-            prop_person.setVisaType(person.getVisaType());
-            prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
-            prop_person.setHasVisa(person.getHasVisa());
-            prop_person.setOfficeLocation(person.getOfficeLocation());
-            prop_person.setOfficePhone(person.getOfficePhone());
-            prop_person.setSecondaryOfficeLocation(person.getSecondaryOfficeLocation());
-            prop_person.setSecondaryOfficePhone(person.getSecondaryOfficePhone());
-            prop_person.setSchool(person.getSchool());
-            prop_person.setYearGraduated(person.getYearGraduated());
-            prop_person.setDirectoryDepartment(person.getDirectoryDepartment());
-            prop_person.setSaluation(person.getSaluation());
-            prop_person.setCountryOfCitizenship(person.getCountryOfCitizenship());
-            prop_person.setPrimaryTitle(person.getPrimaryTitle());
-            prop_person.setDirectoryTitle(person.getDirectoryTitle());
-            prop_person.setHomeUnit(person.getHomeUnit());
-            prop_person.setFacultyFlag(person.getFacultyFlag());
-            prop_person.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());
-            prop_person.setResearchStaffFlag(person.getResearchStaffFlag());
-            prop_person.setServiceStaffFlag(person.getServiceStaffFlag());
-            prop_person.setSupportStaffFlag(person.getSupportStaffFlag());
-            prop_person.setOtherAcademicGroupFlag(person.getOtherAcademicGroupFlag());
-            prop_person.setMedicalStaffFlag(person.getMedicalStaffFlag());
-            prop_person.setVacationAccrualFlag(person.getVacationAccrualFlag());
-            prop_person.setOnSabbaticalFlag(person.getOnSabbaticalFlag());
-            prop_person.setIdProvided(person.getIdProvided());
-            prop_person.setIdVerified(person.getIdVerified());
-            prop_person.setAddressLine1(person.getAddressLine1());
-            prop_person.setAddressLine2(person.getAddressLine2());
-            prop_person.setAddressLine3(person.getAddressLine3());
-            prop_person.setCity(person.getCity());
-            prop_person.setCounty(person.getCounty());
-            prop_person.setState(person.getState());
-            prop_person.setPostalCode(person.getPostalCode());
-            prop_person.setCountryCode(person.getCountryCode());
-            prop_person.setFaxNumber(person.getFaxNumber());
-            prop_person.setPagerNumber(person.getPagerNumber());
-            prop_person.setMobilePhoneNumber(person.getMobilePhoneNumber());
-            prop_person.setEraCommonsUserName(person.getEraCommonsUserName());
-        }
+        KcPerson person = this.kcPersonService.getKcPersonByPersonId(personId);
+        prop_person.setPersonId(personId);
+        prop_person.setSocialSecurityNumber(person.getSocialSecurityNumber());
+        prop_person.setLastName(person.getLastName());
+        prop_person.setFirstName(person.getFirstName());
+        prop_person.setMiddleName(person.getMiddleName());
+        prop_person.setFullName(person.getFullName());
+        prop_person.setPriorName(person.getPriorName());
+        prop_person.setUserName(person.getUserName());
+        prop_person.setEmailAddress(person.getEmailAddress());
+        prop_person.setDateOfBirth(person.getDateOfBirth());
+        prop_person.setAge(person.getAge());
+        prop_person.setAgeByFiscalYear(person.getAgeByFiscalYear());
+        prop_person.setGender(person.getGender());
+        prop_person.setRace(person.getRace());
+        prop_person.setEducationLevel(person.getEducationLevel());
+        prop_person.setDegree(person.getDegree());
+        prop_person.setMajor(person.getMajor());
+        prop_person.setHandicappedFlag(person.getHandicappedFlag());
+        prop_person.setHandicapType(person.getHandicapType());
+        prop_person.setVeteranFlag(person.getVeteranFlag());
+        prop_person.setVeteranType(person.getVeteranType());
+        prop_person.setVisaCode(person.getVisaCode());
+        prop_person.setVisaType(person.getVisaType());
+        prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
+        prop_person.setHasVisa(person.getHasVisa());
+        prop_person.setOfficeLocation(person.getOfficeLocation());
+        prop_person.setOfficePhone(person.getOfficePhone());
+        prop_person.setSecondaryOfficeLocation(person.getSecondaryOfficeLocation());
+        prop_person.setSecondaryOfficePhone(person.getSecondaryOfficePhone());
+        prop_person.setSchool(person.getSchool());
+        prop_person.setYearGraduated(person.getYearGraduated());
+        prop_person.setDirectoryDepartment(person.getDirectoryDepartment());
+        prop_person.setSaluation(person.getSaluation());
+        prop_person.setCountryOfCitizenship(person.getCountryOfCitizenship());
+        prop_person.setPrimaryTitle(person.getPrimaryTitle());
+        prop_person.setDirectoryTitle(person.getDirectoryTitle());
+        prop_person.setHomeUnit(person.getOrganizationIdentifier());
+        prop_person.setFacultyFlag(person.getFacultyFlag());
+        prop_person.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());
+        prop_person.setResearchStaffFlag(person.getResearchStaffFlag());
+        prop_person.setServiceStaffFlag(person.getServiceStaffFlag());
+        prop_person.setSupportStaffFlag(person.getSupportStaffFlag());
+        prop_person.setOtherAcademicGroupFlag(person.getOtherAcademicGroupFlag());
+        prop_person.setMedicalStaffFlag(person.getMedicalStaffFlag());
+        prop_person.setVacationAccrualFlag(person.getVacationAccrualFlag());
+        prop_person.setOnSabbaticalFlag(person.getOnSabbaticalFlag());
+        prop_person.setIdProvided(person.getIdProvided());
+        prop_person.setIdVerified(person.getIdVerified());
+        prop_person.setAddressLine1(person.getAddressLine1());
+        prop_person.setAddressLine2(person.getAddressLine2());
+        prop_person.setAddressLine3(person.getAddressLine3());
+        prop_person.setCity(person.getCity());
+        prop_person.setCounty(person.getCounty());
+        prop_person.setState(person.getState());
+        prop_person.setPostalCode(person.getPostalCode());
+        prop_person.setCountryCode(person.getCountryCode());
+        prop_person.setFaxNumber(person.getFaxNumber());
+        prop_person.setPagerNumber(person.getPagerNumber());
+        prop_person.setMobilePhoneNumber(person.getMobilePhoneNumber());
+        prop_person.setEraCommonsUserName(person.getEraCommonsUserName());
 
         return prop_person;
     }

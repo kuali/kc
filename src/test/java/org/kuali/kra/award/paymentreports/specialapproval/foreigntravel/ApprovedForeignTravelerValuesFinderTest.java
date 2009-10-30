@@ -1,18 +1,17 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import org.junit.Test;
-import org.junit.Before;
+import java.sql.Date;
+
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
-
-import java.sql.Date;
 
 /**
  * Testcase for ApprovedForeignTravelerValuesFinder
@@ -74,12 +73,8 @@ public class ApprovedForeignTravelerValuesFinderTest {
         Assert.assertEquals(award.getApprovedForeignTravelTripCount() + award.getProjectPersons().size() - 1, finder.getKeyValues().size());
     }
 
-    private Person generatePerson(String firstName, String lastName) {
-        Person contact = new Person();
-        contact.setPersonId(generateUserName(firstName, lastName));
-        contact.setFirstName(firstName);
-        contact.setLastName(lastName);
-        contact.setFullName(String.format("%s %s", firstName, lastName));
+    private KcPerson generatePerson(String firstName, String lastName) {
+        KcPerson contact = KcPerson.fromPersonId(generateUserName(firstName, lastName));
         return contact;
     }
 

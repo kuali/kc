@@ -31,8 +31,8 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public final boolean isAuthorized(String username, Task task) {
-        return isAuthorized(username, (TimeAndMoneyTask) task);
+    public final boolean isAuthorized(String userId, Task task) {
+        return isAuthorized(userId, (TimeAndMoneyTask) task);
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
      * @param task the Time And Money task
      * @return true if the user is authorized; otherwise false
      */
-    public abstract boolean isAuthorized(String username, TimeAndMoneyTask task);
+    public abstract boolean isAuthorized(String userId, TimeAndMoneyTask task);
     
     /**
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
@@ -58,7 +58,7 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String username, TimeAndMoneyDocument timeAndMoneyDocument, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, timeAndMoneyDocument, permissionName);
+    protected final boolean hasPermission(String userId, TimeAndMoneyDocument timeAndMoneyDocument, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, timeAndMoneyDocument, permissionName);
     }
 }

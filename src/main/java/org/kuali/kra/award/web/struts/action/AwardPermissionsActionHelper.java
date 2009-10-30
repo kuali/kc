@@ -41,9 +41,9 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
      * , java.lang.String, java.lang.String)
      */
     @Override
-    protected void addUserToRoleInDatabase(Document document, String userName, String roleName) {
+    protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
         AwardDocument awardDocument = (AwardDocument) document;
-        getKraAuthorizationService().addRole(userName, roleName, awardDocument.getAward());
+        getKraAuthorizationService().addRole(userId, roleName, awardDocument.getAward()); 
     }
     
     /**
@@ -51,9 +51,9 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
      * , java.lang.String, java.lang.String)
      */
     @Override
-    protected void removeUserFromRoleInDatabase(Document document, String userName, String roleName) {
+    protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {
         AwardDocument awardDocument = (AwardDocument) document;
-        getKraAuthorizationService().removeRole(userName, roleName, awardDocument.getAward());
+        getKraAuthorizationService().removeRole(userId, roleName, awardDocument.getAward());
     }
     
     /**

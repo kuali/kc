@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
@@ -25,6 +25,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.BusinessObjectService;
+
 
 import java.util.Collection;
 import java.util.Map;
@@ -80,16 +81,6 @@ public interface KeyPersonnelService {
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document);
 
     /**
-     * Retrieve the injected <code>{@link BusinessObjectService}</code>
-     */
-    public BusinessObjectService getBusinessObjectService();
-
-    /**
-     * assign the <code>{@link BusinessObjectService}</code> to use.
-     */
-    public void setBusinessObjectService(BusinessObjectService boservice);
-
-    /**
      * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
      *
@@ -99,7 +90,7 @@ public interface KeyPersonnelService {
     public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person);
 
     /**
-     * Uses a <code>personId</code> obtained from the <code>{@link Person}</code> lookup on the 
+     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param personId
@@ -108,7 +99,7 @@ public interface KeyPersonnelService {
     public ProposalPerson createProposalPersonFromPersonId(String personId);
 
     /**
-     * Uses a <code>rolodexId</code> obtained from the <code>{@link Person}</code> or <code>{@link Rolodex}</code> lookup on the 
+     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param rolodexId
@@ -171,6 +162,7 @@ public interface KeyPersonnelService {
      * @see org.kuali.kra.proposaldevelopment.bo.CreditSplit
      */
     public boolean isCreditSplitEnabled();
+    
         
     /**
      * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is 

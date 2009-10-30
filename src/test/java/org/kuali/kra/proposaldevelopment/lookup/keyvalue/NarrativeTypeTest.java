@@ -47,7 +47,7 @@ public class NarrativeTypeTest extends KraTestBase {
         BusinessObjectDao businessObjectDao = (BusinessObjectDao)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);
 
         String paramValue = getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
         assertNotNull(paramValue);
         assertNotSame("System Parameter for "+Constants.PROPOSAL_NARRATIVE_TYPE_GROUP+ " not loaded...","", paramValue);
         Collection<NarrativeType> narrativeTypes = businessObjectDao.findAll(NarrativeType.class);

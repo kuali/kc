@@ -32,5 +32,5 @@ public interface TaskAuthorizer {
      * @param task the task
      * @return true if the user is authorized; otherwise false
      */
-    public boolean isAuthorized(String username, Task task);
+    public boolean isAuthorized(String userId, Task task);
 }

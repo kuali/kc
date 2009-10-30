@@ -227,8 +227,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     
     public void initializeOwnedByUnitNumber() {
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession()
-                .getPrincipalName());
+        List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getPrincipalId());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
             proposalDevelopmentService.initializeUnitOrganizationLocation(this.getProposalDocument());
@@ -1570,7 +1569,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 //        budgetVersionOverview.setDescriptionUpdatable(isDescriptionUpdatable);
 //
 //        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+//                Constants.MODULE_NAMESPACE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
 //        budgetVersionOverview.setBudgetStatus(budgetStatusIncompleteCode);
 //
 //        this.getBudgetDocumentVersions().add(budgetDocumentVersion);

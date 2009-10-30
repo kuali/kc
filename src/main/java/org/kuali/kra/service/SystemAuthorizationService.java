@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.kim.pojo.Permission;
-import org.kuali.kra.kim.pojo.Role;
+import org.kuali.rice.kim.bo.Role;
 
 /**
  * The System Authorization Service handles authorization in the global space.
@@ -33,34 +30,16 @@ import org.kuali.kra.kim.pojo.Role;
 public interface SystemAuthorizationService {
     
     /**
-     * Get a Role based upon its unique role name.
-     * 
-     * @param roleName the Roles' unique role name.
-     * @return the role or null if not found.
-     */
-    public Role getRole(String roleName);
-    
-    /**
      * Get all of the roles for a particular type.
      * @param roleType the type of role
      * @return the KIM roles
      */
-    public Collection<KimRole> getRoles(String roleType);
+    public List<Role> getRoles(String namespaceCode);
     
-    /**
-     * Get the permissions in a role.
-     * 
-     * @param roleName the Role's unique role name.
-     * @return the list of permissions in the role.
-     */
-    public List<Permission> getPermissionsForRole(String roleName);
+    public List<Role> getRolesForPermission(String permissionName, String namespaceCode);
     
-    /**
-     * Does the given user have the given permission?
-     * 
-     * @param username the user's username
-     * @param permissionName the permission name
-     * @return true if the user has the given permission; otherwise false.
-     */
-    public boolean hasPermission(String username, String permissionName);
+    public List<String> getRoleNamesForPermission(String permissionName, String namespaceCode);
+    
+    public List<String> getRoleIdsForPermission(String permissionName, String namespaceCode);
+    
 }

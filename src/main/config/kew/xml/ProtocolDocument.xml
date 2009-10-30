@@ -11,12 +11,9 @@
 			<postProcessorName>
 				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin
-			</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin
-			</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin
-			</defaultExceptionWorkgroupName>
+			<superUserWorkgroupName>KC-WKFLW:IRBAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:IRBAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
 			<docHandler>
 				${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler
 			</docHandler>
@@ -33,25 +30,22 @@
                     <name>LOOK_FUTURE</name>
                     <value>true</value>
                 </policy>
-				
 			</policies>
-
-
-			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="IRBReceipt" />
-                    <requests name="IRBReceipt" nextNode="IRBApproved" />
-                    <requests name="IRBApproved" nextNode="AssignedToCommittee" />
+					<start name="Initiated" nextNode="IRBApprove" />
+                    <requests name="IRBApprove" nextNode="AssignedToCommittee" />
                     <requests name="AssignedToCommittee" nextNode="AssignedToAgenda" />
-                    <requests name="AssignedToAgenda" nextNode="IRBReviewComplete" />
-					<requests name="IRBReviewComplete" />
+                    <requests name="AssignedToAgenda" nextNode="IRBReview" />
+					<requests name="IRBReview" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
+				<role name="IRBApprove">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                 <requests name="IRBReceipt">
                     <activationType>S</activationType>
                     <ruleTemplate>IRBReceipt</ruleTemplate>
@@ -62,16 +56,23 @@
 				</requests>
                 <requests name="AssignedToCommittee">
                     <activationType>S</activationType>
-                    <ruleTemplate>AssignedToCommittee</ruleTemplate>
-                </requests>
-                <requests name="AssignedToAgenda">
+					<ruleTemplate>IRBApprove</ruleTemplate>
+	            </role>
+                <role name="AssignedToCommittee">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
-                    <ruleTemplate>AssignedToAgenda</ruleTemplate>
-                </requests>
-                <requests name="IRBReviewComplete">
+					<ruleTemplate>IRBApprove</ruleTemplate>
+	            </role>
+                <role name="AssignedToAgenda">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
-                    <ruleTemplate>IRBReviewComplete</ruleTemplate>
-                </requests>
+					<ruleTemplate>IRBApprove</ruleTemplate>
+	            </role>                
+                <role name="IRBReview">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+					<ruleTemplate>IRBApprove</ruleTemplate>
+	            </role>                     
 			</routeNodes>
 		</documentType>
 	</documentTypes>
@@ -145,8 +146,8 @@
             </attributes>
         </ruleTemplate>
         <ruleTemplate allowOverwrite="true">
-            <name>IRBReviewComplete</name>
-            <description>IRB IRBReviewComplete Routing</description>
+            <name>IRBReview</name>
+            <description>IRB IRBReview Routing</description>
             <attributes>
             <attribute>
                 <name>ProtocolWorkflowTypeAttribute</name>
@@ -179,9 +180,8 @@
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
-        </rule>
         <rule>
-            <name>IRBApprovedRule</name>
+            <name>IRBApproveRule</name>
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBApproved</ruleTemplate>
             <description>IRBApproved Routing</description>
@@ -267,6 +267,6 @@
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
-        </rule>       
+        </rule>
     </rules>
 </data>

@@ -28,7 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -40,6 +40,7 @@ import org.kuali.rice.kns.document.Document;
 public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase implements PermissionsRule {
     
     private static final String USERNAME_FIELD_NAME = "userName";
+    private transient KcPersonService kcPersonService;
     
     /**
      * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
@@ -177,8 +178,19 @@ public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase imple
      * @return true if valid; otherwise false
      */
     private boolean isValidUser(String userName) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        return personService.getPersonByName(userName) != null;
+        return StringUtils.isNotBlank(userName) && getKcPersonService().getKcPersonByUserName(userName) != null;
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     /**

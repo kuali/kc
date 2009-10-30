@@ -16,13 +16,15 @@
 package org.kuali.kra.irb.actions.copy;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+
+import org.kuali.kra.bo.KcPerson;
+
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.Person;
+
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -38,10 +40,9 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -83,7 +84,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     private SystemAuthorizationService systemAuthorizationService;
     private KraAuthorizationService kraAuthorizationService;
     private ProtocolNumberService protocolNumberService;
-    
+
     /**
      * Set the Document Service.
      * @param documentService
@@ -234,16 +235,15 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param doc the protocol document
      */
     private void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String userName = user.getPersonUserIdentifier();
-        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
    
-        Collection<KimRole> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
-        for (KimRole role : roles) {
-            List<Person> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getName());
-            for (Person person : persons) {
-                if (!StringUtils.equals(person.getUserName(), userName)) {
-                    kraAuthorizationService.addRole(person.getUserName(), role.getName(), destDoc.getProtocol());
+        List<Role> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
+        for (Role role : roles) {
+            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getRoleName());
+            for (KcPerson person : persons) {
+                if (!StringUtils.equals(person.getPersonId(), userId)) {
+                    kraAuthorizationService.addRole(userId, role.getRoleName(), destDoc.getProtocol()); 
                 }
             }
         }

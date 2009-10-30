@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -51,7 +51,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
         super(rolodex, contactRole);
         init();
     }
-    public AwardPerson(Person person, ContactRole role) {
+    public AwardPerson(KcPerson person, ContactRole role) {
         super(person, role);
         init();
     }

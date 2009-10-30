@@ -32,8 +32,8 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public final boolean isAuthorized(String username, Task task) {
-        return isAuthorized(username, (CommitteeTask) task);
+    public final boolean isAuthorized(String userId, Task task) {
+        return isAuthorized(userId, (CommitteeTask) task);
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
      * @param task the committee task
      * @return true if the user is authorized; otherwise false
      */
-    public abstract boolean isAuthorized(String username, CommitteeTask task);
+    public abstract boolean isAuthorized(String userId, CommitteeTask task);
     
     /**
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
@@ -59,7 +59,7 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String username, Committee committee, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, committee, permissionName);
+    protected final boolean hasPermission(String userId, Committee committee, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, committee, permissionName);
     }
 }

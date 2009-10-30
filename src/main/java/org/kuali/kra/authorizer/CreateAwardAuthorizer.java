@@ -18,6 +18,7 @@ package org.kuali.kra.authorizer;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * The Create Protocol Authorizer checks to see if the user has 
@@ -29,7 +30,7 @@ public class CreateAwardAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public boolean isAuthorized(String username, Task task) {
-        return hasUnitPermission(username, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
+    public boolean isAuthorized(String userId, Task task) {
+        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
     }
 }

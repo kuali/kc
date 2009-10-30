@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
 import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -35,7 +35,8 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     private static final long serialVersionUID = 8787570417382374201L;
     
     private AwardApprovedForeignTravel newApprovedForeignTravel;
-    
+    private transient KcPersonService kcPersonService;
+
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
@@ -104,10 +105,20 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     private void refreshTraveler(AwardApprovedForeignTravel trip) {
         String travelerId = trip.getPersonId();
         if(travelerId != null) {
-            Map<String, Object> pkMap = new HashMap<String, Object>();
-            pkMap.put("PERSON_ID", travelerId);
-            trip.setPersonTraveler((Person) getBusinessObjectService().findByPrimaryKey(Person.class, pkMap));
+            trip.setPersonTraveler(this.getKcPersonService().getKcPersonByPersonId(travelerId));
         }
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
     
     /**
@@ -160,8 +171,8 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
             for(AwardApprovedForeignTravel aft: getAward().getApprovedForeignTravelTrips()) {
                 Contactable traveler = aft.getTraveler();
                 if(traveler.getIdentifier().equals(travelerId)) {
-                    if(traveler instanceof Person) {
-                        Person person = (Person) traveler;
+                    if(traveler instanceof KcPerson) {
+                        KcPerson person = (KcPerson) traveler;
                         newApprovedForeignTravel.setPersonTraveler(person);
                         newApprovedForeignTravel.setPersonId(person.getPersonId());
                     } else {

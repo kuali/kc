@@ -49,8 +49,8 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, doc, permissionName);
+    protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
     
     /**
@@ -60,11 +60,10 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
      * @param narrativeRight the narrative right we are looking for
      * @return true if the user has the narrative right for the narrative
      */
-    protected final boolean hasNarrativeRight(String username, Narrative narrative, NarrativeRight narrativeRight) {
+    protected final boolean hasNarrativeRight(String userId, Narrative narrative, NarrativeRight narrativeRight) {
         List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
         for (NarrativeUserRights userRights : userRightsList) {
-            String personUserName = personService.getPersonUserName(userRights.getUserId());
-            if (StringUtils.equals(username, personUserName)) {
+            if (StringUtils.equals(userId, userRights.getUserId())) {
                 if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
                     return true;
                 }

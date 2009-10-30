@@ -23,7 +23,6 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -152,7 +151,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                MODIFY_ANY_PROTOCOL) : false;
+                "KC-PROTOCOL", MODIFY_ANY_PROTOCOL) : false;
     }
 
     /*
@@ -164,7 +163,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
-    }
+    } 
 
     /*
      * This method is to check if user has permission in committee home unit
@@ -176,7 +175,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
     /*
@@ -187,11 +186,11 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
     private String getUserIdentifier() {
-        return new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
+        return GlobalVariables.getUserSession().getPrincipalId(); 
     }
 
     /*

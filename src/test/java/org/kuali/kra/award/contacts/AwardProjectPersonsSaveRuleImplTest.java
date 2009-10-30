@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -35,7 +35,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
     private static final int ROLODEX_ID = 1002;
     private Award award;
     private AwardProjectPersonsSaveRuleImpl rule;
-    private Person person1;
+    private KcPerson person1;
     private NonOrganizationalRolodex person2;
     private Unit unitA;
     private Unit unitB;
@@ -45,7 +45,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
         rule = new AwardProjectPersonsSaveRuleImpl();
         award = new Award();
         
-        person1 = new Person();
+        person1 = new KcPerson();
         person1.setPersonId("1001");
         
         person2 = new NonOrganizationalRolodex();
@@ -73,14 +73,14 @@ public class AwardProjectPersonsSaveRuleImplTest {
     
     /*@Test
     public void testCheckForExistingPI_DuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_PI);
+        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_PI);
         award.add(newPerson);
         Assert.assertFalse("Duplicate PI not identified", rule.checkForAPrincipalInvestigator(award.getProjectPersons()));
     }
     
     @Test
     public void testCheckForExistingPI_NoDuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         award.add(newPerson);
         Assert.assertTrue("Duplicate PI misidentified", rule.checkForAPrincipalInvestigator(award.getProjectPersons()));
     }
@@ -143,7 +143,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
     
     @Test
     public void testCheckForKeyPersonRole_NotFound() {
-        AwardPerson p = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        AwardPerson p = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         award.getProjectPersons().add(p);
         Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
         award.getProjectPersons().remove(p);
@@ -151,7 +151,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
     
     @Test
     public void testCheckForKeyPersonRole_Found() {
-        AwardPerson p = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        AwardPerson p = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         p.setKeyPersonRole("Tester");
         award.getProjectPersons().add(p);
         Assert.assertTrue("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));

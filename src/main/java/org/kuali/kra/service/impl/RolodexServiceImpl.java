@@ -45,7 +45,7 @@ public class RolodexServiceImpl implements RolodexService {
     }   
     
     /**
-     * @see org.kuali.kra.service.PersonService#getPersonByName(java.lang.String)
+     * @see org.kuali.kra.service.RolodexService#getRolodex(int)
      */
     public Rolodex getRolodex(int rolodexId) {
         Rolodex rolodex = null;

@@ -94,7 +94,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         mockSession();
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", MODIFY_ANY_PROTOCOL);will(returnValue(true));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", MODIFY_ANY_PROTOCOL);will(returnValue(true));
         }});
 
         mockSubmissionCondt3();
@@ -124,7 +124,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         mockSession();
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", MODIFY_ANY_PROTOCOL);will(returnValue(false));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", MODIFY_ANY_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -164,7 +164,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolSubmission(ps);
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", MODIFY_ANY_PROTOCOL);will(returnValue(false));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", MODIFY_ANY_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -172,7 +172,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
         }});
         
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null
@@ -283,7 +283,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolSubmission(ps);
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", MODIFY_ANY_PROTOCOL);will(returnValue(false));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", MODIFY_ANY_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -291,7 +291,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
         }});
         
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null
@@ -402,7 +402,7 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolSubmission(ps);
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", MODIFY_ANY_PROTOCOL);will(returnValue(false));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", MODIFY_ANY_PROTOCOL);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
@@ -410,11 +410,11 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         }});
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, "0001", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(false));
+            allowing(unitAuthorizationService).hasPermission(null, "0001", "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(false));
         }});
         
         context.checking(new Expectations() {{
-            allowing(unitAuthorizationService).hasPermission(null, DEFAULT_ORGANIZATION_UNIT, PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
+            allowing(unitAuthorizationService).hasPermission(null, DEFAULT_ORGANIZATION_UNIT, "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO);will(returnValue(true));
         }});
         
         protocol.getProtocolSubmission().setSubmissionStatusCode("102");      

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 
@@ -31,7 +32,7 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         boolean hasPermission = true;
         Protocol protocol = task.getProtocol();
         Long protocolId = protocol.getProtocolId();
@@ -39,7 +40,7 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
             
             // We have to consider the case when we are saving the protocol for the first time.
             
-            hasPermission = hasUnitPermission(username, PermissionConstants.CREATE_PROTOCOL);
+            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL);
         } 
         else {
             /*
@@ -47,7 +48,7 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
              */
             hasPermission = !protocol.getProtocolDocument().isViewOnly() &&
                             !kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
-                            hasPermission(username, protocol, PermissionConstants.MODIFY_PROTOCOL);
+                            hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL);
         }
         return hasPermission;
     }

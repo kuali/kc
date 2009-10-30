@@ -62,7 +62,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             getAward().add(awardPerson);
             init();
             if(awardPerson.isEmployee()) {
-                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getHomeUnitRef(), awardPerson.isPrincipalInvestigator()));
+                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), awardPerson.isPrincipalInvestigator()));
             }
         }
     }

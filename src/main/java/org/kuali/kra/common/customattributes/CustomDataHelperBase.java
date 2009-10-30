@@ -23,7 +23,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -109,8 +108,7 @@ public abstract class CustomDataHelperBase implements Serializable {
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    protected String getUserName() {
-         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    protected String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 }

@@ -59,7 +59,7 @@ import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
-@NAMESPACE(namespace=Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
@@ -120,8 +120,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
-        super.doRouteStatusChange(dto);
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
         getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this, true));
@@ -154,7 +154,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     
     private boolean shouldAutogenerateInstitutionalProposal() {
         return getKualiConfigurationService().getIndicatorParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
@@ -390,8 +390,31 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 List<String> roleNames = new ArrayList<String>();
                 return roleNames;
             }
+
+            public String getNamespace() {
+                return Constants.MODULE_NAMESPACE_BUDGET;
+            }
+
+            public String getLeadUnitNumber() {
+               return getDevelopmentProposal().getOwnedByUnitNumber();
+            }
+
+            public String getDocumentRoleTypeCode() {
+                return RoleConstants.PROPOSAL_ROLE_TYPE;
+            }
             
         };
     }
 
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+    }
+
+    public String getLeadUnitNumber() {
+        return getDevelopmentProposal().getOwnedByUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.PROPOSAL_ROLE_TYPE;
+    }
 }

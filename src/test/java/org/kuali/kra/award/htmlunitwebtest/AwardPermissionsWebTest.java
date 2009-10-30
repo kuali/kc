@@ -92,7 +92,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
      * This is a User class used specifically for Tests.
      */
     private class User {
-        String username;
+        String userId;
         String fullname;
         String unitNumber;
         String unitName;
@@ -107,8 +107,8 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
          * @param unitName
          * @param roleName
          */
-        User(String username, String fullname, String unitNumber, String unitName, String roleName) {
-            this.username = username;
+        User(String userId, String fullname, String unitNumber, String unitName, String roleName) {
+            this.userId = userId;
             this.fullname = fullname;
             this.unitNumber = unitNumber;
             this.unitName = unitName;
@@ -125,8 +125,8 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
          * @param unitName
          * @param roleNames
          */
-        User(String username, String fullname, String unitNumber, String unitName, String[] roleNames) {
-            this.username = username;
+        User(String userId, String fullname, String unitNumber, String unitName, String[] roleNames) {
+            this.userId = userId;
             this.fullname = fullname;
             this.unitNumber = unitNumber;
             this.unitName = unitName;
@@ -751,7 +751,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
             User user = users.get(index);
             
             assertCellValue(row, 0, Integer.toString(index + 1));
-            assertCellValue(row, 1, user.username);
+            assertCellValue(row, 1, user.userId);
             assertCellValue(row, 2, user.fullname);
             assertCellValue(row, 3, user.unitNumber);
             assertCellValue(row, 4, user.unitName);

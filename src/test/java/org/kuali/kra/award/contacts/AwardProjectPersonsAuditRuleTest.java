@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -33,7 +33,7 @@ public class AwardProjectPersonsAuditRuleTest {
     private static final int ROLODEX_ID = 1002;
     private Award award;
     private AwardProjectPersonsAuditRule rule;
-    private Person person1;
+    private KcPerson person1;
     private NonOrganizationalRolodex person2;
     private Unit unitA;
     private Unit unitB;
@@ -43,7 +43,7 @@ public class AwardProjectPersonsAuditRuleTest {
         rule = new AwardProjectPersonsAuditRule();
         award = new Award();
         
-        person1 = new Person();
+        person1 = new KcPerson();
         person1.setPersonId("1001");
         
         person2 = new NonOrganizationalRolodex();
@@ -71,14 +71,14 @@ public class AwardProjectPersonsAuditRuleTest {
     
     @Test
     public void testCheckForExistingPI_DuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_PI);
+        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_PI);
         award.add(newPerson);
         Assert.assertFalse("Duplicate PI not identified", rule.checkPrincipalInvestigators(award.getProjectPersons()));
     }
     
     @Test
     public void testCheckForExistingPI_NoDuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         award.add(newPerson);
         Assert.assertTrue("Duplicate PI misidentified", rule.checkPrincipalInvestigators(award.getProjectPersons()));
     }

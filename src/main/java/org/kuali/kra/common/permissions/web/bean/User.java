@@ -18,7 +18,7 @@ package org.kuali.kra.common.permissions.web.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 
 /**
  * A User is a mapping of a single Person to a list of Roles.  It
@@ -30,14 +30,14 @@ import org.kuali.kra.bo.Person;
  */
 public class User {
     
-    private Person person;
+    private KcPerson person;
     private List<Role> roles = new ArrayList<Role>();
     
-    public User(Person person) {
+    public User(KcPerson person) {
         this.person = person;
     }
 
-    public Person getPerson() { 
+    public KcPerson getPerson() { 
         return person;
     }
     

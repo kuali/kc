@@ -15,19 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.service.RoleService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
@@ -37,8 +34,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.SystemAuthorizationService;
 
 /**
  * Business Rule to determine the legality of modifying the access
@@ -49,6 +47,8 @@ import org.kuali.kra.service.PersonService;
 public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentPermissionsRule.class);
+    
+    private transient KcPersonService kcPersonService;
     
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processAddProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUser)
@@ -166,10 +166,9 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      */
     private boolean isOnlyModifier(String username, Narrative narrative) {
         boolean retval = true;
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        Person person = null;
+        KcPerson person = null;
         for (NarrativeUserRights narrativeUserRights : narrative.getNarrativeUserRights()) {
-            person = personService.getPerson(narrativeUserRights.getUserId());
+            person = getKcPersonService().getKcPersonByPersonId(narrativeUserRights.getUserId());
             if(!StringUtils.equals(username, person.getUserName()) 
                     && StringUtils.equals(narrativeUserRights.getAccessType(), NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
                 retval = false;
@@ -177,6 +176,18 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             }
         }
         return retval;
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     /**
@@ -187,25 +198,20 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * @return true if the user has modify narrative permissions in the list but not in the ProposalUserEditRoles
      */
     private boolean isRemovingModifyNarrativePermission(List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
-        RoleService roleService = (RoleService)KraServiceLocator.getService("kimRoleService");
-        Set<String> oldPermissionNames = new HashSet<String>();
-        Set<String> newPermissionNames = new HashSet<String>();
+        boolean newListContainsModifyNarrative = false;
+        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
 
-        for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
-            if (proposalUserRoles.getUsername().equals(editRoles.getUsername())) {
-                for (String roleName : proposalUserRoles.getRoleNames()) {
-                    oldPermissionNames.addAll(roleService.getPermissionNames(roleName));                    
+        for (ProposalRoleState roleState : editRoles.getRoleStates()) {
+            if(roleState.getState()) {
+                if(matchingRoleNames.contains(roleState.getName())) {
+                    newListContainsModifyNarrative = true;
+                    break;
                 }
             }
         }
-        for (ProposalRoleState roleState : editRoles.getRoleStates()) {
-            if(roleState.getState()) {
-                newPermissionNames.addAll(roleService.getPermissionNames(roleState.getName()));
-            }
-        }
 
-        return hasModifyNarrativePermission(editRoles.getUsername(), proposalUserRolesList) 
-                && !newPermissionNames.contains(PermissionConstants.MODIFY_NARRATIVE);
+        return hasModifyNarrativePermission(editRoles.getUsername(), proposalUserRolesList) && !newListContainsModifyNarrative;
     }
     
     /**
@@ -215,16 +221,18 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * @return true if the user has Modify Narrative permissions in the list of ProposalUserRoles
      */
     private boolean hasModifyNarrativePermission(String username, List<ProposalUserRoles> proposalUserRolesList) {
-        RoleService roleService = (RoleService)KraServiceLocator.getService("kimRoleService");
-        Set<String> permissionNames = new HashSet<String>();
+        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
             if (proposalUserRoles.getUsername().equals(username)) {
                 for (String roleName : proposalUserRoles.getRoleNames()) {
-                    permissionNames.addAll(roleService.getPermissionNames(roleName));                    
+                    if(matchingRoleNames.contains(roleName)) {
+                        return true;
+                    }
                 }
             }
         }
-        return permissionNames.contains(PermissionConstants.MODIFY_NARRATIVE);
+        return false;
     }
     
     /**
@@ -293,8 +301,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * @return true if valid; otherwise false
      */
     private boolean isValidUser(String username) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        return personService.getPersonByName(username) != null;
+        return getKcPersonService().getKcPersonByUserName(username) != null;
     }
 
     /**

@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,9 +43,10 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -68,6 +69,10 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     private static final String MODULE_STATUS_CODE_COMPLETED = "C";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
+    
+    private transient KcPersonService kcPersonService;
+    private transient PersonService<Person> personService;
+    
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
@@ -146,13 +151,12 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      */
     private boolean checkUserRights(SaveNarrativesEvent saveNarrativesEvent) {
         boolean isValid = true;
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         
         List<Narrative> narratives = saveNarrativesEvent.getNarratives();
         List<Narrative> originalNarratives = saveNarrativesEvent.getOriginalNarratives();
         for (Narrative origNarrative : originalNarratives) {
-            NarrativeUserRights userRights = getUserRights(username, origNarrative);
+            NarrativeUserRights userRights = getUserRights(userId, origNarrative);
             if ((StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) ||
                 (StringUtils.equals(userRights.getAccessType(), NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType()))) {
                 
@@ -172,12 +176,13 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      * @param narrative the narrative to search through for the user's rights
      * @return
      */
-    private NarrativeUserRights getUserRights(String username, Narrative narrative) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
+    private NarrativeUserRights getUserRights(String userId, Narrative narrative) {
+
         List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
         for (NarrativeUserRights userRights : userRightsList) {
-            Person person = personService.getPerson(userRights.getUserId());
-            if (StringUtils.equals(username, person.getUserName())) {
+            String personId = userRights.getUserId();
+            KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
+            if (StringUtils.equals(userId, person.getPersonId())) {
                 return userRights;
             }
         }
@@ -267,11 +272,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         // only has the VIEW_NARRATIVES permission, they cannot be 
         // assigned a narrative right of modify.
         
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
         for (NarrativeUserRights userRights : newNarrativeUserRights) {
             if (!hasPermission(userRights, document)) {
                 isValid = false;
-                Person person = personService.getPerson(userRights.getUserId());
+                String personId = userRights.getUserId();
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
                 this.reportError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, 
                                  KeyConstants.ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION, person.getFullName());
             }
@@ -319,20 +324,38 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      */
     private boolean hasPermission(NarrativeUserRights userRights, ProposalDevelopmentDocument doc) {
         
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
         String personId = userRights.getUserId();
-        Person person = personService.getPerson(personId);
         
         if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
-            if (!hasPermission(person.getUserName(), doc, PermissionConstants.MODIFY_NARRATIVE)) {
+            if (!hasPermission(personId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
                 return false;
             }
         }
         else if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
-            if (!hasPermission(person.getUserName(), doc, PermissionConstants.VIEW_NARRATIVE)) {
+            if (!hasPermission(personId, doc, PermissionConstants.VIEW_NARRATIVE)) {
                 return false;
             }
         }
         return true;
     }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
+    
+    protected PersonService getPersonService() {
+        if (this.personService == null) {
+            this.personService = KraServiceLocator.getService(PersonService.class);
+        }
+        
+        return this.personService;
+    }    
 }

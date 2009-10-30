@@ -19,9 +19,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.kra.service.KcPersonService;
 
 public class InstitutionalProposalUnitAdministrator extends InstitutionalProposalAssociate implements SequenceAssociate { 
     
@@ -32,7 +34,8 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
     private String administrator; 
     
     private UnitAdministratorType unitAdministratorType;
-    private Person person;
+    
+    private transient KcPersonService kcPersonService;
     
     public InstitutionalProposalUnitAdministrator() { 
 
@@ -82,16 +85,20 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
      * Gets the person attribute. 
      * @return Returns the person.
      */
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(administrator);
     }
-
+    
     /**
-     * Sets the person attribute value.
-     * @param person The person to set.
+     * Gets the KC Person Service.
+     * @return KC Person Service.
      */
-    public void setPerson(Person person) {
-        this.person = person;
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
     
     /**

@@ -49,7 +49,7 @@
     					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
           							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/>
           				<label>
-          					<kul:lookup boClassName="org.kuali.kra.bo.Person"
+          					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
                                         fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
   	 									lookupParameters="projectPersonnelBean.personId:personId"/>
   	 					</label>
@@ -122,7 +122,7 @@
 	                		${awardContact.fullName}&nbsp;
 	                		<c:choose>
 		                		<c:when test="${awardContact.employee}">
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
 		                		</c:when>
 		                		<c:otherwise>
 		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />

@@ -27,7 +27,7 @@ public class ViewCommitteeAuthorizer extends CommitteeAuthorizer {
     /**
      * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
      */
-    public boolean isAuthorized(String username, CommitteeTask task) {
-        return hasPermission(username, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
+    public boolean isAuthorized(String userId, CommitteeTask task) {
+        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
     }
 }

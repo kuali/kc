@@ -143,7 +143,7 @@
   </bean>
   <bean id="ProposalPerson-personId" parent="ProposalPerson-personId-parentBean" />
 
-  <bean id="ProposalPerson-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="ProposalPerson-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="ProposalPerson-rolodexId" parent="ProposalPerson-rolodexId-parentBean" />
 
@@ -156,147 +156,148 @@
   </bean>
   <bean id="ProposalPerson-socialSecurityNumber" parent="ProposalPerson-socialSecurityNumber-parentBean" />
 
-  <bean id="ProposalPerson-socialSecurityNumber-parentBean" abstract="true" parent="Person-socialSecurityNumber">
+  <bean id="ProposalPerson-socialSecurityNumber-parentBean" abstract="true" parent="KcPerson-socialSecurityNumber">
   </bean>
   <bean id="ProposalPerson-lastName" parent="ProposalPerson-lastName-parentBean" />
 
-  <bean id="ProposalPerson-lastName-parentBean" abstract="true" parent="Person-lastName">
+  <bean id="ProposalPerson-lastName-parentBean" abstract="true" parent="KcPerson-lastName">
   </bean>
   <bean id="ProposalPerson-firstName" parent="ProposalPerson-firstName-parentBean" />
 
-  <bean id="ProposalPerson-firstName-parentBean" abstract="true" parent="Person-firstName">
+  <bean id="ProposalPerson-firstName-parentBean" abstract="true" parent="KcPerson-firstName">
   </bean>
   <bean id="ProposalPerson-middleName" parent="ProposalPerson-middleName-parentBean" />
 
-  <bean id="ProposalPerson-middleName-parentBean" abstract="true" parent="Person-middleName">
+  <bean id="ProposalPerson-middleName-parentBean" abstract="true" parent="KcPerson-middleName">
   </bean>
   <bean id="ProposalPerson-fullName" parent="ProposalPerson-fullName-parentBean" />
 
-  <bean id="ProposalPerson-fullName-parentBean" abstract="true" parent="Person-fullName">
+  <bean id="ProposalPerson-fullName-parentBean" abstract="true" parent="KcPerson-fullName">
   </bean>
   <bean id="ProposalPerson-priorName" parent="ProposalPerson-priorName-parentBean" />
 
-  <bean id="ProposalPerson-priorName-parentBean" abstract="true" parent="Person-priorName">
+  <bean id="ProposalPerson-priorName-parentBean" abstract="true" parent="KcPerson-priorName">
   </bean>
   <bean id="ProposalPerson-userName" parent="ProposalPerson-userName-parentBean" />
 
-  <bean id="ProposalPerson-userName-parentBean" abstract="true" parent="Person-userName">
+  <bean id="ProposalPerson-userName-parentBean" abstract="true" parent="KcPerson-userName">
   </bean>
   <bean id="ProposalPerson-emailAddress" parent="ProposalPerson-emailAddress-parentBean" />
 
-  <bean id="ProposalPerson-emailAddress-parentBean" abstract="true" parent="Person-emailAddress">
+  <bean id="ProposalPerson-emailAddress-parentBean" abstract="true" parent="KcPerson-emailAddress">
   </bean>
   <bean id="ProposalPerson-dateOfBirth" parent="ProposalPerson-dateOfBirth-parentBean" />
 
-  <bean id="ProposalPerson-dateOfBirth-parentBean" abstract="true" parent="Person-dateOfBirth">
+  <bean id="ProposalPerson-dateOfBirth-parentBean" abstract="true" parent="KcPerson-dateOfBirth">
   </bean>
   <bean id="ProposalPerson-age" parent="ProposalPerson-age-parentBean" />
 
-  <bean id="ProposalPerson-age-parentBean" abstract="true" parent="Person-age">
+  <bean id="ProposalPerson-age-parentBean" abstract="true" parent="KcPerson-age">
   </bean>
   <bean id="ProposalPerson-ageByFiscalYear" parent="ProposalPerson-ageByFiscalYear-parentBean" />
 
-  <bean id="ProposalPerson-ageByFiscalYear-parentBean" abstract="true" parent="Person-ageByFiscalYear">
+  <bean id="ProposalPerson-ageByFiscalYear-parentBean" abstract="true" parent="KcPersonExtendedAttributes-ageByFiscalYear">
   </bean>
   <bean id="ProposalPerson-gender" parent="ProposalPerson-gender-parentBean" />
 
-  <bean id="ProposalPerson-gender-parentBean" abstract="true" parent="Person-gender">
+  <bean id="ProposalPerson-gender-parentBean" abstract="true" parent="KcPerson-gender">
   </bean>
   <bean id="ProposalPerson-race" parent="ProposalPerson-race-parentBean" />
 
-  <bean id="ProposalPerson-race-parentBean" abstract="true" parent="Person-race">
+  <bean id="ProposalPerson-race-parentBean" abstract="true" parent="KcPersonExtendedAttributes-race">
   </bean>
   <bean id="ProposalPerson-educationLevel" parent="ProposalPerson-educationLevel-parentBean" />
 
-  <bean id="ProposalPerson-educationLevel-parentBean" abstract="true" parent="Person-educationLevel">
+  <bean id="ProposalPerson-educationLevel-parentBean" abstract="true" parent="KcPersonExtendedAttributes-educationLevel">
   </bean>
   <bean id="ProposalPerson-degree" parent="ProposalPerson-degree-parentBean" />
 
-  <bean id="ProposalPerson-degree-parentBean" abstract="true" parent="Person-degree">
+  <bean id="ProposalPerson-degree-parentBean" abstract="true" parent="KcPersonExtendedAttributes-degree">
   </bean>
   <bean id="ProposalPerson-major" parent="ProposalPerson-major-parentBean" />
 
-  <bean id="ProposalPerson-major-parentBean" abstract="true" parent="Person-major">
+  <bean id="ProposalPerson-major-parentBean" abstract="true" parent="KcPersonExtendedAttributes-major">
   </bean>
   <bean id="ProposalPerson-handicappedFlag" parent="ProposalPerson-handicappedFlag-parentBean" />
 
-  <bean id="ProposalPerson-handicappedFlag-parentBean" abstract="true" parent="Person-handicappedFlag">
+  <bean id="ProposalPerson-handicappedFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicappedFlag">
   </bean>
   <bean id="ProposalPerson-handicapType" parent="ProposalPerson-handicapType-parentBean" />
 
-  <bean id="ProposalPerson-handicapType-parentBean" abstract="true" parent="Person-handicapType">
+  <bean id="ProposalPerson-handicapType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicapType">
   </bean>
   <bean id="ProposalPerson-veteranFlag" parent="ProposalPerson-veteranFlag-parentBean" />
 
-  <bean id="ProposalPerson-veteranFlag-parentBean" abstract="true" parent="Person-veteranFlag">
+  <bean id="ProposalPerson-veteranFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranFlag">
   </bean>
   <bean id="ProposalPerson-veteranType" parent="ProposalPerson-veteranType-parentBean" />
 
-  <bean id="ProposalPerson-veteranType-parentBean" abstract="true" parent="Person-veteranType">
+  <bean id="ProposalPerson-veteranType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranType">
   </bean>
   <bean id="ProposalPerson-visaCode" parent="ProposalPerson-visaCode-parentBean" />
 
-  <bean id="ProposalPerson-visaCode-parentBean" abstract="true" parent="Person-visaCode">
+  <bean id="ProposalPerson-visaCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaCode">
   </bean>
   <bean id="ProposalPerson-visaType" parent="ProposalPerson-visaType-parentBean" />
 
-  <bean id="ProposalPerson-visaType-parentBean" abstract="true" parent="Person-visaType">
+  <bean id="ProposalPerson-visaType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaType">
   </bean>
   <bean id="ProposalPerson-visaRenewalDate" parent="ProposalPerson-visaRenewalDate-parentBean" />
 
-  <bean id="ProposalPerson-visaRenewalDate-parentBean" abstract="true" parent="Person-visaRenewalDate">
+  <bean id="ProposalPerson-visaRenewalDate-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaRenewalDate">
   </bean>
   <bean id="ProposalPerson-hasVisa" parent="ProposalPerson-hasVisa-parentBean" />
 
-  <bean id="ProposalPerson-hasVisa-parentBean" abstract="true" parent="Person-hasVisa">
+  <bean id="ProposalPerson-hasVisa-parentBean" abstract="true" parent="KcPersonExtendedAttributes-hasVisa">
   </bean>
   <bean id="ProposalPerson-officeLocation" parent="ProposalPerson-officeLocation-parentBean" />
 
-  <bean id="ProposalPerson-officeLocation-parentBean" abstract="true" parent="Person-officeLocation">
+  <bean id="ProposalPerson-officeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-officeLocation">
   </bean>
   <bean id="ProposalPerson-officePhone" parent="ProposalPerson-officePhone-parentBean" />
 
-  <bean id="ProposalPerson-officePhone-parentBean" abstract="true" parent="Person-officePhone">
+  <bean id="ProposalPerson-officePhone-parentBean" abstract="true" parent="KcPerson-officePhone">
   </bean>
   <bean id="ProposalPerson-secondaryOfficeLocation" parent="ProposalPerson-secondaryOfficeLocation-parentBean" />
 
-  <bean id="ProposalPerson-secondaryOfficeLocation-parentBean" abstract="true" parent="Person-secondaryOfficeLocation">
+  <bean id="ProposalPerson-secondaryOfficeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-secondaryOfficeLocation">
   </bean>
   <bean id="ProposalPerson-secondaryOfficePhone" parent="ProposalPerson-secondaryOfficePhone-parentBean" />
 
-  <bean id="ProposalPerson-secondaryOfficePhone-parentBean" abstract="true" parent="Person-secondaryOfficePhone">
+  <bean id="ProposalPerson-secondaryOfficePhone-parentBean" abstract="true" parent="KcPerson-secondaryOfficePhone">
   </bean>
   <bean id="ProposalPerson-school" parent="ProposalPerson-school-parentBean" />
 
-  <bean id="ProposalPerson-school-parentBean" abstract="true" parent="Person-school">
+  <bean id="ProposalPerson-school-parentBean" abstract="true" parent="KcPersonExtendedAttributes-school">
   </bean>
   <bean id="ProposalPerson-yearGraduated" parent="ProposalPerson-yearGraduated-parentBean" />
 
-  <bean id="ProposalPerson-yearGraduated-parentBean" abstract="true" parent="Person-yearGraduated">
+  <bean id="ProposalPerson-yearGraduated-parentBean" abstract="true" parent="KcPersonExtendedAttributes-yearGraduated">
   </bean>
   <bean id="ProposalPerson-directoryDepartment" parent="ProposalPerson-directoryDepartment-parentBean" />
 
-  <bean id="ProposalPerson-directoryDepartment-parentBean" abstract="true" parent="Person-directoryDepartment">
+  <bean id="ProposalPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
   </bean>
   <bean id="ProposalPerson-saluation" parent="ProposalPerson-saluation-parentBean" />
 
-  <bean id="ProposalPerson-saluation-parentBean" abstract="true" parent="Person-saluation">
+  <bean id="ProposalPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation">
   </bean>
   <bean id="ProposalPerson-primaryTitle" parent="ProposalPerson-primaryTitle-parentBean" />
 
-  <bean id="ProposalPerson-primaryTitle-parentBean" abstract="true" parent="Person-primaryTitle">
+  <bean id="ProposalPerson-primaryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-primaryTitle">
   </bean>
   <bean id="ProposalPerson-directoryTitle" parent="ProposalPerson-directoryTitle-parentBean" />
 
-  <bean id="ProposalPerson-directoryTitle-parentBean" abstract="true" parent="Person-directoryTitle">
+  <bean id="ProposalPerson-directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle">
   </bean>
   <bean id="ProposalPerson-homeUnit" parent="ProposalPerson-homeUnit-parentBean" />
 
-  <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="Person-homeUnit">
+  <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="KcPersonExtendedAttributes-homeUnitIdentifier">
+      <property name="name" value="homeUnit" />
   </bean>
   <bean id="ProposalPerson-facultyFlag" parent="ProposalPerson-facultyFlag-parentBean" />
 
-  <bean id="ProposalPerson-facultyFlag-parentBean" abstract="true" parent="Person-facultyFlag">
+  <bean id="ProposalPerson-facultyFlag-parentBean" abstract="true" parent="KcPerson-facultyFlag">
   </bean>
   <bean id="ProposalPerson-otherSignificantContributorFlag" parent="ProposalPerson-otherSignificantContributorFlag-parentBean" />
 
@@ -309,59 +310,59 @@
   </bean>
   <bean id="ProposalPerson-graduateStudentStaffFlag" parent="ProposalPerson-graduateStudentStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-graduateStudentStaffFlag-parentBean" abstract="true" parent="Person-graduateStudentStaffFlag">
+  <bean id="ProposalPerson-graduateStudentStaffFlag-parentBean" abstract="true" parent="KcPerson-graduateStudentStaffFlag">
   </bean>
   <bean id="ProposalPerson-researchStaffFlag" parent="ProposalPerson-researchStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-researchStaffFlag-parentBean" abstract="true" parent="Person-researchStaffFlag">
+  <bean id="ProposalPerson-researchStaffFlag-parentBean" abstract="true" parent="KcPerson-researchStaffFlag">
   </bean>
   <bean id="ProposalPerson-serviceStaffFlag" parent="ProposalPerson-serviceStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-serviceStaffFlag-parentBean" abstract="true" parent="Person-serviceStaffFlag">
+  <bean id="ProposalPerson-serviceStaffFlag-parentBean" abstract="true" parent="KcPerson-serviceStaffFlag">
   </bean>
   <bean id="ProposalPerson-supportStaffFlag" parent="ProposalPerson-supportStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-supportStaffFlag-parentBean" abstract="true" parent="Person-supportStaffFlag">
+  <bean id="ProposalPerson-supportStaffFlag-parentBean" abstract="true" parent="KcPerson-supportStaffFlag">
   </bean>
   <bean id="ProposalPerson-otherAcademicGroupFlag" parent="ProposalPerson-otherAcademicGroupFlag-parentBean" />
 
-  <bean id="ProposalPerson-otherAcademicGroupFlag-parentBean" abstract="true" parent="Person-otherAcademicGroupFlag">
+  <bean id="ProposalPerson-otherAcademicGroupFlag-parentBean" abstract="true" parent="KcPerson-otherAcademicGroupFlag">
   </bean>
   <bean id="ProposalPerson-medicalStaffFlag" parent="ProposalPerson-medicalStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-medicalStaffFlag-parentBean" abstract="true" parent="Person-medicalStaffFlag">
+  <bean id="ProposalPerson-medicalStaffFlag-parentBean" abstract="true" parent="KcPerson-medicalStaffFlag">
   </bean>
   <bean id="ProposalPerson-vacationAccrualFlag" parent="ProposalPerson-vacationAccrualFlag-parentBean" />
 
-  <bean id="ProposalPerson-vacationAccrualFlag-parentBean" abstract="true" parent="Person-vacationAccrualFlag">
+  <bean id="ProposalPerson-vacationAccrualFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-vacationAccrualFlag">
   </bean>
   <bean id="ProposalPerson-onSabbaticalFlag" parent="ProposalPerson-onSabbaticalFlag-parentBean" />
 
-  <bean id="ProposalPerson-onSabbaticalFlag-parentBean" abstract="true" parent="Person-onSabbaticalFlag">
+  <bean id="ProposalPerson-onSabbaticalFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-onSabbaticalFlag">
   </bean>
   <bean id="ProposalPerson-idProvided" parent="ProposalPerson-idProvided-parentBean" />
 
-  <bean id="ProposalPerson-idProvided-parentBean" abstract="true" parent="Person-idProvided">
+  <bean id="ProposalPerson-idProvided-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idProvided">
   </bean>
   <bean id="ProposalPerson-idVerified" parent="ProposalPerson-idVerified-parentBean" />
 
-  <bean id="ProposalPerson-idVerified-parentBean" abstract="true" parent="Person-idVerified">
+  <bean id="ProposalPerson-idVerified-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idVerified">
   </bean>
   <bean id="ProposalPerson-addressLine1" parent="ProposalPerson-addressLine1-parentBean" />
 
-  <bean id="ProposalPerson-addressLine1-parentBean" abstract="true" parent="Person-addressLine1">
+  <bean id="ProposalPerson-addressLine1-parentBean" abstract="true" parent="KcPerson-addressLine1">
   </bean>
   <bean id="ProposalPerson-addressLine2" parent="ProposalPerson-addressLine2-parentBean" />
 
-  <bean id="ProposalPerson-addressLine2-parentBean" abstract="true" parent="Person-addressLine2">
+  <bean id="ProposalPerson-addressLine2-parentBean" abstract="true" parent="KcPerson-addressLine2">
   </bean>
   <bean id="ProposalPerson-addressLine3" parent="ProposalPerson-addressLine3-parentBean" />
 
-  <bean id="ProposalPerson-addressLine3-parentBean" abstract="true" parent="Person-addressLine3">
+  <bean id="ProposalPerson-addressLine3-parentBean" abstract="true" parent="KcPerson-addressLine3">
   </bean>
   <bean id="ProposalPerson-postalCode" parent="ProposalPerson-postalCode-parentBean" />
 
-  <bean id="ProposalPerson-postalCode-parentBean" abstract="true" parent="Person-postalCode">
+  <bean id="ProposalPerson-postalCode-parentBean" abstract="true" parent="KcPerson-postalCode">
   </bean>
   <bean id="ProposalPerson-countryCode" parent="ProposalPerson-countryCode-parentBean" />
 
@@ -388,15 +389,15 @@
   </bean>
   <bean id="ProposalPerson-faxNumber" parent="ProposalPerson-faxNumber-parentBean" />
 
-  <bean id="ProposalPerson-faxNumber-parentBean" abstract="true" parent="Person-faxNumber">
+  <bean id="ProposalPerson-faxNumber-parentBean" abstract="true" parent="KcPerson-faxNumber">
   </bean>
   <bean id="ProposalPerson-pagerNumber" parent="ProposalPerson-pagerNumber-parentBean" />
 
-  <bean id="ProposalPerson-pagerNumber-parentBean" abstract="true" parent="Person-pagerNumber">
+  <bean id="ProposalPerson-pagerNumber-parentBean" abstract="true" parent="KcPerson-pagerNumber">
   </bean>
   <bean id="ProposalPerson-mobilePhoneNumber" parent="ProposalPerson-mobilePhoneNumber-parentBean" />
 
-  <bean id="ProposalPerson-mobilePhoneNumber-parentBean" abstract="true" parent="Person-mobilePhoneNumber">
+  <bean id="ProposalPerson-mobilePhoneNumber-parentBean" abstract="true" parent="KcPerson-mobilePhoneNumber">
   </bean>
   <bean id="ProposalPerson-conflictOfInterestFlag" parent="ProposalPerson-conflictOfInterestFlag-parentBean" />
 
@@ -451,7 +452,7 @@
   </bean>
   <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean" />
 
-  <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="Person-eraCommonsUserName">
+  <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName">
   </bean>
   <bean id="ProposalPerson-city" parent="ProposalPerson-city-parentBean" />
 
@@ -459,7 +460,7 @@
   </bean>
   <bean id="ProposalPerson-county" parent="ProposalPerson-county-parentBean" />
 
-  <bean id="ProposalPerson-county-parentBean" abstract="true" parent="KraAttributeReferenceDummy-county">
+  <bean id="ProposalPerson-county-parentBean" abstract="true" parent="KcPersonExtendedAttributes-county">
   </bean>
   <bean id="ProposalPerson-state" parent="ProposalPerson-state-parentBean" />
 

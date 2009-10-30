@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -66,10 +66,11 @@ public class PrintCertificationXmlStreamTest extends
 		devProposal.setProposalNumber("1001");
 		devProposal.setTitle("Test service title");
 		//Person
-		Person person = new Person();
+		//FIXME: Kim migration
+		KcPerson person = new KcPerson();
 		person.setPersonId("993764481");
-		person.setFullName("Irvine, Darrell J");
-		person.setHomeUnit("066000");
+		//person.setFullName("Irvine, Darrell J");
+		//person.setHomeUnit("066000");
 		//Sponsor
 		Sponsor sponsor = new Sponsor();
 		sponsor.setSponsorCode("005410");
@@ -109,7 +110,6 @@ public class PrintCertificationXmlStreamTest extends
 		List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
 		ProposalPerson proposalPerson = new ProposalPerson();
 		proposalPerson.setPersonId("900015025");
-		proposalPerson.setPerson(person);
 		proposalPerson.setProposalPersonRoleId("PI");
 		//ProposalPersonYnq
 		List<ProposalPersonYnq> proposalPersonYnqList = new ArrayList<ProposalPersonYnq>();

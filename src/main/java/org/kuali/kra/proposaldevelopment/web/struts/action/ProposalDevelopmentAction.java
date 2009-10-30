@@ -157,8 +157,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
             // setup any Proposal Development System Parameters that will be needed
             
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(DELIVERY_INFO_DISPLAY_INDICATOR, this.getParameterService().retrieveParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, DELIVERY_INFO_DISPLAY_INDICATOR));
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().retrieveParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
+            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(DELIVERY_INFO_DISPLAY_INDICATOR, this.getParameterService().retrieveParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, DELIVERY_INFO_DISPLAY_INDICATOR));
+            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().retrieveParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
             
             if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
@@ -203,7 +203,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ActionForward forward = super.save(mapping, form, request, response);
 
         doc.getDevelopmentProposal().updateProposalNumbers();
-        
+
         proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
         setBudgetStatuses(doc);
 
@@ -508,17 +508,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         // Assign the creator of the proposal to the AGGREGATOR role.
         
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        if (!kraAuthService.hasRole(username, doc, RoleConstants.AGGREGATOR))
-            kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        if (!kraAuthService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
+            kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
         
         // Add the users defined in the role templates for the proposal's lead unit
         
         ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
         proposalRoleTemplateService.addUsers(doc);
-    }
+    } 
     
     /**
      * Get the name of the action.  Every Proposal Action class has the
@@ -654,7 +653,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }        
         return null;
     }
-
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {

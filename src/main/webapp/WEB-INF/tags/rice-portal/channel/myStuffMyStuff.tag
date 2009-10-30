@@ -51,9 +51,7 @@
 
 <strong>Personnel</strong>
 <ul class="chan">
-  <li>
-      <portal:portalLink displayTitle="true" title="Change Password" url="changePassword.do?methodToCall=changePassword"></portal:portalLink>
-  </li>
+  <li>Change Password</li>
   <li>Degree Information</li>
   <li>Current &amp; Pending Support</li>
   <li>Bio-sketches</li>

@@ -43,7 +43,7 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasProposalPermission(String username, BudgetParentDocument doc, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, doc, permissionName);
+    protected final boolean hasProposalPermission(String userId, BudgetParentDocument doc, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
 }

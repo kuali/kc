@@ -24,8 +24,9 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -108,11 +109,12 @@ public class HtmlUnitUtilTest extends KraTestBase {
     }
 
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, doc);
-        kraAuthorizationService.addRole("jtester", RoleConstants.AGGREGATOR, doc);
+        kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
+        PersonService<Person> personService = getService(PersonService.class);
+        Person jtester = personService.getPersonByPrincipalName("jtester");
+        kraAuthorizationService.addRole(jtester.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
     }
 
     public ProposalDevelopmentDocument getDocument() {

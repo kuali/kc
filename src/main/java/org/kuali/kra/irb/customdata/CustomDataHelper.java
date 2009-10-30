@@ -26,7 +26,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class CustomDataHelper extends CustomDataHelperBase {
+public class CustomDataHelper extends CustomDataHelperBase { 
     
     /**
      * Each Helper must contain a reference to its document form
@@ -59,6 +59,6 @@ public class CustomDataHelper extends CustomDataHelperBase {
     @Override
     public boolean canModifyCustomData() {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_OTHERS, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);    
     }
 }

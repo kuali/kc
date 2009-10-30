@@ -105,12 +105,12 @@
 		                	<tr>
 		                    	<th nowrap="nowrap"> 
 									<div align="right">
-										<kul:htmlAttributeLabel attributeEntry="${personAttributes.homeUnit}"/>
+										<kul:htmlAttributeLabel attributeEntry="${personAttributes.organizationIdentifier}"/>
 									</div>
 								</th>
 		                    	<td>
-		                      		<kul:htmlControlAttribute property="${person}.homeUnit" 
-		                      								  attributeEntry="${personAttributes.homeUnit}" 
+		                      		<kul:htmlControlAttribute property="${person}.organizationIdentifier" 
+		                      								  attributeEntry="${personAttributes.organizationIdentifier}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
 		                    	<th width="15%">

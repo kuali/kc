@@ -23,9 +23,10 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -49,8 +50,9 @@ public abstract class AwardContact extends AwardAssociate {
     private Long awardContactId;    
     private ContactRole contactRole;
     private String fullName;
-    private Person person;
+    private KcPerson person;
     private NonOrganizationalRolodex rolodex;
+    private transient KcPersonService kcPersonService;
     
     /**
      * Constructor
@@ -77,7 +79,7 @@ public abstract class AwardContact extends AwardAssociate {
      * @param person
      * @param contactCategory
      */
-    AwardContact(Person person, ContactRole role) {
+    AwardContact(KcPerson person, ContactRole role) {
         this();
         setPerson(person);
         setContactRole(role);
@@ -200,7 +202,7 @@ public abstract class AwardContact extends AwardAssociate {
      * Gets the person attribute. 
      * @return Returns the person.
      */
-    public Person getPerson() {
+    public KcPerson getPerson() {
         if(person == null && personId != null) {
             refreshPerson();
         }
@@ -260,7 +262,7 @@ public abstract class AwardContact extends AwardAssociate {
      * @return
      */
     public boolean isEmployee() {
-        return getContact() != null && (getContact() instanceof Person);
+        return getContact() != null && (getContact() instanceof KcPerson);
     }
        
     /**
@@ -304,7 +306,7 @@ public abstract class AwardContact extends AwardAssociate {
      * Sets the person attribute value.
      * @param person The person to set.
      */
-    public void setPerson(Person person) {
+    public void setPerson(KcPerson person) {
         if(person != null && person.getPersonId() == null) {
             person = null;
         }
@@ -386,6 +388,18 @@ public abstract class AwardContact extends AwardAssociate {
     }
     
     /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
+    
+    /**
      * This method specifies the actual class implementing ContactRole
      * @return
      */
@@ -440,7 +454,7 @@ public abstract class AwardContact extends AwardAssociate {
     protected void refreshPerson() {
         if(personId != null) {
             if(this.person == null || !personId.equals(this.person.getPersonId())) {
-                setPerson((Person) getBusinessObjectService().findByPrimaryKey(Person.class, getIdentifierMap(PERSON_ID_FIELD_NAME, personId)));
+                setPerson(getKcPersonService().getKcPersonByPersonId(personId));
             }
         }
     }

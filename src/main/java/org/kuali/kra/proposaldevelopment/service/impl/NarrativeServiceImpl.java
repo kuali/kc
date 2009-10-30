@@ -19,19 +19,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -40,8 +37,10 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -55,8 +54,9 @@ public class NarrativeServiceImpl implements NarrativeService {
     private NarrativeAuthZService narrativeAuthZService;
     private ProposalPersonService proposalPersonService;
     private BusinessObjectService businessObjectService;
+    private SystemAuthorizationService systemAuthorizationService;
     private DateTimeService dateTimeService;
-    private PersonService personService;
+    private KcPersonService kcPersonService;
     private AttachmentDao attachmentDao;
 
     /**
@@ -117,13 +117,13 @@ public class NarrativeServiceImpl implements NarrativeService {
      * 
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param narrative the narrative to add the users to
-     */
+     */  
     private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument, Narrative narrative) {
-        List<Person> persons = getPersons(proposalDevelopmentDocument);
+        List<KcPerson> persons = getPersons(proposalDevelopmentDocument);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
-        for (Person person : persons) {
+        for (KcPerson person : persons) {
             if (!isPersonInNarrativeRights(person, narrativeUserRights)) {
-                NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getUserName(), proposalDevelopmentDocument);
+                NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getPersonId(), proposalDevelopmentDocument);
                 String personName = person.getFullName();
                 NarrativeUserRights narrUserRight = new NarrativeUserRights();
                 narrUserRight.setProposalNumber(narrative.getProposalNumber());
@@ -143,7 +143,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrativeUserRights the list of narrative user rights
      * @return true if the person is in the list; otherwise false
      */
-    private boolean isPersonInNarrativeRights(Person person, List<NarrativeUserRights> narrativeUserRights) {
+    private boolean isPersonInNarrativeRights(KcPerson person, List<NarrativeUserRights> narrativeUserRights) {
         for (NarrativeUserRights right : narrativeUserRights) {
             if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
                 return true;
@@ -157,18 +157,15 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @return the list of persons (see Permission's page)
      */
-    private List<Person> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        
-        Map<String, String> roleSearchCriteria = new HashMap<String, String>();
-        roleSearchCriteria.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
-        List<KimRole> proposalRoles = (List<KimRole>) businessObjectService.findMatching(KimRole.class, roleSearchCriteria) ;
+    private List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         
         KraAuthorizationService kraAuthorizationService = getKraAuthorizationService();
-        List<Person> allPersons = new ArrayList<Person>();
+        List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
-        for (KimRole proposalRole : proposalRoles) {
-            List<Person> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getName());
-            for (Person person : persons) {
+        for (Role proposalRole : proposalRoles) {
+            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getRoleName());
+            for (KcPerson person : persons) {
                 if (!isPersonInList(person, allPersons)) {
                     allPersons.add(person);
                 }
@@ -183,8 +180,8 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param persons the list of persons
      * @return true if the person is in the list; otherwise false
      */
-    private boolean isPersonInList(Person person, List<Person> persons) {
-        for (Person p : persons) {
+    private boolean isPersonInList(KcPerson person, List<KcPerson> persons) {
+        for (KcPerson p : persons) {
             if (StringUtils.equals(p.getPersonId(), person.getPersonId())) {
                 return true;
             }
@@ -346,13 +343,12 @@ public class NarrativeServiceImpl implements NarrativeService {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#deletePerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    public void deletePerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Person person = personService.getPersonByName(username);
+    public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
             for (NarrativeUserRights right : userRights) {
-                if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
+                if (StringUtils.equals(right.getUserId(), userId)) {
                     userRights.remove(right);
                     break;
                 }
@@ -361,13 +357,12 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
    
-    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
-        Person person = personService.getPersonByName(username);
+    public void readjustRights(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
             for (NarrativeUserRights right : userRights) {
-                if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
+                if (StringUtils.equals(right.getUserId(), userId)) {
                     String currentAccessType = right.getAccessType();
                     
                     // If the user currently has MODIFY rights, but his/her default (max) right has been down-graded,
@@ -375,7 +370,7 @@ public class NarrativeServiceImpl implements NarrativeService {
                     // VIEW rights.  
                     
                     if (StringUtils.equals(currentAccessType, NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
-                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(username, proposalDevelopmentDocument);
+                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType());
@@ -385,7 +380,7 @@ public class NarrativeServiceImpl implements NarrativeService {
                         }
                     }
                     else if (StringUtils.equals(currentAccessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
-                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(username, proposalDevelopmentDocument);
+                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
@@ -398,31 +393,30 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     
-    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
-        Person person = personService.getPersonByName(username);
+    public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
+        KcPerson person = kcPersonService.getKcPersonByUserName(userName);
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
            
             NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(roleName);
-            String personName = person.getFullName();
             NarrativeUserRights narrUserRight = new NarrativeUserRights();
             narrUserRight.setProposalNumber(narrative.getProposalNumber());
             narrUserRight.setModuleNumber(narrative.getModuleNumber());
             narrUserRight.setUserId(person.getPersonId());
             narrUserRight.setAccessType(narrativeRight.getAccessType());
-            narrUserRight.setPersonName(personName);
+            narrUserRight.setPersonName(person.getFullName());
             updateUserTimestamp(narrUserRight);
             userRights.add(narrUserRight);
         }
     }
     
     /**
-     * Set the Person Service.  Injected by Spring.
-     * @param personService the Person Service
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
      */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
     public AttachmentDao getAttachmentDao() {
@@ -459,5 +453,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
-    
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
+    }
+
 }

@@ -89,7 +89,7 @@
   </bean>
   <bean id="BudgetPerson-personId" parent="BudgetPerson-personId-parentBean" />
 
-  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
 <!--  <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />-->
 <!---->
@@ -163,7 +163,7 @@
   </bean>
   <bean id="BudgetPerson-personName" parent="BudgetPerson-personName-parentBean" />
 
-  <bean id="BudgetPerson-personName-parentBean" abstract="true" parent="Person-fullName">
+  <bean id="BudgetPerson-personName-parentBean" abstract="true" parent="KcPerson-fullName">
     <property name="name" value="personName" />
     <property name="label" value="Personnel" />
     <property name="shortLabel" value="Personnel" />

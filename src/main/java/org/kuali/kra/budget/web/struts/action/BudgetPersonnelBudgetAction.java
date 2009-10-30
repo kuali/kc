@@ -125,7 +125,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             budgetCalculationService.calculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
             //budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
             //budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
-                    //Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
+                    //Constants.MODULE_NAMESPACE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
             //setBudgetPersonDefaultPeriodTypeCode(budgetForm);
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);

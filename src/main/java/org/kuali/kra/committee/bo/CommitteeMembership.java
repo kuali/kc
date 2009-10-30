@@ -24,8 +24,10 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.service.KcPersonService;
 
 /**
  * 
@@ -80,10 +82,11 @@ public class CommitteeMembership extends CommitteeAssociate {
 
     private CommitteeMembershipType membershipType;
 
-    private Person person;
     private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
+    
+    private transient KcPersonService kcPersonService;
 
     public CommitteeMembership() {
         setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
@@ -220,12 +223,20 @@ public class CommitteeMembership extends CommitteeAssociate {
         this.membershipType = membershipType;
     }
 
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     public ProtocolPersonRolodex getRolodex() {

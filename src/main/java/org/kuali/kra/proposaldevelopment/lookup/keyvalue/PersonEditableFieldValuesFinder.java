@@ -22,7 +22,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;

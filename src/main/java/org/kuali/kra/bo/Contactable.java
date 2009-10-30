@@ -26,13 +26,7 @@ public interface Contactable {
      * @return
      */
     Serializable getIdentifier();
-    
-    /**
-     * This method sets the identifer on the contact
-     * @param identifier
-     */
-    void setIdentifier(Serializable identifier);
-    
+
     /**
      * This method returns the full name of the contact. May be null
      * @return
@@ -43,7 +37,7 @@ public interface Contactable {
      * This method returns the associated unit
      * @return
      */
-    public Unit getUnit();
+    Unit getUnit();
     
     /**
      * This method returns the contact's organization name. May be the unit name or something different. Also, may return null.
@@ -52,7 +46,7 @@ public interface Contactable {
     String getContactOrganizationName();
     
     /**
-     * This method returns the contact's associated unit number
+     * This method returns the contact's associated unit number.  This is commonly referred to as homeUnit is many places in KC.
      * @return
      */
     String getOrganizationIdentifier();

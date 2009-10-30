@@ -38,7 +38,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
@@ -46,8 +46,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.kim.service.KIMService;
+import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -71,14 +70,14 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -154,10 +153,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
    
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
-    private ParameterService parameterService;
+    private transient ParameterService parameterService;
 
     /* This is just a list of sponsor form package details - large objects not loaded */
     private List<SponsorFormTemplateList> sponsorFormTemplates;
+    private transient KcPersonService kcPersonService;
     
     /* These 2 properties are used for autogenerating an institutional proposal for a resubmission */
     private String resubmissionOption;
@@ -713,11 +713,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         
         List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
         
-        Collection<KimRole> roles = getKimProposalRoles();
-        for (KimRole role : roles) {
-            if (!role.isUnassigned()) {
+        Collection<Role> roles = getKimProposalRoles();
+        for (Role role : roles) {
+            if (!StringUtils.equals(role.getRoleName(), RoleConstants.UNASSIGNED)) {
                 ProposalAssignedRole assignedRole = 
-                    new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
+                    new ProposalAssignedRole(role.getRoleName(), getUsersInRole(role.getRoleName()));
                 assignedRoles.add(assignedRole);
             }
         }
@@ -781,11 +781,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      * Get the list of all of the Proposal roles (filter out unassigned).
      * @return the list of proposal roles
      */
-    public List<KimRole> getProposalRoles() {
-        List<KimRole> proposalRoles = new ArrayList<KimRole>();
-        Collection<KimRole> roles = getKimProposalRoles();
-        for (KimRole role : roles) {
-            if (!role.isUnassigned()) {
+    public List<Role> getProposalRoles() {
+        List<Role> proposalRoles = new ArrayList<Role>();
+        Collection<Role> roles = getKimProposalRoles();
+        for (Role role : roles) {
+            if (!StringUtils.equals(role.getRoleName(), RoleConstants.UNASSIGNED)) {
                 proposalRoles.add(role);
             }
         }
@@ -807,9 +807,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
             proposalUserRolesList = new ArrayList<ProposalUserRoles>();
             
             // Add persons into the ProposalUserRolesList for each of the roles.
-            Collection<KimRole> roles = getKimProposalRoles();
-            for (KimRole role : roles) {
-                addPersons(proposalUserRolesList, role.getName());
+            Collection<Role> roles = getKimProposalRoles();
+            for (Role role : roles) {
+                addPersons(proposalUserRolesList, role.getRoleName());
             }
             
             sortProposalUsers();  
@@ -821,9 +821,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     public List<ProposalUserRoles> getCurrentProposalUserRoles() {
         List<ProposalUserRoles> current = new ArrayList<ProposalUserRoles>();
         
-        Collection<KimRole> roles = getKimProposalRoles();
-        for (KimRole role : roles) {
-            addPersons(current, role.getName());
+        Collection<Role> roles = getKimProposalRoles();
+        for (Role role : roles) {
+            addPersons(current, role.getRoleName());
         }
         
         return current;
@@ -833,35 +833,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      * Get all of the proposal roles.
      * @return
      */
-    public Collection<KimRole> getKimProposalRoles() {
-        List<KimRole> proposalRoles = new ArrayList<KimRole>();
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
+    public Collection<Role> getKimProposalRoles() {
+        ProposalRoleService proposalRoleService = KraServiceLocator.getService(ProposalRoleService.class);
+        List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         
-        @SuppressWarnings("unchecked")
-        Collection<KimRole> roles = businessObjectService.findMatching(KimRole.class, fieldValues);
-       
-        /*
-         * Add in unassigned and standard proposal roles first so that
-         * they always show up first on the web pages.
-         */
-        for (KimRole role : roles) {
-            if (role.isUnassigned()) {
-                proposalRoles.add(0, role);
-            } else if (role.isStandardProposalRole()) {
-                proposalRoles.add(role);
-            }
-        }
-        
-        /*
-         * Now add in any user-define proposal roles.
-         */
-        for (KimRole role : roles) {
-            if (!role.isUnassigned() && !role.isStandardProposalRole()) {
-                proposalRoles.add(role);
-            }
-        }
         return proposalRoles;
     }
    
@@ -877,11 +852,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     }
     
     public void addProposalUser(ProposalUser proposalUser) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        Person person = personService.getPersonByName(proposalUser.getUsername());
+        KcPerson person = getKcPersonService().getKcPersonByUserName(proposalUser.getUsername());
         ProposalUserRoles userRoles = buildProposalUserRoles(person, proposalUser.getRoleName());
         proposalUserRolesList.add(userRoles);
         sortProposalUsers();
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
     
     /**
@@ -894,8 +880,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getDocument();
         
-        List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
-        for (Person person : persons) {
+        List<KcPerson> persons = proposalAuthService.getPersonsInRole(doc, roleName);
+        for (KcPerson person : persons) {
             ProposalUserRoles proposalUserRoles = findProposalUserRoles(propUserRolesList, person.getUserName());
             if (proposalUserRoles != null) {
                 proposalUserRoles.addRoleName(roleName);
@@ -930,7 +916,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      * @param roleName the name of the role
      * @return a new ProposalUserRoles instance
      */
-    private ProposalUserRoles buildProposalUserRoles(Person person, String roleName) {
+    private ProposalUserRoles buildProposalUserRoles(KcPerson person, String roleName) {
         ProposalUserRoles proposalUserRoles = new ProposalUserRoles();
         
         // Set the person's username, rolename, fullname, and home unit.
@@ -938,12 +924,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         proposalUserRoles.setUsername(person.getUserName());
         proposalUserRoles.addRoleName(roleName);
         proposalUserRoles.setFullname(person.getFullName());
-        proposalUserRoles.setUnitNumber(person.getHomeUnit());
+        proposalUserRoles.setUnitNumber(person.getOrganizationIdentifier());
         
         // Query the database to find the name of the unit.
             
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
-        Unit unit = unitService.getUnit(person.getHomeUnit());
+        Unit unit = unitService.getUnit(person.getOrganizationIdentifier());
         if (unit != null) {
             proposalUserRoles.setUnitName(unit.getUnitName());
         }
@@ -1210,17 +1196,16 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     }
     
     public boolean isSubmissionStatusReadOnly() {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        boolean canModify = proposalAuthService.hasPermission(principalId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
-        KIMService kimService = KraServiceLocator.getService(KIMService.class);
+        boolean canModify = proposalAuthService.hasPermission(userId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { return false; }
-        List<? extends GroupInfo> groups = kimService.getGroupsForPrincipal(principalId);
-        for (GroupInfo group: groups) {
-            if (group.getGroupName().equals("OSP")) {
-                return false;
-            }
+        
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        if(kraAuthorizationService.hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
+            return false;
         }
+        
         return true;
     }
 

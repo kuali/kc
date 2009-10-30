@@ -249,12 +249,12 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
     }
 
     private void assignBudgetPersonnel(HtmlPage budgetPersonnelPage) throws Exception {
-        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000003");
+        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.KcPerson", "personId", "000000003");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].jobCode", "AA025");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].appointmentTypeCode", "7");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].calculationBase", "120000");
         budgetPersonnelPage = clickOn(budgetPersonnelPage, "methodToCall.save");
-        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000008");
+        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.KcPerson", "personId", "000000008");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].jobCode", "AA025");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].appointmentTypeCode", "7");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].calculationBase", "120000");

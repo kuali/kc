@@ -58,7 +58,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
     public static final String  SCHEDULEDATA_WEEKLYSCHEDULE_SCHEDULEENDDATE = "committeeHelper.scheduleData.weeklySchedule.scheduleEndDate";
     public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
 
-    private static final String PERSON_LOOKUP = "org.kuali.kra.bo.Person";
+    private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ROLODEX_LOOKUP ="org.kuali.kra.bo.NonOrganizationalRolodex";
     private static final String ROLODEX_ID_FIELD = "rolodexId";

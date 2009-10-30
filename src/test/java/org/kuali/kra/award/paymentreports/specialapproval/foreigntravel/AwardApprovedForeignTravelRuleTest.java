@@ -25,9 +25,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KcPerson;
+
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -125,7 +126,8 @@ public class AwardApprovedForeignTravelRuleTest {
 
         Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
         
-        Person newTraveler = getPersonTraveler(3L, trip1.getTravelerName());
+
+        KcPerson newTraveler = getPersonTraveler(3L, trip1.getTravelerName());
         anotherTrip.setPersonTraveler(newTraveler);
         Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
     }
@@ -182,20 +184,18 @@ public class AwardApprovedForeignTravelRuleTest {
     }
 
     private AwardApprovedForeignTravel createForeignTravelTrip(Long travelerId, String travelerName, String destination, Date startDate, Date endDate, double amount) {
-        return createForeignTravelTrip(travelerId, travelerName, destination, startDate, endDate, amount, Person.class);
+        return createForeignTravelTrip(travelerId, travelerName, destination, startDate, endDate, amount, KcPerson.class);
     }
 
     private AwardApprovedForeignTravel createForeignTravelTrip(Long travelerId, String travelerName, String destination, Date startDate, Date endDate,
                                                                double amount, Class contactClass) {
-        Contactable traveler = contactClass.equals(Person.class) ? getPersonTraveler(travelerId, travelerName) :
+        Contactable traveler = contactClass.equals(KcPerson.class) ? getPersonTraveler(travelerId, travelerName) :
                                                                     getRolodexTraveler((int)(travelerId % Integer.MAX_VALUE), travelerName);
         return new AwardApprovedForeignTravel(traveler, destination, startDate, endDate, amount);
     }
 
-    private Person getPersonTraveler(Long travelerId, String travelerName) {
-        Person person = new Person();
-        person.setKimPersonId(travelerId);
-        person.setFullName(travelerName);
+    private KcPerson getPersonTraveler(Long travelerId, String travelerName) {
+        KcPerson person = KcPerson.fromPersonId(travelerId.toString());
         return person;
     }
 
