@@ -12,15 +12,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "105", "106"))
-then	
-	setAction(protocolAction, true);
-end
-
-rule "Submit for Review - after withdrawn"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode == "304", submissionStatusCode in ("100", "210"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "105", "106", "304"))
 then	
 	setAction(protocolAction, true);
 end
@@ -84,7 +76,7 @@ end
 rule "Close Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311"), submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311"), submissionCount == true, submissionNumber == null)
 then	
 	setAction(protocolAction, true);
 end
@@ -132,7 +124,7 @@ end
 rule "Suspend Protocol 2"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "302", submissionNumber == null, submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "203"), submissionNumber == null, submissionCount == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -148,12 +140,20 @@ end
 rule "Suspended by DSMB 2"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "306", submissionNumber == null, submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200", "201", "202", "203"), submissionNumber == null, submissionCount == true)
 then	
 	setAction(protocolAction, true);
 end
 
-rule "WithDraw Protocol"
+rule "WithDraw Protocol 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", submissionNumber == null, submissionCountForWithdraw == true)
+then	
+	setAction(protocolAction, true);
+end
+
+rule "WithDraw Protocol 2"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "303", submissionNumber != null, submissionStatusCode in ("100","101","102","201","202"))
@@ -348,7 +348,7 @@ end
 rule "Re-open Enrollment 2"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "212",submissionNumber == null, protocolStatusCode == "201")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "212",submissionNumber == null, submissionCount == true, protocolStatusCode == "201")
 then	
 	setAction(protocolAction, true);
 end
@@ -357,7 +357,16 @@ rule "Notify IRB"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
-	  protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "306", "307", "308", "311"))
+	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106"))
 then	
 	setAction(protocolAction, true);
 end
+
+#rule "Notify IRB"
+#salience 100
+#when
+#	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
+#	  protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "306", "307", "308", "311"))
+#then	
+#	setAction(protocolAction, true);
+#end

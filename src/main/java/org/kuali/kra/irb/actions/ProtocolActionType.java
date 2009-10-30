@@ -39,6 +39,17 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String APPROVED = "204";
     public static final String DISAPPROVED = "304";
     public static final String PROTOCOL_CREATED = "100";
+    public static final String CLOSED_FOR_ENROLLMENT = "207";                                
+    public static final String RESPONSE_APPROVAL = "208";                                
+    public static final String IRB_ACKNOWLEDGEMENT = "209";                                
+    public static final String IRB_REVIEW_NOT_REQUIRED = "210";                                
+    public static final String DATA_ANALYSIS_ONLY = "211";                                
+    public static final String REOPEN_ENROLLMENT = "212";                                
+    public static final String CLOSED_ADMINISTRATIVELY_CLOSED = "300";                                
+    public static final String TERMINATED = "301";                                
+    public static final String SUSPENDED = "302";                                
+    public static final String EXPIRED = "305";                                
+    public static final String SUSPENDED_BY_DSMB = "306";                                
     
     private String protocolActionTypeCode;
     
