@@ -356,6 +356,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_PERMISSIONS_PAGE = "permissions";
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
+    public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgetVersions";
     
