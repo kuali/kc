@@ -57,7 +57,7 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Expedited or Exempt,  Review type is expedited or Exempt"
+rule "Specific Minor Revision Required Protocol,  Review type is expedited or Exempt"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "203", submissionStatusCode in ("100","101","102"), protocolReviewTypeCode in ("2","3"), submissionNumber != null)
@@ -65,7 +65,7 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Expedited or Exempt"
+rule "SMR Required Protocol,  Review type is not expedited and Exempt"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "203", submissionStatusCode == "101", protocolReviewTypeCode not in ("2","3"), minutesCount == true)
