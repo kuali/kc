@@ -23,7 +23,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 /**
  * Rule event class for adding a Proposal Site to a proposal
  */
-public class AddProposalSiteEvent extends ProposalSiteEventBase {
+public class AddProposalSiteEvent extends BasicProposalSiteEvent {
     
     /**
      * Constructs an AddProposalSiteEvent with the given errorPathPrefix, document, and proposalSite.

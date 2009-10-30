@@ -58,6 +58,7 @@
             newProposalSiteField="newPerformanceSite"
             addSiteMethodToCall="addPerformanceSite"
             deleteSiteMethodToCall="deletePerformanceSite"
+            clearAddressMethodToCall="clearPerformanceSiteAddress"
             addDistrictMethodToCall="addPerformanceSiteCongDistrict"
             deleteDistrictMethodToCall="deletePerformanceSiteCongDistrict"
             rolodexLookup="true" />

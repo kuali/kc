@@ -25,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 /**
  * Event class for deleting a congressional district from a Proposal Site.
  */
-public class DeleteProposalCongressionalDistrictEvent extends ProposalSiteEventBase {
+public class DeleteProposalCongressionalDistrictEvent extends BasicProposalSiteEvent {
     private String districtIndex;
 
     /**

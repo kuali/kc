@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
-/**
- * Rule interface for deleting a Proposal Site.
- */
-public interface DeleteProposalSiteRule extends BusinessRule {
+public interface ClearProposalSiteAddressRule extends BusinessRule {
 
     /**
-     * Rule invoked upon deleting a proposal site from a
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * Rule invoked upon removing the address of a proposal site
      *
      * @return boolean
      */
-    public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent deleteProposalSiteEvent);
+    public boolean processClearProposalSiteAddressRules(BasicProposalSiteEvent ProposalSiteEvent);
 }
