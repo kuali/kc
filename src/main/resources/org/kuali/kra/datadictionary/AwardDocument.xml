@@ -102,6 +102,13 @@
           <property name="headerTabDisplayName" value="Award Actions"/>
           <property name="headerTabNavigateTo" value="awardActions"/>
         </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardActionsHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
       </list>
     </property>
     
