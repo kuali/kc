@@ -2176,3 +2176,53 @@ function fillCongressionalDistrictNumber(stateField, districtNumberField) {
         document.getElementById(districtNumberField).value="000";
     }
 }
+
+/*
+ * For meeting page :
+ * meeting minutes to hide/show 'standard review comment lookup'/'generate attendance check box' based on minute entry type
+ */
+function showHideDiv(minuteEntryTypeCode) {
+    if (minuteEntryTypeCode.value == '3') {
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'block'; 
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+    } else {	
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcDiv').style.display = 'none';
+    } 
+    if (minuteEntryTypeCode.value == '2') {
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'block'; 
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'block'; 
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none'; 
+    } else {	
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block'; 
+    } 
+		
+}
+
+/*
+ * For meeting page :
+ * generate attendance comments if 'attendance' minute entry type is selected and 'generate attendance' is checked.
+ */
+function generateAttendance(genAtt, noMember, noOther) {
+    var comment="";
+    if (genAtt.checked) {
+        for (var i = 0; i < noMember; i++) {
+            if (comment != "") {
+                comment = comment +"\n";
+	        }    
+            comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value 
+            if (document.getElementById('alternatePerson['+i+']')) {
+                comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value
+            } 
+        }
+        for (var i = 0; i < noOther; i++) {
+		    if (comment != "") {
+			    comment = comment +"\n";
+		    }    
+	    	comment = comment + document.getElementById('meetingHelper.otherPresentBeans['+i+'].attendance.personName').value  + " Guest";
+	    }
+
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntry').value = comment;
+    }
+}

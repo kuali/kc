@@ -6,11 +6,11 @@
 <kul:tab defaultOpen="false" tabTitle="Other Actions"
     tabErrorKey="meetingHelper.newOtherAction.*">
 
-<div class="tab-container" align="center">
-    <h3>
-        <span class="subhead-left"> Other Actions </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleActItem" altText="help"/> </span>
-    </h3>
+    <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left"> Other Actions </span>
+            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleActItem" altText="help"/> </span>
+        </h3>
     
         <table id="otherActions-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit meeting other actions">
         
@@ -54,7 +54,6 @@
 	               </td>
 	            </tr>
 	            </c:if>
-            <%--</kra:permission> --%>
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
@@ -79,9 +78,8 @@
 		            </c:if>
 	            </tr>
         	</c:forEach>
-			<%-- Existing data --%>
-			        				
+			<%-- Existing data --%>			        				
         </table>
-</div>
+    </div>
 
 </kul:tab>
