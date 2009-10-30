@@ -39,7 +39,7 @@ public interface NarrativeService {
      * @param username the name of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
      */
-    public void deletePerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument);
     
     /**
      * Re-adjust the narrative rights for a user.  If the user has lost some
@@ -49,7 +49,7 @@ public interface NarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param roleNames the roles the user is in
      */
-    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
+    public void readjustRights(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
     
     /**
      * Add a person to all of the Narratives in a proposal.  When a new user is granted
@@ -59,7 +59,7 @@ public interface NarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param roleName the initial proposal role of the user
      */
-    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName);
+    public void addPerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName);
     
 
     /**

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -26,7 +24,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,7 +33,7 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -67,6 +64,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     private String institutionalAttachmentTypeCode;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
+    private transient KcPersonService kcPersonService;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -79,7 +77,19 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     
     protected String findLoggedInUserPersonId() {
         String loggedInUser = ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier();
-        return getService(PersonService.class).getPersonByName(loggedInUser).getPersonId();//get person id for looged in user
+        return getKcPersonService().getKcPersonByUserName(loggedInUser).getPersonId();//get person id for looged in user
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     public Integer getModuleNumber() {
@@ -276,52 +286,52 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      * @param username 
      * @return true if the user can view the attachment; otherwise false
      */
-    public boolean getDownloadAttachment(String username) {
+    public boolean getDownloadAttachment(String userId) {
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
        
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
+        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
     }
 
     /**
      * Can the current user replace the attachment?
      * @return true if the user can replace the attachment; otherwise false
      */
-    public boolean getReplaceAttachment(String username) {
+    public boolean getReplaceAttachment(String userId) {
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
+        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
     }
     
     /**
      * Can the current user delete the attachment?
      * @return true if the user can delete the attachment; otherwise false
      */
-    public boolean getDeleteAttachment(String username) {
+    public boolean getDeleteAttachment(String userId) {
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
+        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
     
     /**
      * Can the current user modify the user rights for the attachment?
      * @return true if the user can modify the user rights; otherwise false
      */
-    public boolean getModifyNarrativeRights(String username) {
+    public boolean getModifyNarrativeRights(String userId) {
         if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
+            refreshReferenceObject("narrativeUserRights"); 
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
+        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
     }
     
     /**

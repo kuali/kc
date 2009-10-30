@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -118,7 +118,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
-    protected List<Person> getPersonsInRole(String roleName) {
+    protected List<KcPerson> getPersonsInRole(String roleName) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
     }
@@ -129,6 +129,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
     @Override
     public boolean canModifyPermissions() {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 }

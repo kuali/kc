@@ -19,13 +19,13 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
@@ -48,9 +48,10 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 	private String personName;
 	private AppointmentType appointmentType;
 	private Integer personSequenceNumber;
-	private Person person;
 	private Rolodex rolodex;
     private String role;
+    
+    private transient KcPersonService kcPersonService;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -67,7 +68,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         super();
     }
     
-    public BudgetPerson(Person person) {
+    public BudgetPerson(KcPerson person) {
         super();
         this.personId = person.getPersonId();
         this.personName = person.getFullName();
@@ -212,16 +213,20 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      * Gets the person attribute. 
      * @return Returns the person.
      */
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
     }
-
+    
     /**
-     * Sets the person attribute value.
-     * @param person The person to set.
+     * Gets the KC Person Service.
+     * @return KC Person Service.
      */
-    public void setPerson(Person person) {
-        this.person = person;
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     /**

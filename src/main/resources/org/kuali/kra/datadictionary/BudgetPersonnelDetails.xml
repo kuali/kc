@@ -344,7 +344,7 @@
   </bean>
   <bean id="BudgetPersonnelDetails-personId" parent="BudgetPersonnelDetails-personId-parentBean" />
 
-  <bean id="BudgetPersonnelDetails-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="BudgetPersonnelDetails-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="BudgetPersonnelDetails-salaryRequested" parent="BudgetPersonnelDetails-salaryRequested-parentBean" />
 

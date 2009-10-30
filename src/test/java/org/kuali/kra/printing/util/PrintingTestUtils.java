@@ -63,9 +63,9 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -315,11 +315,12 @@ public class PrintingTestUtils {
 		organization.setOrganizationId("1");
 		unit.setOrganization(organization);
 		unit.setOrganizationId("1");
-		Person person = new Person();
-		person.setUnit(unit);
-		person.setFullName("first last");
+		//FIXME: Kim migration
+		KcPerson person = new KcPerson();
+		//person.setUnit(unit);
+		//person.setFullName("first last");
 		person.setPersonId("1");
-		person.setOfficeLocation("abc");
+		//person.setOfficeLocation("abc");
 		NonOrganizationalRolodex rolodex = new NonOrganizationalRolodex();
 		rolodex.setAddressLine1("address line 1");
 		rolodex.setAddressLine2("address Line 2");
@@ -729,11 +730,12 @@ public class PrintingTestUtils {
 		organization.setOrganizationId("1");
 		unit.setOrganization(organization);
 		unit.setOrganizationId("1");
-		Person person = new Person();
-		person.setUnit(unit);
-		person.setFullName("first last");
+		//FIXME: Kim Migration
+		KcPerson person = new KcPerson();
+		//person.setUnit(unit);
+		//person.setFullName("first last");
 		person.setPersonId("1");
-		person.setOfficeLocation("abc");
+		//person.setOfficeLocation("abc");
 		NonOrganizationalRolodex rolodex = new NonOrganizationalRolodex();
 		rolodex.setAddressLine1("address line 1");
 		rolodex.setAddressLine2("address Line 2");
@@ -1147,9 +1149,10 @@ public class PrintingTestUtils {
 		rateType5.setRateTypeCode("2");
 		rateType5.setDescription(rateClass.getDescription());
 		// Person
-		Person person = new Person();
+		//FIXME: Kim Migration
+		KcPerson person = new KcPerson();
 		person.setPersonId("993764481");
-		person.setFullName("Irvine, Darrell J");
+		//person.setFullName("Irvine, Darrell J");
 
 		// BudgetPeriods
 		BudgetPeriod firstPeriod = new BudgetPeriod();
@@ -1318,7 +1321,6 @@ public class PrintingTestUtils {
 		budgetPerson.setJobCode(budgetPersDetails.getJobCode());
 		budgetPerson.setPersonId(budgetPersDetails.getPersonId());
 		budgetPerson.setPersonName("Irvine, Darrell J");
-		budgetPerson.setPerson(person);
 
 		budgetPersDetails.setBudgetPerson(budgetPerson);
 

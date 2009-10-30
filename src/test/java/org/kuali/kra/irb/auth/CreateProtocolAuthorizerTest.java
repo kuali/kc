@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorizer.CreateProtocolAuthorizer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -45,7 +46,7 @@ public class CreateProtocolAuthorizerTest {
         
         final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, PermissionConstants.CREATE_PROTOCOL); will(returnValue(true));
+            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL); will(returnValue(true));
         }});
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         
@@ -59,7 +60,7 @@ public class CreateProtocolAuthorizerTest {
         
         final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, PermissionConstants.CREATE_PROTOCOL); will(returnValue(false));
+            one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL); will(returnValue(false));
         }});
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         

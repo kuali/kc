@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 
@@ -417,5 +417,19 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         roleNames.add(RoleConstants.IRB_REVIEWER);
 
         return roleNames;
+    }
+
+    public String getNamespace() {
+        //FIXME: Insert new Namespace after verification
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
+    }
+
+    public String getLeadUnitNumber() {
+        return getHomeUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+      //FIXME: verify role type
+        return null;
     }
 }

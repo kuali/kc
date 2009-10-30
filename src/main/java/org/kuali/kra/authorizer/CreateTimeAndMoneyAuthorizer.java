@@ -28,8 +28,8 @@ public class CreateTimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public boolean isAuthorized(String username, Task task) {
+    public boolean isAuthorized(String userId, Task task) {
         return true;
-        //return hasUnitPermission(username, "createTimeAndMoney");
+        //return hasUnitPermission(userId, "createTimeAndMoney"); 
     }
 }

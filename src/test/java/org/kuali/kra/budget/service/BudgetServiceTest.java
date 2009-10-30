@@ -23,10 +23,11 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -130,9 +131,10 @@ public class BudgetServiceTest extends KraTestBase {
         
         pdDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
         
-        String username = "quickstart";
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, pdDocument);
+        PersonService<Person> personService = getService(PersonService.class);
+        Person user = personService.getPersonByPrincipalName("quickstart");
+        
+        getService(KraAuthorizationService.class).addRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);
         
         return pdDocument;
     }

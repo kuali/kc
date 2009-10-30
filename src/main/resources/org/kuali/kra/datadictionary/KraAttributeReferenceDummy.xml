@@ -236,7 +236,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Principal Investigator" />
     <property name="shortLabel" value="PI" />
-    <property name="maxLength" value="20" />
+    <property name="maxLength" value="40" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>

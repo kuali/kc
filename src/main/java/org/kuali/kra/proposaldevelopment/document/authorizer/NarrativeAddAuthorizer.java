@@ -30,13 +30,13 @@ public class NarrativeAddAuthorizer extends ProposalAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, ProposalTask task) {
+    public boolean isAuthorized(String userId, ProposalTask task) {
         
         ProposalDevelopmentDocument doc = task.getDocument();
         
         boolean hasPermission = false;
         if (!kraWorkflowService.isInWorkflow(doc) && !doc.getDevelopmentProposal().getSubmitFlag()) {
-            hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE);
+            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
         }
         return hasPermission;
     }

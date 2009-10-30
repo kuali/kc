@@ -231,9 +231,9 @@
 			<description>Create an Awesome Development Proposal</description>
 			<label>Proposal Development Document</label>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<attributes>
@@ -253,7 +253,6 @@
 					<name>ApproverSearchAttribute</name>
 				</attribute>
 			</attributes>
-			<routingVersion>2</routingVersion>
 			<routePaths> 
                 <routePath>
                     <start name="Initiated" nextNode="FirstApproval" />

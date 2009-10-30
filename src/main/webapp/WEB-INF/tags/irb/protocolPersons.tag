@@ -44,7 +44,7 @@
 							<div class="tab-container" align="center" id="G100">
 						    	<h3>
 						        	<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
-						            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Person" altText="help"/></span>
+						            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.KcPerson" altText="help"/></span>
 						        </h3>
 								<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
 								<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>

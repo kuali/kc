@@ -26,9 +26,9 @@ public class ProtocolRequestDataAnalysisAuthorizer extends ProtocolAuthorizer {
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY) &&
-               hasPermission(username, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
     }
 }

@@ -20,23 +20,37 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * 
  * This class...
  */
 public class ProposalPersonServiceImpl implements ProposalPersonService {
     private BusinessObjectService businessObjectService;
+    private KcPersonService kcPersonService;
+     
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    /**
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+    
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
@@ -52,17 +66,14 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
             }
         }
         if(StringUtils.isBlank(propPersonName)){
-            Map<String,String> queryMap = new HashMap<String,String>();
-            queryMap.put("personId", userId);
-            Person person = (Person)getBusinessObjectService().findByPrimaryKey(Person.class, queryMap);
+            KcPerson person = this.kcPersonService.getKcPersonByPersonId(userId);
             propPersonName = person.getFullName();
         }
         return propPersonName;
     }
-    public Person getPerson(String loggedInUser) {
-        Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("userName", loggedInUser);
-        return (Person)businessObjectService.findByPrimaryKey(Person.class, queryMap);
+    
+    public KcPerson getPerson(String loggedInUser) {
+        return this.kcPersonService.getKcPersonByUserName(loggedInUser);
     }
     
     /**
@@ -76,4 +87,11 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return (ProposalPerson) getBusinessObjectService().findByPrimaryKey(ProposalPerson.class, keys);
     }
     
+    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleCode) {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("proposalNumber", proposalNumber.toString());
+        keys.put("proposalPersonRoleId", roleCode);
+          
+        return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
+    }
 }

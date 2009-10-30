@@ -46,7 +46,7 @@
 					<kul:htmlControlAttribute property="unitContactsBean.newAwardContact.fullName" 
       							attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
       				<label>
-      					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
+      					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
  									lookupParameters="unitContactsBean.personId:personId"/>
  					</label>
         		</td>
@@ -83,7 +83,7 @@
 	                	<div align="center">
 	                		<input type="hidden" name="unit_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
 	                		${awardContact.fullName}&nbsp;
-	                		<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="unit_contact.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
+	                		<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="unit_contact.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">

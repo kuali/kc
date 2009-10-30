@@ -34,5 +34,5 @@ public interface WebAuthorizationService {
      * @param request the HTTP request
      * @return true if the user is authorized; otherwise false
      */
-    public boolean isAuthorized(String username, Class actionClass, String methodName, ActionForm form, HttpServletRequest request);
+    public boolean isAuthorized(String userId, Class actionClass, String methodName, ActionForm form, HttpServletRequest request);
 }

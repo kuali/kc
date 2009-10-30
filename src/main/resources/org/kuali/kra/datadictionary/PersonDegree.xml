@@ -37,7 +37,7 @@
 
   <bean id="PersonDegree-personId" parent="PersonDegree-personId-parentBean" />
 
-  <bean id="PersonDegree-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="PersonDegree-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="PersonDegree-graduationYear" parent="PersonDegree-graduationYear-parentBean" />
 

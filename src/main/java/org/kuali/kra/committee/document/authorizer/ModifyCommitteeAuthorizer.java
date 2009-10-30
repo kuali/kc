@@ -17,6 +17,7 @@ package org.kuali.kra.committee.document.authorizer;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
@@ -32,7 +33,7 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
     /**
      * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
      */
-    public boolean isAuthorized(String username, CommitteeTask task) {
+    public boolean isAuthorized(String userId, CommitteeTask task) {
         boolean hasPermission = true;
         Committee committee = task.getCommittee();
         Long committeeId = committee.getId();
@@ -40,14 +41,14 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
             
             // We have to consider the case when we are saving the committee for the first time.
             
-            hasPermission = hasUnitPermission(username, PermissionConstants.ADD_COMMITTEE);
+            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
         } 
         else {
             /*
              * After the initial save, the committee can only be modified has the required permission.
              */
             hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
-                            hasPermission(username, committee, PermissionConstants.MODIFY_COMMITTEE);
+                            hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
         }
         return hasPermission;
     }

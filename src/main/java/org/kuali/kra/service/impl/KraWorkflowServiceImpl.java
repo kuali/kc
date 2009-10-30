@@ -30,14 +30,14 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.kns.document.Document)
      */
-    public boolean hasWorkflowPermission(String username, Document doc) {
+    public boolean hasWorkflowPermission(String userId, Document doc) {
         boolean hasPermission = false;
         KualiWorkflowDocument workflowDoc = getWorkflowDocument(doc);
         if (workflowDoc != null && isInWorkflow(doc)) {
             Long routeHeaderId = workflowDoc.getRouteHeader().getRouteHeaderId();
             WorkflowInfo info = new WorkflowInfo();
             try {
-                hasPermission = info.isUserAuthenticatedByRouteLog(routeHeaderId, username, true);
+                hasPermission = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, true);
             }
             catch (WorkflowException e) {
             }

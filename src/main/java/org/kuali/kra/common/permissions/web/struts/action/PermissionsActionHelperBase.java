@@ -77,7 +77,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
      * @param userName the user's unique userName
      * @param roleName the unique name of the role
      */
-    protected abstract void addUserToRoleInDatabase(Document document, String userName, String roleName);
+    protected abstract void addUserToRoleInDatabase(Document document, String userId, String roleName);
    
     /**
      * Remove a user from a role for a specific document.
@@ -85,7 +85,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
      * @param userName the user's unique userName
      * @param roleName the unique name of the role
      */
-    protected abstract void removeUserFromRoleInDatabase(Document document, String userName, String roleName);
+    protected abstract void removeUserFromRoleInDatabase(Document document, String userId, String roleName);
    
     /**
      * Save the changes to the database.  All of the changes involve
@@ -111,7 +111,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
             List<RoleState> roleStates = userState.getRoleStates();
             for (RoleState roleState : roleStates) {
                 if (roleState.needsToBeRemoved()) {
-                    removeUserFromRoleInDatabase(document, userState.getPerson().getUserName(), roleState.getRole().getName());
+                    removeUserFromRoleInDatabase(document, userState.getPerson().getPersonId(), roleState.getRole().getName());
                     roleState.setSaved(false);
                 }
             }
@@ -130,7 +130,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
             List<RoleState> roleStates = userState.getRoleStates();
             for (RoleState roleState : roleStates) {
                 if (roleState.needsToBeAdded()) {
-                    addUserToRoleInDatabase(document, userState.getPerson().getUserName(), roleState.getRole().getName());
+                    addUserToRoleInDatabase(document, userState.getPerson().getPersonId(), roleState.getRole().getName());
                     roleState.setSaved(true);
                 }
             }

@@ -230,11 +230,6 @@ public final class KeyConstants {
     public static final String AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT = "warning.budget.distribution.fiscalYearInconsistent";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA = "error.budget.distribution.duplicate.unrecoveredFA";
     
-    // Change Password
-    public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
-    public static final String ERROR_INVALID_PASSWORD = "error.password.invalid";
-    public static final String ERROR_PASSWORD_MISMATCH = "error.password.mismatch";
-    
     // Copy proposal
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
     

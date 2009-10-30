@@ -26,7 +26,7 @@ import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -35,6 +35,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary
@@ -48,7 +50,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
 	private static final String PERSON_ID_PARAMETER = "personId";
 	private static final String BUDGET_SALARY = "Budget Salary";
-
+	private transient KcPersonService kcPersonService;
 	/**
 	 * This method generates XML for Budget Salary Report. It uses data passed
 	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
@@ -238,14 +240,23 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 	 */
 	private String getPersonName(String personId) {
 		String personName = null;
-		Map<String, String> personMap = new HashMap<String, String>();
-		personMap.put(PERSON_ID_PARAMETER, personId);
-		Person person = (Person) businessObjectService.findByPrimaryKey(
-				Person.class, personMap);
-		if (person != null) {
-			personName = person.getFullName();
-		}
+        KcPerson person = this.getKcPersonService().getKcPersonByPersonId(personId);
+        if (person != null) {
+            personName = person.getFullName();
+        }
 		return personName;
 	}
+	
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
 
 }

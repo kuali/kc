@@ -31,7 +31,7 @@ import org.kuali.rice.kns.document.Document;
  * document actions for all time and money documents.
  */
 public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
-    
+     
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
@@ -40,19 +40,18 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
         
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         
-        String username = user.getPrincipalName();
         if (timeAndMoneyDocument.getDocumentNumber() == null) {
-            if (canCreateTimeAndMoney(user)) {
+            if (canCreateTimeAndMoney(user.getPrincipalId())) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         }
         else {
-            if (canExecuteTimeAndMoneyTask(username, timeAndMoneyDocument, TaskName.MODIFY_TIME_AND_MONEY)) {  
+            if (canExecuteTimeAndMoneyTask(user.getPrincipalId(), timeAndMoneyDocument, TaskName.MODIFY_TIME_AND_MONEY)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
-            else if (canExecuteTimeAndMoneyTask(username, timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY)) {
+            else if (canExecuteTimeAndMoneyTask(user.getPrincipalId(), timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
             else {
@@ -67,7 +66,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
-        return canCreateTimeAndMoney(user);
+        return canCreateTimeAndMoney(user.getPrincipalId());
     }
   
     /**
@@ -76,9 +75,9 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
     public boolean canOpen(Document document, Person user) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         if (timeAndMoneyDocument.getDocumentNumber() == null) {
-            return canCreateTimeAndMoney(user);
+            return canCreateTimeAndMoney(user.getPrincipalId());
         }
-        return canExecuteTimeAndMoneyTask(user.getPrincipalName(), timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY);
+        return canExecuteTimeAndMoneyTask(user.getPrincipalId(), timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY);
     }
     
     /**
@@ -86,7 +85,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteTimeAndMoneyTask(user.getPrincipalName(), (TimeAndMoneyDocument) document, TaskName.MODIFY_TIME_AND_MONEY);
+        return canExecuteTimeAndMoneyTask(user.getPrincipalId(), (TimeAndMoneyDocument) document, TaskName.MODIFY_TIME_AND_MONEY);
     }
     
     /**
@@ -118,10 +117,9 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      * @param user the user
      * @return true if the user can create a award; otherwise false
      */
-    private boolean canCreateTimeAndMoney(Person user) {
-        String username = user.getPrincipalName();
+    private boolean canCreateTimeAndMoney(String userId) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_TAMD);
-        return getTaskAuthorizationService().isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
     
     /**
@@ -131,8 +129,8 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteTimeAndMoneyTask(String username, TimeAndMoneyDocument doc, String taskName) {
+    private boolean canExecuteTimeAndMoneyTask(String userId, TimeAndMoneyDocument doc, String taskName) {
         TimeAndMoneyTask task = new TimeAndMoneyTask(taskName, doc);
-        return getTaskAuthorizationService().isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
 }

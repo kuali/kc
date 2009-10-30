@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.kuali.kra.award.AwardRuleTestBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.permissions.AwardPermissionsRule;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
@@ -186,15 +186,15 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     private List<User> getPermissionUsers() {
         List<User> users = new ArrayList<User>();
         
-        Person person = new Person();
-        person.setUserName("quickstart");
+        KcPerson person = new KcPerson();
+        //person.setUserName("quickstart");
         User user = new User(person);
         Role role = new Role(AwardRoleConstants.AWARD_MODIFIER.toString(), "Aggregator");
         user.addRole(role);
         users.add(user);
         
-        person = new Person();
-        person.setUserName("aslusar");
+        person = new KcPerson();
+        //person.setUserName("aslusar");
         user = new User(person);
         role = new Role(AwardRoleConstants.AWARD_VIEWER.toString(), "Viewer");
         user.addRole(role);

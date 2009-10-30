@@ -33,7 +33,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleServiceImpl.class);
 
-    private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_MEMBERSHIP_TYPE = "membershipType";
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
@@ -58,9 +57,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         committeeMembership.setCommitteeIdFk(committee.getId());
         committeeMembership.setMembershipId("0");
 
-        if(!StringUtils.isBlank(committeeMembership.getPersonId())) {
-            committeeMembership.refreshReferenceObject(REFERENCE_PERSON);
-        }else {
+        if(StringUtils.isBlank(committeeMembership.getPersonId())) {
             committeeMembership.refreshReferenceObject(REFERENCE_ROLODEX);
         }
         committeeMembership.refreshReferenceObject(REFERENCE_MEMBERSHIP_TYPE);

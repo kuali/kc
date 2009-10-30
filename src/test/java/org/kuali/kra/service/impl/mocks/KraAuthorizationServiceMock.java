@@ -17,7 +17,7 @@ package org.kuali.kra.service.impl.mocks;
 
 import java.util.List;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -38,7 +38,7 @@ public class KraAuthorizationServiceMock implements KraAuthorizationService {
         return null;
     }
 
-    public List<Person> getPersonsInRole(Permissionable permissionable, String roleName) {
+    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
         return null;
     }
 
@@ -61,4 +61,9 @@ public class KraAuthorizationServiceMock implements KraAuthorizationService {
     public void removeRole(String username, String roleName, Permissionable permissionable) {
         
     }
+
+    public boolean hasRole(String userId, String namespace, String roleName) {
+        return false;
+    }
+    
 }

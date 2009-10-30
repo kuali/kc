@@ -17,9 +17,6 @@
 package org.kuali.kra.infrastructure;
 
 public interface Constants {
-    
-    // This is a meaningless comment to test the merge.  I should still be here post-merge.
-    
     //Generic constants
     public static final String COLON=":";
     public static final String COMMA=",";
@@ -78,12 +75,13 @@ public interface Constants {
     public static final String NIH_SPONSOR_CODE = "000340";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
-    
-    public static final String PARAMETER_MODULE_PROTOCOL = "KC-PROTOCOL";
+    public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
-    public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
+    public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KRA-PD";
+    public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
+    
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
     public static final String NARRATIVE_MODULE_STATUS_COMPLETE = "C";
@@ -154,7 +152,7 @@ public interface Constants {
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
-    public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
+    public static final String MODULE_NAMESPACE_BUDGET = "KRA-B"; 
     public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
     
     // Budget Versions Constants
@@ -253,10 +251,6 @@ public interface Constants {
     public static final String DATA_TYPE_NUMBER = "Number - [0-9]";
     public static final String DATA_TYPE_DATE = "Date - [xx/xx/xxxx]";
     
-   
-    // Change Password
-    public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";
-    
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
     public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.developmentProposalList[0].proposalSpecialReview*";
@@ -341,7 +335,7 @@ public interface Constants {
     public static final boolean GRANTS_GOV_LINK_TARGET_POPUP = true;
     public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
     
-    public static final String KIM_QUAL_ATTR_PROPOSAL_KEY = "kra.proposal";
+    public static final String KIM_QUAL_ATTR_PROPOSAL_KEY = "proposal";
 
     //Award
     public static final String MAPPING_AWARD_BASIC = "basic";
@@ -356,7 +350,6 @@ public interface Constants {
     public static final String MAPPING_AWARD_PERMISSIONS_PAGE = "permissions";
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
-    public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgetVersions";
     

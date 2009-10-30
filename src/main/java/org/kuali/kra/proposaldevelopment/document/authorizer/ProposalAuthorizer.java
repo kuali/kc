@@ -32,8 +32,8 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public final boolean isAuthorized(String username, Task task) {
-        return isAuthorized(username, (ProposalTask) task);
+    public final boolean isAuthorized(String userId, Task task) {
+        return isAuthorized(userId, (ProposalTask) task);
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
      * @param task the proposal task
      * @return true if the user is authorized; otherwise false
      */
-    public abstract boolean isAuthorized(String username, ProposalTask task);
+    public abstract boolean isAuthorized(String userId, ProposalTask task);
     
     /**
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
@@ -59,7 +59,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, doc, permissionName);
+    protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
 }

@@ -24,7 +24,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.AwardTaskNames;
@@ -119,7 +119,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
-    protected List<Person> getPersonsInRole(String roleName) {
+    protected List<KcPerson> getPersonsInRole(String roleName) {
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         return kraAuthService.getPersonsInRole(getAward(), roleName);
     }
@@ -127,9 +127,9 @@ public class PermissionsHelper extends PermissionsHelperBase {
     /**
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
-    @Override
+    @Override 
     public boolean canModifyPermissions() {
         AwardTask task = new AwardTask(AwardTaskNames.MODIFY_AWARD_ROLES.getAwardTaskName(), getAward());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 }

@@ -9,14 +9,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.impl.common.XmlObjectList;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NoticeOfOpportunity;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
@@ -647,7 +645,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			List<ProposalPerson> proposalPersonList) {
 		PROPINVESTIGATORS propInvestigator = PROPINVESTIGATORS.Factory
 				.newInstance();
-		Person person = getPrincipalInvetigatorPerson(proposalPersonList);
+		KcPerson person = getPrincipalInvetigatorPerson(proposalPersonList);
 		if (person != null) {
 			propInvestigator.setPERSONNAME(getPersonNameAndInfo(person));
 		}
@@ -661,9 +659,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * This method gets Principal Investigator Person from list of Proposal
 	 * Person
 	 */
-	private Person getPrincipalInvetigatorPerson(
+	private KcPerson getPrincipalInvetigatorPerson(
 			List<ProposalPerson> proposalPersonList) {
-		Person person = null;
+		KcPerson person = null;
 		for (ProposalPerson pPerson : proposalPersonList) {
 			if (pPerson.getPersonId() != null
 					&& pPerson.getProposalPersonRoleId().equals(
@@ -927,7 +925,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * This method gets PersonName and Information by concatenating Person
 	 * FullName, Email and OfficePhone
 	 */
-	private String getPersonNameAndInfo(Person person) {
+	private String getPersonNameAndInfo(KcPerson person) {
 		String personEmail = person.getEmailAddress();
 		String officePhone = person.getOfficePhone();
 		String personInfo = Constants.EMPTY_STRING;

@@ -25,9 +25,10 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -43,7 +44,8 @@ public abstract class AwardContactsBean implements Serializable {
     protected AwardContact newAwardContact;
     protected AwardForm awardForm;
     
-    transient BusinessObjectService businessObjectService;
+    private transient BusinessObjectService businessObjectService;
+    private transient KcPersonService kcPersonService;
 
     private String personId;
     private Integer rolodexId;
@@ -104,7 +106,7 @@ public abstract class AwardContactsBean implements Serializable {
      */
     public void setPersonId(String personId) {
         this.personId = personId;
-        Person person = personId != null ? (Person) findContact(PERSON_IDENTIFIER_FIELD, Person.class, personId) : null;
+        KcPerson person = personId != null ? (KcPerson) findContact(PERSON_IDENTIFIER_FIELD, KcPerson.class, personId) : null;
         newAwardContact.setPerson(person);
     }
 
@@ -120,6 +122,10 @@ public abstract class AwardContactsBean implements Serializable {
     }
     
     protected Object findContact(String identifierField, @SuppressWarnings("unchecked") Class contactClass, Object contactIdentifier) {
+        if (KcPerson.class.isAssignableFrom(contactClass)) {
+            return getKcPersonService().getKcPersonByPersonId((String) contactIdentifier);
+        }
+        
         Map<String, Object> identifierMap = new HashMap<String, Object>();
         identifierMap.put(identifierField, contactIdentifier);
         return getBusinessObjectService().findByPrimaryKey(contactClass, identifierMap);
@@ -150,6 +156,18 @@ public abstract class AwardContactsBean implements Serializable {
             businessObjectService = (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class); 
         }
         return businessObjectService;
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
     
     protected void init() {

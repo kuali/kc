@@ -19,7 +19,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 
 public class AwardReporting extends AwardAssociate { 
     
@@ -33,8 +35,8 @@ public class AwardReporting extends AwardAssociate {
     private Date activityDate; 
     private String comments; 
     private String personId;
+    private transient KcPersonService kcPersonService;
     
-    private Person person;
     //private ReportStatus reportStatus;
       
     public AwardReporting() { 
@@ -61,17 +63,21 @@ public class AwardReporting extends AwardAssociate {
      * Gets the person attribute. 
      * @return Returns the person.
      */
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return this.getKcPersonService().getKcPersonByPersonId(personId);
     }
-
+    
     /**
-     * Sets the person attribute value.
-     * @param person The person to set.
+     * Gets the KC Person Service.
+     * @return KC Person Service.
      */
-    public void setPerson(Person person) {
-        this.person = person;
-    }  
+    public KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
     
     public Integer getAwardReportingId() {
         return awardReportingId;

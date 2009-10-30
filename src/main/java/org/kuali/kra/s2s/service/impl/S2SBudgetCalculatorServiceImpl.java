@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -59,6 +59,7 @@ import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -158,6 +159,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final String KEY_ROLODEX_ID = "rolodexId";
     private BusinessObjectService businessObjectService = null;
+    private KcPersonService kcPersonService;
 
     /**
      * 
@@ -1476,8 +1478,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
                     for (BudgetCategoryMapping mapping : budgetCategoryList) {
                         if (mapping.getBudgetCategoryCode().equals(budgetPersonnelDetails.getBudgetCategoryCode())) {
                             conditionMap = new HashMap<String, String>();
-                            conditionMap.put(PERSON_ID, budgetPersonnelDetails.getPersonId());
-                            Person person = (Person) businessObjectService.findByPrimaryKey(Person.class, conditionMap);
+                            KcPerson person = this.kcPersonService.getKcPersonByPersonId(budgetPersonnelDetails.getPersonId());
                             if (person != null) {
                                 keyPerson = new KeyPersonInfo();
                                 keyPerson.setPersonId(person.getPersonId());
@@ -1828,5 +1829,13 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 }

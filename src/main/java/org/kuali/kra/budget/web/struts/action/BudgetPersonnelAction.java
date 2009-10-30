@@ -36,8 +36,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
@@ -60,7 +60,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -523,9 +522,9 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                         GlobalVariables.getUserSession().getPerson().getPrincipalName());
             
             BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
-            if (lookupResultsBOClass.isAssignableFrom(Person.class)) {
+            if (lookupResultsBOClass.isAssignableFrom(KcPerson.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
-                    Person person = (Person) iter.next();
+                    KcPerson person = (KcPerson) iter.next();
                     BudgetPerson budgetPerson = new BudgetPerson(person);
                     populateAndAddBudgetPerson(budgetPerson, budgetForm.getDocument(), budgetPersonService);
                 }

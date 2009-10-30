@@ -18,6 +18,8 @@
 
 <td class="content" valign="top">
       <channel:systemAdminSystem />
+      <administrationChannel:identity />
+      
 </td>
 <td class="content" valign="top">
       <channel:systemAdminBatch />

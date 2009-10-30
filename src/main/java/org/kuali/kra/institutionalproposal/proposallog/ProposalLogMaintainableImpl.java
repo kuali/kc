@@ -51,8 +51,8 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
         if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
             ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
-            if (proposalLog.getPerson() != null) {
-                proposalLog.setLeadUnit(proposalLog.getPerson().getHomeUnit());
+            if (proposalLog.getkcPerson() != null) {
+                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
             }
         }
     }

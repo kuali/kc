@@ -33,7 +33,7 @@
 
   <bean id="UnitAdministrator-personId" parent="UnitAdministrator-personId-parentBean" />
 
-  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="UnitAdministrator-unitAdministratorTypeCode" parent="UnitAdministrator-unitAdministratorTypeCode-parentBean" />
 
@@ -74,7 +74,7 @@
   </bean>
   <bean id="UnitAdministrator-person.fullName" parent="UnitAdministrator-person.fullName-parentBean" />
 
-  <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="Person-fullName">
+  <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
     <property name="name" value="person.fullName" />
   </bean>
   <bean id="UnitAdministrator-unitAdministratorType.description" parent="UnitAdministrator-unitAdministratorType.description-parentBean" />

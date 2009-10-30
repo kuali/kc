@@ -34,7 +34,7 @@ import org.apache.struts.action.ActionMessages;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,7 +60,7 @@ public class KraExceptionAction extends Action {
         
         saveErrors(request, errors);
         
-        UniversalUser loggedInUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
+        Person loggedInUser = GlobalVariables.getUserSession().getPerson();
         String documentNumber = (String) request.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
         

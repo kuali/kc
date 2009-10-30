@@ -36,7 +36,7 @@
             <div class="tab-container" align="center" id="G100">
               <h3>
                   <span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span>
-                  <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Person" altText="help"/></span>
+                  <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.KcPerson" altText="help"/></span>
               </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>

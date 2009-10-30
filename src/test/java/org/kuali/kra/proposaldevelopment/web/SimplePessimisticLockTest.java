@@ -26,11 +26,11 @@ import org.kuali.kra.HtmlUnitUtil;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.KraWebTestUtil;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -274,11 +274,12 @@ public class SimplePessimisticLockTest extends KraTestBase {
     }
 
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
-        String username = user.getPersonUserIdentifier();
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, doc);
-        kraAuthorizationService.addRole("jtester", RoleConstants.AGGREGATOR, doc);
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        KraAuthorizationService kraAuthorizationService = getService(KraAuthorizationService.class);
+        PersonService<Person> personService = getService(PersonService.class);
+        
+        kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
+        kraAuthorizationService.addRole(personService.getPersonByPrincipalName("jtester").getPrincipalId(), RoleConstants.AGGREGATOR, doc);
     }
 
     public ProposalDevelopmentDocument getDocument() {

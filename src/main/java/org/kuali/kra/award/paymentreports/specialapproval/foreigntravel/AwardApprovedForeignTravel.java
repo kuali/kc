@@ -22,10 +22,14 @@ import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
+
+import org.kuali.kra.bo.KcPerson;
+
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -38,19 +42,36 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedForeignTravelId;
+    private KcPerson personTraveler;
     private String personId;
     private Integer rolodexId;
+    private NonOrganizationalRolodex rolodexTraveler;
+    //private Serializable genericId;
+    /**
+     * Gets the genericId attribute. 
+     * @return Returns the genericId.
+     */
+//    public Serializable getGenericId() {
+//        return genericId;
+//    }
+
+    /**
+     * Sets the genericId attribute value.
+     * @param genericId The genericId to set.
+     */
+//    public void setGenericId(Serializable genericId) {
+//        this.genericId = genericId;        
+//    }
+
     private String travelerName;
     private String destination;
     private Date startDate;
     private Date endDate;
     private KualiDecimal amount;
 
-    private Person personTraveler;
-    private NonOrganizationalRolodex rolodexTraveler;
-
     private static int instanceCount;   // used in tag
     private int instanceNumber;         // used in tag
+    private KcPersonService kcPersonService;
 
     /**
      * Constructs a AwardApprovedForeignTravel
@@ -64,8 +85,8 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      */
     public AwardApprovedForeignTravel(Object traveler, String destination, Date startDate, Date endDate, double amount) {
         super();
-        if(traveler instanceof Person) {
-            setPersonTraveler((Person) traveler);
+        if(traveler instanceof KcPerson) {
+            setPersonTraveler((KcPerson) traveler);
         } else if(traveler instanceof NonOrganizationalRolodex) {
             setRolodexTraveler((NonOrganizationalRolodex) traveler);
         }
@@ -109,7 +130,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      * This method returns the traveler
      * @return
      */
-    public Person getPersonTraveler() {
+    public KcPerson getPersonTraveler() {
         return personTraveler;
     }
     
@@ -217,9 +238,9 @@ public class AwardApprovedForeignTravel extends AwardAssociate
 
     /**
      * Sets the traveler attribute value.
-     * @param personTraveler The Person to set.
+     * @param personTraveler The KcPerson to set.
      */
-    public void setPersonTraveler(final Person personTraveler) {
+    public void setPersonTraveler(final KcPerson personTraveler) {
         this.personTraveler = personTraveler;
         if(personTraveler != null) {
             this.travelerName = personTraveler.getFullName();
@@ -406,10 +427,9 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     }       
 
     Contactable loadTraveler() {
-        Contactable contact;
+        final Contactable contact;
         if(personId != null) {
-            Map map = ServiceHelper.getInstance().buildCriteriaMap("personId", personId);
-            contact = (Contactable) getBusinessObjectService().findMatching(Person.class, map).iterator().next();
+            contact = getKcPersonService().getKcPersonByPersonId(this.personId);
         } else if(rolodexId != null) {
             Map map = ServiceHelper.getInstance().buildCriteriaMap("rolodexId", rolodexId);
             contact = (Contactable) getBusinessObjectService().findMatching(NonOrganizationalRolodex.class, map).iterator().next();
@@ -427,4 +447,16 @@ public class AwardApprovedForeignTravel extends AwardAssociate
 //    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) {
 //        return thisTravelerName.compareToIgnoreCase(otherTravelerName);
 //    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
 }

@@ -22,7 +22,7 @@
     <class>org.kuali.kra.bo.DegreeType</class>
     <class>org.kuali.kra.bo.Country</class>
     <class>org.kuali.kra.bo.PersonEditableField</class>
-    <class>org.kuali.kra.bo.Person</class>
+    <class>org.kuali.kra.bo.KcPersonExtendedAttributes</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalPerson</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole</class>
@@ -113,27 +113,6 @@
     <class>org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc</class>
     <class>org.kuali.kra.budget.personnel.AppointmentType</class>
     <class>org.kuali.kra.budget.parameters.BudgetPeriodType</class>
-    <class>org.kuali.kra.kim.bo.KimPerson</class>
-    <class>org.kuali.kra.kim.bo.KimGroup</class>
-    <class>org.kuali.kra.kim.bo.KimPermission</class>
-    <class>org.kuali.kra.kim.bo.KimRole</class>
-    <class>org.kuali.kra.kim.bo.KimRoleType</class>
-    <class>org.kuali.kra.kim.bo.KimNamespace</class>
-    <class>org.kuali.kra.kim.bo.AttributeType</class>
-    <class>org.kuali.kra.kim.bo.KimPersonAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimGroupAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimRoleAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute</class>
-    <class>org.kuali.kra.kim.bo.KimRolePermission</class>
-    <class>org.kuali.kra.kim.bo.KimRolePerson</class>
-    <class>org.kuali.kra.kim.bo.KimRoleGroup</class>
-    <class>org.kuali.kra.kim.bo.KimQualifiedRolePerson</class>
-    <class>org.kuali.kra.kim.bo.KimQualifiedRoleGroup</class>
-    <class>org.kuali.kra.kim.bo.KimGroupPerson</class>
-    <class>org.kuali.kra.kim.bo.KimGroupGroup</class>
-    <class>org.kuali.kra.bo.UnitAclEntry</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate</class>
     <class>org.kuali.kra.bo.CustomAttribute</class>
     <class>org.kuali.kra.bo.CustomAttributeDataType</class>

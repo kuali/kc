@@ -15,7 +15,8 @@
 	limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -23,7 +24,7 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"> 
                            
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
@@ -92,7 +93,9 @@
 	-->
 	
 	      <!--  JOTM JTA configuration -->
-      <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+      <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+      	<property name="defaultTimeout" value="${transaction.timeout}"/> 
+      </bean>
       
       <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
             <property name="userTransaction">
@@ -116,7 +119,6 @@
       </bean>
       <!-- End JOTM config -->
 	
-	
 	<bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${datasource.driver.name}"/>
         <property name="url" value="${datasource.url}"/>
@@ -136,14 +138,7 @@
    <bean id="parameterService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
   </bean>
-  
-   <!--<bean id="dbPlatformFactory" class="org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory">
-    <property name="ojbPlatform" value="${datasource.ojb.platform}" />
-    <property name="dataSource" ref="dataSource" />
-  </bean>
-  
-  <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />-->
-  
+
   <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc">
     <property name="dataSource" ref="dataSource" />
     <property name="dbPlatform" ref="dbPlatform" />
@@ -179,13 +174,13 @@
 				<value>pessimisticLockLookupable</value>	
 				<value>protocolLookupable</value>	
 				<value>committeeLookupable</value>	
-				<value>kimIdentityManagementService</value>
 				<value>awardLookupable</value>
 				<!-- <value>awardPersonLookupable</value> -->
 				<value>docSearchCriteriaDTOLookupable</value>
 				<value>questionnaireLookupable</value>
 				<value>questionLookupable</value>
 				<value>dictionaryValidationService</value>
+				<value>kcPersonLookupable</value>
 				<value>institutionalProposalLookupable</value>
 				<value>proposalLogLookupable</value>
 			</set>
@@ -275,9 +270,19 @@
 	<bean id="configService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="configService" />
 	</bean>
-	
-	<bean id="kimIdentityManagementService" class="org.kuali.kra.rice.shim.IdentityManagementServiceKcImpl" />
 
+	<bean id="identityService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimIdentityService" />
+	</bean>
+
+	<bean id="identityManagementService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimIdentityManagementService" />
+	</bean>
+	
+	<bean id="roleManagementService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimRoleManagementService" />
+	</bean>
+	
 	<bean id="businessObjectService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="businessObjectService" />
 	</bean>
@@ -334,10 +339,29 @@
 	<bean id="encryptionService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="encryptionService" />
 	</bean>
+	
+    <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
+       <property name="identityService">
+           <ref bean="identityService" />
+       </property>
+    </bean>
+	
+	<bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="kcPersonLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="kcPersonLookupableHelperService" class="org.kuali.kra.lookup.KcPersonLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+ 		<property name="kcPersonService">
+ 			<ref bean="kcPersonService" />
+ 		</property>
+  	</bean>
     
     <bean id="kraUniversalUserDao" parent="platformAwareDao" class="org.kuali.kra.rice.KraUniversalUserDaoImpl">
-       <property name="personService">
-           <ref bean="personService" />
+       <property name="kcPersonService">
+           <ref bean="kcPersonService" />
        </property>
     </bean>
     
@@ -534,8 +558,8 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="personService">
-		    <ref bean="personService" />
+		<property name="kcPersonService">
+		    <ref bean="kcPersonService" />
 		</property>
 		<property name="parameterService">
 		    <ref bean="parameterService" />
@@ -558,8 +582,8 @@
 		<property name="proposalPersonService">
 			<ref bean="proposalPersonService" />
 		</property>
-		<property name="personService">
-			<ref bean="personService" />
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
 		</property>
       <property name="attachmentDao">
         <ref bean="attachmentDao" />
@@ -574,6 +598,9 @@
 		<property name="parameterService" ref="parameterService" />        
     	<property name="ynqService">
         	<ref bean="ynqService" />
+    	</property>
+    	<property name="kcPersonService">
+        	<ref bean="kcPersonService" />
     	</property>
 	</bean>
 	<bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
@@ -593,14 +620,7 @@
 		</property>
 	</bean>
 	
- 	--><bean id="personService" class="org.kuali.kra.service.impl.PersonServiceImpl">
- 		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="personDao">
-            <ref bean="personDao" />
-        </property>
- 	</bean>
+ 	-->
  	
  	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
  		<property name="businessObjectService">
@@ -610,61 +630,25 @@
             <ref bean="rolodexDao" />
         </property>
  	</bean>
- 	
-    <bean id="kimServiceHelper" class="org.kuali.kra.kim.service.impl.ServiceBase">
- 		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
- 	</bean>
- 	
-	<bean id="kimPersonService" class="org.kuali.kra.kim.service.impl.PersonServiceImpl">
-		<property name="serviceHelper">
-			<ref bean="kimServiceHelper" />
-		</property>
-	</bean>
-	
-	<bean id="kimRoleService" class="org.kuali.kra.kim.service.impl.RoleServiceImpl">
-		<property name="serviceHelper">
-			<ref bean="kimServiceHelper" />
-		</property>
-	</bean>
-	
-	<bean id="kimQualifiedRoleService" class="org.kuali.kra.kim.service.impl.QualifiedRoleServiceImpl">
-		<property name="serviceHelper">
-			<ref bean="kimServiceHelper" />
-		</property>
-	</bean>
 	
 	<bean id="systemAuthorizationService" class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimRoleService">
-			<ref bean="kimRoleService" />
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
 		</property>
 	</bean>
 
-	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceAclImpl">
-		<property name="systemAuthorizationService">
-			<ref bean="systemAuthorizationService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimRoleService">
-			<ref bean="kimRoleService" />
-		</property>
+	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
 		<property name="unitService">
 			<ref bean="unitService" />
 		</property>
-		<property name="businessObjectService">
-		    <ref bean="businessObjectService" />
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
 		</property>
-		<property name="personService">
-		    <ref bean="personService" />
+		<property name="identityManagementService">
+			<ref bean="identityManagementService" />
+		</property>		
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
 		</property>
 	</bean>
 	
@@ -672,26 +656,26 @@
 	    <property name="kraAuthorizationService">
 	        <ref bean="kraAuthorizationService" />
 	    </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
+		</property>
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
 	</bean>
-	
+
 	<bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
 		<property name="unitAuthorizationService">
 			<ref bean="unitAuthorizationService" />
 		</property>
-		<property name="personService">
-			<ref bean="personService" />
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
 		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
 		</property>
-		<property name="kimQualifiedRoleService">
-			<ref bean="kimQualifiedRoleService" />
+		<property name="identityManagementService">
+			<ref bean="identityManagementService" />
 		</property>
 	</bean>	
 	
@@ -715,13 +699,13 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="personService" ref="personService" />
+        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
     <bean id="parentAuthorizer" abstract="true" class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="personService" ref="personService" />
+        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
     <!-- Application Task Authorizers -->
@@ -1117,6 +1101,10 @@
 	<bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="countryCodeService" class="org.kuali.kra.service.impl.CountryCodeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
     <bean id="argValueLookupService" class="org.kuali.kra.service.impl.ArgValueLookupServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1125,10 +1113,6 @@
 
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
     </bean>
-    
-    <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />
-        
-    <bean id="personDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonDaoOjb" />
     	
     <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
         scope="prototype" parent="lookupableHelperService">
@@ -1138,7 +1122,7 @@
 
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
-    </bean>    
+    </bean>   
 
 	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -1161,11 +1145,11 @@
         <property name="kraAuthorizationService">
             <ref bean="kraAuthorizationService" />
         </property>
-        <property name="personService">
-            <ref bean="personService" />
+        <property name="roleManagementService">
+            <ref bean="roleManagementService" />
         </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
+        <property name="systemAuthorizationService">
+            <ref bean="systemAuthorizationService" />
         </property>
     </bean>
     
@@ -1238,12 +1222,6 @@
         </property>
     </bean>
 
-	<bean id="kIMService" class="org.kuali.kra.kim.service.impl.KIMServiceImpl">
-		<property name="serviceHelper">
-			<ref bean="kimServiceHelper" />
-		</property>
- 	</bean>
- 	
  	<bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -1385,6 +1363,9 @@
 		</property>
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
 		</property>
 	</bean>
 
@@ -1654,7 +1635,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-        <property name="documentService">
+        <property name="documentService">  
             <ref bean="documentService" />
         </property>
 		<property name="kraAuthorizationService">
@@ -1680,12 +1661,12 @@
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="personService" ref="personService" />
+        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 
     <bean id="questionAuthorizationService" class="org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="personService" ref="personService" />
+        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 	
 	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
@@ -1864,4 +1845,48 @@
 		</bean>
 	--><!--  Report config end -->
 	
+	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
+    </bean>
+    
+	<bean id="proposalRoleTypeService" class="org.kuali.kra.workflow.ProposalPersonDerivedRoleTypeServiceImpl">
+		<property name="proposalPersonService">
+			<ref bean="proposalPersonService" />
+		</property>		
+	</bean>
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="proposalRoleTypeService"
+	      p:localServiceName="proposalRoleTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="unitRoleTypeService"
+	      p:localServiceName="unitRoleTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="unitHierarchyRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitHierarchyRoleTypeServiceImpl">
+			<property name="unitService">
+				<ref bean="unitService" />
+			</property>
+	</bean>
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="unitHierarchyRoleTypeService"
+	      p:localServiceName="unitHierarchyRoleTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+    </bean>
+
+	<bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
+        <property name="identityManagementService" ref="identityManagementService" />
+    </bean>    
 </beans>

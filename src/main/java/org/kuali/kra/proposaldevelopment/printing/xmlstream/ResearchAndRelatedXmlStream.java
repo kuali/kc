@@ -71,10 +71,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.OrganizationYnq;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -662,7 +662,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 					salariesAndWagesType
 							.setAcademicFundingMonths(new BigDecimal(0.0));
 					salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
-					Person person = budgetPerson.getPerson();
+					KcPerson person = budgetPerson.getPerson();
 					salariesAndWagesType.setName(getContactPersonFullName(
 							person.getLastName(), person.getFirstName(), person
 									.getMiddleName()));
