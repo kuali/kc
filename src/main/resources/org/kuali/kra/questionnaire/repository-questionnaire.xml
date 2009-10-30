@@ -22,6 +22,7 @@
         <field-descriptor name="questionRefId" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="sequenceStatus" column="SEQUENCE_STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" />
