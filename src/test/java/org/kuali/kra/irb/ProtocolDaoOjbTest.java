@@ -23,16 +23,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDao;
-import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 /**
  * 
  * This class is to test get protocol search results
  */
-@PerTestUnitTestData(
+@PerSuiteUnitTestData(
     @UnitTestData(
             sqlFiles = {
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
@@ -40,7 +38,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                     @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),
-                        @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";")
+                    @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_protocol.sql", delimiter = ";")
             }
    )
 )
@@ -70,6 +69,16 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         testPerformingOrganization();
         testPerformingFundingSource();
     }
+
+    @Test
+    public void testGetProtocolSubmissionCountFromProtocol() {
+
+        //Integer val = getProtocolDao().getProtocolSubmissionCountFromProtocol("001");
+        assertTrue(getProtocolDao().getProtocolSubmissionCountFromProtocol("001"));
+        assertFalse(getProtocolDao().getProtocolSubmissionCountFromProtocol("002"));
+        
+    }
+    
 
     private void testProtocolId() {
         Map fieldValues = new HashMap();
