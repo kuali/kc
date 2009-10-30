@@ -71,7 +71,7 @@ public class BudgetInflationRatesWebTest extends BudgetRatesWebTestBase {
      */
     protected HtmlPage addBudgetPersonnelAndGetRatesPage(HtmlPage page) throws Exception {
         HtmlPage budgetPersonnelPage = clickOn(page, PERSONNEL_IMAGE_NAME);
-        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000003");
+        budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.KcPerson", "personId", "000000003");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].jobCode", "AA004");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].appointmentTypeCode", "1");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].calculationBase", "100000");

@@ -377,7 +377,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-	</class-descriptor> -->
+	</class-descriptor>
+-->
 
     <class-descriptor class="org.kuali.kra.bo.PersonDegree" table="PERSON_DEGREE">
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
@@ -396,10 +397,6 @@
 
         <reference-descriptor name="degreeType" class-ref="org.kuali.kra.bo.DegreeType"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="degreeCode" />
-        </reference-descriptor>
-
-        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person"  auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="personId" />
         </reference-descriptor>
     </class-descriptor>
 
@@ -420,6 +417,17 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.CountryCode" table="KC_COUNTRY_CODES_T">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="KC_COUNTRY_CODES_SEQ" autoincrement="true" />
+		<field-descriptor name="countryName" column="COUNTRY_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="twoCharacterCountryCode" column="TWO_CHAR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="threeCharacterCountryCode" column="THREE_CHAR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.PersonEditableField" table="PERSON_EDITABLE_FIELDS">
         <field-descriptor name="fieldName" column="FIELD_NAME" jdbc-type="VARCHAR" primarykey="true" />
@@ -430,20 +438,9 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.Person" table="PERSON">
+    <class-descriptor class="org.kuali.kra.bo.KcPersonExtendedAttributes" table="PERSON_EXT_T">
 		<field-descriptor id="1" name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" />
-		<field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="middleName" column="MIDDLE_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="priorName" column="PRIOR_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="userName" column="USER_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
-		<field-descriptor name="dateOfBirth" column="DATE_OF_BIRTH" jdbc-type="VARCHAR" />
-		<field-descriptor name="age" column="AGE" jdbc-type="INTEGER" />
 		<field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
-		<field-descriptor name="gender" column="GENDER" jdbc-type="VARCHAR" />
 		<field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
 		<field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
 		<field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
@@ -454,54 +451,27 @@
 		<field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="visaRenewalDate" column="VISA_RENEWAL_DATE" jdbc-type="VARCHAR" />
+		<field-descriptor name="visaRenewalDate" column="VISA_RENEWAL_DATE" jdbc-type="DATE" />
 		<field-descriptor name="hasVisa" column="HAS_VISA" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="officeLocation" column="OFFICE_LOCATION" jdbc-type="VARCHAR" />
-		<field-descriptor name="officePhone" column="OFFICE_PHONE" jdbc-type="VARCHAR" />
 		<field-descriptor name="secondaryOfficeLocation" column="SECONDRY_OFFICE_LOCATION" jdbc-type="VARCHAR" />
-		<field-descriptor name="secondaryOfficePhone" column="SECONDRY_OFFICE_PHONE" jdbc-type="VARCHAR" />
 		<field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
 		<field-descriptor name="yearGraduated" column="YEAR_GRADUATED" jdbc-type="VARCHAR" />
 		<field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
-		<field-descriptor name="saluation" column="SALUTATION" jdbc-type="VARCHAR" />
-		<field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
 		<field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
-		<field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
-		<field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="serviceStaffFlag" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="supportStaffFlag" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="otherAcademicGroupFlag" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="medicalStaffFlag" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="homeUnitIdentifier" column="HOME_UNIT" jdbc-type="VARCHAR" />
 		<field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
 		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
-		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR" />
-		<field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR" />
-		<field-descriptor name="addressLine3" column="ADDRESS_LINE_3" jdbc-type="VARCHAR" />
-		<field-descriptor name="city" column="CITY" jdbc-type="VARCHAR" />
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
-		<field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
-		<field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR" />
-		<field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="pagerNumber" column="PAGER_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <field-descriptor name="kimPersonId" column="KIM_PERSON_ID" jdbc-type="BIGINT" />
-        <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <foreignkey field-ref="kimPersonId" />
-        </reference-descriptor>
-		 <reference-descriptor name="homeUnitRef" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="homeUnit" /> 
+		 <reference-descriptor name="homeUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="homeUnitIdentifier" /> 
     	</reference-descriptor>
 	</class-descriptor>
 	
@@ -616,10 +586,6 @@
 
 		<reference-descriptor name="role" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="proposalPersonRoleId"/>
-		</reference-descriptor>
-
-		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 
 		<reference-descriptor name="certification" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1267,13 +1233,15 @@
 		</collection-descriptor>
 		<collection-descriptor name="Template" proxy="true" element-class-ref="org.kuali.kra.bo.Template" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
-		</collection-descriptor> -->
+		</collection-descriptor>
+-->
 		<reference-descriptor name="country" class-ref="org.kuali.kra.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		<!-- <reference-descriptor name="Rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rolodexId"/>
-		</reference-descriptor> -->
+		</reference-descriptor>
+-->
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
@@ -1439,10 +1407,6 @@
     <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
       <foreignkey field-ref="unitNumber"/> 
     </reference-descriptor>
-    
-    <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="personId"/>
-	</reference-descriptor>
 	
 	<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="unitAdministratorTypeCode"/>
@@ -1522,7 +1486,8 @@
 		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="moduleNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
-		</reference-descriptor> -->
+		</reference-descriptor>
+-->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" table="NARRATIVE_USER_RIGHTS">
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
@@ -1536,7 +1501,8 @@
 		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="moduleNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
-		</reference-descriptor> -->
+		</reference-descriptor>
+-->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus" table="NARRATIVE_STATUS">
 		<field-descriptor name="narrativeStatusCode" column="NARRATIVE_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1663,219 +1629,6 @@
 	</class-descriptor>
 	
 	<!-- KIM OJB Mappings -->
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimPerson" table="KIM_PERSONS_T">
-    	<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERSONS_ID" />
-        <field-descriptor name="username" column="USERNAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="password" column="PASSWORD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimGroup" table="KIM_GROUPS_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUPS_ID"/>
-        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimPermission" table="KIM_PERMISSIONS_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERMISSIONS_ID"/>
-        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRole" table="KIM_ROLES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_ID"/>
-        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="roleTypeCode"/>
-        </reference-descriptor>
-        
-        <collection-descriptor name="rolePermissions" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimRolePermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="roleId"/>
-        </collection-descriptor>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRoleType" table="KIM_ROLE_TYPE_T">
-        <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.kim.bo.KimNamespace" table="KIM_NAMESPACES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_NAMESPACES_ID"/>
-        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.AttributeType" table="KIM_ATTRIBUTE_TYPES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ATTRIBUTE_TYPE_ID"/>
-        <field-descriptor name="attributeTypeName" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimPersonAttribute" table="KIM_PERSON_ATTRIBUTES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" />
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="namespaceId" column="SPONSOR_NAMESPACE_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupAttribute" table="KIM_GROUP_ATTRIBUTES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUP_ATTRIBUTES_ID"/>
-        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute" table="KIM_NAMESPACE_DFLT_ATTRIBS_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_NS_DFLT_ATTRIBS_ID"/>
-        <field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRoleAttribute" table="KIM_ROLE_ATTRIBUTES_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLE_ATTRIBUTES_ID"/>
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" table="KIM_PERSON_QUAL_ATTR_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERSON_QUAL_ATTR_ID"/>
-        <field-descriptor name="rolePersonId" column="ROLE_PERSON_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" table="KIM_GROUP_QUAL_ATTR_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUP_QUAL_ATTR_ID"/>
-        <field-descriptor name="roleGroupId" column="ROLE_GROUP_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRolePermission" table="KIM_ROLES_PERMISSIONS_T">
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
-        <field-descriptor name="permissionId" column="PERMISSION_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="role" class-ref="org.kuali.kra.kim.bo.KimRole" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="roleId"/>
-        </reference-descriptor>
-        <reference-descriptor name="permission" class-ref="org.kuali.kra.kim.bo.KimPermission" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="permissionId"/>
-        </reference-descriptor>
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRolePerson" table="KIM_ROLES_PERSONS_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_PERSONS_ID"/>
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimRoleGroup" table="KIM_ROLES_GROUPS_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_GROUPS_ID"/>
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRolePerson" table="KIM_ROLES_PERSONS_QUAL_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_PERSONS_QUAL_ID"/>
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    
-        <collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="rolePersonId"/>
-        </collection-descriptor>
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRoleGroup" table="KIM_ROLES_GROUPS_QUAL_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_GROUPS_QUAL_ID" />
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    
-        <collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="roleGroupId"/>
-        </collection-descriptor>
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupPerson" table="KIM_GROUPS_PERSONS_T">
-        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupGroup" table="KIM_GROUPS_GROUPS_T">
-        <field-descriptor name="parentGroupId" column="PARENT_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="memberGroupId" column="MEMBER_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.bo.UnitAclEntry" table="UNIT_ACL">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNIT_ACL_ID" />
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="subunits" column="SUBUNITS" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-          
-        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="personId"/>
-        </reference-descriptor>
-        <reference-descriptor name="role" class-ref="org.kuali.kra.kim.bo.KimRole" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="roleId"/>
-        </reference-descriptor>
-         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="unitNumber"/>
-        </reference-descriptor>
-    </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" table="PROP_ROLE_TEMPLATE">
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_ROLE_TEMPLATE_ID" />
@@ -1885,10 +1638,6 @@
         <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-          
-        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="personId"/>
-        </reference-descriptor>
          <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
@@ -2207,9 +1956,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="training" class-ref="org.kuali.kra.bo.Training" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="trainingCode"/> 
-		</reference-descriptor>
-		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="personId"/> 
 		</reference-descriptor>
 	</class-descriptor>
 	

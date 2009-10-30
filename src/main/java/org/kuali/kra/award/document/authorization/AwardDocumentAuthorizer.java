@@ -39,11 +39,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
-        String username = user.getPrincipalName();
         AwardDocument awardDocument = (AwardDocument) document;
         
         if (awardDocument.getAward().getAwardId() == null) {
-            if (canCreateAward(user)) {
+            if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else {
@@ -51,10 +50,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
         }
         else {
-            if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
+            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
-            else if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
+            else if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
             else {
@@ -63,15 +62,15 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         
         //FIXME: Adding all budget permissions for the time being.
-//        if (canExecuteTask(username, awardDocument, TaskName.ADD_BUDGET)) {
+//        if (canExecuteTask(user, awardDocument, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
 //        }
                 
-//        if (canExecuteTask(username, awardDocument, TaskName.OPEN_BUDGETS)) {
+//        if (canExecuteTask(user, awardDocument, TaskName.OPEN_BUDGETS)) {
             editModes.add("openBudgets");
 //        }
                 
-//        if (canExecuteTask(username, awardDocument, TaskName.MODIFY_BUDGET)) {
+//        if (canExecuteTask(user, awardDocument, TaskName.MODIFY_BUDGET)) {
             editModes.add("modifyProposalBudget");
 //        }
 
@@ -83,7 +82,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
-        return canCreateAward(user);
+        return canCreateAward(user.getPrincipalId());
     }
   
     /**
@@ -92,9 +91,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public boolean canOpen(Document document, Person user) {
         AwardDocument awardDocument = (AwardDocument) document;
         if (awardDocument.getAward().getAwardId() == null) {
-            return canCreateAward(user);
+            return canCreateAward(user.getPrincipalId());
         }
-        return canExecuteAwardTask(user.getPrincipalName(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
+        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
     }
     
     /**
@@ -102,7 +101,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteAwardTask(user.getPrincipalName(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
     }
     
     /**
@@ -134,10 +133,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @param user the user
      * @return true if the user can create a award; otherwise false
      */
-    private boolean canCreateAward(Person user) {
-        String username = user.getPrincipalName();
+    private boolean canCreateAward(String userId) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);
-        return getTaskAuthorizationService().isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
     
     /**
@@ -147,8 +145,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteAwardTask(String username, AwardDocument doc, String taskName) {
+    private boolean canExecuteAwardTask(String userId, AwardDocument doc, String taskName) {
         AwardTask task = new AwardTask(taskName, doc.getAward());
-        return getTaskAuthorizationService().isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
 }

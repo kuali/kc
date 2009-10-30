@@ -17,13 +17,12 @@ package org.kuali.kra.common.permissions.web.struts.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
@@ -32,9 +31,7 @@ import org.kuali.kra.common.permissions.web.bean.RoleState;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.permissions.web.bean.UserState;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -47,17 +44,13 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public abstract class PermissionsHelperBase implements Serializable {
     
+    private transient KcPersonService kcPersonService;
+    
     /*
      * The form data for a new user.  See the Users panel
      * on the Permissions tab web page.
      */
     private PermissionsUser newUser;
-    
-    /*
-     * The type of role that will be used, e.g. PROPOSAL_ROLE_TYPE, PROTOCOL_ROLE_TYPE.
-     * If null, the derived class must override getKimRoles().
-     */
-    private String roleType;
     
     /*
      * All of the supported roles for the document.
@@ -99,9 +92,8 @@ public abstract class PermissionsHelperBase implements Serializable {
      * Initialize the class.
      */
     private void initialize(String roleType) {
-        this.roleType = roleType;
         clearNewUser();
-        buildRoles();
+        buildRoles(roleType);
     }
     
     /**
@@ -256,8 +248,8 @@ public abstract class PermissionsHelperBase implements Serializable {
     private void buildUserStates() {  
         for (Role role : roles) {
             String roleName = role.getName();
-            List<Person> persons = getPersonsInRole(roleName);
-            for (Person person : persons) {
+            List<KcPerson> persons = getPersonsInRole(roleName);
+            for (KcPerson person : persons) {
                 UserState userState = getUserState(person);
                 userState.setSaved(roleName, true);
             }
@@ -268,7 +260,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * Get the UserState for a person.  If the userState is not found, create
      * a new one for that person.
      */
-    private UserState getUserState(Person person) {
+    private UserState getUserState(KcPerson person) {
         for (UserState userState : userStates) {
             if (StringUtils.equals(userState.getPerson().getUserName(), person.getUserName())) {
                 return userState;
@@ -281,7 +273,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * Create a UserState for a person.  All of the roles states, current and new,
      * are initialized to false.
      */
-    private UserState createUserState(Person person) {
+    private UserState createUserState(KcPerson person) {
         UserState userState = new UserState(person, roles);
         userStates.add(userState);
         return userState;
@@ -292,17 +284,17 @@ public abstract class PermissionsHelperBase implements Serializable {
      * @param roleName the name of the role
      * @return the list of persons
      */
-    protected abstract List<Person> getPersonsInRole(String roleName);
+    protected abstract List<KcPerson> getPersonsInRole(String roleName);
     
     /*
      * Build the list of roles for the document.
      */
-    private void buildRoles() {
+    private void buildRoles(String roleType) {
         roles = new ArrayList<Role>();
-        List<KimRole> kimRoles = getSortedKimRoles();
-        for (KimRole kimRole : kimRoles) {
-            Role role = new Role(kimRole.getName(), getRoleDisplayName(kimRole.getName()));
-            role.setPermissions(kimRole.getPermissions());
+        List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
+        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
+            Role role = new Role(kimRole.getRoleName(), getRoleDisplayName(kimRole.getRoleName()));
+            //role.setPermissions(kimRole.getPermissions());
             roles.add(role);
         }
     }
@@ -312,19 +304,19 @@ public abstract class PermissionsHelperBase implements Serializable {
      * is shown first, followed by the standard roles, and then by the user-defined roles.
      * @return the sorted list of KIM roles
      */
-    private List<KimRole> getSortedKimRoles() {
+    private List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
         
-        List<KimRole> sortedKimRoles = new ArrayList<KimRole>();
-        Collection<KimRole> kimRoles = getKimRoles();
+        List<org.kuali.rice.kim.bo.Role> sortedKimRoles = new ArrayList<org.kuali.rice.kim.bo.Role>();
+        List<org.kuali.rice.kim.bo.Role> kimRoles = getKimRoles(roleType);
         
         /*
          * Add in unassigned and standard roles first so that
          * they always show up first on the web pages.
          */
-        for (KimRole kimRole : kimRoles) {
-            if (isUnassignedRoleName(kimRole.getName())) {
+        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
+            if (isUnassignedRoleName(kimRole.getRoleName())) {
                 sortedKimRoles.add(0, kimRole);
-            } else if (isStandardRoleName(kimRole.getName())) {
+            } else if (isStandardRoleName(kimRole.getRoleName())) {
                 sortedKimRoles.add(kimRole);
             }
         }
@@ -332,7 +324,7 @@ public abstract class PermissionsHelperBase implements Serializable {
         /*
          * Now add in any user-defined roles.
          */
-        for (KimRole kimRole : kimRoles) {
+        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
             if (!sortedKimRoles.contains(kimRole)) {
                 sortedKimRoles.add(kimRole);
             }
@@ -346,7 +338,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * class must override this method to obtain the roles for the document.
      * @return the list of KIM roles for the document
      */
-    protected Collection<KimRole> getKimRoles() {
+    protected List<org.kuali.rice.kim.bo.Role> getKimRoles(String roleType) {
         SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService(SystemAuthorizationService.class);
         return systemAuthorizationService.getRoles(roleType);
     }
@@ -447,7 +439,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * verify the person's existence in the database.
      */
     public void addNewUser() {
-        Person person = findPerson(newUser.getUserName());
+        KcPerson person = findPerson(newUser.getUserName());
         UserState userState = new UserState(person, roles);
         userState.setAssigned(newUser.getRoleName(), true);
         userStates.add(userState);
@@ -479,21 +471,31 @@ public abstract class PermissionsHelperBase implements Serializable {
     /*
      * Find the person with a given userName.
      */
-    private Person findPerson(String userName) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        return personService.getPersonByName(userName);
+    private KcPerson findPerson(String userName) {
+        return getKcPersonService().getKcPersonByUserName(userName);
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     /**
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    protected String getUserName() {
-         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    protected String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 }

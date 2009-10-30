@@ -22,13 +22,16 @@ import java.util.List;
  */
 public interface Permissionable {
     
-    String PROPOSAL_KEY = "kra.proposal";
-    String AWARD_KEY = "kra.award";
-    String TIME_AND_MONEY_KEY = "kra.timeandmoney";
-    String AWARD_BUDGET_KEY = "kra.awardbudget";
-    String PROPOSAL_BUDGET_KEY = "kra.proposalbudget";
-    String PROTOCOL_KEY = "kra.protocol";
-    String COMMITTEE_KEY = "kra.committee";
+    String PROPOSAL_KEY = "proposal";
+    String AWARD_KEY = "award";
+    String TIME_AND_MONEY_KEY = "timeandmoney";
+    
+    //these keys dont seem to be used now
+    String AWARD_BUDGET_KEY = "awardbudget";
+    String PROPOSAL_BUDGET_KEY = "proposalbudget";
+    
+    String PROTOCOL_KEY = "protocol";
+    String COMMITTEE_KEY = "committee";
     
     /**
      * 
@@ -52,5 +55,11 @@ public interface Permissionable {
      * @return
      */
     List<String> getRoleNames();
+    
+    String getNamespace();
+    
+    String getLeadUnitNumber();
+    
+    String getDocumentRoleTypeCode();
     
 }

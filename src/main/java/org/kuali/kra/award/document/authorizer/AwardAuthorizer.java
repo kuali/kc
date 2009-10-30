@@ -32,8 +32,8 @@ public abstract class AwardAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public final boolean isAuthorized(String username, Task task) {
-        return isAuthorized(username, (AwardTask) task);
+    public final boolean isAuthorized(String userId, Task task) {
+        return isAuthorized(userId, (AwardTask) task); 
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class AwardAuthorizer extends TaskAuthorizerImpl {
      * @param task the award task
      * @return true if the user is authorized; otherwise false
      */
-    public abstract boolean isAuthorized(String username, AwardTask task);
+    public abstract boolean isAuthorized(String userId, AwardTask task);
     
     /**
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
@@ -59,7 +59,7 @@ public abstract class AwardAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String username, Award award, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, award, permissionName);
+    protected final boolean hasPermission(String userId, Award award, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, award, permissionName);
     }
 }

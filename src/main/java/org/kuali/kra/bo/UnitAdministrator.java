@@ -17,14 +17,18 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+
 public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 
 	private String personId;
 	private String unitAdministratorTypeCode;
 	private String unitNumber;
-    private Person person;
     private UnitAdministratorType unitAdministratorType;
     private Unit unit;
+    
+    private transient KcPersonService kcPersonService;
 
 	public UnitAdministrator(){
 		super();
@@ -64,12 +68,20 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     public UnitAdministratorType getUnitAdministratorType() {

@@ -26,7 +26,7 @@ public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        return hasPermission(username, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
     }
 }

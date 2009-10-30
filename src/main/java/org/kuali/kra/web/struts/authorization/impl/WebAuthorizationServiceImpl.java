@@ -63,7 +63,7 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
      * 
      * @see org.kuali.kra.web.struts.authorization.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
-    public boolean isAuthorized(String username, Class actionClass, String methodName, ActionForm form, HttpServletRequest request) {
+    public boolean isAuthorized(String userId, Class actionClass, String methodName, ActionForm form, HttpServletRequest request) {
         boolean isAuthorized = true;
         
         if (actionClass != null) {
@@ -71,16 +71,16 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
             
             WebAuthorizer webAuthorizer = getWebAuthorizer(classname);
             if (webAuthorizer == null) {
-                isAuthorized = isAuthorized(username, actionClass.getSuperclass(), methodName, form, request);
+                isAuthorized = isAuthorized(userId, actionClass.getSuperclass(), methodName, form, request);
             }
             else {
                 WebTaskFactory taskFactory = webAuthorizer.getTaskFactory(methodName);
                 if (taskFactory == null) {
-                    isAuthorized = isAuthorized(username, actionClass.getSuperclass(), methodName, form, request);
+                    isAuthorized = isAuthorized(userId, actionClass.getSuperclass(), methodName, form, request);
                 }
                 else if (taskAuthorizationService != null) {
                     Task task = taskFactory.createTask(form, request);
-                    isAuthorized = taskAuthorizationService.isAuthorized(username, task);
+                    isAuthorized = taskAuthorizationService.isAuthorized(userId, task);
                 }
             }
         }

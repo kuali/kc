@@ -24,7 +24,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -59,7 +58,7 @@ public class SpecialReviewHelper implements Serializable {
     
     private void initializePermissions(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, protocol);
-        modifySpecialReview = getTaskAuthorizationService().isAuthorized(getUsername(), task);   
+        modifySpecialReview = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);   
     }
     
     private Protocol getProtocol() {
@@ -102,8 +101,7 @@ public class SpecialReviewHelper implements Serializable {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private String getUsername() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
    }
 }

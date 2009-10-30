@@ -27,13 +27,13 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  
 public class ModifyNarrativesAuthorizer extends ProposalAuthorizer {
 
-    public boolean isAuthorized(String username, ProposalTask task) {
+    public boolean isAuthorized(String userId, ProposalTask task) {
         
         ProposalDevelopmentDocument doc = task.getDocument();
         
         boolean hasPermission = false;
         if (!kraWorkflowService.isInWorkflow(doc) && !doc.getDevelopmentProposal().getSubmitFlag()) {
-            hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE);
+            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
         }
         return hasPermission;
     }

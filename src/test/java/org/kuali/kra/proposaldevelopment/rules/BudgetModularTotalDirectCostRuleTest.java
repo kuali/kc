@@ -157,7 +157,7 @@ public class BudgetModularTotalDirectCostRuleTest {
 
         public String getParameterValue(String namespaceCode,
                 String parameterDetailTypeCode, String parameterName) {
-                if (Constants.PARAMETER_MODULE_BUDGET.equals(namespaceCode)
+                if (Constants.MODULE_NAMESPACE_BUDGET.equals(namespaceCode)
                     && Constants.PARAMETER_COMPONENT_DOCUMENT.equals(parameterDetailTypeCode)
                     && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
                     return "1";
@@ -201,7 +201,7 @@ public class BudgetModularTotalDirectCostRuleTest {
      
        public String getParameterValue(String namespaceCode,
            String parameterDetailTypeCode, String parameterName) {
-           if (Constants.PARAMETER_MODULE_BUDGET.equals(namespaceCode)
+           if (Constants.MODULE_NAMESPACE_BUDGET.equals(namespaceCode)
                && Constants.PARAMETER_COMPONENT_DOCUMENT.equals(parameterDetailTypeCode)
                && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
                return "1";

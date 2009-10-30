@@ -67,7 +67,7 @@ import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.OrganizationTypeList;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -81,10 +81,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -162,6 +164,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private static final String REPORT_CLASS = "REPORT CLASS";
 	private static final String REPORT_TYPE = "REPORT TYPE";
 	private VersionHistoryService versionHistoryService;
+	private transient KcPersonService kcPersonService;
 
 	/**
 	 * This method generates XML for Award Notice Report. It uses data passed in
@@ -1366,12 +1369,9 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private String getPersonDescription(String lookupClass, String value) {
 		String description = null;
 		if (lookupClass.equals(W_PERSON_SELECT)) {
-			Map<String, String> personMap = new HashMap<String, String>();
-			personMap.put(PERSON_ID_PARAMETER, value);
-			List<Person> persons = (List<Person>) businessObjectService
-					.findMatching(Person.class, personMap);
-			if (persons != null && !persons.isEmpty()) {
-				description = persons.get(0).getFirstName();
+			KcPerson person = this.getKcPersonService().getKcPersonByPersonId(value);
+			if (person != null) {
+				description = person.getFirstName();
 			}
 		}
 		return description;
@@ -1385,4 +1385,16 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 			VersionHistoryService versionHistoryService) {
 		this.versionHistoryService = versionHistoryService;
 	}
+	
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
 }

@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.kim.pojo.QualifiedRole;
-import org.kuali.kra.kim.service.PersonService;
-import org.kuali.kra.kim.service.RoleService;
+import org.kuali.kra.infrastructure.PermissionAttributes;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.RoleManagementService;
 
 /**
  * The Unit Authorization Service Implementation.
@@ -37,39 +37,21 @@ import org.kuali.kra.service.UnitService;
 public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraAuthorizationServiceImpl.class);
 
-    private static final String UNIT_NUMBER_KEY = "kra.unitNumber";
-    private static final String SUBUNITS_KEY = "kra.subunits";
-    private static final String YES = "Y";
-    
-    private SystemAuthorizationService systemAuthorizationService;
-    private PersonService kimPersonService;
-    private RoleService kimRoleService;
+    private static final String UNIT_NUMBER_KEY = "unitNumber";
     private UnitService unitService;
-
-    /**
-     * Set the System Authorization Service.  Injected by Spring.
-     * @param systemAuthorizationService the System Authorization Service
-     */
-    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
-        this.systemAuthorizationService = systemAuthorizationService;
-    }
-
-    /**
-     * Set the KIM Person Service.  Injected by Spring.
-     * @param personService the KIM Person Service
-     */
-    public void setKimPersonService(PersonService personService) {
-        this.kimPersonService = personService;
-    }
+    private SystemAuthorizationService systemAuthorizationService;
     
-    /**
-     * Set the KIM Role Service.  Injected by Spring.
-     * @param roleService the KIM Role Service
-     */
-    public void setKimRoleService(RoleService roleService) {
-        this.kimRoleService = roleService;
-    }
+    private IdentityManagementService identityManagementService; 
+    private RoleManagementService roleManagementService;
     
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
+    }
+
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
+    }
+
     /**
      * Set the Unit Service.  Injected by Spring.
      * @param unitService the Unit Service
@@ -78,49 +60,26 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         this.unitService = unitService;
     }
     
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
+    }
+
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean hasPermission(String username, String unitNumber, String permissionName) {
-        long startTime = System.currentTimeMillis();
-        // Do a quick check to see if the user has the permission
-        // in the global space.
-        
-        boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
-        long endTime = System.currentTimeMillis();
-        LOG.info("systemAuthorizationService.hasPermission Execution Time: " + (endTime - startTime));
+    public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
+        boolean userHasPermission = false;
+        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
 
-        if (!userHasPermission && unitNumber != null) {
-            
+        if (unitNumber != null) {
             // Check the unit for the permission. If the user doesn't have the permission
             // in the given unit, traverse up the Unit Hierarchy to see if the user has
             // the permission in a higher-level unit with the SUBUNITS flag set to YES.
-            
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, unitNumber);
-            userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-            endTime = System.currentTimeMillis();
-            LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
-            while (!userHasPermission) {
-                Unit unit = unitService.getUnit(unitNumber);
-                endTime = System.currentTimeMillis();
-                LOG.info("unitService.getUnit Execution Time: " + (endTime - startTime));
-                if (unit != null) {
-                    String parentUnitNumber = unit.getParentUnitNumber();
-                    endTime = System.currentTimeMillis();
-                    LOG.info("unit.getParentUnitNumber Execution Time: " + (endTime - startTime));
-                    if (parentUnitNumber == null) {
-                        break;
-                    }
-                    unitNumber = parentUnitNumber;
-                    qualifiedRoleAttributes = new HashMap<String, String>();
-                    qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, unitNumber);
-                    qualifiedRoleAttributes.put(SUBUNITS_KEY, YES);
-                    userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-                    endTime = System.currentTimeMillis();
-                    LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
-                }
-            }
+            
+            //The UnitHierarchyRoleTypeService takes care of traversing the Unit tree.
+            userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes)); 
         }
         return userHasPermission;
     }
@@ -128,65 +87,39 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)
      */
-    public boolean hasPermission(String username, String permissionName) {
+    public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
+        boolean userHasPermission = false;
+        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         
-        // Do a quick check to see if the user has the permission
-        // in the global space.
-        
-        boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
-        if (!userHasPermission) {
-            
-            // Does the user have this permission in a qualified role?  
-            // NOTE: We should only be checking qualified roles corresponding
-            //       to units, but the KIM API doesn't provide this.
-            
-            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-        }
+        // Does the user have this permission in a qualified role?  
+        // NOTE: We should only be checking qualified roles corresponding
+        //       to units, but the KIM API doesn't provide this.
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*"); //Should verify if this wildcard matching works
+        userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
         return userHasPermission;
     }
     
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
      */
-    public List<Unit> getUnits(String username, String permissionName) {
+    public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
         List<Unit> units = new ArrayList<Unit>();
+        // Start by getting all of the Qualified Roles that the person is in.  For each
+        // qualified role that has the UNIT_NUMBER qualification, check to see if the role
+        // has the required permission.  If so, add that unit to the list.  Also, if the
+        // qualified role has the SUBUNITS qualification set to YES, then also add all of the 
+        // subunits the to the list.
+        List<String> roleIds = new ArrayList<String>();
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*");
+        roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
         
-        // Do a quick check to see if the user has the permission
-        // in the global space.  If so, the the user has that permission
-        // in every unit.
-        
-        boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
-        if (userHasPermission) {
-            units.addAll(unitService.getUnits());
+        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipal(userId, roleIds, new AttributeSet(qualifiedRoleAttributes));
+        for(AttributeSet qualifier : qualifiers) {
+            units.add(unitService.getUnit(qualifier.get(UNIT_NUMBER_KEY)));
         }
-        else {
-            
-            // Start by getting all of the Qualified Roles that the person is in.  For each
-            // qualified role that has the UNIT_NUMBER qualification, check to see if the role
-            // has the required permission.  If so, add that unit to the list.  Also, if the
-            // qualified role has the SUBUNITS qualification set to YES, then also add all of the 
-            // subunits the to the list.
-            
-            units = new ArrayList<Unit>();
-            List<QualifiedRole> qualifiedRoles = kimPersonService.getQualifiedRoles(username);
-            
-            for (QualifiedRole qualifiedRole : qualifiedRoles) {
-                if (qualifiedRole.getQualifiedRoleAttributes().containsKey(UNIT_NUMBER_KEY)) {
-                    if (kimRoleService.hasPermission(qualifiedRole.getRoleName(), Constants.KRA_NAMESPACE, permissionName)) {
-                        String unitNumber = qualifiedRole.getQualifiedRoleAttributes().get(UNIT_NUMBER_KEY);
-                        Unit unit = unitService.getUnit(unitNumber);
-                        if (!units.contains(unit)) {
-                            units.add(unit);
-                            String descendFlag = qualifiedRole.getQualifiedRoleAttributes().get(SUBUNITS_KEY);
-                            if (YES.equalsIgnoreCase(descendFlag)) {
-                                units.addAll(unitService.getAllSubUnits(unit.getUnitNumber()));
-                            }
-                        }
-                    } 
-                }
-            }
-        }
+        //the above line could potentially be a performance problem - need to revisit
         return units;
     }
 }

@@ -27,12 +27,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -149,12 +148,12 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(getKraAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.MODIFY_COMMITTEE)) {
+        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Committee) businessObject, PermissionConstants.MODIFY_COMMITTEE)) {
             if (!isCommitteeBeingEdited((Committee) businessObject)) {
                 htmlDataList =  super.getCustomActionUrls(businessObject, pkNames);
             }
         }
-        if(getKraAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.VIEW_COMMITTEE)) {
+        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Committee) businessObject, PermissionConstants.VIEW_COMMITTEE)) {
             htmlDataList.add(getViewLink(((Committee) businessObject).getCommitteeDocument()));
         }
         return htmlDataList;
@@ -209,9 +208,8 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
-    private String getUserName() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     /**

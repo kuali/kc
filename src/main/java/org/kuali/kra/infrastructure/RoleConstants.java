@@ -24,11 +24,11 @@ public interface RoleConstants {
     
     // Role Types
     
-    public static final String PROPOSAL_ROLE_TYPE = "P";
-    public static final String OSP_ROLE_TYPE = "O";
-    public static final String DEPARTMENT_ROLE_TYPE = "D";
-    public static final String PROTOCOL_ROLE_TYPE = "R";
-    public static final String AWARD_ROLE_TYPE = "A";
+    public static final String PROPOSAL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+    public static final String OSP_ROLE_TYPE = "KC-ADM";
+    public static final String DEPARTMENT_ROLE_TYPE = "KC-UNT";
+    public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROTOCOL;
+    public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
     
     // The names of the standard roles as used by KIM to identify a role.
     
@@ -45,6 +45,10 @@ public interface RoleConstants {
     
     public static final String IRB_ADMINISTRATOR = "IRB Administrator";
     public static final String IRB_REVIEWER = "IRB Reviewer";
+    
+    public static final String OSP_ADMINISTRATOR = "OSP Administrator";
+    
+    public static final String KC_ADMIN_NAMESPACE = "KC-ADM";
     
 }
 

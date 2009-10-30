@@ -36,7 +36,7 @@ public interface UnitAuthorizationService {
      * @param permissionName the name of the permission
      * @return true if the user has permission; otherwise false
      */
-    public boolean hasPermission(String username, String permissionName);
+    public boolean hasPermission(String userId, String namespaceCode, String permissionName);
     
     /**
      * Does the user have the given permission in the specified unit?  
@@ -47,7 +47,7 @@ public interface UnitAuthorizationService {
      * @param permissionName the name of the permission
      * @return true if the user has permission; otherwise false
      */
-    public boolean hasPermission(String username, String unitNumber, String permissionName);
+    public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName);
     
     /**
      * Get the units that the user has the given permission in.
@@ -58,5 +58,5 @@ public interface UnitAuthorizationService {
      * @param permissionName the name of the permission
      * @return the list of units the user has this permission in
      */
-    public List<Unit> getUnits(String username, String permissionName);
+    public List<Unit> getUnits(String userId, String namespaceCode, String permissionName);
 }

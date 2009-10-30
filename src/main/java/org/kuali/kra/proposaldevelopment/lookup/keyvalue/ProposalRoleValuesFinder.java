@@ -16,15 +16,12 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.kim.service.ProposalRoleService;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -42,35 +39,15 @@ public class ProposalRoleValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection<KimRole> roles = keyValuesService.findAll(KimRole.class);
+        ProposalRoleService proposalRoleService = KraServiceLocator.getService(ProposalRoleService.class);
+        List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        
-        /*
-         * Add in all of the standard proposal roles so they show up first in the drop-down list.
-         */
-        for (KimRole role : roles) {
-            if (StringUtils.equals(role.getRoleTypeCode(), RoleConstants.PROPOSAL_ROLE_TYPE)) {
-                KeyLabelPair pair = new KeyLabelPair(role.getName(), role.getName());
-                if (role.isUnassigned()) {
-                    keyValues.add(0, pair);
-                } else if (role.isStandardProposalRole()){
-                    keyValues.add(pair);
-                }
-            }
+
+        for (Role role : proposalRoles) {
+            KeyLabelPair pair = new KeyLabelPair(role.getRoleName(), role.getRoleName());
+            keyValues.add(pair);
         }
         
-        /*
-         * Now add in all of the other user-defined proposal roles.
-         */
-        for (KimRole role : roles) {
-            if (StringUtils.equals(role.getRoleTypeCode(), RoleConstants.PROPOSAL_ROLE_TYPE)) {
-                KeyLabelPair pair = new KeyLabelPair(role.getName(), role.getName());
-                if (!role.isUnassigned() && !role.isStandardProposalRole()) {
-                    keyValues.add(pair);
-                }
-            }
-        }
         return keyValues;
     }
 }

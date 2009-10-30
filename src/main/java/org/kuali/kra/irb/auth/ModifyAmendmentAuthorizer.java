@@ -35,9 +35,9 @@ public abstract class ModifyAmendmentAuthorizer extends ModifyProtocolAuthorizer
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     @Override
-    public boolean isAuthorized(String username, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        boolean hasPermission = super.isAuthorized(username, task);
+        boolean hasPermission = super.isAuthorized(userId, task); 
         if (hasPermission && isAmendmentOrRenewal(protocol)) {
             hasPermission = canModifyModule(protocol, moduleTypeCode);
         }

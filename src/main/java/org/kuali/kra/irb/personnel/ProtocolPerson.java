@@ -20,10 +20,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.AffiliationType;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.service.KcPersonService;
 
 public class ProtocolPerson extends ProtocolAssociate {
 
@@ -38,7 +40,6 @@ public class ProtocolPerson extends ProtocolAssociate {
     private AffiliationType affiliationType;
     private ProtocolPersonRole protocolPersonRole;
 
-    private Person person;
     private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
@@ -49,6 +50,7 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     private int selectedUnit;
     private String previousPersonRoleId;
+    private transient KcPersonService kcPersonService;
 
     public ProtocolPerson() {
         this.protocolUnits = new ArrayList<ProtocolUnit>();
@@ -132,12 +134,20 @@ public class ProtocolPerson extends ProtocolAssociate {
         return hashMap;
     }
 
-    public Person getPerson() {
-        return this.person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(this.personId);
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     public ProtocolPersonRolodex getRolodex() {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -37,7 +38,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, ProposalTask task) {
+    public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
         String proposalNbr = doc.getDevelopmentProposal().getProposalNumber();
@@ -50,11 +51,11 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
             
             // If the unit number is not specified, we will let the save operation continue because it
             // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
-            // we will indicate that the user does not have permission to do that.
+            // we will indicate that the user does not have permission to do that. 
             
             if (unitNumber != null) {
                 UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
-                hasPermission = auth.hasPermission(username, unitNumber, PermissionConstants.CREATE_PROPOSAL);
+                hasPermission = auth.hasPermission(userId, unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
             }
         } else {
             /*
@@ -65,7 +66,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
 
             boolean hasBeenRejected=("Initiated".equals(wfd.getCurrentRouteNodeNames()) && wfd.getRouteHeader().isApproveRequested());
             hasPermission = !doc.isViewOnly() &&
-                            hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
+                            hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
                             !doc.getDevelopmentProposal().getSubmitFlag();
         }

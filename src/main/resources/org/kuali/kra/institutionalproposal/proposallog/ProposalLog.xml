@@ -222,7 +222,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Principal Investigator (Employee)" />
         <property name="shortLabel" value="Pi Id" />
-        <property name="maxLength" value="9" />
+        <property name="maxLength" value="40" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>

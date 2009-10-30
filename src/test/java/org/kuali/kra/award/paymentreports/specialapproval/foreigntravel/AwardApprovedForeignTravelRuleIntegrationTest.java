@@ -26,8 +26,8 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -140,10 +140,10 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KraTestBase {
         return new AwardApprovedForeignTravel(getTraveler(travelerId, travelerName), destination, startDate, endDate, amount);
     }
     
-    private Person getTraveler(String travelerId, String travelerName) {
-        Person person = new Person();
+    private KcPerson getTraveler(String travelerId, String travelerName) {
+        KcPerson person = new KcPerson();
         person.setPersonId(travelerId);
-        person.setFullName(travelerName);
+        //person.setFullName(travelerName);
         return person;
     }
 

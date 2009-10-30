@@ -29,7 +29,7 @@ public class ModifyTimeAndMoneyPermissionsAuthorizer extends TimeAndMoneyAuthori
      * @see org.kuali.kra.award.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.award.document.authorization.AwardTask)
      */
     @Override
-    public boolean isAuthorized(String userName, TimeAndMoneyTask task) {
-        return hasPermission(userName, task.getTimeAndMoneyDocument(), AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
+    public boolean isAuthorized(String userId, TimeAndMoneyTask task) {
+        return hasPermission(userId, task.getTimeAndMoneyDocument(), AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
     }
 }

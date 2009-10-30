@@ -57,9 +57,9 @@
 	                	<kul:htmlControlAttribute property="permissionsHelper.newUser.userName" 
 	                	                          attributeEntry="${permissionsUserAttributes.userName}" 
 	                	                          onblur="loadPersonName('permissionsHelper.newUser.userName', 'fullname');"/>
-	                	<kul:lookup boClassName="org.kuali.kra.bo.Person" 
+	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
 	                	            fieldConversions="userName:permissionsHelper.newUser.userName" 
-	                	            lookupParameters="lookup.leadUnit:homeUnit"
+	                	            lookupParameters="lookup.leadUnit:organizationIdentifier"
 	                	            anchor="${tabKey}" />                        
 					</td>
 					
@@ -88,8 +88,8 @@
 	             	<th>${status.index + 1}</th>
 	             	<td align="left" valign="middle">${user.person.userName}</td>
 	             	<td align="left" valign="middle"><nobr>${user.person.fullName}</nobr></td>
-					<td align="left" valign="middle">${user.person.homeUnit}</td>
-					<td align="left" valign="middle"><nobr>${user.person.homeUnitRef.unitName}</nobr></td>
+					<td align="left" valign="middle">${user.person.organizationIdentifier}</td>
+					<td align="left" valign="middle"><nobr>${user.person.contactOrganizationName}</nobr></td>
 					<td id="role${status.index}" align="left" valign="middle">
 					    <c:forEach var="role" items="${user.roles}" varStatus="status2">
 					       <c:if test="${status2.index != 0}"><br /></c:if>

@@ -219,98 +219,8 @@ REFERENCES "ACTIVITY_TYPE" ("ACTIVITY_TYPE_CODE") ENABLE;
 ALTER TABLE "INSTITUTE_RATES" ADD CONSTRAINT "FK_INST_RATES_UNIT_NUMBER_KRA"    
 FOREIGN KEY ("UNIT_NUMBER")                                                     
 REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
-                                                                                
-                                                                                
-ALTER TABLE "KIM_GROUPS_GROUPS_T" ADD CONSTRAINT "KIM_GROUPS_GROUPS_FK1" FOREIGN
-KEY ("PARENT_GROUP_ID")                                                         
-REFERENCES "KIM_GROUPS_T" ("ID") ENABLE;                                        
-ALTER TABLE "KIM_GROUPS_GROUPS_T" ADD CONSTRAINT "KIM_GROUPS_GROUPS_FK2" FOREIGN
-KEY ("MEMBER_GROUP_ID")                                                         
-REFERENCES "KIM_GROUPS_T" ("ID") ENABLE;                                        
-                                                                                
-                                                                                
-ALTER TABLE "KIM_GROUPS_PERSONS_T" ADD CONSTRAINT "KIM_GROUPS_PERSONS_FK1"      
-FOREIGN KEY ("GROUP_ID")                                                        
-REFERENCES "KIM_GROUPS_T" ("ID") ENABLE;                                        
-ALTER TABLE "KIM_GROUPS_PERSONS_T" ADD CONSTRAINT "KIM_GROUPS_PERSONS_FK2"      
-FOREIGN KEY ("PERSON_ID")                                                       
-REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
-                                                                                
-                                                                                
-ALTER TABLE "KIM_GROUP_ATTRIBUTES_T" ADD CONSTRAINT "KIM_GROUP_ATTRIBUTES_FK1"  
-FOREIGN KEY ("GROUP_ID")                                                        
-REFERENCES "KIM_GROUPS_T" ("ID") ENABLE;                                        
-ALTER TABLE "KIM_GROUP_ATTRIBUTES_T" ADD CONSTRAINT "KIM_GROUP_ATTRIBUTES_FK2"  
-FOREIGN KEY ("ATTRIBUTE_TYPE_ID")                                               
-REFERENCES "KIM_ATTRIBUTE_TYPES_T" ("ID") ENABLE;                               
-                                                                                
-                                                                                
-ALTER TABLE "KIM_GROUP_QUAL_ATTR_T" ADD CONSTRAINT "KIM_GROUP_QUAL_ATTR_FK1"    
-FOREIGN KEY ("ROLE_GROUP_ID")                                                   
-REFERENCES "KIM_ROLES_GROUPS_QUAL_T" ("ID") ENABLE;                             
-                                                                                
-                                                                                
-ALTER TABLE "KIM_NAMESPACE_DFLT_ATTRIBS_T" ADD CONSTRAINT                       
-"KIM_NMSPCE_DFLT_ATTR_FK1" FOREIGN KEY ("NAMESPACE_ID")                         
-REFERENCES "KIM_NAMESPACES_T" ("ID") ENABLE;                                    
-ALTER TABLE "KIM_NAMESPACE_DFLT_ATTRIBS_T" ADD CONSTRAINT                       
-"KIM_NMSPCE_DFLT_ATTR_FK2" FOREIGN KEY ("ATTRIBUTE_TYPE_ID")                    
-REFERENCES "KIM_ATTRIBUTE_TYPES_T" ("ID") ENABLE;                               
-                                                                                
-                                                                                
-ALTER TABLE "KIM_PERMISSIONS_T" ADD CONSTRAINT "KIM_PERMISSIONS_FK1" FOREIGN KEY
-("NAMESPACE_ID")                                                                
-REFERENCES "KIM_NAMESPACES_T" ("ID") ENABLE;                                    
-                                                                                
-                                                                                
-ALTER TABLE "KIM_PERSON_ATTRIBUTES_T" ADD CONSTRAINT "KIM_PERSON_ATTRIBUTES_FK1"
-FOREIGN KEY ("PERSON_ID")                                                       
-REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
-ALTER TABLE "KIM_PERSON_ATTRIBUTES_T" ADD CONSTRAINT "KIM_PERSON_ATTRIBUTES_FK2"
-FOREIGN KEY ("ATTRIBUTE_TYPE_ID")                                               
-REFERENCES "KIM_ATTRIBUTE_TYPES_T" ("ID") ENABLE;                               
-ALTER TABLE "KIM_PERSON_ATTRIBUTES_T" ADD CONSTRAINT "KIM_PERSON_ATTRIBUTES_FK3"
-FOREIGN KEY ("SPONSOR_NAMESPACE_ID")                                            
-REFERENCES "KIM_NAMESPACES_T" ("ID") ENABLE;                                    
-                                                                                
-                                                                                
-ALTER TABLE "KIM_PERSON_QUAL_ATTR_T" ADD CONSTRAINT "KIM_PERSON_QUAL_ATTR_FK1"  
-FOREIGN KEY ("ROLE_PERSON_ID")                                                  
-REFERENCES "KIM_ROLES_PERSONS_QUAL_T" ("ID") ENABLE;                            
-                                                                                
-                                                                                
-ALTER TABLE "KIM_ROLES_GROUPS_QUAL_T" ADD CONSTRAINT "KIM_ROLES_GROUPS_QUAL_FK1"
-FOREIGN KEY ("ROLE_ID")                                                         
-REFERENCES "KIM_ROLES_T" ("ID") ENABLE;                                         
-ALTER TABLE "KIM_ROLES_GROUPS_QUAL_T" ADD CONSTRAINT "KIM_ROLES_GROUPS_QUAL_FK2"
-FOREIGN KEY ("GROUP_ID")                                                        
-REFERENCES "KIM_GROUPS_T" ("ID") ENABLE;                                        
-                                                                                
-                                                                                
-ALTER TABLE "KIM_ROLES_PERMISSIONS_T" ADD CONSTRAINT "KIM_ROLES_PERMISSIONS_FK1"
-FOREIGN KEY ("ROLE_ID")                                                         
-REFERENCES "KIM_ROLES_T" ("ID") ENABLE;                                         
-ALTER TABLE "KIM_ROLES_PERMISSIONS_T" ADD CONSTRAINT "KIM_ROLES_PERMISSIONS_FK2"
-FOREIGN KEY ("PERMISSION_ID")                                                   
-REFERENCES "KIM_PERMISSIONS_T" ("ID") ENABLE;                                   
-                                                                                
-                                                                                
-ALTER TABLE "KIM_ROLES_PERSONS_QUAL_T" ADD CONSTRAINT                           
-"KIM_ROLES_PERSONS_QUAL_FK1" FOREIGN KEY ("ROLE_ID")                            
-REFERENCES "KIM_ROLES_T" ("ID") ENABLE;                                         
-ALTER TABLE "KIM_ROLES_PERSONS_QUAL_T" ADD CONSTRAINT                           
-"KIM_ROLES_PERSONS_QUAL_FK2" FOREIGN KEY ("PERSON_ID")                          
-REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
-                                                                                
-                                                                                
-ALTER TABLE "KIM_ROLE_ATTRIBUTES_T" ADD CONSTRAINT "KIM_ROLE_ATTRIBUTES_FK1"    
-FOREIGN KEY ("ROLE_ID")                                                         
-REFERENCES "KIM_ROLES_T" ("ID") ENABLE;                                         
-ALTER TABLE "KIM_ROLE_ATTRIBUTES_T" ADD CONSTRAINT "KIM_ROLE_ATTRIBUTES_FK2"    
-FOREIGN KEY ("ATTRIBUTE_TYPE_ID")                                               
-REFERENCES "KIM_ATTRIBUTE_TYPES_T" ("ID") ENABLE;                               
-                                                                                
-                                                                                
+
+
 ALTER TABLE "KRA_USER" ADD CONSTRAINT "FK_USER_UNIT_NUMBER_KRA" FOREIGN KEY     
 ("UNIT_NUMBER")                                                                 
 REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
@@ -438,14 +348,9 @@ FOREIGN KEY ("QUESTION_ID")
 REFERENCES "YNQ" ("QUESTION_ID") ENABLE;                                        
 ALTER TABLE "ORGANIZATION_YNQ" ADD CONSTRAINT "FK_ORGANIZATION_YNQ_KRA" FOREIGN 
 KEY ("ORGANIZATION_ID")                                                         
-REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ENABLE;                           
-                                                                                
-                                                                                
-ALTER TABLE "PERSON" ADD CONSTRAINT "FK_PERSON_KIM_PERSON_ID" FOREIGN KEY       
-("KIM_PERSON_ID")                                                               
-REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
-                                                                                
-                                                                                
+REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ENABLE;                                                       
+
+
 ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_KRA" FOREIGN KEY       
 ("RIGHT_ID")                                                                    
 REFERENCES "RIGHTS" ("RIGHT_ID") ENABLE;                                        

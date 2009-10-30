@@ -718,7 +718,7 @@
             <dataTypeCode>1</dataTypeCode>
             <groupName>Personnel Items for Review</groupName>
             <label>Tenured</label>
-            <lookupClass>org.kuali.kra.bo.Person</lookupClass>
+            <lookupClass>org.kuali.kra.bo.KcPerson</lookupClass>
             <lookupReturn>userName</lookupReturn>
             <name>tenured</name>
             <customAttributeDataType>
@@ -763,7 +763,7 @@
             <dataTypeCode>1</dataTypeCode>
             <groupName>Project Details</groupName>
             <label>Inventions</label>
-            <lookupClass>org.kuali.kra.bo.Person</lookupClass>
+            <lookupClass>org.kuali.kra.bo.KcPerson</lookupClass>
             <lookupReturn>userName</lookupReturn>
             <name>inventions</name>
             <customAttributeDataType reference="../../../../entry[2]/org.kuali.kra.bo.CustomAttributeDocument/customAttribute/customAttributeDataType"/>

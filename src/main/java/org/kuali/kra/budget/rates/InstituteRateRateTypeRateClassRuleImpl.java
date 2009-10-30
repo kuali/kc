@@ -238,7 +238,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     private Collection<String> getRateClassTypesCollection(final String rateType) {
         assert rateType != null : "infoType is null";
         
-        return this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_BUDGET,
+        return this.parameterService.getParameterValues(Constants.MODULE_NAMESPACE_BUDGET,
             Constants.BUDGET_ALL_DETAIL_TYPE_CODE, rateType);
     }
 }

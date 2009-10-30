@@ -46,8 +46,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.kim.service.KIMService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.kim.service.KcGroupService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -76,7 +75,6 @@ import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -111,8 +109,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
-    
-    private KIMService kimService;
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -149,7 +145,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         
         boolean autogenerateInstitutionalProposal = getParameterService().getIndicatorParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
@@ -237,35 +233,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private boolean recipientMatchesUser(ActionRequestDTO actionRequest, NetworkIdDTO networkId) {
+        KcGroupService groupService = KraServiceLocator.getService(KcGroupService.class);
         if(actionRequest != null && networkId != null) {
-            //UserVO recipientUser = actionRequest.get getUserVO();
             String recipientUser = actionRequest.getPrincipalId();
             if(recipientUser != null && recipientUser.equals(networkId.getNetworkId())) {
                 return true;
             } else {
                 String recipientGroupId = actionRequest.getGroupId();
-                //WorkgroupVO recipientGroup = actionRequest.getWorkgroupVO();
-                KIMService kimService = getKimService();
-                List<String> groupMembers = kimService.getGroupMemberPrincipalIds(recipientGroupId);
-                if(groupMembers != null && groupMembers.size() > 0) {
-                    for(String member: groupMembers) {
-                        if(member != null && member.equals(networkId.getNetworkId())) {
-                            return true;
-                        } 
-                    }
-                }
+                return groupService.isMemberOfGroup(networkId.getNetworkId(), recipientGroupId);
             }
         }
         
         return false;  
-    }
-    
-    private KIMService getKimService() {
-        if (kimService != null) {
-            return kimService;
-        }
-        kimService = KraServiceLocator.getService(KIMService.class);
-        return kimService;
     }
     
     /**

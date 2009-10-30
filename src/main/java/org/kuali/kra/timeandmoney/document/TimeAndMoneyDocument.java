@@ -31,6 +31,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
@@ -106,8 +107,6 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        
-        AwardAmountTransaction newAwardAmountTransaction = this.getNewAwardAmountTransaction();
         super.doRouteStatusChange(statusChangeEvent);
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
             this.setAwardHierarchyNodes(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
@@ -134,12 +133,15 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
 
     public String getDocumentKey() {
-        return Permissionable.TIME_AND_MONEY_KEY;
+        //KimIntegration : Verify
+        //return Permissionable.TIME_AND_MONEY_KEY;
+        return Permissionable.AWARD_KEY;
     }
 
     public String getDocumentNumberForPermission() {
-        // TODO Auto-generated method stub
-        return documentNumber;
+        //KimIntegration : Verify
+        //return documentNumber;
+        return getRootAwardNumber();
     }
 
     public List<String> getRoleNames() {
@@ -323,5 +325,21 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
             this.setVersionNumber(new Long(0));
         }
     }
-    
+
+    public String getNamespace() {
+        //FIXME:KimMigration - Verify the Namespace
+         return Constants.MODULE_NAMESPACE_AWARD;
+    }
+
+    public String getLeadUnitNumber() {
+        if(getAward() != null)
+            return getAward().getLeadUnitNumber(); 
+        else
+            return null;
+    }
+
+    public String getDocumentRoleTypeCode() {
+        //FIXME: verify
+        return RoleConstants.AWARD_ROLE_TYPE;
+    }
 }

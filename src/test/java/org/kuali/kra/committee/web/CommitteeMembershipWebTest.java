@@ -30,7 +30,7 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
 
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
 
-    private static final String PERSON_LOOKUP = "org.kuali.kra.bo.Person";
+    private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ROLODEX_LOOKUP ="org.kuali.kra.bo.NonOrganizationalRolodex";
     private static final String ROLODEX_ID_FIELD = "rolodexId";

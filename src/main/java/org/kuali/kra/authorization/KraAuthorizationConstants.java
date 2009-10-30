@@ -21,6 +21,8 @@ package org.kuali.kra.authorization;
  * 
  */
 public class KraAuthorizationConstants {
+    public static final String KC_SYSTEM_NAMESPACE_CODE = "KC-SYS";
+    
     public static final String ACTIVE_LOCK_REGION = "ACTIVE_LOCK_REGION";
     public static final String LOCK_REGION_CHANGE_IND = "ACTIVE_LOCK_REGION_CHANGED";
     

@@ -36,7 +36,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
@@ -49,6 +48,9 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -141,23 +143,25 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     
     private void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        String username = proposalUser.getUsername();
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            kraAuthorizationService.removeRole(username, roleName, doc);
+            kraAuthorizationService.removeRole(getPersonId(proposalUser.getUsername()), roleName, doc); 
         }
+    }
+    
+    private String getPersonId(String username) {
+        PersonService<Person> personService = KraServiceLocator.getService(PersonService.class);
+        Person person = personService.getPersonByPrincipalName(username);
+        return person.getPrincipalId();
     }
     
     private void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        
-        String username = proposalUser.getUsername();
-        
         // Assign the user to the new roles for the proposal.
         
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            kraAuthorizationService.addRole(username, roleName, doc);
+            kraAuthorizationService.addRole(getPersonId(proposalUser.getUsername()), roleName, doc);
         }
     }
     
@@ -272,7 +276,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // Remove the user from all of the Narratives.
             
             NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
-            narrativeService.deletePerson(proposalUserRoles.getUsername(), doc);
+            narrativeService.deletePerson(getPersonId(proposalUserRoles.getUsername()), doc); 
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -325,10 +329,10 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         editRoles.setUsername(proposalUserRoles.getUsername());
         
         List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
-        Collection<KimRole> proposalRoles = proposalDevelopmentForm.getKimProposalRoles();
-        for (KimRole proposalRole : proposalRoles) {
-            if (!proposalRole.isUnassigned()) {
-                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getName());
+        Collection<Role> proposalRoles = proposalDevelopmentForm.getKimProposalRoles();
+        for (Role proposalRole : proposalRoles) {
+            if (!StringUtils.equals(proposalRole.getRoleName(), RoleConstants.UNASSIGNED)) {
+                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getRoleName());
                 roleStates.add(roleState);
             }
         }
@@ -407,14 +411,14 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
                 roleNames.add(RoleConstants.UNASSIGNED);
             }
             
-            proposalUserRoles.setRoleNames(roleNames);
+            proposalUserRoles.setRoleNames(roleNames); 
             
             // Re-adjust the narrative rights for this user.  If the user has lost some
             // permissions regarding narratives, his/her narrative rights may need to
             // be down-graded.
             
             NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
-            narrativeService.readjustRights(username, doc, roleNames);
+            narrativeService.readjustRights(getPersonId(proposalUserRoles.getUsername()), doc, roleNames); 
        
             // If Javascript was enabled, we can simply cause the pop-up window to close.
             // If not, then we must return the user to the Permissions page.

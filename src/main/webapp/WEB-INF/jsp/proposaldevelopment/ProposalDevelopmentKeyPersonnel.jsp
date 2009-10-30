@@ -48,7 +48,7 @@
   <c:when test="${empty KualiForm.newPersonId && empty KualiForm.newRolodexId}">
                 <td nowrap class="grid">
                 <label> Employee Search</label>
-                  <label><kul:lookup boClassName="org.kuali.kra.bo.Person" 
+                  <label><kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
                                 fieldConversions="personId:newPersonId" /></label><br>
                   <label>Non-employee Search</label> 
                   <label><kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 

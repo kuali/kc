@@ -17,10 +17,11 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 
 public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     
@@ -29,9 +30,9 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     private String roleName;
 	private String unitNumber;
 	private Boolean active;
-	
-	private Person person;
+
 	private Unit unit;
+	private transient KcPersonService kcPersonService;
 
     public ProposalRoleTemplate() {
         active = true;
@@ -54,7 +55,7 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     }
     
     public String getPersonName() {
-        return person.getFullName();
+        return getPerson().getFullName();
     }
 
     public String getRoleName() {
@@ -85,12 +86,20 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
         this.active = active;
     }
 
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
 
     public Unit getUnit() {

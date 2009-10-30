@@ -115,7 +115,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void addPrincipalInvestigator() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -127,7 +127,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
     public void clearInvestigator() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -140,7 +140,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     }
     @Test
     public void changeRole() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -154,7 +154,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     
     @Test
     public void addDegree() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -172,7 +172,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
     public void removeDegree() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -195,7 +195,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void removeUnit() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -229,7 +229,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void testAddKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
 
@@ -253,7 +253,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void optInUnitDetailsKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
         setFieldValue(keyPersonnelPage,"newProposalPerson.projectRole", "Tester");
@@ -276,7 +276,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void removeUnitDetailsKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
         setFieldValue(keyPersonnelPage,"newProposalPerson.projectRole", "Tester");
@@ -300,7 +300,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void addCertificationQuestionKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
         setFieldValue(keyPersonnelPage,"newProposalPerson.projectRole", "Tester");
@@ -354,7 +354,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      * @throws Exception
      */
     private HtmlPage addKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertTrue("New Person not found on page", keyPersonnelPage.asXml().contains("Terry Durkin"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
         setFieldValue(keyPersonnelPage,"newProposalPerson.projectRole", "Tester");

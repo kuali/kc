@@ -27,7 +27,7 @@ public class ViewAwardAuthorizer extends AwardAuthorizer {
     /**
      * @see org.kuali.kra.irb.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
      */
-    public boolean isAuthorized(String username, AwardTask task) {
-        return hasPermission(username, task.getAward(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
+    public boolean isAuthorized(String userId, AwardTask task) {
+        return hasPermission(userId, task.getAward(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
     }
 }

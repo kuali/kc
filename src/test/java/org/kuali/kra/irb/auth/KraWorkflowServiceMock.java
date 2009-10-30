@@ -30,7 +30,7 @@ public class KraWorkflowServiceMock implements KraWorkflowService {
         this.inWorkflow = inWorkflow;
     }
     
-    public boolean hasWorkflowPermission(String username, Document doc) {
+    public boolean hasWorkflowPermission(String userId, Document doc) {
         return false;
     }
 

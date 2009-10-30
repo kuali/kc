@@ -35,7 +35,6 @@
                 <ref bean="Question-questionRefId" />
                 <ref bean="Question-questionId" />
                 <ref bean="Question-sequenceNumber" />
-                <ref bean="Question-sequenceStatus" />
                 <ref bean="Question-question" />
                 <ref bean="Question-status" />
                 <ref bean="Question-categoryTypeCode" />
@@ -110,25 +109,6 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="Question-sequenceStatus" parent="Question-sequenceStatus-parentBean" />
-    <bean id="Question-sequenceStatus-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="sequenceStatus" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Sequence Status" />
-        <property name="shortLabel" value="Sequence Status" />
-        <property name="required" value="true" />
-        <property name="maxLength" value="1" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="1" />
-        </property>
-        <property name="summary" value="Sequence Status" />
-        <property name="description" value="Sequence Status" />
-    </bean>
-
     <bean id="Question-question" parent="Question-question-parentBean" />
     <bean id="Question-question-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="question" />
@@ -182,13 +162,8 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="categoryTypeCode"
-                p:labelAttribute="categoryName" />
+            <bean parent="TextControlDefinition"
+                p:size="3" />
         </property>
         <property name="summary" value="Category Type Code" />
         <property name="description" value="Category Type Code" />
@@ -198,8 +173,8 @@
     <bean id="Question-questionTypeId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="questionTypeId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Question Type" />
-        <property name="shortLabel" value="Question Type" />
+        <property name="label" value="Question Type Id" />
+        <property name="shortLabel" value="Question Type Id" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />

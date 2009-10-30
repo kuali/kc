@@ -27,24 +27,24 @@ import org.kuali.kra.service.UnitAuthorizationService;
  */
 public class MockUnitAuthorizationService implements UnitAuthorizationService {
     
-    /**
+    /**  
      * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
      */
-    public List<Unit> getUnits(String username, String permissionName) {
+    public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
         return new ArrayList<Unit>();
     }
 
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)
      */
-    public boolean hasPermission(String username, String permissionName) {
+    public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         return false;
     }
 
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean hasPermission(String username, String unitNumber, String permissionName) {
+    public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         return false;
     }
 }

@@ -220,20 +220,6 @@
 			</routingConfig>
 		</ruleAttribute>
 
-
-
-		<!-- Role attribute -->
-		<ruleAttribute>
-			<name>ProposalPersonRoleAttribute</name>
-			<className>
-				org.kuali.kra.workflow.ProposalPersonRoleAttribute
-			</className>
-			<label>Proposal Routing</label>
-			<description>Proposal Routing</description>
-			<type>RuleAttribute</type>
-		</ruleAttribute>
-		<!-- Role attribute -->
-		
 		<!-- custom attribute -->
 		<ruleAttribute>
             <name>CustomDataAttribute</name>
@@ -325,6 +311,46 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
+		
+		<!-- 
+		<ruleAttribute>
+			<name>XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>XPathQualifierResolver</label>
+			<description>XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<qualifier name="test">
+					<xPathExpression>.</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute> 
+		-->
+		<ruleAttribute>
+			<name>ProposalPersons-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>ProposalPersons-XPathQualifierResolver</label>
+			<description>ProposalPersons-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<qualifier name="proposalNumber">
+					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/proposalNumber')</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>DepartmentRouting-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>DepartmentRouting-XPathQualifierResolver</label>
+			<description>DepartmentRouting-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<qualifier name="unit">
+					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute>
 
 	</ruleAttributes>
 
@@ -336,11 +362,10 @@
 				Create an Awesome Development Proposal
 			</description>
 			<label>Proposal Development Document</label>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposaldevelopmentdocument.htm</helpDefinitionURL>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-		 	<superUserWorkgroupName>KC:OSP Superuser</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>KC:OSP Superuser</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies>
@@ -370,7 +395,6 @@
 					<name>ViewerSearchAttribute</name>
 				</attribute>
 			</attributes>
-			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="OSPInitial" />
@@ -387,61 +411,39 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
-				<requests name="OSPInitial">
-					<activationType>S</activationType>
-					<ruleTemplate>OSPInitialApproval</ruleTemplate>
-					<mandatoryRoute>false</mandatoryRoute>
+				<role name="OSPInitial">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
 					<finalApproval>false</finalApproval>
-				</requests>
-				<requests name="ProposalPersons">
-					<activationType>P</activationType>
-					<ruleTemplate>ProposalPersonsApproval</ruleTemplate>
-					<mandatoryRoute>false</mandatoryRoute>
+	            </role>
+				<role name="ProposalPersons">
+					<qualifierResolver>ProposalPersons-XPathQualifierResolver</qualifierResolver>
+                    <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-				</requests>
-				<requests name="UnitRouting">
-					<activationType>P</activationType>
+	            </role>
+				<role name="UnitRouting">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
 					<ruleTemplate>CustomApproval</ruleTemplate>
-					<mandatoryRoute>false</mandatoryRoute>
+                    <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-				</requests>
-				<requests name="DepartmentalRouting">
-					<activationType>P</activationType>
+	            </role>
+				<role name="DepartmentalRouting">
+					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>
 					<ruleTemplate>DepartmentalApproval</ruleTemplate>
-					<mandatoryRoute>false</mandatoryRoute>
+                    <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-				</requests>
-				<requests name="OSPOfficeRouting">
-					<activationType>S</activationType>
-					<ruleTemplate>OSPOfficeApproval</ruleTemplate>
-					<mandatoryRoute>false</mandatoryRoute>
+	            </role>
+				<role name="OSPOfficeRouting">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
 					<finalApproval>false</finalApproval>
-				</requests>
+	            </role>
 			</routeNodes>
 		</documentType>
 	</documentTypes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
 		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-		<ruleTemplate allowOverwrite="true">
-			<name>OSPInitialApproval</name>
-			<description>OSP Initial Approval Routing Rule</description>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>ProposalPersonsApproval</name>
-			<description>
-				ProposalPersons Approval Routing Rule
-			</description>
-			<attributes>
-				<attribute>
-					<name>ProposalPersonRoleAttribute</name>
-					<required>false</required>
-				</attribute>
-			</attributes>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>OSPOfficeApproval</name>
-			<description>OSP Office Approval Routing Rule</description>
-		</ruleTemplate>
+		
 		<ruleTemplate allowOverwrite="true">
 			<name>CustomApproval</name>
 			<description>Custom Approval Routing Rule</description>
@@ -452,10 +454,7 @@
 				</attribute>
 			</attributes>
 		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>DepartmentalDelegationTemplate</name>
-			<description>DepartmentalDelegationTemplate</description>
-		</ruleTemplate>
+
 		<ruleTemplate allowOverwrite="true">
 			<name>DepartmentalApproval</name>
 			<description>Department Approval Routing Rule</description>
@@ -473,4 +472,59 @@
 		</ruleTemplate>
 		
 	</ruleTemplates>
+
+
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    
+		<rule>
+			<documentType>ProposalDevelopmentDocument</documentType>
+			<ruleTemplate>CustomApproval</ruleTemplate>
+			<description>Custom approval routing</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>CustomDataAttribute</attribute>
+					<ruleTemplate>CustomApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>numberOfTrainees</key>
+							<value>10</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+		</rule>
+		
+		<rule>
+			<documentType>ProposalDevelopmentDocument</documentType>
+			<ruleTemplate>DepartmentalApproval</ruleTemplate>
+			<description>Departmental Approval Routing Rule for BL-IIDC</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>DepartmentalApprovalAttribute</attribute>
+					<ruleTemplate>DepartmentalApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>ownedByUnitNumber</key>
+							<value>BL-IIDC</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+
+				<!--
+				<ruleExtension>
+					<attribute>DepartmentalBudgetApprovalAttribute</attribute>
+					<ruleTemplate>DepartmentalApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>totalCost</key>
+							<value>100000</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+				-->
+			</ruleExtensions>
+		</rule>
+
+	</rules>
+
 </data>

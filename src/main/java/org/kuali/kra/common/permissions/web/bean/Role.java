@@ -16,9 +16,6 @@
 package org.kuali.kra.common.permissions.web.bean;
 
 import java.io.Serializable;
-import java.util.List;
-
-import org.kuali.kra.kim.bo.KimPermission;
 
 /**
  * A role which consists of its unique name, its display name, and
@@ -30,7 +27,7 @@ public class Role implements Serializable {
 
     private String name;
     private String displayName;
-    private List<KimPermission> permissions;
+    //private List<KimPermission> permissions;
     
     public Role(String name, String displayName) {
         this.name = name;
@@ -44,12 +41,12 @@ public class Role implements Serializable {
     public String getDisplayName() {
         return displayName;
     }
-
-    public List<KimPermission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<KimPermission> permissions) {
-        this.permissions = permissions;
-    }
+//FIXME: kim migration
+//    public List<KimPermission> getPermissions() {
+//        return permissions;
+//    }
+//
+//    public void setPermissions(List<KimPermission> permissions) {
+//        this.permissions = permissions;
+//    }
 }

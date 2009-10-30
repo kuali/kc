@@ -47,7 +47,6 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.ojb.broker.PBKey;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.kim.service.KIMService;
 import org.kuali.rice.core.resourceloader.SpringLoader;
 import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
@@ -286,26 +285,6 @@ public class TestUtilities {
     }
 
     /**
-     * Asserts that the user with the given network id has a pending request on the given document
-     */
-    public static void assertUserHasPendingRequest(Long documentId, String networkId) throws WorkflowException {
-    	List actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(documentId);
-        KIMService kimService = getKimService();
-    	boolean foundRequest = false;
-    	for (Iterator iterator = actionRequests.iterator(); iterator.hasNext();) {
-			ActionRequestValue actionRequest = (ActionRequestValue) iterator.next();
-			if (actionRequest.isUserRequest() && actionRequest.getPrincipalId().equals(networkId)) {
-				foundRequest = true;
-				break;
-			} else if (actionRequest.isGroupRequest() && kimService.isMemberOfGroup(networkId, actionRequest.getGroupId())) {
-				foundRequest = true;
-				break;
-			}
-		}
-    	Assert.assertTrue("Could not locate pending request for the given user: " + networkId, foundRequest);
-    }
-
-    /**
      * Asserts that the specified users do or do not have outstanding approvals
      * @param docId the id of the document
      * @param users the list of users
@@ -504,7 +483,7 @@ public class TestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
         customAttributeDocuments.put("4", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(5, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.Person", "userName");
+        customAttribute = buildCustomAttribute(5, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.KcPerson", "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("5", customAttributeDocument);
 
@@ -512,7 +491,7 @@ public class TestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("6", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(7, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.Person", "userName");
+        customAttribute = buildCustomAttribute(7, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.KcPerson", "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("7", customAttributeDocument);
 
@@ -582,9 +561,4 @@ public class TestUtilities {
         }
         return data;
     }
-    
-    public static KIMService getKimService() {
-        return KraServiceLocator.getService(KIMService.class);
-    }
-
 }

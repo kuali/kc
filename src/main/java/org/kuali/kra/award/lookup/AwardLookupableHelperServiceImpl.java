@@ -24,10 +24,11 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -42,6 +43,7 @@ import org.kuali.rice.kns.web.ui.Row;
  * This class provides Award lookup support
  */
 class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+
     private static final String COPY_HREF_PATTERN = "../DocCopyHandler.do?docId=%s&command=displayDocSearchView&documentTypeName=%s";
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
@@ -50,6 +52,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private static final long serialVersionUID = 6304433555064511153L;
     
     private transient AwardDao awardDao;
+    private transient KcPersonService kcPersonService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -96,6 +99,14 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     public void setAwardDao(AwardDao awardDao) {
         this.awardDao = awardDao;
     }
+    
+    /**
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 
     /**
      * This method is for fields that do not have inquiry created by lookup frame work.
@@ -141,9 +152,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
     
     private HtmlData getOspAdminNameInquiryUrl(Award award) {
-        Person ospAdministrator = award.getOspAdministrator();
-        Person inqBo = new Person();
-        inqBo.setPersonId(ospAdministrator.getPersonId());        
+        KcPerson ospAdministrator = award.getOspAdministrator();
+        final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(ospAdministrator.getPersonId());
         return super.getInquiryUrl(inqBo, PERSON_ID);
     }
 
@@ -152,8 +162,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         AwardPerson principalInvestigator = award.getPrincipalInvestigator();
         if (principalInvestigator != null) {
             if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
-                Person inqBo = new Person();
-                inqBo.setPersonId(principalInvestigator.getPersonId());
+                final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
                 inquiryUrl = super.getInquiryUrl(inqBo, PERSON_ID);
             } else {
                 if (principalInvestigator.getRolodexId() != null) {

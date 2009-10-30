@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
@@ -34,8 +31,8 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
      * org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser,
      * org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, ProposalTask task) {
-        return (hasFullAuthorization(username, task) || hasAddViewerAuthorization(username, task));
+    public boolean isAuthorized(String userId, ProposalTask task) {
+        return (hasFullAuthorization(userId, task) || hasAddViewerAuthorization(userId, task));
     }
     
     /**
@@ -44,10 +41,10 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
      * @param task the task object
      * @return true if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
      */
-    private boolean hasFullAuthorization(String username, ProposalTask task) {
+    private boolean hasFullAuthorization(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean hasPermission = !doc.isViewOnly() 
-                                && hasProposalPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
+                                && hasProposalPermission(userId, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
                                 && !kraWorkflowService.isInWorkflow(doc) 
                                 && !doc.getDevelopmentProposal().getSubmitFlag();
         return hasPermission;
@@ -59,16 +56,16 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
      * @param task the task object
      * @return
      */
-    private boolean hasAddViewerAuthorization (String username, ProposalTask task) {
+    private boolean hasAddViewerAuthorization (String userId, ProposalTask task) {
         boolean hasPermission = false;
         ProposalDevelopmentDocument doc = task.getDocument();
 
-        if (hasProposalPermission(username, doc, PermissionConstants.ADD_PROPOSAL_VIEWER) 
+        if (hasProposalPermission(userId, doc, PermissionConstants.ADD_PROPOSAL_VIEWER) 
                 && kraWorkflowService.isInWorkflow(doc)) {
             // once workflowed (OSP Administrator and Aggregator have ADD_PROPOSAL_VIEWER permission)
             hasPermission = true;
         }
-        else if (kraWorkflowService.hasWorkflowPermission(username, doc) 
+        else if (kraWorkflowService.hasWorkflowPermission(userId, doc) 
                 && kraWorkflowService.isEnRoute(doc)) {
             // Approvers (users in workflow) have permission while EnRoute
             hasPermission = true;

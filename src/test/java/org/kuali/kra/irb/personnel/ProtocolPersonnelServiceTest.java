@@ -22,9 +22,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.infrastructure.Constants;
+//import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
@@ -34,28 +38,65 @@ import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.impl.KcPersonServiceImpl;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
-public class ProtocolPersonnelServiceTest {
-    protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "000000001";
-    protected static final String CO_INVESTIGATOR_PERSON_ID = "000000002";
+@PerSuiteUnitTestData(
+        @UnitTestData(
+            sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_protocolpersonnselservicetest_data.sql", delimiter = ";")
+            }
+            )
+            )
+
+public class ProtocolPersonnelServiceTest extends KcraNoDataTestBase {
+    protected static final String CO_INVESTIGATOR_PERSON_ID = "2";
     protected static final String CO_INVESTIGATOR_NAME = "Philip Berg";
     protected static final String CO_INVESTIGATOR_ROLE_ID = "COI";
+    protected static final String CO_INVESTIGATOR_UNIT = "000001";
+    protected static final String CO_INVESTIGATOR_OBJ_ID="dhafjkhadlkjfha";
     protected static final String PRINCIPAL_INVESTIGATOR_ROLE_ID = "PI";
     protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "BL-BL";
-    protected static final String CO_INVESTIGATOR_UNIT = "000001";
-    protected static final String CORRESPONDENT_ROLE_ID = "CRC";
+    protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "000000001";
     protected static final String PRINCIPAL_INVESTIGATOR_NAME = "CLINKSCALES";
+    protected static final String CORRESPONDENT_ROLE_ID = "CRC";
     protected static final String PERSON_ID = "personId";
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private ProtocolPersonnelServiceImpl protocolPersonnelService;
-    ProtocolPersonnelService service;
+    private ProtocolPersonnelService service;
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolPersonTrainingService = buildPersonTrainingService(); 
-        protocolPersonnelService  = new ProtocolPersonnelServiceImpl();
+        //protocolPersonnelService  = new ProtocolPersonnelServiceImpl();
+        
+        protocolPersonnelService = (ProtocolPersonnelServiceImpl)KraServiceLocator.getService(ProtocolPersonnelService.class);
+        service = KraServiceLocator.getService(ProtocolPersonnelService.class);
+        
         protocolPersonnelService.setProtocolPersonTrainingService(protocolPersonTrainingService);
-        service = new ProtocolPersonnelServiceImpl();
+        //service = new ProtocolPersonnelServiceImpl();
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        GlobalVariables.setUserSession(null);
+        service = null;
+        protocolPersonnelService = null;
+        super.tearDown();
+    }
+    
+    @Test
+    public void testCorrectClass(){
+        assertTrue("Should be the same", service.getClass().equals(ProtocolPersonnelServiceImpl.class));
+        assertTrue("Should be the same", protocolPersonnelService.getClass().equals(ProtocolPersonnelServiceImpl.class));
     }
     
     /**
@@ -71,7 +112,7 @@ public class ProtocolPersonnelServiceTest {
          };
         protocolPersonnelService.addProtocolPerson(protocol, getCoInvestigatorPerson() );
         assertEquals(1, protocol.getProtocolPersons().size());
-    }
+   }
 
     /**
      * This method is to delete protocol person
@@ -141,7 +182,9 @@ public class ProtocolPersonnelServiceTest {
     public void testDuplicatePerson() throws Exception {
         List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
-        protocolPersons.add(getCoInvestigatorPerson());
+        ProtocolPerson coi = getCoInvestigatorPerson();
+        coi.setPersonId(CO_INVESTIGATOR_PERSON_ID);
+        protocolPersons.add(coi);
         boolean isDuplicate = service.isDuplicatePerson(protocolPersons, getPrincipalInvestigatorPerson());
         assertTrue(isDuplicate);
     }
@@ -224,11 +267,13 @@ public class ProtocolPersonnelServiceTest {
      * @return ProtocolPerson
      */
     private ProtocolPerson getCoInvestigatorPerson() {
+        
         ProtocolPerson protocolPerson = new ProtocolPerson();
-        protocolPerson.setPersonId(CO_INVESTIGATOR_PERSON_ID);
+        //protocolPerson.setPersonId(CO_INVESTIGATOR_PERSON_ID);
         protocolPerson.setPersonName(CO_INVESTIGATOR_NAME);
         protocolPerson.setProtocolPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
         protocolPerson.setPreviousPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
+        protocolPerson.setObjectId(CO_INVESTIGATOR_OBJ_ID);
         return protocolPerson;
     }
     
@@ -288,6 +333,12 @@ public class ProtocolPersonnelServiceTest {
      */
     private Integer getStudentAffiliationType() {
         return Constants.AFFILIATION_STUDENT_INVESTIGATOR_TYPE;
+    }
+    
+    private Protocol buildProtocol(){
+        Protocol myProto = new Protocol();
+        myProto.setObjectId("a;lkjdfiahiudhbnvak");
+        return myProto;
     }
 
 }

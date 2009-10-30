@@ -76,7 +76,7 @@
 	        	<th>Add:</th>
 	            <td colspan="6">
             		<label>Employee Search</label>
-              		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
+              		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.KcPerson" 
                     	lookedUpCollectionName="newBudgetPersons" /></label><br>
                     <label>Non-employee Search</label>
               		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 

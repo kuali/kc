@@ -16,12 +16,7 @@
 package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * The Budget View Authorizer checks to see if the user has 
@@ -34,14 +29,14 @@ public class AwardBudgetViewAuthorizer extends BudgetAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, Task task) {
+    public boolean isAuthorized(String userId, Task task) { 
         return true;
 //        BudgetTask budgetTask = (BudgetTask) task;
 //        
 //        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
 //        BudgetParentDocument doc = (BudgetParentDocument)budgetDocument.getParentDocument();
 //        
-//        return kraWorkflowService.hasWorkflowPermission(username, doc) ||
-//               hasProposalPermission(username, doc, PermissionConstants.VIEW_BUDGET);
+//        return kraWorkflowService.hasWorkflowPermission(userId, doc) ||
+//               hasProposalPermission(userId, doc, PermissionConstants.VIEW_BUDGET);
     }
 }

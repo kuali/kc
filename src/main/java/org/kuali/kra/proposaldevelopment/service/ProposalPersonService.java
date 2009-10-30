@@ -15,14 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.kra.bo.Person;
+import java.util.List;
+
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalPersonService {
     public String getPersonName(ProposalDevelopmentDocument doc, String userId);
 
-    public Person getPerson(String loggedInUser);
+    public KcPerson getPerson(String loggedInUser);
 
     /**
      * Retrieve a persisted <code>{@link ProposalPerson}</code> instance using the <code>proposalNumber</code>
@@ -32,4 +34,7 @@ public interface ProposalPersonService {
      * @param proposalPersonNumber
      */
     public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber);
+    
+    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleName);
+    
 }

@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -119,8 +119,8 @@ public class AwardCreditSplitBeanTest {
      * @return
      */
     private void addAwardPerson(String fullName, Long id) {
-        Person p = new Person();
-        p.setFullName(fullName);
+        KcPerson p = new KcPerson();
+        //p.setFullName(fullName);
         p.setPersonId(id.toString());
         AwardPerson ap = new AwardPerson(p, null);
         ap.setAwardContactId(id);

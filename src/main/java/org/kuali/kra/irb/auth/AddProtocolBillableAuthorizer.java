@@ -25,9 +25,9 @@ public class AddProtocolBillableAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     @Override
-    public boolean isAuthorized(String username, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return hasPermission(username, protocol, PermissionConstants.EDIT_PROTOCOL_BILLABLE);
+        return hasPermission(userId, protocol, PermissionConstants.EDIT_PROTOCOL_BILLABLE);
     }
 
 }

@@ -26,6 +26,9 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+
 /**
  * 
  * This is BO class for person training maintenance.
@@ -57,9 +60,9 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 	@Basic(fetch=FetchType.LAZY)
 	@Column(name="COMMENTS")
 	private String comments; 
-	
-	private Person person;
+
 	private Training training;
+	private transient KcPersonService kcPersonService;
 		
 	public PersonTraining() { 
 
@@ -161,12 +164,8 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
     }
 
     public Training getTraining() {
@@ -177,4 +176,15 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
         this.training = training;
     }
 	
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
 }

@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
@@ -104,7 +103,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         proposalSite.initializeDefaultCongressionalDistrict();
         return proposalSite;
     }
-    
+      
     private int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
     }
@@ -114,22 +113,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         for (ProposalSite proposalSite: proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
             proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
     }
-    
-    @SuppressWarnings("unchecked")
-    public List<Unit> getDefaultModifyProposalUnitsForUser(String userName) {
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put("userName", userName);
 
-
-        List<Person> persons = (List<Person>) getBusinessObjectService().findMatching(Person.class, queryMap);
-
-        if (persons.size() > 1) {
-            throw new RuntimeException("More than one person retrieved for userName: " + userName);
-        }
-
-        Person person = persons.get(0);
-
-        return unitAuthService.getUnits(person.getUserName(), PermissionConstants.CREATE_PROPOSAL);
+    public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
+        return unitAuthService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
     }
 
     /**

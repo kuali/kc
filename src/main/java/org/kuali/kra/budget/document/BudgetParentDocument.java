@@ -15,17 +15,12 @@
  */
 package org.kuali.kra.budget.document;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -33,13 +28,9 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 

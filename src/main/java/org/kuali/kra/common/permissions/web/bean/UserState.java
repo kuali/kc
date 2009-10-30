@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 
 /**
  * A UserState maintains the current roles for a person as well as the
@@ -43,7 +43,7 @@ import org.kuali.kra.bo.Person;
  */
 public class UserState implements Serializable {
 
-    private Person person;
+    private KcPerson person;
     private List<RoleState> roleStates = new ArrayList<RoleState>();
     
     /**
@@ -51,14 +51,14 @@ public class UserState implements Serializable {
      * @param person the person
      * @param roles all of the possible roles for a person
      */
-    public UserState(Person person, List<Role> roles) {
+    public UserState(KcPerson person, List<Role> roles) {
         this.person = person;
         for (Role role : roles) {
             roleStates.add(new RoleState(role));
         }
     }
     
-    public Person getPerson() {
+    public KcPerson getPerson() {
         return person;
     }
     

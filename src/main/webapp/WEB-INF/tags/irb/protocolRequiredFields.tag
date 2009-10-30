@@ -47,8 +47,8 @@
 						</td>
 						<td width="40" valign="middle" style="border: medium none ;">
 							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.Person" 
-	                         fieldConversions="personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,homeUnitRef.unitNumber:protocolHelper.lookupUnitNumber,homeUnitRef.unitName:protocolHelper.lookupUnitName" 
+							<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                         fieldConversions="personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName" 
 	                         /></label>
                          </td>
                          </tr>

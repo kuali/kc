@@ -21,9 +21,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Find the Lead Units for a Proposal Development Document.  When a user
- * creates a proposal, they can only create proposals in units in which they
+ * creates a proposal, they can only create proposals in units in which they 
  * have the CREATE_PROPOSAL permission.  The Unit Authorization Service is
  * queried to determine which units the user has the CREATE_PROPOSAL permission.
  *
@@ -46,10 +46,9 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
-        List<Unit> userUnits = authService.getUnits(username, PermissionConstants.CREATE_PROPOSAL);
+        List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
 
         // Sort the list of units by Unit Number.  If there are lots of units,
         // the sort will make it easier for the user to find when they view

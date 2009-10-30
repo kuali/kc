@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +26,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -73,16 +70,15 @@ public class PersonnelHelper implements Serializable {
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
-        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUsername(), task);     
+        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private String getUsername() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
     
     public boolean getModifyPersonnel() {

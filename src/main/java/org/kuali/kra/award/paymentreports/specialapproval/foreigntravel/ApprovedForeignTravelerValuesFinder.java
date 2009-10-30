@@ -1,18 +1,17 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Contactable;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
-
-import java.util.*;
 
 /**
  *

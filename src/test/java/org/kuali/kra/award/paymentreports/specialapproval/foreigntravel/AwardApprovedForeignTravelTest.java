@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.kns.util.DateUtils;
 
 /**
@@ -71,12 +71,12 @@ public class AwardApprovedForeignTravelTest {
         return trip;
     }
     
-    private Person getTraveler(String travelerName) {
-        Person person = new Person();
-        person.setFullName(travelerName);
+    private KcPerson getTraveler(String travelerName) {
+        KcPerson person = new KcPerson();
+        //person.setFullName(travelerName);
         String[] names = travelerName.split(" ");
-        person.setFirstName(names[0]);
-        person.setLastName(names[1]);
+        //person.setFirstName(names[0]);
+        //person.setLastName(names[1]);
         return person;
     }
 }

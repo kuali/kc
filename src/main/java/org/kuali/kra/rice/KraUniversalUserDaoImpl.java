@@ -16,10 +16,10 @@
 package org.kuali.kra.rice;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserDao;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.user.UserId;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -49,13 +49,13 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
 
     private static final Logger LOG = Logger.getLogger(KraUniversalUserDaoImpl.class);
     
-    private PersonService personService;
+    private KcPersonService personService;
     
     /**
      * Set the Person Service.  Injected by the Spring Framework.
      * @param personService [in] the Person Service
      */
-    public void setPersonService(PersonService personService) {
+    public void setKcPersonService(KcPersonService personService) {
         this.personService = personService;
     }
 
@@ -68,7 +68,7 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
         UniversalUser user = null;
         String username = userId.getId();
         
-        Person person = personService.getPersonByName(username);
+        KcPerson person = personService.getKcPersonByUserName(username);
         if (person == null) {
             throw new Exception();
         }

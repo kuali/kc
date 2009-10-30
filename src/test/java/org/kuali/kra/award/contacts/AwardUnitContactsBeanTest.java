@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitContactType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -50,7 +50,7 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
 
     private Mockery context = new JUnit4Mockery();
     private BusinessObjectService bos;
-    private List<Person> personnel;
+    private List<KcPerson> personnel;
     private List<ContactType> contactTypes;
     
     @Before
@@ -76,7 +76,7 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
 
     @Test
     public void testGettingUnitContacts_NoExistingContacts() {
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         unitPersonnel.add(personnel.get(2));
         context.checking(createExpectation(unitPersonnel));
@@ -101,7 +101,7 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
         contact.setUnitContactType(UnitContactType.CONTACT);
         award.add(contact);
         
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         unitPersonnel.add(personnel.get(2));
         
@@ -127,7 +127,7 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
         contact.setUnitContactType(UnitContactType.CONTACT);
         award.add(contact);
         
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         
         context.checking(createExpectation(unitPersonnel));
@@ -139,11 +139,11 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
     
     @Test
     public void testGettingUnitContacts_ThreeExist_TwoFromLeadUnit() {
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         unitPersonnel.add(personnel.get(2));
         
-        for(Person p: personnel) {
+        for(KcPerson p: personnel) {
         AwardUnitContact contact = new AwardUnitContact();
             contact.setPerson(p);
             contact.setUnitContactType(UnitContactType.CONTACT);
@@ -161,11 +161,11 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
     
     @Test
     public void testGettingUnitContacts_ThreeExist_ChangeOneContactRole() {
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         unitPersonnel.add(personnel.get(2));
         
-        for(Person p: personnel) {
+        for(KcPerson p: personnel) {
             AwardUnitContact contact = new AwardUnitContact();
             contact.setPerson(p);
             contact.setUnitContactType(UnitContactType.CONTACT);
@@ -183,10 +183,10 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
     
     @Test
     public void testGettingUnitContacts_ThreeExist_TwoFromLeadUnit_OneRemoved() {
-        List<Person> unitPersonnel = new ArrayList<Person>();
+        List<KcPerson> unitPersonnel = new ArrayList<KcPerson>();
         unitPersonnel.add(personnel.get(0));
         
-        for(Person p: personnel) {
+        for(KcPerson p: personnel) {
         AwardUnitContact contact = new AwardUnitContact();
             contact.setPerson(p);
             contact.setUnitContactType(UnitContactType.CONTACT);
@@ -201,11 +201,11 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
         Assert.assertEquals(personnel.get(1).getFullName(), unitContacts.get(1).getPerson().getFullName());
     }
     
-    private Expectations createExpectation(final List<Person> unitPeople) {
+    private Expectations createExpectation(final List<KcPerson> unitPeople) {
         final Map<String, Object> FIELD_VALUES = new HashMap<String, Object>();
         FIELD_VALUES.put("homeUnit", LEAD_UNIT);
         return new Expectations() {{
-            atLeast(1).of(bos).findMatching(Person.class, FIELD_VALUES); 
+            atLeast(1).of(bos).findMatching(KcPerson.class, FIELD_VALUES); 
             will(returnValue(unitPeople));
             allowing(bos).findAll(ContactType.class);
             will(returnValue(contactTypes));
@@ -235,23 +235,23 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
     }
     
     private void initializePeople() {
-        personnel = new ArrayList<Person>();
+        personnel = new ArrayList<KcPerson>();
         
-        Person p = new Person();
-        p.setFullName("Person 1");
-        p.setHomeUnit(LEAD_UNIT);
+        KcPerson p = new KcPerson();
+        //p.setFullName("Person 1");
+        //p.setHomeUnit(LEAD_UNIT);
         p.setPersonId("1");
         personnel.add(p);
         
-        p = new Person();
-        p.setFullName("Person 2");
-        p.setHomeUnit(NONLEAD_UNIT);
+        p = new KcPerson();
+        //p.setFullName("Person 2");
+        //p.setHomeUnit(NONLEAD_UNIT);
         p.setPersonId("2");
         personnel.add(p);
         
-        p = new Person();
-        p.setFullName("Person 3");
-        p.setHomeUnit(LEAD_UNIT);
+        p = new KcPerson();
+        //p.setFullName("Person 3");
+        //p.setHomeUnit(LEAD_UNIT);
         p.setPersonId("3");
         personnel.add(p);
     }

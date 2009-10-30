@@ -45,7 +45,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -270,67 +269,67 @@ public class ActionHelper implements Serializable {
     
     private boolean hasSubmitProtocolPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasCreateAmendmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasCreateRenewalPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasNotifyIrbPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasWithdrawPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasRequestClosePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasRequestSuspensionPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasRequestCloseEnrollmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasRequestReOpenEnrollmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasRequestDataAnalysisPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasDeleteProtocolAmendRenewPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasAssignCmtSchedPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasAssignReviewersPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -353,9 +352,8 @@ public class ActionHelper implements Serializable {
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    private String getUserName() {
-         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     public String getSubmissionConstraint() {

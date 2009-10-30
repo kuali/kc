@@ -26,9 +26,9 @@ public class CreateRenewalAuthorizer extends ProtocolAuthorizer {
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED) &&
-               hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_RENEWAL);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_RENEWAL);
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.document;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -37,9 +37,8 @@ import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
 
-@NAMESPACE(namespace=Constants.PARAMETER_MODULE_BUDGET)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable  {
     /**
@@ -271,5 +270,18 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public List<String> getRoleNames() {
         return getParentDocument().getBudgetPermissionable().getRoleNames();
     }
+
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_BUDGET;
+    }
+
+    public String getLeadUnitNumber() {
+        return getParentDocument().getBudgetPermissionable().getLeadUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.PROPOSAL_ROLE_TYPE;
+    }
+    
 }
 

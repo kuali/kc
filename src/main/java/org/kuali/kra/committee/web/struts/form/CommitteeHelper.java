@@ -31,7 +31,6 @@ import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -42,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class CommitteeHelper implements Serializable {
     
     private static final long serialVersionUID = 1744329032797755384L;
-
+    
     private CommitteeForm committeeForm;
     private boolean modifyCommittee = false;
     private CommitteeMembership newCommitteeMembership;
@@ -51,7 +50,6 @@ public class CommitteeHelper implements Serializable {
     private ScheduleData scheduleData;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
-
 
     // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
     // so it know which CommitteeMembership should get them.
@@ -89,7 +87,7 @@ public class CommitteeHelper implements Serializable {
      * Helper method prepares view for deleteable CommitteeSchedules.
      */
     private void prepareCommitteeScheduleDeleteView(){
-        
+    
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         boolean flag = false;
         CommitteeScheduleService service = getCommitteeScheduleService();
@@ -109,7 +107,7 @@ public class CommitteeHelper implements Serializable {
 
     public boolean canModifyCommittee() {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, getCommittee());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
@@ -120,9 +118,8 @@ public class CommitteeHelper implements Serializable {
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    protected String getUserName() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    protected String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     public boolean getModifyCommittee() {
@@ -212,12 +209,12 @@ public class CommitteeHelper implements Serializable {
     
     public boolean canModifySchedule() {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, getCommittee());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public boolean canViewSchedule() {
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, getCommittee());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public boolean isModifySchedule() {

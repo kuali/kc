@@ -75,12 +75,12 @@
                         <tr>
                             <th> 
                                 <div align="right">
-                                    <kul:htmlAttributeLabel attributeEntry="${personAttributes.homeUnit}" />
+                                    <kul:htmlAttributeLabel attributeEntry="${personAttributes.organizationIdentifier}" />
                                 </div>
                             </th>
                             <td align="left">
-                                <kul:htmlControlAttribute property="${person}.homeUnit" 
-                                                          attributeEntry="${personAttributes.homeUnit}" 
+                                <kul:htmlControlAttribute property="${person}.organizationIdentifier" 
+                                                          attributeEntry="${personAttributes.organizationIdentifier}" 
                                                           readOnly="true" /> 
                             </td>
                             <th align="left">

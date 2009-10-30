@@ -40,7 +40,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.DegreeType;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -56,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -73,6 +73,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
     private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
+    private KcPersonService kcPersonService;
     
     /**
      * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
@@ -227,9 +228,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
         }
         
-        if(isNotBlank(person.getProposalPersonRoleId())){
-            if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
-                    && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
+        if (isNotBlank(person.getProposalPersonRoleId())) {
+            if ((StringUtils.isNotBlank(person.getPersonId())
+                    //FIXME should be calling a count method rather than returning the entire BO
+                    && this.getKcPersonService().getKcPersonByPersonId(person.getPersonId()) == null)
+                    ||(person.getRolodexId() != null
+                            && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId())))
+                    || (StringUtils.isBlank(person.getPersonId()) && person.getRolodexId() == null)) {
                 reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE, person.getFullName());
                 retval = false;
             }
@@ -295,6 +300,18 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
+    }
+    
+    /**
+     * Gets the KcPersonSevice.
+     * @return the service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = getService(KcPersonService.class);    
+        }
+        
+        return this.kcPersonService;
     }
 
     /**

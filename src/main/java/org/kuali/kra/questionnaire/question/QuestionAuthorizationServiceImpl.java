@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -26,11 +26,12 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
 
     private UnitAuthorizationService unitAuthorizationService;
     
-    private PersonService personService;
+    private KcPersonService kcPersonService;
 
     public boolean hasPermission(String permissionName) {
-        Person person = personService.getPersonByName(getUserName());       
-        return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), permissionName);
+        KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
+        //FIXME: Need to pass the appropriate Permission Namespace
+        return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), "??", permissionName);
     }
 
     private String getUserName() {
@@ -42,8 +43,8 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
         this.unitAuthorizationService = unitAuthorizationService;
     }
 
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
 }
