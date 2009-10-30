@@ -407,9 +407,13 @@ public class AwardAction extends BudgetParentActionBase {
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
         boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
 
+        Award award = awardForm.getAwardDocument().getAward();
+        if(StringUtils.equalsIgnoreCase("000000-00000", award.getAwardNumber()));{
+            super.save(mapping, form, request, response);
+        }
         populateAwardHierarchy(form);
 
-        Award award = awardForm.getAwardDocument().getAward();
+        
         if(isNewAward(awardForm) && !(award.getBeginDate() == null)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
             awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
@@ -605,6 +609,20 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
+    
+    /**
+    *
+    * This method gets called upon navigation to Medusa tab.
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+          
+       return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
+   }
 
     /**
      *
