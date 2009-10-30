@@ -50,6 +50,7 @@ import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.DeleteCongressionalDistrictRule;
+import org.kuali.kra.proposaldevelopment.rule.DeleteProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
@@ -62,9 +63,10 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDist
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ClearProposalSiteAddressRule;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
@@ -80,8 +82,6 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
-
-
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
@@ -90,7 +90,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, SaveProposalSitesRule, AddProposalSpecialReviewRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, SaveProposalSitesRule, DeleteProposalSiteRule, ClearProposalSiteAddressRule, AddProposalSpecialReviewRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocumentRule.class); 
@@ -167,8 +167,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
-    public boolean processDeleteProposalSiteRules(DeleteProposalSiteEvent deleteProposalSiteEvent) {
-        return new ProposalSiteRule().processDeleteProposalSiteRules(deleteProposalSiteEvent);
+    public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {
+        return new ProposalSiteRule().processBasicProposalSiteRules(proposalSiteEvent);
+    }
+    
+    public boolean processClearProposalSiteAddressRules(BasicProposalSiteEvent ProposalSiteEvent) {
+        return new ProposalSiteRule().processBasicProposalSiteRules(ProposalSiteEvent);
     }
     
     public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {

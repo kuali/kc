@@ -28,6 +28,7 @@
 <%@ attribute name="congressionalDistrictHelperList" required="true" description="" %>
 <%@ attribute name="addSiteMethodToCall" required="true" description="The action method to call when the Add Proposal Site button is clicked" %>
 <%@ attribute name="deleteSiteMethodToCall" required="true" description="The action method to call when the Delete Proposal Site button is clicked" %>
+<%@ attribute name="clearAddressMethodToCall" required="false" description="The method to call when the user clicks the Clear Address button; this method should delete the proposal site. If this parameter is not present, no Clear Address button is shown." %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The action method to call when the Add District button is clicked" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The action method to call when the Delete District button is clicked" %>
 <%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
@@ -62,6 +63,7 @@
                 congressionalDistrictHelper="${congressionalDistrictHelperList}[${status.index}]"
                 deleteSiteMethodToCall="${deleteSiteMethodToCall}.site${status.index}"
                 addDistrictMethodToCall="${addDistrictMethodToCall}.site${status.index}"
+                clearAddressMethodToCall="${clearAddressMethodToCall}.site${status.index}"
                 deleteDistrictMethodToCall="${deleteDistrictMethodToCall}.site${status.index}"
                 rolodexLookup="${rolodexLookup}" />
         </tr>

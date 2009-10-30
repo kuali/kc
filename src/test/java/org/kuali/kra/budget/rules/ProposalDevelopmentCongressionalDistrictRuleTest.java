@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalSiteEventBase;
+import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentCongressionalDistrictRule;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
@@ -126,7 +126,7 @@ public class ProposalDevelopmentCongressionalDistrictRuleTest extends ProposalDe
         assertEquals(0, GlobalVariables.getErrorMap().getErrorCount());
     }
     
-    private void assertOneError(boolean ruleCheckResult, ProposalDevelopmentCongressionalDistrictRule rule, ProposalSiteEventBase event, String propertyKey, String expectedErrorKey) {
+    private void assertOneError(boolean ruleCheckResult, ProposalDevelopmentCongressionalDistrictRule rule, BasicProposalSiteEvent event, String propertyKey, String expectedErrorKey) {
         assertFalse(ruleCheckResult);
         TypedArrayList errorMessages = GlobalVariables.getErrorMap().getErrorMessagesForProperty(propertyKey);
         assertNotNull(errorMessages);

@@ -27,7 +27,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 /**
  * This class represents the "add congressional district to a proposal site" event.
  */
-public class AddProposalCongressionalDistrictEvent extends ProposalSiteEventBase {
+public class AddProposalCongressionalDistrictEvent extends BasicProposalSiteEvent {
     private List<CongressionalDistrictHelper> congressionalDistrictHelpers;
     
     public AddProposalCongressionalDistrictEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite proposalSite, CongressionalDistrictHelper proposalSiteHelper) {
