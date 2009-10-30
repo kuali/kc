@@ -770,6 +770,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         removeProposalSiteOfType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE, index);
     }
 
+    public void clearPerformanceSiteAddress(int index) {
+        ProposalSite performanceSite = getPerformanceSites().get(index);
+        performanceSite.setOrganization(new Organization());
+        performanceSite.setOrganizationId("");
+        performanceSite.setRolodex(new Rolodex());
+        performanceSite.setRolodexId(null);
+    }
+    
     public void setOtherOrganizations(List<ProposalSite> otherOrganizations) {
         setProposalSitesForType(otherOrganizations, ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
     }

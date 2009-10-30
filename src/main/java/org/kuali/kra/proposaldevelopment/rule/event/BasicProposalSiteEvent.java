@@ -21,16 +21,22 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.ProposalSiteRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * Abstract superclass for rule events related to Proposal Sites.
+ * Superclass for rule events related to Proposal Sites.
  */
-public abstract class ProposalSiteEventBase extends KraDocumentEventBase {
+public class BasicProposalSiteEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddProposalCongressionalDistrictEvent.class);
     private List<ProposalSite> proposalSites;
     private String siteIndex;
 
+    public BasicProposalSiteEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this("Creating a rule event that only checks the proposal site index. Document Id = " + getDocumentId(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument);
+    }
+    
     /**
      * This constructor takes a single ProposalSite.
      * @param description
@@ -38,7 +44,7 @@ public abstract class ProposalSiteEventBase extends KraDocumentEventBase {
      * @param proposalDevelopmentDocument
      * @param proposalSite
      */
-    public ProposalSiteEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite proposalSite) {
+    public BasicProposalSiteEvent(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite proposalSite) {
         this(description, errorPathPrefix, proposalDevelopmentDocument);
         
         proposalSites = new ArrayList<ProposalSite>();
@@ -55,13 +61,13 @@ public abstract class ProposalSiteEventBase extends KraDocumentEventBase {
      * @param proposalSites
      * @param siteIndex
      */
-    public ProposalSiteEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, List<ProposalSite> proposalSites, String siteIndex) {
+    public BasicProposalSiteEvent(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, List<ProposalSite> proposalSites, String siteIndex) {
         this(description, errorPathPrefix, proposalDevelopmentDocument);
         this.proposalSites = proposalSites;
         this.siteIndex = siteIndex;
     }
 
-    private ProposalSiteEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    private BasicProposalSiteEvent(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         super(description, errorPathPrefix, proposalDevelopmentDocument);
     }
     
@@ -93,5 +99,14 @@ public abstract class ProposalSiteEventBase extends KraDocumentEventBase {
         logMessage.append(" proposal sites");
 
         LOG.debug(logMessage);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Class getRuleInterfaceClass() {
+        return ProposalSiteRule.class;
+    }
+
+    public boolean invokeRuleMethod(BusinessRule rule) {
+        return ((ProposalSiteRule)rule).processBasicProposalSiteRules(this);
     }
 }
