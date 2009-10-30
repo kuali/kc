@@ -19,17 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Question specific lookupable helper service methods.
@@ -41,6 +36,8 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenance";
     private static final String VIEW = "view";
+    private static final String SEQUENCE_STATUS_CURRENT = "C";
+
     
     private transient QuestionAuthorizationService questionAuthorizationService;
 
@@ -50,58 +47,10 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        
-        List<Question> activeQuestions = getActiveQuestions((List<Question>) super.getSearchResultsUnbounded(fieldValues));
-
-        // Calculate the actualSizeIfTruncated (zero if result is not truncated)
-        Long matchingResultsCount = new Long(activeQuestions.size());
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
-        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete(activeQuestions, new Long(0));
-        } else {
-            return new CollectionIncomplete(trimResult(activeQuestions, searchResultsLimit), matchingResultsCount);
-        }
-        
-    }
-    
-    /**
-     * 
-     * This method finds the most up to date questions.
-     * @param questions
-     * @return questions, a list containing only the most recent versions of the question
-     */
-    private List<Question> getActiveQuestions(List<Question> questions) {
-        List<Question> activeQuestions = new ArrayList<Question>();
-        List<Integer> questionIds = new ArrayList<Integer>();
-        if (CollectionUtils.isNotEmpty(questions)) {
-            Collections.sort(questions, Collections.reverseOrder());
-            for (Question question : questions) {
-                if (!questionIds.contains(question.getQuestionId())) {
-                    activeQuestions.add(question);
-                    questionIds.add(question.getQuestionId());
-                }
-            }
-        }
-        return activeQuestions;
-    }
-    
-    /**
-     * This method trims the search result.
-     * @param result, the result set to be trimmed
-     * @param trimSize, the maximum size of the trimmed result set
-     * @return the trimmed result set
-     */
-    private List<Question> trimResult(List<Question> result, Integer trimSize) {
-        List<Question> trimedResult = new ArrayList<Question>();
-        for (Question question : result) {
-            if (trimedResult.size()< trimSize) {
-                trimedResult.add(question); 
-            }
-        }
-        return trimedResult;
+        fieldValues.put("sequenceStatus", SEQUENCE_STATUS_CURRENT);
+        return super.getSearchResults(fieldValues);
     }
     
     /**

@@ -32,10 +32,13 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> { 
     
     private static final long serialVersionUID = 1L;
+    
+    private static final String SEQUENCE_STATUS_CURRENT = "C";
 
     private Long questionRefId;
     private Integer questionId;
     private Integer sequenceNumber;
+    private String sequenceStatus;
     private String question;
     private String status;
     private Integer categoryTypeCode; 
@@ -53,6 +56,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     
     public Question() { 
         this.setSequenceNumber(1);
+        this.setSequenceStatus(SEQUENCE_STATUS_CURRENT);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
     } 
 
@@ -80,6 +84,14 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         this.sequenceNumber = sequenceNumber;
     }
 
+    public String getSequenceStatus() {
+        return this.sequenceStatus;
+    }
+    
+    public void setSequenceStatus(String sequenceStatus) {
+        this.sequenceStatus = sequenceStatus;
+    }
+    
     public String getQuestion() {
         return question;
     }
