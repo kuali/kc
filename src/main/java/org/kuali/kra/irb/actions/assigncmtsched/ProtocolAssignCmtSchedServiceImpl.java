@@ -53,9 +53,19 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      */
     public String getAssignedCommitteeId(Protocol protocol) {
         ProtocolSubmission submission = findSubmission(protocol);
-        
         if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
             return submission.getCommitteeId();
+        }
+        return null;
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService#getAssignedScheduleId(org.kuali.kra.irb.Protocol)
+     */
+    public String getAssignedScheduleId(Protocol protocol) {
+        ProtocolSubmission submission = findSubmission(protocol);
+        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            return submission.getScheduleId();
         }
         return null;
     }
@@ -92,9 +102,19 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * @param scheduleId
      */
     public void setSchedule(ProtocolSubmission submission, String committeeId, String scheduleId) {
-        if (setCommittee(submission, committeeId)) {
+        if (!setCommittee(submission, committeeId)) {
+            submission.setScheduleId(null);
+            submission.setScheduleIdFk(null);
+            submission.setCommitteeSchedule(null);
+        }
+        else {
             CommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
-            if (schedule != null) {
+            if (schedule == null) {
+                submission.setScheduleId(null);
+                submission.setScheduleIdFk(null);
+                submission.setCommitteeSchedule(null);
+            }
+            else {
                 submission.setScheduleId(schedule.getScheduleId());
                 submission.setScheduleIdFk(schedule.getId());
                 submission.setCommitteeSchedule(schedule);
@@ -109,12 +129,17 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      */
     public boolean setCommittee(ProtocolSubmission submission, String committeeId) {
         Committee committee = committeeService.getCommitteeById(committeeId);
-        if (committee != null) {
+        if (committee == null) {
+            submission.setCommitteeId(null);
+            submission.setCommitteeIdFk(null);
+            submission.setCommittee(null);
+            return false;
+        }
+        else {
             submission.setCommitteeId(committee.getCommitteeId());
             submission.setCommitteeIdFk(committee.getId());
             submission.setCommittee(committee);
             return true;
         }
-        return false;
     }
 }

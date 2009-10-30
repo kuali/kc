@@ -30,6 +30,13 @@ public interface ProtocolAssignCmtSchedService {
     public String getAssignedCommitteeId(Protocol protocol);
     
     /**
+     * Get the schedule currently assigned to the protocol.
+     * @param protocol
+     * @return the scheduleId or null if there is none
+     */
+    public String getAssignedScheduleId(Protocol protocol);
+    
+    /**
      * Assign a protocol to a committee/schedule.
      * @param protocol the protocol
      * @param actionBean contains committee/schedule

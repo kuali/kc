@@ -46,6 +46,11 @@ public class ProtocolAssignCmtSchedBean implements Serializable{
         if (committeeId != null) {
             this.newCommitteeId = committeeId;
             this.committeeId = committeeId;
+            String scheduleId = getProtocolAssignCmtSchedService().getAssignedScheduleId(getProtocol());
+            if (scheduleId != null) {
+                this.newScheduleId = scheduleId;
+                this.scheduleId = scheduleId;
+            }
         }
     }
     
