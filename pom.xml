@@ -64,8 +64,8 @@
 	  </issueManagement>
 	
 	<ciManagement>
-	    <system>continuum</system>
-	    <url>https://test.kuali.org/continuum</url>
+	    <system>hudson</system>
+	    <url>http://ci.kc.kuali.net/</url>
 	    <notifiers>
 	      <notifier>
 	        <type>mail</type>
@@ -73,7 +73,7 @@
 	        <sendOnFailure>true</sendOnFailure>
 	        <sendOnSuccess>true</sendOnSuccess>
 	        <sendOnWarning>true</sendOnWarning>
-	        <configuration><address>continuum@127.0.0.1</address></configuration>
+	        <configuration><address>hudson@127.0.0.1</address></configuration>
 	      </notifier>
 	    </notifiers>
 	  </ciManagement>
@@ -769,7 +769,8 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.4.2</version>
 				<configuration>
-					<showSuccess>false</showSuccess>
+					<aggregate>true</aggregate>
+					<outputDirectory>/opt/hudson/home/userContent/reports/2.0</outputDirectory>
 				</configuration>
 			</plugin>
 
