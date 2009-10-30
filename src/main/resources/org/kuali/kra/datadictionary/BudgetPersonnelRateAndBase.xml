@@ -53,7 +53,7 @@
   </bean>
   <bean id="BudgetPersonnelRateAndBase-personId" parent="BudgetPersonnelRateAndBase-personId-parentBean" />
 
-  <bean id="BudgetPersonnelRateAndBase-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="BudgetPersonnelRateAndBase-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="BudgetPersonnelRateAndBase-lineItemNumber" parent="BudgetPersonnelRateAndBase-lineItemNumber-parentBean" />
 

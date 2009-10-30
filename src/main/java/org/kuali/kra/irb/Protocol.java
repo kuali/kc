@@ -30,7 +30,6 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipType;
@@ -999,10 +998,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         
         CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
         CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
-        Person p1 = new Person();
-        p1.setLastName("Mendez");
-        p1.setFirstName("Tom");
-        //committeeScheduleAttendance.setPerson(p1);
         List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
         cslist.add(committeeScheduleAttendance);
         committeeSchedule.setCommitteeScheduleAttendances(cslist);        
@@ -1438,6 +1433,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         for (ProtocolAction action : protocolActions) {
             action.resetForeignKeys();
         }
+    }
+
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
     
     /**

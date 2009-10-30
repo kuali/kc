@@ -75,7 +75,7 @@
   </bean>
   <bean id="ProposalPersonBiography-personId" parent="ProposalPersonBiography-personId-parentBean" />
 
-  <bean id="ProposalPersonBiography-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="ProposalPersonBiography-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="ProposalPersonBiography-rolodexId" parent="ProposalPersonBiography-rolodexId-parentBean" />
 

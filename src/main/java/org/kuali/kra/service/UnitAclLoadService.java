@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.UnitAclLoadable;
+import org.kuali.kra.common.permissions.Permissionable;
 
 /**
  * This service loads the KraAuthorizationService with the proper access control list based on 
@@ -34,6 +34,6 @@ public interface UnitAclLoadService {
      */
     // TODO: Refactor Proposal to use UnitAclLoadService instead of ProposalRoleTemplate
     //       FYI: in the ProposalRoleTemplate the following method is called "addUsers()".
-    void loadUnitAcl(UnitAclLoadable unitAclLoadable);
+    void loadUnitAcl(Permissionable permissionable);
 
 }

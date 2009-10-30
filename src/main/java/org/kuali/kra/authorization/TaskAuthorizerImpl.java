@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.authorization;
 
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 
 /**
@@ -28,7 +28,7 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
     private String taskName;
     private UnitAuthorizationService unitAuthorizationService;
     protected KraWorkflowService kraWorkflowService;
-    protected PersonService personService;
+    protected KcPersonService kcPersonService;
     
     /**
      * Set the name of the task.  Injected by the Spring Framework.
@@ -55,11 +55,11 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
     }
     
     /**
-     * Set the Person Service.  Injected by the Spring Framework.
-     * @param personService the Person Service
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
      */
-    public final void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
     
     /**
@@ -75,11 +75,11 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasUnitPermission(String username, String permissionName) {
-        return unitAuthorizationService.hasPermission(username, permissionName);
+    protected final boolean hasUnitPermission(String userId, String namespaceCode, String permissionName) {
+        return unitAuthorizationService.hasPermission(userId, namespaceCode, permissionName);
     }
     
-    protected final boolean hasUnitPermission(String username, String unitNumber, String permissionName) {
-        return unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+    protected final boolean hasUnitPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
+        return unitAuthorizationService.hasPermission(userId, unitNumber, namespaceCode, permissionName);
     }
 }

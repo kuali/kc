@@ -13,7 +13,7 @@
       <ref bean="ProposalSite-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="ProposalSite-lookupDefinition" />
+      <ref bean="ProposalSite-lookupDefinition" /> 
     </property>
     <property name="titleAttribute" value="location" />
     <property name="helpDefinition" >

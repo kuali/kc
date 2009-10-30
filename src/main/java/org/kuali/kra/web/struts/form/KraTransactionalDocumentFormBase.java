@@ -95,7 +95,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      */
     //@Override
 //    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-//        UniversalUser kualiUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
+//        UniversalUser kualiUser = (UniversalUser) GlobalVariables.getUserSession().getPrincipalId();
 //        setNavigateTo(getNavigateToPage());
 //        
 //        Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);

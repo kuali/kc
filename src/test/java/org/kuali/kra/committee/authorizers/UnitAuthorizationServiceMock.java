@@ -28,15 +28,15 @@ public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
         this.hasPermission = hasPermission;
     }
 
-    public List<Unit> getUnits(String username, String permissionName) {
+    public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
         return null;
     }
 
-    public boolean hasPermission(String username, String permissionName) {
+    public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         return hasPermission;
     }
 
-    public boolean hasPermission(String username, String unitNumber, String permissionName) {
+    public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         return false;
     }
 }

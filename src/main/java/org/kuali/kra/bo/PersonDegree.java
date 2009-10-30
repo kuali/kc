@@ -17,11 +17,14 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+
 /**
- * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship
- * of a <code>{@link Person}</code> to a degree as well as the degree itself.
+ * Business Object representation of a PersonDegree. A <code>{@link KcPerson}</code> may have many degrees. This represents the relationship
+ * of a <code>{@link KcPerson}</code> to a degree as well as the degree itself.
  * 
- * @see org.kuali.kra.bo.Person
+ * @see org.kuali.kra.bo.KcPerson
  */
 public class PersonDegree extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -34,8 +37,8 @@ public class PersonDegree extends KraPersistableBusinessObjectBase {
     private String schoolIdCode;
     private String schoolId;
     private String graduationYear;
-    private Person person;
     
+    private transient KcPersonService kcPersonService;
     
     public String getPersonId() {
         return personId;
@@ -143,13 +146,19 @@ public class PersonDegree extends KraPersistableBusinessObjectBase {
         return retval;
     }
 
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(this.personId);
     }
-
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    public KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
-
 }

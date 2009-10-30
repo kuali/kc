@@ -52,7 +52,7 @@
   </bean>
   <bean id="ProposalRoleTemplate-personId" parent="ProposalRoleTemplate-personId-parentBean" />
 
-  <bean id="ProposalRoleTemplate-personId-parentBean" abstract="true" parent="Person-personId">
+  <bean id="ProposalRoleTemplate-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
   <bean id="ProposalRoleTemplate-personName" parent="ProposalRoleTemplate-personName-parentBean" />
 
@@ -139,7 +139,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Person-Role" />
+          <property name="title" value="KcPerson-Role" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

@@ -20,7 +20,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -35,7 +34,7 @@ public class ProposalBudgetModifyAuthorizer extends BudgetAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, Task task) {
+    public boolean isAuthorized(String userId, Task task) {
         
         BudgetTask budgetTask = (BudgetTask) task;
         
@@ -43,7 +42,7 @@ public class ProposalBudgetModifyAuthorizer extends BudgetAuthorizer {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
         
         return !kraWorkflowService.isInWorkflow(doc) &&
-               hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET) &&
+               hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&
               !doc.getDevelopmentProposal().getSubmitFlag() &&
               !doc.getDevelopmentProposal().isParent();        
     }

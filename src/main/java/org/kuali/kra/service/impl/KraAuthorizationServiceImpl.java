@@ -16,33 +16,43 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.kuali.kra.bo.Person;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionAttributes;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.pojo.QualifiedRole;
-import org.kuali.kra.kim.service.PersonService;
-import org.kuali.kra.kim.service.QualifiedRoleService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.RoleManagementService;
 
 /**
  * The Kra Authorization Service Implementation.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class KraAuthorizationServiceImpl implements KraAuthorizationService {
+public class KraAuthorizationServiceImpl implements KraAuthorizationService { 
     
     private UnitAuthorizationService unitAuthorizationService;
-    private PersonService kimPersonService;
-    private QualifiedRoleService kimQualifiedRoleService;
-    private org.kuali.kra.service.PersonService personService;
-
+    private KcPersonService kcPersonService;
+    
+    private RoleManagementService roleManagementService;
+    private IdentityManagementService identityManagementService;
+    
     /**
      * Set the Unit Authorization Service.  Injected by Spring.
      * @param unitAuthorizationService the Unit Authorization Service
@@ -55,85 +65,79 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
      * Set the KRA Person Service.  Injected by Spring.
      * @param personService the KRA Person Service
      */
-    public void setPersonService(org.kuali.kra.service.PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService personService) {
+        this.kcPersonService = personService;
     }
     
-    /**
-     * Set the KIM Person Service.  Injected by Spring.
-     * @param personService the KIM Person Service
-     */
-    public void setKimPersonService(PersonService personService) {
-        this.kimPersonService = personService;
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
     }
     
-    /**
-     * Set the KIM Qualified Role Service.  Injected by Spring.
-     * @param qualifiedRoleService the KIM Qualified Role Service
-     */
-    public void setKimQualifiedRoleService(QualifiedRoleService qualifiedRoleService) {
-        this.kimQualifiedRoleService = qualifiedRoleService;
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
-    
+
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#getUserNames(org.kuali.kra.common.permissions.Permissionable, java.lang.String)
      */
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
+        List<String> userNames = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        return kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttributes);
+        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        for(String userId: users) {
+            KimPrincipal principal = identityManagementService.getPrincipal(userId);
+            userNames.add(principal.getPrincipalName());
+        }
+        return userNames;
     }
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#addRole(java.lang.String, java.lang.String, org.kuali.kra.common.permissions.Permissionable)
      */
-    public void addRole(String username, String roleName, Permissionable permissionable) {
+    public void addRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        kimPersonService.addQualifiedRole(username, roleName, qualifiedRoleAttributes);
+        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
     }
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#removeRole(java.lang.String, java.lang.String, org.kuali.kra.common.permissions.Permissionable)
      */
-    public void removeRole(String username, String roleName, Permissionable permissionable) {
+    public void removeRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        kimPersonService.removeQualifiedRole(username, roleName, qualifiedRoleAttributes);
+        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
     }
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
      */
-    public boolean hasPermission(String username, Permissionable permissionable, String permissionName) {
+    public boolean hasPermission(String userId, Permissionable permissionable, String permissionName) {
         boolean userHasPermission = false;
-        if (isValidPerson(username)) {
-            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-            userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-            if (!userHasPermission) {
-                Person person = personService.getPersonByName(username);
-                if (person != null) {
-                    String unitNumber = person.getHomeUnit();
-                    userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
-                }
-            }
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
+        String unitNumber = permissionable.getLeadUnitNumber();
+
+        if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
+            userHasPermission = identityManagementService.isAuthorized(userId, permissionable.getNamespace(), permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
+        }
+        if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
+            userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionable.getNamespace(), permissionName);
         }
         return userHasPermission;
-    }
-   
-    private boolean isValidPerson(String username) {
-        return personService.isActiveByName(username);
     }
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#hasRole(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
      */
-    public boolean hasRole(String username, Permissionable permissionable, String roleName) {
-        if (isValidPerson(username)) {
-            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-            return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
+    public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        Role role = roleManagementService.getRoleByName(permissionable.getNamespace(), roleName);
+        if(role != null) {
+            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getRoleId()), new AttributeSet(qualifiedRoleAttributes));
         }
         return false;
     }
@@ -141,36 +145,51 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#getRoles(java.lang.String, org.kuali.kra.common.permissions.Permissionable)
      */
-    public List<String> getRoles(String username, Permissionable permissionable) {
-        List<String> roleNames = new ArrayList<String>();
-        if (isValidPerson(username)) {
-            String documentNumber = permissionable.getDocumentNumberForPermission();
-            if (documentNumber != null) {
-                List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
-                for (QualifiedRole role : roles) {
-                    Map<String, String> attrs = role.getQualifiedRoleAttributes();
-                    if (attrs.containsKey(permissionable.getDocumentKey())) {
-                        String value = attrs.get(permissionable.getDocumentKey());
-                        if (value.equals(documentNumber)) {
-                            roleNames.add(role.getRoleName());
-                        }
-                    }
+    public List<String> getRoles(String userId, Permissionable permissionable) {
+        Set<String> roleNames = new HashSet<String>();
+        String documentNumber = permissionable.getDocumentNumberForPermission();
+        Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
+        qualifiedRoleAttrs.put(permissionable.getDocumentKey(), documentNumber);
+        if (documentNumber != null) {
+              //No way to get the Attribute ID - cannot use this 
+//            Map<String, String> fieldValues = new HashMap<String, String>();   
+//            fieldValues.put(KIMPropertyConstants.Principal.PRINCIPAL_NAME, principal.getPrincipalName());
+//            fieldValues.put("attributes.attributeValue", documentNumber);
+//            fieldValues.put("attributes.kimAttribute.attributeName", permissionable.getDocumentKey()); 
+//            fieldValues.put("attributes.kimAttribute.namespaceCode", KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE); 
+//            fieldValues.put("kimTypeId", "*");
+//            List<Role> roles = (List<Role>) roleManagementService.getRolesSearchResults(fieldValues);
+//            for(Role role : roles) {
+//                roleNames.add(role.getRoleName());
+//            }
+            List<String> roleIds = new ArrayList<String>();
+            Map<String, String> roleNameIdMap = new HashMap<String, String>();
+            for(String role : permissionable.getRoleNames()) {
+                String roleId = roleManagementService.getRoleIdByName(permissionable.getNamespace(), role);
+                roleNameIdMap.put(roleId, role);
+                roleIds.add(roleId);
+            }
+            List<RoleMembershipInfo> membershipInfoList = roleManagementService.getRoleMembers(roleIds, new AttributeSet(qualifiedRoleAttrs));
+            for(RoleMembershipInfo memberShipInfo : membershipInfoList) {
+                if(memberShipInfo.getMemberId().equalsIgnoreCase(userId)) {
+                    roleNames.add(roleNameIdMap.get(memberShipInfo.getRoleId()));
                 }
             }
         }
-        return roleNames;
+        
+        return new ArrayList<String>(roleNames); 
     }
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#getPersonsInRole(org.kuali.kra.common.permissions.Permissionable, java.lang.String)
      */
-    public List<Person> getPersonsInRole(Permissionable permissionable, String roleName) {
-        List<Person> persons = new ArrayList<Person>();
+    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
+        List<KcPerson> persons = new ArrayList<KcPerson>();
         Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
         qualifiedRoleAttrs.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
-        for (String username : usernames) {
-            Person person = personService.getPersonByName(username);
+        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttrs));
+        for(String userId : users) {
+            KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
             if (person != null && person.getActive()) {
                 persons.add(person);
             }
@@ -204,6 +223,21 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         
         return rolePersonsList;
     }
+
     
-    
+    public boolean hasRole(String userId, String namespace, String roleName) {
+        Role role = roleManagementService.getRoleByName(namespace, roleName);
+        if(role != null) {
+            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getRoleId()), null);
+        }
+        return false;
+    }
+
+    public RoleManagementService getRoleManagementService() {
+        return roleManagementService;
+    }
+
+    public IdentityManagementService getIdentityManagementService() {
+        return identityManagementService;
+    }
 }

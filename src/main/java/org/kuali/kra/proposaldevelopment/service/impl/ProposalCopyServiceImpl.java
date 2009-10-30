@@ -26,8 +26,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -62,8 +62,8 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -163,7 +163,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private BusinessObjectService businessObjectService;
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
-    private PersonService personService;
+    private KcPersonService kcPersonService;
     private ParameterService parameterService;
     
     /**
@@ -733,10 +733,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      */
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
     }
     
     /**
@@ -786,9 +785,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return the copied narratives
      */
     private List<Narrative> copyNarratives(List<Narrative> narratives, int moduleNumber) {
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
-        Person person = personService.getPersonByName(username);
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        KcPerson person = kcPersonService.getKcPersonByPersonId(userId); 
         
         List<Narrative> newNarratives = new ArrayList<Narrative>();
         for (Narrative narrative : narratives) {
@@ -806,7 +804,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param narrative the narrative
      * @return true if read permission; otherwise false
      */
-    private boolean hasReadPermission(Person person, Narrative narrative) {
+    private boolean hasReadPermission(KcPerson person, Narrative narrative) {
         List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
         for (NarrativeUserRights userRights : userRightsList) {
             if (StringUtils.equals(userRights.getUserId(), person.getPersonId())) {
@@ -831,7 +829,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param moduleNumber the narratives new module number
      * @return the copied narrative
      */
-    private Narrative copyNarrative(Person person, Narrative narrative, int moduleNumber) {
+    private Narrative copyNarrative(KcPerson person, Narrative narrative, int moduleNumber) {
         Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
         newNarrative.setModuleNumber(moduleNumber);
         NarrativeUserRights userRights = new NarrativeUserRights();
@@ -1100,11 +1098,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * Set the Person Service.  Injected by Spring.
-     * @param personService the Person Service
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
      */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
     
     /**

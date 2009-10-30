@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -27,13 +28,13 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
  * the necessary permission to read/view a specific narrative.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
- */
+ */ 
 public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
 
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, Task task) {
+    public boolean isAuthorized(String userId, Task task) {
         
         NarrativeTask narrativeTask = (NarrativeTask) task;
           
@@ -43,16 +44,16 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
         // First, the user must have the VIEW_NARRATIVE permission.  This is really
         // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
         // required to have the VIEW_NARRATIVE permission.
-        
+          
         boolean hasPermission = false;
-        if (hasProposalPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
-            hasPermission = hasNarrativeRight(username, narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT) ||
-                            hasNarrativeRight(username, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+        if (hasProposalPermission(userId, doc, PermissionConstants.VIEW_NARRATIVE)) {
+            hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT) ||
+                            hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
         }
         
         if(!hasPermission) {
-            hasPermission = kraWorkflowService.hasWorkflowPermission(username, doc) ||  
-            hasUnitPermission(username, doc.getDevelopmentProposal().getOwnedByUnitNumber(), PermissionConstants.VIEW_NARRATIVE);     
+            hasPermission = kraWorkflowService.hasWorkflowPermission(userId, doc) ||  
+            hasUnitPermission(userId, doc.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_NARRATIVE);     
         }
        
         return hasPermission;

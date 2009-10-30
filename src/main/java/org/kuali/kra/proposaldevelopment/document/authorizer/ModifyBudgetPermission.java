@@ -22,13 +22,13 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 public class ModifyBudgetPermission extends ProposalAuthorizer {
 
     @Override
-    public boolean isAuthorized(String username, ProposalTask task) {
+    public boolean isAuthorized(String userId, ProposalTask task) {
 
         ProposalDevelopmentDocument doc = task.getDocument();
 
         boolean hasPermission = false;
         if (!kraWorkflowService.isInWorkflow(doc)) {
-            hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET);
+            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET);
         }
         return hasPermission;
     }

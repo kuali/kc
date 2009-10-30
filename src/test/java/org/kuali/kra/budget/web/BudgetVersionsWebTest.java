@@ -123,7 +123,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
 //        HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
 //        
 //        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+//                Constants.MODULE_NAMESPACE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
 //           
 //        // Saving with version marked complete but not final causes error.
 //        setFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);

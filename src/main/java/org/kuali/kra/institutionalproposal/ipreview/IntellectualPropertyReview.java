@@ -25,7 +25,7 @@ import java.util.Map;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
@@ -33,6 +33,7 @@ import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -51,7 +52,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private String ipReviewer; 
     private List<ProposalComment> comments;
     private List<InstitutionalProposalIpReviewActivity> ipReviewActivities;
-    private Person person;
     private IntellectualPropertyReviewRequirementType ipReviewRequirementType;
     private IntellectualPropertyReviewResultType reviewResult;
     private String generalComments;
@@ -61,6 +61,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private Long proposalIdToLink;
     
     private transient ParameterService parameterService;
+    private transient KcPersonService kcPersonService;
     private transient String generalCommentCode;
     private transient String reviewerCommentCode;
     
@@ -156,12 +157,20 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         this.ipReviewActivities = ipReviewActivities;
     }
     
-    public Person getPerson() {
-        return person;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(ipReviewer);
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
     }
     
     public IntellectualPropertyReviewRequirementType getIpReviewRequirementType() {

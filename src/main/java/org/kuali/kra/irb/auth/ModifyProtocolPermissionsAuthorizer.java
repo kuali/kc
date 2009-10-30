@@ -24,9 +24,9 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class ModifyProtocolPermissionsAuthorizer extends ProtocolAuthorizer {
 
     @Override
-    public boolean isAuthorized(String userName, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
                !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
-               hasPermission(userName, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
     }
 }

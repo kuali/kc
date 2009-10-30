@@ -21,14 +21,15 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.service.KcPersonService;
 
 public class ProposalLog extends KraPersistableBusinessObjectBase { 
     
@@ -53,12 +54,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private Timestamp createTimestamp;
     
     private ProposalType proposalType;
-    private Person person;
+    private String personId;
+    private KcPerson person;
     private Rolodex rolodex;
     private Sponsor sponsor;
     private ProposalLogStatus proposalLogStatus;
     private Unit unit;
     private ProposalLogType proposalLogType;
+    private transient KcPersonService kcPersonService;
     
     private String proposalLogToMerge;
     
@@ -178,12 +181,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalType = proposalType;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    public KcPerson getkcPerson() {
+        return this.getKcPersonService().getKcPersonByPersonId(this.personId);
     }
 
     public Rolodex getRolodex() {
@@ -334,4 +333,15 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
     
+    /**
+     * Gets the KC Person Service.
+     * @return KC Person Service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
 }

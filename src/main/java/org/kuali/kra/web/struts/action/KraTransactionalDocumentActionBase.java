@@ -56,7 +56,6 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
@@ -341,10 +340,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
         WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
-        Person person = GlobalVariables.getUserSession().getPerson();
-        String username = person.getPrincipalName();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
-        boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
+        boolean isAuthorized = webAuthorizationService.isAuthorized(userId, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
             error("User not authorized to perform ", methodName, " for document: ",
                      ((KualiDocumentFormBase) form).getDocument().getClass().getName());
@@ -358,11 +356,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return true if authorized; otherwise false
      */
     protected boolean isAuthorized(Task task) {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
+        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         
         TaskAuthorizationService authorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        boolean isAuthorized = authorizationService.isAuthorized(username, task);
+        boolean isAuthorized = authorizationService.isAuthorized(currentUser, task);
         if (!isAuthorized) {
             LOG.error("User not authorized to perform " + task.getTaskName());
             ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -458,7 +455,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             ResearchDocumentBase document = (ResearchDocumentBase) formBase.getDocument();
             Person user = GlobalVariables.getUserSession().getPerson();
             KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
-    
             Set<String> editModes = new HashSet<String>();
             
             if (!documentAuthorizer.canOpen(document, user)) {

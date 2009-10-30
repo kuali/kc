@@ -28,10 +28,10 @@ public class ViewProposalAuthorizer extends ProposalAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String username, ProposalTask task) {
+    public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         
-        return hasProposalPermission(username, doc, PermissionConstants.VIEW_PROPOSAL) ||
-               kraWorkflowService.hasWorkflowPermission(username, doc);
+        return hasProposalPermission(userId, doc, PermissionConstants.VIEW_PROPOSAL) ||
+               kraWorkflowService.hasWorkflowPermission(userId, doc);
     }
 }

@@ -41,8 +41,8 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -51,16 +51,13 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.exception.PessimisticLockingException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -335,6 +332,18 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 return roleNames;
             }
             
+            public String getNamespace() {
+                return Constants.MODULE_NAMESPACE_AWARD;
+            }
+
+            public String getLeadUnitNumber() {
+                return getAward().getLeadUnitNumber();
+            }
+
+            public String getDocumentRoleTypeCode() {
+                return RoleConstants.AWARD_ROLE_TYPE;
+            }
+            
         };
     }
     @Override
@@ -416,4 +425,17 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
         return null;
     }
+
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_AWARD;
+    }
+
+    public String getLeadUnitNumber() {
+        return this.getAward().getLeadUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.AWARD_ROLE_TYPE;
+    } 
+    
 }

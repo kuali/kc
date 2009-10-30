@@ -32,10 +32,10 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
     /**
      * @see org.kuali.kra.irb.TimeAndMoneyAuthorizer.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
      */
-    public boolean isAuthorized(String username, TimeAndMoneyTask task) {
+    public boolean isAuthorized(String userId, TimeAndMoneyTask task) {
         
         TimeAndMoneyDocument timeAndMoneyDocument = task.getTimeAndMoneyDocument();
-        return timeAndMoneyDocument.isNew() ? canUserCreateAward(username, timeAndMoneyDocument) : canUserModifyAward(username, timeAndMoneyDocument);
+        return timeAndMoneyDocument.isNew() ? canUserCreateAward(userId, timeAndMoneyDocument) : canUserModifyAward(userId, timeAndMoneyDocument);
     }
     
     /**
@@ -46,7 +46,7 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
      * @param award
      * @return
      */
-    protected boolean canUserCreateAward(String username, TimeAndMoneyDocument timeAndMoneyDocument){
+    protected boolean canUserCreateAward(String userId, TimeAndMoneyDocument timeAndMoneyDocument){
         return true;
         /*boolean hasPermission = Boolean.FALSE;
         if (timeAndMoneyDocument.getDocumentNumber() == null) {
@@ -61,13 +61,13 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
             
             if (unitNumber != null) {
                 UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
-                hasPermission = auth.hasPermission(username, unitNumber, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
+                hasPermission = auth.hasPermission(userId, unitNumber, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
             }
         }
         
         
         return hasPermission;*/
-        //return hasUnitPermission(username, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
+        //return hasUnitPermission(userId, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
     }
     
     /**
@@ -78,7 +78,7 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
      * @param award
      * @return
      */
-    protected boolean canUserModifyAward(String username, TimeAndMoneyDocument doc){
+    protected boolean canUserModifyAward(String userId, TimeAndMoneyDocument doc){
         //return true;
         /*
          * After the initial save, the proposal can only be modified if it is not in workflow
@@ -86,7 +86,7 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
          */
          
         return !doc.isViewOnly() &&
-                        hasPermission(username, doc, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) &&
+                        hasPermission(userId, doc, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) &&
                         !kraWorkflowService.isInWorkflow(doc);
     }
     

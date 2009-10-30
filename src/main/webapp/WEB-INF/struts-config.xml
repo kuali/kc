@@ -21,7 +21,6 @@
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
-		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
@@ -131,10 +130,6 @@
         </action>
 		<action path="/kraMaintUpdateTextArea" name="KualiForm" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
             <forward name="basic" path="/TextArea.jsp" />
-        </action>
-        
-        <action path="/changePassword" name="ChangePasswordForm" input="/ChangePassword.jsp" type="org.kuali.kra.web.struts.action.ChangePasswordAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-            <forward name="basic" path="/ChangePassword.jsp" />
         </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">

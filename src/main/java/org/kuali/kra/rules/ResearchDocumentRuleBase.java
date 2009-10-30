@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
@@ -178,10 +177,9 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has permission; otherwise false
      */
     protected boolean hasPermission(ProposalDevelopmentDocument doc, String permissionName) {
-        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        return kraAuthorizationService.hasPermission(username, doc, permissionName);
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName); 
     }
     
     /**
@@ -191,10 +189,9 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has role; otherwise false
      */
     protected boolean hasRole(ProposalDevelopmentDocument doc, String roleName) {
-        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
-        String username = user.getPersonUserIdentifier();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        return kraAuthorizationService.hasRole(username, doc, roleName);
+        return kraAuthorizationService.hasRole(userId, doc, roleName);
     }
 
     /**
@@ -204,9 +201,9 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @param permissionName the name of the permission
      * @return true if user has permission; otherwise false
      */
-    protected boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+    protected boolean hasPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        return kraAuthorizationService.hasPermission(username, doc, permissionName);
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
     
     /**
@@ -216,9 +213,9 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @param roleName the name of the role
      * @return true if user has role; otherwise false
      */
-    protected boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
+    protected boolean hasRole(String userId, ProposalDevelopmentDocument doc, String roleName) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        return kraAuthorizationService.hasRole(username, doc, roleName);   
+        return kraAuthorizationService.hasRole(userId, doc, roleName);   
     }
     
     /**
@@ -251,9 +248,6 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     /**
      * Is the given code valid?  Query the database for a matching code
      * If found, it is valid; otherwise it is invalid.<br/>
-     * <br/>
-     * This method does not throw any Exceptions because we assert that if an Exception is caught here, then the 
-     * BusinessObject represented by <code>boClass</code> is not valid.
      * 
      * @param boClass the class of the business object to validate
      * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
@@ -270,13 +264,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 fieldValues.put(entry.getKey(), entry.getValue());
             }
 
-            try {
                 if (getBusinessObjectService().countMatching(boClass, fieldValues) > 0) {
                     retval = true;
-                }
-            }
-            catch (Exception e) {
-                // Read Javadoc for explanation
             }
         }
         return retval;

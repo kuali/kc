@@ -26,7 +26,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public interface NarrativeAuthZService {
     
-    public NarrativeRight authorize(Narrative narrative,String userId);
+    public NarrativeRight authorize(Narrative narrative, String userId);
 
     /**
      * Gets the default narrative right for a user.  The default narrative
@@ -37,7 +37,7 @@ public interface NarrativeAuthZService {
      * @param doc the Proposal Development Document
      * @return the user's default narrative right
      */
-    public NarrativeRight getDefaultNarrativeRight(String username, ProposalDevelopmentDocument doc);
+    public NarrativeRight getDefaultNarrativeRight(String userId, ProposalDevelopmentDocument doc);
     
     /**
      * Gets the default narrative right for a user.  The default narrative

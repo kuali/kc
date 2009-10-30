@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -28,15 +28,16 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAuthorizationService {
     
     private UnitAuthorizationService unitAuthorizationService;
-    private PersonService personService;
+    private KcPersonService kcPersonService;
     
     /**
      * 
      * @see org.kuali.kra.questionnaire.QuestionnaireAuthorizationService#hasPermission(java.lang.String)
      */
     public boolean hasPermission(String permissionName){
-        Person person = personService.getPersonByName(getUserName());       
-        return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), permissionName);
+        KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
+        //FIXME: Need to pass the appropriate Permission Namespace
+        return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), "??", permissionName);
 
     }
     private String getUserName() {
@@ -55,11 +56,11 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
 
     /**
      * 
-     * This method inject PersonService
-     * @param personService
+     * This method inject KcPersonService
+     * @param kcPersonService
      */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
 }

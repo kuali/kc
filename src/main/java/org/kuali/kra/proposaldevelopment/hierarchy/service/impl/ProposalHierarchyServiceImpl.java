@@ -59,7 +59,6 @@ import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -192,10 +191,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***New Hierarchy Parent (#%s) budget created", hierarchy.getProposalNumber()));
         
         // add aggregator to the document
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        String username = user.getPersonUserIdentifier();
-        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
-        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, newDoc);
+
         initializeBudget(hierarchy, initialChild);
 
         prepareHierarchySync(hierarchy);
@@ -203,6 +201,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // link the child to the parent
         linkChild(hierarchy, initialChild);
         setInitialPi(hierarchy, initialChild);
+
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
         finalizeHierarchySync(hierarchy);
@@ -529,7 +528,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         return true;
     }
-    
+
     private void synchronizeChildBudget(Budget parentBudget, ProposalHierarchyChild hierarchyChild, Budget childBudget)
             throws ProposalHierarchyException {
 
@@ -624,7 +623,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 //ObjectUtils.setObjectPropertyDeep(parentPeriod, "budgetPeriod", Integer.class, parentPeriod.getBudgetPeriod());
                 //ObjectUtils.setObjectPropertyDeep(parentPeriod, "budgetId", Long.class, parentBudget.getBudgetId());
             }
-        }
+    }
         catch (Exception e) {
             LOG.error("Problem copying line items to parent", e);
             throw new ProposalHierarchyException("Problem copying line items to parent", e);
@@ -646,20 +645,20 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
 
 //        try { Thread.sleep(1000*30); } catch (Exception e) {}
-    }
+        }
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
         LOG.info(String.format("***Aggregating Proposal Hierarchy #%s", hierarchy.getProposalNumber()));
         ArrayList<ProposalPerson> persons = new ArrayList<ProposalPerson>();
-        
+
         for (ProposalPerson person : hierarchy.getProposalPersons()) {
             if (!persons.contains(person)) {
                 persons.add(person);
-            }
+        }
             else if ((person.isInvestigator() != persons.get(persons.indexOf(person)).isInvestigator()) 
                     && (person.isInvestigator() != persons.get(persons.lastIndexOf(person)).isInvestigator())) {
                 persons.add(person);
-            }
+    }
             else person.setHiddenInHierarchy(true);
         }
         Budget hierarchyBudget = getHierarchyBudget(hierarchy);
@@ -781,7 +780,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // check that child budget starts on one of the budget period starts
         int correspondingStart = getCorrespondingParentPeriod(parentBudget, childBudget);
         if (correspondingStart == -1) {
-            retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_START_DATE_INCONSISTENT);
+            retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_START_DATE_INCONSISTENT, new String[] {});
         }
         // check that child budget periods map to parent periods
         else {

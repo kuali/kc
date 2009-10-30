@@ -17,7 +17,7 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 
@@ -44,7 +44,7 @@ public interface KraAuthorizationService {
      * @param roleName the name of the Role
      * @param award the Award
      */
-    public void addRole(String username, String roleName, Permissionable permissionable);
+    public void addRole(String userId, String roleName, Permissionable permissionable);
     
     /**
      * Remove a user from a role within a Award. Standard roles for
@@ -53,7 +53,7 @@ public interface KraAuthorizationService {
      * @param roleName the name of the Role
      * @param award the Award
      */
-    public void removeRole(String username, String roleName, Permissionable permissionable);
+    public void removeRole(String userId, String roleName, Permissionable permissionable);
     
     /**
      * Does the user have the given permission for the given Award?
@@ -62,7 +62,7 @@ public interface KraAuthorizationService {
      * @param permissionName the name of the Permission
      * @return true if the user has permission; otherwise false
      */
-    public boolean hasPermission(String username, Permissionable permissionable, String permissionName);
+    public boolean hasPermission(String userId, Permissionable permissionable, String permissionName);
 
     /**
      * Does the user have the given role for the given Award?
@@ -71,7 +71,7 @@ public interface KraAuthorizationService {
      * @param roleName the name of the Role
      * @return true if the user has the role; otherwise false
      */
-    public boolean hasRole(String username, Permissionable permissionable, String roleName);
+    public boolean hasRole(String userId, Permissionable permissionable, String roleName);
     
     /**
      * Get the roles for this user in the Award.
@@ -79,7 +79,7 @@ public interface KraAuthorizationService {
      * @param award the Award
      * @return the list of role names this person has in the award
      */
-    public List<String> getRoles(String username, Permissionable permissionable);
+    public List<String> getRoles(String userId, Permissionable permissionable);
     
     /**
      * Get the list of persons in a specific role for a given award.
@@ -87,7 +87,7 @@ public interface KraAuthorizationService {
      * @param roleName the name of the role
      * @return the list of persons in the role for the award
      */
-    public List<Person> getPersonsInRole(Permissionable permissionable, String roleName);
+    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName);
     
     /**
      * Get the list of all of the award roles and the persons in those
@@ -96,4 +96,7 @@ public interface KraAuthorizationService {
      * @return the list of all roles and the people in those roles
      */
     public List<RolePersons> getAllRolePersons(Permissionable permissionable);
+    
+    public boolean hasRole(String userId, String namespace, String roleName);
+
 }

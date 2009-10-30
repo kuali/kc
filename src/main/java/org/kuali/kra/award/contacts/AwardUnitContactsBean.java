@@ -23,7 +23,6 @@ import java.util.Map;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitContactType;
@@ -166,12 +165,13 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         List<AwardUnitContact> allUnitContacts = findContactsForCategory(UnitContactType.CONTACT);
         List<AwardUnitContact> existingLeadUnitContacts = new ArrayList<AwardUnitContact>(); 
         for(AwardUnitContact unitContact: allUnitContacts) {
-            if(leadUnit.getUnitNumber().equals(unitContact.getPerson().getHomeUnit())) {
+            if(leadUnit.getUnitNumber().equals(unitContact.getPerson().getOrganizationIdentifier())) {
                 existingLeadUnitContacts.add(unitContact);
             }
         }
         return existingLeadUnitContacts;
     }
+
 
     private List<UnitAdministrator> findAllLeadUnitPersons(String unitNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

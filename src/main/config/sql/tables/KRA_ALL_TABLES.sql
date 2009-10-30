@@ -653,9 +653,7 @@ CREATE TABLE "PERSON"
 "MOBILE_PHONE_NUMBER" VARCHAR2(20),                                             
 "ERA_COMMONS_USER_NAME" VARCHAR2(20),                                           
 "VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "PERSONN4" NOT NULL ENABLE,          
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "PERSONN5" NOT NULL ENABLE, 
-"KIM_PERSON_ID" NUMBER(8,0),                                                    
-CONSTRAINT "PK_PERSON_KRA" PRIMARY KEY ("PERSON_ID") ENABLE                     
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "PERSONN5" NOT NULL ENABLE              
 ) ;
                                                                             
                                                                                 
@@ -1168,160 +1166,8 @@ CREATE TABLE "KR_QRTZ_TRIGGER_LISTENERS"
 "TRIGGER_LISTENER" VARCHAR2(80) NOT NULL ENABLE,                                
 PRIMARY KEY ("TRIGGER_NAME", "TRIGGER_GROUP", "TRIGGER_LISTENER") ENABLE        
 ) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_ATTRIBUTE_TYPES_T"                                            
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAME" VARCHAR2(500) NOT NULL ENABLE,                                           
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ATTRIBUTE_TYPES_UK1" UNIQUE ("NAME") ENABLE,                    
-CONSTRAINT "KIM_ATTRIBUTE_TYPES_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-           
-                                                                                
-CREATE TABLE "KIM_GROUPS_GROUPS_T"                                              
-(	"PARENT_GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                
-"MEMBER_GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                  
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_GROUPS_GROUPS_PK" PRIMARY KEY ("PARENT_GROUP_ID",               
-"MEMBER_GROUP_ID") ENABLE                                                       
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_GROUPS_PERSONS_T"                                             
-(	"GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                       
-"PERSON_ID" NUMBER(8,0) NOT NULL ENABLE,                                        
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_GROUPS_PERSONS_PK" PRIMARY KEY ("GROUP_ID", "PERSON_ID") ENABLE 
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_GROUPS_T"                                                     
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAME" VARCHAR2(500) NOT NULL ENABLE,                                           
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_GROUPS_UK1" UNIQUE ("NAME") ENABLE,                             
-CONSTRAINT "KIM_GROUPS_PK" PRIMARY KEY ("ID") ENABLE                            
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_GROUP_ATTRIBUTES_T"                                           
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                         
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_TYPE_ID" NUMBER(8,0) NOT NULL ENABLE,                                
-"ATTRIBUTE_VALUES" VARCHAR2(4000),                                              
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_GROUP_ATTRIBUTES_UK1" UNIQUE ("GROUP_ID", "ATTRIBUTE_NAME")     
-ENABLE,                                                                         
-CONSTRAINT "KIM_GROUP_ATTRIBUTES_PK" PRIMARY KEY ("ID") ENABLE                  
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_NAMESPACES_T"                                                 
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAME" VARCHAR2(500) NOT NULL ENABLE,                                           
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_NAMESPACES_T_UK1" UNIQUE ("NAME") ENABLE,                       
-CONSTRAINT "KIM_NAMESPACE_PK" PRIMARY KEY ("ID") ENABLE                         
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_NAMESPACE_DFLT_ATTRIBS_T"                                     
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAMESPACE_ID" NUMBER(8,0) NOT NULL ENABLE,                                     
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_TYPE_ID" NUMBER(8,0) NOT NULL ENABLE,                                
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_NMSPCE_DFLT_ATTR_UK1" UNIQUE ("NAMESPACE_ID",                   
-"ATTRIBUTE_NAME") ENABLE,                                                       
-CONSTRAINT "KIM_NMSPCE_DFLT_ATTR_PK" PRIMARY KEY ("ID") ENABLE                  
-) ;
-                                                                            
-                                                                                
-CREATE TABLE "KIM_PERMISSIONS_T"                                                
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAME" VARCHAR2(500) NOT NULL ENABLE,                                           
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"NAMESPACE_ID" NUMBER(8,0) NOT NULL ENABLE,                                     
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_PERMISSIONS_UK1" UNIQUE ("NAME", "NAMESPACE_ID") ENABLE,        
-CONSTRAINT "KIM_PERMISSIONS_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-               
-                                                                                
-CREATE TABLE "KIM_PERSONS_T"                                                    
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"USERNAME" VARCHAR2(500) NOT NULL ENABLE,                                       
-"PASSWORD" VARCHAR2(500),                                                       
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_PERSONS_UK1" UNIQUE ("USERNAME") ENABLE,                        
-CONSTRAINT "KIM_PERSONS_PK" PRIMARY KEY ("ID") ENABLE                           
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_PERSON_ATTRIBUTES_T"                                          
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"PERSON_ID" NUMBER(8,0) NOT NULL ENABLE,                                        
-"SPONSOR_NAMESPACE_ID" NUMBER(8,0) NOT NULL ENABLE,                             
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_TYPE_ID" NUMBER(8,0) NOT NULL ENABLE,                                
-"ATTRIBUTE_VALUES" VARCHAR2(4000),                                              
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_PERSON_ATTRIBUTES_UK1" UNIQUE ("PERSON_ID",                     
-"SPONSOR_NAMESPACE_ID", "ATTRIBUTE_NAME") ENABLE,                               
-CONSTRAINT "KIM_PERSON_ATTRIBUTES_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-         
-                                                                                
-CREATE TABLE "KIM_ROLES_PERMISSIONS_T"                                          
-(	"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                        
-"PERMISSION_ID" NUMBER(8,0) NOT NULL ENABLE,                                    
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_PERMISSIONS_PK" PRIMARY KEY ("ROLE_ID", "PERMISSION_ID")  
-ENABLE                                                                          
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_ROLES_T"                                                      
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"NAME" VARCHAR2(500) NOT NULL ENABLE,                                           
-"DESCRIPTION" VARCHAR2(4000),                                                   
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_PK" PRIMARY KEY ("ID") ENABLE,                            
-CONSTRAINT "KIM_ROLES_UK1" UNIQUE ("NAME") ENABLE                               
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "KIM_ROLE_ATTRIBUTES_T"                                            
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                          
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_TYPE_ID" NUMBER(8,0) NOT NULL ENABLE,                                
-"ATTRIBUTE_VALUE" VARCHAR2(4000),                                               
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLE_ATTRIBUTES_PK" PRIMARY KEY ("ID") ENABLE,                  
-CONSTRAINT "KIM_ROLE_ATTRIBUTES_UK1" UNIQUE ("ROLE_ID", "ATTRIBUTE_NAME") ENABLE
-) ;                                                                             
-                                                                                
-                                                                                
+
+
 CREATE TABLE "NOTIFICATION_CHANNELS"                                            
 (	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
 "NAME" VARCHAR2(1000) NOT NULL ENABLE,                                          
@@ -1844,70 +1690,8 @@ CONSTRAINT "EPS_PROP_PERSON_DEGREE_N6" PRIMARY KEY ("PROPOSAL_NUMBER",
 "PROP_PERSON_NUMBER", "DEGREE_SEQUENCE_NUMBER") ENABLE,                         
 CONSTRAINT "EPS_PROP_PERSON_DEGREE_C0" UNIQUE ("OBJ_ID") ENABLE
    ) ;
-         
-                                                                                
-CREATE TABLE "KIM_ROLES_PERSONS_T"                                              
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                          
-"PERSON_ID" NUMBER(8,0) NOT NULL ENABLE,                                        
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_PERSONS_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-             
-                                                                                
-CREATE TABLE "KIM_ROLES_PERSONS_QUAL_T"                                         
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                          
-"PERSON_ID" NUMBER(8,0) NOT NULL ENABLE,                                        
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_PERSONS_QUAL_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-        
-                                                                                
-CREATE TABLE "KIM_PERSON_QUAL_ATTR_T"                                           
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_PERSON_ID" NUMBER(8,0) NOT NULL ENABLE,                                   
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_VALUE" VARCHAR2(4000),                                               
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_PERSON_QUAL_ATTR_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-          
-                                                                                
-CREATE TABLE "KIM_ROLES_GROUPS_T"                                               
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                          
-"GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                         
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_GROUPS_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-              
-                                                                                
-CREATE TABLE "KIM_ROLES_GROUPS_QUAL_T"                                          
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_ID" NUMBER(8,0) NOT NULL ENABLE,                                          
-"GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                         
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_ROLES_GROUPS_QUAL_PK" PRIMARY KEY ("ID") ENABLE
-   ) ;
-         
-                                                                                
-CREATE TABLE "KIM_GROUP_QUAL_ATTR_T"                                            
-(	"ID" NUMBER(8,0) NOT NULL ENABLE,                                             
-"ROLE_GROUP_ID" NUMBER(8,0) NOT NULL ENABLE,                                    
-"ATTRIBUTE_NAME" VARCHAR2(500) NOT NULL ENABLE,                                 
-"ATTRIBUTE_VALUE" VARCHAR2(4000),                                               
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
-CONSTRAINT "KIM_GROUP_ROLE_QUAL_PK" PRIMARY KEY ("ID") ENABLE                   
-) ;                                                                             
-                                                                                
-                                                                                
+
+
 CREATE TABLE "BUDGET_STATUS"                                                    
 (	"BUDGET_STATUS_CODE" VARCHAR2(3) CONSTRAINT "BUDGET_STATUSN1" NOT NULL ENABLE,
 "DESCRIPTION" VARCHAR2(200) CONSTRAINT "BUDGET_STATUSN2" NOT NULL ENABLE,       

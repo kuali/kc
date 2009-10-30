@@ -52,24 +52,24 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         // For a new proposal, we have to know if the user has the permission to create a proposal.
         // For a current proposal, we have to know if the user the permission to modify or view the proposal.
         
-        String username = user.getPrincipalName();
+        String userId = user.getPrincipalId();
         if (proposalNbr == null) {
             if (canCreateProposal(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-                setPermissions(username, proposalDoc, editModes);
+                setPermissions(userId, proposalDoc, editModes);
             } 
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         } 
         else {
-            if (canExecuteProposalTask(username, proposalDoc, TaskName.MODIFY_PROPOSAL)) {  
+            if (canExecuteProposalTask(userId, proposalDoc, TaskName.MODIFY_PROPOSAL)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-                setPermissions(username, proposalDoc, editModes);
+                setPermissions(userId, proposalDoc, editModes);
             }
-            else if (canExecuteProposalTask(username, proposalDoc, TaskName.VIEW_PROPOSAL)) {
+            else if (canExecuteProposalTask(userId, proposalDoc, TaskName.VIEW_PROPOSAL)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-                setPermissions(username, proposalDoc, editModes);
+                setPermissions(userId, proposalDoc, editModes);
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -106,70 +106,70 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setPermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
         if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
             editModes.add("modifyProposal");
         }
         
-        if (canExecuteTask(username, doc, TaskName.ADD_BUDGET)) {
+        if (canExecuteTask(userId, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.OPEN_BUDGETS)) {
+        if (canExecuteTask(userId, doc, TaskName.OPEN_BUDGETS)) {
             editModes.add("openBudgets");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.MODIFY_BUDGET)) {
+        if (canExecuteTask(userId, doc, TaskName.MODIFY_BUDGET)) {
             editModes.add("modifyProposalBudget");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES)) {
+        if (canExecuteTask(userId, doc, TaskName.MODIFY_PROPOSAL_ROLES)) {
             editModes.add("modifyPermissions");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.ADD_NARRATIVE)) {
+        if (canExecuteTask(userId, doc, TaskName.ADD_NARRATIVE)) {
             editModes.add("addNarratives");
         }
                    
-        if (canExecuteTask(username, doc, TaskName.CERTIFY)) {
+        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
             editModes.add("certify");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL)) {
+        if (canExecuteTask(userId, doc, TaskName.PRINT_PROPOSAL)) {
             editModes.add("printProposal");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA)) {
+        if (canExecuteTask(userId, doc, TaskName.ALTER_PROPOSAL_DATA)) {
             editModes.add("alterProposalData");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA)) {
+        if (canExecuteTask(userId, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA)) {
             editModes.add("showAlterProposalData");
         }
                 
-        if (canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR)) {
+        if (canExecuteTask(userId, doc, TaskName.SUBMIT_TO_SPONSOR)) {
             editModes.add("submitToSponsor");
         }
-        if (canExecuteTask(username, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
+        if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
-        setNarrativePermissions(username, doc, editModes);
+        setNarrativePermissions(userId, doc, editModes);
     } 
     
-    private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setNarrativePermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(username)) {
+            if (narrative.getDownloadAttachment(userId)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(username)) {
+            if (narrative.getReplaceAttachment(userId)) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(username)) {
+            if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(username)) {
+            if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
@@ -177,16 +177,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(username)) {
+            if (narrative.getDownloadAttachment(userId)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(username)) {
+            if (narrative.getReplaceAttachment(userId)) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(username)) {
+            if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(username)) {
+            if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
@@ -199,8 +199,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * @param taskName the name of the task
      * @return "TRUE" if has permission; otherwise "FALSE"
      */
-    private boolean canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
-        return canExecuteProposalTask(username, doc, taskName);
+    private boolean canExecuteTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
+        return canExecuteProposalTask(userId, doc, taskName);
     }
     
     /**
@@ -210,10 +210,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteProposalTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+    private boolean canExecuteProposalTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
         ProposalTask task = new ProposalTask(taskName, doc);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
+        return taskAuthenticationService.isAuthorized(userId, task);
     }
 
     
@@ -227,7 +227,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {
             return canCreateProposal(user);
         }
-        return canExecuteProposalTask(user.getPrincipalName(), proposalDocument, TaskName.VIEW_PROPOSAL);
+        return canExecuteProposalTask(user.getPrincipalId(), proposalDocument, TaskName.VIEW_PROPOSAL);
     }
     
     /**
@@ -237,15 +237,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
      */
     private boolean canCreateProposal(Person user) {
-        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
+        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
     }
     
     @Override
@@ -266,7 +265,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     protected boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
     }
     
     @Override

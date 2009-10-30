@@ -103,14 +103,14 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
         HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
         assertTrue(KeyPersonnelpage.asText().contains("Document was successfully saved"));
-        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000001");
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.KcPerson", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000006");
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.KcPerson", "personId", "000000006");
         assertEquals("Andrew Slusar", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "KP");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");

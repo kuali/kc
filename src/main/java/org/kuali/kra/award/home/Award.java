@@ -45,8 +45,8 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -57,6 +57,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -73,7 +74,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner<Award>,
                                                                         BudgetParent, Sponsorable {
-    public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     
     private static final String YES_FLAG = "Y";
@@ -185,7 +185,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     // Additional fields for lookup
     private String leadUnitName;
     private String leadUnitNumber;
-    private Person ospAdministrator;
+    private KcPerson ospAdministrator;
     private String ospAdministratorName;
     private String principalInvestigatorName;
     private String statusDescription;
@@ -864,7 +864,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @return
      */
-    public Person getOspAdministrator() {
+    public KcPerson getOspAdministrator() {
         for(AwardUnitContact contact: getAwardUnitContacts()) {
             if(contact.isOspAdministrator()) {
                 ospAdministrator = contact.getPerson();
@@ -878,7 +878,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public String getOspAdministratorName() {
-        Person ospAdministrator = getOspAdministrator();
+        KcPerson ospAdministrator = getOspAdministrator();
         ospAdministratorName = ospAdministrator != null ? ospAdministrator.getFullName() : null;
         return ospAdministratorName;
     }
@@ -2765,4 +2765,16 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
         return getAwardApprovedSubawards().get(index);    
     }
 
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_AWARD;
+    }
+
+    public String getLeadUnitNumber() {
+        return getUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.AWARD_ROLE_TYPE;
+        
+    }
 }

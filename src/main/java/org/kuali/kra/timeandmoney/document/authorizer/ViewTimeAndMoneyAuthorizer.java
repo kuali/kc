@@ -27,7 +27,7 @@ public class ViewTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
     /**
      * @see org.kuali.kra.irb.TimeAndMoneyAuthorizer.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
      */
-    public boolean isAuthorized(String username, TimeAndMoneyTask task) {
-        return hasPermission(username, task.getTimeAndMoneyDocument(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
+    public boolean isAuthorized(String userId, TimeAndMoneyTask task) {
+        return hasPermission(userId, task.getTimeAndMoneyDocument(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
     }
 }

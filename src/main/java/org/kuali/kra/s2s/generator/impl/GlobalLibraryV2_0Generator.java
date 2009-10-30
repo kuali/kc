@@ -22,7 +22,7 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 
 import org.kuali.kra.bo.Country;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -118,9 +118,9 @@ public class GlobalLibraryV2_0Generator {
      * Create AddressDataType from Person
      * 
      * @param person Person
-     * @return AddressDataType corresponding to the Person object.
+     * @return AddressDataType corresponding to the KcPerson object.
      */
-    public AddressDataType getAddressDataType(Person person) {
+    public AddressDataType getAddressDataType(KcPerson person) {
         AddressDataType addressType = AddressDataType.Factory.newInstance();
         if (person != null) {
 

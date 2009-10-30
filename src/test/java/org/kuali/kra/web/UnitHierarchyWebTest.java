@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 
@@ -65,7 +65,7 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         la_Rates_fieldValues.put("unitNumber",unitNumber);
         rates_fieldValues.put("unitNumber", unitNumber);
         
-        Collection<Person> beforeperson = lookupService.findCollectionBySearch(Person.class, personfieldValues);
+        Collection<KcPerson> beforeperson = lookupService.findCollectionBySearch(KcPerson.class, personfieldValues);
         Collection<InstituteLaRate> beforeLA_Rates = lookupService.findCollectionBySearch(InstituteLaRate.class, la_Rates_fieldValues);
         Collection<InstituteRate> before_Rates = lookupService.findCollectionBySearch(InstituteRate.class, rates_fieldValues);
         
@@ -106,7 +106,7 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         assertNotNull(unitpage1);
         assertEquals("IN-IN", getFieldValue(unitpage1, "document.newMaintainableObject.parentUnitNumber"));
         
-        Collection<Person> afterperson = lookupService.findCollectionBySearch(Person.class, personfieldValues);
+        Collection<KcPerson> afterperson = lookupService.findCollectionBySearch(KcPerson.class, personfieldValues);
         Collection<InstituteLaRate> afterLA_Rates = lookupService.findCollectionBySearch(InstituteLaRate.class, la_Rates_fieldValues);
         Collection<InstituteRate> after_Rates = lookupService.findCollectionBySearch(InstituteRate.class, rates_fieldValues);
         assertEquals(beforeperson,afterperson);

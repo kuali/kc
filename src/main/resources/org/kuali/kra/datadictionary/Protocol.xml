@@ -280,7 +280,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Principal Investigator" />
 		<property name="shortLabel" value="Principal Investigator" />
-		<property name="maxLength" value="9" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>

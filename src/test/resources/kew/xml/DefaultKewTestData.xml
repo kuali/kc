@@ -62,7 +62,46 @@
 				<principalName>superuser</principalName>
 			</members>
 		</group>
-		
+		<group>
+		    <id>3</id>
+			<name>KcAdmin</name>
+			<namespace>KC-WKFLW</namespace>
+			<description>KC Administrators</description>
+			<members>
+				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>4</id>
+			<name>OSP Superuser</name>
+			<namespace>KC-WKFLW</namespace>
+			<description>OSP Superuser</description>
+			<members>
+				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>5</id>
+			<name>ProposalAdmin</name>
+			<namespace>KC-WKFLW</namespace>
+			<description>Proposal Admin</description>
+			<members>
+				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>6</id>
+			<name>IRBAdmin</name>
+			<namespace>KC-WKFLW</namespace>
+			<description>IRB Admin</description>
+			<members>
+				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
+			</members>
+		</group>
 	</groups>
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
@@ -219,7 +258,7 @@
 			<documentType>TestDocumentType</documentType>
             <ruleTemplate>TestRuleTemplate</ruleTemplate>
 			<description>TestRule1</description>
-			<!-- <ignorePrevious>false</ignorePrevious>-->
+			<forceAction>false</forceAction>
 			<responsibilities>
 				<responsibility>
 					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TestRole</role>

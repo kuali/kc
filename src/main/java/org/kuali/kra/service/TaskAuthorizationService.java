@@ -29,7 +29,7 @@ public interface TaskAuthorizationService {
      * @param task the task to perform
      * @return true if the user is authorized; otherwise false
      */
-    public boolean isAuthorized(String username, Task task);
+    public boolean isAuthorized(String userId, Task task);
 
     /**
      * Is the given task defined within the system?

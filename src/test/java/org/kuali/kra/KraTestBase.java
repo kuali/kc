@@ -56,7 +56,6 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_LA_RATES.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_RATES.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_inv_credit_type.sql", delimiter = ";")
-                ,@UnitTestFile(filename = "classpath:sql/dml/load_kim.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_mail_by.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_mail_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_narrative_status.sql", delimiter = ";")

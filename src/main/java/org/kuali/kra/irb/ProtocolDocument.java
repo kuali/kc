@@ -50,7 +50,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
-@NAMESPACE(namespace=Constants.PARAMETER_MODULE_PROTOCOL)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	

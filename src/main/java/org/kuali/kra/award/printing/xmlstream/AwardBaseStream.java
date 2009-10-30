@@ -92,8 +92,8 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.AccountType;
 import org.kuali.kra.bo.Country;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NsfCode;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.State;
@@ -526,7 +526,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns AODetails XmlObject
 	 */
 	protected AODetails getAODetailsType() {
-		Person person = null;
+		KcPerson person = null;
 		if (award.getPrincipalInvestigator() != null
 				&& award.getPrincipalInvestigator().getPerson() != null) {
 			person = award.getPrincipalInvestigator().getPerson();

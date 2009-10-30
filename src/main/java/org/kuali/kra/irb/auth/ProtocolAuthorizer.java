@@ -41,8 +41,8 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public final boolean isAuthorized(String username, Task task) {
-        return isAuthorized(username, (ProtocolTask) task);
+    public final boolean isAuthorized(String userId, Task task) {
+        return isAuthorized(userId, (ProtocolTask) task);
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
      * @param task the protocol task
      * @return true if the user is authorized; otherwise false
      */
-    public abstract boolean isAuthorized(String username, ProtocolTask task);
+    public abstract boolean isAuthorized(String userId, ProtocolTask task);
     
     /**
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
@@ -68,12 +68,12 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String username, Protocol protocol, String permissionName) {
-        return kraAuthorizationService.hasPermission(username, protocol, permissionName);
+    protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, protocol, permissionName);
     }
     
     /**
-     * Is the protocol an amendment or renewal protocol?
+     * Is the protocol an amendment or renewal protocol? 
      * @param protocol the protocol
      * @return true if the protocol is an amendment or renewal; otherwise false
      */

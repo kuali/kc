@@ -17,6 +17,7 @@ package org.kuali.kra.authorizer;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
@@ -29,7 +30,7 @@ public class CreateProtocolAuthorizer extends TaskAuthorizerImpl {
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
-    public boolean isAuthorized(String username, Task task) {
-        return hasUnitPermission(username, PermissionConstants.CREATE_PROTOCOL);
+    public boolean isAuthorized(String userId, Task task) {
+        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.CREATE_PROTOCOL);
     }
 }

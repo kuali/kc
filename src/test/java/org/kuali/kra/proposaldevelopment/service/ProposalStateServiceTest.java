@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.service;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -28,6 +29,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Unit Tests for the Proposal State Service Implementation.
  */
+@Ignore 
 public class ProposalStateServiceTest extends MockObjectTestCase {
     
     /*

@@ -31,7 +31,7 @@ public interface KraWorkflowService {
      * @param doc the document
      * @return true if the person has permission; otherwise false
      */
-    public boolean hasWorkflowPermission(String username, Document doc);
+    public boolean hasWorkflowPermission(String userId, Document doc);
     
     /**
      * Is the document currently enroute within workflow?

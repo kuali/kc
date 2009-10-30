@@ -472,9 +472,6 @@
 		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitAdministratorTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="administrator"/>
-		</reference-descriptor>
 	</class-descriptor>	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" table="PROPOSAL_CUSTOM_DATA">
 		<field-descriptor name="proposalCustomDataId" column="PROPOSAL_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_CUSTOM_DATA_ID"/>
@@ -554,9 +551,6 @@
             <foreignkey field-ref="proposalId"/>
         </reference-descriptor>
          -->
-        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="ipReviewer"/>
-        </reference-descriptor>
         <reference-descriptor name="ipReviewRequirementType" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="ipReviewRequirementTypeCode"/>
         </reference-descriptor>
@@ -646,9 +640,6 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
-        </reference-descriptor>
-        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="piId"/>
         </reference-descriptor>
         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="leadUnit"/>

@@ -31,7 +31,6 @@ import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -148,46 +147,57 @@ public class ProtocolHelper implements Serializable {
         initializeModifyOrganizationsPermission(protocol);
         initializeModifySubjectsPermission(protocol);
         initializeModifyAreasOfResearchPermission(protocol);
+        
+        /* 
+        modifyProtocol = true;
+        billableReadOnly = false;
+        modifyGeneralInfo = true;
+        modifyFundingSource = true;
+        modifyReferences = true;
+        modifyOrganizations = true;
+        modifySubjects = true;
+        modifyAreasOfResearch = true;
+		*/
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
-        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);   
+        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);   
     }
 
     private void initializeBillablePermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
-        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifyGeneralInfoPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_GENERAL_INFO, protocol);
-        modifyGeneralInfo = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifyGeneralInfo = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifyFundingSourcePermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_FUNDING_SOURCE, protocol);
-        modifyFundingSource = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifyFundingSource = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifyReferencesPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_REFERENCES, protocol);
-        modifyReferences = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifyReferences = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifyOrganizationsPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ORGANIZATIONS, protocol);
-        modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifySubjectsPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
-        modifySubjects = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifySubjects = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private void initializeModifyAreasOfResearchPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AREAS_OF_RESEARCH, protocol);
-        modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     /**
@@ -226,9 +236,8 @@ public class ProtocolHelper implements Serializable {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
 
-    private String getUsername() {
-         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     public void syncFundingSources(Protocol protocol) {
@@ -434,7 +443,6 @@ public class ProtocolHelper implements Serializable {
             pi.refreshReferenceObject("rolodex");
             pi.setRolodexId(Integer.valueOf(principalInvestigatorId));
         } else {
-            pi.refreshReferenceObject("person");
             pi.setPersonId(principalInvestigatorId);
         }
         pi.setPersonName(getPrincipalInvestigatorName());

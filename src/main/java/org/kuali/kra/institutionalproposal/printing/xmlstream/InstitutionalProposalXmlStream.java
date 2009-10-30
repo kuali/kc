@@ -42,15 +42,14 @@ import noNamespace.ProposalStatusType;
 import noNamespace.ProposalType;
 import noNamespace.ScienceCodeType;
 import noNamespace.SpecialReviewType2;
-import noNamespace.SponsorType;
 import noNamespace.UnitType;
 import noNamespace.InstituteProposalDocument.InstituteProposal;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -206,7 +205,7 @@ public class InstitutionalProposalXmlStream extends
 				if (proposalPerson.getPersonId() != null) {
 					keyPersonType.setPersonId(proposalPerson.getPersonId());
 				}
-				Person person = proposalPerson.getPerson();
+				KcPerson person = proposalPerson.getPerson();
 				if (person != null && person.getFullName() != null) {
 					keyPersonType.setPersonName(person.getFullName());
 				}

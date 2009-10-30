@@ -30,7 +30,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -119,16 +118,15 @@ public class ProtocolAttachmentHelper {
      */
     private boolean canModifyProtocolAttachments() {
         final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
-        return this.authService.isAuthorized(this.getUserName(), task);
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
     
     /**
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    private String getUserName() {
-        final UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        return user.getPersonUserIdentifier();
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
     
     /**
