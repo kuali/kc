@@ -42,7 +42,9 @@ public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRul
 
         boolean rulePassed = checkLocationName(proposalSite, LOCATION_NAME_PROPERTY);
 
-        if (proposalSite.getOrganization()==null && proposalSite.getRolodex()==null) {
+        // an address is required for all location types except performance sites
+        boolean isPerformanceSite = proposalSite.getLocationTypeCode()==ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE;
+        if (proposalSite.getOrganization()==null && proposalSite.getRolodex()==null && !isPerformanceSite) {
             rulePassed = false;
             reportError(ADDRESS_NAME_PROPERTY, KeyConstants.ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED);
         }
