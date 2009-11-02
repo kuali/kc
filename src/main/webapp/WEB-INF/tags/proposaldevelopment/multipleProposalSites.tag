@@ -31,7 +31,7 @@
 <%@ attribute name="clearAddressMethodToCall" required="false" description="The method to call when the user clicks the Clear Address button; this method should delete the proposal site. If this parameter is not present, no Clear Address button is shown." %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The action method to call when the Add District button is clicked" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The action method to call when the Delete District button is clicked" %>
-<%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
+<%@ attribute name="locationType" required="true" description="Can be 'rolo' for a Rolodex item, or 'org' for an Organization" %>
 
 <h3>
     <span class="subhead-left">${tabTitle}</span>
@@ -46,7 +46,7 @@
     </tr>
 
     <kra:section permission="modifyProposal">
-        <kra-pd:addProposalSite newProposalSite="${newProposalSite}" newProposalSiteField="${newProposalSiteField}" addMethodToCall="${addSiteMethodToCall}" rolodexLookup="${rolodexLookup}" />
+        <kra-pd:addProposalSite newProposalSite="${newProposalSite}" newProposalSiteField="${newProposalSiteField}" addMethodToCall="${addSiteMethodToCall}" locationType="${locationType}" />
     </kra:section>
     <c:forEach var="proposalSite" items="${proposalSitesList}" varStatus="status">
         <tr>
@@ -65,7 +65,7 @@
                 addDistrictMethodToCall="${addDistrictMethodToCall}.site${status.index}"
                 clearAddressMethodToCall="${clearAddressMethodToCall}.site${status.index}"
                 deleteDistrictMethodToCall="${deleteDistrictMethodToCall}.site${status.index}"
-                rolodexLookup="${rolodexLookup}" />
+                locationType="${locationType}" />
         </tr>
     </c:forEach>
 </table>
