@@ -33,10 +33,10 @@ public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
     @Override
     public String getCreateNewUrl() {
         String url = "";
-        //if (questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE)) {
+        if (questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE)) {
             url = super.getCreateNewUrl();
             url = url.replace("maintenance", "../maintenanceQn");
-        //}
+        }
         return url;
     }
 
