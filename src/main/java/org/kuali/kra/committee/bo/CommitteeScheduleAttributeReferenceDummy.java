@@ -23,6 +23,18 @@ public class CommitteeScheduleAttributeReferenceDummy extends AttributeReference
 
     private Integer intValue;
     
+    private Integer dayRecurrence;
+    
+    private Integer weekRecurrence;
+    
+    private Integer monthDay;
+    
+    private Integer monthRecurrence;
+    
+    private Integer yearDay;
+    
+    private Integer yearRecurrence;
+    
     private String monthsWeek;
     
     private String weekDay;
@@ -55,6 +67,54 @@ public class CommitteeScheduleAttributeReferenceDummy extends AttributeReference
 
     public Integer getIntValue() {
         return intValue;
+    }
+
+    public Integer getDayRecurrence() {
+        return dayRecurrence;
+    }
+
+    public void setDayRecurrence(Integer dayRecurrence) {
+        this.dayRecurrence = dayRecurrence;
+    }
+
+    public Integer getWeekRecurrence() {
+        return weekRecurrence;
+    }
+
+    public void setWeekRecurrence(Integer weekRecurrence) {
+        this.weekRecurrence = weekRecurrence;
+    }
+
+    public Integer getMonthDay() {
+        return monthDay;
+    }
+
+    public void setMonthDay(Integer monthDay) {
+        this.monthDay = monthDay;
+    }
+
+    public Integer getMonthRecurrence() {
+        return monthRecurrence;
+    }
+
+    public void setMonthRecurrence(Integer monthRecurrence) {
+        this.monthRecurrence = monthRecurrence;
+    }
+
+    public Integer getYearDay() {
+        return yearDay;
+    }
+
+    public void setYearDay(Integer yearDay) {
+        this.yearDay = yearDay;
+    }
+
+    public Integer getYearRecurrence() {
+        return yearRecurrence;
+    }
+
+    public void setYearRecurrence(Integer yearRecurrence) {
+        this.yearRecurrence = yearRecurrence;
     }
 
     public void setMonthsWeek(String monthsWeek) {
