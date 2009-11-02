@@ -17,7 +17,6 @@
 <c:set var="styleClass" value="${KualiForm.committeeHelper.scheduleData.styleClasses}" />      
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
 
 <%-- Daily --%>
 	<div id="calendar_daily_table" style="${styleClass['DAILY']}">
