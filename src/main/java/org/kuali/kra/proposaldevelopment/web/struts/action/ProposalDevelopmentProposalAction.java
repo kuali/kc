@@ -173,6 +173,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
         ProposalSite newOtherOrganization = proposalDevelopmentForm.getNewOtherOrganization();
+        newOtherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);   // the validation rule needs the location type
         if (checkAndInitNewLocation("newOtherOrganization", proposalDevelopmentDocument, newOtherOrganization)) {
             proposalDevelopmentDocument.getDevelopmentProposal().addOtherOrganization(newOtherOrganization);
             
@@ -191,6 +192,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         ProposalSite newPerformanceSite = proposalDevelopmentForm.getNewPerformanceSite();
+        newPerformanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);   // the validation rule needs the location type
         if (checkAndInitNewLocation("newPerformanceSite", proposalDevelopmentDocument, newPerformanceSite)) {
             proposalDevelopmentDocument.getDevelopmentProposal().addPerformanceSite(newPerformanceSite);
             
