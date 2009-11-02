@@ -114,6 +114,33 @@
 	  	        <html:image property="methodToCall.addEvent.anchor${tabKey}"
 	    					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton" onclick="clearCommitteeScheduleRecurrenceData();"/>
     	    </p>
+    	    
+    	    <%-- Script to display the proper recurrence on page reloads --%>
+            <script type="text/javascript">
+                var list = document.getElementsByName("committeeHelper.scheduleData.recurrenceType");
+                for(var i= 0; i < list.length; i++) {
+                    var element = list[i];
+                    if (element.checked) {
+                        switch(element.value) {
+                            case "DAILY" :
+                                showTable('calendar_daily_table');
+                                break;
+                            case "WEEKLY" :
+                                showTable('calendar_weekly_table');
+                                break;
+                            case "MONTHLY" :
+                                showTable('calendar_monthly_table');
+                                break;
+                            case "YEARLY" :
+                                showTable('calendar_yearly_table');
+                                break;
+                            default :
+                                showTable('calendar_never_table');
+                                break;
+                        }
+                    }
+                }
+            </script>
         </c:if>
 
 		<%--Schedule Sub Panel Display --%>
@@ -248,5 +275,6 @@
                 	</th>  
               	</tr>
            </table>
-    </div> 
+    </div>
+
 </kul:tab>
