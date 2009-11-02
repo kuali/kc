@@ -21,7 +21,7 @@
 <%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
 <%@ attribute name="addMethodToCall" required="true" description="The action method to call when the add button is clicked" %>
-<%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
+<%@ attribute name="locationType" required="true" description="Can be 'rolo' for a Rolodex item, or 'org' for an Organization" %>
 
 <c:set var="propLocationAttributes" value="${DataDictionary.ProposalSite.attributes}" />
 
@@ -45,7 +45,7 @@
             attributeEntry="${propLocationAttributes.rolodexId}" />
             
         <%-- Code for Rolodex lookup enabled sites follows --%>
-        <c:if test="${rolodexLookup}">
+        <c:if test="${locationType == 'rolo'}">
             <%-- Site name --%>
             <c:choose>
                 <c:when test="${empty newProposalSite.rolodexId}">
@@ -94,7 +94,7 @@
         </c:if>
         
         <%-- Code for non-Rolodex sites follows (uses the organization field, does a organization lookup) --%>
-        <c:if test="${!rolodexLookup}">
+        <c:if test="${locationType == 'org'}">
             <%-- Site name --%>
             <c:choose>
                 <c:when test="${empty newProposalSite.organizationId}">
