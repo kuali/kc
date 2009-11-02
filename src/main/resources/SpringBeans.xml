@@ -1578,8 +1578,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-        <property name="questionnaireAuthorizationService">
-            <ref bean="questionnaireAuthorizationService" />
+        <property name="unitAuthorizationService">
+            <ref bean="unitAuthorizationService" />
         </property>
 		<property name="parameterService">
 			<ref bean="parameterService" />

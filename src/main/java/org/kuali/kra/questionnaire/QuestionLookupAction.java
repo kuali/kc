@@ -55,7 +55,7 @@ public class QuestionLookupAction extends KualiAction {
 
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                     .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                            new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier());
+                            new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPrincipalId());
             int idx = 0;
             String idxString = StringUtils.substringBetween(questionLookupForm.getLookedUpCollectionName(), "[", "]");
             if (StringUtils.isNotBlank(idxString)) {
