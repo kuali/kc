@@ -16,13 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttachmentNotificationAttributes" value="${DataDictionary.ProtocolAttachmentNotification.attributes}" />
-<c:set var="notesAndAttachmentsHelper" value="${KualiForm.notesAndAttachmentsHelper}" />
-<c:set var="readOnly" value="${!KualiForm.notesAndAttachmentsHelper.modifyProtocol}" />
+<c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
+<c:set var="readOnly" value="${!KualiForm.attachmentsHelper.modifyProtocol}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentNotifications" value="${KualiForm.document.protocolList[0].attachmentNotifications}"/>
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS%>" />
 
-<kul:tab tabTitle="Notifications From Attachments" tabItemCount="${fn:length(attachmentNotifications)}" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
+<kul:tab tabTitle="Notifications From Attachments" tabItemCount="${fn:length(attachmentNotifications)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<%-- add functionality for dev only - START --%>
    		<h3>
@@ -38,7 +38,7 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentNotification.updateUser" attributeEntry="${protocolAttachmentNotificationAttributes.updateUser}" readOnly="true"/>
+                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.updateUser" attributeEntry="${protocolAttachmentNotificationAttributes.updateUser}" readOnly="true"/>
 	            	</div>
 				</td>
                <th>
@@ -48,7 +48,7 @@
 				</th>
        			<td align="left" valign="middle">
               		<div align="left">
-              			<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentNotification.newFile" />
+              			<c:set var="property" value="attachmentsHelper.newAttachmentNotification.newFile" />
               		
               		    <%-- attachment file error handling logic start--%>
                				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
@@ -68,7 +68,7 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentNotification.updateTimestamp" attributeEntry="${protocolAttachmentNotificationAttributes.updateTimestamp}" readOnly="true"/>
+                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.updateTimestamp" attributeEntry="${protocolAttachmentNotificationAttributes.updateTimestamp}" readOnly="true"/>
 	            	</div>
 				</td>
 				<th>
@@ -78,7 +78,7 @@
 				</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" datePicker="true"/>
 	            	</div>
 				</td>
          	</tr>
@@ -90,8 +90,8 @@
          		</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
-                		<kra:expandedTextArea textAreaFieldName="notesAndAttachmentsHelper.newAttachmentNotification.comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}" />
+                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
+                		<kra:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentNotification.comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}" />
 	            	</div>
 				</td>
          	</tr>

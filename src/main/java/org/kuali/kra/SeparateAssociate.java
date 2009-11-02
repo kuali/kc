@@ -20,10 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class is meant to be a common base class for Protocol SeparatelySequenceableAssociate BOs (for BOs that haven't already
+ * This class is meant to be a common base class for SeparatelySequenceableAssociate BOs (for BOs that haven't already
  * extended a class).
  * 
- * Eventually, this class should become more generic since it is not Protocol specific in any way other than name.
  */
 public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
     private static final long serialVersionUID = -8385115657304261423L;

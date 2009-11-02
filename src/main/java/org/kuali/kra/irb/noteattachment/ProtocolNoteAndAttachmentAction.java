@@ -52,7 +52,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().prepareView();
+        ((ProtocolForm) form).getAttachmentsHelper().prepareView();
+        ((ProtocolForm) form).getNotepadHelper().prepareView();
         return forward;
     }
     
@@ -62,7 +63,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().processSave();
+        ((ProtocolForm) form).getAttachmentsHelper().processSave();
     }
     
     /**
@@ -77,7 +78,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().addNewProtocolAttachmentProtocol();
+        ((ProtocolForm) form).getAttachmentsHelper().addNewProtocolAttachmentProtocol();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -94,7 +95,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().addNewProtocolAttachmentPersonnel();
+        ((ProtocolForm) form).getAttachmentsHelper().addNewProtocolAttachmentPersonnel();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -205,7 +206,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final ProtocolAttachmentBase attachment = form.getAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -213,7 +214,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        final String confirmMethod = form.getNotesAndAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
+        final String confirmMethod = form.getAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
                 KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
@@ -239,7 +240,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         final int selection = this.getSelectedLine(request);
         
-        if (!form.getNotesAndAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
+        if (!form.getAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
         }
@@ -266,7 +267,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final ProtocolAttachmentBase attachment = form.getAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -299,5 +300,21 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     private static String getValidHeaderString(String s) {
         return MimeUtility.quote(s, HeaderTokenizer.MIME);
+    }
+    
+    /**
+     * Method called when adding an attachment protocol.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        //do stuff
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
