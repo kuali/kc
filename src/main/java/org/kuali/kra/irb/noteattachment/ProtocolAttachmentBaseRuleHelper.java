@@ -45,7 +45,7 @@ class ProtocolAttachmentBaseRuleHelper {
     /**
      * Creates helper using prefix provided.
      *  
-     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: attachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
     ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix) {
@@ -74,7 +74,7 @@ class ProtocolAttachmentBaseRuleHelper {
     
     /**
      * Resets the property prefix.
-     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: attachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
     void resetPropertyPrefix(final String aPropertyPrefix) {

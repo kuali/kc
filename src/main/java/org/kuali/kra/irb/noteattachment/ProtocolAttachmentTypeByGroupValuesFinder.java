@@ -32,11 +32,11 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * This class can be used in a tag file like the following
  * <pre>
-    <c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" />
+    <c:set var="property" value="attachmentsHelper.newAttachmentProtocol.typeCode" />
 
     <%-- attachment type finder logic start--%>
         <jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
-        <c:set target="${typeParamsType}" property="groupCode" value="${notesAndAttachmentsHelper.newAttachmentProtocol.groupCode}" />
+        <c:set target="${typeParamsType}" property="groupCode" value="${attachmentsHelper.newAttachmentProtocol.groupCode}" />
         <c:set target="${typeParamsType}" property="filterTypes" value="${KualiForm.document.protocol.attachmentProtocols}" />
         <c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
     <%-- attachment type finder logic end --%>

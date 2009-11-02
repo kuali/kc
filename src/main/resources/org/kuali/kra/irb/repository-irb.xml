@@ -101,6 +101,9 @@
 		<collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>
+		<collection-descriptor name="notepads" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>
 		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
@@ -623,6 +626,25 @@
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 		
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolNotepad" table="PROTOCOL_NOTEPAD">
+		<field-descriptor name="id" column="PROTOCOL_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
+		<field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="noteType" column="NOTE_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">

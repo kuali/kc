@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
@@ -158,6 +159,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     //these are the m:m attachment protocols that that a protocol has
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
+    
+    private List<ProtocolNotepad> notepads;
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
@@ -821,6 +824,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
     
     /**
+     * Gets the notepads. Cannot return {@code null}.
+     * @return the notepads
+     */
+    public List<ProtocolNotepad> getNotepads() {
+        
+        if (this.notepads == null) {
+            this.notepads = new ArrayList<ProtocolNotepad>();
+        }
+        return this.notepads;
+    }
+    
+    /**
+     * Gets an attachment protocol.
+     * @param index the index
+     * @return an attachment protocol
+     */
+    public ProtocolNotepad getNotepad(int index) {
+        return this.notepads.get(index);
+    }
+    
+    /**
      * adds an attachment protocol.
      * @param attachmentProtocol the attachment protocol
      * @throws IllegalArgumentException if attachmentProtocol is null
@@ -1098,6 +1122,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
         this.attachmentPersonnels = attachmentPersonnels;
+    }
+    
+    public void setNotepads(List<ProtocolNotepad> notepads) {
+        this.notepads = notepads;
     }
     
     public void setProtocolAmendRenewal(ProtocolAmendRenewal amendRenewal) {
