@@ -12,7 +12,7 @@ when
 	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116','303','101'))
 then	
     actionRight.setAllowed(true);
-    actionRight.setRightId("SUBMIT_PROTOCOL");
+    actionRight.setRightId("Submit Protocol");
 end
 rule "Rule 2 -  103"
 salience 100
@@ -20,7 +20,7 @@ when
 	actionRight : ActionRightMapping(actionTypeCode in ('103'))
 then	
     actionRight.setAllowed(true);
-    actionRight.setRightId("CREATE_AMMENDMENT");
+    actionRight.setRightId("Create Ammendment");
 end
 rule "Rule 3 -  102"
 salience 100
@@ -28,5 +28,5 @@ when
 	actionRight : ActionRightMapping(actionTypeCode in ('102'))
 then	
     actionRight.setAllowed(true);
-    actionRight.setRightId("CREATE_RENEWAL");
+    actionRight.setRightId("Create Renewal");
 end
