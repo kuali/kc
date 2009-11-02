@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
+import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
 import org.kuali.kra.irb.permission.PermissionsHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
@@ -64,7 +65,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private ActionHelper actionHelper;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
-    private transient ProtocolAttachmentHelper notesAndAttachmentsHelper;
+    private transient ProtocolAttachmentHelper attachmentsHelper;
+    private transient ProtocolNotepadHelper notepadHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -96,7 +98,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
-        setNotesAndAttachmentsHelper(new ProtocolAttachmentHelper(this));
+        setAttachmentsHelper(new ProtocolAttachmentHelper(this));
+        setNotepadHelper(new ProtocolNotepadHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
     
@@ -253,23 +256,43 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
 
     /**
-     * Gets the Notes And Attachments Helper.
-     * @return Notes And Attachments Helper
+     * Gets the Attachments Helper.
+     * @return Attachments Helper
      */
-    public ProtocolAttachmentHelper getNotesAndAttachmentsHelper() {
-        if (notesAndAttachmentsHelper == null) {
-            notesAndAttachmentsHelper = new ProtocolAttachmentHelper(this);
+    public ProtocolAttachmentHelper getAttachmentsHelper() {
+        if (attachmentsHelper == null) {
+            attachmentsHelper = new ProtocolAttachmentHelper(this);
         }
         
-        return notesAndAttachmentsHelper;
+        return attachmentsHelper;
     }
 
     /**
-     * Sets the Notes And Attachments Helper.
-     * @param notesAndAttachmentsHelper the Notes And Attachments Helper
+     * Sets the Attachments Helper.
+     * @param attachmentsHelper the Attachments Helper
      */
-    public void setNotesAndAttachmentsHelper(ProtocolAttachmentHelper notesAndAttachmentsHelper) {
-        this.notesAndAttachmentsHelper = notesAndAttachmentsHelper;
+    public void setAttachmentsHelper(ProtocolAttachmentHelper attachmentsHelper) {
+        this.attachmentsHelper = attachmentsHelper;
+    }
+    
+    /**
+     * Gets the Notepad Helper.
+     * @return Notepad Helper
+     */
+    public ProtocolNotepadHelper getNotepadHelper() {
+        if (notepadHelper == null) {
+            notepadHelper = new ProtocolNotepadHelper(this);
+        }
+        
+        return notepadHelper;
+    }
+
+    /**
+     * Sets the Notepad Helper.
+     * @param notepadHelper the Notepad Helper
+     */
+    public void setNotepadHelper(ProtocolNotepadHelper notepadHelper) {
+        this.notepadHelper = notepadHelper;
     }
 
     /**

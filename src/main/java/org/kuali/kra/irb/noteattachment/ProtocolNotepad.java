@@ -1,0 +1,221 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.irb.noteattachment;
+
+import java.util.LinkedHashMap;
+
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolAssociate;
+
+/**
+ * The Protocol Notepad class.
+ */
+public class ProtocolNotepad extends ProtocolAssociate {
+    
+    private static final long serialVersionUID = -294125058992878907L;
+
+    private Long id;
+    private Integer entryNumber;
+    private String comments;
+    private boolean restrictedView;
+    private String noteTopic;
+    
+    /**
+     * empty ctor to satisfy JavaBean convention.
+     */
+    public ProtocolNotepad() {
+        super();
+    }
+    
+    /**
+     * Convenience ctor to add the protocol as an owner.
+     * 
+     * <p>
+     * This ctor does not validate any of the properties.
+     * </p>
+     * 
+     * @param protocol the protocol.
+     */
+    public ProtocolNotepad(final Protocol protocol) {
+        super(protocol);
+    }
+    
+    /**
+     * Gets the id attribute. 
+     * @return Returns the id.
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Sets the id attribute value.
+     * @param id The id to set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets the entryNumber attribute. 
+     * @return Returns the entryNumber.
+     */
+    public Integer getEntryNumber() {
+        return this.entryNumber;
+    }
+
+    /**
+     * Sets the entryNumber attribute value.
+     * @param entryNumber The entryNumber to set.
+     */
+    public void setEntryNumber(Integer entryNumber) {
+        this.entryNumber = entryNumber;
+    }
+
+    /**
+     * Gets the comments attribute. 
+     * @return Returns the comments.
+     */
+    public String getComments() {
+        return this.comments;
+    }
+
+    /**
+     * Sets the comments attribute value.
+     * @param comments The comments to set.
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * Gets the restrictedView attribute. 
+     * @return Returns the restrictedView.
+     */
+    public boolean isRestrictedView() {
+        return this.restrictedView;
+    }
+
+    /**
+     * Sets the restrictedView attribute value.
+     * @param restrictedView The restrictedView to set.
+     */
+    public void setRestrictedView(boolean restrictedView) {
+        this.restrictedView = restrictedView;
+    }
+
+    /**
+     * Gets the noteTopic attribute. 
+     * @return Returns the noteTopic.
+     */
+    public String getNoteTopic() {
+        return this.noteTopic;
+    }
+
+    /**
+     * Sets the noteTopic attribute value.
+     * @param noteTopic The noteTopic to set.
+     */
+    public void setNoteTopic(String noteTopic) {
+        this.noteTopic = noteTopic;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        hashMap.put("id", this.getId());
+        hashMap.put("entryNumber", this.getEntryNumber());
+        hashMap.put("comments", this.getComments());
+        hashMap.put("restrictedView", Boolean.valueOf(this.isRestrictedView()));
+        hashMap.put("noteTopic", this.getNoteTopic());
+        return hashMap;
+    }
+
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.id = null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.comments == null) ? 0 : this.comments.hashCode());
+        result = prime * result + ((this.entryNumber == null) ? 0 : this.entryNumber.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.noteTopic == null) ? 0 : this.noteTopic.hashCode());
+        result = prime * result + (this.restrictedView ? 1231 : 1237);
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (!super.equals(obj)) {
+            return false;
+        }
+        
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final ProtocolNotepad other = (ProtocolNotepad) obj;
+        if (this.comments == null) {
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!this.comments.equals(other.comments)) {
+            return false;
+        }
+        
+        if (this.entryNumber == null) {
+            if (other.entryNumber != null) {
+                return false;
+            }
+        } else if (!this.entryNumber.equals(other.entryNumber)) {
+            return false;
+        }
+        
+        if (this.id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!this.id.equals(other.id)) {
+            return false;
+        }
+        
+        if (this.noteTopic == null) {
+            if (other.noteTopic != null) {
+                return false;
+            }
+        } else if (!this.noteTopic.equals(other.noteTopic)) {
+            return false;
+        }
+        
+        if (this.restrictedView != other.restrictedView) {
+            return false;
+        }
+        
+        return true;
+    }
+
+}

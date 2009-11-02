@@ -19,16 +19,64 @@ package org.kuali.kra;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.data.UnitTestSql;
 
 /**
  * This class is the base class for all KCRA Tests requiring a Spring context with persistence, and preloaded test data
  */
 
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
+        sqlStatements = {
+                      @UnitTestSql("alter table UNIT_ADMINISTRATOR disable constraint FK3_UNIT_ADMINISTRATOR_KRA"), 
+                      @UnitTestSql("delete from institute_rates"),
+                      @UnitTestSql("delete from institute_la_rates"), 
+                      @UnitTestSql("delete from KRIM_GRP_ATTR_DATA_T"), 
+                      @UnitTestSql("delete from KRIM_GRP_MBR_T"), 
+                      @UnitTestSql("delete from KRIM_ROLE_MBR_ATTR_DATA_T"), 
+                      @UnitTestSql("delete from KRIM_ROLE_MBR_T"), 
+                      @UnitTestSql("delete from KRIM_ROLE_PERM_T"), 
+                      @UnitTestSql("delete from KRIM_PERM_ATTR_DATA_T"), 
+                      @UnitTestSql("delete from  KRIM_PERM_T"), 
+                      @UnitTestSql("delete from KRIM_PERM_TMPL_T"), 
+                      @UnitTestSql("delete from KRIM_ROLE_T"), 
+                      @UnitTestSql("delete from UNIT_ACL"), 
+                      @UnitTestSql("delete from KRIM_GRP_T"), 
+                      @UnitTestSql("delete from PERSON_EXT_T"), 
+                      @UnitTestSql("delete from  KRIM_PRNCPL_T where prncpl_nm not in ('quickstart')"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_BIO_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_CTZNSHP_T"), 
+                      @UnitTestSql("delete from KRIM_ENTITY_ETHNIC_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_EXT_ID_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_EMP_INFO_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_AFLTN_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_EMAIL_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_PHONE_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_ADDR_T"), 
+                      @UnitTestSql("delete from  KRIM_ENTITY_NM_T"), 
+                      @UnitTestSql("delete from KRIM_ENTITY_ENT_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_ENTITY_T where entity_id not in (select entity_id from KRIM_PRNCPL_T where prncpl_nm = 'quickstart')"), 
+                      @UnitTestSql("delete from KRIM_TYP_ATTR_T"), 
+                      @UnitTestSql("delete from KRIM_ATTR_DEFN_T"), 
+                      @UnitTestSql("delete from KRIM_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_EMP_STAT_T"), 
+                      @UnitTestSql("delete from KRIM_CTZNSHP_STAT_T"), 
+                      @UnitTestSql("delete from KRIM_EXT_ID_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_EMP_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_AFLTN_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_EMAIL_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_PHONE_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_ADDR_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_ENT_NM_TYP_T"), 
+                      @UnitTestSql("delete from KRIM_ENT_TYP_T"), 
+                      @UnitTestSql("delete from krns_nmspc_t where nmspc_cd in ('KR-SYS', 'KC-IDM', 'KC-UNT', 'KC-ADM', 'KC-SYS', 'KC-WKFLW')")                   
+                      }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/kim_test_data.sql", delimiter = ";"),
                  @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERIOD_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY.sql", delimiter = ";")
@@ -123,9 +171,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_TRANSACTION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_LOCATION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_ATTACHMENT_TYPE.sql", delimiter = ";")
-            }
+                })
         )
-    )
 public abstract class KraTestBase extends KcraNoDataTestBase {
 
     @Before
