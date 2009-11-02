@@ -87,7 +87,7 @@ BEGIN
     execute immediate the_sql;
   END LOOP;
   
-  --Change PERSON_ID field to be a varchar(100) to match the user id field
+  --Change PERSON_ID field to be a varchar(40) to match the principal id field
   the_sql := 'ALTER TABLE AWARD_PERSONS MODIFY (PERSON_ID varchar(40))'; 
   execute immediate the_sql;
   
