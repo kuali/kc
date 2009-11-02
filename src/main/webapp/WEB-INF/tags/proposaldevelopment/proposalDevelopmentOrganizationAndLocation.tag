@@ -34,10 +34,12 @@
             proposalSiteBo="${KualiForm.document.developmentProposal.applicantOrganization}"
             proposalSiteBoName="document.developmentProposal.applicantOrganization"
             locationEditable="false"
+            addressSelectable="false"
             congressionalDistrictHelper="applicantOrganizationHelper"
             addDistrictMethodToCall="addApplicantOrgCongDistrict"
             deleteDistrictMethodToCall="deleteApplicantOrgCongDistrict"
-            clearSiteMethodToCall="clearApplicantOrganization" />
+            clearSiteMethodToCall="clearApplicantOrganization"
+            locationType="org" />
         <kra-pd:proposalSite
             tabTitle="Performing Organization"
             showTabTitle="true"
@@ -48,7 +50,8 @@
             locationEditable="false"
             congressionalDistrictHelper="performingOrganizationHelper"
             addDistrictMethodToCall="addPerformingOrgCongDistrict"
-            deleteDistrictMethodToCall="deletePerformingOrgCongDistrict" />
+            deleteDistrictMethodToCall="deletePerformingOrgCongDistrict"
+            locationType="org" />
         <kra-pd:multipleProposalSites
             tabTitle="Performance Site Locations"
             proposalSitesList="${KualiForm.document.developmentProposal.performanceSites}"
@@ -61,7 +64,7 @@
             clearAddressMethodToCall="clearPerformanceSiteAddress"
             addDistrictMethodToCall="addPerformanceSiteCongDistrict"
             deleteDistrictMethodToCall="deletePerformanceSiteCongDistrict"
-            rolodexLookup="true" />
+            locationType="rolo" />
         <kra-pd:multipleProposalSites
             tabTitle="Other Organizations"
             proposalSitesList="${KualiForm.document.developmentProposal.otherOrganizations}"
@@ -74,6 +77,6 @@
             deleteSiteMethodToCall="deleteOtherOrganization"
             addDistrictMethodToCall="addOtherOrgCongDistrict"
             deleteDistrictMethodToCall="deleteOtherOrgCongDistrict"
-            rolodexLookup="false" />
+            locationType="org" />
     </div>
 </kul:tab>
