@@ -27,6 +27,7 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IRB - Notes & Attachments" /></div>
 
 <kra-irb:protocolAttachment /> 
+<kra-irb:protocolNotes />
 
 <kul:panelFooter />
 	<kul:documentControls 
