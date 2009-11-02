@@ -30,6 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -101,10 +102,10 @@ public class QuestionnaireServiceTest {
         @Test
         public void testValidCodes() {
 
-            final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
+            final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
             final ParameterService parameterService = context.mock(ParameterService.class);
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
-            questionnaireService.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
+            questionnaireService.setUnitAuthorizationService(unitAuthorizationService);
             questionnaireService.setParameterService(parameterService);
             final List<String> permissions = new ArrayList<String>();
             permissions.add(PermissionConstants.MODIFY_PROPOSAL);
@@ -113,9 +114,9 @@ public class QuestionnaireServiceTest {
                 one(parameterService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
                         Constants.PARAMETER_COMPONENT_PERMISSION, "associateModuleQuestionnairePermission");
                 will(returnValue(permissions));
-                one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_PROPOSAL);
+                one(unitAuthorizationService).hasPermission("10000000001", "KRA-PD", PermissionConstants.MODIFY_PROPOSAL);
                 will(returnValue(false));
-                one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_PROTOCOL);
+                one(unitAuthorizationService).hasPermission("10000000001", "KC-PROTOCOL",PermissionConstants.MODIFY_PROTOCOL);
                 will(returnValue(true));
             }});
 
