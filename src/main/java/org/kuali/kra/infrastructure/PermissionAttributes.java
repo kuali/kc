@@ -273,6 +273,14 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD_BUDGET);
         tempAttributesMap.put(AwardPermissionConstants.SUBMIT_ANY_AWARD_BUDGET.getAwardPermission(), attributes);
 
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionnaireMaintenanceDocument"); 
+        tempAttributesMap.put(PermissionConstants.MODIFY_QUESTIONNAIRE, attributes);
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionnaireMaintenanceDocument"); 
+        tempAttributesMap.put(PermissionConstants.VIEW_QUESTIONNAIRE, attributes);
+
+        
         attributesMap = Collections.unmodifiableMap(tempAttributesMap);
     }
     

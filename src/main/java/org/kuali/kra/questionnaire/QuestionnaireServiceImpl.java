@@ -20,38 +20,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
+    private static final String PARAM_NAME = "associateModuleQuestionnairePermission";
     private BusinessObjectService businessObjectService;
-    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+    private UnitAuthorizationService unitAuthorizationService;
     private ParameterService parameterService;
-    private Map <String, String> permissionModuleMap ;
-    private  static final String PARAM_NAME = "associateModuleQuestionnairePermission";
+    private Map<String, String> permissionModuleMap;
 
     public QuestionnaireServiceImpl() {
         super();
         /*
-         * TODO : permissionModuleMap is probably for initial release 2.  See more comments on getAssociateModules method.
+         * TODO : permissionModuleMap is probably for initial release 2. See more comments on getAssociateModules method.
          */
         permissionModuleMap = new HashMap<String, String>();
-        permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(),"1");
-        //permissionModuleMap.put(PermissionConstants.MODIFY_INSTITUTE_PROPOSAL,"2");
-        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL,"3");
-        //permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
-        //permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
-        //permissionModuleMap.put(PermissionConstants.MODIFY_PERSON,"6");
-        permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"7");
-        //permissionModuleMap.put(PermissionConstants.MODIFY_COI,"8");
+        permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), "1");
+        // permissionModuleMap.put(PermissionConstants.MODIFY_INSTITUTE_PROPOSAL,"2");
+        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL, "3");
+        // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
+        // permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
+        // permissionModuleMap.put(PermissionConstants.MODIFY_PERSON,"6");
+        permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL, "7");
+        // permissionModuleMap.put(PermissionConstants.MODIFY_COI,"8");
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.questionnaire.QuestionnaireService#isQuestionnaireNameExist(java.lang.Integer, java.lang.String)
@@ -74,7 +79,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire, org.kuali.kra.questionnaire.Questionnaire)
+     * @see org.kuali.kra.questionnaire.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
+     *      org.kuali.kra.questionnaire.Questionnaire)
      */
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);
@@ -107,31 +113,38 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      * @see org.kuali.kra.questionnaire.QuestionnaireService#getAssociateModules()
      */
     public List<String> getAssociateModules() {
-        /* TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
-         *   When integrated with KIM, this should be able to utilize KIM permission and permission attributes
-         *   to accomplish this task.  The permission attributes could be a combination of module doce & coeus permission right
+        /*
+         * TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
+         * When integrated with KIM, this should be able to utilize KIM permission and permission attributes to accomplish this
+         * task. The permission attributes could be a combination of module doce & coeus permission right
          */
 
         List<String> modules = new ArrayList<String>();
         for (String permission : this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
                 Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME)) {
-            if (questionnaireAuthorizationService.hasPermission(permission)) {
-                modules.add(permissionModuleMap.get(permission));
+            // "Permission:NamespaceCd" format
+            String[] params = permission.split(":");
+            if (unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+                    .getPrincipalId(), params[1], params[0])) {
+                modules.add(permissionModuleMap.get(params[0]));
             }
         }
         return modules;
     }
 
-    public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
-        this.questionnaireAuthorizationService = questionnaireAuthorizationService;
+
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
     }
 
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     * 
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
 
 }
