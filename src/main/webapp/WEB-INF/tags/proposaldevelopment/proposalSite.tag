@@ -25,13 +25,14 @@
 <%@ attribute name="proposalSiteBo" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="The BO of type ProposalSite that is to be displayed" %>
 <%@ attribute name="proposalSiteBoName" required="true" description="The JSP name of the ProposalSite BO" %>
 <%@ attribute name="locationEditable" required="false" description="If this is set to false, the location name cannot be edited." %>
+<%@ attribute name="addressSelectable" required="false" description="If this is set to true, a lookup icon is shown." %>
 <%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
 <%@ attribute name="clearAddressMethodToCall" required="false" description="The method to call when the user clicks the Clear Address button; this method should delete the proposal site. If this parameter is not present, no Clear Address button is shown." %>
 <%@ attribute name="clearSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should clear the proposal site. If this parameter is present, a Clear button is shown." %>
 <%@ attribute name="deleteSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should delete the proposal site. If this parameter is present, a Delete button is shown." %>
-<%@ attribute name="rolodexLookup" required="false" type="java.lang.Boolean" description="If set to true, a Rolodex lookup is done; otherwise, an Organization lookup is done" %>
+<%@ attribute name="locationType" required="true" description="Can be 'rolo' for a Rolodex item, or 'org' for an Organization" %>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
@@ -40,6 +41,9 @@
 
 <c:set var="proposalSiteAttributes" value="${DataDictionary.ProposalSite.attributes}" />
 
+<c:if test="${empty addressSelectable}">
+    <c:set var="addressSelectable" value="true"/>
+</c:if>
 <c:if test="${empty locationEditable}">
     <c:set var="locationEditable" value="true"/>
 </c:if>
@@ -78,16 +82,17 @@
             
             <td align="left" valign="middle" class="infoline" width="60%">
                 <%-- Code for Rolodex lookup enabled sites follows --%>
-                <c:if test="${rolodexLookup}">
+                <c:if test="${locationType == 'rolo'}">
                     <c:out value="${proposalSiteBo.rolodex.organization}" />
                     
                     <%-- The lookup control --%>
                     <kra:section permission="modifyProposal">
-                        <kul:lookup
-                            boClassName="org.kuali.kra.bo.Rolodex" 
-                            fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.locationName,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
-                            anchor="${currentTabIndex}" /> 
-
+                        <c:if test="${addressSelectable}">
+                            <kul:lookup
+                                boClassName="org.kuali.kra.bo.Rolodex" 
+                                fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.locationName,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
+                                anchor="${currentTabIndex}" /> 
+                        </c:if>
                         <input
                             type="hidden" name="${proposalSiteBoName}_rolodexId"
                             value="${proposalSiteBo.rolodexId}" />
@@ -123,15 +128,17 @@
                 </c:if>
                 
                 <%-- Code for non-Rolodex sites follows (uses the organization field, does a organization lookup) --%>
-                <c:if test="${!rolodexLookup}">
+                <c:if test="${locationType == 'org'}">
                     <%-- Site name --%>
                     <c:out value="${proposalSiteBo.organization.organizationName}" />
                     
                     <%-- The lookup control --%>
                     <kra:section permission="modifyProposal">
-                        <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                            fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.locationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
-                            anchor="${currentTabIndex}" />
+                        <c:if test="${addressSelectable}">
+                            <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+                                fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.locationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
+                                anchor="${currentTabIndex}" />
+                        </c:if>
                         <input
                             type="hidden" name="${proposalSiteBoName}_organizationId"
                             value="${proposalSiteBo.organizationId}" />
