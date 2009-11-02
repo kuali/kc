@@ -410,10 +410,6 @@ insert into KRNS_PARM_T
 
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD, NM, ACTV_IND, APPL_NMSPC_CD, OBJ_ID) VALUES ('KC-WKFLW', 'KC Workflow Infrastructure', 'Y', NULL, SYS_GUID());
 
-INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
-	VALUES('KC-T', 'Time And Money', 'Y') ;
-INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND)
-	VALUES('KC-GEN', 'General Kuali Coeus', 'Y') ;
 INSERT INTO krns_PARM_T
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
