@@ -42,7 +42,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookedUpCollectionName;
 
     /**
-     * Constructs a ResearchAreasForm.
+     * Constructs a QuestionnaireMaintenanceForm.
      */
     public QuestionnaireMaintenanceForm() {
         super();
@@ -189,6 +189,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
     }
+
 
 
 }
