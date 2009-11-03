@@ -67,9 +67,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
         @UnitTestData(order = { 
                 UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
         sqlStatements = {
-                      @UnitTestSql("alter table UNIT_ADMINISTRATOR disable constraint FK3_UNIT_ADMINISTRATOR_KRA"), 
-                      @UnitTestSql("delete from institute_rates"),
-                      @UnitTestSql("delete from institute_la_rates"), 
                       @UnitTestSql("delete from KRIM_GRP_ATTR_DATA_T"), 
                       @UnitTestSql("delete from KRIM_GRP_MBR_T"), 
                       @UnitTestSql("delete from KRIM_ROLE_MBR_ATTR_DATA_T"), 
