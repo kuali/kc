@@ -843,12 +843,12 @@ public class MeetingHelper implements Serializable {
 
     public boolean canModifySchedule() {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public boolean canViewSchedule() {
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee());
-        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public boolean isModifySchedule() {
@@ -872,11 +872,10 @@ public class MeetingHelper implements Serializable {
     }
 
     /**
-     * Get the userName of the user for the current session.
+     * Get the principalId of the user for the current session.
      * @return the current session's userName
      */
-    protected String getUserName() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-         return user.getPersonUserIdentifier();
-    }
+    protected String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+   }
 }

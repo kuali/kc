@@ -70,7 +70,7 @@ public interface PermissionConstants {
     public static final String MAINTAIN_MEMBERSHIPS = "Maintain Memberships";
     public static final String MAINTAIN_MINUTES = "Maintain Minutes";
     public static final String GENERATE_AGENDA = "Generate Agenda";
-    public static final String VIEW_SCHEDULE = "VIEW_SCHEDULE";
+    public static final String VIEW_SCHEDULE = "View Schedule";
 
     
     /*
