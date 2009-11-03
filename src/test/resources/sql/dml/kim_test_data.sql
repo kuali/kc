@@ -1,4 +1,3 @@
-alter table UNIT_ADMINISTRATOR disable constraint FK3_UNIT_ADMINISTRATOR_KRA;
 alter table KRIM_ENTITY_ENT_TYP_T disable constraint KRIM_ENTITY_ENT_TYP_TR1;
 alter table KRIM_ENTITY_ADDR_T disable constraint KRIM_ENTITY_ADDR_TR1;
 alter table KRIM_ENTITY_ADDR_T disable constraint KRIM_ENTITY_ADDR_TR2;
@@ -33,6 +32,9 @@ alter table KRIM_ROLE_T disable constraint KRIM_ROLE_TR1;
 alter table KRIM_ROLE_MBR_T disable constraint KRIM_ROLE_MBR_TR1;
 alter table KRIM_ROLE_PERM_T disable constraint KRIM_ROLE_PERM_TR1;
 alter table KRIM_TYP_ATTR_T disable constraint KRIM_TYP_ATTR_TR2;
+
+call reset_sequences('KRIM_ENTITY_ID_S'); 
+call reset_sequences('KRIM_PRNCPL_ID_S'); 
 
 insert into KRIM_ADDR_TYP_T (ADDR_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, DISPLAY_SORT_CD, LAST_UPDT_DT)
 values ('HM', '5B97C50B03706110E0404F8189D85213', 1, 'Home', 'Y', 'b', to_date('13-11-2008', 'dd-mm-yyyy'));
