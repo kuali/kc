@@ -18,14 +18,15 @@
 
 <td class="content" valign="top">
       <channel:systemAdminSystem />
-      <administrationChannel:identity />
-      
+      <channel:systemAdminBatch />
+      <administrationChannel:configuration />
 </td>
 <td class="content" valign="top">
-      <channel:systemAdminBatch />
-      <channel:systemAdminServiceBus />
+      <administrationChannel:identity />
 </td>
 
 <td class="content" valign="top">
-      <channel:systemAdminWorkflow />
+      <administrationChannel:workflow />
+      <administrationChannel:sendNotification />
+      <administrationChannel:serviceBus />
 </td>
