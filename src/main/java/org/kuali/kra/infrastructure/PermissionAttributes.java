@@ -201,6 +201,11 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_COMMITTEE);  
         attributes.put(ATTR_SECTION_NAME, SECTION_SCHEDULE); 
         tempAttributesMap.put(PermissionConstants.MODIFY_SCHEDULE, attributes);
+ 
+        attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_COMMITTEE);  
+        attributes.put(ATTR_SECTION_NAME, SECTION_SCHEDULE); 
+        tempAttributesMap.put(PermissionConstants.VIEW_SCHEDULE, attributes);
 
         attributes = new HashMap<String, String>(); 
         attributes.put(ATTR_SECTION_NAME, SECTION_MINUTES); 
