@@ -22,11 +22,7 @@
     <li>Employee Status</li>
     <li>Employee Type</li>
     <li>Message of the Day</li>
-    <li><portal:portalLink displayTitle="true" title="Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Parameter&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
-    <li>Parameter Component</li>
-    <li>Parameter Module</li>
-    <li>Parameter Type</li>
-    <li><portal:portalLink displayTitle="true" title="Person" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.KcPerson&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+    <li><portal:portalLink displayTitle="true" title="Person Extended Attributes" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.KcPersonExtendedAttributes&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>System Options</li>
   </ul>
 </div>
