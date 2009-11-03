@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
@@ -77,7 +78,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private String priorName;
     private String userName;
     private String emailAddress;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private Integer age;
     private Integer ageByFiscalYear;
     private String gender;
@@ -91,7 +92,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private String veteranType;
     private String visaCode;
     private String visaType;
-    private String visaRenewalDate;
+    private Date visaRenewalDate;
     private Boolean hasVisa;
     private String officeLocation;
     private String officePhone;
@@ -934,7 +935,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      *
      * @return the value of dateOfBirth
      */
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return this.dateOfBirth;
     }
 
@@ -943,7 +944,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      *
      * @param argDateOfBirth Value to assign to this.dateOfBirth
      */
-    public void setDateOfBirth(String argDateOfBirth) {
+    public void setDateOfBirth(Date argDateOfBirth) {
         this.dateOfBirth = argDateOfBirth;
     }
 
@@ -1186,7 +1187,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      *
      * @return the value of visaRenewalDate
      */
-    public String getVisaRenewalDate() {
+    public Date getVisaRenewalDate() {
         return this.visaRenewalDate;
     }
 
@@ -1195,7 +1196,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      *
      * @param argVisaRenewalDate Value to assign to this.visaRenewalDate
      */
-    public void setVisaRenewalDate(String argVisaRenewalDate) {
+    public void setVisaRenewalDate(Date argVisaRenewalDate) {
         this.visaRenewalDate = argVisaRenewalDate;
     }
 
