@@ -19,6 +19,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -528,6 +530,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public ProposalPerson createProposalPersonFromPersonId(String personId) {
         ProposalPerson prop_person = new ProposalPerson();
+        
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
         KcPerson person = this.kcPersonService.getKcPersonByPersonId(personId);
         prop_person.setPersonId(personId);
@@ -539,7 +543,14 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         prop_person.setPriorName(person.getPriorName());
         prop_person.setUserName(person.getUserName());
         prop_person.setEmailAddress(person.getEmailAddress());
-        prop_person.setDateOfBirth(person.getDateOfBirth());
+        //prop_person.setDateOfBirth(person.getDateOfBirth());
+        try{
+            java.util.Date dobUtil = dateFormat.parse(person.getDateOfBirth());
+            prop_person.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
+        }catch(Exception e){
+            //invalid date
+            prop_person.setDateOfBirth(null);
+        }
         prop_person.setAge(person.getAge());
         prop_person.setAgeByFiscalYear(person.getAgeByFiscalYear());
         prop_person.setGender(person.getGender());
@@ -553,7 +564,14 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         prop_person.setVeteranType(person.getVeteranType());
         prop_person.setVisaCode(person.getVisaCode());
         prop_person.setVisaType(person.getVisaType());
-        prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
+        //prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
+        try{
+            java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
+            prop_person.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
+        }catch(Exception e){
+            //invalid date
+            prop_person.setVisaRenewalDate(null);
+        }
         prop_person.setHasVisa(person.getHasVisa());
         prop_person.setOfficeLocation(person.getOfficeLocation());
         prop_person.setOfficePhone(person.getOfficePhone());
