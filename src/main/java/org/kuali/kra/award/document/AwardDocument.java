@@ -376,13 +376,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     @Override
     public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        List<HeaderNavigation> awardHeaderList = super.getBudgetHeaderNavigatorList();
-        for (HeaderNavigation headerNavigation : awardHeaderList) {
-            if(headerNavigation.getHeaderTabNavigateTo().equals("modularBudget")){
-                awardHeaderList.remove(headerNavigation);
+        List<HeaderNavigation> budgetHeaderList= super.getBudgetHeaderNavigatorList();
+        List<HeaderNavigation> awardBudgetHeaderList = new ArrayList<HeaderNavigation>();
+        for (HeaderNavigation headerNavigation : budgetHeaderList){
+            if(!headerNavigation.getHeaderTabNavigateTo().equals("modularBudget")){
+                awardBudgetHeaderList.add(headerNavigation);
             }
         }
-        return awardHeaderList;
+        return awardBudgetHeaderList;   
     }
 
     @Override
