@@ -99,7 +99,7 @@
     </div>
     <br/>
 
-	<table width="100%">
+	<table class="page-main" width="100%">
 	  <c:if test="${KualiForm.lookupCriteriaEnabled}">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
