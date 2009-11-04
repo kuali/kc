@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+
+import org.apache.commons.collections.ListUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -22,7 +27,11 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.CollectionUtil;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+
+import java.util.Collections;
 
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.
@@ -30,6 +39,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolNotepadHelper {
     
     private final TaskAuthorizationService authService;
+    private final BusinessObjectService boService;
     
     private final ProtocolForm form;
     
@@ -43,17 +53,18 @@ public class ProtocolNotepadHelper {
      * @throws IllegalArgumentException if the form is null
      */
     public ProtocolNotepadHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(TaskAuthorizationService.class));
+        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), KraServiceLocator.getService(BusinessObjectService.class));
+        
     }
     
     /**
      * Constructs a helper.
      * @param form the form
      * @param authService the authService
-     * @throws IllegalArgumentException if the form or authService is null
+     * @throws IllegalArgumentException if the form or authService or boService is null
      */
     ProtocolNotepadHelper(final ProtocolForm form,
-        final TaskAuthorizationService authService) {
+        final TaskAuthorizationService authService, final BusinessObjectService boService) {
         
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
@@ -63,8 +74,13 @@ public class ProtocolNotepadHelper {
             throw new IllegalArgumentException("the authService was null");
         }
         
+        if (boService == null) {
+            throw new IllegalArgumentException("the authService was null");
+        }
+        
         this.form = form;
         this.authService = authService;
+        this.boService = boService;
     }
     
     /**
@@ -159,6 +175,62 @@ public class ProtocolNotepadHelper {
      * initializes a new attachment protocol setting the protocol id.
      */
     private void initProtocolNotepad() {
-        this.setNewProtocolNotepad(new ProtocolNotepad(this.getProtocol()));
+        final ProtocolNotepad notepad = new ProtocolNotepad(this.getProtocol());
+        notepad.setEntryNumber(this.getNextEntryNumber());
+        this.setNewProtocolNotepad(notepad);
+    }
+    
+    /**
+     * adds a new note to the protocol.  Also performs validation.
+     */
+    void addNewNote() {
+    
+        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+        
+        if (!rule.processAddProtocolNotepadRules(event)) {
+            return;
+        }
+
+        this.addNewNotepad(this.newProtocolNotepad);
+        
+        this.initProtocolNotepad();
+    }
+    
+    /**
+     * Gets the selected notepad based on an index.  If the index is not valid this method will return null.
+     * @param selection the index
+     * @return the notepad or null
+     */
+    private ProtocolNotepad getSelectedNotepad(int selection) {
+        return CollectionUtil.getFromList(selection, getProtocol().getNotepads());
+    }
+    
+    /**
+     * Updates (saves) the selected notepad based on an index.  If the index is not valid this method will do nothing.
+     * @param selection the indexs
+     */
+    void updateNotepad(int selection) {
+        final ProtocolNotepad notepad = this.getSelectedNotepad(selection);
+        if (notepad != null) {
+            this.boService.save(notepad);
+        }
+    }
+    
+    /**
+     * Adds the passed in notepad to the list on the protocol.
+     * @param notepad the notepad to add.
+     */
+    private void addNewNotepad(final ProtocolNotepad notepad) {
+        final List<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
+        notepads.add(this.getNewProtocolNotepad());
+        this.getProtocol().setNotepads(notepads);        
+    }
+    
+    /** gets the next entry number based on previously generated numbers. */
+    private Integer getNextEntryNumber() {
+        final Collection<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
+        final Integer maxEntry = notepads.isEmpty() ? Integer.valueOf(0) : Collections.max(notepads, ProtocolNotepad.NotepadByEntryNumber.INSTANCE).getEntryNumber();
+        return Integer.valueOf(maxEntry.intValue() + 1);
     }
 }
