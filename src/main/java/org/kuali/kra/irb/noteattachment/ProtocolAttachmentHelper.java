@@ -31,6 +31,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -359,7 +360,7 @@ public class ProtocolAttachmentHelper {
      */
     private <T extends ProtocolAttachmentBase> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
         
-        if (!validIndexForList(index, attachments)) {
+        if (!CollectionUtil.validIndexForList(index, attachments)) {
             return false;
         }
         
@@ -396,22 +397,7 @@ public class ProtocolAttachmentHelper {
      * @return the attachment or null if not a valid index or if the reference at the index is null
      */
     private static <T extends ProtocolAttachmentBase> T retrieveExistingAttachment(final int index, final List<T> attachments) {
-        if (!validIndexForList(index, attachments)) {
-            return null;
-        }
-        
-        return attachments.get(index);
-    }
-    
-    /**
-     * Checks if a given index is valid for a given list. This method returns null if the list is null.
-     * 
-     * @param index the index
-     * @param forList the list
-     * @return true if a valid index
-     */
-    private static boolean validIndexForList(final int index, final List<?> forList) {      
-        return forList != null && index >= 0 && index <= forList.size() - 1;
+        return CollectionUtil.getFromList(index, attachments);
     }
     
     /**

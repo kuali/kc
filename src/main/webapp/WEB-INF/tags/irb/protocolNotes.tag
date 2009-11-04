@@ -23,7 +23,7 @@
 </c:forEach>
 
 
-<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="notepadHelper.newProtocolNotepad.*,document.protocol.notepads.*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
@@ -77,19 +77,19 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td valign="middle">
-						${KualiForm.document.protocol.notepads[status.index].updateTimestamp}&nbsp;
+						${KualiForm.document.protocol.notepads[status.index].updateTimestamp}
 					</td>
 	                <td valign="middle">
-						${KualiForm.document.protocol.notepads[status.index].updateUser}&nbsp;
+						${KualiForm.document.protocol.notepads[status.index].updateUser}
 	                </td>
 	                <td valign="middle">                	
 					<div align="center">
-						${KualiForm.document.protocol.notepads[status.index].noteTopic}&nbsp;  
+					<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}"/>
 					</div>
 					</td>
 	                <td valign="middle">                	
 					<div align="left">
-						${KualiForm.document.protocol.notepads[status.index].comments}&nbsp; 
+					<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}"/>
 					</div>
 					</td>
 	                <td valign="middle">
@@ -99,7 +99,7 @@
 	                </td>
 					<td>
 					<div align="center">&nbsp;
-						<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
+						<html:image property="methodToCall.updateNote.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
 					</div>
 	                </td>

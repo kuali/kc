@@ -303,7 +303,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
     
     /**
-     * Method called when adding an attachment protocol.
+     * Method called when adding a protocol note.
      * 
      * @param mapping the action mapping
      * @param form the form.
@@ -314,7 +314,25 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        //do stuff
+        ((ProtocolForm) form).getNotepadHelper().addNewNote();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Method called when updating a protocol note.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward updateNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        final int selection = this.getSelectedLine(request);
+        ((ProtocolForm) form).getNotepadHelper().updateNotepad(selection);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }

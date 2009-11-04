@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.io.Serializable;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.irb.Protocol;
@@ -26,9 +28,9 @@ import org.kuali.kra.irb.ProtocolAssociate;
 public class ProtocolNotepad extends ProtocolAssociate {
     
     private static final long serialVersionUID = -294125058992878907L;
-
+    
     private Long id;
-    private Integer entryNumber;
+    private Integer entryNumber = Integer.valueOf(0);
     private String comments;
     private boolean restrictedView;
     private String noteTopic;
@@ -105,7 +107,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
      * Gets the restrictedView attribute. 
      * @return Returns the restrictedView.
      */
-    public boolean isRestrictedView() {
+    public boolean getRestrictedView() {
         return this.restrictedView;
     }
 
@@ -140,7 +142,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
         hashMap.put("id", this.getId());
         hashMap.put("entryNumber", this.getEntryNumber());
         hashMap.put("comments", this.getComments());
-        hashMap.put("restrictedView", Boolean.valueOf(this.isRestrictedView()));
+        hashMap.put("restrictedView", Boolean.valueOf(this.getRestrictedView()));
         hashMap.put("noteTopic", this.getNoteTopic());
         return hashMap;
     }
@@ -218,4 +220,21 @@ public class ProtocolNotepad extends ProtocolAssociate {
         return true;
     }
 
+    /**
+     * compares Notepads by entry number.
+     */
+    public final static class NotepadByEntryNumber implements Comparator<ProtocolNotepad>, Serializable {
+
+        public static final NotepadByEntryNumber INSTANCE = new NotepadByEntryNumber();
+        private static final long serialVersionUID = -2271453419166988229L;
+        
+        private NotepadByEntryNumber() {
+            //internal
+        }
+        
+        /** {@inheritDoc} */
+        public int compare(ProtocolNotepad o1, ProtocolNotepad o2) {
+            return o1.getEntryNumber().compareTo(o2.getEntryNumber());
+        }     
+    }
 }
