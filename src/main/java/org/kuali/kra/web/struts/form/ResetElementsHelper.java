@@ -90,13 +90,23 @@ public final class ResetElementsHelper {
             try {
                 PropertyUtils.setNestedProperty(object, element, getResetValue(object, element));
             } catch (final IllegalAccessException e) {
-                throw new ResetException(e);
+                throw new ResetException(getExceptionMessage(object, element), e);
             } catch (final InvocationTargetException e) {
-                throw new ResetException(e);
+                throw new ResetException(getExceptionMessage(object, element), e);
             } catch (final NoSuchMethodException e) {
-                throw new ResetException(e);
+                throw new ResetException(getExceptionMessage(object, element), e);
             }
         }
+    }
+    
+    /**
+     * Builds a string for use in exception handling.
+     * @param object the object
+     * @param element the element
+     * @return the exception string
+     */
+    private static String getExceptionMessage(Object object, String element) {
+        return "object class[" + object.getClass().getName() + "] element[" + element + "]";
     }
       
     /**
