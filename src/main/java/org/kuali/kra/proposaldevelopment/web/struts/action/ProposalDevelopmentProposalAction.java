@@ -241,7 +241,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward deletePerformanceSite(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return deleteProposalSite(mapping, form, request, response, "confirmDeletePerformanceSite");
+        return deleteProposalSite(mapping, form, request, response, "confirmDeletePerformanceSite", "Performance Site");
     }
     
     /**
@@ -250,7 +250,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward deleteOtherOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return deleteProposalSite(mapping, form, request, response, "confirmDeleteOtherOrganization");
+        return deleteProposalSite(mapping, form, request, response, "confirmDeleteOtherOrganization", "Organization");
     }
     
     /**
@@ -261,17 +261,18 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @param request
      * @param response
      * @param yesMethodName The method to call if the user confirms.
+     * @param locationTypeName A descriptive name for the location type; used for the confirmation question
      * @return
      * @throws Exception
      */
     public ActionForward deleteProposalSite(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response, String yesMethodName) throws Exception {
+            HttpServletResponse response, String yesMethodName, String locationTypeName) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         
         BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
             StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
-                    CONFIRM_DELETE_PROPOSAL_SITE_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this Organization");
+                    CONFIRM_DELETE_PROPOSAL_SITE_KEY, KeyConstants.QUESTION_DELETE_CONFIRMATION, "this " + locationTypeName);
             return confirm(deleteConfirmation, yesMethodName, "");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
