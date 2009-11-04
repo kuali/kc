@@ -161,8 +161,14 @@ public class BudgetVersionsAction extends BudgetAction {
         Budget budget = budgetDoc.getBudget();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
         BudgetParent budgetParent = pdDoc.getBudgetParent();
+        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
+        BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        Budget budgetOpen = budgetDocument.getBudget();
+        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
-        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budget);
+        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
@@ -172,19 +178,10 @@ public class BudgetVersionsAction extends BudgetAction {
             //Throw Empty Rates message
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else {
-            BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
-            BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-            Budget budgetOpen = budgetDocument.getBudget();
-            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            if (!budgetOpen.getActivityTypeCode().equals(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode())) {
-                budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
-            }
-            String forward = buildForwardUrl(routeHeaderId);
-            return new ActionForward(forward, true);
-        }
+        }        
+
+        String forward = buildForwardUrl(routeHeaderId);
+        return new ActionForward(forward, true);
     }
     
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
