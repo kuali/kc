@@ -20,10 +20,15 @@
 --%>
 <%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
+<%@ attribute name="locationNameEditable" required="false" description="If this is set to false, the location names cannot be edited." %>
 <%@ attribute name="addMethodToCall" required="true" description="The action method to call when the add button is clicked" %>
 <%@ attribute name="locationType" required="true" description="Can be 'rolo' for a Rolodex item, or 'org' for an Organization" %>
 
 <c:set var="propLocationAttributes" value="${DataDictionary.ProposalSite.attributes}" />
+
+<c:if test="${empty locationNameEditable}">
+    <c:set var="locationNameEditable" value="true"/>
+</c:if>
 
 <tr>
     <th class="infoline" width="10%">
@@ -33,9 +38,11 @@
     
     <%-- Location Name input field --%>
     <td class="${class}" width="20%">
-        <kul:htmlControlAttribute
-            property="${newProposalSiteField}.locationName"
-            attributeEntry="${propLocationAttributes.locationName}" />
+        <c:if test="${locationNameEditable}">
+            <kul:htmlControlAttribute
+                property="${newProposalSiteField}.locationName"
+                attributeEntry="${propLocationAttributes.locationName}" />
+        </c:if>
     </td>
     
     <%-- Address selection --%>
