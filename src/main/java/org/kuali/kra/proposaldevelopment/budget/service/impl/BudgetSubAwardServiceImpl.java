@@ -75,10 +75,11 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      */
     public void populateBudgetSubAwardFiles(BudgetSubAwards budgetSubAwardBean) {
         BudgetSubAwardFiles budgetSubAwardFiles = budgetSubAwardBean.getBudgetSubAwardFiles().get(0);
+        
         boolean subawardBudgetExtracted  = false;
         
         try {
-            byte[] pdfFileContents = budgetSubAwardBean.getSubAwardXfdFileData();
+            byte[] pdfFileContents = budgetSubAwardFiles.getSubAwardXfdFileData();
             PdfReader  reader = new PdfReader(pdfFileContents);
             byte[] xmlContents=getXMLFromPDF(reader);
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
@@ -104,7 +105,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         budgetSubAwardBean.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
         budgetSubAwardBean.setXmlUpdateUser(getLoggedInUserNetworkId());
         budgetSubAwardBean.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
-        budgetSubAwardBean.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
+//        budgetSubAwardBean.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
     }
     /**
      * This method return loggedin user id
@@ -417,10 +418,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         return createHashValueType(GrantApplicationHash.computeAttachmentHash(fileBytes));
     }
     private HashValue createHashValueType(String hashValueStr) throws Exception{
-        String hashVal = GrantApplicationHash.computeGrantFormsHash(hashValueStr);
+//        String hashVal = GrantApplicationHash.computeGrantFormsHash(hashValueStr);
         HashValue hashValue = HashValue.Factory.newInstance();
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
-        hashValue.setStringValue(hashVal);
+        hashValue.setStringValue(hashValueStr);
         return hashValue;
     }
 

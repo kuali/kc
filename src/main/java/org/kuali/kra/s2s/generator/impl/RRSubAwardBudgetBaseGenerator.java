@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,9 +29,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -42,7 +46,8 @@ import org.xml.sax.SAXException;
 
 public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator {
 
-    protected static final String NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.0";
+    protected static final String RR_BUDGET_10_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.0";
+    protected static final String RR_BUDGET_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.1";
     protected static final String LOCAL_NAME = "RR_Budget";
     protected static final String ERROR1_PROPERTY_KEY = "s2sSubawardBudgetV1-2_10000";
     protected static final String ERROR2_PROPERTY_KEY = "s2sSubawardBudget_10002";
@@ -133,10 +138,25 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
      */
     protected static final String prepareAttName(BudgetSubAwards budgetSubAwards) {
         StringBuilder attachmentName = new StringBuilder();
-        attachmentName.append(budgetSubAwards.getOrganizationName());
-        attachmentName.append(budgetSubAwards.getProposalNumber());
-        attachmentName.append(budgetSubAwards.getVersionNumber());
+        attachmentName.append(budgetSubAwards.getBudgetId()+"-");
+        attachmentName.append(budgetSubAwards.getOrganizationName()+"-");
         attachmentName.append(budgetSubAwards.getSubAwardNumber());
         return attachmentName.toString();
+    }
+    
+    /**
+     * Adding attachments to subaward
+     */
+    protected void addSubAwdAttachments(BudgetSubAwards budgetSubAwards) {
+        budgetSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
+        List<BudgetSubAwardAttachment> subAwardAttachments = budgetSubAwards.getBudgetSubAwardAttachments();
+        for (BudgetSubAwardAttachment budgetSubAwardAttachment : subAwardAttachments) {
+            AttachmentData attachmentData = new AttachmentData();
+            attachmentData.setContent(budgetSubAwardAttachment.getAttachment());
+            attachmentData.setContentId(budgetSubAwardAttachment.getContentId());
+            attachmentData.setContentType(budgetSubAwardAttachment.getContentType());
+            attachmentData.setFileName(budgetSubAwardAttachment.getContentId());
+            addAttachment(attachmentData);
+        }
     }
 }

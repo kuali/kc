@@ -27,6 +27,7 @@ public class S2SException extends java.lang.Exception {
     private String errorMessage;
     private String errorKey = KeyConstants.ERROR_S2S_UNKNOWN;
     private int messageType;
+    private String[] params;
 
     /**
      * Creates new <code>KraException</code> without detail message.
@@ -71,6 +72,12 @@ public class S2SException extends java.lang.Exception {
         super(msg);
         this.errorMessage = msg;
         this.errorKey = errorKey;
+    }
+    public S2SException(String errorKey,String msg,String... params) {
+        super(msg);
+        this.errorMessage = msg;
+        this.errorKey = errorKey;
+        this.params = params;
     }
     public S2SException(String msg, int messageType) {
         super();
