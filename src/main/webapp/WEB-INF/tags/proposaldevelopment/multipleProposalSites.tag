@@ -24,7 +24,7 @@
 <%@ attribute name="proposalSitesListName" required="true" description="The JSP name of proposalSitesList" %>
 <%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
-<%@ attribute name="locationEditable" required="false" description="If this is set to false, the location names cannot be edited." %>
+<%@ attribute name="locationNameEditable" required="false" description="If this is set to false, the location names cannot be edited." %>
 <%@ attribute name="congressionalDistrictHelperList" required="true" description="" %>
 <%@ attribute name="addSiteMethodToCall" required="true" description="The action method to call when the Add Proposal Site button is clicked" %>
 <%@ attribute name="deleteSiteMethodToCall" required="true" description="The action method to call when the Delete Proposal Site button is clicked" %>
@@ -32,6 +32,10 @@
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The action method to call when the Add District button is clicked" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The action method to call when the Delete District button is clicked" %>
 <%@ attribute name="locationType" required="true" description="Can be 'rolo' for a Rolodex item, or 'org' for an Organization" %>
+
+<c:if test="${empty locationNameEditable}">
+    <c:set var="locationNameEditable" value="true"/>
+</c:if>
 
 <h3>
     <span class="subhead-left">${tabTitle}</span>
@@ -46,7 +50,12 @@
     </tr>
 
     <kra:section permission="modifyProposal">
-        <kra-pd:addProposalSite newProposalSite="${newProposalSite}" newProposalSiteField="${newProposalSiteField}" addMethodToCall="${addSiteMethodToCall}" locationType="${locationType}" />
+        <kra-pd:addProposalSite
+            newProposalSite="${newProposalSite}"
+            newProposalSiteField="${newProposalSiteField}"
+            locationNameEditable="${locationNameEditable}"
+            addMethodToCall="${addSiteMethodToCall}"
+            locationType="${locationType}" />
     </kra:section>
     <c:forEach var="proposalSite" items="${proposalSitesList}" varStatus="status">
         <tr>
@@ -59,7 +68,7 @@
                 parentTab="Organization/Location"
                 proposalSiteBo="${proposalSitesList[status.index]}"
                 proposalSiteBoName="${proposalSitesListName}[${status.index}]"
-                locationEditable="${locationEditable}"
+                locationNameEditable="${locationNameEditable}"
                 congressionalDistrictHelper="${congressionalDistrictHelperList}[${status.index}]"
                 deleteSiteMethodToCall="${deleteSiteMethodToCall}.site${status.index}"
                 addDistrictMethodToCall="${addDistrictMethodToCall}.site${status.index}"
