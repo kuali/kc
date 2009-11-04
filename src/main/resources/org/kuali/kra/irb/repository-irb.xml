@@ -101,7 +101,7 @@
 		<collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>
-		<collection-descriptor name="notepads" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+		<collection-descriptor name="notepads" proxy="false" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>
 		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -636,7 +636,7 @@
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
 		<field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="noteType" column="NOTE_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="noteTopic" column="NOTE_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

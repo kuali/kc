@@ -22,7 +22,8 @@ public enum NoteAndAttachmentPrefix {
     NEW_ATTACHMENT_PROTOCOL("attachmentsHelper.newAttachmentProtocol", false),
     NEW_ATTACHMENT_PERSONNEL("attachmentsHelper.newAttachmentPersonnel", false),
     ATTACHMENT_PROTOCOL("document.protocolList[0].attachmentProtocols", true),
-    ATTACHMENT_PERSONNEL("document.protocolList[0].attachmentPersonnels", true);
+    ATTACHMENT_PERSONNEL("document.protocolList[0].attachmentPersonnels", true),
+    NEW_NOTEPAD("notepadHelper.newProtocolNotepad", false);
     
     private final String name;
     private final boolean indexed;
