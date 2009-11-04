@@ -38,7 +38,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -137,7 +136,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String hierarchyStatus;
     private String hierarchyStatusName;
 
-    private List<ProposalHierarchyChild> children;
+    private String hierarchyParentProposalNumber;
+    private Integer hierarchyLastSyncHashCode;
     private transient ParameterService parameterService;
     
     /**
@@ -168,6 +168,38 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
  
     }
     
+    /**
+     * Gets the hierarchyParentProposalNumber attribute. 
+     * @return Returns the hierarchyParentProposalNumber.
+     */
+    public String getHierarchyParentProposalNumber() {
+        return hierarchyParentProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyParentProposalNumber attribute value.
+     * @param hierarchyParentProposalNumber The hierarchyParentProposalNumber to set.
+     */
+    public void setHierarchyParentProposalNumber(String hierarchyParentProposalNumber) {
+        this.hierarchyParentProposalNumber = hierarchyParentProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyLastSyncHashCode attribute value.
+     * @param hierarchyLastSyncHashCode The hierarchyLastSyncHashCode to set.
+     */
+    public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
+        this.hierarchyLastSyncHashCode = hierarchyLastSyncHashCode;
+    }
+
+    /**
+     * Gets the hierarchyLastSyncHashCode attribute. 
+     * @return Returns the hierarchyLastSyncHashCode.
+     */
+    public Integer getHierarchyLastSyncHashCode() {
+        return hierarchyLastSyncHashCode;
+    }
+
     public boolean isParent() {
         return HierarchyStatusConstants.Parent.code().equals(hierarchyStatus);
     }
@@ -215,7 +247,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();
-        children = new ArrayList<ProposalHierarchyChild>();
         initProposalSites();
     }
 
@@ -979,8 +1010,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         managedLists.add(opportunities);
         
-        managedLists.add(getChildren());
-
         return managedLists;
     }
 
@@ -1764,20 +1793,20 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return proposalType;
     }
 
-    /**
-     * Gets the children attribute. 
-     * @return Returns the children.
-     */
-    public List<ProposalHierarchyChild> getChildren() {
-        return children;
-    }
-    /**
-     * Sets the children attribute value.
-     * @param children The children to set.
-     */
-    public void setChildren(List<ProposalHierarchyChild> children) {
-        this.children = children;
-    }
+//    /**
+//     * Gets the children attribute. 
+//     * @return Returns the children.
+//     */
+//    public List<ProposalHierarchyChild> getChildren() {
+//        return children;
+//    }
+//    /**
+//     * Sets the children attribute value.
+//     * @param children The children to set.
+//     */
+//    public void setChildren(List<ProposalHierarchyChild> children) {
+//        this.children = children;
+//    }
 
     
     /**
