@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget;
+import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument;
 import gov.grants.apply.forms.rrSubawardBudgetV11.RRSubawardBudgetDocument;
 import gov.grants.apply.forms.rrSubawardBudgetV11.RRSubawardBudgetDocument.RRSubawardBudget;
 import gov.grants.apply.forms.rrSubawardBudgetV11.RRSubawardBudgetDocument.RRSubawardBudget.BudgetAttachments;
@@ -29,6 +30,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -56,7 +58,7 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
      * 
      * @return rrSubawardBudgetDocument {@link XmlObject} of type RRSubawardBudgetDocument.
      */
-    private RRSubawardBudgetDocument getRRSubAwardBudget() {
+    private RRSubawardBudgetDocument getRRSubAwardBudget() throws S2SException{
 
         RRSubawardBudgetDocument rrSubawardBudgetDocument = RRSubawardBudgetDocument.Factory.newInstance();
         RRSubawardBudget rrSubawardBudget = RRSubawardBudget.Factory.newInstance();
@@ -109,6 +111,7 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
                     budgetList[9] = getRRBudget(budgetSubAwards);
                     break;
             }
+            addSubAwdAttachments(budgetSubAwards);
             attCount++;
         }
         budgetAttachments.setRRBudgetArray(budgetList);
@@ -124,8 +127,9 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return RRBudget corresponding to the BudgetSubAwards object.
      */
-    private RRBudget getRRBudget(BudgetSubAwards budgetSubAwards) {
+    private RRBudget getRRBudget(BudgetSubAwards budgetSubAwards) throws S2SException{
         RRBudget rrBudget = RRBudget.Factory.newInstance();
+        RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;
         try {
@@ -135,28 +139,21 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
             return rrBudget;
         }
         Element subAwdFormsElement = subAwdFormsDoc.getDocumentElement();
-        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(NAMESPACE_URI, LOCAL_NAME);
-        if (subAwdNodeList != null && subAwdNodeList.getLength() == 0) {
-            String err1 = S2SErrorMessages.getProperty(ERROR1_PROPERTY_KEY);
-            String err2 = S2SErrorMessages.getProperty(ERROR2_PROPERTY_KEY);
-            StringBuilder err = new StringBuilder();
-            err.append(err1);
-            err.append(" for organization ");
-            err.append(budgetSubAwards.getOrganizationName());
-            err.append(" ");
-            err.append(err2);
-            LOG.error("Not able to extract xml" + err.toString());
-            return null;
-        }
+        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(RR_BUDGET_11_NAMESPACE_URI, LOCAL_NAME);
         Node subAwdNode = null;
-        if (subAwdNodeList != null) {
+        if (subAwdNodeList != null){
+            if(subAwdNodeList.getLength() == 0) {
+                return null;
+            }
             subAwdNode = subAwdNodeList.item(0);
         }
         byte[] subAwdNodeBytes = null;
+        InputStream bgtIS  = null;
         try {
             subAwdNodeBytes = docToBytes(nodeToDom(subAwdNode));
-            InputStream bgtIS = new ByteArrayInputStream(subAwdNodeBytes);
-            rrBudget = (RRBudget) XmlObject.Factory.parse(bgtIS);
+            bgtIS = new ByteArrayInputStream(subAwdNodeBytes);
+            rrBudgetDocument = (RRBudgetDocument) XmlObject.Factory.parse(bgtIS);
+            rrBudget = rrBudgetDocument.getRRBudget();
         }
         catch (S2SException e) {
             return rrBudget;
@@ -166,6 +163,10 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
         }
         catch (IOException e) {
             return rrBudget;
+        }finally{
+            if(bgtIS!=null){
+                try {bgtIS.close();}catch (IOException e) {} 
+            }
         }
         return rrBudget;
     }
@@ -193,7 +194,7 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
      * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
      * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
         this.proposalDevelopmentDocument=proposalDevelopmentDocument;
         return getRRSubAwardBudget();
     }

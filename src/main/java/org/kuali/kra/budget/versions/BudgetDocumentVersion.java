@@ -30,6 +30,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>{
 
+    private static final String BUDGET_COMPLETE = "2";
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -98,18 +99,35 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
         for (BudgetVersionOverview budgetVersionOverview: this.getBudgetVersionOverviews()) {
             
             if (budgetVersionOverview!=null && budgetVersionOverview.getBudgetStatus()!=null && 
-                    budgetVersionOverview.getBudgetStatus().equals("2") && 
+                    budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && 
                     budgetVersionOverview.isFinalVersionFlag()) {
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-                Map<String, Object> criteria = new HashMap<String, Object>();
-                criteria.put("budgetId", budgetVersionOverview.getBudgetId());
-                PersistableBusinessObject result = businessObjectService.findByPrimaryKey(Budget.class, criteria);
+                Budget result = findBudget();
                 if (result != null) {
                     return (Budget) result;
                 }
             }
         }
         return null;
+    }
+    
+    public boolean isBudgetComplete(){
+        if(!getBudgetVersionOverviews().isEmpty()){
+            return BUDGET_COMPLETE.equals(getBudgetVersionOverview().getBudgetStatus());
+        }
+        return false;
+    }
+
+    /**
+     * This method...
+     * @param budgetVersionOverview
+     * @return
+     */
+    public Budget findBudget() {
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("budgetId", getBudgetVersionOverview().getBudgetId());
+        Budget result = (Budget)businessObjectService.findByPrimaryKey(Budget.class, criteria);
+        return result;
     }
     
     /**
