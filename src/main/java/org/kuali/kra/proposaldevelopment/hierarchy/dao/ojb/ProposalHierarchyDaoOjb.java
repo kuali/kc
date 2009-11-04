@@ -257,5 +257,22 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
         return retval;
     }
+
+    public List<String> getHierarchyChildProposalNumbers(String proposalNumber) {
+        List<String> retval = new ArrayList<String>();
+        
+        Criteria crit = new Criteria();
+        crit.addEqualTo("hierarchyParentProposalNumber", proposalNumber);
+        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(DevelopmentProposal.class, crit);
+        query.setAttributes(new String[]{ "proposalNumber" });
+        
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while(iter.hasNext()) {
+            Object[] result = (Object[])iter.next();
+            retval.add((String)result[0]);
+        }
+        return retval;
+    }
     
 }
