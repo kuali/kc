@@ -115,8 +115,11 @@
         <property name="label" value="Comments" />
         <property name="shortLabel" value="Note Text" />
         <property name="maxLength" value="4000" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern">
+            	<property name="allowWhitespace" value="true" />
+            </bean>
         </property>
         <property name="control" >
             <bean parent="TextareaControlDefinition"
