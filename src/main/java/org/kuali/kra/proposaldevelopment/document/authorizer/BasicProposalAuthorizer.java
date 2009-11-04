@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
@@ -39,6 +40,16 @@ public class BasicProposalAuthorizer extends ProposalAuthorizer {
      */
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        return hasProposalPermission(userId, doc, permissionName);
+        String permissionConstant = null;
+        try {
+            permissionConstant = PermissionConstants.class.getField(permissionName).get(null).toString();
+        }
+        catch (IllegalArgumentException x) {
+            throw x;
+        }
+        catch (Exception x) {
+            throw new IllegalArgumentException(x);
+        }
+        return hasProposalPermission(userId, doc, permissionConstant);
     }
 }
