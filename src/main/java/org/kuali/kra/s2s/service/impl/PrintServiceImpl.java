@@ -555,7 +555,7 @@ public class PrintServiceImpl implements PrintService {
 				formPdfBytes = generatePdf(info.getStyleSheet(), formObject);
 				try {
 					stream.write(formPdfBytes);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					LOG.error(e.getMessage(), e);
 					throw new S2SException(e);
 				}
@@ -833,7 +833,7 @@ public class PrintServiceImpl implements PrintService {
 
 			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/" + stylesheet));
 			return generatePdfBytes(xmlObject, xsltSource);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 			throw new S2SException("Not able to read template ");
 		}

@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget;
+import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument.RRSubawardBudget;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument.RRSubawardBudget.BudgetAttachments;
@@ -110,6 +111,7 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
                     budgetList[9] = getRRBudget(budgetSubAwards);
                     break;
             }
+            addSubAwdAttachments(budgetSubAwards);
             attCount++;
         }
         budgetAttachments.setRRBudgetArray(budgetList);
@@ -126,7 +128,9 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
      * @return RRBudget corresponding to the BudgetSubAwards object.
      */
     private RRBudget getRRBudget(BudgetSubAwards budgetSubAwards) {
+        RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory.newInstance();
         RRBudget rrBudget = RRBudget.Factory.newInstance();
+        
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;
         try {
@@ -136,19 +140,10 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
             return rrBudget;
         }
         Element subAwdFormsElement = subAwdFormsDoc.getDocumentElement();
-        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(NAMESPACE_URI, LOCAL_NAME);
+        NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(RR_BUDGET_10_NAMESPACE_URI, LOCAL_NAME);
         Node subAwdNode = null;
-        if (subAwdNodeList != null) {
-            if (subAwdNodeList.getLength() == 0) {
-                String err1 = S2SErrorMessages.getProperty(ERROR1_PROPERTY_KEY);
-                String err2 = S2SErrorMessages.getProperty(ERROR2_PROPERTY_KEY);
-                StringBuilder err = new StringBuilder();
-                err.append(err1);
-                err.append(" for organization ");
-                err.append(budgetSubAwards.getOrganizationName());
-                err.append(" ");
-                err.append(err2);
-                LOG.error("Not able to extract xml" + err.toString());
+        if (subAwdNodeList != null){
+            if(subAwdNodeList.getLength() == 0) {
                 return null;
             }
             subAwdNode = subAwdNodeList.item(0);
@@ -157,7 +152,8 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
         try {
             subAwdNodeBytes = docToBytes(nodeToDom(subAwdNode));
             InputStream bgtIS = new ByteArrayInputStream(subAwdNodeBytes);
-            rrBudget = (RRBudget) XmlObject.Factory.parse(bgtIS);
+            rrBudgetDocument = (RRBudgetDocument) XmlObject.Factory.parse(bgtIS);
+            rrBudget = rrBudgetDocument.getRRBudget();
         }
         catch (S2SException e) {
             return rrBudget;
