@@ -116,11 +116,12 @@ public class AwardBudgetVersionsAction extends AwardAction {
             save(mapping, form, request, response);
         }
         
-        AwardDocument pdDoc = awardForm.getAwardDocument();
-        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        awardDocument.refreshReferenceObject("budgetDocumentVersions");
+        BudgetDocumentVersion budgetDocumentToOpen = awardDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetToOpen);
-        BudgetParent budgetParent = pdDoc.getBudgetParent();
+        BudgetParent budgetParent = awardDocument.getBudgetParent();
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
