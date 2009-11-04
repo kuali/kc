@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.dao;
 
+import java.util.List;
+
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 
 /**
@@ -22,4 +24,5 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
  */
 public interface ProposalHierarchyDao {
     public HierarchyProposalSummary getProposalSummary(String proposalNumber);
+    public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
 }

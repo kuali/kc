@@ -38,6 +38,7 @@ public interface PermissionConstants {
     public static final String SUBMIT_TO_SPONSOR = "Submit to Sponsor";
     public static final String SUBMIT_PROPOSAL = "Submit ProposalDevelopmentDocument";
     public static final String ADD_PROPOSAL_VIEWER = "Add Proposal Viewer";
+    public static final String MAINTAIN_PROPOSAL_HIERARCHY = "Maintain ProposalHierarchy";
     
     /* IRB Permissions */
     

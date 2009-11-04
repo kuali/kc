@@ -492,10 +492,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         list.clear();
         fixBudgetVersions(newDoc);
-        if (srcDoc.getDevelopmentProposal().isParent()) {
-            newDoc.getDevelopmentProposal().getChildren().clear();
-        }
+
         newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
+        newDoc.getDevelopmentProposal().setHierarchyParentProposalNumber(null);
+        newDoc.getDevelopmentProposal().setHierarchyLastSyncHashCode(null);
     }
 
     /**
