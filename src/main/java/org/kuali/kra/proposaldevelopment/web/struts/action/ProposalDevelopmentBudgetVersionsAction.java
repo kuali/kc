@@ -134,7 +134,16 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
-        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetToOpen);
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        if(parentDocument==null){
+            budgetDocument.refreshReferenceObject("parentDocument");
+        }
+        Budget budget = budgetDocument.getBudget();
+        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budget);
+        
         if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
@@ -143,26 +152,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             //Throw Empty Rates message
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        }else {
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-            if(parentDocument==null){
-                budgetDocument.refreshReferenceObject("parentDocument");
-            }
-            Budget budget = budgetDocument.getBudget();
+        }        
 
-            if (!budget.getActivityTypeCode().equals(pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
-                budget.setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
-            }
-            String forward = buildForwardUrl(routeHeaderId);
-            if (pdForm.isAuditActivated()) {
-                forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
-            }
-            
-            return new ActionForward(forward, true);
+        String forward = buildForwardUrl(routeHeaderId);
+        if (pdForm.isAuditActivated()) {
+            forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         }
+            
+        return new ActionForward(forward, true);
     }
     
     
