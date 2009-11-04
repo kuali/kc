@@ -38,7 +38,7 @@
         <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintenanceDocumentRules" />
         <property name="documentTypeName" value="ProposalLogMaintenanceDocument" />
         <property name="documentPresentationControllerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentPresentationController" />
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+        <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentAuthorizer" />
     </bean>
 
     <!-- Maintenance Section Definitions -->
