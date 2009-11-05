@@ -24,7 +24,7 @@
     
     <property name="documentTypeName" value="BudgetCategoryMappingMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.BudgetCategoryExistenceRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
     
     
   </bean>

@@ -27,7 +27,7 @@
     
     <property name="documentTypeName" value="InstituteLaRateMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.budget.rates.InstituteRateMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
     
     
   </bean>

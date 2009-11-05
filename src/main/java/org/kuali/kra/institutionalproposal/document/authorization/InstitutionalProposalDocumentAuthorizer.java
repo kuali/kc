@@ -22,11 +22,9 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
