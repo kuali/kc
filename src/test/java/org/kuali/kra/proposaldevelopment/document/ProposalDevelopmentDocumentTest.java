@@ -21,6 +21,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -33,12 +35,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
     private DocumentService documentService = null;
-
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @After
@@ -55,7 +59,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
-
+        
         documentService.saveDocument(document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
@@ -70,7 +74,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", null, "000001");
-
+        
         boolean caughtException = false;
 
         try {
@@ -90,7 +94,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
-
+        
         boolean caughtException = false;
 
         try {
@@ -128,7 +132,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
-
+        
         // sponsor program info fields
         document.getDevelopmentProposal().setDeadlineDate(new Date(System.currentTimeMillis()));
         document.getDevelopmentProposal().setDeadlineType("1");
@@ -188,6 +192,9 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
         document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
+        
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
     }
 
     /**

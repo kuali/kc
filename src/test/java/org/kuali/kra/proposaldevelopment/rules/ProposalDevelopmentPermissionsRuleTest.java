@@ -63,7 +63,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testAddOK() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUser proposalUser = createProposalUser("tdurkin");
+        ProposalUser proposalUser = createProposalUser("majors");
         assertTrue(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
     }
     
@@ -129,7 +129,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditOK() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = createProposalUserEditRoles("aslusar");
+        ProposalUserEditRoles editRoles = createProposalUserEditRoles("chew");
         editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
         assertTrue(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
     }
@@ -143,7 +143,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditAggregatorOnly() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = createProposalUserEditRoles("aslusar");
+        ProposalUserEditRoles editRoles = createProposalUserEditRoles("chew");
         editRoles.setRoleState(RoleConstants.AGGREGATOR, Boolean.TRUE);
         editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
@@ -196,7 +196,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         proposalUserRolesList.add(userRoles);
         
         userRoles = new ProposalUserRoles();
-        userRoles.setUsername("aslusar");
+        userRoles.setUsername("chew");
         userRoles.addRoleName("Viewer");
         proposalUserRolesList.add(userRoles);
         

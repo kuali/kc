@@ -750,7 +750,7 @@
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="printProposal" />
-                    <property name="permission" value="PRINT_PROPOSAL" />
+                    <property name="permission" value="Print Proposal" />
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
@@ -763,7 +763,7 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="certify" />
-                    <property name="permission" value="CERTIFY" />
+                    <property name="permission" value="Certify" />
                 </bean>
 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">

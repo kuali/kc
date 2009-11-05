@@ -3,6 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>QuestionnaireMaintenanceDocument</name>
+<parent>KcSharedMaintenanceDocument</parent>
 <description>Create a Questionnaire</description>
 <label>Questionnaire</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>

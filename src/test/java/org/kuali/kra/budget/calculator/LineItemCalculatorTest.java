@@ -27,9 +27,6 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.calculator.LineItemCalculator;
-import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
@@ -43,6 +40,7 @@ import org.kuali.kra.budget.rates.BudgetProposalLaRate;
 import org.kuali.kra.budget.rates.BudgetProposalRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -75,6 +73,9 @@ public class LineItemCalculatorTest extends KraTestBase {
     private DocumentService documentService = null;
     private DateTimeService dateTimeService = null;
     private BusinessObjectService bos;
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -82,6 +83,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         documentService = KNSServiceLocator.getDocumentService();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
         dateTimeService = KNSServiceLocator.getDateTimeService();
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @After
@@ -95,6 +97,9 @@ public class LineItemCalculatorTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
+        
         documentService.saveDocument(document);
         BudgetDocument bdoc = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
         Budget bd = bdoc.getBudget();

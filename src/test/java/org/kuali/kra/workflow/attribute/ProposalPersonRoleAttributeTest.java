@@ -27,6 +27,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.workflow.ProposalPersonRoleAttribute;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
@@ -49,12 +50,15 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
     private static final Role KEY_PERSON_ROLE = new Role(ProposalPersonRoleAttribute.class, "KEYPERSON", "Key Person");
     private static final Role PROPOSAL_PERSON_ROLE = new Role(ProposalPersonRoleAttribute.class, "PROPOSALPERSONS", "Proposal Person");
     private BusinessObjectService bos;
+    private ProposalDevelopmentService proposalDevelopmentService;
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @After
@@ -143,5 +147,8 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         document.getDevelopmentProposal().setActivityTypeCode("1");
         document.getDevelopmentProposal().setProposalTypeCode("1");
         document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
+        
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
     }
 }

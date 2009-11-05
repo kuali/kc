@@ -3,7 +3,7 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	
 	<!-- Unit test ApplicationConstants: reset the admin user list to include some test users -->
-
+	<!-- 
     <users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
     	<user>
 			<principalId>p1</principalId>
@@ -31,20 +31,6 @@
 			<principalName>kr</principalName>
 			<type>SYSTEM</type>
 		</user>
-	    <!-- real users -->
-		<!--<user>
-			<workflowId>000000000000</workflowId>
-			<emplId>0000000000</emplId>
-			<authenticationId>rkirkend</authenticationId>
-			<uuId>0000000000</uuId>
-			<emailAddress>someone@indiana.edu</emailAddress>
-			<displayName>Someone Anyone</displayName>
-			<givenName>Someone</givenName>
-			<lastName>Anyone</lastName>
-			<createDate>01/01/2000</createDate>
-			<lastUpdateDate>12/31/2005</lastUpdateDate>
-			<identificationMissingIndicator>false(true)</identificationMissingIndicator>
-		</user>-->
 		<user>
 			<workflowId>1</workflowId>
 			<emplId>1</emplId>
@@ -209,7 +195,6 @@
 
 		</user>
 
-        <!-- test users, range starting at id 1000 -->
 		<user>
 			<workflowId>1001</workflowId>
 			<emplId>1001</emplId>
@@ -382,6 +367,7 @@
 			</members>
 		</group>
 	</groups>
+	 -->
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>TestRuleAttribute</name>

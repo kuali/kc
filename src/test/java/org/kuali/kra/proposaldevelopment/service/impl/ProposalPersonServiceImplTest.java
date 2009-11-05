@@ -15,42 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.KcraNoDataTestBase;
-//import org.kuali.kra.bo.CountryCode;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TestUtilities;
-//import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.impl.KcPersonServiceImpl;
-//import org.kuali.kra.service.impl.KcPersonServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.KualiModuleService;
-
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImpl;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-
-import org.junit.After;
-import org.junit.Before;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;

@@ -42,7 +42,9 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.RateType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -54,6 +56,8 @@ public class BudgetCalculationServiceTest extends KraTestBase {
             .getLog(BudgetCalculationServiceTest.class);
     private BudgetCalculationService budgetCalculationService;
     private DocumentService documentService = null;
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
     private Mockery context = new JUnit4Mockery();
     
     private static final List objectCodes = new ArrayList();
@@ -95,6 +99,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         budgetCalculationService = getService(BudgetCalculationService.class);
         documentService = KNSServiceLocator.getDocumentService();
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @Override
@@ -113,7 +118,12 @@ public class BudgetCalculationServiceTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(110, 0, 1);
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title",
                 requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
+
         documentService.saveDocument(document);
+        
         BudgetDocument bd = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
         setBaseDocumentFields(bd, document.getDevelopmentProposal().getProposalNumber());
         documentService.saveDocument(bd);

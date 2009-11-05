@@ -22,7 +22,7 @@
     
     <property name="documentTypeName" value="CustomAttributeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.CustomAttributeMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
     
     <property name="webScriptFiles">
       <list>

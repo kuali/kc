@@ -101,7 +101,7 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
      * @see org.kuali.kra.KraWebTestBase#getLoginUserName()
      */
     protected String getLoginUserName() {
-        return "aslusar";
+        return "chew";
     }
         
     /**
