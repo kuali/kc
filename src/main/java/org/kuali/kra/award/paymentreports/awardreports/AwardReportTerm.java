@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.SequenceOwner;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.AwardSyncableList;
 import org.kuali.kra.award.home.Distribution;
@@ -215,6 +215,37 @@ public class AwardReportTerm extends AwardAssociate  {
         return true;
     }
 
+    /**
+     * Unlike <CODE>equals(Object)</CODE>, this method only compares the fields a user has to fill in in order to add
+     * a new <CODE>AwardReportTerm</CODE>: Report Type, Frequency, Frequency Base, OSP File Copy, and Due Date.
+     * @param otherReportTerm
+     * @return
+     */
+    public boolean equalsInitialFields(AwardReportTerm otherReportTerm) {
+        boolean isEqual = true;
+
+        if (otherReportTerm == null) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
+                isEqual = false;
+        }
+        else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+            isEqual = false;
+        }
+        else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+            isEqual = false;
+        }
+        else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
+            isEqual = false;
+        }
+        
+        return isEqual;
+    }
+    
     /**
      * Gets the awardReportings attribute. 
      * @return Returns the awardReportings.

@@ -77,7 +77,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     protected boolean isUnique(List<AwardReportTerm> awardReportTermItems, AwardReportTerm awardReportTermItem) {
         boolean duplicateFound = false;
         for(AwardReportTerm listItem: awardReportTermItems) {
-            duplicateFound = awardReportTermItem != listItem && listItem.equals(awardReportTermItem);
+            duplicateFound = awardReportTermItem != listItem && listItem.equalsInitialFields(awardReportTermItem);
             if(duplicateFound) {
                 break;
             }
