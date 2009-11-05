@@ -1490,4 +1490,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public boolean isRenewal() {
         return protocolNumber.contains(RENEWAL_LETTER);
     }
+    
+    /**
+     * Decides whether or not the Protocol is in a state where changes will require versioning.  For example: has the protocol
+     * had a change in status and not been versioned yet?
+     * @return true if versioning required false if not.
+     */
+    public boolean isVersioningRequired() {
+        return true;
+    }
 }
