@@ -100,15 +100,6 @@ public class ProtocolAttachmentVersioningUtility {
         this.notesService = notesService;
     }
     
-    /**
-     * Methods checks whether versioning is required (i.e. does adding/deleting/modfying
-     * an attachment trigger a version or not)
-     * @return true if versioning is required.
-     */
-    boolean versioningRequired() {
-        return true;
-    }
-    
     /** 
      * Versions the passed in attachment.  The act of versioning will do the following:
      * Create a new document and create a new protocol version.
@@ -230,26 +221,6 @@ public class ProtocolAttachmentVersioningUtility {
     }
     
     /**
-     * This method will create a new Document, Protocol version, save the Document, and set the Document on the form.
-     * This method must be called after calling all versioning methods 
-     * (ex: {@link #versionDeletedAttachments(Collection)}, {@link #versionExstingAttachments()}, {@link #versionNewAttachments(Collection)}
-     * @param makeNewVersion whether to make the new version, save, etc.
-     */
-    private void finishVersionProcessing(boolean makeNewVersion) {
-        if (makeNewVersion) {
-            this.createVersion(this.form.getDocument());
-
-            //hack start
-            this.doAttachmentPersonnelSaveHack();
-            //hack end
-            
-            this.saveVersionedDocument();
-            this.form.setDocument(this.newDocumentVersion);
-            this.newDocumentVersion = null;
-        }
-    }
-    
-    /**
      * There is a problem with the way OJB handles 1:1/M relationships and the way the versioning framework triggers new versions.
      * 
      * Basically, A Personnel Attachment has a M:1 with Protocol Person.  When the versioning framework finds the Protocol Person
@@ -312,46 +283,6 @@ public class ProtocolAttachmentVersioningUtility {
     }
     
     /**
-     * Creates a new a Protocol Document from a Protocol.  This method requires that the passed in
-     * ProtocolDocument and Protocol are existing versions.  If they are not existing there is likely
-     * a programming error since there would be no point in versioning.
-     * 
-     * The version is saved off at {@link #newDocumentVersion} for later use.
-     * 
-     * @param protocolDocument the protocol document to base the version off of.
-     * @return the new version
-     */
-    private ProtocolDocument createVersion(final ProtocolDocument protocolDocument) {      
-        assert protocolDocument != null : "the protocol was null";
-        assert protocolDocument.getDocumentNumber() != null : "the document number is null";
-        assert protocolDocument.getProtocol() != null : "the protocol is null";
-        assert protocolDocument.getProtocol().getProtocolId() != null : "the protocol id is null";
-        
-        try {
-            if (!this.doesNewDocumentVersionExist()) {
-                final Protocol protocolVersion = this.versionService.createNewVersion(protocolDocument.getProtocol());
-                for (ProtocolAttachmentPersonnel attachment : protocolVersion.getAttachmentPersonnels()) {
-                    System.err.println(attachment + " person: " + attachment.getPerson());
-                }
-                
-                
-                try {
-                    this.newDocumentVersion = (ProtocolDocument) this.docService.getNewDocument(ProtocolDocument.class);
-                } catch (final WorkflowException e) {
-                    throw new VersionCreationExeption(e);
-                }
-                
-                this.newDocumentVersion.getDocumentHeader().setDocumentDescription(this.form.getDocument().getDocumentHeader().getDocumentDescription());
-                this.newDocumentVersion.setProtocol(protocolVersion);
-                protocolVersion.setProtocolDocument(this.newDocumentVersion);
-            }
-            return this.newDocumentVersion;
-        } catch (final VersionException e) {
-            throw new VersionCreationExeption(e);
-        }
-    }
-    
-    /**
      * Creates a version of an attachment's file. The act of versioning associates the passed in attachment with the new file.
      * 
      * @param <T> the attachment type
@@ -376,6 +307,72 @@ public class ProtocolAttachmentVersioningUtility {
         return attachment;
     }
     
+//Generic Versioning methods
+    /**
+     * Methods checks whether versioning is required (i.e. does adding/deleting/modfying
+     * an attachment trigger a version or not)
+     * @return true if versioning is required.
+     */
+    boolean versioningRequired() {
+        return this.form.getProtocolDocument().getProtocol().isVersioningRequired();
+    }    
+    
+    /**
+     * This method will create a new Document, Protocol version, save the Document, and set the Document on the form.
+     * This method must be called after calling all versioning methods 
+     * (ex: {@link #versionDeletedAttachments(Collection)}, {@link #versionExstingAttachments()}, {@link #versionNewAttachments(Collection)}
+     * @param makeNewVersion whether to make the new version, save, etc.
+     */
+    private void finishVersionProcessing(boolean makeNewVersion) {
+        if (makeNewVersion) {
+            this.createVersion(this.form.getDocument());
+
+            //hack start
+            this.doAttachmentPersonnelSaveHack();
+            //hack end
+            
+            this.saveVersionedDocument();
+            this.form.setDocument(this.newDocumentVersion);
+            this.newDocumentVersion = null;
+        }
+    }    
+    
+    /**
+     * Creates a new a Protocol Document from a Protocol.  This method requires that the passed in
+     * ProtocolDocument and Protocol are existing versions.  If they are not existing there is likely
+     * a programming error since there would be no point in versioning.
+     * 
+     * The version is saved off at {@link #newDocumentVersion} for later use.
+     * 
+     * @param protocolDocument the protocol document to base the version off of.
+     * @return the new version
+     */
+    private ProtocolDocument createVersion(final ProtocolDocument protocolDocument) {      
+        assert protocolDocument != null : "the protocol was null";
+        assert protocolDocument.getDocumentNumber() != null : "the document number is null";
+        assert protocolDocument.getProtocol() != null : "the protocol is null";
+        assert protocolDocument.getProtocol().getProtocolId() != null : "the protocol id is null";
+        
+        try {
+            if (!this.doesNewDocumentVersionExist()) {
+                final Protocol protocolVersion = this.versionService.createNewVersion(protocolDocument.getProtocol());             
+                
+                try {
+                    this.newDocumentVersion = (ProtocolDocument) this.docService.getNewDocument(ProtocolDocument.class);
+                } catch (final WorkflowException e) {
+                    throw new VersionCreationExeption(e);
+                }
+                
+                this.newDocumentVersion.getDocumentHeader().setDocumentDescription(this.form.getDocument().getDocumentHeader().getDocumentDescription());
+                this.newDocumentVersion.setProtocol(protocolVersion);
+                protocolVersion.setProtocolDocument(this.newDocumentVersion);
+            }
+            return this.newDocumentVersion;
+        } catch (final VersionException e) {
+            throw new VersionCreationExeption(e);
+        }
+    }
+    
     /**
      * Saves a versioned document if a new version has been created.  If not, this method does nothing.
      */
@@ -383,8 +380,7 @@ public class ProtocolAttachmentVersioningUtility {
         if (this.doesNewDocumentVersionExist()) {
             try {
                 this.docService.saveDocument(this.newDocumentVersion);
-            }
-            catch (final WorkflowException e) {
+            } catch (final WorkflowException e) {
                 throw new VersionCreationExeption(e);
             }            
         }
