@@ -36,7 +36,7 @@
 		
 		
 		<property name="documentTypeName" value="RiskLevelMaintenanceDocument"/>
-		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		<property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
 		
 		
 	</bean>

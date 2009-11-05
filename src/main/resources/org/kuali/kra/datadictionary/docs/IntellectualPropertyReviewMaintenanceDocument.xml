@@ -18,7 +18,7 @@
     </property>
     
     <property name="documentTypeName" value="IntellectualPropertyReviewMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
     
   </bean>
 

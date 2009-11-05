@@ -15,32 +15,19 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.infrastructure.Constants;
-//import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl;
-import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.impl.KcPersonServiceImpl;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;

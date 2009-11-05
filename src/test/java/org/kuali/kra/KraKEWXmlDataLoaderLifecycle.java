@@ -71,11 +71,21 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         Resource resource = getFileResource(pathname);
         String filename;
         
-        // FIXME shouldn't assume this file is in the directory
-        this.loadXmlFile(pathname + File.separator + "DefaultKewTestData.xml");
+        List<String> parentKewFiles = new ArrayList<String>();
+        parentKewFiles.add("DefaultKewTestData.xml");
+        parentKewFiles.add("KcMaintenanceDocument.xml");
+        parentKewFiles.add("KcProposalsMaintenanceDocument.xml");
+        parentKewFiles.add("KcAwardsMaintenanceDocument.xml");
+        parentKewFiles.add("KcComplianceMaintenanceDocument.xml");
+        parentKewFiles.add("KcSharedMaintenanceDocument.xml");
+        parentKewFiles.add("KcMiscellaneousMaintenanceDocument.xml");
+        
+        for(String parentKewFile : parentKewFiles) {
+            this.loadXmlFile(pathname + File.separator + parentKewFile);
+        }
         for (File file : resource.getFile().listFiles()) {
             filename=file.getName();
-            if (filename.equals("DefaultKewTestData.xml")) {
+            if (parentKewFiles.contains(filename)) {
                 // do nothing
             } else if (filename.endsWith("Rules.xml")) {
                 rules.add(filename);

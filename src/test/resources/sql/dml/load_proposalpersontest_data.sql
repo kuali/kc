@@ -1,15 +1,3 @@
---delete from KRIM_PRNCPL_T;
---delete from PROPOSAL_PERSONS;
---delete from krim_entity_t;
---delete from proposal;
---delete from sponsor;
---delete from ROLODEX;
---delete from country_code;
---delete from activity_type;
---delete from notice_of_opportunity;
---delete from sponsor_type;
---delete from proposal_type;
-
 insert into activity_type (activity_type_code, description, obj_id, update_timestamp, update_user, ver_nbr)
 values('tst', 'test activity type', sys_guid(), sysdate, 'jhulslander', 1);
 
