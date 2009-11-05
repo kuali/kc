@@ -25,6 +25,7 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -39,12 +40,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class BudgetServiceTest extends KraTestBase {
     
     BudgetService budgetService;
-
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         budgetService = getService(BudgetService.class);
+        proposalDevelopmentService = getService(ProposalDevelopmentService.class);
     }
     
     @After
@@ -126,6 +129,9 @@ public class BudgetServiceTest extends KraTestBase {
         pdDocument.getDevelopmentProposal().setSponsorCode("005770");
         pdDocument.getDevelopmentProposal().setRequestedStartDateInitial(new Date(1/1/2008));
         pdDocument.getDevelopmentProposal().setRequestedEndDateInitial(new Date(12/31/2008));
+        
+        proposalDevelopmentService.initializeUnitOrganizationLocation(pdDocument);
+        proposalDevelopmentService.initializeProposalSiteNumbers(pdDocument);
         
         getDocumentService().saveDocument(pdDocument);
         

@@ -3,41 +3,29 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	
 	<!-- Unit test ApplicationConstants: reset the admin user list to include some test users -->
-
+	
     <users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
         <user>
-            <workflowId>1006</workflowId>
-            <emplId>1006</emplId>
-            <authenticationId>quickstart</authenticationId>
-            <uuId>1006</uuId>
-            <emailAddress>quickstart@localhost</emailAddress>
-            <displayName>quickstart</displayName>
+            <principalId>10000000000</principalId>
+            <principalName>quickstart</principalName>
             <givenName>quickstart</givenName>
             <lastName>quickstart</lastName>
         </user>
         <user>
-			<workflowId>admin</workflowId>
-			<emplId>admin</emplId>
-			<authenticationId>admin</authenticationId>
-			<uuId>admin</uuId>
-			<emailAddress>admin@indiana.edu</emailAddress>
-			<displayName>Admin</displayName>
-			<givenName>Ad</givenName>
-			<lastName>Min</lastName>
-		</user>
-		 <user>
-            <workflowId>superuser</workflowId>
-            <emplId>superuser</emplId>
-            <authenticationId>superuser</authenticationId>
-            <uuId>superuser</uuId>
-            <emailAddress>superuser@localhost</emailAddress>
-            <displayName>superuser</displayName>
+            <principalId>10000000060</principalId>
+            <principalName>admin</principalName>
+            <givenName>admin</givenName>
+            <lastName>admin</lastName>
+        </user>
+        <user>
+            <principalId>10000000061</principalId>
+            <principalName>superuser</principalName>
             <givenName>superuser</givenName>
             <lastName>superuser</lastName>
-        </user>
+        </user>        
 		<user>
-			<workflowId>kr</workflowId>
-			<authenticationId>kr</authenticationId>
+            <principalId>1</principalId>
+            <principalName>kr</principalName>		
 			<type>SYSTEM</type>
 		</user>
 	</users>
@@ -103,6 +91,7 @@
 			</members>
 		</group>
 	</groups>
+	 
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>TestRuleAttribute</name>

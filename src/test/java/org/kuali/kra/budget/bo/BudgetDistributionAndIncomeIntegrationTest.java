@@ -27,7 +27,9 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -55,10 +57,13 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     protected abstract BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection();
     protected abstract List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument);
     
+    protected ProposalDevelopmentService proposalDevelopmentService;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         initProposalDocument();
         initBudgetDocument();
     }
@@ -155,6 +160,8 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         proposalDocument.getDevelopmentProposal().setProposalTypeCode("1");
         proposalDocument.getDevelopmentProposal().setOwnedByUnitNumber("000001");
 
+        proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDocument);
+        proposalDevelopmentService.initializeProposalSiteNumbers(proposalDocument);
         getDocumentService().saveDocument(proposalDocument);
 
         proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(proposalDocument.getDocumentNumber());        

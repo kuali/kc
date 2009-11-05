@@ -34,7 +34,7 @@
 		
 		
 		<property name="documentTypeName" value="Valid Frequency Base Maintenance Document"/>
-		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		<property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
 		
 		
 	</bean>

@@ -112,7 +112,6 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
         // click on the search button
         HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
-
         HtmlTable table = (HtmlTable) getElement(resultsPage, "row");
         HtmlAnchor anchor;
         HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);

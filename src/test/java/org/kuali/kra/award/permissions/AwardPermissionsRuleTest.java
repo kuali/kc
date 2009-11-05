@@ -64,7 +64,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     public void testAddOK() throws Exception {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUser permissionsUser = createPermissionsUser("tdurkin");
+        PermissionsUser permissionsUser = createPermissionsUser("majors");
         assertTrue(rule.processAddPermissionsUserBusinessRules(document, users, permissionsUser));
     }
     
@@ -125,7 +125,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     public void testEditOK() throws Exception {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
+        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("chew");
         editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), Boolean.TRUE);
         assertTrue(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
     }
@@ -139,7 +139,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     public void testEditAggregatorOnly() throws Exception {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
+        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("chew");
         editRoles.setRoleState(AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), Boolean.TRUE);
         editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), Boolean.TRUE);
         assertFalse(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));

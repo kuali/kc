@@ -22,7 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
@@ -37,12 +39,14 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
     
     private static final String USER_PRINCIPLE_ID = "quickstart";
-
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }  
 
     @After
@@ -68,6 +72,8 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
         document.getDevelopmentProposal().setActivityTypeCode("1");
         document.getDevelopmentProposal().setProposalTypeCode("1");
         document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
 
         documentService.saveDocument(document);
 

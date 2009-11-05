@@ -44,7 +44,7 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     private static final String EDIT_URL ="../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber=100";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
-    private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=000000001&methodToCall=start";
+    private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 22;
     private Mockery context = new JUnit4Mockery();
@@ -179,9 +179,9 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
         Protocol protocol = new Protocol();
         protocol.setLeadUnitNumber("000001");
         
-        protocol.setPrincipalInvestigatorId("000000001");
+        protocol.setPrincipalInvestigatorId("10000000001");
         ProtocolPerson protocolPerson = new ProtocolPerson();
-        protocolPerson.setPersonId("000000001");
+        protocolPerson.setPersonId("10000000001");
         protocol.getProtocolPersons().add(protocolPerson);
         protocolPerson.setProtocolPersonRoleId("PI");
         return protocol;

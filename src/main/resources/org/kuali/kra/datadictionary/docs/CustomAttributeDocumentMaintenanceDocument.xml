@@ -10,10 +10,11 @@
         <ref bean="CustomAttributeDocumentMaintenanceDocument-EditCustomAttributeDocument"/>
       </list>
     </property>
+    <property name="documentTypeName" value="CustomAttributeDocumentMaintenanceDocument"/>
     <property name="lockingKeys">
       <list>
         <value>customAttributeId</value>
-        <value>documentTypeName</value>
+        <value>documentTypeName</value> 
       </list>
     </property>
     
@@ -21,8 +22,7 @@
     
     
     
-    <property name="documentTypeName" value="CustomAttributeDocumentMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
     
     
   </bean>
