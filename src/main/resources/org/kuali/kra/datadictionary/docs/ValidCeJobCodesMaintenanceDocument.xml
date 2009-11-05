@@ -21,7 +21,7 @@
     
     
     <property name="documentTypeName" value="ValidCeJobCodesMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
     
     
   </bean>
