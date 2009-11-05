@@ -87,7 +87,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
         for(String userId: users) {
             KimPrincipal principal = identityManagementService.getPrincipal(userId);
-            userNames.add(principal.getPrincipalName());
+            if(principal != null) {
+                userNames.add(principal.getPrincipalName());
+            }
         }
         return userNames;
     }

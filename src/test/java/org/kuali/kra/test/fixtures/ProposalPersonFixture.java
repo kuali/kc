@@ -34,12 +34,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * test fixtures.
  */
 public enum ProposalPersonFixture {
-    PRINCIPAL_INVESTIGATOR("000000003", PRINCIPAL_INVESTIGATOR_ROLE),
+    PRINCIPAL_INVESTIGATOR("10000000003", PRINCIPAL_INVESTIGATOR_ROLE),
     
     /**
      * Fully valid Principal Investigator with all the right valid stuff except no certifications.
      */
-    INCOMPLETE_CERTIFICATIONS("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INCOMPLETE_CERTIFICATIONS("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         /**
          * Clear out the Yes/No Questions
          * 
@@ -55,7 +55,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and valid lead unit with valid credit splits
      */
-    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid. 
@@ -69,7 +69,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -89,7 +89,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_OVER_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_OVER_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -107,7 +107,7 @@ public enum ProposalPersonFixture {
      * Fully valid Principal Investigator with valid credit splits adding to a hundred except for one is negative. No 
      * <code>{@link ProposalUnitCreditSplit}</code> instances.
      */
-    INVESTIGATOR_UNDER_ZERO("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNDER_ZERO("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -123,7 +123,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit that goes over 100%
      */
-    INVESTIGATOR_UNIT_OVER_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_OVER_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except unit is over 100% 
@@ -139,7 +139,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_UNDER_ZERO("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_UNDER_ZERO("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. Units are under 0%
@@ -152,9 +152,9 @@ public enum ProposalPersonFixture {
             person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
         }        
     },
-    PHILIP_CO_INVESTIGATOR("000000002", CO_INVESTIGATOR_ROLE),
-    BRYAN_CO_INVESTIGATOR("000000005", CO_INVESTIGATOR_ROLE),
-    ANDY_KEY_PERSON("000000006", KEY_PERSON_ROLE);
+    PHILIP_CO_INVESTIGATOR("10000000002", CO_INVESTIGATOR_ROLE),
+    BRYAN_CO_INVESTIGATOR("10000000005", CO_INVESTIGATOR_ROLE),
+    ANDY_KEY_PERSON("10000000006", KEY_PERSON_ROLE);
     
     private String personId;
     private String roleId;

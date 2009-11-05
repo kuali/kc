@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -52,6 +53,8 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
     private DocumentService documentService = null;
     private CustomAttributeService customAttributeService = null;
     private BusinessObjectService businessObjectService = null;
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
     private static final String TEST_DOCUMENT_TYPE_CODE = "PRDV";
     private static final String TEST_DOCUMENT_NUMBER = "2000";
 
@@ -63,6 +66,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
         documentService = KNSServiceLocator.getDocumentService();
         customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @After
@@ -260,6 +264,10 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
         document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
         document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
+
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
+
     }
 
 }

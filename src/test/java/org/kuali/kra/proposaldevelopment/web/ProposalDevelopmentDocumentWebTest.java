@@ -136,20 +136,20 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
         final HtmlPage page6 = clickButton(page5, form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        validateSpecialReviewLine(form3, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
+        validateSpecialReviewLine(form3, "document.developmentProposalList[0].propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
         // 2nd line
         final HtmlPage page7 = setSpecialReviewLine(page5, form3, "08/02/2007;;456;2;3;comment2");
         final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
         final HtmlPage page8 = clickButton(page7, form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        validateSpecialReviewLine(form5, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
-        validateSpecialReviewLine(form5, "document.propSpecialReview[1]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form5, "document.developmentProposalList[0].propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
+        validateSpecialReviewLine(form5, "document.developmentProposalList[0].propSpecialReview[1]", "08/02/2007;;456;2;3;comment2");
 
         // delete special review line 0
         final HtmlPage page9 = clickButton(page8, form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
         final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
-        validateSpecialReviewLine(form6, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form6, "document.developmentProposalList[0].propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
         // save
         final HtmlPage page10 = clickButton(page9, form6, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
@@ -157,7 +157,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         // one of the following to check save is OK
         assertFalse(page10.asText().contains(ERRORS_FOUND_ON_PAGE));
         assertTrue(page10.asText().contains("Document was successfully saved"));
-        validateSpecialReviewLine(form7, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form7, "document.developmentProposalList[0].propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
 
     }
 
@@ -239,9 +239,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         for (String proposalTypeCode : proposalTypeCodes) {
             kualiForm = (HtmlForm) page.getForms().get(0);
             HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
-            setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalTypeCode, -1);
+            setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].proposalTypeCode", proposalTypeCode, -1);
 
-            HtmlTextInput continuedFrom = (HtmlTextInput) kualiForm.getInputByName("document.sponsorProposalNumber");
+            HtmlTextInput continuedFrom = (HtmlTextInput) kualiForm.getInputByName("document.developmentProposalList[0].sponsorProposalNumber");
             continuedFrom.setValueAttribute("123456");
            
             page = (HtmlPage) saveButton.click();
@@ -257,9 +257,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
             kualiForm = (HtmlForm) page.getForms().get(0);
             HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
     
-            setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalTypeCode, -1);
+            setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].proposalTypeCode", proposalTypeCode, -1);
             
-            HtmlTextInput continuedFrom = (HtmlTextInput) kualiForm.getInputByName("document.sponsorProposalNumber");
+            HtmlTextInput continuedFrom = (HtmlTextInput) kualiForm.getInputByName("document.developmentProposalList[0].sponsorProposalNumber");
             continuedFrom.setValueAttribute("");
             
             page = (HtmlPage) saveButton.click();
@@ -291,7 +291,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertContains(savedProposalPage, "8 error(s) found on page.");
 
         final HtmlForm kualiForm = (HtmlForm) savedProposalPage.getForms().get(0);
-        final HtmlSelect proposalTypeCode = kualiForm.getSelectByName("document.proposalTypeCode");
+        final HtmlSelect proposalTypeCode = kualiForm.getSelectByName("document.developmentProposalList[0].proposalTypeCode");
         assertEquals("background-color:#FFD5D5", proposalTypeCode.getStyleAttribute());
     }
 
@@ -336,35 +336,35 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
 
         // dropdowns
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.mailBy", "1", 3);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.mailType", "2", 4);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].mailBy", "1", 3);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].mailType", "2", 4);
 
 
         // input fields
-        setFieldValue(kualiForm, TEXT_INPUT, "document.mailAccountNumber", "10-0001");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.numberOfCopies", "2");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.developmentProposalList[0].mailAccountNumber", "10-0001");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.developmentProposalList[0].numberOfCopies", "2");
 
         // test mailing address lookup
-        final HtmlPage page4 = lookup(webClient, page3, kualiForm, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:document.mailingAddressId,",
-                "1728", "proposalDevelopmentProposal.do?document.rolodex.", "rolodexId");
+        final HtmlPage page4 = lookup(webClient, page3, kualiForm, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:document.developmentProposalList[0].mailingAddressId,",
+                "1728", "proposalDevelopmentProposal.do?document.developmentProposalList[0].rolodex.", "rolodexId");
         final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-        assertEquals("1728", getFieldValue(form1, HIDDEN_INPUT, "document.mailingAddressId"));
+        assertEquals("1728", getFieldValue(form1, HIDDEN_INPUT, "document.developmentProposalList[0].mailingAddressId"));
         assertTrue(page4.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
         // mail description textarea
-        setFieldValue(form1, TEXT_AREA, "document.mailDescription", "mail description");
+        setFieldValue(form1, TEXT_AREA, "document.developmentProposalList[0].mailDescription", "mail description");
 
         webClient.setJavaScriptEnabled(false);
         final HtmlPage page5 = clickButton(page4, form1,
-                "methodToCall.updateTextArea.((#document.mailDescription:proposalDevelopmentProposal:Mail Description#))",
+                "methodToCall.updateTextArea.((#document.developmentProposalList[0].mailDescription:proposalDevelopmentProposal:Mail Description#))",
                 IMAGE_INPUT);
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertEquals("mail description", getFieldValue(form2, TEXT_AREA, "document.mailDescription"));
-        setFieldValue(form2, TEXT_AREA, "document.mailDescription", "mail description \n line2");
+        assertEquals("mail description", getFieldValue(form2, TEXT_AREA, "document.developmentProposalList[0].mailDescription"));
+        setFieldValue(form2, TEXT_AREA, "document.developmentProposalList[0].mailDescription", "mail description \n line2");
 
         final HtmlPage page6 = clickButton(page5, form2, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        assertEquals("mail description \n line2", getFieldValue(form3, TEXT_AREA, "document.mailDescription"));
+        assertEquals("mail description \n line2", getFieldValue(form3, TEXT_AREA, "document.developmentProposalList[0].mailDescription"));
 
 
         // save and check
@@ -375,17 +375,17 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertFalse(page7.asText().contains(ERRORS_FOUND_ON_PAGE));
         assertTrue(page7.asText().contains("Document was successfully saved"));
 
-        assertEquals("2", getFieldValue(form4, SELECTED_INPUT, "document.mailType"));
-        assertEquals("1", getFieldValue(form4, SELECTED_INPUT, "document.mailBy"));
+        assertEquals("2", getFieldValue(form4, SELECTED_INPUT, "document.developmentProposalList[0].mailType"));
+        assertEquals("1", getFieldValue(form4, SELECTED_INPUT, "document.developmentProposalList[0].mailBy"));
 
-        assertEquals("10-0001", getFieldValue(form4, TEXT_INPUT, "document.mailAccountNumber"));
-        assertEquals("2", getFieldValue(form4, TEXT_INPUT, "document.numberOfCopies"));
+        assertEquals("10-0001", getFieldValue(form4, TEXT_INPUT, "document.developmentProposalList[0].mailAccountNumber"));
+        assertEquals("2", getFieldValue(form4, TEXT_INPUT, "document.developmentProposalList[0].numberOfCopies"));
 
 
-        assertEquals("1728", getFieldValue(form4, HIDDEN_INPUT, "document.mailingAddressId"));
+        assertEquals("1728", getFieldValue(form4, HIDDEN_INPUT, "document.developmentProposalList[0].mailingAddressId"));
         assertTrue(page7.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
-        assertEquals("mail description \n line2", getFieldValue(form4, TEXT_AREA, "document.mailDescription"));
+        assertEquals("mail description \n line2", getFieldValue(form4, TEXT_AREA, "document.developmentProposalList[0].mailDescription"));
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form4.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
@@ -655,7 +655,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testExpandedTextArea() throws Exception {
         // remove it later
-        String fieldName = "document.title";
+        String fieldName = "document.developmentProposalList[0].title";
         String fieldText = "project title";
         String methodToCall = "methodToCall.updateTextArea.((#" + fieldName + ":proposalDevelopmentProposal:Project Title#))";
         //final HtmlPage page5 = textAreaPop(fieldName, fieldText, methodToCall, true);
@@ -673,7 +673,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlPage page2 = (HtmlPage) webClient.getPage(url + loginLocation);
 
         // set username field for authentication
-        setFieldValue(page2, "username", "quickstart");
+        //setFieldValue(page2, "username", "quickstart");
+        setFieldValue(page2, "__login_user", "quickstart");
 
         // Get the form that we are dealing with and within that form,
         // find the submit button and the field that we want to change.
@@ -808,13 +809,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     private void setupProposalDevelopmentDocumentRequiredFields(HtmlForm kualiForm, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) throws Exception {
         setFieldValue(kualiForm, TEXT_INPUT, "document.documentHeader.documentDescription", description);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorCode", sponsorCode);
-        setFieldValue(kualiForm, TEXT_AREA, "document.title", title);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", endDate);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 6);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 7);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnitNumber", ownedByUnit, -1);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.developmentProposalList[0].sponsorCode", sponsorCode);
+        setFieldValue(kualiForm, TEXT_AREA, "document.developmentProposalList[0].title", title);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.developmentProposalList[0].requestedStartDateInitial", startDate);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.developmentProposalList[0].requestedEndDateInitial", endDate);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].activityTypeCode", activityType, 6);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].proposalTypeCode", proposalType, 7);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.developmentProposalList[0].ownedByUnitNumber", ownedByUnit, -1);
     }
 
     private void validateSpecialReviewLine(HtmlForm kualiForm, String prefix, String paramList) throws Exception {
