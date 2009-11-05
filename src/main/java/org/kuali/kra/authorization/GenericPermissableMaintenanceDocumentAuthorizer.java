@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.proposallog;
+package org.kuali.kra.authorization;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +25,12 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 
-/* Use this until proper KIM perms are set up */
-
-public class ProposalLogDocumentAuthorizer extends BusinessObjectAuthorizerBase implements MaintenanceDocumentAuthorizer {
+/** 
+ *  Use this authorizer class when you want to bypass KIM auth checks.
+ *  This should be used for development only and should be replaced with
+ *  a KIM-enable authorizer.
+ */
+public class GenericPermissableMaintenanceDocumentAuthorizer extends BusinessObjectAuthorizerBase implements MaintenanceDocumentAuthorizer {
     
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)

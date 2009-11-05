@@ -30,7 +30,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="Award Templ Rep Terms Recnt Maintenance Document"/>
-		<property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
+		<property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

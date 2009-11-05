@@ -21,7 +21,7 @@
     
     <property name="documentTypeName" value="UnitMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.UnitMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.KcMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
     
     
   </bean>
