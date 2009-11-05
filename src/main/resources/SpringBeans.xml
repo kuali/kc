@@ -746,7 +746,7 @@
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="maintainProposalHierarchy" />
-                    <property name="permission" value="MAINTAIN_PROPOSAL_HIERARCHY" />
+                    <property name="permission" value="Maintain ProposalHierarchy" />
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="printProposal" />
