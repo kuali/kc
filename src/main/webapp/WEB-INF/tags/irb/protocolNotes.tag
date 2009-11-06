@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolNotesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
+<c:set var="modify" value="${KualiForm.notepadHelper.modifyNotepads}" />
 
 <c:set var="tabItemCount" value="0" />
 <c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">               
@@ -38,72 +39,77 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
-			
-			<tr>
-            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
-            	<td width="80" class="infoline">
-            		&nbsp;           	
-            	</td>
-	            <td width="50" class="infoline">
-	              	&nbsp;
-	            </td>
-	            <td width="150" class="infoline">
-	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}"/>
-            	  	</div>
-	            </td>
-	            <td width="1000" class="infoline">
-	            	<div align="left">
-            	    	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"/>
-            	    	<kra:expandedTextArea textAreaFieldName="notepadHelper.newProtocolNotepad.comments" action="protocolHome" textAreaLabel="${protocolNotesAttributes.comments.label}" />
-            	    	
-            	  	</div>
-	            </td>
-	            <td class="infoline">
-	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}"/>
-            	  	</div>
-	            </td>
-	            <td class="infoline">
-	            	<div align=center>
-						<html:image property="methodToCall.addNote.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-	            </td>
-          	</tr>
-         <c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
-	             <tr>
-					<th class="infoline">
-						<c:out value="${status.index+1}" />
-					</th>
-	                <td valign="middle">
-						${KualiForm.document.protocol.notepads[status.index].updateTimestamp}
-					</td>
-	                <td valign="middle">
-						${KualiForm.document.protocol.notepads[status.index].updateUser}
-	                </td>
-	                <td valign="middle">                	
-					<div align="center">
-					<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}"/>
-					</div>
-					</td>
-	                <td valign="middle">                	
-					<div align="left">
-					<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}"/>
-					</div>
-					</td>
-	                <td valign="middle">
-					<div align="center">
-	                	<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}"/>
-					</div>
-	                </td>
-					<td>
-					<div align="center">&nbsp;
-						<html:image property="methodToCall.updateNote.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
-					</div>
-	                </td>
-	            </tr>
+			<kra:permission value="${modify}">
+				<tr>
+	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
+	            	<td width="80" class="infoline">
+	            		&nbsp;           	
+	            	</td>
+		            <td width="50" class="infoline">
+		              	&nbsp;
+		            </td>
+		            <td width="150" class="infoline">
+		            	<div align="center">
+	            	    	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}"/>
+	            	  	</div>
+		            </td>
+		            <td width="1000" class="infoline">
+		            	<div align="left">
+	            	    	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"/>
+	            	    	<kra:expandedTextArea textAreaFieldName="notepadHelper.newProtocolNotepad.comments" action="protocolHome" textAreaLabel="${protocolNotesAttributes.comments.label}" />
+	            	    	
+	            	  	</div>
+		            </td>
+		            <td class="infoline">
+		            	<div align="center">
+	            	   	 	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}"/>
+	            	  	</div>
+		            </td>
+		            <td class="infoline">
+		            	<div align=center>
+							<html:image property="methodToCall.addNote.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+		            </td>
+	          	</tr>
+          	</kra:permission>
+         	<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
+	             <c:if test="${(KualiForm.notepadHelper.viewRestricted && protocolNotepad.restrictedView) || !protocolNotepad.restrictedView}">
+		             <tr>
+						<th class="infoline">
+							<c:out value="${status.index+1}" />
+						</th>
+		                <td valign="middle">
+							${KualiForm.document.protocol.notepads[status.index].updateTimestamp}
+						</td>
+		                <td valign="middle">
+							${KualiForm.document.protocol.notepads[status.index].updateUser}
+		                </td>
+		                <td valign="middle">                	
+						<div align="center">
+						<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify}"/>
+						</div>
+						</td>
+		                <td valign="middle">                	
+						<div align="left">
+						<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" readOnly="${!modify}"/>
+						</div>
+						</td>
+		                <td valign="middle">
+						<div align="center">
+		                	<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify}"/>
+						</div>
+		                </td>
+						<td>
+						<kra:permission value="${modify}">
+							<div align="center">&nbsp;
+								<html:image property="methodToCall.updateNote.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
+							</div>
+						</kra:permission>
+		                </td>
+		            </tr>
+	            </c:if>
         	</c:forEach> 
         </table>
    </div>
