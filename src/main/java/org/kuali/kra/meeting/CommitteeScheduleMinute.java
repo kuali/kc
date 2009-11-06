@@ -30,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -159,6 +160,9 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setProtocolContingencyCode(String protocolContingencyCode) {
         this.protocolContingencyCode = protocolContingencyCode;
+        if (!StringUtils.isBlank(protocolContingencyCode)) {
+            setMinuteEntry(getProtocolContingency().getDescription());
+        }
     }
 
     public String getMinuteEntry() {
@@ -195,6 +199,13 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     }
 
     public ProtocolContingency getProtocolContingency() {
+        if (StringUtils.isBlank(protocolContingencyCode)) {
+            protocolContingency = null;
+        }
+        else if (protocolContingency == null || 
+                 !StringUtils.equals(protocolContingencyCode, protocolContingency.getProtocolContingencyCode())) {
+            refreshReferenceObject("protocolContingency");
+        }
         return protocolContingency;
     }
 
