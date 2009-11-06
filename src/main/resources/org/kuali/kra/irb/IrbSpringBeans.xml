@@ -205,6 +205,10 @@
                     <property name="taskName" value="protocolAssignReviewers" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolGrantExemptionAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolGrantExemption" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ViewRestrictedNotesProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewRestrictedNotes" />
                 </bean>
@@ -317,6 +321,10 @@
     </bean>
     
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="protocolGrantExemptionService" class="org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 </beans>

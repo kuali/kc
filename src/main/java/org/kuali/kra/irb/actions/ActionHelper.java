@@ -37,6 +37,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
@@ -78,6 +79,7 @@ public class ActionHelper implements Serializable {
     private boolean canDeleteProtocolAmendRenew = false;
     private boolean canAssignCmtSched = false;
     private boolean canAssignReviewers = false;
+    private boolean canGrantExemption = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -92,6 +94,7 @@ public class ActionHelper implements Serializable {
     private ProtocolDeleteBean protocolDeleteBean;
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
+    private ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private transient ParameterService parameterService;
     
     /*
@@ -133,6 +136,7 @@ public class ActionHelper implements Serializable {
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
+        protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
     }
     
     /**
@@ -219,6 +223,7 @@ public class ActionHelper implements Serializable {
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignReviewers = hasAssignReviewersPermission();
+        canGrantExemption = hasGrantExemptionPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -332,6 +337,11 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasGrantExemptionPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.GRANT_EXEMPTION, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -407,6 +417,10 @@ public class ActionHelper implements Serializable {
     public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
         return protocolAssignReviewersBean;
     }
+                           
+    public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
+        return protocolGrantExemptionBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -454,6 +468,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanAssignReviewers() {
         return canAssignReviewers;
+    }
+    
+    public boolean getCanGrantExemption() {
+        return canGrantExemption;
     }
     
     public void setPrintTag(String printTag) {
