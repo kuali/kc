@@ -204,6 +204,10 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewers" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ViewRestrictedNotesProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="viewRestrictedNotes" />
+                </bean>
             </list>
         </property>
     </bean>
