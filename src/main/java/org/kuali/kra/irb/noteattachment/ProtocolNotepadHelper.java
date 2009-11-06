@@ -16,10 +16,9 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import org.apache.commons.collections.ListUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -30,8 +29,6 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.util.Collections;
 
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.
@@ -46,6 +43,7 @@ public class ProtocolNotepadHelper {
     private ProtocolNotepad newProtocolNotepad;
     
     private boolean modifyNotepads;
+    private boolean viewRestricted;
     
     /**
      * Constructs a helper setting the dependencies to default values.
@@ -61,6 +59,7 @@ public class ProtocolNotepadHelper {
      * Constructs a helper.
      * @param form the form
      * @param authService the authService
+     * @param boService the boService
      * @throws IllegalArgumentException if the form or authService or boService is null
      */
     ProtocolNotepadHelper(final ProtocolForm form,
@@ -75,7 +74,7 @@ public class ProtocolNotepadHelper {
         }
         
         if (boService == null) {
-            throw new IllegalArgumentException("the authService was null");
+            throw new IllegalArgumentException("the boService was null");
         }
         
         this.form = form;
@@ -95,6 +94,7 @@ public class ProtocolNotepadHelper {
      */
     private void initializePermissions() {
         this.modifyNotepads = this.canModifyProtocolNotepads();
+        this.viewRestricted = this.canViewRestrictedProtocolNotepads();
     }
     
     /**
@@ -103,6 +103,15 @@ public class ProtocolNotepadHelper {
      */
     private boolean canModifyProtocolNotepads() {
         final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_NOTEPADS, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+    }
+    
+    /**
+     * Checks if restricted Protocol Notepads can be viewed.
+     * @return true if can be modified false if cannot
+     */
+    private boolean canViewRestrictedProtocolNotepads() {
+        final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
     
@@ -169,6 +178,22 @@ public class ProtocolNotepadHelper {
      */
     public void setModifyNotepads(final boolean modifyNotepads) {
         this.modifyNotepads = modifyNotepads;
+    }
+    
+    /**
+     * returns whether a restricted note can be viewed.
+     * @return true if viewing is allowed false if not.
+     */
+    public boolean isViewRestricted() {
+        return this.viewRestricted;
+    }
+
+    /**
+     * sets whether a restricted note can be viewed.
+     * @param viewRestricted true if viewing is allowed false if not.
+     */
+    public void setViewRestricted(final boolean viewRestricted) {
+        this.viewRestricted = viewRestricted;
     }
     
     /**
