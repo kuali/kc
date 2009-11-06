@@ -992,4 +992,12 @@ public class KcPerson implements Contactable, BusinessObject {
         retVal.append("entity type:'").append(this.getEntityType()).append("'\n");
         return retVal.toString();
     }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.boService = boService;
+    }
 }
