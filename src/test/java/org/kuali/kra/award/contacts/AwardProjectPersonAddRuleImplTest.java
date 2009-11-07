@@ -20,10 +20,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.kra.bo.KcPersonFixtureFactory;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
+import org.kuali.kra.service.impl.adapters.IdentityServiceAdapter;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
+
+import javax.jws.WebParam;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl
@@ -34,53 +41,52 @@ public class AwardProjectPersonAddRuleImplTest {
     private Award award;
     private AwardProjectPersonAddRuleImpl rule;
     private KcPerson person1;
-    private NonOrganizationalRolodex person2;    
-    
+    private static final String PERSON_ID = "1001";
+
     @Before
     public void setUp() {
         rule = new AwardProjectPersonAddRuleImpl();
         award = new Award();
-        
-        person1 = new KcPerson();
-        person1.setPersonId("1001");
-        
-        person2 = new NonOrganizationalRolodex();
+
+        person1 = KcPersonFixtureFactory.createKcPerson(PERSON_ID);
+
+        NonOrganizationalRolodex person2 = new NonOrganizationalRolodex();
         person2.setRolodexId(ROLODEX_ID);
         
         award.add(new AwardPerson(person1, ContactRoleFixtureFactory.MOCK_PI));
         award.add(new AwardPerson(person2, ContactRoleFixtureFactory.MOCK_COI));
         
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
-    
+
     @After
     public void tearDown() {
         rule = null;
         award = null;
     }
-    
+
     @Test
     public void testCheckForExistingPI_DuplicateFound() {
         AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_PI);
         Assert.assertFalse("Duplicate PI not identified", rule.checkForExistingPrincipalInvestigators(award, newPerson));
     }
-    
+
     @Test
     public void testCheckForExistingPI_NoDuplicateFound() {
         AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         Assert.assertTrue("Duplicate PI misidentified", rule.checkForExistingPrincipalInvestigators(award, newPerson));
     }
-    
 
     @Test
     public void testCheckForDuplicateContact_DuplicatePersonFound() {
-        KcPerson duplicatePerson = new KcPerson();
+        KcPerson duplicatePerson = KcPersonFixtureFactory.createKcPerson(PERSON_ID);
         duplicatePerson.setPersonId(person1.getPersonId());
         AwardPerson newPerson = new AwardPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         Assert.assertFalse("Duplicate Person not identified", rule.checkForDuplicatePerson(award, newPerson));
     }
-    
+
+
     @Test
     public void testCheckForDuplicateContact_DuplicateRolodexFound() {
         NonOrganizationalRolodex duplicatePerson = new NonOrganizationalRolodex ();

@@ -30,7 +30,8 @@ public class AwardPersonUnitCreditSplitRuleImpl extends ResearchDocumentRuleBase
     private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
     
     public boolean checkAwardPersonUnitCreditSplitTotals(AwardPersonUnitCreditSplitRuleEvent event) {
-        int errorCount = 0; 
+        int errorCount = 0;
+        AwardPerson person = event.getProjectPerson();
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
                 KualiDecimal value = event.getTotalsByCreditSplitType().get(creditType.getInvCreditTypeCode());
@@ -38,8 +39,8 @@ public class AwardPersonUnitCreditSplitRuleImpl extends ResearchDocumentRuleBase
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }
                 if(!MAX_TOTAL_VALUE.subtract(value).isZero()) {
-                    reportError(AWARD_CREDIT_SPLIT_LIST_ERROR_KEY, AWARD_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY, 
-                                creditType.getDescription(), event.getProjectPerson().getFullName());
+                    reportError(AWARD_CREDIT_SPLIT_LIST_ERROR_KEY, AWARD_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY,
+                                creditType.getDescription(), person.getFullName());
                     errorCount++;
                 }
             }

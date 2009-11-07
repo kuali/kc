@@ -20,11 +20,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KcPersonFixtureFactory;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
+
+import java.util.List;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl
@@ -35,34 +39,48 @@ public class AwardProjectPersonsSaveRuleImplTest {
     private static final int ROLODEX_ID = 1002;
     private Award award;
     private AwardProjectPersonsSaveRuleImpl rule;
-    private KcPerson person1;
-    private NonOrganizationalRolodex person2;
     private Unit unitA;
     private Unit unitB;
-    
+    private static final String PERSON_ID = "1001";
+    private static final String KP_PERSON_ID = "1002";
+
+    private AwardPerson piPerson;
+    private AwardPerson coiPerson;
+    private AwardPerson kpPerson;
+
     @Before
     public void setUp() {
         rule = new AwardProjectPersonsSaveRuleImpl();
         award = new Award();
-        
-        person1 = new KcPerson();
-        person1.setPersonId("1001");
-        
-        person2 = new NonOrganizationalRolodex();
-        person2.setRolodexId(ROLODEX_ID);
-        
-        award.add(new AwardPerson(person1, ContactRoleFixtureFactory.MOCK_PI));
-        award.add(new AwardPerson(person2, ContactRoleFixtureFactory.MOCK_COI));
-        
+
         unitA = new Unit();
         unitA.setUnitName("a");
         unitA.setUnitNumber("1");
-        
+
         unitB = new Unit();
         unitB.setUnitName("b");
         unitB.setUnitNumber("2");
+
+        KcPerson employee = KcPersonFixtureFactory.createKcPerson(PERSON_ID);
+        piPerson = new AwardPerson(employee, ContactRoleFixtureFactory.MOCK_PI);
+        piPerson.add(new AwardPersonUnit(piPerson, unitA, true));
+
+        NonOrganizationalRolodex nonEmployee;
+        nonEmployee = new NonOrganizationalRolodex();
+        nonEmployee.setRolodexId(ROLODEX_ID);
+        coiPerson = new AwardPerson(nonEmployee, ContactRoleFixtureFactory.MOCK_COI);
+        coiPerson.add(new AwardPersonUnit(coiPerson, unitA, false));
+
+        KcPerson employee2 = KcPersonFixtureFactory.createKcPerson(KP_PERSON_ID);
+        kpPerson = new AwardPerson(employee2, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        kpPerson.setKeyPersonRole("Tester");                
+        kpPerson.add(new AwardPersonUnit(kpPerson, unitA, false));
+
+        award.add(piPerson);
+        award.add(coiPerson);
+        award.add(kpPerson);
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @After
@@ -71,90 +89,107 @@ public class AwardProjectPersonsSaveRuleImplTest {
         award = null;
     }
     
-    /*@Test
-    public void testCheckForExistingPI_DuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_PI);
-        award.add(newPerson);
-        Assert.assertFalse("Duplicate PI not identified", rule.checkForAPrincipalInvestigator(award.getProjectPersons()));
-    }
-    
     @Test
-    public void testCheckForExistingPI_NoDuplicateFound() {
-        AwardPerson newPerson = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        award.add(newPerson);
-        Assert.assertTrue("Duplicate PI misidentified", rule.checkForAPrincipalInvestigator(award.getProjectPersons()));
+    public void testCheckForExistingPI() {
+        Assert.assertTrue("PI not found or more than one found", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
+        award.getProjectPersons().remove(0);
+        Assert.assertFalse("PI existence check failed", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_NO_PI);
     }
 
     @Test
-    public void testCheckForUnitDetails_RequiredForPI() {
-        award.getProjectPersons().get(1).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        Assert.assertFalse(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForUnitDetails(award.getProjectPersons()));
+    public void testCheckForMultiplePIs() {
+        AwardPerson newPerson = new AwardPerson(KcPersonFixtureFactory.createKcPerson(KP_PERSON_ID), ContactRoleFixtureFactory.MOCK_PI);
+        award.add(newPerson);
+        Assert.assertFalse("Multiple PIs not detected", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
     }
-    
+
     @Test
-    public void testCheckForUnitDetails_RequiredForCoI() {
-        award.getProjectPersons().get(0).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        Assert.assertFalse(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForUnitDetails(award.getProjectPersons()));
+    public void testCheckForRequiredUnitDetails_PI() {
+        Assert.assertTrue(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+
+        piPerson.getUnits().clear();
+        Assert.assertFalse(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED);
     }
-    
+
     @Test
-    public void testCheckForUnitDetails_NotRequiredForKeyPerson() {
-        award.getProjectPersons().get(0).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        award.getProjectPersons().get(1).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        Assert.assertTrue("Unit details are not required for key person", rule.checkForUnitDetails(award.getProjectPersons()));
-    }*/
+    public void testCheckForRequiredUnitDetails_COI() {
+        Assert.assertTrue(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+
+        coiPerson.getUnits().clear();
+        Assert.assertFalse(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED);
+    }
+
+    @Test
+    public void testCheckForUnitDetailsNotRequired_KP() {
+        Assert.assertTrue(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+
+        kpPerson.getUnits().clear();
+        Assert.assertTrue(MISSING_UNIT_DETAILS_NOT_IDENTIFIED, rule.checkForRequiredUnitDetails(award.getProjectPersons()));
+        Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorCount());
+    }
     
     @Test
     public void testCheckForDuplicateUnits_NoneFound() {
-        AwardPerson p = award.getProjectPersons().get(0);
-        p.add(new AwardPersonUnit(p, unitA, true));
-        p.add(new AwardPersonUnit(p, unitB, false));
-        
+        piPerson.add(new AwardPersonUnit(piPerson, unitB, false));
         Assert.assertTrue(rule.checkForDuplicateUnits(award.getProjectPersons()));
     }
-    
+
     @Test
     public void testCheckForDuplicateUnits_DupeFound() {
-        AwardPerson p = award.getProjectPersons().get(0);
-        p.add(new AwardPersonUnit(p, unitA, true));
-        p.add(new AwardPersonUnit(p, unitA, false));
-        p.add(new AwardPersonUnit(p, unitB, false));
-        
+        piPerson.add(new AwardPersonUnit(piPerson, unitA, false));
         Assert.assertFalse("Duplicate should have been found", rule.checkForDuplicateUnits(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS);
     }
-    
-    /*@Test
-    public void testCheckForLeadUnit_NoneFound() {
-        AwardPerson p = award.getProjectPersons().get(0);
-        p.add(new AwardPersonUnit(p, unitA, false));
-        p.add(new AwardPersonUnit(p, unitB, false));
-        
-        Assert.assertFalse("No lead unit should have been identifed", rule.checkForLeadUnit(award.getProjectPersons()));
-    }*/
-    
+
     @Test
-    public void testCheckForLeadUnit_OneFound() {
-        AwardPerson p = award.getProjectPersons().get(0);
-        p.add(new AwardPersonUnit(p, unitA, true));
-        p.add(new AwardPersonUnit(p, unitB, false));
-        
-        Assert.assertTrue("Lead unit should have been found", rule.checkForDuplicateUnits(award.getProjectPersons()));
+    public void testCheckForLeadUnit_NoneFound() {
+        Assert.assertTrue("No lead unit was found", rule.checkForLeadUnitForPI(award.getProjectPersons()));
+
+        piPerson.getUnit(0).setLeadUnit(false);
+        Assert.assertFalse("No lead unit should have been found", rule.checkForLeadUnitForPI(award.getProjectPersons()));
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_LEAD_UNIT_REQUIRED);
     }
-    
+
     @Test
     public void testCheckForKeyPersonRole_NotFound() {
-        AwardPerson p = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        award.getProjectPersons().add(p);
+        kpPerson.setKeyPersonRole(null);
         Assert.assertFalse("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
-        award.getProjectPersons().remove(p);
+
+        checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + award.getProjectPersons().indexOf(kpPerson) + "].keyPersonRole",
+                                AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED);
     }
-    
+
     @Test
     public void testCheckForKeyPersonRole_Found() {
-        AwardPerson p = new AwardPerson(new KcPerson(), ContactRoleFixtureFactory.MOCK_KEY_PERSON);
-        p.setKeyPersonRole("Tester");
-        award.getProjectPersons().add(p);
         Assert.assertTrue("Key Person Role not checked for", rule.checkForKeyPersonProjectRoles(award.getProjectPersons()));
-        award.getProjectPersons().remove(p);
+    }
+
+    private void checkErrorState(String errorProperty, String errorMessageKey) {
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        Assert.assertEquals(1, messageMap.getErrorCount());
+        @SuppressWarnings("unchecked") List<ErrorMessage> errors = messageMap.getErrorMessagesForProperty(errorProperty);
+        if(errors != null) {
+            Assert.assertEquals(1, errors.size());
+            Assert.assertEquals(errorMessageKey, errors.get(0).getErrorKey());
+        } else {
+            Assert.fail("No errors posted");
+        }
+
+        Assert.assertFalse("rule should return false", rule.processSaveAwardProjectPersonsBusinessRules(award.getProjectPersons()));
     }
 }

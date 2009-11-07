@@ -44,6 +44,7 @@ public class AwardCreditSplitBean implements Serializable {
     private static final String YES = "Y";
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
     private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);
+    private static final KualiDecimal MAX_VALUE = new KualiDecimal(100.00);
     
     private AwardForm awardForm;
     private AwardDocument awardDocument;
@@ -76,7 +77,6 @@ public class AwardCreditSplitBean implements Serializable {
 
     /**
      * This method returns the map of credit types to award personnel totals
-     * @param personKey
      * @return
      */
     public Map<String, KualiDecimal> getPersonsTotalsMap() {
@@ -273,18 +273,33 @@ public class AwardCreditSplitBean implements Serializable {
      * @param personUnitCreditTotals
      */
     private void calculateUnitCreditSplitTotals(AwardPerson projectPerson, Map<String, KualiDecimal> personUnitCreditTotals) {
-        for (AwardPersonUnit unit : projectPerson.getUnits()) {
-            for (CreditSplit creditSplit : unit.getCreditSplits()) {
-                KualiDecimal totalCredit = personUnitCreditTotals.get(creditSplit.getInvCreditTypeCode());
+        if(projectPerson.isKeyPerson() && projectPerson.getUnits().size() == 0) {
+            handleKeyPersonWithNoUnits(personUnitCreditTotals);
+        } else {
+            for (AwardPersonUnit unit : projectPerson.getUnits()) {
+                for (CreditSplit creditSplit : unit.getCreditSplits()) {
+                    KualiDecimal totalCredit = personUnitCreditTotals.get(creditSplit.getInvCreditTypeCode());
 
-                if (totalCredit == null) {
-                    totalCredit = ZERO_VALUE;
+                    if (totalCredit == null) {
+                        totalCredit = ZERO_VALUE;
+                    }
+                    personUnitCreditTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit.add(creditSplit.getCredit()));
                 }
-                personUnitCreditTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit.add(creditSplit.getCredit()));
             }
         }
     }
-    
+
+    /**
+     * A keyPerson may have no associated unit. To satisfy the validation checks, we apply this workaround to set the unit credit split type totals to 100.00 
+     * @param personUnitCreditTotals
+     */
+    private void handleKeyPersonWithNoUnits(Map<String, KualiDecimal> personUnitCreditTotals) {
+        Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
+        for(InvestigatorCreditType creditType: creditTypes) {
+            personUnitCreditTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
+        }
+    }
+
     private boolean  checkIfPersonTotalsAreValid(Map<String, Map<String, KualiDecimal>> totalsMap) {
         AwardPersonCreditSplitRule rule = new AwardPersonCreditSplitRuleImpl();
         AwardPersonCreditSplitRuleEvent event = new AwardPersonCreditSplitRuleEvent(awardDocument, totalsMap.get(PERSON_TOTALS_KEY));
