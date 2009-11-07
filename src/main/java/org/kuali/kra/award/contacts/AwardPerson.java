@@ -245,6 +245,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
         this.units = units;
     }
 
+    public String toString() {
+        return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
+    }
+
     /**
      * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleType()
      */
@@ -281,6 +285,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
         
         return map;
     }
+
     public String getProjectRole() {
         return getContactRole().getRoleDescription();
     }

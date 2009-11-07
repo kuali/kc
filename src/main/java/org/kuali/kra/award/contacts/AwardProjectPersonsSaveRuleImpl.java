@@ -37,30 +37,66 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
      * @return
      */
     public boolean processSaveAwardProjectPersonsBusinessRules(SaveAwardProjectPersonsRuleEvent event) {
-        List<AwardPerson> projectPersons = event.getProjectPersons();
+        return processSaveAwardProjectPersonsBusinessRules(event.getProjectPersons());
+    }
+
+    /**
+     * Default access to allow unit test access since SaveAwardProjectPersonsRuleEvent needs a Document to be constructed   
+     * @param projectPersons
+     * @return
+     */
+    boolean processSaveAwardProjectPersonsBusinessRules(List<AwardPerson> projectPersons) {
         if (projectPersons.size() == 0) {
             return true;
         }
-        
+
         boolean valid = checkForDuplicateUnits(projectPersons);
         valid &= checkForKeyPersonProjectRoles(projectPersons);
-        
-        return true;
+        valid &= checkForOnePrincipalInvestigator(projectPersons);
+        valid &= checkForRequiredUnitDetails(projectPersons);
+        valid &= checkForLeadUnitForPI(projectPersons);
+
+        return valid;
     }
-    
+
     boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
        boolean valid = true;
        for ( AwardPerson person : projectPersons ) {
            if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
-               GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
+               GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
                        ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, person.getFullName());
            }
        }
        return valid;
     }
-    
+
+    /**
+     * Unit details are required for PI and COI persons
+     * @param projectPersons
+     * @return
+     */
+    boolean checkForRequiredUnitDetails(List<AwardPerson> projectPersons) {
+        boolean valid = true;
+        for(AwardPerson p: projectPersons) {
+            if(p.isPrincipalInvestigator() || p.isCoInvestigator()) {
+                if(p.getUnits().size() == 0) {
+                    valid = false;
+                    GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY,
+                                                                ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED,
+                                                                p.getFullName());
+                }
+            }
+        }
+        return valid;
+    }
+
+    /**
+     * Duplicate units not allowed
+     * @param projectPersons
+     * @return
+     */
     boolean checkForDuplicateUnits(List<AwardPerson> projectPersons) {
         boolean valid = true;
         for(AwardPerson p: projectPersons) {
@@ -80,7 +116,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
                 // remove duplicates from remaining units
                 Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
                 for(Unit dupeUnit: duplicateUnits) {
-                    GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
+                    GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
                                                             ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                             dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                             p.getFullName());
@@ -90,5 +126,52 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
         
         return valid;
     }
-    
+
+    /**
+     * Only one PI allowed
+     * @param projectPersons
+     * @return
+     */
+    boolean checkForOnePrincipalInvestigator(List<AwardPerson> projectPersons) {
+        int count = 0;
+        for(AwardPerson p: projectPersons) {
+            if(p.isPrincipalInvestigator()) {
+                count++;
+            }
+        }
+        boolean result = count == 1;
+        if(!result) {
+            if(count == 0) {
+                GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_NO_PI);                
+            } else {
+                GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * PI must have lead unit
+     * @param projectPersons
+     * @return
+     */
+    boolean checkForLeadUnitForPI(List<AwardPerson> projectPersons) {
+        boolean valid = true;
+        for(AwardPerson p: projectPersons) {
+            if(p.isPrincipalInvestigator()) {
+                boolean found = false;
+                for(AwardPersonUnit apu: p.getUnits()) {
+                    found = apu.isLeadUnit();
+                    if(found) {
+                       break;
+                    }
+                }
+                valid = found;
+                if(!valid) {
+                    GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_LEAD_UNIT_REQUIRED);
+                }
+            }
+        }
+        return valid;
+    }
 }
