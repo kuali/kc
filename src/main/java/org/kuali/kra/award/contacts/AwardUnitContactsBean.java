@@ -32,6 +32,7 @@ import org.kuali.kra.bo.UnitContactType;
  */
 public class AwardUnitContactsBean extends AwardContactsBean {
     private static final long serialVersionUID = 1421235654899276682L;
+    private static final int OSP_ADMINISTRATOR_TYPE_CODE = 2;
 
     public AwardUnitContactsBean(AwardForm awardForm) {
         super(awardForm);
@@ -176,7 +177,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     private List<UnitAdministrator> findAllLeadUnitPersons(String unitNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("unitNumber", unitNumber);
-        fieldValues.put("unitAdministratorTypeCode", 2);
+        fieldValues.put("unitAdministratorTypeCode", OSP_ADMINISTRATOR_TYPE_CODE);
         @SuppressWarnings("unchecked") List<UnitAdministrator> unitPeople = (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, fieldValues);
         return unitPeople;
     }
