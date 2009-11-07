@@ -71,7 +71,7 @@ public class ProtocolAssignCmtSchedServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
         committeeDocument = createCommittee("666");
