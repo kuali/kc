@@ -1895,4 +1895,9 @@
 	<bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
         <property name="identityManagementService" ref="identityManagementService" />
     </bean>    
+    
+    <bean id="medusaService" class="org.kuali.kra.service.impl.MedusaServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardHierarchyUIService" ref="awardHierarchyUIService" />
+    </bean>    
 </beans>

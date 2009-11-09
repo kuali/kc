@@ -227,6 +227,10 @@
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
       </action>
       
+      <action path="/medusaViewAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardMedusaAction"  >
+          <forward name="basic" path="/WEB-INF/jsp/medusaViewAjax.jsp" />
+      </action>
+      
       <!-- Time And Money -->
       
        <!--  Institutional Proposal -->      

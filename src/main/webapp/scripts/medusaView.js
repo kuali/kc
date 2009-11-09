@@ -1,0 +1,813 @@
+    var node;
+    var i = 1;
+    var j = 1;
+    var removedNode=null;
+    var cutNode;
+    var sqlScripts = "";
+    var ulTagId;
+    var sqls = [];
+    var sqlidx = 0;
+    var deletedNodes="";
+    var newNodes=";";
+    var loadedidx=0;
+      
+    $(document).ready(function(){
+      $.ajaxSettings.cache = false; 
+      $("#medusaview").treeview({
+                 toggle: function() {
+                     var idstr=$(this).attr("id").substring(4);
+                     var tagId = "listcontrol"+idstr;
+                     var divId = "listcontent"+idstr;
+                 
+                     $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                     $("#"+divId).slideToggle(300);
+                     //alert(idstr +"-"+ loadedidx)
+                     //if (idstr <= loadedidx) {  // TODO : if this is not a new node
+                     loadChildrenRA($("#itemText"+idstr).text(), tagId);
+                     //}
+                    // var subul=this.getElementsByTagName("ul")[0]
+                    // if (subul.style.display=="block")
+                    // alert("You've opened this Folder!" + idstr)
+                    },
+                animated: "fast",
+                collapsed: true,
+                control: "#treecontrol"
+                    
+                 
+              });
+     // $("#browser").treeview();
+      // $("div#foo").append("Hello World!").css("color","red");
+  /*
+	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
+	 * $.ajaxComplete(function() { $("div#foo").text(""); });
+	 */    
+      
+      // $("body").append('<div id="loading"></div>');
+      // $("#loading").css("color","red");
+      $(document).ajaxStart(function(){
+      // this is weird, it will not show if the alert is not included??
+         // return false;
+         // var img = $('<a href="#"><img
+			// src="static/images/jquery/ajax-loader.gif" /></a>')
+         $("#loading").show();
+         // alert ("start Ajax");
+         // return false;
+       });
+
+      $(document).ajaxComplete(function(){
+         // alert ("complete Ajax");
+         $("#loading").hide();
+         // return false;
+       });
+    }); // $(document).ready
+     
+
+    /*
+	 * Load first level area of research when page is initially loaded
+	 */
+    function loadFirstLevel(){ 
+      
+      $.ajax({
+        url: 'medusaViewAjax.do',
+        type: 'GET',
+        dataType: 'html',
+        cache: false,
+        data:'awardNumber=&addRA=N&rootAwardNumber=000021-00001',
+        async:false,
+        timeout: 1000,
+        error: function(){
+           alert('Error loading XML document');
+        },
+        success: function(xml){
+           //alert("success"+xml);
+ //for (var k=0; k< 10; k++) {       	
+           $(xml).find('h3').each(function(){
+           var item_text = $(this).text();
+           i++;
+           var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+           
+           var childNodesText = item_text.substring(item_text.indexOf("%5A")+3, item_text.indexOf("%5B")).trim();
+           
+          // if (i < 4 ) {
+        	//   alert(item_text+"-"+racode);
+          // }	   
+           var id = "item"+i;
+           var tagId = "listcontrol"+i;
+           var divId = "listcontent"+i;
+           
+          // NOTES : if use 'div', then FF will display the '+' and idDiv in
+			// separate lines. IE7 is fine
+          // But 'IE7 has problem with 'span'
+          
+          var idDiv;
+          if ( jQuery.browser.msie ) { 
+               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																					// later
+																					// change
+																					// RA
+																					// description
+          } else {
+               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																			// later
+																			// change
+																			// RA
+																			// description
+          }
+               
+           var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+           var div = $('<div  class="hierarchydetail" style="margin-top:2px;" align="left"></div>').attr("id",divId);
+       	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+    			"racode" + i).attr("name", "racode" + i).attr("value",racode);
+       	   hidracode.appendTo(div);
+       	   
+           // $(document).ready(function () {
+           
+          // });
+       	
+           var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+           
+           // tag.appendTo(listitem);
+           // listitem.appendTo('ul#file31');
+           ulTagId = "browser";
+           // tableTag(item_text, id).appendTo(div)
+           div.appendTo(listitem);
+           // need this ultag to force to display folder.
+           var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+           childUlTag.appendTo(listitem);           
+           listitem.appendTo('ul#medusaview');
+                   // also need this to show 'folder' icon
+           
+           $('#medusaview').treeview({
+              add: listitem
+              
+           });
+           
+           loadChildrenNoAjax(item_text, tagId,childNodesText);           
+          // setupListItem(item_text).appendTo('ul#browser');
+           
+           
+       
+           });
+// } // end test loop 'for'          
+        }
+       });  
+      // return false;
+    }  // generate
+    
+    function revString(str) { 
+    	   var retStr = "";    	   
+    	   for (j=str.length - j ; j > - 1 ; j--){ 
+    	      retStr += str.substr(j,1); 
+    	   } 
+    	   return retStr; 
+    }
+    
+    function builduUi(item_text, racode) { 
+    	var original_item_text = item_text; 
+        var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+ 
+      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1 
+      				+"</td></tr></tbody></table>";
+        
+      	return abc; 
+    }
+  
+  function tbodyTag2(name, id) {
+	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      text1 = text1.substr(0,12);
+      
+      var text1reverse = revString(text1);
+      var index = text1reverse.indexOf("0");
+      var i2 = 12 - index;
+      var indexForHiddenField = text1.substring(i2,12);
+      
+      
+	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
+	    
+	  	var trTag0 = $('<tr></tr>');
+	    var thTag0 = $('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Award Copy");
+	    trTag0.html(thTag0);
+	    trTag0.appendTo(tblTag);
+	    // 1st tr
+	    var trTag = $('<tr></tr>');
+	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 130px; vertical-align: middle;">').html('<b>Copy Descendents: </b>');
+	    trTag.html(thTag1);
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")){
+	    	var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("value",$("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")).attr("checked",$("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value"));
+	    }else{
+	    	var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants");
+	    }
+	    
+	    //var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("value",false);
+	    var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","elementsToReset").attr("value","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants");
+	    
+	    var tdTag1=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; width: 30px;">');
+	    checkbox.appendTo(tdTag1);
+	    hiddenTagForCheckBox.appendTo(tdTag1);
+	    tdTag1.appendTo(trTag);	    
+	    var thTag2=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 60px; vertical-align: middle;">').html('<b>Copy as:</b>');
+	    thTag2.appendTo(trTag);
+	    
+	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 505px;"></table>')
+	    var subTrTag = $('<tr></tr>');
+	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;">');
+	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 100px;">');
+	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;">');
+	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;">');
+	    	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
+	    }else{
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","a");
+	    }
+	    
+	    subTdTag1.html('new');
+	    radio1.appendTo(subTdTag1);
+	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "b"){
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","b").attr("checked",true);
+	    }else{
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","b");
+	    }
+	    
+	    subTdTag2.html('child of');
+	    radio2.appendTo(subTdTag2);
+	    
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber2))).((#awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber2:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = $("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
+	    var selectTag = $('<select />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardPanelTargetAward");   
+	    var optionTag = $("<option> select: </option>").attr("value","");
+	    optionTag.appendTo(selectTag);
+	    while(selectBoxText.length>1){
+	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
+	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
+	    	optionText = optionText.replace("%3A",":");
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    	}else{
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    	}
+	    	optionTag.appendTo(selectTag);	    	
+	    }
+	    selectTag.appendTo(subTdTag3)
+	    
+	    lookupField.appendTo(subTdTag4);
+	    
+	    subTdTag1.appendTo(subTrTag);
+	    subTdTag2.appendTo(subTrTag);
+	    subTdTag3.appendTo(subTrTag);
+	    subTdTag4.appendTo(subTrTag);
+	    
+	    subTrTag.appendTo(subTblTag);
+	    
+	    var tdTag2=$('<td></td>').html(subTblTag);
+	    tdTag2.appendTo(trTag);	    
+	    trTag.appendTo(tblTag);
+	    
+	    var tdTag3=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
+	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copyAward.awardNumber"+text1).attr("name","methodToCall.copyAward.awardNumber"+text1);;
+	    copyButton.appendTo(tdTag3);	    
+	    tdTag3.appendTo(trTag);	    
+	    trTag.appendTo(tblTag);
+	    
+	    return tblTag;
+  }
+  
+  function tbodyTag3(name, id) {
+	  
+	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      text1 = text1.substr(0,12);
+      
+      var text1reverse = revString(text1);
+      var index = text1reverse.indexOf("0");
+      var i2 = 12 - index;
+      var indexForHiddenField = text1.substring(i2,12);
+      
+	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
+
+	    var trTag0 = $('<tr></tr>');
+	    var thTag0 = $('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("New Child");
+	    trTag0.html(thTag0);
+	    trTag0.appendTo(tblTag);
+	    
+	    // 1st tr
+	    var trTag = $('<tr></tr>');
+	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 70px; vertical-align: middle;"></th>').html('<b>Based on:</b>');
+	    trTag.html(thTag1);
+	
+	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 505px;"></table>')
+	    var subTrTag = $('<tr></tr>');
+	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;"></td>');
+	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 140px;"></td>');
+	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 130px;"></td>');
+	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;"></td>');
+	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;"></td>');
+	    	    
+	    
+	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "a"){
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","a").attr("checked",true);
+	    }else{
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","a");
+	    }
+	    subTdTag1.html('new');
+	    radio1.appendTo(subTdTag1);
+	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "b"){
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","b").attr("checked",true);
+	    }else{
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","b");
+	    }
+	    subTdTag2.html('copy from parent');
+	    radio2.appendTo(subTdTag2);
+	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "c"){
+	    	var radio3 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","c").attr("checked",true);
+	    }else{
+	    	var radio3 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","c");
+	    }
+	    
+	    subTdTag3.html('selected award');
+	    radio3.appendTo(subTdTag3);	
+
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber1))).((#awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber1:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = $("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
+	    var selectTag = $('<select />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].newChildPanelTargetAward");   
+	    var optionTag = $("<option> select: </option>").attr("value","");
+	    optionTag.appendTo(selectTag);
+	    while(selectBoxText.length>1){
+	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
+	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
+	    	optionText = optionText.replace("%3A",":");
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    	}else{
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    	}
+	    	optionTag.appendTo(selectTag);	    	
+	    }
+	    selectTag.appendTo(subTdTag4)
+	    
+	    lookupField.appendTo(subTdTag5);
+	    
+	    subTdTag1.appendTo(subTrTag);
+	    subTdTag2.appendTo(subTrTag);
+	    subTdTag3.appendTo(subTrTag);
+	    subTdTag4.appendTo(subTrTag);
+	    subTdTag5.appendTo(subTrTag);
+	    
+	    subTrTag.appendTo(subTblTag);
+	    
+	    var tdTag1=$('<td></td>').html(subTblTag);
+	    tdTag1.appendTo(trTag);	    
+	    trTag.appendTo(tblTag);
+	    
+	    
+	    var tdTag2=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
+	    var createButton = $('<input type="image" title="Create" alt="create" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+text1).attr("name","methodToCall.create.awardNumber"+text1);	    
+	    createButton.appendTo(tdTag2);	    
+	    tdTag2.appendTo(trTag);
+	    
+	    trTag.appendTo(tblTag);
+	    
+	    return tblTag;
+  }
+
+  function tbodyTag1(name, id) {
+	  
+	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      
+	  var text2 = name.substring(0,name.indexOf("%3A")).trim();
+      
+	  name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text3 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text4 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text5 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text6 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text7 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text8 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text9 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text10 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text11 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text12 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text13 = name.substring(0,name.indexOf("%3A")).trim();
+    
+    var idx = id.substring(4);  
+    var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
+    
+    var trTag0 = $('<tr></tr>');
+	var thTag0 = $('<th colspan="8" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Detail: " + text1);
+	trTag0.html(thTag0);
+	trTag0.appendTo(tblTag);
+	
+	text1 = text1.substr(0,12);
+	
+    // 1st tr
+    var trTag = $('<tr></tr>');
+    var thTag1=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project Start Date</b>');
+    trTag.html(thTag1);
+    var tdTag1=$('<td></td>').html(text12);
+    tdTag1.appendTo(trTag);
+    var thTag2=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation Start Date</b>');
+    thTag2.appendTo(trTag);    
+    var tdTag2=$('<td></td>').html(text2);
+    tdTag2.appendTo(trTag);
+    
+    // 2nd tr
+    var trTag1 = $('<tr></tr>');
+    var thTag3=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project End Date</b>');
+    trTag1.html(thTag3);
+    var tdTag3=$('<td ></td>').html(text4);
+    tdTag3.appendTo(trTag1);
+    var thTag4=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation End Date</b>');
+    thTag4.appendTo(trTag1);    
+    var tdTag4=$('<td ></td>').html(text3);
+    tdTag4.appendTo(trTag1);
+    
+    // 3rd tr
+    var trTag2 = $('<tr></tr>');
+    var thTag5=$('<th style="text-align:right;width:160px;"></th>').html('<b>Anticipated Amount</b>');
+    trTag2.html(thTag5);
+    var tdTag5=$('<td ></td>').html("$" + text5);
+    tdTag5.appendTo(trTag2);
+    var thTag6=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligated Amount</b>');
+    thTag6.appendTo(trTag2);    
+    var tdTag6=$('<td ></td>').html("$" + text6);
+    tdTag6.appendTo(trTag2);
+    
+    // 4th tr
+    var trTag3 = $('<tr></tr>');
+    var thTag7=$('<th style="text-align:right;width:160px;"></th>').html('<b>Title</b>');
+    trTag3.html(thTag7);
+    var tdTag7=$('<td colspan="3" ></td>').html(text13);
+    tdTag7.appendTo(trTag3);
+      
+    trTag.appendTo(tblTag);
+    trTag1.appendTo(tblTag);
+    trTag2.appendTo(tblTag);
+    trTag3.appendTo(tblTag);
+    
+    return tblTag;
+  }    
+  
+  /*
+	 * set up area of resear list tag. the main table detail is not set up
+	 * initially.
+	 */
+  function setupListItem(code, name) {
+            i++;
+            var id1 = "item"+i;
+            var tagId = "listcontrol"+i;
+            var divId = "listcontent"+i;
+            var idDiv;
+            if ( jQuery.browser.msie ) { 
+                idDiv = $('<div></div>').attr("id","itemText"+i).html(code +" : "+name); // for
+																				// later
+																				// change
+																				// RA
+																				// description
+            } else {
+                idDiv = $('<span>').attr("id","itemText"+i).html(code +" : "+name); // for
+																			// later
+																			// change
+																			// RA
+																			// description
+            }
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left"></div>').attr("id",divId);
+        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+         			"racode" + i).attr("name", "racode" + i).attr("value",code);
+            	   hidracode.appendTo(detDiv);
+       // $(document).ready(function () {
+            $(tag).click(
+                    function()
+                    {
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            var idx = $(this).attr("id").substring(11);
+                            tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            if ($("#"+divId).is(":hidden")) {
+                                $("#listcontent"+idx).show();
+                            }
+                        } else {   
+
+                       // $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                            $("#"+divId).slideToggle(300);
+                            // $("#"+divId).show();;
+                        }  
+                        // TODO : this is a new item, so should not need to loadchildren ?
+                     //   loadChildrenRA(code +" : "+name, tagId);
+                    }
+                );
+        // });
+            // alert(tag.html());
+            var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
+            // tableTag(name, id1).appendTo(detDiv)
+            detDiv.appendTo(listitem);
+            // alert(listitem.html());
+            return listitem;
+	}
+ 
+
+  /*
+	 * load children area of research when parents RA is expanding.
+	 */
+function loadChildrenNoAjax(nodeName, tagId, childrenNodeText) {
+    var parentNode = $("#"+tagId);
+    // alert ("load subnodes for
+		// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
+    var liNode = parentNode.parents('li:eq(0)');
+    var ulNode = liNode.children('ul:eq(0)');
+    var inputNodev;
+//alert (ulNode);
+//if (liNode.children('ul').size() > 0 ) {
+//inputNodev = ulNode.children('input:eq(0)');
+//}
+    
+    
+    // if (liNode.children('ul').size() == 0 ) {
+    if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
+        // alert(liNode.children('ul').size());
+
+            //i++;
+            var ulTag ;
+            if (liNode.children('ul').size() == 0) {
+                ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+            } else {
+                ulTag = ulNode;
+            }
+           
+            // alert(ulTag.html());
+            
+            // ulTag.appendTo(parentNode);
+            ulTag.appendTo(liNode);
+            var loadedId = "loaded"+i;
+            var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+            inputtag.appendTo(ulTag);
+            
+            //$(childrenNodeText).find('h5').each(function(){
+            while(childrenNodeText.length > 0){	
+            //var item_text = childrenNodeText;            
+            //var childNode1 = item_text.substring(0,item_text.indexOf("%5C")).trim();
+            var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%5C1")+4,childrenNodeText.indexOf("%5C2")).trim();
+            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%5C2")+4, childrenNodeText.length).trim();
+            
+            i++;
+            
+            var id = "item"+i;
+            var tagId = "listcontrol"+i;
+            var divId = "listcontent"+i;
+            
+           // if (i == 1) {
+        var idDiv;
+        if ( jQuery.browser.msie ) { 
+             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+        } else {    
+             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+        }
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
+               	  
+            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+            // tag.appendTo(listitem);
+            // listitem.appendTo('ul#file31');
+            ulTagId = ulTag.attr("id");
+            // tableTag(item_text, id).appendTo(detDiv)
+            detDiv.appendTo(listitem);
+            // listitem.appendTo('ul#file31');
+            // need this ultag to force to display folder.
+            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+            childUlTag.appendTo(listitem);
+            listitem.appendTo(ulTag);
+            // force to display folder icon
+            $("#medusaview").treeview({
+               add: listitem
+               // toggle: function() {
+               // var subul=this.getElementsByTagName("ul")[0]
+               // if (subul.style.display=="block")
+               // alert("You've opened this Folder!")
+               // }
+            });
+            
+            if (i==1) {
+            // alert (listitem.html());
+            }
+            }
+    }
+    loadedidx=i;
+} // end loadChildrenRA  
+
+function replaceAll(Source,stringToFind,stringToReplace){
+	  var temp = Source;
+	    var index = temp.indexOf(stringToFind);
+	        while(index != -1){
+	            temp = temp.replace(stringToFind,stringToReplace);
+	            index = temp.indexOf(stringToFind);
+	        }
+	        return temp;
+	}
+  
+  /*
+	 * load children area of research when parents RA is expanding.
+	 */
+  function loadChildrenRA(nodeName, tagId) {
+      var parentNode = $("#"+tagId);
+      // alert ("load subnodes for
+		// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
+      var liNode = parentNode.parents('li:eq(0)');
+      var ulNode = liNode.children('ul:eq(0)');
+      var inputNodev;
+// alert (ulNode);
+// if (liNode.children('ul').size() > 0 ) {
+// inputNodev = ulNode.children('input:eq(0)');
+// }
+      
+      
+      // if (liNode.children('ul').size() == 0 ) {
+      if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
+          // alert(liNode.children('ul').size());
+          $.ajax({
+           url: 'medusaViewAjax.do',
+           type: 'GET',
+           dataType: 'html',
+           data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E',
+           cache: false,
+           async: false,
+           timeout: 1000,
+           error: function(){
+              alert('Error loading XML document');
+           },
+           success: function(xml){
+              //i++;
+              var ulTag ;
+              if (liNode.children('ul').size() == 0) {
+                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+              } else {
+                  ulTag = ulNode;
+              }
+             
+              // alert(ulTag.html());
+              
+              // ulTag.appendTo(parentNode);
+              ulTag.appendTo(liNode);
+              var loadedId = "loaded"+i;
+              var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+              inputtag.appendTo(ulTag);
+              $(xml).find('h3').each(function(){
+              var item_text = $(this).text();
+              i++;
+              var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+              item_text = item_text.replace("%3A",":");
+              var id = "item"+i;
+              var tagId = "listcontrol"+i;
+              var divId = "listcontent"+i;
+              
+             // if (i == 1) {
+          var idDiv;
+          if ( jQuery.browser.msie ) { 
+               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																					// later
+																					// change
+																					// RA
+																					// description
+          } else {    
+               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																			// later
+																			// change
+																			// RA
+																			// description
+          }
+              var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+              var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
+         	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+              			"racode" + i).attr("name", "racode" + i).attr("value",racode);
+                 	   hidracode.appendTo(detDiv);
+                 	  
+                 	   tag.click(
+                              function()
+                              {
+                                  // alert ("click "+tagId);
+                                  $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                                  var idx = $(this).attr("id").substring(11);
+                                  if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                                	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      if ($("#listcontent"+idx).is(":hidden")) {
+                                      // alert(divId + " hidden0");
+                                           $("#listcontent"+idx).show();
+                                       // $("#listcontent"+idx).slideToggle(300);
+                                      }
+                                  } else {
+                                      $("#listcontent"+idx).slideToggle(300);
+                                  }   
+
+                                  loadChildrenRA(item_text, tagId);
+                              }
+                          );
+                 	  
+              var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+              // tag.appendTo(listitem);
+              // listitem.appendTo('ul#file31');
+              ulTagId = ulTag.attr("id");
+              // tableTag(item_text, id).appendTo(detDiv)
+              detDiv.appendTo(listitem);
+              // listitem.appendTo('ul#file31');
+              // need this ultag to force to display folder.
+              var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+              childUlTag.appendTo(listitem);
+              listitem.appendTo(ulTag);
+              // force to display folder icon
+              $("#medusaview").treeview({
+                 add: listitem
+                 // toggle: function() {
+                 // var subul=this.getElementsByTagName("ul")[0]
+                 // if (subul.style.display=="block")
+                 // alert("You've opened this Folder!")
+                 // }
+              });
+              
+              if (i==1) {
+              // alert (listitem.html());
+              }
+          
+              });
+           }
+          });    
+      }
+      loadedidx=i;
+  } // end loadChildrenRA
+
+  /*
+	 * Utility function to get code from 'code : description' This need to be
+	 * refined because if code contains ':', then this is not working correctly.
+	 */
+  function getAwardNumber(node) {
+   // TODO : this maybe problemmatic because it makes the assumption that
+	// areacode does not contain ":"
+//          var endIdx = nodeName.indexOf(":");
+//          return nodeName.substring(0, endIdx - 1);    
+       return $("#racode"+node.attr("id").substring(4)).attr("value");
+  }
+  
+  <!-- initial state -->
+  $(".hierarchydetail").hide();
+<!-- hidedetail -->
+  $(".hidedetail").toggle(
+      function()
+      {
+          $(".hierarchydetail").slideUp(300);
+      }
+  );
+<!-- listcontent00 -->
+  $("#listcontrol00").click(
+      function()
+      {
+          $(".hierarchydetail:not(#listcontent00)").slideUp(300);
+          $("#listcontent00").slideToggle(300);
+      }
+  );  
+  
+  function hasFormAlreadyBeenSubmitted() {
+      // return false;
+  }
+
+  $(document).ready(function(){
+
+	  //for (var k = 0; k<3;k++) {
+		  // performance test
+      loadFirstLevel();
+      $("#listcontent00").show();
+      loadedidx=i;
+	  //}
+      // $("#listcontrol00").show();
+      // $("#listcontent00").slideToggle(300);
+  })
+  $("#loading").hide();
