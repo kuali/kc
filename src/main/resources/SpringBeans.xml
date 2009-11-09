@@ -573,6 +573,12 @@
 	</bean>
 	
 	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
