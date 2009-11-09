@@ -34,6 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     
     protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
+    protected static final String TIME_AND_MONEY_BUTTON_NAME = "methodToCall.timeAndMoney";
     HtmlPage awardTimeAndMoneyPage;
 
     /**
@@ -44,7 +45,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        awardTimeAndMoneyPage = clickOnTab(getAwardHomePage(), TIME_AND_MONEY_LINK_NAME);
+        awardTimeAndMoneyPage = clickOnTab(getAwardHomePage(), TIME_AND_MONEY_BUTTON_NAME);
     }
 
     /**
@@ -68,7 +69,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
      */
     protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
-        HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
+        HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_BUTTON_NAME);
         return awardTimeAndMoneyPage;
     }
     
@@ -76,6 +77,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     public void testTimeAndMoneyHomePage() throws Exception{
         assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
+        System.out.println(awardTimeAndMoneyPage.asText());
         awardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_PAGE);
         assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);

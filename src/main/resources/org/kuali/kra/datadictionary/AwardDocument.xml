@@ -45,14 +45,7 @@
           </property>
           <property name="headerTabDisplayName" value="Budget Versions"/>
           <property name="headerTabNavigateTo" value="budgetVersions"/>
-        </bean>
-        <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardTimeAndMoneyHelp" p:parameterDetailType="D"/>
-          </property>
-          <property name="headerTabDisplayName" value="Time &amp; Money"/>
-          <property name="headerTabNavigateTo" value="timeAndMoney"/>
-        </bean>
+        </bean>        
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardPaymentsReportsAndTermsHelp" p:parameterDetailType="D"/>
@@ -101,6 +94,13 @@
           </property>
           <property name="headerTabDisplayName" value="Award Actions"/>
           <property name="headerTabNavigateTo" value="awardActions"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardActionsHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
         </bean>
       </list>
     </property>
