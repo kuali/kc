@@ -62,10 +62,12 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.service.MedusaService;
 import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
+import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -127,6 +129,7 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardCommentBean awardCommentBean;
     private AwardNotepadBean awardNotepadBean;
     private AwardAttachmentFormBean awardAttachmentFormBean;
+    private MedusaBean medusaBean;
     
     private boolean auditActivated;
     private boolean awardInMultipleNodeHierarchy;
@@ -139,6 +142,8 @@ public class AwardForm extends BudgetVersionFormBase
     private List<String> order;
     private AwardFundingProposalBean fundingProposalBean;
     private String awardHierarchy;
+    private String medusa;
+    private String medusaByAward;
     private String awardNumber;
     private String addRA;    
     private String deletedRas;
@@ -215,6 +220,7 @@ public class AwardForm extends BudgetVersionFormBase
             awardHierarchyTempOjbect.add(new AwardHierarchyTempOjbect());
         }
         awardHierarchyBean = new AwardHierarchyBean(this);
+        medusaBean = new MedusaBean(this);
     }
 
     /**
@@ -824,6 +830,65 @@ public class AwardForm extends BudgetVersionFormBase
     public AwardHierarchyBean getAwardHierarchyBean() {
         return awardHierarchyBean;
     }
+    
+    /**
+     * Gets the medusaByAward attribute. 
+     * @return Returns the medusaByAward.
+     */
+    public String getMedusaByAward() throws ParseException{
+        medusaByAward = "";
+        if(StringUtils.isBlank(awardNumber)){
+            awardNumber = this.getRootAwardNumber();
+        }
+        
+        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+            setMedusaByAward(getMedusaService().getMedusaByAward());
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
+            setMedusaByAward(getMedusaService().getMedusaByAward());
+        }
+        
+        return medusaByAward;
+    }
+
+
+    /**
+     * Gets the medusa attribute. 
+     * @return Returns the medusa.
+     */
+    public String getMedusa() throws ParseException{
+        medusa = "";
+        if(StringUtils.isBlank(awardNumber)){
+            awardNumber = this.getRootAwardNumber();
+        }
+        
+        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+            setMedusa(getMedusaService().getMedusaByAward());
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){            
+            if(StringUtils.equalsIgnoreCase("0", this.getMedusaBean().getMedusaViewRadio())){
+                setMedusa(getMedusaService().getMedusaByAward());    
+            }else if(StringUtils.equalsIgnoreCase("1", this.getMedusaBean().getMedusaViewRadio())){
+                setMedusa(getMedusaService().getMedusaByProposal());    
+            } 
+        }
+        
+        return medusa;
+    }
+
+    /**
+     * Sets the medusa attribute value.
+     * @param medusa The medusa to set.
+     */
+    public void setMedusa(String medusa) {
+        this.medusa = medusa;
+    }
+    
+    /**
+     * Sets the medusaByAward attribute value.
+     * @param medusaByAward The medusaByAward to set.
+     */
+    public void setMedusaByAward(String medusaByAward) {
+        this.medusaByAward = medusaByAward;
+    }
 
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
@@ -898,6 +963,14 @@ public class AwardForm extends BudgetVersionFormBase
      */
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         return KraServiceLocator.getService(AwardHierarchyUIService.class);
+    }
+    
+    /**
+     * This method...
+     * @return
+     */
+    private MedusaService getMedusaService() {
+        return KraServiceLocator.getService(MedusaService.class);
     }
 
     /**
@@ -1005,6 +1078,22 @@ public class AwardForm extends BudgetVersionFormBase
         newButton.setExtraButtonAltText(altText);
         
         extraButtons.add(newButton);
+    }
+
+    /**
+     * Gets the medusaBean attribute. 
+     * @return Returns the medusaBean.
+     */
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+    /**
+     * Sets the medusaBean attribute value.
+     * @param medusaBean The medusaBean to set.
+     */
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
     }
 
 }

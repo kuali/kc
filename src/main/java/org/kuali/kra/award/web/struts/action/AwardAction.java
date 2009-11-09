@@ -406,6 +406,9 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        
+        this.save(mapping, form, request, response);
+        
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
@@ -609,6 +612,21 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
+    
+    /**
+    *
+    * This method gets called upon navigation to Medusa tab.
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       AwardForm awardForm = (AwardForm) form;
+       awardForm.getMedusaBean().setMedusaViewRadio("0");    
+       return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
+   }
 
     /**
      *
