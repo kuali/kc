@@ -237,6 +237,9 @@
         <property name="kcPersonService">
             <ref bean="kcPersonService" />
         </property>
+        <property name="kraAuthorizationService">
+            <ref bean="kraAuthorizationService" />
+        </property>
   	</bean>
 
     <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoOjb">

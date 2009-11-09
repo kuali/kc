@@ -107,11 +107,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
         // Following is for protocol lookup - edit protocol 
         ProtocolForm protocolForm = (ProtocolForm)form;
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
-            && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
-            getProtocolProtocolService().loadProtocolForEdit(protocolForm.getDocument(),
-                request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
-        }
+//        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
+//            && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
+//            getProtocolProtocolService().loadProtocolForEdit(protocolForm.getDocument(),
+//                request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
+//        }
         
         protocolForm.getProtocolHelper().prepareView();
         

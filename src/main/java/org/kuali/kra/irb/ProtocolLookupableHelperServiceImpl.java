@@ -24,7 +24,6 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -44,6 +43,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
     private ProtocolDao protocolDao;
     private KcPersonService kcPersonService;
+    private KraAuthorizationService kraAuthorizationService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -59,7 +59,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
+        if(kraAuthorizationService.hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
             //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             // Chnage "edit" to edit same document, NOT initializing a new Doc
             AnchorHtmlData editHtmlData = getViewLink(((Protocol) businessObject).getProtocolDocument());
@@ -74,7 +74,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
                     + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
             htmlDataList.add(htmlData);
         }
-        if(getKraAuthorizationService().hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
+        if(kraAuthorizationService.hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
             htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));
         }
         return htmlDataList;
@@ -174,13 +174,12 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         return "protocolNumber"; 
     }
 
-    private KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
-    }
-
     private String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
+    }
 
 }

@@ -41,7 +41,8 @@ import org.kuali.rice.kns.web.ui.Row;
 public class ProtocolLookupHelperServiceTest extends KraTestBase {
 
     ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
-    private static final String EDIT_URL ="../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber=100";
+    private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
+    private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
@@ -66,7 +67,7 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     /**
      * 
      * This method is to test getrows.  The lookup fields will be updated and make sure 
-     * a few of the drop down fields are sert as dropdown_refresh 
+     * a few of the drop down fields are set as dropdown_refresh 
      */
     @Test
     public void testGetRows() {
@@ -135,10 +136,12 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
             HtmlData.AnchorHtmlData actionUrl = (HtmlData.AnchorHtmlData) htmlData;
             if (actionUrl.getMethodToCall().equals("copy")) {
                 assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), COPY_URL);                
-            } else {
+            } else if (actionUrl.getMethodToCall().equals("edit")){
                 assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), EDIT_URL);                
+            } else if (actionUrl.getMethodToCall().equals("view")){
+                assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), VIEW_URL);                
             }
-        }
+        } 
     }
         
     
