@@ -23,7 +23,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="medusa"
+  	headerTabActive="awardMedusa"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 <kra-a:awardMedusa />
@@ -44,6 +44,7 @@
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-
+	
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+	<script type="text/javascript" src="scripts/medusaView.js"></script>	
 	

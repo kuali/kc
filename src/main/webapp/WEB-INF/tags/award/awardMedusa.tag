@@ -15,10 +15,4 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
-	<div class="tab-container"  align="center">
-		<h3> 
-			<span class="subhead-left">Medusa</span>
-		</h3>		
-	</div>
-</kul:tabTop>
+<kra:medusa />
