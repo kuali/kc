@@ -86,12 +86,16 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
 
     
     /**
-     * To force to it to show action links, such as 'edit'.
+     * To force to it to show action links, such as 'edit' if it is not 'lookup' to search of return value.
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        lookupForm.setShowMaintenanceLinks(true);
+        if (!lookupForm.isHideReturnLink()) {
+            lookupForm.setSuppressActions(true);
+        } else {
+            lookupForm.setShowMaintenanceLinks(true);
+        }
         return super.performLookup(lookupForm, resultTable, bounded);
     }
     

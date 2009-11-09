@@ -74,7 +74,7 @@
 			</list>
 		</property>
 		
-		
+<!-- 
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
@@ -116,7 +116,7 @@
         </bean>
       </list>
     </property>
-		
+ -->		
 	</bean>
 
 	<!-- Attribute Definitions -->
