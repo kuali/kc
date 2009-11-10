@@ -70,6 +70,7 @@
 	        <ref bean="DevelopmentProposal-budgetStatus"/>
 	        <ref bean="DevelopmentProposal-postSubmissionStatusCode"/>
 	        <ref bean="DevelopmentProposal-versionNumber"/>
+	        <ref bean="DevelopmentProposal-hierarchyBudgetType"/>
 	        <ref bean="DevelopmentProposal-hierarchyStatus"/>
 	        <ref bean="DevelopmentProposal-hierarchyStatusName"/>
 	        <ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
@@ -595,6 +596,24 @@
     </property>
     <property name="summary" value="Hierarchy Status Code"/>
     <property name="description" value="The status of the proposal in a hierarchy."/>
+  </bean>	
+
+  <bean id="DevelopmentProposal-hierarchyBudgetType" parent="DevelopmentProposal-hierarchyBudgetType-parentBean"/>
+
+  <bean id="DevelopmentProposal-hierarchyBudgetType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hierarchyBudgetType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Hierarchy Budget Type"/>
+    <property name="shortLabel" value="Hierarchy Budget Type"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="summary" value="Hierarchy Budget Type Code"/>
+    <property name="description" value="The type of the budget for this proposal in a hierarchy."/>
   </bean>	
 
   <bean id="DevelopmentProposal-proposalDocument.documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">

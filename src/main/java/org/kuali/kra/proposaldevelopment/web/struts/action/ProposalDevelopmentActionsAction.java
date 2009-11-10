@@ -1055,11 +1055,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
         DevelopmentProposal newChildProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyChildProposalNumber());
+        String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
         if (newChildProposal == null) {
             GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_CHILD_NUMBER, KeyConstants.ERROR_REQUIRED, "Link Child Proposal");
         }
         else {
-            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
             pdForm.setNewHierarchyChildProposalNumber("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1097,11 +1098,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
         DevelopmentProposal newChildProposal = pdForm.getDocument().getDevelopmentProposal();
+        String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
         if (hierarchyProposal == null) {
             GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_PARENT_NUMBER, KeyConstants.ERROR_REQUIRED, "Link to Hierarchy");
         }
         else {
-            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
+            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
             pdForm.setNewHierarchyProposalNumber("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
