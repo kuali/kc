@@ -67,7 +67,7 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolWithdrawService = KraServiceLocator.getService(ProtocolWithdrawService.class);
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);

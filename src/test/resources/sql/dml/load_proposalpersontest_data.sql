@@ -1,22 +1,35 @@
+ALTER TABLE PROPOSAL DISABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
+ALTER TABLE EPS_PROP_RATES DISABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
+ALTER TABLE INSTITUTE_RATES DISABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
+
 insert into activity_type (activity_type_code, description, obj_id, update_timestamp, update_user, ver_nbr)
 values('tst', 'test activity type', sys_guid(), sysdate, 'jhulslander', 1);
+
+ALTER TABLE PROPOSAL ENABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
+ALTER TABLE EPS_PROP_RATES ENABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
+ALTER TABLE INSTITUTE_RATES ENABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
 
 insert into notice_of_opportunity (description, notice_of_opportunity_code, obj_id, update_timestamp, update_user, ver_nbr)
 values('opt descr', 'tod', sys_guid(), sysdate, 'jhulslander', 1);
 
+ALTER TABLE ROLODEX DISABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
+alter table state_code disable constraint FK_STATE_CODE_COUNTRY;
+delete from country_code where country_code = 'USA';
 insert into country_code(country_code, country_name, obj_id, update_timestamp, update_user, ver_nbr)
 values ('USA', 'United States', sys_guid(), sysdate, 'jhulslander', 1);
+alter table state_code enable constraint FK_STATE_CODE_COUNTRY;
+ALTER TABLE ROLODEX ENABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
 
 insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
   VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, COUNTY, STATE, POSTAL_CODE)
+  EMAIL_ADDRESS, CITY, COUNTRY_CODE, STATE, POSTAL_CODE)
 values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
   1, sys_guid(), 100, 'Hulslander', 'Jay', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
   'jdh34@cornell.edu', 'Ithaca', 'USA', 'NY', '14850');
   
 insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
   VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, COUNTY, STATE, POSTAL_CODE)
+  EMAIL_ADDRESS, CITY, COUNTRY_CODE, STATE, POSTAL_CODE)
 values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
   1, sys_guid(), 101, 'Hulslander2', 'Jay2', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
   'jdh34@cornell.edu', 'Ithaca', 'USA', 'NY', '14850');
@@ -89,4 +102,3 @@ insert into PROPOSAL_PERSONS ( PROPOSAL_PERSON_ID, PROPOSAL_NUMBER, SEQUENCE_NUM
 values (2, 12345, 1, '2', 100, null, 'testerB', null,
   null, null, null, null, sysdate, 'jhulslander', 'N', null,
   null, null, 1, sys_guid());
-commit;

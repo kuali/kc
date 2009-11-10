@@ -50,8 +50,11 @@ public class KcPersonServiceImpl implements KcPersonService {
         if (StringUtils.isEmpty(userName)) {
             throw new IllegalArgumentException("the userName is null or empty");
         }
+        KimEntity entity = this.identityService.getEntityInfoByPrincipalName(userName);
+        if(entity == null)
+            return null;
         
-        return KcPerson.fromEntityAndUserName(this.identityService.getEntityInfoByPrincipalName(userName), userName);
+        return KcPerson.fromEntityAndUserName(entity, userName);
     }
     
     /** {@inheritDoc} */

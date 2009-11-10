@@ -78,7 +78,7 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolNotifyIrbService = new ProtocolNotifyIrbServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolNotifyIrbService.setBusinessObjectService(businessObjectService);

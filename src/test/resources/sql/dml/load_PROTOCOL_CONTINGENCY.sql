@@ -1,3 +1,4 @@
+DELETE FROM PROTOCOL_CONTINGENCY;
 INSERT INTO PROTOCOL_CONTINGENCY ( PROTOCOL_CONTINGENCY_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( '1', 'Inclusion of a statement in the informed consent that the project is research and an explanation of the scope, aims and purposes of the research.  This statement should include a description of the procedures to be followed.', sysdate, user ); 
 INSERT INTO PROTOCOL_CONTINGENCY ( PROTOCOL_CONTINGENCY_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
@@ -66,4 +67,3 @@ INSERT INTO PROTOCOL_CONTINGENCY ( PROTOCOL_CONTINGENCY_CODE, DESCRIPTION, UPDAT
 VALUES ( '33', 'The IRB requests a copy of the recruitment ad to be used', sysdate, user ); 
 INSERT INTO PROTOCOL_CONTINGENCY ( PROTOCOL_CONTINGENCY_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( '34', 'The IRB suggests that the Investigator may want to review the consent document and/or the instrument for typographical/grammar/syntax error.', sysdate, user ); 
-commit;

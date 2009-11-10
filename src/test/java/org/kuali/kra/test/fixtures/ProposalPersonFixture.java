@@ -69,7 +69,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("10000000060", PRINCIPAL_INVESTIGATOR_ROLE) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -152,9 +152,9 @@ public enum ProposalPersonFixture {
             person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
         }        
     },
-    PHILIP_CO_INVESTIGATOR("10000000002", CO_INVESTIGATOR_ROLE),
-    BRYAN_CO_INVESTIGATOR("10000000005", CO_INVESTIGATOR_ROLE),
-    ANDY_KEY_PERSON("10000000006", KEY_PERSON_ROLE);
+    JTESTER_CO_INVESTIGATOR("10000000001", CO_INVESTIGATOR_ROLE),
+    WOODS_CO_INVESTIGATOR("10000000005", CO_INVESTIGATOR_ROLE),
+    OBLOOD_KEY_PERSON("10000000006", KEY_PERSON_ROLE);
     
     private String personId;
     private String roleId;

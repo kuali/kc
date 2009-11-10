@@ -434,14 +434,13 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
     } 
     
     private void mockSession() {
-        final UniversalUser person = new UniversalUser();
-        person.setPersonUniversalIdentifier("kpatel");
+        final String principalId = "majors";
         final UserSession session = context.mock(UserSession.class); 
         
         GlobalVariables.setUserSession(session);
         
         context.checking(new Expectations() {{
-            allowing(session).getPerson();will(returnValue(person));
+            allowing(session).getPrincipalId();will(returnValue(principalId));
         }});
     }
     

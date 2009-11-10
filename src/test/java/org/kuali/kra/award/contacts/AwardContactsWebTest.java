@@ -36,7 +36,7 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
 
     protected static final String LINE_NUMBER_SUFFIX_PATTERN = ".line%d";
     protected static final String PERSON_ID_FIELD = "personId";
-    protected static final String PERSON_ID_VALUE = "000000008";
+    protected static final String PERSON_ID_VALUE = "10000000001";
     
     protected static final String ROLODEX_FULL_NAME = "Ho, Pauline";
     protected static final String ROLODEX_ID_FIELD = "rolodexId";
