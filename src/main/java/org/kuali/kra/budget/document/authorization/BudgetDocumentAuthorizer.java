@@ -177,7 +177,8 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     @Override
     protected boolean canCancel(Document document, Person user) {
-        return canEdit(document, user);
+        //KRACOEUS-3057 THE CANCEL BUTTON SHOULD ALWAYS BE DISABLED.
+        return false; 
     }
     
     /**
