@@ -54,10 +54,11 @@ public interface ProposalHierarchyService {
      * 
      * @param hierarchyProposal the hierarchy to link the new child to
      * @param newChildProposal the proposal to link to the hierarchy
+     * @param hierarchyBudgetTypeCode the type of budget syncing to perform with the child
      * @throws ProposalHierarchyException if hierarchyProposal is not a valid Hierarchy
      * or if newChildProposal is already a member of a hierarchy or does not exist
      */
-    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) throws ProposalHierarchyException;
+    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) throws ProposalHierarchyException;
 
     /**
      * This method removes childProposal from the hierarchy of which it is a member

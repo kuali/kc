@@ -138,6 +138,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private String hierarchyParentProposalNumber;
     private Integer hierarchyLastSyncHashCode;
+    private String hierarchyBudgetType;
     private transient ParameterService parameterService;
     
     /**
@@ -222,6 +223,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public void setHierarchyStatusName(String hierarchyStatusName) {
         this.hierarchyStatusName = hierarchyStatusName;
+    }
+
+    /**
+     * Sets the hierarchyBudgetType attribute value.
+     * @param hierarchyBudgetType The hierarchyBudgetType to set.
+     */
+    public void setHierarchyBudgetType(String hierarchyBudgetType) {
+        this.hierarchyBudgetType = hierarchyBudgetType;
+    }
+
+    /**
+     * Gets the hierarchyBudgetType attribute. 
+     * @return Returns the hierarchyBudgetType.
+     */
+    public String getHierarchyBudgetType() {
+        return hierarchyBudgetType;
     }
 
     @SuppressWarnings("unchecked")
