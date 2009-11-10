@@ -91,11 +91,8 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         boolean userHasPermission = false;
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         
-        // Does the user have this permission in a qualified role?  
-        // NOTE: We should only be checking qualified roles corresponding
-        //       to units, but the KIM API doesn't provide this.
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*"); //Should verify if this wildcard matching works
+        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*"); 
         userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
         return userHasPermission;
     }

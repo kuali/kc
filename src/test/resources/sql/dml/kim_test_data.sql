@@ -440,7 +440,7 @@ insert into KRIM_EXT_ID_TYP_T (EXT_ID_TYP_CD, OBJ_ID, VER_NBR, NM, ENCR_REQ_IND,
 values ('ERAC', 'B1DD3B3E4CE0405D8C1E0237E53E701D', 1, 'Electronic Research Admin Commons User', 'N', 'Y', '08', to_date('07-10-2009 13:19:27', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
-values ('1300', '71203B869EE8494DBFF91B98BEC397F5', 1, (SELECT ENTITY_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'PRFR', 'quickstart', null, 'quickstart', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'));
+values ('1300', '71203B869EE8494DBFF91B98BEC397F5', 1, (SELECT ENTITY_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'PRFR', 'Geoff', null, 'McGregor', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1301', 'A7208FDDBEA24EC59937F42EB8A204C0', 1, '1201', 'PRFR', 'Joe', null, 'Tester', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
@@ -3058,7 +3058,15 @@ INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENTITY_ID, ENT_TYP_CD, LAST_UPDT_DT, ACTV_IND
 VALUES ('1302', 'PERSON', SYSDATE, 'Y', SYS_GUID(), 1);
 
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values ('2000', 1, SYS_GUID(), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Technical Administrator'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'P', null, null, to_date('07-10-2009 15:41:46', 'dd-mm-yyyy hh24:mi:ss'));
+values ('1600', 1, SYS_GUID(), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Technical Administrator'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'P', null, null, to_date('07-10-2009 15:41:46', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+values ('1601', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'jtester'), 'P', null, null, sysdate);
+insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+values ('1602', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'majors'), 'P', null, null, sysdate);
+insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+values ('1603', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'cate'), 'P', null, null, sysdate);
+insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+values ('1604', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'oblood'), 'P', null, null, sysdate);
 
 alter table KRIM_ENTITY_ENT_TYP_T enable constraint KRIM_ENTITY_ENT_TYP_TR1;
 alter table KRIM_ENTITY_ADDR_T enable constraint KRIM_ENTITY_ADDR_TR1;
@@ -3094,4 +3102,5 @@ alter table KRIM_ROLE_T enable constraint KRIM_ROLE_TR1;
 alter table KRIM_ROLE_MBR_T enable constraint KRIM_ROLE_MBR_TR1;
 alter table KRIM_ROLE_PERM_T enable constraint KRIM_ROLE_PERM_TR1;
 alter table KRIM_TYP_ATTR_T enable constraint KRIM_TYP_ATTR_TR2;
-call reset_sequences('KRIM_ROLE_MBR_ID_S');
+DROP SEQUENCE KRIM_ROLE_MBR_ID_S;
+create SEQUENCE KRIM_ROLE_MBR_ID_S increment by 1 start with 2000; 

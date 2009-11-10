@@ -36,12 +36,12 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     
     private HtmlPage personnelPage;
     
-    private static final String PRINCIPAL_INVESTIGATOR_NAME = "Terry Durkin";
+    private static final String PRINCIPAL_INVESTIGATOR_NAME = "Nicholas Majors";
     private static final String PERSONNEL_TAB_PAGE = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
-    private static final String CO_INVESTIGATOR_PERSON_ID = "000000002";
-    private static final String CO_INVESTIGATOR_NAME = "Philip Berg";
+    private static final String CO_INVESTIGATOR_PERSON_ID = "10000000004";
+    private static final String CO_INVESTIGATOR_NAME = "Inez Chew";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     private static final String NEW_PERSON_NAME_FIELD = "personnelHelper.newProtocolPerson.personName";
     private static final String NEW_PERSON_ROLE_ID_FIELD = "personnelHelper.newProtocolPerson.protocolPersonRoleId";

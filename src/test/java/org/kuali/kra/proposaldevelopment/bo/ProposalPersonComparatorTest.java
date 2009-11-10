@@ -17,10 +17,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 
 import static java.util.Collections.sort;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.ANDY_KEY_PERSON;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.BRYAN_CO_INVESTIGATOR;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.OBLOOD_KEY_PERSON;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.WOODS_CO_INVESTIGATOR;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PHILIP_CO_INVESTIGATOR;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.JTESTER_CO_INVESTIGATOR;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -80,14 +80,14 @@ public class ProposalPersonComparatorTest extends KraTestBase {
         final ProposalPerson person1 = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
         getKeyPersonnelService().populateProposalPerson(person1, document);
         
-        final ProposalPerson person2 = PHILIP_CO_INVESTIGATOR.getPerson();
+        final ProposalPerson person2 = JTESTER_CO_INVESTIGATOR.getPerson(); 
         getKeyPersonnelService().populateProposalPerson(person2, document);
 
-        final ProposalPerson person3 = BRYAN_CO_INVESTIGATOR.getPerson();
-        getKeyPersonnelService().populateProposalPerson(person2, document);
+        final ProposalPerson person3 = WOODS_CO_INVESTIGATOR.getPerson();
+        getKeyPersonnelService().populateProposalPerson(person3, document);
 
-        final ProposalPerson person4 = ANDY_KEY_PERSON.getPerson();
-        getKeyPersonnelService().populateProposalPerson(person2, document);
+        final ProposalPerson person4 = OBLOOD_KEY_PERSON.getPerson();
+        getKeyPersonnelService().populateProposalPerson(person4, document);
 
         sortedList.add(person1);
         sortedList.add(person2);
@@ -105,10 +105,10 @@ public class ProposalPersonComparatorTest extends KraTestBase {
         LOG.info(" person2 = " + sortedList.get(1).getPersonId());
         LOG.info(" person3 = " + sortedList.get(2).getPersonId());
         LOG.info(" person4 = " + sortedList.get(3).getPersonId());
-        assertEquals("000000003", sortedList.get(0).getPersonId());
-        assertEquals("000000002", sortedList.get(1).getPersonId());
-        assertEquals("000000005", sortedList.get(2).getPersonId());
-        assertEquals("000000006", sortedList.get(3).getPersonId());
+        assertEquals("10000000003", sortedList.get(0).getPersonId());
+        assertEquals("10000000001", sortedList.get(1).getPersonId());
+        assertEquals("10000000005", sortedList.get(2).getPersonId());
+        assertEquals("10000000006", sortedList.get(3).getPersonId());
     }
     
     /**

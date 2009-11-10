@@ -34,8 +34,8 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ROLODEX_LOOKUP ="org.kuali.kra.bo.NonOrganizationalRolodex";
     private static final String ROLODEX_ID_FIELD = "rolodexId";
-    private static final String EMPLOYEE_ID = "000000002";
-    private static final String EMPLOYEE_NAME = "Philip Berg";
+    private static final String EMPLOYEE_ID = "10000000000";
+    private static final String EMPLOYEE_NAME = "Geoff McGregor";
     private static final String NON_EMPLOYEE_ID = "1727";
     private static final String NON_EMPLOYEE_NAME = "Pauline Ho";
     private static final String ADD_MEMBER_BUTTON = "methodToCall.addCommitteeMembership";
@@ -75,6 +75,7 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     @Test
     public void testAddEmployee() throws Exception {
         membersPage = getEmployee(membersPage);
+        System.out.println(membersPage.asText());
         assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
         membersPage = addMember(membersPage);
         assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));

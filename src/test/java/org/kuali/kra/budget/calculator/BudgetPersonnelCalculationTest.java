@@ -39,6 +39,7 @@ import org.kuali.kra.budget.rates.BudgetProposalLaRate;
 import org.kuali.kra.budget.rates.BudgetProposalRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -70,12 +71,14 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonnelCalculationTest.class);
     private DocumentService documentService = null;
     private BusinessObjectService bos;
+    private ProposalDevelopmentService proposalDevelopmentService;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
+        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
@@ -91,9 +94,13 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(DateUtils.parseDate("07/01/2009", new String[] {"MM/dd/yyyy"}).getTime());
         Date requestedEndDateInitial = new Date(DateUtils.parseDate("06/30/2013", new String[] {"MM/dd/yyyy"}).getTime());
         setBaseDocumentFields(document, "PDD-TestPersonnelCalc", "005978", "Project Title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
-        document.refreshReferenceObject("sponsor");
-        document.refreshReferenceObject("ownedByUnit");
-        document.refreshReferenceObject("activityType");
+        document.getDevelopmentProposal().refreshReferenceObject("sponsor");
+        document.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
+        document.getDevelopmentProposal().refreshReferenceObject("activityType");
+        
+        proposalDevelopmentService.initializeUnitOrganizationLocation(document);
+        proposalDevelopmentService.initializeProposalSiteNumbers(document);
+
         documentService.saveDocument(document);
         BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
         setBaseDocumentFields(bd,document.getDevelopmentProposal().getProposalNumber());

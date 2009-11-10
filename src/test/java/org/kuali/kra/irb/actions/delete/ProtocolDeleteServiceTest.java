@@ -62,7 +62,7 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
         protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
     }

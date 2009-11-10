@@ -69,7 +69,11 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     
     @Test 
     public void createProposalPersonFromNullPersonId() {
-        assertNull(getKeyPersonnelService().createProposalPersonFromPersonId(null));
+        try {
+            getKeyPersonnelService().createProposalPersonFromPersonId(null);
+        } catch(IllegalArgumentException iae) {
+            assertTrue(iae.getMessage().equalsIgnoreCase("the personId is null or empty"));
+        }
         
     }
 

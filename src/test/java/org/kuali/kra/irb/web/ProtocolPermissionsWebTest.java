@@ -34,14 +34,21 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private static final String QUICKSTART_USERNAME = "quickstart";
     private static final String QUICKSTART_FULLNAME = "Geoff McGregor";
     
-    private static final String TESTER_USERNAME = "jtester";
-    private static final String TESTER_FULLNAME = "Joe Tester";
     
-    private static final String USER1_USERNAME = "tdurkin";
-    private static final String USER1_FULLNAME = "Terry Durkin";
+    private static final String TESTER_USERNAME = "majors";
+    private static final String TESTER_FULLNAME = "Nicholas Majors";
     
-    private static final String USER2_USERNAME = "ljoconno";
-    private static final String USER2_FULLNAME = "Lora OConnor";
+    private static final String USER1_USERNAME = "cate";
+    private static final String USER1_FULLNAME = "Allyson Cate";
+    
+    private static final String USER2_USERNAME = "oblood";
+    private static final String USER2_FULLNAME = "Opal Blood";
+    
+    private static final String USER3_USERNAME = "woods";
+    private static final String USER3_FULLNAME = "Della Woods";
+    
+    private static final String USER4_USERNAME = "chew";
+    private static final String USER4_FULLNAME = "Inez Chew";
     
     private static final String AGGREGATORS_ID = "Protocol Aggregator";
     private static final String VIEWERS_ID = "Protocol Viewer";

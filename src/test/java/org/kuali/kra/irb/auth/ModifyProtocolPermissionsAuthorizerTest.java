@@ -28,8 +28,8 @@ import org.kuali.rice.kew.exception.WorkflowException;
  * Test the Modify Protocol Permissions Authorizer.
  */
 public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
-
-    private static final String USERNAME = "quickstart";
+    //UserID for Quickstart user
+    private static final String USERID = "10000000000";
     
     @Test
     public void testModifyPermission() throws WorkflowException {
@@ -41,7 +41,7 @@ public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
         authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(true, authorizer.isAuthorized(USERNAME, task));
+        assertEquals(true, authorizer.isAuthorized(USERID, task));
     }
     
     @Test
@@ -54,7 +54,7 @@ public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
         authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+        assertEquals(false, authorizer.isAuthorized(USERID, task));
     }
     
     @Test
@@ -67,7 +67,7 @@ public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
         authorizer.setKraAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+        assertEquals(false, authorizer.isAuthorized(USERID, task));
     }
     
     private Protocol createProtocol(Long id, boolean viewOnly) throws WorkflowException {

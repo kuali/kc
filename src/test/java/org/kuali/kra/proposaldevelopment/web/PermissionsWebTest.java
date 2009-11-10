@@ -35,20 +35,20 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String QUICKSTART_USERNAME = "quickstart";
     private static final String QUICKSTART_FULLNAME = "Geoff McGregor";
     
-    private static final String TESTER_USERNAME = "jtester";
-    private static final String TESTER_FULLNAME = "Joe Tester";
+    private static final String TESTER_USERNAME = "majors";
+    private static final String TESTER_FULLNAME = "Nicholas Majors";
     
-    private static final String USER1_USERNAME = "tdurkin";
-    private static final String USER1_FULLNAME = "Terry Durkin";
+    private static final String USER1_USERNAME = "cate";
+    private static final String USER1_FULLNAME = "Allyson Cate";
     
-    private static final String USER2_USERNAME = "aslusar";
-    private static final String USER2_FULLNAME = "Andrew Slusar";
+    private static final String USER2_USERNAME = "oblood";
+    private static final String USER2_FULLNAME = "Opal Blood";
     
-    private static final String USER3_USERNAME = "pcberg";
-    private static final String USER3_FULLNAME = "Philip Berg";
+    private static final String USER3_USERNAME = "woods";
+    private static final String USER3_FULLNAME = "Della Woods";
     
-    private static final String USER4_USERNAME = "ljoconno";
-    private static final String USER4_FULLNAME = "Lora OConnor";
+    private static final String USER4_USERNAME = "chew";
+    private static final String USER4_FULLNAME = "Inez Chew";
     
     private static final String AGGREGATORS_ID = "Aggregator";
     private static final String BUDGET_CREATORS_ID = "Budget Creator";
@@ -252,6 +252,8 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         users.add(new User(USER4_USERNAME, USER4_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         users.add(new User(USER3_USERNAME, USER3_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
+        
+        HtmlElement usersTable = getElementById(permissionsPage, "user-roles");
         checkUserTable(permissionsPage, users, 2);
         
         // Save the proposal and re-check to be sure the data is still correctly displayed.

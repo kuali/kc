@@ -261,7 +261,7 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     public String getMiddleName() {
         final KimEntityName name = this.entity.getDefaultName();
-        return name.getMiddleName();
+        return (name != null) ? name.getMiddleName() : "";
     }
 
     /**

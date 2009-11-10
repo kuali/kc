@@ -80,7 +80,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         try {
             documentService.saveDocument(document);
         } catch (ValidationException e) {
-            assertEquals(e.toString(), "org.kuali.core.exceptions.ValidationException: Unreported errors occured during business rule evaluation (rule developer needs to put meaningful error messages into global ErrorMap)");
+            assertEquals(e.toString(), "org.kuali.rice.kns.exception.ValidationException: Unreported errors occured during business rule evaluation (rule developer needs to put meaningful error messages into global ErrorMap)");
             caughtException = true;
         }
 

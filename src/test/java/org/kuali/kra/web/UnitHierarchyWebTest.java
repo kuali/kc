@@ -28,6 +28,7 @@ import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 
@@ -61,11 +62,11 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         Map<String, Object> la_Rates_fieldValues = new HashMap<String, Object>();
         Map<String, Object> rates_fieldValues = new HashMap<String, Object>();
         String unitNumber="BL-RUGS";
-        personfieldValues.put("homeUnit", unitNumber);
+        personfieldValues.put("homeUnitIdentifier", unitNumber);
         la_Rates_fieldValues.put("unitNumber",unitNumber);
         rates_fieldValues.put("unitNumber", unitNumber);
         
-        Collection<KcPerson> beforeperson = lookupService.findCollectionBySearch(KcPerson.class, personfieldValues);
+        Collection<KcPersonExtendedAttributes> beforeperson = lookupService.findCollectionBySearch(KcPersonExtendedAttributes.class, personfieldValues);
         Collection<InstituteLaRate> beforeLA_Rates = lookupService.findCollectionBySearch(InstituteLaRate.class, la_Rates_fieldValues);
         Collection<InstituteRate> before_Rates = lookupService.findCollectionBySearch(InstituteRate.class, rates_fieldValues);
         
@@ -84,10 +85,10 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         assertNotNull(anchor);
         HtmlPage unitpage = (HtmlPage) anchor.click();
         assertNotNull(unitpage);
-        assertContains(unitpage, "Unit Maintenance Document");
+        assertContains(unitpage, "Unit");
         assertEquals("BL-BL", getFieldValue(unitpage, "document.newMaintainableObject.parentUnitNumber"));
         setFieldValue(unitpage,"document.newMaintainableObject.parentUnitNumber","IN-IN");
-        setFieldValue(unitpage,"document.documentHeader.financialDocumentDescription","Moving a unit");
+        setFieldValue(unitpage,"document.documentHeader.documentDescription","Moving a unit");
         HtmlPage portalpage = clickOn(unitpage, "methodToCall.blanketApprove", "Kuali Portal Index");
         assertNotNull(portalpage);
         HtmlAnchor unithierarchypage2 = getAnchorFromPage(portalpage,"Unit Hierarchy");
@@ -106,7 +107,7 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         assertNotNull(unitpage1);
         assertEquals("IN-IN", getFieldValue(unitpage1, "document.newMaintainableObject.parentUnitNumber"));
         
-        Collection<KcPerson> afterperson = lookupService.findCollectionBySearch(KcPerson.class, personfieldValues);
+        Collection<KcPersonExtendedAttributes> afterperson = lookupService.findCollectionBySearch(KcPersonExtendedAttributes.class, personfieldValues);
         Collection<InstituteLaRate> afterLA_Rates = lookupService.findCollectionBySearch(InstituteLaRate.class, la_Rates_fieldValues);
         Collection<InstituteRate> after_Rates = lookupService.findCollectionBySearch(InstituteRate.class, rates_fieldValues);
         assertEquals(beforeperson,afterperson);
@@ -130,7 +131,7 @@ public class UnitHierarchyWebTest extends KraWebTestBase {
         assertNotNull(anchor2);
         HtmlPage unitpage3 = (HtmlPage) anchor2.click();
         assertNotNull(unitpage3);
-        assertContains(unitpage3, "Unit Maintenance Document");
+        assertContains(unitpage3, "Unit");
         assertEquals("IN-IN", getFieldValue(unitpage3, "document.newMaintainableObject.parentUnitNumber"));
         setFieldValue(unitpage3,"document.newMaintainableObject.parentUnitNumber","BL-BL");
         setFieldValue(unitpage3,"document.documentHeader.financialDocumentDescription","Moving back to original place");
