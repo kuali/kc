@@ -1,3 +1,4 @@
+DELETE FROM SUBMISSION_STATUS;
 INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('100','Submitted to Committee',sysdate,'KRADEV');
 INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('101','In Agenda',sysdate,'KRADEV');
 INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('102','Pending',sysdate,'KRADEV');

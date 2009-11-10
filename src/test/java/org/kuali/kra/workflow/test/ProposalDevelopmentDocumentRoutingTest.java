@@ -38,7 +38,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
     
-    private static final String USER_PRINCIPLE_ID = "quickstart";
     private ProposalDevelopmentService proposalDevelopmentService;
     
     @Before
@@ -86,7 +85,8 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
 
         WorkflowInfo info = new WorkflowInfo();
         ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetPrincipalIds(new String[] { USER_PRINCIPLE_ID });
+        String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        reportCriteria.setTargetPrincipalIds(new String[] { loggedInPrincipalId });
         reportCriteria.setActivateRequests(true);
 
         DocumentDetailDTO results1 = info.routingReport(reportCriteria);
@@ -98,15 +98,15 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
             if(actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
                 assertEquals("U", actionRequest.getRecipientTypeCd());
                 assertNotNull(actionRequest.getPrincipalId());
-                assertEquals("quickstart", actionRequest.getPrincipalId());
+                assertEquals("10000000000", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
                 assertNotNull(actionRequest.getPrincipalId());
-                assertEquals("quickstart", actionRequest.getPrincipalId()); 
+                assertEquals("10000000000", actionRequest.getPrincipalId()); 
             } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
                 assertNotNull(actionRequest.getPrincipalId());
-                assertEquals("quickstart", actionRequest.getPrincipalId());
+                assertEquals("10000000000", actionRequest.getPrincipalId());
             } else {
                 fail("Unexpected ActionRequest generated for ProposalDevelopmentDocument");
             }

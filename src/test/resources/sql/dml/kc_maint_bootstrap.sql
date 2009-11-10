@@ -123,4 +123,4 @@ insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
 insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) values ('10110', '1143', (select perm_id from krim_perm_t where nm = 'Unrestricted Document Search' and nmspc_cd = 'KR-WKFLW' ), 'Y', sys_guid());
 
 insert into krim_role_mbr_t (role_mbr_id, role_id, mbr_id, mbr_typ_cd, actv_frm_dt, actv_to_dt, last_updt_dt, ver_nbr, obj_id) 
-values ('2001', '1143', (select grp_id from krim_grp_t where grp_nm = 'KcAdmin' and nmspc_cd = 'KC-WKFLW'), 'G', null, null, sysdate, 1, sys_guid());
+values ('1605', '1143', (select grp_id from krim_grp_t where grp_nm = 'KcAdmin' and nmspc_cd = 'KC-WKFLW'), 'G', null, null, sysdate, 1, sys_guid());

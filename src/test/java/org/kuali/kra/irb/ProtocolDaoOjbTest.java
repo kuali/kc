@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -35,7 +36,6 @@ import org.kuali.rice.test.data.UnitTestFile;
             sqlFiles = {
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-                    @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";"),
@@ -56,6 +56,8 @@ public class ProtocolDaoOjbTest extends KraTestBase {
     
     @After 
     public void tearDown() throws Exception {
+        SQLDataLoader testDataUnloader = new SQLDataLoader("classpath:sql/dml/clear_protocols_for_protocoldaotest.sql", ";");
+        testDataUnloader.runSql();
         super.tearDown();
     }
     

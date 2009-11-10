@@ -717,5 +717,3 @@ create SEQUENCE SEQ_QUESTIONNAIRE_REF_ID increment by 1 start with 317;
 
 drop sequence SEQ_QUESTION_ID;
 create SEQUENCE SEQ_QUESTION_ID increment by 1 start with 80; 
-
-commit;

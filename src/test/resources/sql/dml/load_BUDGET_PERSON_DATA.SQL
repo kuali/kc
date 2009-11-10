@@ -21,6 +21,3 @@ insert into budget_persons (appointment_type_code, budget_id, calculation_base, 
 	person_name, person_sequence_number, proposal_number, rolodex_id, tbn_id, update_timestamp, update_user, ver_nbr, version_number)
 values ('tst', 1, 50, sysdate, 'jobCD', 'N', sys_guid(), 1,
 	'Jay Hulslander', 1, 1243, 1, 1, sysdate, 'jhulslander', 1, 1);
-
-  
-COMMIT;

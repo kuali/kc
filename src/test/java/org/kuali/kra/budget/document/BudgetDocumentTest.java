@@ -113,7 +113,7 @@ public class BudgetDocumentTest {
         });
         
         
-        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        Method m = bd.getClass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
        
         m.setAccessible(true);
         m.invoke(bd);
@@ -162,7 +162,7 @@ public class BudgetDocumentTest {
         });
         
         
-        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        Method m = bd.getClass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
         m.setAccessible(true);
         m.invoke(bd);
         
@@ -221,7 +221,7 @@ public class BudgetDocumentTest {
         });
         
         
-        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        Method m = bd.getClass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
         m.setAccessible(true);
         m.invoke(bd);
         
@@ -286,7 +286,7 @@ public class BudgetDocumentTest {
         });
         
         
-        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        Method m = bd.getClass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
         m.setAccessible(true);
         m.invoke(bd);
         

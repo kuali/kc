@@ -53,7 +53,7 @@ public class ProtocolFinderDaoOjbTest extends KraTestBase {
     public void setUp() throws Exception {
         super.setUp();
         protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After

@@ -84,7 +84,7 @@ public class ProtocolRequestServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolRequestService = new ProtocolRequestServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
