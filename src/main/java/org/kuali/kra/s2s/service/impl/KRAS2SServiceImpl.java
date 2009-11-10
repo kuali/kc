@@ -27,6 +27,8 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportuni
 import gov.grants.apply.webservices.applicantintegrationservices_v1.OpportunityInformationType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -256,14 +258,25 @@ public class KRAS2SServiceImpl implements S2SService {
                 attachments.put(attachmentData.getContentId(), attachmentFile);
                 S2sAppAttachments appAttachments = new S2sAppAttachments();
                 appAttachments.setContentId(attachmentData.getContentId());
+                appAttachments.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
                 s2sAppAttachmentList.add(appAttachments);
             }
             S2sAppSubmission appSubmission = new S2sAppSubmission();
             appSubmission.setStatus(S2SConstants.GRANTS_GOV_STATUS_MESSAGE);
             appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
             SubmitApplicationResponse response = null;
+            XmlOptions xmlOptions = new XmlOptions();
+            Map<String,String> prefixMap = new HashMap<String,String>();
+            prefixMap.put("http://apply.grants.gov/system/MetaGrantApplication", "");
+            prefixMap.put("http://apply.grants.gov/forms/RR_SubawardBudget-V1.0", "RR_SubawardBudget");
+            prefixMap.put("http://apply.grants.gov/forms/RR_SubawardBudget-V1.1", "RR_SubawardBudget");
+            prefixMap.put("http://apply.grants.gov/forms/RR_SubawardBudget-V1.2", "RR_SubawardBudget");
+
+            xmlOptions.setSaveSuggestedPrefixes(prefixMap);
+
+            String applicationXml = grantApplicationDocument.xmlText(xmlOptions);
             try {
-                response = grantsGovConnectorService.submitApplication(grantApplicationDocument.xmlText(), attachments, pdDoc
+                response = grantsGovConnectorService.submitApplication(applicationXml, attachments, pdDoc
                         .getDevelopmentProposal().getProposalNumber());
             }
             catch (S2SException ex) {
@@ -275,7 +288,7 @@ public class KRAS2SServiceImpl implements S2SService {
                 businessObjectService.save(appSubmission);
                 throw ex;
             }
-            saveSubmissionDetails(pdDoc, appSubmission, response, grantApplicationDocument.xmlText(), s2sAppAttachmentList);
+            saveSubmissionDetails(pdDoc, appSubmission, response, applicationXml, s2sAppAttachmentList);
             submissionStatus = true;
         }
         return submissionStatus;
@@ -337,15 +350,19 @@ public class KRAS2SServiceImpl implements S2SService {
     private void saveSubmissionDetails(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
             SubmitApplicationResponse response, String grantApplicationXml, List<S2sAppAttachments> s2sAppAttachmentList) {
         if (response != null) {
-            appSubmission.setGgTrackingId(response.getGrantsGovTrackingNumber());
-            appSubmission.setReceivedDate(new Timestamp(response.getReceivedDateTime().toGregorianCalendar().getTimeInMillis()));
+            String proposalNumber = pdDoc.getDevelopmentProposal().getProposalNumber();
             S2sApplication application = new S2sApplication();
             application.setApplication(grantApplicationXml);
+            application.setProposalNumber(proposalNumber);
             application.setS2sAppAttachmentList(s2sAppAttachmentList);
             List<S2sApplication> s2sApplicationList = new ArrayList<S2sApplication>();
             s2sApplicationList.add(application);
+
+            appSubmission.setGgTrackingId(response.getGrantsGovTrackingNumber());
+            appSubmission.setReceivedDate(new Timestamp(response.getReceivedDateTime().toGregorianCalendar().getTimeInMillis()));
             appSubmission.setS2sApplication(s2sApplicationList);
-            appSubmission.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+            appSubmission.setProposalNumber(proposalNumber);
+            
             List<S2sAppSubmission> appList = pdDoc.getDevelopmentProposal().getS2sAppSubmission();
             int submissionNumber = 1;
             for (S2sAppSubmission submittedApplication : appList) {
@@ -353,11 +370,12 @@ public class KRAS2SServiceImpl implements S2SService {
                     ++submissionNumber;
                 }
             }
+            
             appSubmission.setSubmissionNumber(submissionNumber);
             appList.add(appSubmission);
-            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
-            appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
-            pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
+//            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
+//            appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
+//            pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
             businessObjectService.save(appSubmission);
         }
     }
