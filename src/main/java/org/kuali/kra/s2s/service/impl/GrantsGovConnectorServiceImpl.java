@@ -48,6 +48,7 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.configuration.security.FiltersType;
@@ -109,9 +110,16 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         getOpportunityListRequest.setOpportunityID(opportunityId);
         try {
             return port.getOpportunityList(getOpportunityListRequest);
+        }catch(SOAPFaultException soapFault){
+            LOG.error("Error while getting list of opportunities", soapFault);
+            if(soapFault.getMessage().indexOf("Connection refused")!=-1){
+                throw new S2SException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,soapFault.getMessage());
+            }else{
+                throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,soapFault.getMessage());
+            }
         }catch (ErrorMessage e) {
             LOG.error("Error while getting list of opportunities", e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,e.getMessage());
+            throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
         }
     }
 
