@@ -30,6 +30,7 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -43,15 +44,15 @@ import org.kuali.rice.test.data.UnitTestFile;
             )
 
 public class ProtocolPersonnelServiceTest extends KcraNoDataTestBase {
-    protected static final String CO_INVESTIGATOR_PERSON_ID = "2";
-    protected static final String CO_INVESTIGATOR_NAME = "Philip Berg";
+    protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
+    protected static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
     protected static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     protected static final String CO_INVESTIGATOR_UNIT = "000001";
     protected static final String CO_INVESTIGATOR_OBJ_ID="dhafjkhadlkjfha";
     protected static final String PRINCIPAL_INVESTIGATOR_ROLE_ID = "PI";
-    protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "BL-BL";
-    protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "000000001";
-    protected static final String PRINCIPAL_INVESTIGATOR_NAME = "CLINKSCALES";
+    protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "IN-CARD";
+    protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "10000000001";
+    protected static final String PRINCIPAL_INVESTIGATOR_NAME = "Joe Tester";
     protected static final String CORRESPONDENT_ROLE_ID = "CRC";
     protected static final String PERSON_ID = "personId";
     private ProtocolPersonTrainingService protocolPersonTrainingService;
@@ -74,6 +75,8 @@ public class ProtocolPersonnelServiceTest extends KcraNoDataTestBase {
     
     @After
     public void tearDown() throws Exception {
+        SQLDataLoader testDataUnloader = new SQLDataLoader("classpath:sql/dml/clear_protocolpersonnselservicetest_data.sql", ";");
+        testDataUnloader.runSql();
         GlobalVariables.setUserSession(null);
         service = null;
         protocolPersonnelService = null;

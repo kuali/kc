@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.award;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.document.AwardDocument;
@@ -32,6 +34,7 @@ public class MinimalAwardTest extends KraTestBase {
     private AwardDocument awardDocument;
 
     @Override
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         award = AwardFixtureFactory.createAwardFixture();
@@ -40,6 +43,7 @@ public class MinimalAwardTest extends KraTestBase {
     }
 
     @Override
+    @After
     public void tearDown() throws Exception {
         super.tearDown();
     }

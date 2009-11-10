@@ -69,7 +69,7 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolAmendRenewService = new ProtocolAmendRenewServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);

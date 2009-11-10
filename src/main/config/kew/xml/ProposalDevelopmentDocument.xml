@@ -24,7 +24,6 @@
 						<type>text</type>
 					</display>
 					<!-- This will probably use kimpersonservice ? -->
-					
 					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
 					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
 				      <fieldConversions>
@@ -62,7 +61,6 @@
 					<display>
 						<type>text</type>
 					</display>
-					
 				    <!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
 					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
 				      <fieldConversions>
@@ -97,7 +95,6 @@
 					<display>
 						<type>text</type>
 					</display>
-					
 					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
 					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
 				      <fieldConversions>
@@ -131,7 +128,6 @@
 					<display>
 						<type>text</type>
 					</display>
-					
 					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
 					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
 				      <fieldConversions>
@@ -181,7 +177,8 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
-			
+		
+		
 		<ruleAttribute>
 			<name>DepartmentalApprovalAttribute</name>
 			<className>
@@ -345,7 +342,7 @@
 			<description>ProposalPersons-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
 			<resolverConfig>
-				<qualifier name="proposalNumber">
+				<qualifier name="proposal">
 					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/proposalNumber')</xPathExpression>
 				</qualifier>
 			</resolverConfig>
@@ -358,7 +355,7 @@
 			<description>DepartmentRouting-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
 			<resolverConfig>
-				<qualifier name="unit">
+				<qualifier name="unitNumber">
 					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')</xPathExpression>
 				</qualifier>
 			</resolverConfig>

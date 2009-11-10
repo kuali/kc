@@ -42,15 +42,16 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     private static final String TESTER_USERNAME = "jtester";
     private static final String TESTER_FULLNAME = "Joe Tester";
     
-    private static final String USER1_USERNAME = "tdurkin";
-    private static final String USER1_FULLNAME = "Terry Durkin";
+    private static final String USER1_USERNAME = "majors";
+    private static final String USER1_FULLNAME = "Nicholas Majors";
     
-    private static final String USER2_USERNAME = "ljoconno";
-    private static final String USER2_FULLNAME = "Lora OConnor";
+    private static final String USER2_USERNAME = "cate";
+    private static final String USER2_FULLNAME = "Allyson Cate";
     
-    private static final String USER3_USERNAME = "bhutchin";    
+    private static final String USER3_USERNAME = "oblood";    
         
-    private static final String AGGREGATORS_ID = "Award Aggregator";
+    //FIXME:Verify why it was Award Aggregator before since that role was not being used while initializing Users
+    private static final String AGGREGATORS_ID = "Award Modifier";
     private static final String VIEWERS_ID = "Award Viewer";
     
     private static final String USER_TABLE_ID = "user-roles";

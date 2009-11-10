@@ -44,9 +44,9 @@ public abstract class ProtocolRuleTestBase extends KraTestBase {
     protected static final String PROTOCOL_STATUS_STR = "100"; //test of option "Pending/In Progress";
     protected static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     protected static final String PROTOCOL_TITLE_STR = "New protocol test";
-    protected static final String PRINCIPAL_INVESTIGATOR_ID = "000000001";
-    protected static final String PRINCIPAL_INVESTIGATOR_NAME = "Terry Durkin";
-    protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "BL-BL";
+    protected static final String PRINCIPAL_INVESTIGATOR_ID = "10000000001";
+    protected static final String PRINCIPAL_INVESTIGATOR_NAME = "Joe Tester";
+    protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "IN-CARD";
     protected static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     protected static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     protected static final String REFERENCE_UNIT = "unit";

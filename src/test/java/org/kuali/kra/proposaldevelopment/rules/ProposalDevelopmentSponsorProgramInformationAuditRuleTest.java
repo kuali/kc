@@ -106,7 +106,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         assertEquals(1, auditErrors.size());
         AuditError auditError = (AuditError) auditErrors.get(0);
 
-        assertEquals("document.deadlineDate", auditError.getErrorKey());
+        assertEquals("document.developmentProposalList[0].deadlineDate", auditError.getErrorKey());
         assertEquals(messageKey, auditError.getMessageKey());
         assertEquals("proposal.SponsorProgramInformation", auditError.getLink());
 

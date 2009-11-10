@@ -36,8 +36,8 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private ProtocolPersonnelRule rule;
-    private static final String CO_INVESTIGATOR_PERSON_ID = "000000002";
-    private static final String CO_INVESTIGATOR_NAME = "Philip Berg";
+    private static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
+    private static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     private static final String CORRESPONDENT_ROLE_ID = "CRC";
     

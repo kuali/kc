@@ -89,12 +89,11 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
         DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", DEFAULT_DOCUMENT_DESCRIPTION),
         PROTOCOL_TYPE_CODE("document.protocolList[0].protocolTypeCode", PROTOCOL_TYPE_CODE_STR),
         PROTOCOL_TITLE("document.protocolList[0].title", PROTOCOL_TITLE_STR),
-     //   PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
-        PROTOCOL_PI_ID("protocolHelper.personId", "000000001"),
-        PROTOCOL_PI_ID1("protocolHelper.principalInvestigatorId", "000000001"),
-        PROTOCOL_PI_ID2("document.protocolList[0].principalInvestigatorId", "000000001"),
-        PROTOCOL_PI_NAME("protocolHelper.principalInvestigatorName", "Terry Durkin"),
-        PROTOCOL_LEAD_UNIT_NUM("protocolHelper.leadUnitNumber", "BL-BL");
+        PROTOCOL_PI_ID("protocolHelper.personId", "10000000003"),
+        PROTOCOL_PI_ID1("protocolHelper.principalInvestigatorId", "10000000003"),
+        PROTOCOL_PI_ID2("document.protocolList[0].principalInvestigatorId", "10000000003"),
+        PROTOCOL_PI_NAME("protocolHelper.principalInvestigatorName", "Nicholas Majors"),
+        PROTOCOL_LEAD_UNIT_NUM("protocolHelper.leadUnitNumber", "000001");
                 
         private final String code;   
         private final String value;
