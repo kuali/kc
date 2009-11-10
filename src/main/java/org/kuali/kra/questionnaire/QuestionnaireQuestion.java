@@ -51,7 +51,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
     @Type(type="yes_no")
     @Column(name="CONDITION_FLAG")
     private boolean conditionFlag; 
-    @Column(name="CONDITION")
+    @Column(name="CONDITION_TYPE")
     private String condition; 
     @Column(name="CONDITION_VALUE")
     private String conditionValue; 
