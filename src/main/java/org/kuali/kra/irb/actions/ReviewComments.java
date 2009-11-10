@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.irb.actions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
-public class ReviewComments {
+public class ReviewComments implements Serializable {
     
     private CommitteeScheduleMinute newComment = new CommitteeScheduleMinute();
     
