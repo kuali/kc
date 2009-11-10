@@ -32,6 +32,7 @@ import java.util.Map;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
@@ -154,6 +155,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
         Element grantApplicationElement = (Element) dataElement.getChildNodes().item(0);
 
+        
         byte[] serializedXML = XfaForm.serializeDoc(grantApplicationElement);
 
         return serializedXML;
@@ -164,7 +166,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      */       
 
     @SuppressWarnings("unchecked")
-    private Map extractAttachments(PdfReader reader)throws IOException{//, CoeusException {
+    private Map extractAttachments(PdfReader reader)throws IOException{
         Map fileMap = new HashMap();
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
@@ -273,7 +275,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         byteArrayInputStream.close();
 
         
-        String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";// and not(FileLocation[@href])]";// and string-length(normalize-space(@*)) = 0 ]";
+        String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
         removeAllEmptyNodes(document,xpathOtherPers,1);
@@ -292,15 +294,16 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         Node newroot = document.appendChild(document.createElement("Forms"));
         newroot.appendChild(oldroot);
         
-        org.w3c.dom.NodeList lstFileName = document.getElementsByTagName(attFileName);
-        org.w3c.dom.NodeList lstFileLocation = document.getElementsByTagName(fileLocation);
-        org.w3c.dom.NodeList lstHashValue = document.getElementsByTagName(globhashValue);
+        org.w3c.dom.NodeList lstFileName = document.getElementsByTagName("att:FileName");
+        org.w3c.dom.NodeList lstFileLocation = document.getElementsByTagName("att:FileLocation");
+        org.w3c.dom.NodeList lstMimeType = document.getElementsByTagName("att:MimeType");
+        org.w3c.dom.NodeList lstHashValue = document.getElementsByTagName("glob:HashValue");
 
         if((lstFileName.getLength() != lstFileLocation.getLength()) || (lstFileLocation.getLength() != lstHashValue.getLength())) {
             throw new RuntimeException("Tag occurances mismatch in XML File");
         }
 
-        org.w3c.dom.Node fileNode, hashNode;
+        org.w3c.dom.Node fileNode, hashNode, mimeTypeNode;
         org.w3c.dom.NamedNodeMap fileNodeMap, hashNodeMap;
         String fileName;
         byte fileBytes[];
@@ -312,43 +315,51 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
         for(int index = 0; index < lstFileName.getLength(); index++) {
             fileNode = lstFileName.item(index);
-            
-            fileName = fileNode.getFirstChild().getNodeValue();
+                
+            Node fileNameNode = fileNode.getFirstChild(); 
+            fileName = fileNameNode.getNodeValue();
 
             fileBytes = (byte[])fileMap.get(fileName);
 
             if(fileBytes == null) {
                 throw new RuntimeException("FileName mismatch in XML and PDF extracted file");
             }
-            hashValueType = getValue(fileBytes);
-            hashAlgorithm = hashValueType.getHashAlgorithm();
-            byte hashBytes[] = hashValueType.getByteArrayValue();
-            hashValue = Base64.encodeBytes(hashBytes);
+            String hashVal = GrantApplicationHash.computeAttachmentHash(fileBytes);
+//            hashValueType = getValue(fileBytes);
+//            Node newHashValueNode = hashValueType.getDomNode();
+//            NodeList oldHashValueLst = ((Element)parentNode).getElementsByTagName("att:HashValue");
+//            Node oldHashNode = oldHashValueLst.item(0);
+//            parentNode.replaceChild(newHashValueNode, oldHashNode);
+//            hashAlgorithm = hashValueType.getHashAlgorithm();
+//            byte hashBytes[] = hashValueType.getByteArrayValue();
+//            hashValue = Base64.encodeBytes(hashBytes);
 
             hashNode = lstHashValue.item(index);
             hashNodeMap = hashNode.getAttributes();
 
-            Node temp = document.createTextNode(hashValue);
+            Node temp = document.createTextNode(hashVal);
             hashNode.appendChild(temp);
 
-            hashNode = hashNodeMap.getNamedItem(globHashAlgorithm);
+            hashNode = hashNodeMap.getNamedItem("glob:hashAlgorithm");
 
-            hashNode.setNodeValue(hashAlgorithm);
+            hashNode.setNodeValue(S2SConstants.HASH_ALGORITHM);
 
             fileNode = lstFileLocation.item(index);
             fileNodeMap = fileNode.getAttributes();
-            fileNode = fileNodeMap.getNamedItem(fileContentId);
+            fileNode = fileNodeMap.getNamedItem("att:href");
 
             contentId = fileNode.getNodeValue();
+            String encodedContentId = cleanContentId(contentId);
+            fileNode.setNodeValue(encodedContentId);
 
+            mimeTypeNode = lstMimeType.item(0);
+            String contentType = mimeTypeNode.getFirstChild().getNodeValue();
+                
             BudgetSubAwardAttachment budgetSubAwardAttachmentBean = new BudgetSubAwardAttachment();
             budgetSubAwardAttachmentBean.setAttachment(fileBytes);
+            budgetSubAwardAttachmentBean.setContentId(encodedContentId);
 
-            budgetSubAwardAttachmentBean.setContentId(contentId);
-
-            budgetSubAwardAttachmentBean.setContentType("application/octet-stream");
-//            budgetSubAwardAttachmentBean.setProposalNumber(budgetSubAwardBean.getProposalNumber());
-//            budgetSubAwardAttachmentBean.setVersionNumber(budgetSubAwardBean.getVersionNumber());
+            budgetSubAwardAttachmentBean.setContentType(contentType);
             budgetSubAwardAttachmentBean.setBudgetId(budgetSubAwardBean.getBudgetId());
             budgetSubAwardAttachmentBean.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
 
@@ -375,6 +386,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     }
 
 
+    private String cleanContentId(String contentId) {
+//        contentId = StringUtils.substringBefore(contentId, ".");
+        return StringUtils.replaceChars(contentId, " .%-_", "");
+    }
     public void populateBudgetSubAwardAttachments(Budget budget) {
         List<BudgetSubAwards> subAwards = budget.getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAwards : subAwards) {
