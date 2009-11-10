@@ -284,6 +284,11 @@
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
 	    &protocol_forwards;
       </action>
+      
+      <action path="/questionnaire" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" type="org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" />
+	    &protocol_forwards;
+      </action>
       <!--  KRA IRB Mapping END -->
       
       

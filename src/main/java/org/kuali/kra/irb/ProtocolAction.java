@@ -85,6 +85,19 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     /**
+     * This method gets called upon navigation to Questionnaire tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        
+        return mapping.findForward("questionnaire");
+    }
+    
+    /**
      * This method gets called upon navigation to Notes and attachments tab.
      * @param mapping the Action Mapping
      * @param form the Action Form
