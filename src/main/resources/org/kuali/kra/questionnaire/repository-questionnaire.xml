@@ -206,7 +206,7 @@
         <field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="parentQuestionNumber" column="PARENT_QUESTION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="conditionFlag" column="CONDITION_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-        <field-descriptor name="condition" column="CONDITION" jdbc-type="VARCHAR" />
+        <field-descriptor name="condition" column="CONDITION_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="conditionValue" column="CONDITION_VALUE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
