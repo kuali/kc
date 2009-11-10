@@ -48,6 +48,13 @@
 	          	<property name="headerTabNavigateTo" value="personnel"/>
         	</bean>
         	<bean parent="HeaderNavigation">
+          		<property name="helpDefinition">
+            		<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolQuestionnaireHelp" p:parameterDetailType="D"/>
+          		</property>
+          		<property name="headerTabDisplayName" value="Questionnaire"/>
+          		<property name="headerTabNavigateTo" value="questionnaire"/>
+        	</bean>
+        	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
 	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="customDataHelp" p:parameterDetailType="D"/>
 	          	</property>
