@@ -19,8 +19,8 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
  * This class...
  */
 public enum HierarchyBudgetTypeConstants {
-    SubProject ("P", "Sub-Project"),
-    SubBudget ("B", "Sub-Budget");
+    SubBudget ("B", "Sub-Budget"),
+    SubProject ("P", "Sub-Project");
     
     private final String code;
     private final String description;

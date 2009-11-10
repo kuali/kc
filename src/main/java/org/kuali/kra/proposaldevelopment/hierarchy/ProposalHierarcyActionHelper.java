@@ -111,14 +111,13 @@ public class ProposalHierarcyActionHelper {
         LOG.info(String.format("createHierarchy completed", initialChildProposal.getProposalNumber()));
     }
     
-    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
+    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) {
         if (validateParent(hierarchyProposal)) {
             boolean valid = true;
             valid &= validateChildCandidate(newChildProposal);
             if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
                 try {
-                      
-                    getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
+                    getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (Exception e) {

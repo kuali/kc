@@ -149,6 +149,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     private List<CongressionalDistrictHelper> otherOrganizationHelpers;
     private String newHierarchyProposalNumber;
     private String newHierarchyChildProposalNumber;
+    private String newHierarchyBudgetTypeCode;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
    
 
@@ -1467,6 +1468,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      */
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries() {
         return hierarchyProposalSummaries;
+    }
+
+    /**
+     * Sets the newHierarchyBudgetTypeCode attribute value.
+     * @param newHierarchyBudgetTypeCode The newHierarchyBudgetTypeCode to set.
+     */
+    public void setNewHierarchyBudgetTypeCode(String newHierarchyBudgetTypeCode) {
+        this.newHierarchyBudgetTypeCode = newHierarchyBudgetTypeCode;
+    }
+
+    /**
+     * Gets the newHierarchyBudgetTypeCode attribute. 
+     * @return Returns the newHierarchyBudgetTypeCode.
+     */
+    public String getNewHierarchyBudgetTypeCode() {
+        return newHierarchyBudgetTypeCode;
     }
 
     /**

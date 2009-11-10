@@ -51,6 +51,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -65,6 +66,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -80,7 +82,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
     private static final String ERROR_BUDGET_START_DATE_INCONSISTENT = "error.hierarchy.budget.startDateInconsistent";
     private static final String ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT = "error.hierarchy.budget.periodDurationInconsistent";
-
+    private static final String PARAMETER_NAME_DIRECT_COST_ELEMENT = "proposalHierarchySubProjectDirectCostElement";
+    private static final String PARAMETER_NAME_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
+    
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
@@ -89,6 +93,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private BudgetService budgetService;
     private BudgetCalculationService budgetCalculationService;
     private ProposalPersonBiographyService propPersonBioService;
+    private ParameterService parameterService;
 
     /**
      * Sets the businessObjectService attribute value.
@@ -155,6 +160,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
      */
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
@@ -200,7 +213,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         copyInitialAttachments(initialChild, hierarchy);
 
         // link the child to the parent
-        linkChild(hierarchy, initialChild);
+        linkChild(hierarchy, initialChild, HierarchyBudgetTypeConstants.SubBudget.code());
         setInitialPi(hierarchy, initialChild);
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
@@ -212,10 +225,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#linkToHierarchy(java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#linkToHierarchy(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal, org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal, java.lang.String)
      */
-    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) throws ProposalHierarchyException {
+    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) throws ProposalHierarchyException {
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s)", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
         if (!hierarchyProposal.isParent()) {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposal.getProposalNumber()
@@ -226,7 +238,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     + " is already a member of a hierarchy");
         }
         prepareHierarchySync(hierarchyProposal);
-        linkChild(hierarchyProposal, newChildProposal);
+        linkChild(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
         finalizeHierarchySync(hierarchyProposal);
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s) complete", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
@@ -349,11 +361,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return summaries;
     }
 
-    private void linkChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal)
+    private void linkChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode)
             throws ProposalHierarchyException {
         // set child to child status
         newChildProposal.setHierarchyStatus(HierarchyStatusConstants.Child.code());
         newChildProposal.setHierarchyParentProposalNumber(hierarchyProposal.getProposalNumber());
+        newChildProposal.setHierarchyBudgetType(hierarchyBudgetTypeCode);
         // call synchronize
         synchronizeChild(hierarchyProposal, newChildProposal);
         // call aggregate
@@ -513,7 +526,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         businessObjectService.save(childProposal);
         LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
-        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber());
+        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType());
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
         }
@@ -525,7 +538,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return true;
     }
     
-    private void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber)
+    private void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode)
             throws ProposalHierarchyException {
         try {
             BudgetPerson newPerson;
@@ -572,7 +585,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 BudgetLineItem parentLineItem;
                 Integer lineItemNumber;
                 
-                if (true) { // switch to check for subproject or subbudget
+                if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         parentLineItem = (BudgetLineItem) ObjectUtils.deepCopy(childLineItem);
                         parentLineItem.setBudgetId(budgetId);
@@ -599,56 +612,59 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
                 }
-//                else { // subproject budget
-//                    Map primaryKeys;
-//                    CostElement costElement;
-//                    if (childPeriod.getTotalIndirectCost().isNonZero()) {
-//                        primaryKeys = new HashMap();
-//                        primaryKeys.put("costElement", "PHTID02");
-//                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
-//                        parentLineItem = new BudgetLineItem();
-//                        parentLineItem.setStartDate(parentPeriod.getStartDate());
-//                        parentLineItem.setEndDate(parentPeriod.getEndDate());
-//                        parentLineItem.setBudgetId(budgetId);
-//                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
-//                        parentLineItem.setBudgetPeriod(budgetPeriod);
-//                        parentLineItem.setVersionNumber(null);
-//                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
-//                        parentLineItem.setLineItemNumber(lineItemNumber);
-//                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
-//                        parentLineItem.setLineItemCost(childPeriod.getTotalIndirectCost());
-//                        parentLineItem.setIndirectCost(childPeriod.getTotalIndirectCost());
-//                        parentLineItem.setCostElementBO(costElement);
-//                        parentLineItem.setCostElement(costElement.getCostElement());
-//                        parentLineItem.setBudgetCategoryCode(costElement.getBudgetCategoryCode());
-//                        parentLineItem.setOnOffCampusFlag(costElement.getOnOffCampusFlag());
-//                        parentLineItem.setApplyInRateFlag(true);
-//                        parentPeriod.getBudgetLineItems().add(parentLineItem);
-//                    }
-//                    if (childPeriod.getTotalIndirectCost().isNonZero()) {
-//                        primaryKeys = new HashMap();
-//                        primaryKeys.put("costElement", "PHTD01");
-//                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
-//                        parentLineItem = new BudgetLineItem();
-//                        parentLineItem.setStartDate(parentPeriod.getStartDate());
-//                        parentLineItem.setEndDate(parentPeriod.getEndDate());
-//                        parentLineItem.setBudgetId(budgetId);
-//                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
-//                        parentLineItem.setBudgetPeriod(budgetPeriod);
-//                        parentLineItem.setVersionNumber(null);
-//                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
-//                        parentLineItem.setLineItemNumber(lineItemNumber);
-//                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
-//                        parentLineItem.setLineItemCost(childPeriod.getTotalDirectCost());
-//                        parentLineItem.setDirectCost(childPeriod.getTotalDirectCost());
-//                        parentLineItem.setCostElementBO(costElement);
-//                        parentLineItem.setCostElement(costElement.getCostElement());
-//                        parentLineItem.setBudgetCategoryCode(costElement.getBudgetCategoryCode());
-//                        parentLineItem.setOnOffCampusFlag(costElement.getOnOffCampusFlag());
-//                        parentLineItem.setApplyInRateFlag(true);
-//                        parentPeriod.getBudgetLineItems().add(parentLineItem);
-//                    }
-//                }
+                else { // subproject budget
+                    Map<String, String> primaryKeys;
+                    CostElement costElement;
+                    String directCostElement = parameterService.getParameterValue(BudgetDocument.class, PARAMETER_NAME_DIRECT_COST_ELEMENT);
+                    String indirectCostElement = parameterService.getParameterValue(BudgetDocument.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
+                    
+                    if (childPeriod.getTotalIndirectCost().isNonZero()) {
+                        primaryKeys = new HashMap<String, String>();
+                        primaryKeys.put("costElement", indirectCostElement);
+                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
+                        parentLineItem = new BudgetLineItem();
+                        parentLineItem.setStartDate(parentPeriod.getStartDate());
+                        parentLineItem.setEndDate(parentPeriod.getEndDate());
+                        parentLineItem.setBudgetId(budgetId);
+                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
+                        parentLineItem.setBudgetPeriod(budgetPeriod);
+                        parentLineItem.setVersionNumber(null);
+                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        parentLineItem.setLineItemNumber(lineItemNumber);
+                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        parentLineItem.setLineItemCost(childPeriod.getTotalIndirectCost());
+                        parentLineItem.setIndirectCost(childPeriod.getTotalIndirectCost());
+                        parentLineItem.setCostElementBO(costElement);
+                        parentLineItem.setCostElement(costElement.getCostElement());
+                        parentLineItem.setBudgetCategoryCode(costElement.getBudgetCategoryCode());
+                        parentLineItem.setOnOffCampusFlag(costElement.getOnOffCampusFlag());
+                        parentLineItem.setApplyInRateFlag(true);
+                        parentPeriod.getBudgetLineItems().add(parentLineItem);
+                    }
+                    if (childPeriod.getTotalIndirectCost().isNonZero()) {
+                        primaryKeys = new HashMap<String, String>();
+                        primaryKeys.put("costElement", directCostElement);
+                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
+                        parentLineItem = new BudgetLineItem();
+                        parentLineItem.setStartDate(parentPeriod.getStartDate());
+                        parentLineItem.setEndDate(parentPeriod.getEndDate());
+                        parentLineItem.setBudgetId(budgetId);
+                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
+                        parentLineItem.setBudgetPeriod(budgetPeriod);
+                        parentLineItem.setVersionNumber(null);
+                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        parentLineItem.setLineItemNumber(lineItemNumber);
+                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        parentLineItem.setLineItemCost(childPeriod.getTotalDirectCost());
+                        parentLineItem.setDirectCost(childPeriod.getTotalDirectCost());
+                        parentLineItem.setCostElementBO(costElement);
+                        parentLineItem.setCostElement(costElement.getCostElement());
+                        parentLineItem.setBudgetCategoryCode(costElement.getBudgetCategoryCode());
+                        parentLineItem.setOnOffCampusFlag(costElement.getOnOffCampusFlag());
+                        parentLineItem.setApplyInRateFlag(true);
+                        parentPeriod.getBudgetLineItems().add(parentLineItem);
+                    }
+                }
             }
         }
         catch (Exception e) {
