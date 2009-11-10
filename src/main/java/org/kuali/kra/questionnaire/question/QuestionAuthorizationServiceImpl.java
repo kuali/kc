@@ -30,8 +30,7 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
 
     public boolean hasPermission(String permissionName) {
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
-        //FIXME: Need to pass the appropriate Permission Namespace
-        return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), "??", permissionName);
+        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);
     }
 
     private String getUserName() {
