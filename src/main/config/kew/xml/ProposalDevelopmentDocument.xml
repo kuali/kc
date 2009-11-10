@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 
-	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
-		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>CopyCustomActionListAttribute</name>
 			<className>
@@ -17,9 +14,7 @@
 
 		<ruleAttribute>
 			<name>AggregatorSearchAttribute</name>
-			<className>
-				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
-			</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>AggregatorSearchAttribute</label>
 			<description>AggregatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -29,8 +24,14 @@
 						<type>text</type>
 					</display>
 					<!-- This will probably use kimpersonservice ? -->
-					<quickfinder service="UserLookupableImplService"
-						appliesTo="networkId" draw="true" />
+					
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
 						<!-- not sure yet -->
 						<!--  example //organization/organizationId -->
@@ -61,8 +62,14 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService"
-						appliesTo="networkId" draw="true" />
+					
+				    <!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
 						<xpathexpression>
 							//budgetcreator/string
@@ -80,9 +87,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>NarrativeWriterSearchAttribute</name>
-			<className>
-				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
-			</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>NarrativeWriterSearchAttribute</label>
 			<description>NarrativeWriterSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -92,8 +97,14 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService"
-						appliesTo="networkId" draw="true" />
+					
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
 						<xpathexpression>
 							//narrativewriter/string
@@ -111,9 +122,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>ViewerSearchAttribute</name>
-			<className>
-				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
-			</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>ViewerSearchAttribute</label>
 			<description>ViewerSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -122,8 +131,14 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService"
-						appliesTo="networkId" draw="true" />
+					
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
 						<xpathexpression>
 							//viewer/string
@@ -142,9 +157,7 @@
 		
 		<ruleAttribute>
 			<name>ProposalNumberAttribute</name>
-			<className>
-				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
-			</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>ProposalNumberSearchAttribute</label>
 			<description>ProposalNumberSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -168,8 +181,7 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
-		
-		
+			
 		<ruleAttribute>
 			<name>DepartmentalApprovalAttribute</name>
 			<className>
@@ -354,8 +366,7 @@
 
 	</ruleAttributes>
 
-	<documentTypes xmlns="ns:workflow/DocumentType"
-		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>ProposalDevelopmentDocument</name>
 			<description>
@@ -365,7 +376,8 @@
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
+			<!-- <defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName> -->
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies>
@@ -441,8 +453,7 @@
 			</routeNodes>
 		</documentType>
 	</documentTypes>
-	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
-		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
 		
 		<ruleTemplate allowOverwrite="true">
 			<name>CustomApproval</name>
