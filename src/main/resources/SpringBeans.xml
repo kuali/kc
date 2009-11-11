@@ -173,6 +173,7 @@
 				<value>sponsorLookupable</value>	
 				<value>pessimisticLockLookupable</value>	
 				<value>protocolLookupable</value>	
+				<value>protocolSubmissionLookupable</value>	
 				<value>committeeLookupable</value>	
 				<value>awardLookupable</value>
 				<!-- <value>awardPersonLookupable</value> -->

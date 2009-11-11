@@ -37,6 +37,7 @@
                 <ref bean="ProtocolSubmission-sequenceNumber" />
                 <ref bean="ProtocolSubmission-scheduleId" />
                 <ref bean="ProtocolSubmission-committeeId" />
+                <ref bean="ProtocolSubmission-committeeIdFk" />
                 <ref bean="ProtocolSubmission-submissionTypeCode" />
                 <ref bean="ProtocolSubmission-submissionTypeQualifierCode" />
                 <ref bean="ProtocolSubmission-protocolReviewTypeCode" />
@@ -48,8 +49,79 @@
                 <ref bean="ProtocolSubmission-abstainerCount" />
                 <ref bean="ProtocolSubmission-votingComments" />
                 <ref bean="ProtocolSubmission-versionNumber" />
+                <ref bean="ProtocolSubmission-scheduleDate" />
+                <ref bean="ProtocolSubmission-title" />
+                <ref bean="ProtocolSubmission-piName" />
+                <ref bean="ProtocolSubmission-submissionStatus.description" />
+                <ref bean="ProtocolSubmission-protocolSubmissionType.description" />
+                <ref bean="ProtocolSubmission-protocolReviewType.description" />
+                <ref bean="ProtocolSubmission-protocolSubmissionQualifierType.description" />
             </list>
         </property>
+    
+    <!--     
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="submissionStatus" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="submissionStatusCode"
+                    p:targetName="protocolSubmissionStatusCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="submissionStatus.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="protocolSubmissionType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="submissionTypeCode"
+                    p:targetName="submissionTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="protocolSubmissionType.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+        
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="protocolReviewType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="protocolReviewTypeCode"
+                    p:targetName="reviewTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="protocolReviewType.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+        
+      </list>
+    </property>
+         -->
     </bean>
 
     <!-- Attribute Definitions -->
@@ -96,7 +168,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
         <property name="shortLabel" value="Sequence Number" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="4" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -144,6 +216,28 @@
         <property name="summary" value="Committee Id" />
         <property name="description" value="Committee Id" />
     </bean>
+    <bean id="ProtocolSubmission-committeeIdFk" parent="ProtocolSubmission-committeeIdFk-parentBean" />
+    <bean id="ProtocolSubmission-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="committeeIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Committee Id" />
+        <property name="shortLabel" value="Committee Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.committee.bo.Committee"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="id"
+            	p:labelAttribute="committeeId" />
+    	</property>
+        <property name="summary" value="Committee Id" />
+        <property name="description" value="Committee Id" />
+    </bean>
 
     <bean id="ProtocolSubmission-submissionTypeCode" parent="ProtocolSubmission-submissionTypeCode-parentBean" />
     <bean id="ProtocolSubmission-submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -155,10 +249,15 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="submissionTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Submission Type Code" />
         <property name="description" value="Submission Type Code" />
     </bean>
@@ -191,10 +290,15 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="reviewTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Protocol Review Type Code" />
         <property name="description" value="Protocol Review Type Code" />
     </bean>
@@ -209,10 +313,15 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="protocolSubmissionStatusCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Submission Status Code" />
         <property name="description" value="Submission Status Code" />
     </bean>
@@ -227,6 +336,44 @@
         <property name="description" value="Submission Date" />
     </bean>
 
+    <bean id="ProtocolSubmission-submissionFromDate" parent="ProtocolSubmission-submissionFromDate-parentBean" />
+    <bean id="ProtocolSubmission-submissionFromDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="submissionFromDate" />
+        <property name="label" value="Submission From Date" />
+        <property name="shortLabel" value="Submission From Date" />
+        <property name="summary" value="Submission From Date" />
+        <property name="description" value="Submission From Date" />
+    </bean>
+
+    <bean id="ProtocolSubmission-submissionToDate" parent="ProtocolSubmission-submissionToDate-parentBean" />
+    <bean id="ProtocolSubmission-submissionToDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="submissionToDate" />
+        <property name="label" value="Submission To Date" />
+        <property name="shortLabel" value="Submission To Date" />
+        <property name="summary" value="Submission To Date" />
+        <property name="description" value="Submission To Date" />
+    </bean>
+
+    <bean id="ProtocolSubmission-scheduleDate" parent="ProtocolSubmission-scheduleDate-parentBean" />
+    <bean id="ProtocolSubmission-scheduleDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="scheduleDate" />
+        <property name="label" value="Schedule Date" />
+        <property name="shortLabel" value="Schedule Date" />
+        <property name="summary" value="Schedule Date" />
+        <property name="description" value="Schedule Date" />
+    </bean>
+
+    <bean id="ProtocolSubmission-title" parent="ProtocolSubmission-title-parentBean" />
+    <bean id="ProtocolSubmission-title-parentBean" abstract="true" parent="Protocol-title" >
+    </bean>
+    
+    <bean id="ProtocolSubmission-piName" parent="ProtocolSubmission-piName-parentBean" />
+    <bean id="ProtocolSubmission-piName-parentBean" abstract="true" parent="ProtocolPerson-personName" >
+		<property name="name" value="piName" />
+		<property name="label" value="PI" />
+		<property name="shortLabel" value="PI" />
+    </bean>
+    
     <bean id="ProtocolSubmission-comments" parent="ProtocolSubmission-comments-parentBean" />
     <bean id="ProtocolSubmission-comments-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="comments" />
@@ -321,6 +468,39 @@
     <bean id="ProtocolSubmission-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
+  <bean id="ProtocolSubmission-protocolReviewType.description" parent="ProtocolSubmission-protocolReviewType.description-parentBean" />
+
+  <bean id="ProtocolSubmission-protocolReviewType.description-parentBean" abstract="true" parent="ProtocolReviewType-description">
+    <property name="name" value="protocolReviewType.description" />
+    <property name="label" value="Review Type" />
+    <property name="shortLabel" value="Review Type" />
+  </bean>
+
+  <bean id="ProtocolSubmission-submissionStatus.description" parent="ProtocolSubmission-submissionStatus.description-parentBean" />
+
+  <bean id="ProtocolSubmission-submissionStatus.description-parentBean" abstract="true" parent="ProtocolSubmissionStatus-description">
+    <property name="name" value="submissionStatus.description" />
+    <property name="label" value="Submission Status" />
+    <property name="shortLabel" value="Submission Status" />
+  </bean>
+
+  <bean id="ProtocolSubmission-protocolSubmissionQualifierType.description" parent="ProtocolSubmission-protocolSubmissionQualifierType.description-parentBean" />
+
+  <bean id="ProtocolSubmission-protocolSubmissionQualifierType.description-parentBean" abstract="true" parent="ProtocolSubmissionQualifierType-description">
+    <property name="name" value="protocolSubmissionQualifierType.description" />
+    <property name="label" value="Submission Qualifier Type" />
+    <property name="shortLabel" value="Submission Qualifier Type" />
+  </bean>
+
+  <bean id="ProtocolSubmission-protocolSubmissionType.description" parent="ProtocolSubmission-protocolSubmissionType.description-parentBean" />
+
+  <bean id="ProtocolSubmission-protocolSubmissionType.description-parentBean" abstract="true" parent="ProtocolSubmissionType-description">
+    <property name="name" value="protocolSubmissionType.description" />
+    <property name="label" value="Submission Type" />
+    <property name="shortLabel" value="Submission Type" />
+  </bean>
+
+
     <!-- Business Object Inquiry Definition -->
     <bean id="ProtocolSubmission-inquiryDefinition" parent="ProtocolSubmission-inquiryDefinition-parentBean" />
     <bean id="ProtocolSubmission-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -366,6 +546,7 @@
     <bean id="ProtocolSubmission-lookupDefinition" parent="ProtocolSubmission-lookupDefinition-parentBean" />
     <bean id="ProtocolSubmission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Protocol Submission Lookup" />
+        <property name="lookupableID" value="protocolSubmissionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
         <property name="defaultSort" >
@@ -374,17 +555,11 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
+               <!--  <bean parent="FieldDefinition"
                     p:attributeName="submissionNumber" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
                     p:attributeName="scheduleId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="submissionDate" />
                 <bean parent="FieldDefinition"
@@ -397,33 +572,51 @@
                     p:attributeName="abstainerCount" />
                 <bean parent="FieldDefinition"
                     p:attributeName="votingComments" />
+                     -->
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionStatusCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="title" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="scheduleDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolReviewTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="committeeId" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="submissionNumber" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
                     p:attributeName="protocolNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeId" />
+                    p:attributeName="submissionStatus.description" />
                 <bean parent="FieldDefinition"
                     p:attributeName="submissionDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+                    p:attributeName="protocolSubmissionType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="yesVoteCount" />
+                    p:attributeName="protocolSubmissionQualifierType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="noVoteCount" />
+                    p:attributeName="protocolReviewType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="abstainerCount" />
+                    p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="votingComments" />
+                    p:attributeName="scheduleDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="title" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="piName" />
             </list>
         </property>
     </bean>
