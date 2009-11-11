@@ -692,10 +692,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Document document = budgetForm.getDocument();
-        // check authorization for reloading document
-        if (!budgetForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_RELOAD)) {
-            throw buildAuthorizationException("reload", document);
-        }
 
         // prepare for the reload action - set doc id and command
         budgetForm.setDocId(document.getDocumentNumber());
