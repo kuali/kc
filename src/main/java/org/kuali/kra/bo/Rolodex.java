@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class Rolodex extends KraPersistableBusinessObjectBase {
+public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable {
 
     private static final long serialVersionUID = -278526635683595863L;
 
@@ -350,4 +351,19 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 		hashMap.put("title", getTitle());
 		return hashMap;
 	}
+
+	/** {@inheritDoc} */
+    public String getContactOrganizationName() {
+        return this.getUnit().getUnitName();
+    }
+
+    /** {@inheritDoc} */
+    public Serializable getIdentifier() {
+        return this.getRolodexId();
+    }
+
+    /** {@inheritDoc} */
+    public String getOrganizationIdentifier() {
+        return this.getUnit().getOrganizationId();
+    }
 }
