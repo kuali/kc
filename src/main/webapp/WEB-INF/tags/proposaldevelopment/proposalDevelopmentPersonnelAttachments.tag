@@ -106,13 +106,13 @@
                 	    ${propPersonBio.uploadUserDisplay}
 	                </td>
 	                <td>
-        			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
-	                	<!--<kul:htmlControlAttribute property="document.developmentProposalList[0].propPersonBio[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
+        			    <%-- <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> --%> 
+	                	<%-- <kul:htmlControlAttribute property="document.developmentProposalList[0].propPersonBio[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" /> --%> 
         				<c:forEach var="keyPerson" items="${KualiForm.document.developmentProposalList[0].proposalPersons}" varStatus="idx">
         				   <c:if test="${keyPerson.proposalPersonNumber == propPersonBio.proposalPersonNumber}" >
         				       ${keyPerson.fullName}
-		        			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].personId" value="${keyPerson.personId}" /> 
-			    			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
+		        			    <%-- <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].personId" value="${keyPerson.personId}" /> 
+			    			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> --%> 
         				   </c:if>
 						</c:forEach>
 	                </td>
