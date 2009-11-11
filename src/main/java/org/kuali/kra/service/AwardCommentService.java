@@ -17,6 +17,7 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
 
 /**
@@ -30,4 +31,13 @@ public interface AwardCommentService {
      * @return
      */
     List<CommentType> retrieveCommentTypes();
+    
+    /**
+     * This method retrieves from the database all Award Comments with the give type code and Award ID for
+     * dispay in view history popup page.
+     * @param awardCommentTypeCode
+     * @param AwardId
+     * @return
+     */
+    List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId);
 }

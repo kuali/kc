@@ -16,6 +16,8 @@
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
 <%@ attribute name="index" description="Index" required="true" %>
 <%@ attribute name="commentTypeDescription" description="Comment Type Description" required="true" %>
+<%@ attribute name="commentTypeCode" description="Award Comment Type Code" required="true" %>
+<%@ attribute name="awardId" description="Award ID" required="true" %>
 <c:set var="action" value="awardNotesAndAttachments" />
 
 <c:set var="commentAttributes" value="${DataDictionary.AwardComment.attributes}" />
@@ -23,12 +25,23 @@
 
 	<kra:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
 		<table>
-        	<th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+		<tr>
+        	<th width="1300" align="left" scope="row"><div align="left">Comments</div></th>
+        	<th align="left" scope="row"><div align="center">Actions</div></th>
+        </tr>
+        <tr>
         	<td class="infoline">
             	 <div align="left">
             	  	 <kul:htmlControlAttribute property="${docAward}.award${commentMethodName}.comments" attributeEntry="${commentAttributes.comments}"/>
-            	  	 <kra:expandedTextArea textAreaFieldName="${docAward}.awardList[0].award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
-            	 </div>
-            </td>
-        </table
+            	  	 <kra:expandedTextArea textAreaFieldName="${docAward}.award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
+            	  </div>	 
+            </td>	     	 
+            <td>	 
+            	<div align="center">
+            		<a href="${pageContext.request.contextPath}/awardNotesAndAttachments.do?command=redirectAwardCommentHistoryForPopup&awardCommentTypeCode=${commentTypeCode}&awardId=${awardId}" target="_blank" >
+    				<img alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" />
+    			</div>
+    		</td>
+    	</tr>
+        </table>
   	</kra:innerTab>	

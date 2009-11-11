@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
+import java.util.Date;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
+
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.CommentType;
 
@@ -36,6 +39,8 @@ public class AwardComment extends AwardAssociate {
     @AwardSyncable private String comments; 
     
     private CommentType commentType; 
+    
+    private String updateTimestampDateString;
     
     
     /**
@@ -192,6 +197,22 @@ public class AwardComment extends AwardAssociate {
         this.commentType = commentType;
         this.commentTypeCode = commentType != null ? commentType.getCommentTypeCode() : null;
     }
+    
+    
+
+    /**
+     * Gets the updateTimestampDateString attribute. 
+     * @return Returns the updateTimestampDateString.
+     */
+    public String getUpdateTimestampDateString() {
+        Calendar cal = Calendar.getInstance() ; 
+        cal.setTime((Date) getUpdateTimestamp());
+        return Integer.toString(cal.get(Calendar.MONTH)) + "/" +
+                Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "/" +
+                Integer.toString(cal.get(Calendar.YEAR));
+    }
+
+    
 
     public void resetPersistenceState() {
         awardCommentId = null;

@@ -152,6 +152,7 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
     private AwardPrintChangeReport awardPrintChangeReport;
+    private List<AwardComment> awardCommentHistoryByType;
     
     /**
      *
@@ -188,6 +189,7 @@ public class AwardForm extends BudgetVersionFormBase
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
+        awardCommentHistoryByType = new ArrayList<AwardComment>();
         costShareFormHelper = new CostShareFormHelper(this);
         centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
@@ -397,6 +399,22 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setNewSpecialReviewExemptions(List<AwardSpecialReviewExemption> newSpecialReviewExcemptions) {
         this.newSpecialReviewExemptions = newSpecialReviewExcemptions;
+    }
+
+    /**
+     * Gets the awardCommentHistoryByType attribute. 
+     * @return Returns the awardCommentHistoryByType.
+     */
+    public List<AwardComment> getAwardCommentHistoryByType() {
+        return awardCommentHistoryByType;
+    }
+
+    /**
+     * Sets the awardCommentHistoryByType attribute value.
+     * @param awardCommentHistoryByType The awardCommentHistoryByType to set.
+     */
+    public void setAwardCommentHistoryByType(List<AwardComment> awardCommentHistoryByType) {
+        this.awardCommentHistoryByType = awardCommentHistoryByType;
     }
 
     public ResearchDocumentBase getResearchDocument() {

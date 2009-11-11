@@ -20,16 +20,18 @@ import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.service.impl.AwardCommentServiceImpl;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
@@ -44,11 +46,14 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
     
     private AwardNotepadBean awardNotepadBean;
     
+    private AwardCommentServiceImpl awardCommentServiceImpl;
+    
     /**
      * Constructs a InstitutionalProposalHomeAction.java.
      */
     public AwardNotesAndAttachmentsAction() {
         awardNotepadBean = new AwardNotepadBean();
+        awardCommentServiceImpl = new AwardCommentServiceImpl();
     }
     
     /**
@@ -201,6 +206,57 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * 
+     * This method is for the 'view history' button. It will be forwarded AwardCommentHistory.jsp
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewAwardCommentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        String awardCommentTypeCode = request.getParameter("awardCommentTypeCode");
+        String awardId = request.getParameter("awardId");
+        awardForm.setAwardCommentHistoryByType(awardCommentServiceImpl.retrieveCommentHistoryByType(awardCommentTypeCode, awardId));
+        return mapping.findForward("basic");
+    }  
+    
+    private ActionForward redirectAwardCommentHistoryForPopup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String awardCommentTypeCode, String awardId) throws Exception {
+        response.sendRedirect("awardCommentViewHistory.do?methodToCall=viewAwardCommentHistory&awardCommentTypeCode=" + awardCommentTypeCode +
+                "&awardId=" + awardId);
+      
+        return null;
+    }
+   
+    /**
+     * Gets the awardCommentServiceImpl attribute. 
+     * @return Returns the awardCommentServiceImpl.
+     */
+    public AwardCommentServiceImpl getAwardCommentServiceImpl() {
+        return awardCommentServiceImpl;
+    }
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        String command = request.getParameter("command");
+        String awardCommentTypeCode = request.getParameter("awardCommentTypeCode");
+        String awardId = request.getParameter("awardId");
+        if (StringUtils.isNotBlank(command) && "redirectAwardCommentHistoryForPopup".equals(command)) {
+            forward = redirectAwardCommentHistoryForPopup(mapping, form, request, response, awardCommentTypeCode, awardId);
+        }
+        return forward;
+    }
+    
+    
     
     
     /**
