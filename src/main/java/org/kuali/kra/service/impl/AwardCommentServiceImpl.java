@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,8 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     
     private BusinessObjectService businessObjectService;
     private String AWARD_COMMENT_SCREEN_FLAG = "awardCommentScreenFlag";
+    private String AWARD_COMMENT_TYPE_CODE = "commentTypeCode";
+    private String AWARD_ID = "awardId";
     
     /**
      * @see org.kuali.kra.service.AwardCommentService#retrieveCommentTypesToAwardFormForPanelHeaderDisplay()
@@ -43,6 +47,16 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         List<CommentType> commentTypeList = 
             (List<CommentType>) getBusinessObjectService().findMatching(CommentType.class, queryMap);
         return commentTypeList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(AWARD_COMMENT_TYPE_CODE, awardCommentTypeCode);
+        queryMap.put(AWARD_ID, awardId);
+        List<AwardComment> awardCommentHistory = (List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap);
+        return awardCommentHistory;
     }
 
     /**
@@ -60,7 +74,9 @@ public class AwardCommentServiceImpl implements AwardCommentService {
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+        return this.businessObjectService;
     }
+
+    
 
 }
