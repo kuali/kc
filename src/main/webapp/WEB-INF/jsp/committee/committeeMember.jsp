@@ -6,4 +6,4 @@
 <%@ attribute name="readOnly" description="All fields are displayed as read-only elements." required="true" %>
 
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
-<c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
+<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
