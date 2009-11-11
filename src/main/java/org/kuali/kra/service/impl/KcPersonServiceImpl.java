@@ -21,11 +21,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.service.IdentityService;
+
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.impl.PersonImpl;;
 
 /**
  * Service for working with KcPerson objects.
@@ -33,6 +38,7 @@ import org.kuali.rice.kim.service.IdentityService;
 public class KcPersonServiceImpl implements KcPersonService {
     
     private IdentityService identityService;
+    //private PersonService personService;
     
     /** {@inheritDoc} */
     public List<KcPerson> getKcPersons(final Map<String, String> fieldValues) {
@@ -40,9 +46,26 @@ public class KcPersonServiceImpl implements KcPersonService {
             throw new IllegalArgumentException("the fieldValues are null");
         }
         
-        final List<KimEntityInfo> entities = this.identityService.lookupEntityInfo(fieldValues, true);
+        //convert username and kcpersonid to proper naming such the person service can use them
+        if(fieldValues.containsKey("userName")){
+            String userNameSearchValue = fieldValues.get("userName");
+            fieldValues.put("principalName", userNameSearchValue);
+        }
         
-        return this.createKcPersonsFrom(entities);
+        if(fieldValues.containsKey("personId")){
+            String personIdSearchValue = fieldValues.get("personId");
+            fieldValues.put("principalId", personIdSearchValue);
+        }
+        if(fieldValues.containsKey("officePhone")){
+            String officePhoneSerachValue = fieldValues.get("officePhone");
+            fieldValues.put("phoneNumber", officePhoneSerachValue);
+        }
+        
+        //final List<KimEntityInfo> entities = this.identityService.lookupEntityInfo(fieldValues, true);
+        final List<PersonImpl> people = KraServiceLocator.getService(PersonService.class).findPeople(fieldValues, true);
+        
+        //return this.createKcPersonsFrom(entities);
+        return this.createKcPersonsFromPeople(people);
     }
     
     /** {@inheritDoc} */
@@ -83,6 +106,19 @@ public class KcPersonServiceImpl implements KcPersonService {
         
         return persons;
     }
+    
+    private List<KcPerson> createKcPersonsFromPeople(List<PersonImpl> people) {
+        List<KcPerson> persons = new ArrayList<KcPerson>();
+        
+        for (PersonImpl person : people) {
+            persons.add(KcPerson.fromPersonId(person.getPrincipalId()));
+            /*for (KimPrincipal principal : person.getPrincipals()) {
+                persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
+            }*/
+        }
+        
+        return persons;
+    }
 
     /**
      * Sets the Identity Service.
@@ -91,4 +127,8 @@ public class KcPersonServiceImpl implements KcPersonService {
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
+    /*
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }*/
 }
