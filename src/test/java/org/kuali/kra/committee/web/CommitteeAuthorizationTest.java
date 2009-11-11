@@ -44,7 +44,9 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
     
     @After
     public void tearDown() throws Exception {
-        webClient.setJavaScriptEnabled(javaScriptEnabled);
+        if(webClient != null) {
+            webClient.setJavaScriptEnabled(javaScriptEnabled);
+        }
         super.tearDown();
     }
     

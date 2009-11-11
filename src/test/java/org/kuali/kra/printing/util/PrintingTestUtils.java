@@ -168,6 +168,7 @@ public class PrintingTestUtils {
 		// doc.setAward(getAwardTwo());
 		doc.setDocumentNumber("1001");
 		doc.setVersionNumber(new Long(1));
+		doc.setUpdateTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		try {
 			getBusinessObjectService().save(doc);
 		} catch (Exception e) {
