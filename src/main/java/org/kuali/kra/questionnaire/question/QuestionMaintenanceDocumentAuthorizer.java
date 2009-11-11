@@ -18,13 +18,14 @@ package org.kuali.kra.questionnaire.question;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.questionnaire.QuestionnaireAuthorizationService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+//import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -32,7 +33,13 @@ import org.kuali.rice.kns.util.KNSConstants;
  * This the document authorizer class of question maintenance.
  * Based on user permission and document routing status; the documentactions set is created.
  */
-public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class QuestionMaintenanceDocumentAuthorizer //extends MaintenanceDocumentAuthorizerBase {
+                                                   // TODO: A permanent solution on how we handle the 'initiate' permission needs to be found.
+                                                   //       Possibly a standard permission for KCMaintenanceDocument should be created.  On 
+                                                   //       top of it we can check for question or questionnaire 'modify'/'view' permission.
+                                                   //       For the time being the GenericPermissableMaintenanceDocumentAuthorizer
+                                                   //       is being used.
+                                                  extends GenericPermissableMaintenanceDocumentAuthorizer {    
 
     /**
      * Create the documentActons based on user permission and document routing status.
