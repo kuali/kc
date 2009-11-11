@@ -28,10 +28,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -126,19 +128,30 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     public void testGetCustomActionUrls() {
         List pkNames = new ArrayList();
         pkNames.add("protocolId");
-        Protocol protocol = new Protocol();
+        final Protocol protocol = new Protocol();
         protocol.setProtocolNumber("100");
         ProtocolDocument document = new ProtocolDocument();
         document.setDocumentNumber("101");
         protocol.setProtocolDocument(document);
+        final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
+        context.checking(new Expectations() {{
+            Map<String, String> fieldValues = new HashMap<String, String>();
+
+            one(kraAuthorizationService).hasPermission("10000000000", protocol, PermissionConstants.MODIFY_PROTOCOL);
+            will(returnValue(true));
+            one(kraAuthorizationService).hasPermission("10000000000", protocol, PermissionConstants.VIEW_PROTOCOL);
+            will(returnValue(true));
+        }});
+        protocolLookupableHelperServiceImpl.setKraAuthorizationService(kraAuthorizationService);
+
         List<HtmlData> actionUrls = protocolLookupableHelperServiceImpl.getCustomActionUrls(protocol,pkNames);
         for (HtmlData htmlData : actionUrls) {
             HtmlData.AnchorHtmlData actionUrl = (HtmlData.AnchorHtmlData) htmlData;
             if (actionUrl.getMethodToCall().equals("copy")) {
                 assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), COPY_URL);                
-            } else if (actionUrl.getMethodToCall().equals("edit")){
+            } else if (actionUrl.getDisplayText().equals("edit")){
                 assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), EDIT_URL);                
-            } else if (actionUrl.getMethodToCall().equals("view")){
+            } else if (actionUrl.getDisplayText().equals("view")){
                 assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), VIEW_URL);                
             }
         } 
