@@ -24,6 +24,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 
 /**
  * Lookup helper that retrieves KcPerson BOs.
@@ -43,8 +44,9 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /** {@inheritDoc} */
     @Override
-    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) {      
-        return this.kcPersonService.getKcPersons(fieldValues);
+    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) { 
+        List<KcPerson> kcPeople = this.kcPersonService.getKcPersons(fieldValues);
+        return new CollectionIncomplete(kcPeople, new Long(kcPeople.size()));
     }
 
     /**
