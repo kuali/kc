@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -121,6 +122,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
     @JoinColumn(name="SUBMISSION_STATUS_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionStatus submissionStatus;    
     
+    
+    // lookup fields
+    private Date scheduleDate; 
+    private String title; 
+    private String piName; 
+
     public ProtocolSubmission() { 
 
     } 
@@ -370,5 +377,33 @@ public class ProtocolSubmission extends ProtocolAssociate {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(protocolReviewers);
         return managedLists;
+    }
+
+    public Date getScheduleDate() {
+        if (committeeSchedule != null) {
+            return committeeSchedule.getScheduledDate();
+        } else {
+            return null;
+        }
+    }
+
+    public void setScheduleDate(Date scheduleDate) {
+        this.scheduleDate = scheduleDate;
+    }
+
+    public String getTitle() {
+        return getProtocol().getTitle();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPiName() {
+        return getProtocol().getPrincipalInvestigator().getPersonName();
+    }
+
+    public void setPiName(String piName) {
+        this.piName = piName;
     }
 }
