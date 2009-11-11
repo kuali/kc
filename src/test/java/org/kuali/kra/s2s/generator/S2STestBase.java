@@ -30,7 +30,6 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -41,16 +40,25 @@ public abstract class S2STestBase<T> extends KraTestBase {
     private S2SBaseFormGenerator generatorObject;
     private ProposalDevelopmentDocument document;
 
+    private void initializeApp() throws Exception {
+        try {
+            generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
+            ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService()
+            .getNewDocument("ProposalDevelopmentDocument");
+            savePropDoc(pd);
+            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            tearDown();
+            throw new RuntimeException(e);
+        }
+    }
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        DocumentService documentService = getService(DocumentService.class);
-        generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService
-                .getNewDocument("ProposalDevelopmentDocument");
-        savePropDoc(pd);
-        document = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
+        initializeApp();
     }
 
     @After
