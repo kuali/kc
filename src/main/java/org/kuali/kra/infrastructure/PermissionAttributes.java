@@ -285,6 +285,13 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionnaireMaintenanceDocument"); 
         tempAttributesMap.put(PermissionConstants.VIEW_QUESTIONNAIRE, attributes);
 
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionMaintenanceDocument"); 
+        tempAttributesMap.put(PermissionConstants.MODIFY_QUESTION, attributes);
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionMaintenanceDocument"); 
+        tempAttributesMap.put(PermissionConstants.VIEW_QUESTION, attributes);
+
         
         attributesMap = Collections.unmodifiableMap(tempAttributesMap);
     }
