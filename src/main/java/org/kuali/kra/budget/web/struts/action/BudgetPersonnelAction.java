@@ -519,7 +519,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getPerson().getPrincipalName());
+                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
             
             BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
             if (lookupResultsBOClass.isAssignableFrom(KcPerson.class)) {
