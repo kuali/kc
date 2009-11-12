@@ -21,7 +21,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.developmentProposalList[0].title" useRiceAuditMode="true">
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.developmentProposalList[0].title,document.developmentProposalList[0].continuedFrom" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
@@ -102,11 +102,17 @@
             <table summary="" cellpadding="0" cellspacing="0">
               <tbody><tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" />
+                                	<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.developmentProposalList[0].currentAwardNumber" anchor="${tabKey}" />
+                    <kul:directInquiry boClassName="org.kuali.kra.award.home.Award" inquiryParameters="document.developmentProposalList[0].currentAwardNumber:awardId" anchor="${tabKey}" />
+                
+                </td>
               </tr>
               <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" /></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].continuedFrom" attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" /></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].continuedFrom" attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" />
+                <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalId:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
+                    <kul:directInquiry boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" inquiryParameters="document.developmentProposalList[0].continuedFrom:proposalId" anchor="${tabKey}" /></td>
               </tr>
             </tbody></table>
     </div>

@@ -23,6 +23,9 @@ INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.new',    '40B51A08D078A044E043814FD881A044',    1,    'CONFG',    '1',    'ProposalTypeCode of NEW',    'A',    'WorkflowAdmin',    'Y');
 
+INSERT
+INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd)
+VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.resubmission',    sys_guid(),    1,    'CONFG',    '2',    'ProposalTypeCode of RESUBMISSION',    'A');
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
@@ -990,6 +993,12 @@ INSERT INTO krns_parm_t
     (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
     VALUES
     ('KC-GEN',    'A',    'personrole.readonly.roles',    '4B6D874259ABE9FEE0404F8189D8167C',    1,    'CONFG',    'KP',    'Proposal Person Role Id list for roles that are read-only',    'A',    'WorkflowAdmin',    'Y');
+    
+INSERT INTO krns_PARM_T 
+	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 
+	('KRA-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD',sys_guid(),1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
+ 
 
 
 commit;
