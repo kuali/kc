@@ -48,6 +48,7 @@ import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
@@ -71,6 +72,8 @@ import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -255,6 +258,7 @@ public class KRAS2SServiceImpl implements S2SService {
             for (AttachmentData attachmentData : attList) {
                 attachmentFile = new DataHandler(new ByteArrayDataSource(attachmentData.getContent(), attachmentData
                         .getContentType()));
+
                 attachments.put(attachmentData.getContentId(), attachmentFile);
                 S2sAppAttachments appAttachments = new S2sAppAttachments();
                 appAttachments.setContentId(attachmentData.getContentId());
@@ -376,7 +380,11 @@ public class KRAS2SServiceImpl implements S2SService {
 //            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 //            appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
 //            pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
-            businessObjectService.save(appSubmission);
+            List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
+            saveList.add(appSubmission);
+            saveList.add(application);
+            
+            businessObjectService.save(saveList);
         }
     }
 
@@ -384,17 +392,17 @@ public class KRAS2SServiceImpl implements S2SService {
      * 
      * This method is used to validate application before submission.
      * 
-     * @param pdDoc Proposal Development Document.
+     * @param proposalDevelopmentDocument Proposal Development Document.
      * @return boolean true if valid false otherwise.
      * @throws S2SException
      * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    public boolean validateApplication(ProposalDevelopmentDocument pdDoc) throws S2SException {
-        return generateAndValidateForms(null, null, pdDoc,new ArrayList<AuditError>());
+    public boolean validateApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+        return generateAndValidateForms(null, null, proposalDevelopmentDocument,new ArrayList<AuditError>());
     }
 
-    public boolean validateApplication(ProposalDevelopmentDocument pdDoc,List<AuditError> auditErrors) throws S2SException {
-        return generateAndValidateForms(null, null, pdDoc,auditErrors);
+    public boolean validateApplication(ProposalDevelopmentDocument proposalDevelpmentDocument,List<AuditError> auditErrors) throws S2SException {
+        return generateAndValidateForms(null, null, proposalDevelpmentDocument,auditErrors);
     }
     private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) 
                 throws S2SException{
@@ -413,7 +421,12 @@ public class KRAS2SServiceImpl implements S2SService {
     private boolean generateAndValidateForms(Forms forms, List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc, List<AuditError> auditErrors)
             throws S2SException {
         boolean validationSucceeded = true;
-        for (S2sOppForms opportunityForm : pdDoc.getDevelopmentProposal().getS2sOppForms()) {
+        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+        List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
+        if(opportunityForms.isEmpty()) {
+            developmentProposal.refreshReferenceObject("s2sOppForms");
+        }
+        for (S2sOppForms opportunityForm : opportunityForms) {
             if (!opportunityForm.getInclude()) {
                 continue;
             }
