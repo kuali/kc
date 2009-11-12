@@ -22,9 +22,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -33,7 +36,10 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
  * data of the ProposalDevelopmenDocument.
  */
-public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule {    
+public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 
+    
+    private ParameterService parameterService;
+    
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
@@ -41,15 +47,16 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         boolean valid = true;
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
+        DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
 
         //The Proposal Deadline Date should return a warning during validation for the
         //following conditions: a) if the date entered is older than the current date,
         //or b) if there is no data entered.
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
+        if (proposal.getDeadlineDate() == null) {
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
-        } else if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
+        } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         }
         
@@ -59,19 +66,40 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         
         auditErrors = new ArrayList<AuditError>();
         
-		if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(), proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementNumber())) {
+        if (proposal.getS2sOpportunity() != null) {
+            if (proposal.getS2sOpportunity().getOpportunityId() != null && proposal.getProgramAnnouncementNumber() != null 
+                    && !StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getOpportunityId(), proposal.getProgramAnnouncementNumber())) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_ID_KEY, KeyConstants.ERROR_OPPORTUNITY_ID_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber() != null && proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(), proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())) {
+            if (proposal.getS2sOpportunity().getCfdaNumber() != null && proposal.getCfdaNumber() != null 
+                    && !StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getCfdaNumber(), proposal.getCfdaNumber())) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.CFDA_NUMBER_KEY, KeyConstants.ERROR_CFDA_NUMBER_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementTitle() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementTitle().trim(), "")) {
+            if (proposal.getProgramAnnouncementTitle() == null 
+                    || StringUtils.equalsIgnoreCase(proposal.getProgramAnnouncementTitle().trim(), "")) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
+            
+            proposal.refreshReferenceObject("currentAward");
+            String federalIdComesFromAwardStr = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+            Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
+            if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
+                    && StringUtils.isBlank(proposal.getSponsorProposalNumber()) 
+                    && (proposal.getCurrentAward() != null
+                    || !federalIdComesFromAward)) {
+                valid = false;
+                auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }
+            proposal.refreshReferenceObject("institutionalProposal");
+            if (isProposalTypeResubmission(proposal.getProposalTypeCode())
+                    && StringUtils.isBlank(proposal.getSponsorProposalNumber())
+                    && proposal.getInstitutionalProposal() == null) {
+                valid = false;
+                auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }            
         }
         
 //        if(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode()!=null && 
@@ -89,5 +117,45 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
         return valid;
     }
+    
+    /**
+     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
+    
+    /**
+     * Is the Proposal Type set to Resubmission?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeResubmission(String proposalTypeCode) {
+        String proposalTypeCodeResubmission = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeResubmission));
+    }    
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }      
+        
 
 }

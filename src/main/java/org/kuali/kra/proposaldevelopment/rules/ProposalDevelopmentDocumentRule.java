@@ -297,8 +297,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        
-        valid = validateProposalTypeField(proposalDevelopmentDocument);
 
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
         if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode() != null
@@ -324,53 +322,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         
         return valid;
-    }
-    
-    /**
-     * Validates business rules pertaining to the Proposal Type.  The rules are:
-     * 
-     * <ol>
-     * <li>If the Proposal Type is Renewal, Revision, or Continuation, then the
-     * Sponsor Proposal Id field must be assigned a value.</li>
-     * </ol>
-     * 
-     * @param proposalDevelopmentDocument the Proposal Development Document
-     * @return true if valid; otherwise false (if false, the Global ErrorMap is populated)
-     */
-    private boolean validateProposalTypeField(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        
-        String proposalTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode();
-        String sponsorProposalId = proposalDevelopmentDocument.getDevelopmentProposal().getSponsorProposalNumber();
-
-        if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode) && StringUtils.isEmpty(sponsorProposalId)) {
-            valid = false;
-            errorMap.putError("sponsorProposalNumber", KeyConstants.ERROR_REQUIRED_PROPOSAL_SPONSOR_ID, dataDictionaryService
-                    .getAttributeErrorLabel(DevelopmentProposal.class, "sponsorProposalNumber"));
-        }
-        
-        // TODO: Must add in other validations regarding awards, etc.  see KRACOEUS-290.
-        
-        return valid;
-    }
-    
-    /**
-     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
-     * @param proposalTypeCode proposal type code
-     * @return true or false
-     */
-    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-         
-        return !StringUtils.isEmpty(proposalTypeCode) &&
-               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
-                proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeContinuation));
     }
 
     /**

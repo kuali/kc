@@ -41,19 +41,20 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
  */
-public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends KraTestBase {
+public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase {
 
     private DocumentService documentService = null;
     private ParameterService parameterService = null;
-    private ProposalDevelopmentSponsorProgramInformationAuditRule auditRule = null;
+    private ProposalDevelopmentProposalRequiredFieldsAuditRule auditRule = null;
     
     private String proposalTypeCodeRenewal;
     private String proposalTypeCodeRevision;
     private String proposalTypeCodeContinuation;
     private String proposalTypeCodeResubmission;
-    private String proposalTypeCodeNew; 
+    private String proposalTypeCodeNew;
     
-    Date tomorrow;    
+    Date tomorrow;
+
 
     @Before
     public void setUp() throws Exception {
@@ -62,7 +63,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         GlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KNSServiceLocator.getDocumentService();
         parameterService = KNSServiceLocator.getParameterService();
-        auditRule = new ProposalDevelopmentSponsorProgramInformationAuditRule();
+        auditRule = new ProposalDevelopmentProposalRequiredFieldsAuditRule();
         
         proposalTypeCodeRenewal = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         proposalTypeCodeRevision = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
@@ -72,7 +73,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         
         Calendar calendar = new GregorianCalendar();
         calendar.add(Calendar.DATE, 1);
-        tomorrow = new Date(calendar.getTimeInMillis());           
+        tomorrow = new Date(calendar.getTimeInMillis());        
     }
 
     @After
@@ -83,87 +84,42 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         auditRule = null;
         super.tearDown();
     }
-
-    @Test public void testValidDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-
-        document.getDevelopmentProposal().setDeadlineDate(tomorrow);;
-        assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(0, GlobalVariables.getAuditErrorMap().size());
-    }
-
-    @Test public void testEmptyDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-
-        validateAuditRule(document, KeyConstants.WARNING_EMPTY_DEADLINE_DATE);
-    }
-
-    @Test public void testPastDate() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-
-        // Create a date in the past - yesterday
-        Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.DATE, -1);
-        Date deadlineDate = new Date(calendar.getTimeInMillis());
-
-        document.getDevelopmentProposal().setDeadlineDate(deadlineDate);
-        validateAuditRule(document, KeyConstants.WARNING_PAST_DEADLINE_DATE);
-    }
     
-    @Test public void testRequireSponsorIdWhenRenewal() throws Exception {
+    @Test public void testRequireSponsorIdWhenNew() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         proposal.setDeadlineDate(tomorrow);
-        proposal.setProposalTypeCode(proposalTypeCodeRenewal);
+        proposal.setProposalTypeCode(proposalTypeCodeNew);
         proposal.setS2sOpportunity(new S2sOpportunity());
-        proposal.getS2sOpportunity().setOpportunityId("12345");
-        proposal.getS2sOpportunity().setCfdaNumber("00.000");
-        proposal.setCfdaNumber("00.000");
-        proposal.setProgramAnnouncementTitle("Test Title");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
+        String changeCorrectedType = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
+        proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedType);
+        validateAuditRule(document, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
-    }    
+        validateAuditRule(document, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+    }
 
     /**
      * This method validates the audit rule processing
      * @param document document to check
      * @param messageKey messageKey for the AuditError
      */
-    private void validateAuditRule(ProposalDevelopmentDocument document, String messageKey) {
-        assertTrue("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(1, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
-
-        assertEquals("Sponsor & Program Information", auditCluster.getLabel());
-        List auditErrors = auditCluster.getAuditErrorList();
-        assertEquals(1, auditErrors.size());
-        AuditError auditError = (AuditError) auditErrors.get(0);
-
-        assertEquals("document.developmentProposalList[0].deadlineDate", auditError.getErrorKey());
-        assertEquals(messageKey, auditError.getMessageKey());
-        assertEquals("proposal.SponsorProgramInformation", auditError.getLink());
-
-        assertEquals("Warnings", auditCluster.getCategory());
-    }
-    
-    private void validateGGAuditRules(ProposalDevelopmentDocument document, String fieldKey, String messageKey, boolean expectError) {
+    private void validateAuditRule(ProposalDevelopmentDocument document, String fieldKey, String messageKey, String auditKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
         assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditErrors");
+        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(auditKey);
 
         if (expectError) {
-            assertEquals("Sponsor & Program Information", auditCluster.getLabel());
+            assertEquals("Required Fields for Saving Document ", auditCluster.getLabel());
             List auditErrors = auditCluster.getAuditErrorList();
             assertEquals(1, auditErrors.size());
             AuditError auditError = (AuditError) auditErrors.get(0);
     
             assertEquals(fieldKey, auditError.getErrorKey());
             assertEquals(messageKey, auditError.getMessageKey());
-            assertEquals("proposal.SponsorProgramInformation", auditError.getLink());
+            assertEquals("proposal.RequiredFieldsforSavingDocument", auditError.getLink());
     
-            assertEquals(Constants.GRANTSGOV_ERRORS, auditCluster.getCategory());
+            assertEquals(Constants.AUDIT_ERRORS, auditCluster.getCategory());
         }
     }
 
