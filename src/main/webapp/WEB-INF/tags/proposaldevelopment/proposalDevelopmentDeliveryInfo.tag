@@ -91,10 +91,11 @@
 	                    </c:if>                      
 	                    <c:if test="${!empty KualiForm.document.developmentProposalList[0].rolodex.state}" >
 	                    <span id="mailingState"><c:out value="${KualiForm.document.developmentProposalList[0].rolodex.state}"/></span><br/>
-	                    </c:if>
 	                    <div align="right"> 
 	                         <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
 	                    </div>
+	                    </c:if>
+	                    
                     </c:if>
                 </td>
                 
