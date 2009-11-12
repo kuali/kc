@@ -817,7 +817,7 @@
   	
   	<properties>
   		<servlet-api.version>2.4</servlet-api.version>
-		<cxf.version>2.1.5</cxf.version>
+		<cxf.version>2.1.7</cxf.version>
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
 		<checkstyle.enable.rss>false</checkstyle.enable.rss>
