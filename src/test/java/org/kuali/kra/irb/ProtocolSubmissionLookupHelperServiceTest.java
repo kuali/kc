@@ -25,9 +25,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -38,6 +41,10 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KraTestBase {
     ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
+    private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.irb.Protocol&methodToCall=start&protocolId=104";
+    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
+    private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
+    private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
     private Mockery context = new JUnit4Mockery();
     @Before
     public void setUp() throws Exception {
@@ -64,23 +71,13 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KraTestBase {
  
         List pkNames = new ArrayList();
         pkNames.add("protocolId");
-        final Protocol protocol = new Protocol();
-        protocol.setProtocolNumber("100");
-        ProtocolDocument document = new ProtocolDocument();
-        document.setDocumentNumber("101");
-        protocol.setProtocolDocument(document);
-        ProtocolSubmission protocolSubmission = new ProtocolSubmission();
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
-        protocolSubmission.setSubmissionId(102L);
-        submissions.add(protocolSubmission);
-        protocol.setProtocolSubmissions(submissions);
-        protocolSubmission.setProtocol(protocol);
+        final ProtocolSubmission protocolSubmission = initProtocolSubmission();
 
         final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
-            one(kraAuthorizationService).hasPermission("10000000000", protocol, PermissionConstants.MODIFY_PROTOCOL);
+            one(kraAuthorizationService).hasPermission("10000000000", protocolSubmission.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
             will(returnValue(true));
-            one(kraAuthorizationService).hasPermission("10000000000", protocol, PermissionConstants.VIEW_PROTOCOL);
+            one(kraAuthorizationService).hasPermission("10000000000", protocolSubmission.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
             will(returnValue(true));
         }});
         protocolSubmissionLookupableHelperServiceImpl.setKraAuthorizationService(kraAuthorizationService);
@@ -94,5 +91,57 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KraTestBase {
         assertEquals(((HtmlData.AnchorHtmlData) actionUrls.get(1)).getHref(), VIEW_URL);                
     }
         
+    /**
+     * 
+     * This method to test the manually created inquiry url is ok.
+     */
+    @Test
+    public void testGetInquiryUrl() {
+        ProtocolSubmission protocolSubmission = initProtocolSubmission();
+        HtmlData inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "protocolNumber");
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PROTOCOL_INQ_URL);
+        inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
+        inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "piName");
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
+        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getProtocolPersons().get(0);
+        protocolPerson.setPersonId("");
+        protocolPerson.setRolodexId(new Integer(1727));
+        protocolSubmission.getProtocol().getProtocolPersons().clear();
+        protocolSubmission.getProtocol().getProtocolPersons().add(protocolPerson);
+        inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "piName");
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), ROLODEX_INQ_URL);
+    }
+    
+    private ProtocolSubmission initProtocolSubmission() {
+        Protocol protocol = new Protocol();
+        protocol.setLeadUnitNumber("000001");
+        protocol.setProtocolId(104L);
+        protocol.setPrincipalInvestigatorId("10000000001");
+        ProtocolPerson protocolPerson = new ProtocolPerson();
+        protocolPerson.setPersonId("10000000001");
+        protocol.getProtocolPersons().add(protocolPerson);
+        protocolPerson.setProtocolPersonRoleId("PI");
+        protocol.setProtocolNumber("100");
+        ProtocolDocument protocolDocument = new ProtocolDocument();
+        protocolDocument.setDocumentNumber("101");
+        protocol.setProtocolDocument(protocolDocument);
+        ProtocolSubmission protocolSubmission = new ProtocolSubmission();
+        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        protocolSubmission.setSubmissionId(102L);
+        Committee committee = new Committee();
+        committee.setCommitteeId("100");
+        CommitteeDocument document = new CommitteeDocument();
+        document.setDocumentNumber("101");
+        committee.setCommitteeDocument(document);
+        committee.setId(103L);
+        protocolSubmission.setCommittee(committee);
+        submissions.add(protocolSubmission);
+        protocol.setProtocolSubmissions(submissions);
+        protocolSubmission.setProtocol(protocol);
+
+        return protocolSubmission;
+        
+    }
 
 }
