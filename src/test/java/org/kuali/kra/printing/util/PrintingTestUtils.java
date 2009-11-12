@@ -158,8 +158,7 @@ public class PrintingTestUtils {
 			doc = (AwardDocument) getDocumentService().getNewDocument(
 					AwardDocument.class);
 		} catch (WorkflowException e) {
-			e.printStackTrace();
-			return doc;
+			throw new RuntimeException(e);
 		}
 		doc.getDocumentHeader().setDocumentDescription("Test document");
 		Award award = doc.getAward();
@@ -1069,7 +1068,7 @@ public class PrintingTestUtils {
 					"BudgetDocument");
 		} catch (WorkflowException e) {
 			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 		bd.getDocumentHeader()
 				.setDocumentDescription("Test budget calculation");
@@ -1747,7 +1746,7 @@ public class PrintingTestUtils {
 					.getNewDocument("ProposalDevelopmentDocument");
 		} catch (WorkflowException e) {
 			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 		DevelopmentProposal proposal = new DevelopmentProposal();
 		proposal.refreshReferenceObject("activityType");
@@ -1821,7 +1820,7 @@ public class PrintingTestUtils {
 					.getNewDocument("InstitutionalProposalDocument");
 		} catch (WorkflowException e) {
 			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 		InstitutionalProposal proposal = new InstitutionalProposal();
 		proposal.setProposalNumber("1001");
