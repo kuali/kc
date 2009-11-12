@@ -44,6 +44,7 @@ public final class KeyConstants {
     
     public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
     
+    
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
 
@@ -59,7 +60,10 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_SITES_INDEX_INVALID_FORMAT = "error.integer";   // used for site indexes and district indexes
     public static final String ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED = "error.required.locationName";
     public static final String ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED = "error.required.address";
-        
+    
+    // Proposal Development Questions
+    public static final String QUESTION_CONFIRM_CLEAR_DELIVERY_ADDRESS_INFO="document.question.clearDeliveryAddress.text";
+    
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
