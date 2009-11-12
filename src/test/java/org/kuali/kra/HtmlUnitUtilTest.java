@@ -90,7 +90,7 @@ public class HtmlUnitUtilTest extends KraTestBase {
               initializeAuthorization(document);
               GlobalVariables.setUserSession(null);
           } catch (Exception e) {
-              fail("Exception occurred while creating test PD");
+              throw new RuntimeException(e);
           }
           
           
