@@ -111,7 +111,7 @@
 					</td>
 	                
 					<td>
-						<c:set var="isLeadUnit" value="${award.leadUnit != null && awardContact.person.homeUnit == award.leadUnit.unitNumber}" />
+						<c:set var="isLeadUnit" value="${award.leadUnit != null && awardContact.person.extendedAttributes.homeUnit == award.leadUnit}" />
 						<c:if test="${not isLeadUnit}">
 							<c:set var="deleteButton" value="tinybutton-delete1.gif" />
 						</c:if>
