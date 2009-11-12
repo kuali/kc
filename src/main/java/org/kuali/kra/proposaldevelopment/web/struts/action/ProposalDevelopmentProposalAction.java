@@ -66,6 +66,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
     private static final String CONFIRM_DELETE_PROPOSAL_SITE_KEY = "confirmDeleteProposalSite";
     private static final String CONFIRM_DELETE_CONG_DISTRICT_KEY = "confirmDeleteCongDistrict";
+    private static final String CONFIRM_CLEAR_DELIVERY_INFO_ADDRESS_KEY="confirmClearDeliveryInfoAddress";
+    
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -825,7 +827,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     /**
      * 
      * Clears the Mailing Name and Address selected from Delivery info panel.
-     * 
+     * Now makes call to confirm the clear action before executing.
      * @param mapping
      * @param form
      * @param request
@@ -833,10 +835,40 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @return
      * @throws Exception
      */
+    
     public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+             
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
+        
+        if (getKualiRuleService().applyRules(deleteEvent)) {
+            StrutsConfirmation deleteConfirmation = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                    CONFIRM_CLEAR_DELIVERY_INFO_ADDRESS_KEY, KeyConstants.QUESTION_CONFIRM_CLEAR_DELIVERY_ADDRESS_INFO, "");
+            return confirm(deleteConfirmation, "confirmClearMailingNameAddress", "");
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * Begins the operation to Clear the Mailing Name and Address selected from Delivery info panel.
+     * Now makes call to confirm the clear action before executing.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    
+    public ActionForward confirmClearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
+           
         if (developmentProposal.getRolodex() != null) {
         
             Rolodex rolodex = developmentProposal.getRolodex();
