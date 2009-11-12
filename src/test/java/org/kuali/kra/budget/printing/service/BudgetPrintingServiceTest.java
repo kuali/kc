@@ -56,7 +56,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 			assertNotNull(pdfBytes);
 		} catch (Exception e) {
 			e.printStackTrace();
-			assert false;
+			//assert false;
 			throw new RuntimeException(e);
 		}
 	}

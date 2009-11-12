@@ -53,7 +53,7 @@ public class InstituteProposalPrintingServiceTest extends
 			assertNotNull(pdfBytes);
 		} catch (Exception e) {
 			e.printStackTrace();
-			assert false;
+			//assert false;
 			throw new RuntimeException(e);
 		}
 	}
