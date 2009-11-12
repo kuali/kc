@@ -409,6 +409,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
     }
+
+    /**
+     * Is document in Saved state?
+     * @return
+     */
+    public boolean isSaved() {
+        return getDocumentHeader().getWorkflowDocument().stateIsSaved();
+    }
     
     /** {@inheritDoc} */
     @Override

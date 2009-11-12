@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
  *
  */
 public class AwardFixtureFactory {
+    public static final String UNIVERSITY_UNIT_NUMBER = "000001";
     private static final String YES_FLAG = "Y";
 
     /**
@@ -44,6 +45,7 @@ public class AwardFixtureFactory {
         award.setSubContractIndicator(YES_FLAG);
         award.setTitle("Sample Award Title");
         award.setTransferSponsorIndicator(YES_FLAG);
+        award.setUnitNumber(UNIVERSITY_UNIT_NUMBER);
         return award;
     }
 }

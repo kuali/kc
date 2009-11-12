@@ -45,6 +45,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         if(success) {
             person.add(newAwardPersonUnits[projectPersonIndex]);
             if(newAwardPersonUnits[projectPersonIndex].isLeadUnit()) {
+                getAward().setLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnit());
                 setSelectedLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnitName());
             }
             initNewAwardPersonUnits();
@@ -61,8 +62,12 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             AwardPerson awardPerson = getNewProjectPerson();
             getAward().add(awardPerson);
             init();
-            if(awardPerson.isEmployee()) {
-                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), awardPerson.isPrincipalInvestigator()));
+            if(awardPerson.isPrincipalInvestigator()) {
+                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
+            } else {
+                if(awardPerson.isEmployee()) {
+                    awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
+                }
             }
         }
     }

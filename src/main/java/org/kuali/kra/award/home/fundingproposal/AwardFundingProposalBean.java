@@ -36,7 +36,9 @@ public class AwardFundingProposalBean implements Serializable {
     private InstitutionalProposal newFundingProposal;
     
     private List<Award> allAwardsForAwardNumber;
-    
+    private static final String FUNDING_PROPOSAL_ERROR_KEY = "fundingProposalBean.newFundingProposal";
+    private static final String FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY = "error.fundingproposal.not.found";
+
     public AwardFundingProposalBean(AwardForm awardForm) {
         this.awardForm = awardForm;
         createNewFundingProposal();
@@ -205,6 +207,7 @@ public class AwardFundingProposalBean implements Serializable {
         new CostSharingDataFeedCommand(award, proposal).performDataFeed();
         new FandARatesDataFeedCommand(award, proposal).performDataFeed();
         new KeywordsDataFeedCommand(award, proposal).performDataFeed();
+        new LeadUnitDataFeedCommand(award, proposal).performDataFeed();
     }
 
     private boolean validateForAdd() {
@@ -214,7 +217,7 @@ public class AwardFundingProposalBean implements Serializable {
             if(msgArg == null) {
                 msgArg = "(empty)";
             }
-            GlobalVariables.getErrorMap().putError("fundingProposalBean.newFundingProposal", "error.fundingproposal.not.found", msgArg);
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY, msgArg);
         }
         return valid;
     }
