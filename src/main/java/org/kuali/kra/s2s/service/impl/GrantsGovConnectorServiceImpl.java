@@ -38,7 +38,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,17 +52,24 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.soap.SOAPFaultException;
 
+import org.apache.cxf.attachment.AttachmentImpl;
+import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.configuration.security.FiltersType;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.AttachmentOutInterceptor;
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.Interceptor;
+import org.apache.cxf.interceptor.OutInterceptors;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.message.Attachment;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
+import org.eclipse.jdt.core.dom.ThisExpression;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.GrantsGovConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -198,7 +207,21 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             throws S2SException {
         ApplicantIntegrationPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         Client client = ClientProxy.getClient(port);
-        client.getRequestContext().put(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS, attachments);
+        Iterator<String> it = attachments.keySet().iterator();
+        final List<Attachment> atts = new ArrayList<Attachment>();
+        while (it.hasNext()) {
+            String key = it.next();
+            Attachment attachment = new AttachmentImpl(key,attachments.get(key));
+            atts.add(attachment);
+        }
+        List<Interceptor> outInterceptors = client.getOutInterceptors();
+        outInterceptors.add(new AttachmentOutInterceptor(){
+            @Override
+            public void handleMessage(org.apache.cxf.message.Message message) {
+                message.setAttachments(atts);
+            };
+        });
+//        client.getRequestContext().put(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS, attachments);
         SubmitApplicationRequest request = new SubmitApplicationRequest();
         request.setGrantApplicationXML(xmlText);
         try {
