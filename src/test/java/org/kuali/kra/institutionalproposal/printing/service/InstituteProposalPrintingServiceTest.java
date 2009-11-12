@@ -54,6 +54,7 @@ public class InstituteProposalPrintingServiceTest extends
 		} catch (Exception e) {
 			e.printStackTrace();
 			assert false;
+			throw new RuntimeException(e);
 		}
 	}
 
