@@ -5,7 +5,26 @@
 			<name>TimeAndMoneyDocument</name>
 			<description>Manage TimeAndMoney</description>
 			<label>KC TimeAndMoney</label>
-			<parent>KcMaintenanceDocument</parent>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/timeAndMoney.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
 		</documentType>
-	</documentTypes>	
+	</documentTypes>
+	
 </data>
