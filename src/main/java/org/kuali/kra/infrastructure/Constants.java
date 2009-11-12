@@ -226,7 +226,8 @@ public interface Constants {
     public static final String OPPORTUNITY_TITLE_KEY="document.developmentProposalList[0].programAnnouncementTitle";
     public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
     public static final String GRANTS_GOV_PAGE = "grantsGov";
-    public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposalList[0].sponsorProposalNumber";
+    public static final String SPONSOR_PROPOSAL_KEY = "document.developmentProposalList[0].sponsorProposalNumber";
+    public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposalList[0].continuedFrom";
     public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String OPPORTUNITY_ID= "opportunityId";
     public static final String NO_FIELD= "noField";

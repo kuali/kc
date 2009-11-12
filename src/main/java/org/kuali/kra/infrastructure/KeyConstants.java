@@ -53,6 +53,7 @@ public final class KeyConstants {
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL = "proposaldevelopment.proposaltype.renewal";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION = "proposaldevelopment.proposaltype.revision";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION = "proposaldevelopment.proposaltype.continuation";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION = "proposaldevelopment.proposaltype.resubmission";
     
     // Proposal Sites errors
     public static final String ERROR_PROPOSAL_SITES_STATE_CODE_INVALID = "error.document.accountMaintenance.stateCodeInvalid";
@@ -618,6 +619,9 @@ public final class KeyConstants {
     public static final String ERROR_KEYSTORE_CONFIG = "error.s2s.keystore.config";
     public static final String ERROR_KEYSTORE_CONFIG_SECURITY = "error.s2s.keystore.config.security";
     public static final String ERROR_S2S_UNKNOWN = "error.s2s.unknown";
+    public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD = "error.proposal.require.priorAward";
+    public static final String ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP = "error.proposal.require.id.changeapp";
+    public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT = "error.proposal.require.priorAwardResubmit";
     
     /**
      * private utility class ctor.

@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -36,6 +37,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -65,6 +67,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String proposalTypeCode;
     private ProposalType proposalType;
     private String continuedFrom;
+    private InstitutionalProposal institutionalProposal;
     private String sponsorCode;
     private String activityTypeCode;
     private String ownedByUnitNumber;
@@ -72,6 +75,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Date requestedEndDateInitial;
     private String title;
     private String currentAwardNumber;
+    private Award currentAward;
     private Date deadlineDate;
     private String noticeOfOpportunityCode;
     private String deadlineType;
@@ -1862,5 +1866,21 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site: getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
+    }
+
+    public InstitutionalProposal getInstitutionalProposal() {
+        return institutionalProposal;
+    }
+
+    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
+        this.institutionalProposal = institutionalProposal;
+    }
+
+    public Award getCurrentAward() {
+        return currentAward;
+    }
+
+    public void setCurrentAward(Award currentAward) {
+        this.currentAward = currentAward;
     }
 }

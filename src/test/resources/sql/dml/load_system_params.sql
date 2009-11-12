@@ -25,6 +25,7 @@ insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_D
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.renewal','CONFG','3','ProposalTypeCode of RENEWAL','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.revision','CONFG','5','ProposalTypeCode of REVISION','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.continuation','CONFG','4','ProposalTypeCode of CONTINUATION','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.proposaltype.resubmission','CONFG','2','ProposalTypeCode of RESUBMISSION','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-PD','D','proposaldevelopment.displayKeywordPanel','CONFG','TRUE','Display Proposal Keyword panel','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.kp','CONFG','Key Person','Description of key person for NIH Proposals','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','personrole.coi','CONFG','Co-Investigator','Description of co-investigator for NIH Proposals','A');
@@ -608,4 +609,10 @@ insert into KRNS_PARM_T
 	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
 	values 
 	('KRA-PD','D','PI_CITIZENSHIP_FROM_CUSTOM_DATA','CONFG','01-JAN-2010 00:00 AM','It defines where the citizenship info should fetch from','A');
+	
+INSERT INTO krns_PARM_T 
+	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 
+	('KRA-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD',sys_guid(),1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
+	
 	
