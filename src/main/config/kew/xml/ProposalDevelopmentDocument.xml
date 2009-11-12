@@ -321,20 +321,6 @@
             </routingConfig>
         </ruleAttribute>
 		
-		<!-- 
-		<ruleAttribute>
-			<name>XPathQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
-			<label>XPathQualifierResolver</label>
-			<description>XPathQualifierResolver</description>
-			<type>QualifierResolver</type>
-			<resolverConfig>
-				<qualifier name="test">
-					<xPathExpression>.</xPathExpression>
-				</qualifier>
-			</resolverConfig>
-		</ruleAttribute> 
-		-->
 		<ruleAttribute>
 			<name>ProposalPersons-XPathQualifierResolver</name>
 			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
@@ -343,11 +329,12 @@
 			<type>QualifierResolver</type>
 			<resolverConfig>
 				<qualifier name="proposal">
-					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/proposalNumber')</xPathExpression>
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
 				</qualifier>
 			</resolverConfig>
 		</ruleAttribute>
 
+		<!-- 
 		<ruleAttribute>
 			<name>DepartmentRouting-XPathQualifierResolver</name>
 			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
@@ -356,10 +343,10 @@
 			<type>QualifierResolver</type>
 			<resolverConfig>
 				<qualifier name="unitNumber">
-					<xPathExpression>wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')</xPathExpression>
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
 				</qualifier>
 			</resolverConfig>
-		</ruleAttribute>
+		</ruleAttribute> -->
 
 	</ruleAttributes>
 
@@ -373,8 +360,7 @@
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
-			<!-- <defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName> -->
-			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies>
@@ -437,7 +423,7 @@
 					<finalApproval>false</finalApproval>
 	            </role>
 				<role name="DepartmentalRouting">
-					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
 					<ruleTemplate>DepartmentalApproval</ruleTemplate>
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
