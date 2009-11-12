@@ -36,65 +36,77 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
- * This class is to create action links for protocolsubmission lookup.  Also, converts the 
- * search criteria to a couple of reference object field.
+ * This class is to create action links and inquiry url for protocolsubmission lookup. Also, converts the search criteria to a couple of reference
+ * object field.
  */
+@SuppressWarnings("serial")
 public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+    private static final String COMMITTEE_ID = "committeeId";
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
     private KraAuthorizationService kraAuthorizationService;
     private KcPersonService kcPersonService;
-    
+
     /**
      * This method is to add 'edit' and 'view' link for protocol submission lookup result.
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * 
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(), PermissionConstants.MODIFY_PROTOCOL)) {
-            String submissionIdParam = "&submissionId=" + ((ProtocolSubmission) businessObject).getSubmissionId();
-            AnchorHtmlData editHtmlData = getViewLink(((ProtocolSubmission) businessObject).getProtocol().getProtocolDocument());
+        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
+                PermissionConstants.MODIFY_PROTOCOL)) {
+            AnchorHtmlData editHtmlData = getViewLink((ProtocolSubmission) businessObject);
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
-            href = href.replace("&docTypeName=", submissionIdParam +"&docTypeName=");
             editHtmlData.setHref(href);
             editHtmlData.setDisplayText("edit");
             htmlDataList.add(editHtmlData);
-       }
-        if(kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(), PermissionConstants.VIEW_PROTOCOL)) {
-            String submissionIdParam = "&submissionId=" + ((ProtocolSubmission) businessObject).getSubmissionId();
-            AnchorHtmlData viewHtmlData = getViewLink(((ProtocolSubmission) businessObject).getProtocol().getProtocolDocument());
-            String href = viewHtmlData.getHref();
-            href = href.replace("&docTypeName=", submissionIdParam +"&docTypeName=");
-            viewHtmlData.setHref(href);
-            htmlDataList.add(viewHtmlData);
+        }
+        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
+                PermissionConstants.VIEW_PROTOCOL)) {
+            htmlDataList.add(getViewLink((ProtocolSubmission) businessObject));
         }
         return htmlDataList;
+    }
+
+    private AnchorHtmlData getViewLink(ProtocolSubmission protocolSubmission) {
+        AnchorHtmlData viewHtmlData = super.getViewLink(protocolSubmission.getProtocol().getProtocolDocument());
+        String submissionIdParam = "&submissionId=" + protocolSubmission.getSubmissionId();
+        String href = viewHtmlData.getHref();
+        href = href.replace(DOC_TYPE_NAME_PARAM, submissionIdParam + DOC_TYPE_NAME_PARAM);
+        viewHtmlData.setHref(href);
+        return viewHtmlData;
     }
 
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
+
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
-   }
+    }
 
     @Override
     protected String getHtmlAction() {
         return "protocolProtocol.do";
     }
-    
+
     @Override
     protected String getDocumentTypeName() {
         return "ProtocolDocument";
     }
-    
+
     @Override
     protected String getKeyFieldName() {
-        return "protocolNumber"; 
+        return PROTOCOL_NUMBER;
     }
 
     /**
      * This method is to convert search criteria to proper reference object field.
+     * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
@@ -105,9 +117,9 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
                 convertedFieldValues.put("protocol.title", entry.getValue());
             } else if ("scheduleDate".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 convertedFieldValues.put("committeeSchedule.scheduleDate", entry.getValue());
-            } else if ("committeeId".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
+            } else if (COMMITTEE_ID.equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 convertedFieldValues.put("committee.committeeId", entry.getValue());
-            } else{
+            } else {
                 convertedFieldValues.put(entry.getKey(), entry.getValue());
             }
         }
@@ -116,20 +128,20 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if (propertyName.equals("protocolNumber")) {
-           inqBo = ((ProtocolSubmission) bo).getProtocol();
-            inqPropertyName = "protocolNumber";
-        } else if (propertyName.equals("committeeId")) {
-           inqBo = ((ProtocolSubmission) bo).getCommittee();
-            inqPropertyName = "committeeId";
-        } else if (propertyName.equals("piName")) {
+        if (PROTOCOL_NUMBER.equals(propertyName)) {
+            inqBo = ((ProtocolSubmission) bo).getProtocol();
+        } else if (propertyName.equals(COMMITTEE_ID)) {
+            inqBo = ((ProtocolSubmission) bo).getCommittee();
+        } else if ("piName".equals(propertyName)) {
             Protocol protocol = ((ProtocolSubmission) bo).getProtocol();
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
