@@ -2226,7 +2226,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public Unit getLeadUnit() {
         if(leadUnit == null && unitNumber != null) {
             loadLeadUnit();
-            System.err.println("************************** leadUnit = " + leadUnit);
         }
         return leadUnit;
     }
