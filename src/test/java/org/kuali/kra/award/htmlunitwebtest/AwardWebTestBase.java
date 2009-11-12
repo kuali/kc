@@ -22,6 +22,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -53,6 +54,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String AWARD_ID_PREFIX = "document.awardList[0].";
     protected static final String AWARD_TYPE_ID = AWARD_ID_PREFIX + "awardTypeCode";
     protected static final String AWARD_TITLE_ID = AWARD_ID_PREFIX + "title";
+    protected static final String UNIT_NUMBER = AWARD_ID_PREFIX + "unitNumber";
     protected static final String PREF_SPONSOR_CODE_ID = AWARD_ID_PREFIX + "primeSponsorCode";
     protected static final String SPONSOR_CODE_ID = AWARD_ID_PREFIX + "sponsorCode";
     protected static final String STATUS_CODE_ID = AWARD_ID_PREFIX + "statusCode";
@@ -168,6 +170,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);
         setFieldValue(page, PROJECT_END_DATE_ID, END_DATE_VALUE);
         setFieldValue(page, AWARD_TRANSACTION_TYPE_CODE, ONE);
+        setFieldValue(page, UNIT_NUMBER, AwardFixtureFactory.UNIVERSITY_UNIT_NUMBER);
     }
     
     /**
