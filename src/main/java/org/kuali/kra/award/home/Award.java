@@ -15,19 +15,11 @@
  */
 package org.kuali.kra.award.home;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -57,13 +49,23 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -183,8 +185,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardFundingProposal> fundingProposals;
     
     // Additional fields for lookup
-    private String leadUnitName;
-    private String leadUnitNumber;
+    private Unit leadUnit;
+    private String unitNumber;
+
     private KcPerson ospAdministrator;
     private String ospAdministratorName;
     private String principalInvestigatorName;
@@ -717,33 +720,31 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getTransferSponsorIndicator() {
         return transferSponsorIndicator;
     }
-    
+
     /**
-     * 
      * This method finds the lead unit name, if any
      * @return
      */
     public String getUnitName() {
-        Unit unit = getLeadUnit();
-        if(unit != null) {
-            leadUnitName = unit.getUnitName(); 
-        }
-        return leadUnitName;
+        Unit leadUnit = getLeadUnit();
+        return leadUnit != null ? leadUnit.getUnitName() : null;
     }
-    
+
     /**
-     * 
      * This method finds the lead unit number, if any
      * @return
      */
     public String getUnitNumber() {
-        Unit leadUnit = getLeadUnit();
-        if(leadUnit != null) {
-            leadUnitNumber = leadUnit.getUnitNumber(); 
-        }
-        return leadUnitNumber;
+        return unitNumber;
     }
-    
+
+    /**
+     * @return
+     */
+    public String getLeadUnitNumber() {
+        return getUnitNumber();
+    }
+
     /**
      * 
      * @param transferSponsorIndicator
@@ -751,8 +752,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setTransferSponsorIndicator(String transferSponsorIndicator) {
         this.transferSponsorIndicator = transferSponsorIndicator;
     }
-
-
+    
     /**
      *
      * @return
@@ -1630,6 +1630,19 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setKeywords(List<AwardScienceKeyword> keywords) {
         this.keywords = keywords;
     }
+
+    /**
+     * @param leadUnit
+     */
+    public void setLeadUnit(Unit leadUnit) {
+        this.leadUnit = leadUnit;
+        this.unitNumber = leadUnit != null ? leadUnit.getUnitNumber() : null;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
     /**
      * Add selected science keyword to award science keywords list.
      * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
@@ -2211,18 +2224,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public Unit getLeadUnit() {
-        Unit leadUnit = null;
-OUTER:  for(AwardPerson p: getProjectPersons()) {
-            for(AwardPersonUnit apu: p.getUnits()) {
-                if(apu.isLeadUnit()) {
-                    leadUnit = apu.getUnit();
-                    break OUTER;
-                }
-            }
+        if(leadUnit == null && unitNumber != null) {
+            loadLeadUnit();
+            System.err.println("************************** leadUnit = " + leadUnit);
         }
         return leadUnit;
     }
-    
+
     public boolean isNew(){
         return awardId == null;
     }
@@ -2769,12 +2777,15 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
         return Constants.MODULE_NAMESPACE_AWARD;
     }
 
-    public String getLeadUnitNumber() {
-        return getUnitNumber();
-    }
-
     public String getDocumentRoleTypeCode() {
         return RoleConstants.AWARD_ROLE_TYPE;
-        
+    }
+
+    protected void loadLeadUnit() {
+        leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", getUnitNumber()));
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 }
