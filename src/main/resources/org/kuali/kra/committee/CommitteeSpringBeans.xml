@@ -91,5 +91,15 @@
 	<bean id="meetingService" class="org.kuali.kra.meeting.MeetingServiceImpl">
 	    <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+
+	<bean id="committeeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="committeeScheduleLookupableHelperService" />
+  		</property>  		
+	</bean>	
+	<bean id="committeeScheduleLookupableHelperService" class="org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+  	</bean>
   	
 </beans>

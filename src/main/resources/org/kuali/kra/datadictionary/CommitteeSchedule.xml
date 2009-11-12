@@ -29,7 +29,7 @@
 		<property name="lookupDefinition" >
 			<ref bean="CommSchedule-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="id" />
+		<property name="titleAttribute" value="scheduleId" />
 		<property name="attributes" >
 			<list>
 				<ref bean="CommSchedule-id" />
@@ -51,6 +51,11 @@
 				<ref bean="CommSchedule-selected" />
 				<ref bean="CommSchedule-viewStartTime" />
 				<ref bean="CommSchedule-viewEndTime" />
+				<ref bean="CommSchedule-committeeId" />
+				<ref bean="CommSchedule-committeeName" />
+				<ref bean="CommSchedule-committeeTypeCode" />
+				<ref bean="CommSchedule-protocolNumber" />
+				<ref bean="CommSchedule-scheduleStatus.description" />
 			</list>
 		</property>
 	</bean>
@@ -201,6 +206,15 @@
 		<property name="description" value="Schedule Status Code" />
 	</bean>
 
+  <bean id="CommSchedule-scheduleStatus.description" parent="CommSchedule-scheduleStatus.description-parentBean" />
+
+  <bean id="CommSchedule-scheduleStatus.description-parentBean" abstract="true" parent="ScheduleStatus-description">
+    <property name="name" value="scheduleStatus.description" />
+    <property name="label" value="Schedule Status" />
+    <property name="shortLabel" value="Schedule Status" />
+  </bean>
+
+
 	<bean id="CommSchedule-meetingDate" parent="CommSchedule-meetingDate-parentBean" />
 	<bean id="CommSchedule-meetingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
 		<property name="name" value="meetingDate" />
@@ -278,6 +292,28 @@
 	<bean id="CommSchedule-versionNumber" parent="CommSchedule-versionNumber-parentBean" />
 	<bean id="CommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+	
+	<bean id="CommSchedule-protocolNumber" parent="CommSchedule-protocolNumber-parentBean" />
+	<bean id="CommSchedule-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CommSchedule-committeeId" parent="CommSchedule-committeeId-parentBean" />
+	<bean id="CommSchedule-committeeId-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeId">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CommSchedule-committeeName" parent="CommSchedule-committeeName-parentBean" />
+	<bean id="CommSchedule-committeeName-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeName">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CommSchedule-committeeTypeCode" parent="CommSchedule-committeeTypeCode-parentBean" />
+	<bean id="CommSchedule-committeeTypeCode-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeTypeCode">
+		<property name="required" value="false" />
+		<property name="label" value="Committee Type" />
+		<property name="shortLabel" value="Committee Type" />
+	</bean>
 
 	<bean id="CommSchedule-selected" parent="CommSchedule-selected-parentBean" />
 
@@ -341,7 +377,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolSubDeadline" />
 							<bean parent="FieldDefinition"
-								p:attributeName="scheduleStatusCode" />
+								p:attributeName="scheduleStatus.description" />
 							<bean parent="FieldDefinition"
 								p:attributeName="meetingDate" />
 							<bean parent="FieldDefinition"
@@ -365,6 +401,7 @@
 	<bean id="CommSchedule-lookupDefinition" parent="CommSchedule-lookupDefinition-parentBean" />
 	<bean id="CommSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Comm Schedule Lookup" />
+        <property name="lookupableID" value="committeeScheduleLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -374,67 +411,41 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="id" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
 					p:attributeName="scheduleId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committeeIdFk" />
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduledDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="place" />
 				<bean parent="FieldDefinition"
-					p:attributeName="time" />
+					p:attributeName="scheduleStatusCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolSubDeadline" />
 				<bean parent="FieldDefinition"
-					p:attributeName="scheduleStatusCode" />
+					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="meetingDate" />
+					p:attributeName="committeeName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="startTime" />
-				<bean parent="FieldDefinition"
-					p:attributeName="endTime" />
-				<bean parent="FieldDefinition"
-					p:attributeName="agendaProdRevDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="maxProtocols" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					p:attributeName="committeeTypeCode" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="id" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
 					p:attributeName="scheduleId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committeeIdFk" />
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduledDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="place" />
 				<bean parent="FieldDefinition"
-					p:attributeName="time" />
-				<bean parent="FieldDefinition"
 					p:attributeName="protocolSubDeadline" />
 				<bean parent="FieldDefinition"
-					p:attributeName="scheduleStatusCode" />
+					p:attributeName="scheduleStatus.description" />
 				<bean parent="FieldDefinition"
-					p:attributeName="meetingDate" />
+					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="startTime" />
-				<bean parent="FieldDefinition"
-					p:attributeName="endTime" />
-				<bean parent="FieldDefinition"
-					p:attributeName="agendaProdRevDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="maxProtocols" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+					p:attributeName="committeeName" />
 			</list>
 		</property>
 	</bean>

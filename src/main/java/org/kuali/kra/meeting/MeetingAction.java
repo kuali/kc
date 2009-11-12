@@ -75,11 +75,30 @@ public class MeetingAction extends KualiAction {
         if (!hasViewModifySchedulePermission(form)) {
             throw new RuntimeException("Don't have permission to Maintain/view Meeting Schedule");
         }
-
-        ((MeetingForm) form).getMeetingHelper().populateFormHelper(commSchedule, Integer.parseInt(request.getParameter("lineNum")));
+        
+        ((MeetingForm) form).getMeetingHelper().populateFormHelper(commSchedule, getScheduleLineNumber(request, commSchedule));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * This is a utility method to figure out the order of the selected schedule in schedule collections.
+     * This is primarily for actions from meeting lookup.
+     */
+    private int getScheduleLineNumber(HttpServletRequest request, CommitteeSchedule commSchedule) {
+        int lineNumber = 0;
+        if (StringUtils.isNotBlank(request.getParameter("lineNum"))) {
+            lineNumber = Integer.parseInt(request.getParameter("lineNum"));
+        } else {
+            
+            for (CommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
+                lineNumber++;
+                if (schedule.getId().equals(commSchedule.getId())) {
+                    break;
+                }
+            }
+        }
+        return lineNumber;
+    }
     /*
      * Utility method to check whether user has permission to view/modify schedule.  This is needed
      * if user enter here thru url not from the schedule 'maintain' button.

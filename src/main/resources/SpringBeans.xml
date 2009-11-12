@@ -175,6 +175,7 @@
 				<value>protocolLookupable</value>	
 				<value>protocolSubmissionLookupable</value>	
 				<value>committeeLookupable</value>	
+				<value>committeeScheduleLookupable</value>	
 				<value>awardLookupable</value>
 				<!-- <value>awardPersonLookupable</value> -->
 				<value>docSearchCriteriaDTOLookupable</value>

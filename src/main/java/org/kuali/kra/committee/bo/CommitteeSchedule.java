@@ -105,7 +105,7 @@ public class CommitteeSchedule extends CommitteeAssociate {
 	
 // TODO : recursive reference    
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
+    @JoinColumn(name="COMMITTEE_ID_FK", insertable=false, updatable=false)
 	private Committee committee; 
 	
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -123,6 +123,12 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private Time12HrFmt viewStartTime;
     private Time12HrFmt viewEndTime;
 
+    // transient lookup fields
+    private String protocolNumber;
+    private String committeeId;
+    private String committeeName;
+    private String committeeTypeCode;
+    
     public CommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
@@ -476,6 +482,38 @@ public class CommitteeSchedule extends CommitteeAssociate {
 
     public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
+    }
+
+    public String getProtocolNumber() {
+        return protocolNumber;
+    }
+
+    public void setProtocolNumber(String protocolNumber) {
+        this.protocolNumber = protocolNumber;
+    }
+
+    public String getCommitteeId() {
+        return committee.getCommitteeId();
+    }
+
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
+    }
+
+    public String getCommitteeName() {
+        return committee.getCommitteeName();
+    }
+
+    public void setCommitteeName(String committeeName) {
+        this.committeeName = committeeName;
+    }
+
+    public String getCommitteeTypeCode() {
+        return committeeTypeCode;
+    }
+
+    public void setCommitteeTypeCode(String committeeTypeCode) {
+        this.committeeTypeCode = committeeTypeCode;
     }
 
 
