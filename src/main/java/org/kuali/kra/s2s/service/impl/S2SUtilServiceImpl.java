@@ -23,12 +23,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -242,10 +247,75 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @see org.kuali.kra.s2s.service.S2SUtilService#getFederalId(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        // TODO Implement it after institute proposal development is completed
+        String federalIdComesFromAwardStr = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+        Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
+        DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        proposal.refreshReferenceObject("institutionalProposal");
+        proposal.refreshReferenceObject("currentAward");
+        if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
+            return S2SConstants.FEDERAL_ID_NOT_FOUND;
+        } else if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                return proposal.getSponsorProposalNumber();
+            } else if (proposal.getCurrentAward() != null && !StringUtils.isBlank(proposal.getCurrentAward().getSponsorAwardNumber())
+                    && federalIdComesFromAward) {
+                return proposal.getCurrentAward().getSponsorAwardNumber();
+            } else { 
+                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+            }
+        } else if (isProposalTypeNew(proposal.getProposalTypeCode())
+                && StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), "3")
+                || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                return proposal.getSponsorProposalNumber();
+            } else if (proposal.getInstitutionalProposal() != null && !StringUtils.isBlank(proposal.getInstitutionalProposal().getSponsorProposalNumber())) {
+                return proposal.getInstitutionalProposal().getSponsorProposalNumber();
+            } else {
+                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+            }
+        }
         return S2SConstants.FEDERAL_ID_NOT_FOUND;
     }
 
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
+    
+    /**
+     * Is the Proposal Type set to Resubmission?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeResubmission(String proposalTypeCode) {
+        String proposalTypeCodeResubmission = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeResubmission));
+    }
+    
+    /**
+     * Is the Proposal Type set to New?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeNew(String proposalTypeCode) {
+        String proposalTypeCodeNew = 
+            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeNew));
+    }    
     /**
      * This method fetches system constant parameters
      * 
