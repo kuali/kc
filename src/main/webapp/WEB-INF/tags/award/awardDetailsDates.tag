@@ -22,7 +22,7 @@
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 
 
-<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,detailsAndDatesFormHelper*">
+<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
@@ -62,12 +62,21 @@
   	<tr>
     	<th><div align="right">*Award ID:</div></th>
     	<td>${KualiForm.awardDocument.award.awardNumber}&nbsp;</td>
-    	<th>
-    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
-		</th>
-    	<td>
-    		<kul:htmlControlAttribute property="document.awardList[0].accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" />
-		</td>
+
+        <c:set var="docInSavedState" value="${KualiForm.awardDocument.saved}" />
+        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.unitNumber}" skipHelpUrl="true"/></div></th>
+    	<td align="left" valign="middle">
+            <c:if test="${!docInSavedState}">
+                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="false" /> <%-- need AJAX lookup of unit name onblur --%>
+                <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
+  			                anchor="${tabKey}" lookupParameters="document.awardList[0].unitNumber:unitNumber"/>
+            </c:if>
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
+            <c:if test="${docInSavedState}">
+                <html:hidden property="document.awardList[0].unitNumber" />
+                <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes.unitName}" readOnly="true" />
+            </c:if>
+    	</td>
   	</tr>
   	<tr>
     	<th>
@@ -75,10 +84,10 @@
       	</th>
     	<td>${KualiForm.awardDocument.award.sequenceNumber}</td>
     	<th>
-    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
-    	</th>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
+		</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.awardList[0].activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" />
+    		<kul:htmlControlAttribute property="document.awardList[0].accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" />
 		</td>
   	</tr>
   	<tr>
@@ -89,11 +98,11 @@
     		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
     	</td>
     	<th>
-    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
-      	</th>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
+    	</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.awardList[0].awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" />
-      	</td>
+    		<kul:htmlControlAttribute property="document.awardList[0].activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" />
+		</td>
   	</tr>
   	<tr>
     	<th>
@@ -104,8 +113,12 @@
     	<td>
     		<kul:htmlControlAttribute property="document.awardList[0].statusCode" attributeEntry="${awardAttributes.statusCode}" />
       	</td>
-    	<th>&nbsp;</th>
-    	<td align="left" valign="middle">&nbsp;</td>
+    	<th>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
+      	</th>
+    	<td>
+    		<kul:htmlControlAttribute property="document.awardList[0].awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" />
+      	</td>
   	</tr>
   	<tr>
     	<th>
@@ -137,10 +150,10 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');" />
+        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');"/>
         	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
             <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
-        	<div id="sponsorName.div" >
+            <div id="sponsorName.div" >
             	<c:if test="${!empty KualiForm.document.awardList[0].sponsorCode}">
             		<c:choose>
 						<c:when test="${empty KualiForm.document.awardList[0].sponsor}">
