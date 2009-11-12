@@ -48,6 +48,7 @@ public class AwardPrintingServiceTest extends PrintingServiceTestBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 			assert false;
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -69,6 +70,7 @@ public class AwardPrintingServiceTest extends PrintingServiceTestBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 			assert false;
+			throw new RuntimeException(e);
 		}
 	}
 
