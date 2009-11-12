@@ -19,7 +19,7 @@
 <%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
 
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
-<c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
+<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
 <c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
