@@ -5,7 +5,7 @@
 			<name>CommitteeDocument</name>
 			<description>Create a Committee</description>
 			<label>Committee Document</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>KC</parent>
 		</documentType>
 	</documentTypes>	
 </data>
