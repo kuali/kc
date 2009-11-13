@@ -382,8 +382,8 @@
   <bean id="Award-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Number" />
-    <property name="shortLabel" value="Award Number" />
+    <property name="label" value="Award ID" />
+    <property name="shortLabel" value="Award ID" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
@@ -395,8 +395,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Award Number" />
-    <property name="description" value="Award Number" />
+    <property name="summary" value="Award ID" />
+    <property name="description" value="Award ID" />
   </bean>
 
   <bean id="Award-awardId" parent="Award-awardId-parentBean" />
@@ -985,9 +985,8 @@
 		</property>
 		<property name="lookupFields" >
 		  <list>
-		  	<bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition" />
-		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
+            <bean p:attributeName="awardNumber" parent="FieldDefinition" />
+		  	<bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="statusCode" parent="FieldDefinition" />
 		    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
@@ -1002,7 +1001,6 @@
 		</property>
 		<property name="resultFields" >
 		  <list>
-		    <bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition" />
 		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />

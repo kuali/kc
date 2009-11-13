@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -81,6 +82,7 @@ import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
@@ -271,7 +273,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         AwardDocument awardDocument = (AwardDocument) document;
-        
+
+        retval &= processUnitNumberBusinessRule(errorMap, awardDocument);
         retval &= processCostShareBusinessRules(document);
         retval &= processBenefitsRatesBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
@@ -760,5 +763,20 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
         return new AwardTemplateSyncRuleImpl().processAwardTemplateSyncRules(awardTemplateSyncEvent);
+    }
+
+    private boolean processUnitNumberBusinessRule(ErrorMap errorMap, AwardDocument awardDocument) {
+        Award award = awardDocument.getAward();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+
+        boolean success = award.getUnitNumber() != null && award.getUnit() != null;
+        if(!success) {
+            errorMap.putError("unitNumber", "error.award.unitNumber", award.getUnitNumber());    
+        }
+
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return success;
     }
 }
