@@ -57,6 +57,8 @@
                     
                          <td>
                              <div align="center">
+                                 <%-- the initiallyIncluded field is used by the JavaScript function selectAllIncludedGGForms in kuali_application.js --%>
+                                 <input type="hidden" name="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].initiallyIncluded" value="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].include}"/>
                                  <c:set var="isMandatory" value="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].mandatory}" /> 
                                  <c:choose>
                                      <c:when test="${isMandatory}">                             
