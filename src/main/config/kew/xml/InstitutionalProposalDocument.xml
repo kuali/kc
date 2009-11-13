@@ -5,7 +5,7 @@
 			<name>InstitutionalProposalDocument</name>
 			<description>Manage Institutional Proposal</description>
 			<label>KC Institutional Proposal</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>KC</parent>
 		</documentType>
 	</documentTypes>	
 </data>
