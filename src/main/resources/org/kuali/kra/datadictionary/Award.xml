@@ -56,6 +56,7 @@
         <ref bean="Award-cfdaNumber" />
         <ref bean="Award-beginDate" />
         <ref bean="Award-awardEffectiveDate" />
+        <ref bean="Award-projectEndDate" />
         <ref bean="Award-awardExecutionDate" />
         <ref bean="Award-accountTypeCode" />
         <ref bean="Award-awardTypeCode" />
@@ -937,7 +938,16 @@
     		<property name="description" value="Notice Date" />
   	</bean>
   	
-	
+	<bean id="Award-projectEndDate" parent="Award-projectEndDate-parentBean" />
+	<bean id="Award-projectEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+	    <property name="name" value="projectEndDate" />
+	    <property name="label" value="Final Expiration Date" />
+	    <property name="shortLabel" value="Final Expiration Date" />
+	    <property name="required" value="false" />
+	    <property name="summary" value="Final Expiration Date" />
+	    <property name="description" value="Final Expiration Date" />
+  	</bean>
+
 	<!-- Business Object Inquiry Definition -->
 
   <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
