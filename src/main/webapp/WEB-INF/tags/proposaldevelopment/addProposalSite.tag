@@ -54,6 +54,7 @@
         <%-- Code for Rolodex lookup enabled sites follows --%>
         <c:if test="${locationType == 'rolo'}">
             <%-- Site name --%>
+      		<input type = "hidden" value = "${newProposalSite.rolodexId}" name = "${newProposalSiteField}.rolodexId"/>
             <c:choose>
                 <c:when test="${empty newProposalSite.rolodexId}">
                     <c:out value="(Select)" />
@@ -103,6 +104,7 @@
         <%-- Code for non-Rolodex sites follows (uses the organization field, does a organization lookup) --%>
         <c:if test="${locationType == 'org'}">
             <%-- Site name --%>
+            <input type = "hidden" value = "${newProposalSite.organizationId}" name = "${newProposalSiteField}.organizationId"/>
             <c:choose>
                 <c:when test="${empty newProposalSite.organizationId}">
                     <c:out value="(Select)" />
