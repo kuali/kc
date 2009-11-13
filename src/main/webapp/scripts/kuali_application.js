@@ -247,30 +247,41 @@ function unselectAllSponsorForms(document) {
 	}
 }
 
+/**
+ * This function walks through all elements, using the variable e.
+ * It looks at the "initiallyIncluded" hidden variable and the checkboxes
+ * in the "Include" table column to figure out which "Select to Print"
+ * check boxes should be checked and which ones shouldn't.
+ * 
+ * For each table row, the e2 variable is set in the "Include" column,
+ * and read in the "Select to Print" column. If e2 is true, "Select to Print"
+ * is checked.
+ * At the end of the row, e2 is reset to false.
+ */
 function selectAllIncludedGGForms(document) {
     var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].mandatory') {
-	  		var e1 = e;
-	  }
-	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].include') {
-	  		var e2 = e;
-	  }
-	  if(e.type == 'checkbox') {	  	
-	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
- 		    if(e.disabled == false){
- 		    	if(e1.value == 'Yes'){
- 		    		e.checked = true;
- 		    	}
- 		    	if(e2.checked == true){
- 		    		e.checked = true;
- 		    	}
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
+    var e2 = false;
+    for (var i = 0; i < document.KualiForm.elements.length; i++) {
+        var e = document.KualiForm.elements[i];
+        /* the initiallyIncluded variable is set to true when the page is built. If it is true, the "Include" flag is set. */
+        if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].initiallyIncluded') {
+            if (e.value == 'true') {
+                e2 = true;
+            }
+        }
+        if(e.type == 'checkbox') {
+            if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].include') {
+                e2 = e.checked;
+            }
+            if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
+                if(e.disabled == false && e2 == true){
+                    e.checked = true;
+                }
+                e2 = false;
+                j++; 
+            }
+        }
+    }
 }
 
 function unselectAllGGForms(document) {
