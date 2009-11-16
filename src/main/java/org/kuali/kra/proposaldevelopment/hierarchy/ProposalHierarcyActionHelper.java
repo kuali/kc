@@ -52,6 +52,7 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_LINK_NOT_PARENT = "error.hierarchy.link.notParent";
     private static final String ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.link.noPrincipleInvestigator";
     private static final String ERROR_LINK_NO_BUDGET_VERSION = "error.hierarchy.link.noBudgetVersion";
+    private static final String ERROR_LINK_PARENT_BUDGET_COMPLETE = "error.hierarchy.link.parentBudgetComplete";
     private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
     private static final String ERROR_UNEXPECTED = "error.hierarchy.unexpected";
 
@@ -153,6 +154,10 @@ public class ProposalHierarcyActionHelper {
         boolean valid = true;
         if (!proposal.isParent()) {
             GlobalVariables.getMessageMap().putError(FIELD_PARENT_NUMBER, ERROR_LINK_NOT_PARENT, new String[0]);
+            valid = false;
+        }
+        else if (hasCompleteBudget(proposal)) {
+            GlobalVariables.getMessageMap().putError(FIELD_PARENT_NUMBER, ERROR_LINK_PARENT_BUDGET_COMPLETE, new String[0]);
             valid = false;
         }
         return valid;        
