@@ -507,6 +507,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 //            else {
                 newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
+                newPerson.getProposalPersonYnqs().clear();
                 newPerson.getCreditSplits().clear();
                 for (ProposalPersonUnit unit : newPerson.getUnits()) {
                     unit.getCreditSplits().clear();
