@@ -840,5 +840,33 @@ public class BudgetForm extends BudgetVersionFormBase {
         //Document to BudgetDocument everywhere
         return (BudgetDocument) super.getDocument();
     }
-    
+
+    /**
+     * This method makes sure that the Rates tab is not displayed for proposals
+     * in a hierarchy.
+     * 
+     * @return Returns the headerNavigationTabs filtered based on hierarchy status.
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     */
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
+        BudgetParentDocument parentDocument = getDocument().getParentDocument();
+        boolean hideRatesTab = false;
+        if (parentDocument instanceof ProposalDevelopmentDocument) {
+            if (((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isParent()) {
+                hideRatesTab = true;
+            }
+        }
+        if (hideRatesTab) {
+            List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
+            for (HeaderNavigation tab : tabs) {
+                if(!tab.getHeaderTabNavigateTo().equals("rates")) {
+                    newTabs.add(tab);
+                }
+            }
+            tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
+        }
+        return tabs;
+    }
+
 }
