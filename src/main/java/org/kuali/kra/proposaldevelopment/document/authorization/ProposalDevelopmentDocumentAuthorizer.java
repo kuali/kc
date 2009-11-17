@@ -41,6 +41,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
+    
+    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocumentAuthorizer.class);
+    
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
          
@@ -265,19 +268,46 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     protected boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
     protected boolean canAnnotate(Document document, Person user) {
-        return canRoute(document, user);
+        return canRoute(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
     protected boolean canCopy(Document document, Person user) {
         return false;
     }
-
+    
+    @Override
+    protected boolean canApprove( Document document, Person user ) {
+        return super.canApprove(document,user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+    
+    @Override
+    protected boolean canDisapprove( Document document, Person user ) {
+        return super.canDisapprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+    
+    @Override
+    protected boolean canFYI( Document document, Person user ) {
+        return super.canFYI(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+    
+    @Override
+    protected boolean canBlanketApprove( Document document, Person user ) {
+        return super.canBlanketApprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+    
+    @Override
+    protected boolean canAcknowledge( Document document, Person user ) {
+        return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+    
+    
+    
     protected boolean isBudgetComplete(BudgetParentDocument parentDocument) {
         if (!parentDocument.isComplete()) {
             return false;

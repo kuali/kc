@@ -68,7 +68,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
-
+    private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
+    
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
@@ -406,6 +407,20 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         };
     }
 
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion( String routeNodeName ) throws Exception {
+        LOG.debug("Processing answerSplitNodeQuestion:"+routeNodeName );
+        if( StringUtils.equals(HIERARCHY_CHILD_SPLITNODE_QUESTION, routeNodeName )) {
+            return getDevelopmentProposal().isChild();
+        }
+        //defer to the super class. ResearchDocumentBase will throw the UnsupportedOperationException
+        //if no super class answers the question.
+        return super.answerSplitNodeQuestion(routeNodeName);
+    }
+    
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     }
