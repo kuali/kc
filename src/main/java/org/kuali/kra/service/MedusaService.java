@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.text.ParseException;
 
 public interface MedusaService {
 
-    public String getMedusaByAward() throws ParseException;
-    public String getMedusaByProposal();
+    public String getMedusaByAward(String moduleName, Long moduleIdentifier);
+    public String getMedusaByProposal(String moduleName, Long moduleIdentifier);
 }

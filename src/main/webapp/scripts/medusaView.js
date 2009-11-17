@@ -72,87 +72,81 @@
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'awardNumber=&addRA=N&rootAwardNumber=000021-00001',
+        data:'medusaBean.moduleName=' + $("#medusaBean\\.moduleName").attr("value") + '&medusaBean.moduleIdentifier=' + $("#medusaBean\\.moduleIdentifier").attr("value"),
         async:false,
         timeout: 1000,
-        error: function(){
-           alert('Error loading XML document');
-        },
-        success: function(xml){
-           //alert("success"+xml);
- //for (var k=0; k< 10; k++) {       	
-           $(xml).find('h3').each(function(){
-           var item_text = $(this).text();
-           i++;
-           var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-           
-           var childNodesText = item_text.substring(item_text.indexOf("%5A")+3, item_text.indexOf("%5B")).trim();
-           
-          // if (i < 4 ) {
-        	//   alert(item_text+"-"+racode);
-          // }	   
-           var id = "item"+i;
-           var tagId = "listcontrol"+i;
-           var divId = "listcontent"+i;
-           
-          // NOTES : if use 'div', then FF will display the '+' and idDiv in
+        error:processError,
+        success:processData 
+       });  
+      // return false;
+    }  // generate
+    
+    
+    function processError(){
+        alert('Error loading XML document');
+     }
+    
+    function processData(xml){
+     	
+        $(xml).find('h3').each(function(){
+        var item_text = $(this).text();
+        i++;
+        var viewSelector = item_text.substring(0,item_text.indexOf("%2A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%2A")+3, item_text.length).trim();
+        var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        var childNodesText = item_text.substring(item_text.indexOf("%5A")+3, item_text.indexOf("%5B")).trim();
+
+        var id = "item"+i;
+        var tagId = "listcontrol"+i;
+        var divId = "listcontent"+i;
+        
+       // NOTES : if use 'div', then FF will display the '+' and idDiv in
 			// separate lines. IE7 is fine
-          // But 'IE7 has problem with 'span'
-          
-          var idDiv;
-          if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+       // But 'IE7 has problem with 'span'
+       
+       var idDiv;
+       if ( jQuery.browser.msie ) { 
+            idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																					// later
 																					// change
 																					// RA
 																					// description
-          } else {
-               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+       } else {
+            idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																			// later
 																			// change
 																			// RA
 																			// description
-          }
-               
-           var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-           var div = $('<div  class="hierarchydetail" style="margin-top:2px;" align="left"></div>').attr("id",divId);
-       	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-    			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-       	   hidracode.appendTo(div);
-       	   
-           // $(document).ready(function () {
+       }
+            
+        var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+        var div = $('<div  class="hierarchydetail" style="margin-top:2px;" align="left"></div>').attr("id",divId);
+    	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+ 			"racode" + i).attr("name", "racode" + i).attr("value",racode);
+    	   hidracode.appendTo(div);
+    	
+        var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+
+        ulTagId = "browser";        
+        div.appendTo(listitem);
+        // need this ultag to force to display folder.
+        var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+        childUlTag.appendTo(listitem);           
+        listitem.appendTo('ul#medusaview');
+                // also need this to show 'folder' icon
+        
+        $('#medusaview').treeview({
+           add: listitem
            
-          // });
-       	
-           var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-           
-           // tag.appendTo(listitem);
-           // listitem.appendTo('ul#file31');
-           ulTagId = "browser";
-           // tableTag(item_text, id).appendTo(div)
-           div.appendTo(listitem);
-           // need this ultag to force to display folder.
-           var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-           childUlTag.appendTo(listitem);           
-           listitem.appendTo('ul#medusaview');
-                   // also need this to show 'folder' icon
-           
-           $('#medusaview').treeview({
-              add: listitem
-              
-           });
-           
-           loadChildrenNoAjax(item_text, tagId,childNodesText);           
-          // setupListItem(item_text).appendTo('ul#browser');
-           
-           
-       
-           });
-// } // end test loop 'for'          
-        }
-       });  
-      // return false;
-    }  // generate
+        });
+        if(viewSelector == "A"){
+        	loadChildrenAwardView(item_text, tagId,childNodesText);	
+        }else if(viewSelector == "P"){
+        	loadChildrenProposalView(item_text, tagId,childNodesText);
+        }	
+        });
+     }
     
     function revString(str) { 
     	   var retStr = "";    	   
@@ -474,155 +468,179 @@
     
     return tblTag;
   }    
-  
-  /*
-	 * set up area of resear list tag. the main table detail is not set up
-	 * initially.
-	 */
-  function setupListItem(code, name) {
-            i++;
-            var id1 = "item"+i;
-            var tagId = "listcontrol"+i;
-            var divId = "listcontent"+i;
-            var idDiv;
-            if ( jQuery.browser.msie ) { 
-                idDiv = $('<div></div>').attr("id","itemText"+i).html(code +" : "+name); // for
-																				// later
-																				// change
-																				// RA
-																				// description
-            } else {
-                idDiv = $('<span>').attr("id","itemText"+i).html(code +" : "+name); // for
-																			// later
-																			// change
-																			// RA
-																			// description
-            }
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left"></div>').attr("id",divId);
-        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-         			"racode" + i).attr("name", "racode" + i).attr("value",code);
-            	   hidracode.appendTo(detDiv);
-       // $(document).ready(function () {
-            $(tag).click(
-                    function()
-                    {
-                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                            var idx = $(this).attr("id").substring(11);
-                            tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            if ($("#"+divId).is(":hidden")) {
-                                $("#listcontent"+idx).show();
-                            }
-                        } else {   
-
-                       // $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                            $("#"+divId).slideToggle(300);
-                            // $("#"+divId).show();;
-                        }  
-                        // TODO : this is a new item, so should not need to loadchildren ?
-                     //   loadChildrenRA(code +" : "+name, tagId);
-                    }
-                );
-        // });
-            // alert(tag.html());
-            var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
-            // tableTag(name, id1).appendTo(detDiv)
-            detDiv.appendTo(listitem);
-            // alert(listitem.html());
-            return listitem;
-	}
- 
 
   /*
 	 * load children area of research when parents RA is expanding.
 	 */
-function loadChildrenNoAjax(nodeName, tagId, childrenNodeText) {
+function loadChildrenProposalView(nodeName, tagId, childrenNodeText) {
     var parentNode = $("#"+tagId);
-    // alert ("load subnodes for
-		// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
     var liNode = parentNode.parents('li:eq(0)');
     var ulNode = liNode.children('ul:eq(0)');
     var inputNodev;
-//alert (ulNode);
-//if (liNode.children('ul').size() > 0 ) {
-//inputNodev = ulNode.children('input:eq(0)');
-//}
     
-    
-    // if (liNode.children('ul').size() == 0 ) {
     if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-        // alert(liNode.children('ul').size());
-
-            //i++;
             var ulTag ;
             if (liNode.children('ul').size() == 0) {
                 ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
             } else {
                 ulTag = ulNode;
             }
-           
-            // alert(ulTag.html());
-            
-            // ulTag.appendTo(parentNode);
             ulTag.appendTo(liNode);
             var loadedId = "loaded"+i;
             var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
             inputtag.appendTo(ulTag);
-            
-            //$(childrenNodeText).find('h5').each(function(){
-            while(childrenNodeText.length > 0){	
-            //var item_text = childrenNodeText;            
-            //var childNode1 = item_text.substring(0,item_text.indexOf("%5C")).trim();
+
+            while(childrenNodeText.length > 0){
+	            var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%5C1")+4,childrenNodeText.indexOf("%5C2")).trim();
+	            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%5C2")+4, childrenNodeText.length).trim();
+	            
+	            i++;
+	            
+	            var id = "item"+i;
+	            var tagId = "listcontrol"+i;
+	            var divId = "listcontent"+i;
+
+		        var idDiv;
+		        if ( jQuery.browser.msie ) { 
+		             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+		        } else {    
+		             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+		        }
+	            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+	            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
+	               	  
+	            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+	            ulTagId = ulTag.attr("id");
+	            detDiv.appendTo(listitem);
+	            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+	            childUlTag.appendTo(listitem);
+	            listitem.appendTo(ulTag);
+	            
+	            if (i==1) {
+	            // alert (listitem.html());
+	            }
+            }
+    }
+    loadedidx=i;
+} // end loadChildrenProposalView
+
+/*
+ * load children area of research when parents RA is expanding.
+ */
+function loadChildrenAwardView(nodeName, tagId, childrenNodeText) {
+	var parentNode = $("#"+tagId);
+	var liNode = parentNode.parents('li:eq(0)');
+	var ulNode = liNode.children('ul:eq(0)');
+	var inputNodev;
+
+	if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
+	    var ulTag ;
+        if (liNode.children('ul').size() == 0) {
+            ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+        } else {
+            ulTag = ulNode;
+        }
+        
+        ulTag.appendTo(liNode);
+        var loadedId = "loaded"+i;
+        var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+        inputtag.appendTo(ulTag);
+        
+        while(childrenNodeText.length > 0){	
+        
             var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%5C1")+4,childrenNodeText.indexOf("%5C2")).trim();
             childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%5C2")+4, childrenNodeText.length).trim();
+            var thirdLevelText = childrenNodeText.substring(childNode1.indexOf("%6A")+4, childrenNodeText.indexOf("%6B")).trim();
+            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%6B")+3, childrenNodeText.length).trim();
+            i++;
+            
+            var id = "item"+i;
+            var tagId = "listcontrol"+i;
+            var divId = "listcontent"+i;
+
+	        var idDiv;
+	        if ( jQuery.browser.msie ) { 
+	             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+	        } else {    
+	             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+	        }
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
+               	  
+            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+            ulTagId = ulTag.attr("id");
+            detDiv.appendTo(listitem);
+            
+            // need this ultag to force to display folder.
+            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+            childUlTag.appendTo(listitem);
+            listitem.appendTo(ulTag);
+            $("#medusaview").treeview({
+                add: listitem
+            });
+            if (i==1) {
+            }
+            loadThirdLevel(tagId,thirdLevelText);
+        }
+}
+loadedidx=i;
+} // end loadChildrenAwardView
+
+/*
+ * load children area of research when parents RA is expanding.
+ */
+function loadThirdLevel(tagId, childrenNodeText) {
+	var parentNode = $("#"+tagId);
+	var liNode = parentNode.parents('li:eq(0)');
+	var ulNode = liNode.children('ul:eq(0)');
+	var inputNodev;
+
+	if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
+        var ulTag ;
+        if (liNode.children('ul').size() == 0) {
+            ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+        } else {
+            ulTag = ulNode;
+        }
+
+        ulTag.appendTo(liNode);
+        var loadedId = "loaded"+i;
+        var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+        inputtag.appendTo(ulTag);
+        
+        while(childrenNodeText.length > 0){	
+        
+            var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%6C1")+4,childrenNodeText.indexOf("%6C2")).trim();
+            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%6C2")+4, childrenNodeText.length).trim();
             
             i++;
             
             var id = "item"+i;
             var tagId = "listcontrol"+i;
             var divId = "listcontent"+i;
-            
-           // if (i == 1) {
-        var idDiv;
-        if ( jQuery.browser.msie ) { 
-             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
-        } else {    
-             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
-        }
+
+	        var idDiv;
+	        if ( jQuery.browser.msie ) { 
+	             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+	        } else {    
+	             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+	        }
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
                	  
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-            // tag.appendTo(listitem);
-            // listitem.appendTo('ul#file31');
             ulTagId = ulTag.attr("id");
-            // tableTag(item_text, id).appendTo(detDiv)
             detDiv.appendTo(listitem);
-            // listitem.appendTo('ul#file31');
-            // need this ultag to force to display folder.
             var childUlTag = $('<ul></ul>').attr("id","ul"+i);
             childUlTag.appendTo(listitem);
             listitem.appendTo(ulTag);
-            // force to display folder icon
-            $("#medusaview").treeview({
-               add: listitem
-               // toggle: function() {
-               // var subul=this.getElementsByTagName("ul")[0]
-               // if (subul.style.display=="block")
-               // alert("You've opened this Folder!")
-               // }
-            });
-            
             if (i==1) {
             // alert (listitem.html());
             }
-            }
-    }
-    loadedidx=i;
-} // end loadChildrenRA  
+        }
+}
+loadedidx=i;
+} // end loadThirdLevel
 
 function replaceAll(Source,stringToFind,stringToReplace){
 	  var temp = Source;
@@ -661,9 +679,7 @@ function replaceAll(Source,stringToFind,stringToReplace){
            cache: false,
            async: false,
            timeout: 1000,
-           error: function(){
-              alert('Error loading XML document');
-           },
+           error:processError,
            success: function(xml){
               //i++;
               var ulTag ;
