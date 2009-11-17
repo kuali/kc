@@ -804,6 +804,15 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                 </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalHierarchyChildWorkflowActionAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="hierarchyChildWorkflowAction" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="rejectProposal" />
+                </bean>
+                
            </list>
         </property>
     </bean>
@@ -993,6 +1002,49 @@
                 <entry key="resubmit">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="submitToSponsor" />
+                    </bean>
+                </entry>
+                
+               <entry key="approve">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+               
+               <entry key="reject">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="rejectProposal" />
+                    </bean>
+                </entry>
+               
+                
+                <entry key="disapprove">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                
+                <!-- <entry key="cancel">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry> -->
+                
+                <entry key="blanketApprove">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                
+                <entry key="acknowledge">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                
+                <entry key="fyi">
+               	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
                     </bean>
                 </entry>
             </map>

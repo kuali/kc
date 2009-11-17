@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -99,6 +99,16 @@ public interface ProposalHierarchyService {
     public KualiWorkflowDocument getParentWorkflowDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
 
     /**
+     * Get the parent document of the hierarchy child document.
+     * This is a utility method.
+     * 
+     * @param doc The child in question
+     * @return The Document of the child's parent.
+     * @throws ProposalHierarchyException if the provided proposal is not in a hierarchy.
+     */
+    public ProposalDevelopmentDocument getParentDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
+
+    /**
      * Calculate the AppDocStatus that should be applied to children of 
      * a parent moving from oldStatus to newStatus.
      * 
@@ -109,4 +119,31 @@ public interface ProposalHierarchyService {
      */
     public String getHierarchyChildRouteCode( String oldStatus, String newStatus );
 
+    
+    
+    /**
+     * Get a list of ProposalDevelopmentDocuments that are children of proposal number provided.
+     * @param parentProposalNumber the proposal number of the hierarchy parent.
+     * @return List of ProposalDevelopmentDocuments
+     * @throws ProposalHierarchyException if the provided proposal is not a hierarchy.
+     */
+    public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments( String parentProposalNumber ) throws ProposalHierarchyException;    
+    
+    
+    /**
+     * Reject a proposal development document by proposal number. This will return a proposal to state almost but not quite like initiated state.
+     * If the proposal is a hierarchy all of the children will be returned to the initiated state as well.
+     * @param proposalNumber the proposalNumber you wish to reject
+     * @param reason the reason why it is rejected.  Will be added to the route log.
+     * @throws WorkflowException if there is a problem getting the workflow document, or rejecting the document.
+     * @throws ProposalHierarchyException 
+     */
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason ) throws WorkflowException, ProposalHierarchyException;
+    
+    
+    /**
+     * Get the initial node name of the ProposalDevelopmentDocument.
+     * @return The initial node name of the ProposalDevelopmentDocument obtained directly from KEW.
+     */
+    public String getProposalDevelopmentInitialNodeName();
 }

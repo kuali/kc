@@ -15,41 +15,41 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This authorizer determines if the user has the permission
- * to reject a proposal.  You can reject if:
- * 1) The document is not at route level 0. ( initiated )
- * 2) You have an approval pending on the document.
- * 3) The document state is enroute.
- * 
- * 
+ * to execute any workflow actions.  The isAuthorized method currently
+ * only looks to see if the proposal is a child document, and if the parent
+ * is enroute it denies the authorization ( hierarchy children cannot be cancelled or disapproved
+ * when the parent is enroute.
  */
-public class RejectProposalAuthorizer extends ProposalAuthorizer {
+public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuthorizer {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RejectProposalAuthorizer.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalHierarchyChildWorkflowActionAuthorizer.class);
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, ProposalTask task) {
+        boolean authorized = true;
         ProposalDevelopmentDocument doc = task.getDocument();
-        KualiWorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        String[] currentNodes;
-        try {
-            currentNodes = workDoc.getNodeNames();
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we);
-            throw new IllegalStateException( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we );
+
+        if( doc.getDevelopmentProposal().isChild() ) {
+            try {
+                KualiWorkflowDocument parentWDoc  = KraServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
+                if( !parentWDoc.stateIsInitiated() ) authorized = false;
+            }
+            catch (ProposalHierarchyException e) {
+                LOG.error( String.format( "Could not find parent workflow document for proposal document number:%s, which claims to be a child. Returning false.",doc.getDocumentHeader().getDocumentNumber()),e);
+                authorized = false;
+            }
         }
-        return (!workDoc.getRouteHeader().isCompleteRequested()) && (!ArrayUtils.contains(currentNodes, KraServiceLocator.getService(ProposalHierarchyService.class).getProposalDevelopmentInitialNodeName() )) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
+        
+        return authorized;
     }
-    
-    
 }
