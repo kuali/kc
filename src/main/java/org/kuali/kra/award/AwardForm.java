@@ -860,9 +860,9 @@ public class AwardForm extends BudgetVersionFormBase
         }
         
         if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setMedusaByAward(getMedusaService().getMedusaByAward());
+            setMedusaByAward(getMedusaService().getMedusaByAward(null, null));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
-            setMedusaByAward(getMedusaService().getMedusaByAward());
+            setMedusaByAward(getMedusaService().getMedusaByAward(null, null));
         }
         
         return medusaByAward;
@@ -875,19 +875,12 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public String getMedusa() throws ParseException{
         medusa = "";
-        if(StringUtils.isBlank(awardNumber)){
-            awardNumber = this.getRootAwardNumber();
-        }
         
-        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setMedusa(getMedusaService().getMedusaByAward());
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){            
-            if(StringUtils.equalsIgnoreCase("0", this.getMedusaBean().getMedusaViewRadio())){
-                setMedusa(getMedusaService().getMedusaByAward());    
-            }else if(StringUtils.equalsIgnoreCase("1", this.getMedusaBean().getMedusaViewRadio())){
-                setMedusa(getMedusaService().getMedusaByProposal());    
-            } 
-        }
+        if(StringUtils.equalsIgnoreCase("0", this.getMedusaBean().getMedusaViewRadio())){
+            setMedusa(getMedusaService().getMedusaByAward(this.getMedusaBean().getModuleName(), this.getMedusaBean().getModuleIdentifier()));    
+        }else if(StringUtils.equalsIgnoreCase("1", this.getMedusaBean().getMedusaViewRadio())){
+            setMedusa(getMedusaService().getMedusaByProposal(this.getMedusaBean().getModuleName(), this.getMedusaBean().getModuleIdentifier()));    
+        } 
         
         return medusa;
     }

@@ -57,5 +57,8 @@
         </li> --%>
     </ul>
    </div>
-</div>      
+</div>
+<input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
+<input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">      
 </kul:tabTop>   
+

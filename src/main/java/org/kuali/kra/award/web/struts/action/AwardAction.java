@@ -624,7 +624,9 @@ public class AwardAction extends BudgetParentActionBase {
     */
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        AwardForm awardForm = (AwardForm) form;
-       awardForm.getMedusaBean().setMedusaViewRadio("0");    
+       awardForm.getMedusaBean().setMedusaViewRadio("0");
+       awardForm.getMedusaBean().setModuleName("award");
+       awardForm.getMedusaBean().setModuleIdentifier(awardForm.getAwardDocument().getAward().getAwardId());
        return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
    }
 
