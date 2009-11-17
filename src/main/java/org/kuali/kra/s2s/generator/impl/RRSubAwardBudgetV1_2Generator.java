@@ -177,7 +177,7 @@ public class RRSubAwardBudgetV1_2Generator extends RRSubAwardBudgetBaseGenerator
      */
     private List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Budget budget = findBudgetFromProposal();
-        return budget.getBudgetSubAwards();
+        return budget==null?new ArrayList<BudgetSubAwards>():budget.getBudgetSubAwards();
     }
 
     private Budget findBudgetFromProposal() {
