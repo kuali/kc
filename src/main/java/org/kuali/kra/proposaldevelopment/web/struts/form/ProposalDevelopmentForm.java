@@ -63,6 +63,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -73,6 +74,7 @@ import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -1074,41 +1076,53 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        boolean showSubmitButton = true;
-        boolean showResubmitButton = true;
         ProposalDevelopmentDocument doc = this.getDocument();
-        if(doc.getDevelopmentProposal().getS2sSubmissionHistory()!=null && doc.getDevelopmentProposal().getS2sSubmissionHistory().size()!=0){
-            for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
-                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getDevelopmentProposal().getProposalNumber())){
-                    showSubmitButton=false;
-                }
-                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getDevelopmentProposal().getProposalNumber())){
-                    showResubmitButton=false;
-                }
-            }
-        } else if (doc.getDevelopmentProposal().getSubmitFlag()) {
-            /*
-             * If we get here, we have a non-electronic submission which doesn't have a submission history.
-             */
-            showSubmitButton = false;
-            showResubmitButton = false;
-        }
-        else {
-            showResubmitButton=false;
-        }  
-        
         String externalImageURL = "kra.externalizable.images.url";
-        KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
- 
-        if (showSubmitButton) {
-            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
-                String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
-                addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
+
+        
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {
+            boolean showSubmitButton = true;
+            boolean showResubmitButton = true;
+            if(doc.getDevelopmentProposal().getS2sSubmissionHistory()!=null && doc.getDevelopmentProposal().getS2sSubmissionHistory().size()!=0){
+                for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
+                    if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getDevelopmentProposal().getProposalNumber())){
+                        showSubmitButton=false;
+                    }
+                    if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getDevelopmentProposal().getProposalNumber())){
+                        showResubmitButton=false;
+                    }
+                }
+            } else if (doc.getDevelopmentProposal().getSubmitFlag()) {
+                /*
+                 * If we get here, we have a non-electronic submission which doesn't have a submission history.
+                 */
+                showSubmitButton = false;
+                showResubmitButton = false;
             }
-        }else if(showResubmitButton){
-            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_replaceproposal.gif";
-            addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
-        }       
+            else {
+                showResubmitButton=false;
+            }  
+        
+            KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
+ 
+            if (showSubmitButton) {
+                if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
+                    String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
+                    addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
+                }
+            }else if(showResubmitButton){
+                String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_replaceproposal.gif";
+                addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
+            }
+        
+        }
+        //check to see if they are authorized to reject the document
+        
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
+            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
+            addExtraButton("methodToCall.reject", resubmissionImage, "Reject Proposal");
+        }
         
         return extraButtons;
     }

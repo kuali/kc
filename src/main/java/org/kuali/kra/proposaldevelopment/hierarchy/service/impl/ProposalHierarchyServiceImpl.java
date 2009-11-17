@@ -61,21 +61,23 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.dto.ProcessDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class...
- */
 @Transactional
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
@@ -84,6 +86,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private static final String ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT = "error.hierarchy.budget.periodDurationInconsistent";
     private static final String PARAMETER_NAME_DIRECT_COST_ELEMENT = "proposalHierarchySubProjectDirectCostElement";
     private static final String PARAMETER_NAME_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
+    
+    private static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
+    private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
     
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -995,20 +1000,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return retCd;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
-     */
-    public KualiWorkflowDocument getParentWorkflowDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
-        try {
-            DevelopmentProposal parentProposal = getHierarchy(child.getDevelopmentProposal().getHierarchyParentProposalNumber());
-            String parentDocumentNumber = parentProposal.getProposalDocument().getDocumentNumber();
-            KualiWorkflowDocument pWorkflow = documentService.getByDocumentHeaderId(parentDocumentNumber).getDocumentHeader().getWorkflowDocument();
-            return pWorkflow;
-        } catch (WorkflowException e) {
-            LOG.error( "Workflow exception thrown getting hierarchy routing status.", e );
-            throw new ProposalHierarchyException( String.format("Could not lookup hierarchy workflow status for child:%s",child.getDocumentHeader().getDocumentNumber()),e);
-        }
-    }
     
     /**
      * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing. 
@@ -1032,4 +1023,117 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         result = prime * result + budget.getBudgetSummaryTotals().hashCode();
         return result;
     }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getChildProposalDevelopmentDocuments(java.lang.String)
+     */
+    public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments(String parentProposalNumber) throws ProposalHierarchyException {
+       
+        List<ProposalDevelopmentDocument> outList = new ArrayList<ProposalDevelopmentDocument>();
+        for( String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber)) {
+            DevelopmentProposal child = getDevelopmentProposal( childProposalNumber );
+            try {
+                outList.add( (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId( child.getProposalDocument().getDocumentNumber() ) );
+            }
+            catch (WorkflowException e) {
+                LOG.error( String.format( "Could not find document for child proposal number %s", parentProposalNumber, childProposalNumber ), e);
+                throw new ProposalHierarchyException( String.format( "Could not find document for child proposal number %s", parentProposalNumber, childProposalNumber ), e );
+            }
+            
+        }
+        
+        return outList;
+        
+    }
+
+    
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
+     */
+    public KualiWorkflowDocument getParentWorkflowDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
+            return getParentDocument( child ).getDocumentHeader().getWorkflowDocument();
+    }
+
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentDocument(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public ProposalDevelopmentDocument getParentDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
+        try {
+            DevelopmentProposal parentProposal = getHierarchy(child.getDevelopmentProposal().getHierarchyParentProposalNumber());
+            String parentDocumentNumber = parentProposal.getProposalDocument().getDocumentNumber();
+            return (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(parentDocumentNumber);
+        } catch (WorkflowException e) {
+            LOG.error( "Workflow exception thrown getting hierarchy routing status.", e );
+            throw new ProposalHierarchyException( String.format("Could not lookup hierarchy workflow status for child:%s",child.getDocumentHeader().getDocumentNumber()),e);
+        }
+    }
+    
+    
+    /**
+     * Reject a proposal by sending it to the first node ( as named by PROPOSALDEVELOPMENTDOCUMENT_KEW_INITIAL_NODE_NAME )
+     * @param proposalDoc The ProposalDevelopmentDocument that should be rejected.
+     * @param reason The reason text to be used as the annotation.
+     * @throws WorkflowException
+     */
+    private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason ) throws WorkflowException  {
+        KualiWorkflowDocument workflowDocument = proposalDoc.getDocumentHeader().getWorkflowDocument();
+        workflowDocument.returnToPreviousNode(reason, getProposalDevelopmentInitialNodeName() );
+    }
+    
+    /**
+     * Reject an entire proposal hierarchy.  This works by first rejecting each child, and then rejecting the parent.
+     * @param hierarchyParent The hierarchy to reject
+     * @param reason the reason to be applied to the annotation field.  The reason will be pre-pended with static text indicating if it was a child or the parent.  
+     * @throws ProposalHierarchyException If hierarchyParent is not a hierarchy, or there was a problem rejecting one of the documents.
+     */
+    private void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason) throws ProposalHierarchyException {
+        //1. Try to reject all of the children.
+        for( ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(hierarchyParent.getDevelopmentProposal().getProposalNumber())) {
+            try {
+                rejectProposal( child, REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX + reason );
+            } catch (WorkflowException e) {
+                throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting child document %s", child.getDevelopmentProposal().getProposalNumber()), e );
+            }
+        }
+        //2. reject the parent.
+        try {
+            rejectProposal( hierarchyParent, REJECT_PROPOSAL_REASON_PREFIX + reason );
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
+        }
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#rejectProposalDevelopmentDocument(java.lang.String, java.lang.String)
+     */
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason ) throws WorkflowException, ProposalHierarchyException {
+        DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
+        ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(getDevelopmentProposal(proposalNumber).getProposalDocument().getDocumentNumber());
+        if( !pbo.isInHierarchy() ) {
+            rejectProposal( pDoc, REJECT_PROPOSAL_REASON_PREFIX + reason );
+        } else if ( pbo.isParent() ) {
+            rejectProposalHierarchy( pDoc, reason );
+        } else {
+            //it is a child or in some unknown state, either way we do not support rejecting it.
+            throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
+        }
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalDevelopmentInitialNodeName()
+     */
+    public String getProposalDevelopmentInitialNodeName() {
+        DocumentTypeService dService = KEWServiceLocator.getDocumentTypeService();
+        DocumentTypeDTO proposalDevDocType = dService.getDocumentTypeVO("ProposalDevelopmentDocument");
+        ProcessDTO p = proposalDevDocType.getRoutePath().getPrimaryProcess();
+        return p.getInitialRouteNode().getRouteNodeName();
+    }
+   
+        
+    
 }

@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -64,7 +66,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=("Initiated".equals(wfd.getCurrentRouteNodeNames()) && wfd.getRouteHeader().isApproveRequested());
+            boolean hasBeenRejected=(StringUtils.equals(KraServiceLocator.getService(ProposalHierarchyService.class).getProposalDevelopmentInitialNodeName(), wfd.getCurrentRouteNodeNames()) && wfd.getRouteHeader().isApproveRequested());
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
