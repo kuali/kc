@@ -26,6 +26,8 @@ public class MedusaBean implements Serializable{
      */
     private static final long serialVersionUID = -8727199559530816767L;
     private String medusaViewRadio;
+    private String moduleName;
+    private Long moduleIdentifier;
     private AwardForm awardForm;
     
     /**
@@ -35,7 +37,7 @@ public class MedusaBean implements Serializable{
      */
     public MedusaBean(AwardForm form) {
         this.awardForm = form;
-        this.setMedusaViewRadio("1");
+        this.setMedusaViewRadio("0");
     }
     
     /**
@@ -68,6 +70,38 @@ public class MedusaBean implements Serializable{
      */
     public void setAwardForm(AwardForm awardForm) {
         this.awardForm = awardForm;
+    }
+
+    /**
+     * Gets the moduleName attribute. 
+     * @return Returns the moduleName.
+     */
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    /**
+     * Sets the moduleName attribute value.
+     * @param moduleName The moduleName to set.
+     */
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    /**
+     * Gets the moduleIdentifier attribute. 
+     * @return Returns the moduleIdentifier.
+     */
+    public Long getModuleIdentifier() {
+        return moduleIdentifier;
+    }
+
+    /**
+     * Sets the moduleIdentifier attribute value.
+     * @param moduleIdentifier The moduleIdentifier to set.
+     */
+    public void setModuleIdentifier(Long moduleIdentifier) {
+        this.moduleIdentifier = moduleIdentifier;
     }
     
 }
