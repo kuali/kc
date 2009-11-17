@@ -17,8 +17,9 @@ http://www.osedu.org/licenses/ECL-2.0
 <c:set var="hierarchyStatus" value="${KualiForm.document.developmentProposalList[0].hierarchyStatus}" />
 <c:set var="hierarchyChildStatus" value="${KualiForm.hierarchyChildStatus}"/>
 <%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily--%>
+<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
 <kra:section permission="submitToSponsor">
- <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> 
+  
 </kra:section>
 
 <kul:documentPage
@@ -86,14 +87,15 @@ showDocumentInfo="true"
 </c:if>
 
 <kul:panelFooter />
-<c:if test="${not KualiForm.suppressAllButtons}">
+<%-- Added document authorizer for the reject functionality. --%>
+<%-- <c:if test="${not KualiForm.suppressAllButtons}">
           <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE] and KualiForm.reject}">
               <c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_reject.gif"/>
               <c:set var="extraButtonProperty" value="methodToCall.reject"/>
               <c:set var="extraButtonAlt" value="Reject the document"/>
            </c:if> 
 
-</c:if>
+</c:if> --%>
 
 <p>
 <kul:documentControls 

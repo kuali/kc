@@ -53,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -417,25 +418,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String NodeName = null;
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        KualiWorkflowDocument workflowdocument=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
-/*
-        Long routeHeaderId=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getCurrentNodeInstances(routeHeaderId);
-        List<RouteNodeInstance> nodeInstances = new ArrayList<RouteNodeInstance>();
-
-        for (Iterator iterator = currentNodeInstances.iterator(); iterator.hasNext();) {
-           RouteNodeInstance nodeInstance = (RouteNodeInstance) iterator.next();
-           NodeName= nodeInstance.getRouteNode().getRouteNodeName();
-        }
-*/        
         
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        String rejectNoteText = "";
         if(question == null){
             return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
          } 
@@ -444,11 +432,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         else
         {
-            String introNoteMessage = "Proposal Rejected" + KNSConstants.BLANK_SPACE;
-            rejectNoteText = introNoteMessage + reason;
-//            workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
-		// Using deprecated method because nothing else available works
-            workflowdocument.returnToPreviousRouteLevel(rejectNoteText, 0);
+            //reject the document using the service.
+            ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)kualiDocumentFormBase.getDocument();
+            ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason);
             return super.returnToSender(request, mapping, kualiDocumentFormBase);
         }
         
@@ -1112,7 +1099,40 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ParameterService getParameterService() {
         return KraServiceLocator.getService(ParameterService.class);
     }
+   
     
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return super.cancel(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return super.disapprove(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward fyi(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return super.fyi(mapping, form, request, response);
+    }
+
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return super.blanketApprove(mapping, form, request, response);
+    }
+
+    @Override
+    public ActionForward acknowledge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return super.acknowledge(mapping, form, request, response);
+    }
+
+    
+
 }
     
     
