@@ -16,8 +16,13 @@
 package org.kuali.kra.medusa;
 
 import java.io.Serializable;
+import java.text.ParseException;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.MedusaService;
 
 public class MedusaBean implements Serializable{
 
@@ -29,6 +34,18 @@ public class MedusaBean implements Serializable{
     private String moduleName;
     private Long moduleIdentifier;
     private AwardForm awardForm;
+    private ProposalDevelopmentForm proposalDevelopmentForm;
+    private String medusa;
+    
+    /**
+     * 
+     * Constructs a AwardReportsBean.java.
+     * @param form
+     */
+    public MedusaBean(ProposalDevelopmentForm form) {
+        this.proposalDevelopmentForm = form;
+        this.setMedusaViewRadio("0");
+    }
     
     /**
      * 
@@ -54,22 +71,6 @@ public class MedusaBean implements Serializable{
      */
     public void setMedusaViewRadio(String medusaViewRadio) {
         this.medusaViewRadio = medusaViewRadio;
-    }
-
-    /**
-     * Gets the awardForm attribute. 
-     * @return Returns the awardForm.
-     */
-    public AwardForm getAwardForm() {
-        return awardForm;
-    }
-
-    /**
-     * Sets the awardForm attribute value.
-     * @param awardForm The awardForm to set.
-     */
-    public void setAwardForm(AwardForm awardForm) {
-        this.awardForm = awardForm;
     }
 
     /**
@@ -102,6 +103,70 @@ public class MedusaBean implements Serializable{
      */
     public void setModuleIdentifier(Long moduleIdentifier) {
         this.moduleIdentifier = moduleIdentifier;
+    }
+
+    /**
+     * Gets the medusaForm attribute. 
+     * @return Returns the medusaForm.
+     */
+    public AwardForm getAwardForm() {
+        return awardForm;
+    }
+
+    /**
+     * Sets the medusaForm attribute value.
+     * @param medusaForm The medusaForm to set.
+     */
+    public void setAwardForm(AwardForm awardForm) {
+        this.awardForm = awardForm;
+    }
+
+    /**
+     * Gets the medusa attribute. 
+     * @return Returns the medusa.
+     */
+    public String getMedusa() throws ParseException{
+        medusa = "";
+        
+        if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
+            setMedusa(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
+        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
+            setMedusa(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
+        } 
+        
+        return medusa;
+    }
+
+    /**
+     * Sets the medusa attribute value.
+     * @param medusa The medusa to set.
+     */
+    public void setMedusa(String medusa) {
+        this.medusa = medusa;
+    }
+    
+    /**
+     * This method...
+     * @return
+     */
+    private MedusaService getMedusaService() {
+        return KraServiceLocator.getService(MedusaService.class);
+    }
+
+    /**
+     * Gets the proposalDevelopmentForm attribute. 
+     * @return Returns the proposalDevelopmentForm.
+     */
+    public ProposalDevelopmentForm getProposalDevelopmentForm() {
+        return proposalDevelopmentForm;
+    }
+
+    /**
+     * Sets the proposalDevelopmentForm attribute value.
+     * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
+     */
+    public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
+        this.proposalDevelopmentForm = proposalDevelopmentForm;
     }
     
 }

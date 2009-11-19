@@ -18,6 +18,7 @@
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
+		<form-bean name="MedusaForm" type="org.kuali.kra.medusa.MedusaForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
@@ -123,6 +124,7 @@
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
           <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
+          <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
       </action>
       
 		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
@@ -232,8 +234,12 @@
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
       </action>
       
-      <action path="/medusaViewAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardMedusaAction"  >
-          <forward name="basic" path="/WEB-INF/jsp/medusaViewAjax.jsp" />
+      <action path="/awardMedusaViewAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardMedusaAction"  >
+          <forward name="basic" path="/WEB-INF/jsp/award/awardMedusaViewAjax.jsp" />
+      </action>
+      
+      <action path="/proposalDevelopmentMedusaViewAjax" name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentMedusaAction"  >
+          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/proposalMedusaViewAjax.jsp" />
       </action>
       
       <!-- Time And Money -->
