@@ -1,3 +1,4 @@
+set define off
 DECLARE
   l_role_id VARCHAR2(40);
   l_default_type_id VARCHAR2(40);

@@ -1,3 +1,4 @@
+set define off
 --Important:
 
 --WARNING - make sure you run the auth migration scripts before running this script.

@@ -1,3 +1,5 @@
+set define off
+
 	DECLARE 
 		l_default_type_id VARCHAR2(40);
 
@@ -31,7 +33,7 @@
     reset_sequences('KRIM_ROLE_RSP_ID_S');
     reset_sequences('KRIM_ROLE_RSP_ACTN_ID_S');
          	        
-	INSERT INTO KRNS_NMSPC_T(NMSPC_CD, NM, ACTV_IND, APPL_NMSPC_CD, OBJ_ID) VALUES ('KC-SYS', 'Kuali Coeus System', 'Y', NULL, SYS_GUID());
+	--INSERT INTO KRNS_NMSPC_T(NMSPC_CD, NM, ACTV_IND, APPL_NMSPC_CD, OBJ_ID) VALUES ('KC-SYS', 'Kuali Coeus System', 'Y', NULL, SYS_GUID());
 		
 	INSERT INTO KRIM_TYP_T (KIM_TYP_ID, NM, SRVC_NM, ACTV_IND, NMSPC_CD, OBJ_ID) VALUES (KRIM_TYP_ID_S.NEXTVAL, 'Unit', 'unitRoleTypeService', 'Y', 'KC-SYS', SYS_GUID());
     INSERT INTO KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL, OBJ_ID) VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL, 'kra.unitNumber', 'Unit Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}', SYS_GUID());
