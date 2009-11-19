@@ -9,7 +9,7 @@
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'medusaBean.moduleName=' + $("#medusaBean\\.moduleName").attr("value") + '&medusaBean.moduleIdentifier=' + $("#medusaBean\\.moduleIdentifier").attr("value"),
+        data:'medusaBean.medusaViewRadio=' + $("#medusaBean\\.medusaViewRadio").attr("value") + '&medusaBean.moduleName=' + $("#medusaBean\\.moduleName").attr("value") + '&medusaBean.moduleIdentifier=' + $("#medusaBean\\.moduleIdentifier").attr("value"),
         async:false,
         timeout: 1000,
         error:processError,

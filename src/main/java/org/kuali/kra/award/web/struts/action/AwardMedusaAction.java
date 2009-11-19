@@ -29,11 +29,6 @@ import org.kuali.kra.infrastructure.Constants;
  * This class represents the Struts Action for Medusa page(AwardMedusa.jsp)
  */
 public class AwardMedusaAction extends AwardAction {    
-   
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
-        return super.execute(mapping, form, request, response);
-    }
     
     public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
