@@ -44,7 +44,6 @@ public class MedusaBean implements Serializable{
      */
     public MedusaBean(ProposalDevelopmentForm form) {
         this.proposalDevelopmentForm = form;
-        this.setMedusaViewRadio("0");
     }
     
     /**
@@ -54,7 +53,6 @@ public class MedusaBean implements Serializable{
      */
     public MedusaBean(AwardForm form) {
         this.awardForm = form;
-        this.setMedusaViewRadio("0");
     }
     
     /**
