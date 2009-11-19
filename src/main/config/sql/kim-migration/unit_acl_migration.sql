@@ -1,3 +1,4 @@
+set define off
 DECLARE
  l_role_name VARCHAR2(500);
  l_new_role_id VARCHAR2(40);
