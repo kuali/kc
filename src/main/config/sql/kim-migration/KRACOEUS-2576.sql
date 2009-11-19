@@ -1,3 +1,4 @@
+set define off
 -- This SQL Script contains the KC KIM Authorization bootstrap (as per the current Permission mappings)
 -- This SQL script contains changes relevant to both KRACOEUS-2575 & KRACOEUS-2576.sql	
 	DECLARE 

@@ -1,3 +1,4 @@
+set define off
 --This script will do the following:
   --1) Delete all entity data in the KRIM tables
   --2) Add KIM bootstrap data required from rice

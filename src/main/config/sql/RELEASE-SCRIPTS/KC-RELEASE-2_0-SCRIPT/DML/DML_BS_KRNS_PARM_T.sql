@@ -97,6 +97,12 @@ VALUES ('KC-AWARD', 'D', 'mit.idc.validation.enabled', 'CONFG', '1', 'MitIdcVali
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Help', 'A') ;
 
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'proposalHierarchySubProjectIndirectCostElement', 'CONFG', 'PHTID02', 'The Cost Element to be used for the Indirect Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
@@ -225,7 +231,7 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 VALUES ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', SYS_GUID () , 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-QUESTIONNAIRE', 'P', 'associateModuleQuestionnairePermission', 'CONFG', 'MODIFY_PROPOSAL;MODIFY_PROTOCOL', 'List of permissions that are allowed to associate a module with questionnaire.', 'A') ;
+VALUES('KC-QUESTIONNAIRE', 'P', 'associateModuleQuestionnairePermission', 'CONFG', 'Modify ProposalDevelopmentDocument:KRA-PD;Modify Protocol:KC-PROTOCOL', 'List of permissions that are allowed to associate a module with questionnaire.', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-T', 'D', 'timeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Time And Money Help', 'A') ;
@@ -288,6 +294,12 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, P
 VALUES('KRA-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '01-JAN-2010 00:00 AM', 'It defines where the citizenship info should fetch from', 'A') ;
+VALUES('KRA-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '1', 'It defines where the citizenship info should fetch from', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'D', 'FEDERAL_ID_COMES_FROM_CURRENT_AWARD', SYS_GUID () , 1, 'CONFG', 'N', 'Determines whether the Grants.Gov Federal ID must be populated from the current award.', 'A') ;
+
+INSERT INTO krns_parm_t (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-PD', 'D', 'proposaldevelopment.proposaltype.resubmission', SYS_GUID () , 1, 'CONFG', '2', 'ProposalTypeCode of RESUBMISSION', 'A') ;
 
 COMMIT;
