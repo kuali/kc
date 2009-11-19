@@ -59,6 +59,21 @@
    </div>
 </div>
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
-<input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">      
+<input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
+
+	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+		
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
+
+	<script src="scripts/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+	
+	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+      
 </kul:tabTop>   
 
