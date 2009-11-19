@@ -1,3 +1,4 @@
+set define off
 --Important:
 
 --This script will do the following:
