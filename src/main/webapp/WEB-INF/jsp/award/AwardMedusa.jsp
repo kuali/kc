@@ -25,7 +25,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="awardMedusa"
+  	headerTabActive="medusa"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 <kra:medusa />
