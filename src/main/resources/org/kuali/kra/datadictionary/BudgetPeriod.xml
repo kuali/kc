@@ -147,10 +147,10 @@
 
   <bean id="BudgetPeriod-totalCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalCost" />
-    <property name="label" value="Total Requested Cost" />
-    <property name="shortLabel" value="Total Requested Cost" />
-    <property name="summary" value="Total Requested Cost" />
-    <property name="description" value="Total Requested Cost" />
+    <property name="label" value="Total Sponsor Cost" />
+    <property name="shortLabel" value="Total Sponsor Cost" />
+    <property name="summary" value="Total Sponsor Cost" />
+    <property name="description" value="Total Sponsor Cost" />
   </bean>
   <bean id="BudgetPeriod-totalCostLimit" parent="BudgetPeriod-totalCostLimit-parentBean" />
 
