@@ -41,6 +41,9 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class QuestionLookupableHelperServiceTest extends KraTestBase {
     
+    private static final String SEQUENCE_STATUS_CURRENT = "C";
+    private static final String SEQUENCE_STATUS_ARCHIVED = "A";
+    
     private QuestionLookupableHelperServiceImpl questionLookupableHelperServiceImpl;
     private DocumentService documentService;
     private Mockery context = new JUnit4Mockery();
@@ -64,29 +67,30 @@ public class QuestionLookupableHelperServiceTest extends KraTestBase {
     
     /**
      * 
-     * This method tests getSearchResults
+     * This method tests getSearchResults.  It ensures that only the most recent version of a question
+     * will be returned in the search result.
      * @throws Exception
      */
     @Test
     public void testGetSearchResults() throws Exception {
+        
+        // Create & submit new Question document for version 1 of the question
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
-        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1));
+        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1, SEQUENCE_STATUS_ARCHIVED));
         documentService.routeDocument(maintDocument, null, null);
         
-        // 2nd document
+        // Create & submit new Question document for version 2 of the question
         maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 2"); 
-        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(2));
+        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(2, SEQUENCE_STATUS_CURRENT));
         documentService.routeDocument(maintDocument, null, null);
-        List<? extends BusinessObject> searchResults = questionLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        Assert.assertEquals(searchResults.size(), 2);
-        // newer one will be at the top
-        Question question = (Question)searchResults.get(0);
-        Assert.assertEquals(question.getQuestion(), "test2");
         
-        question = (Question)searchResults.get(1);
-        Assert.assertEquals(question.getQuestion(), "test1");
+        List<? extends BusinessObject> searchResults = questionLookupableHelperServiceImpl.getSearchResults(new HashMap());
+        Assert.assertEquals(1, searchResults.size());
+        // Check that the current version is being returned
+        Question question = (Question)searchResults.get(0);
+        Assert.assertEquals("test2", question.getQuestion());
     }
 
     /**
@@ -105,7 +109,7 @@ public class QuestionLookupableHelperServiceTest extends KraTestBase {
             will(returnValue(true));
         }});
   
-        Question question = createQuestion(1);
+        Question question = createQuestion(1, SEQUENCE_STATUS_CURRENT);
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
@@ -135,7 +139,7 @@ public class QuestionLookupableHelperServiceTest extends KraTestBase {
             will(returnValue(false));
         }});
   
-        Question question = createQuestion(1);
+        Question question = createQuestion(1, SEQUENCE_STATUS_CURRENT);
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
@@ -167,7 +171,7 @@ public class QuestionLookupableHelperServiceTest extends KraTestBase {
             will(returnValue(false));
         }});
   
-        Question question = createQuestion(1);
+        Question question = createQuestion(1, SEQUENCE_STATUS_CURRENT);
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
@@ -183,14 +187,16 @@ public class QuestionLookupableHelperServiceTest extends KraTestBase {
     /**
      * 
      * This method creates a simple question 
-     * @param questionId 
+     * @param questionRefId 
+     * @parm sequenceStatus
      * @return question
      */
-    private Question createQuestion(int questionId) {
+    private Question createQuestion(int questionRefId, String sequenceStatus) {
         Question question = new Question();
-        question.setQuestionRefId(Long.valueOf(questionId));
-        question.setQuestionId(questionId);
-        question.setQuestion("test" + questionId);
+        question.setQuestionRefId(Long.valueOf(questionRefId));
+        question.setQuestionId(questionRefId);
+        question.setSequenceStatus(sequenceStatus);
+        question.setQuestion("test" + questionRefId);
         question.setStatus("A");
         question.setCategoryTypeCode(1);
         question.setQuestionTypeId(1);  
