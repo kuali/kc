@@ -96,6 +96,13 @@
           <property name="headerTabDisplayName" value="Proposal Actions"/>
           <property name="headerTabNavigateTo" value="actions"/>
         </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentMedusaHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
       </list>
     </property>
     <property name="allowsNoteAttachments" value="false"/>

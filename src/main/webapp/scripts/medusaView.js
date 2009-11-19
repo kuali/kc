@@ -60,28 +60,7 @@
          // return false;
        });
     }); // $(document).ready
-     
-
-    /*
-	 * Load first level area of research when page is initially loaded
-	 */
-    function loadFirstLevel(){ 
-      
-      $.ajax({
-        url: 'medusaViewAjax.do',
-        type: 'GET',
-        dataType: 'html',
-        cache: false,
-        data:'medusaBean.moduleName=' + $("#medusaBean\\.moduleName").attr("value") + '&medusaBean.moduleIdentifier=' + $("#medusaBean\\.moduleIdentifier").attr("value"),
-        async:false,
-        timeout: 1000,
-        error:processError,
-        success:processData 
-       });  
-      // return false;
-    }  // generate
-    
-    
+         
     function processError(){
         alert('Error loading XML document');
      }
@@ -671,116 +650,108 @@ function replaceAll(Source,stringToFind,stringToReplace){
       // if (liNode.children('ul').size() == 0 ) {
       if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
           // alert(liNode.children('ul').size());
-          $.ajax({
-           url: 'medusaViewAjax.do',
-           type: 'GET',
-           dataType: 'html',
-           data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E',
-           cache: false,
-           async: false,
-           timeout: 1000,
-           error:processError,
-           success: function(xml){
-              //i++;
-              var ulTag ;
-              if (liNode.children('ul').size() == 0) {
-                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
-              } else {
-                  ulTag = ulNode;
-              }
-             
-              // alert(ulTag.html());
-              
-              // ulTag.appendTo(parentNode);
-              ulTag.appendTo(liNode);
-              var loadedId = "loaded"+i;
-              var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
-              inputtag.appendTo(ulTag);
-              $(xml).find('h3').each(function(){
-              var item_text = $(this).text();
-              i++;
-              var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              item_text = item_text.replace("%3A",":");
-              var id = "item"+i;
-              var tagId = "listcontrol"+i;
-              var divId = "listcontent"+i;
-              
-             // if (i == 1) {
-          var idDiv;
-          if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																					// later
-																					// change
-																					// RA
-																					// description
-          } else {    
-               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																			// later
-																			// change
-																			// RA
-																			// description
-          }
-              var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-              var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
-         	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-              			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-                 	   hidracode.appendTo(detDiv);
-                 	  
-                 	   tag.click(
-                              function()
-                              {
-                                  // alert ("click "+tagId);
-                                  $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                                  var idx = $(this).attr("id").substring(11);
-                                  if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                                	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      if ($("#listcontent"+idx).is(":hidden")) {
-                                      // alert(divId + " hidden0");
-                                           $("#listcontent"+idx).show();
-                                       // $("#listcontent"+idx).slideToggle(300);
-                                      }
-                                  } else {
-                                      $("#listcontent"+idx).slideToggle(300);
-                                  }   
-
-                                  loadChildrenRA(item_text, tagId);
-                              }
-                          );
-                 	  
-              var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-              // tag.appendTo(listitem);
-              // listitem.appendTo('ul#file31');
-              ulTagId = ulTag.attr("id");
-              // tableTag(item_text, id).appendTo(detDiv)
-              detDiv.appendTo(listitem);
-              // listitem.appendTo('ul#file31');
-              // need this ultag to force to display folder.
-              var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-              childUlTag.appendTo(listitem);
-              listitem.appendTo(ulTag);
-              // force to display folder icon
-              $("#medusaview").treeview({
-                 add: listitem
-                 // toggle: function() {
-                 // var subul=this.getElementsByTagName("ul")[0]
-                 // if (subul.style.display=="block")
-                 // alert("You've opened this Folder!")
-                 // }
-              });
-              
-              if (i==1) {
-              // alert (listitem.html());
-              }
-          
-              });
-           }
-          });    
+    	  loadMedusaTree();    
       }
       loadedidx=i;
   } // end loadChildrenRA
 
+  
+  function displayTree(){
+          //i++;
+          var ulTag ;
+          if (liNode.children('ul').size() == 0) {
+              ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+          } else {
+              ulTag = ulNode;
+          }
+         
+          // alert(ulTag.html());
+          
+          // ulTag.appendTo(parentNode);
+          ulTag.appendTo(liNode);
+          var loadedId = "loaded"+i;
+          var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+          inputtag.appendTo(ulTag);
+          $(xml).find('h3').each(function(){
+          var item_text = $(this).text();
+          i++;
+          var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
+          item_text = item_text.replace("%3A",":");
+          var id = "item"+i;
+          var tagId = "listcontrol"+i;
+          var divId = "listcontent"+i;
+          
+         // if (i == 1) {
+      var idDiv;
+      if ( jQuery.browser.msie ) { 
+           idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																				// later
+																				// change
+																				// RA
+																				// description
+      } else {    
+           idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																		// later
+																		// change
+																		// RA
+																		// description
+      }
+          var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+          var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
+     	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+          			"racode" + i).attr("name", "racode" + i).attr("value",racode);
+             	   hidracode.appendTo(detDiv);
+             	  
+             	   tag.click(
+                          function()
+                          {
+                              // alert ("click "+tagId);
+                              $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                              var idx = $(this).attr("id").substring(11);
+                              if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                  tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                  if ($("#listcontent"+idx).is(":hidden")) {
+                                  // alert(divId + " hidden0");
+                                       $("#listcontent"+idx).show();
+                                   // $("#listcontent"+idx).slideToggle(300);
+                                  }
+                              } else {
+                                  $("#listcontent"+idx).slideToggle(300);
+                              }   
+
+                              loadChildrenRA(item_text, tagId);
+                          }
+                      );
+             	  
+          var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+          // tag.appendTo(listitem);
+          // listitem.appendTo('ul#file31');
+          ulTagId = ulTag.attr("id");
+          // tableTag(item_text, id).appendTo(detDiv)
+          detDiv.appendTo(listitem);
+          // listitem.appendTo('ul#file31');
+          // need this ultag to force to display folder.
+          var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+          childUlTag.appendTo(listitem);
+          listitem.appendTo(ulTag);
+          // force to display folder icon
+          $("#medusaview").treeview({
+             add: listitem
+             // toggle: function() {
+             // var subul=this.getElementsByTagName("ul")[0]
+             // if (subul.style.display=="block")
+             // alert("You've opened this Folder!")
+             // }
+          });
+          
+          if (i==1) {
+          // alert (listitem.html());
+          }
+      
+          });	  
+  }
   /*
 	 * Utility function to get code from 'code : description' This need to be
 	 * refined because if code contains ':', then this is not working correctly.

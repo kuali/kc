@@ -142,8 +142,6 @@ public class AwardForm extends BudgetVersionFormBase
     private List<String> order;
     private AwardFundingProposalBean fundingProposalBean;
     private String awardHierarchy;
-    private String medusa;
-    private String medusaByAward;
     private String awardNumber;
     private String addRA;    
     private String deletedRas;
@@ -848,58 +846,7 @@ public class AwardForm extends BudgetVersionFormBase
     public AwardHierarchyBean getAwardHierarchyBean() {
         return awardHierarchyBean;
     }
-    
-    /**
-     * Gets the medusaByAward attribute. 
-     * @return Returns the medusaByAward.
-     */
-    public String getMedusaByAward() throws ParseException{
-        medusaByAward = "";
-        if(StringUtils.isBlank(awardNumber)){
-            awardNumber = this.getRootAwardNumber();
-        }
-        
-        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setMedusaByAward(getMedusaService().getMedusaByAward(null, null));
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
-            setMedusaByAward(getMedusaService().getMedusaByAward(null, null));
-        }
-        
-        return medusaByAward;
-    }
 
-
-    /**
-     * Gets the medusa attribute. 
-     * @return Returns the medusa.
-     */
-    public String getMedusa() throws ParseException{
-        medusa = "";
-        
-        if(StringUtils.equalsIgnoreCase("0", this.getMedusaBean().getMedusaViewRadio())){
-            setMedusa(getMedusaService().getMedusaByAward(this.getMedusaBean().getModuleName(), this.getMedusaBean().getModuleIdentifier()));    
-        }else if(StringUtils.equalsIgnoreCase("1", this.getMedusaBean().getMedusaViewRadio())){
-            setMedusa(getMedusaService().getMedusaByProposal(this.getMedusaBean().getModuleName(), this.getMedusaBean().getModuleIdentifier()));    
-        } 
-        
-        return medusa;
-    }
-
-    /**
-     * Sets the medusa attribute value.
-     * @param medusa The medusa to set.
-     */
-    public void setMedusa(String medusa) {
-        this.medusa = medusa;
-    }
-    
-    /**
-     * Sets the medusaByAward attribute value.
-     * @param medusaByAward The medusaByAward to set.
-     */
-    public void setMedusaByAward(String medusaByAward) {
-        this.medusaByAward = medusaByAward;
-    }
 
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
@@ -974,14 +921,6 @@ public class AwardForm extends BudgetVersionFormBase
      */
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         return KraServiceLocator.getService(AwardHierarchyUIService.class);
-    }
-    
-    /**
-     * This method...
-     * @return
-     */
-    private MedusaService getMedusaService() {
-        return KraServiceLocator.getService(MedusaService.class);
     }
 
     /**
@@ -1106,5 +1045,12 @@ public class AwardForm extends BudgetVersionFormBase
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
-
+    
+    /**
+     * This method...
+     * @return
+     */
+    private MedusaService getMedusaService() {
+        return KraServiceLocator.getService(MedusaService.class);
+    }
 }
