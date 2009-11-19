@@ -10,6 +10,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/timeAndMoney.do?methodToCall=docHandler</docHandler>
+			<parent>KC</parent>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>
