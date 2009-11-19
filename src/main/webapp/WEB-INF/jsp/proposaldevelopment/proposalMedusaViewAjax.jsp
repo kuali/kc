@@ -41,13 +41,13 @@ body {
 <c:out value="I am in medusaViewAjax.jsp" />
 <body class=" yui-skin-sam">
 <html:form styleId="kualiForm" method="post"
-    action="/medusaViewAjax.do" enctype=""
+    action="/proposalDevelopmentMedusaViewAjax.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 <!--  initial data here -->
 <%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 
 <div id="treeDiv1">
-${AwardForm.medusa}
+${ProposalDevelopmentForm.medusaBean.medusa}
 </div>
 
 <script type="text/javascript">

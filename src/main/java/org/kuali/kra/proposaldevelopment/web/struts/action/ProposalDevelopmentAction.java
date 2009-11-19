@@ -466,6 +466,25 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
+    
+    /**
+    *
+    * This method gets called upon navigation to Medusa tab.
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+       ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) proposalDevelopmentForm.getDocument();
+       String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
+       proposalDevelopmentForm.getMedusaBean().setMedusaViewRadio("0");
+       proposalDevelopmentForm.getMedusaBean().setModuleName("DP");
+       proposalDevelopmentForm.getMedusaBean().setModuleIdentifier(Long.valueOf(proposalNumber));
+       return mapping.findForward(Constants.MAPPING_PROPOSAL_MEDUSA_PAGE);
+   }
 
     /**
      * This method processes an auditMode action request

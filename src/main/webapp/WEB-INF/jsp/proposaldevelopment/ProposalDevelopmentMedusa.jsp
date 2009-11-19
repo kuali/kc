@@ -13,26 +13,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<!-- AwardMedusa.jsp -->
+<!-- ProposalDevelopmentMedusa.jsp -->
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardMedusa"
-	documentTypeName="AwardDocument"
+	htmlFormAction="proposalDevelopmentMedusa"
+	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="awardMedusa"
-  	extraTopButtons="${KualiForm.extraTopButtons}" >
+  	headerTabActive="proposalDevelopmentMedusa" >
 
 <kra:medusa />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
-	<script type="text/javascript" src="scripts/medusaView.js"></script>	
-	<script type="text/javascript" src="scripts/awardMedusa.js"></script>
-	
 </kul:documentPage>
+	
+	<script type="text/javascript" src="scripts/medusaView.js"></script>	
+	<script type="text/javascript" src="scripts/proposalDevelopmentMedusa.js"></script>
+	

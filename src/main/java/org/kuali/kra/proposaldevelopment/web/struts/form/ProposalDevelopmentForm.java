@@ -47,6 +47,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -166,6 +167,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     private String resubmissionOption;
     private String institutionalProposalToVersion;
     
+    private MedusaBean medusaBean;
+    
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -217,6 +220,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         setNewProposalChangedData(new ProposalChangedData());
         versionNumberForS2sOpportunity = null;
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
+        medusaBean = new MedusaBean(this);
     }
     
     //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -1556,6 +1560,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
 
     public void setInstitutionalProposalToVersion(String institutionalProposalToVersion) {
         this.institutionalProposalToVersion = institutionalProposalToVersion;
+    }
+
+    /**
+     * Gets the medusaBean attribute. 
+     * @return Returns the medusaBean.
+     */
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+    /**
+     * Sets the medusaBean attribute value.
+     * @param medusaBean The medusaBean to set.
+     */
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
     }    
     
 }
