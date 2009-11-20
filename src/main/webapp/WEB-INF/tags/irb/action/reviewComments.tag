@@ -19,6 +19,7 @@
 <%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.ReviewComments" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
+<%@ attribute name="actionName" required="true" %>
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
@@ -77,7 +78,7 @@
 
                     <td>
                         <div align="center">
-                            <html:image property="methodToCall.addGrantExemptionReviewComment.anchor${tabKey}"
+                            <html:image property="methodToCall.add${actionName}ReviewComment.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
@@ -122,11 +123,11 @@
                         <td>
                             <div align="center">&nbsp;
                                 <nobr>
-                                <html:image property="methodToCall.moveUpGrantExemptionReviewComment.line${status.index}.anchor${tabKey}"
+                                <html:image property="methodToCall.moveUp${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
-                                <html:image property="methodToCall.moveDownGrantExemptionReviewComment.line${status.index}.anchor${tabKey}"
+                                <html:image property="methodToCall.moveDown${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
-                                <html:image property="methodToCall.deleteGrantExemptionReviewComment.line${status.index}.anchor${tabKey}"
+                                <html:image property="methodToCall.delete${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                                 </nobr>
                             </div>
