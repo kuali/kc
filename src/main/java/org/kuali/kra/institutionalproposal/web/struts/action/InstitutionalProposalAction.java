@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -184,6 +185,25 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         institutionalProposalForm.getInstitutionalProposalDocument().populateCustomAttributes();
         return forward;
     }
+    
+    /**
+    *
+    * This method gets called upon navigation to Medusa tab.
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+       InstitutionalProposalDocument document = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
+       
+       institutionalProposalForm.getMedusaBean().setMedusaViewRadio("0");
+       institutionalProposalForm.getMedusaBean().setModuleName("IP");
+       institutionalProposalForm.getMedusaBean().setModuleIdentifier(document.getInstitutionalProposal().getProposalId());
+       return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE);
+   }
     
     @Override
     protected PessimisticLockService getPessimisticLockService() {
