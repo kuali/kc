@@ -242,6 +242,10 @@
           <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/proposalMedusaViewAjax.jsp" />
       </action>
       
+      <action path="/institutionalProposalMedusaViewAjax" name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposalMedusaAction"  >
+          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/proposalMedusaViewAjax.jsp" />
+      </action>
+      
       <!-- Time And Money -->
       
        <!--  Institutional Proposal -->      
@@ -253,7 +257,8 @@
           <forward name="customData" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalCustomData.jsp" />
           <forward name="intellectualPropertyReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalIntellectualPropertyReview.jsp" />
           <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />
-          <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />                    
+          <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalMedusa.jsp" />                    
       </action>
       
       <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
