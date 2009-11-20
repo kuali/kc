@@ -18,18 +18,5 @@
       // return false;
     }  // generate
     
-    function loadMedusaTree(){
-    	
-    	$.ajax({
-            url: 'awardMedusaViewAjax.do',
-            type: 'GET',
-            dataType: 'html',
-            data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E',
-            cache: false,
-            async: false,
-            timeout: 1000,
-            error:processError,
-            success: displayTree
-           });
-    }
+    
     
