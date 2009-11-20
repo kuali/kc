@@ -22,7 +22,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -146,4 +148,24 @@ public interface ProposalHierarchyService {
      * @return The initial node name of the ProposalDevelopmentDocument obtained directly from KEW.
      */
     public String getProposalDevelopmentInitialNodeName();
+
+    /**
+     * Calculate the proposal state type cope for a proposal.
+     * 
+     * @param proposalDevelopmentDocument the proposal document to calculate the state for.
+     * @param isRouteStatusChanged boolean - is the route status changing?
+     * @return String route status code.
+     */
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean routeStatusChanged );
+
+    /**
+     * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 
+     * @param proposalDevelopmentDocument The heirarchy being routed.
+     * @param dto the route status change dto object.
+     * @param currentUserPrincipalName the name of the user to perform submit or approve operations on the child document.
+     * @throws ProposalHierarchyException If there is a problem routing the children.
+     */
+    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto, String currentUserPrincipalName) throws ProposalHierarchyException;
+    
+    
 }
