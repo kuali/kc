@@ -38,14 +38,24 @@ public class KcPersonFixtureFactory {
     }
 
     /**
-     * 
+     * This method returns "Joe Tester" as the KcPerson name. Kim integration doesn't allow the setting of the name 
      * @param personId
      * @param boService
      * @param identityService
      * @return
      */
     public static KcPerson createKcPerson(String personId, BusinessObjectService boService, IdentityService identityService) {
-        KcPerson person = new KcPerson();
+        KcPerson person = new KcPerson() {
+            public String getFirstName() {
+                return "Joe";
+            }
+            public String getLastName() {
+                return "Tester";
+            }
+            public String getMiddleName() {
+                return "";
+            }
+        };
         person.setBusinessObjectService(boService);
         person.setIdentityService(identityService);
         person.setPersonId(personId);
