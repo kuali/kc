@@ -49,4 +49,5 @@ public interface ProposalStateService {
      * @return the proposal state type code
      */
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged);
+
 }

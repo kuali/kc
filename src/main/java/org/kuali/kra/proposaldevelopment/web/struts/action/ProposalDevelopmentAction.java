@@ -577,7 +577,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ((KualiForm) form).setTabStates(new HashMap<String, String>());
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
-
+        
         UniversalUser currentUser =  new UniversalUser(GlobalVariables.getUserSession().getPerson());
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
@@ -592,11 +592,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 }
                 else if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.KEY_PERSON_ROLE))){
                     if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
-                        pdform.setReject(true);
+                       pdform.setReject(true);
                     }
                 }
             }
         }
+        pdform.setReject(true);
         return super.headerTab(mapping, form, request, response);
     }
     /**
