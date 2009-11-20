@@ -300,7 +300,14 @@
 
 	<bean id="CommSchedule-committeeId" parent="CommSchedule-committeeId-parentBean" />
 	<bean id="CommSchedule-committeeId-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeId">
+		<property name="label" value="Committee Id" />
+		<property name="shortLabel" value="Committee Id" />
 		<property name="required" value="false" />
+		<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
+                p:includeKeyInLabel="false" />
+		</property>
 	</bean>
 
 	<bean id="CommSchedule-committeeName" parent="CommSchedule-committeeName-parentBean" />
