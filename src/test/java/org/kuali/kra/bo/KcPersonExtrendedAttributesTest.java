@@ -187,13 +187,6 @@ public class KcPersonExtrendedAttributesTest {
     }
 
     @Test
-    public void testGetHomeUnitIdentifier() {
-        String testValue = "OIT";
-        kcPersonEA.setHomeUnitIdentifier(testValue);
-        assertTrue("should be equal.", testValue.equals(kcPersonEA.getHomeUnitIdentifier()));
-    }
-
-    @Test
     public void testGetVacationAccrualFlag() {
         boolean testValue = false;
         kcPersonEA.setVacationAccrualFlag(testValue);
@@ -226,14 +219,5 @@ public class KcPersonExtrendedAttributesTest {
         String testValue = "Tompkins";
         kcPersonEA.setCounty(testValue);
         assertTrue("should be equal.", testValue.equals(kcPersonEA.getCounty()));
-    }
-
-    @Test
-    public void testGetHomeUnit() {
-        String testValue  = "Super Secret Home ID Value";
-        Unit myHomeUnit = new Unit();
-        myHomeUnit.setObjectId(testValue);
-        kcPersonEA.setHomeUnit(myHomeUnit);
-        assertTrue("should be equal.", testValue.equals(kcPersonEA.getHomeUnit().getObjectId()));
     }
 }

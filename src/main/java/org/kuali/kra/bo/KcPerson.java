@@ -784,8 +784,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the password
      */
     public String getPassword() {
-        //FIXME return this.getPrincipal().getPassword();
-        return "";
+        return this.getPrincipal().getPassword();
     }
 
     /** {@inheritDoc} */
@@ -795,7 +794,9 @@ public class KcPerson implements Contactable, BusinessObject {
     
     /** {@inheritDoc} */
     public Unit getUnit() {
-        return this.extendedAttributes.getHomeUnit(); 
+        final String org = this.getOrganizationIdentifier();
+        
+        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null; 
     }
 
     /** {@inheritDoc} */
@@ -810,7 +811,7 @@ public class KcPerson implements Contactable, BusinessObject {
 
     /** {@inheritDoc} */
     public String getOrganizationIdentifier() {
-        return this.extendedAttributes.getHomeUnitIdentifier();
+        return this.entity.getPrimaryEmployment().getPrimaryDepartmentCode();
     }
     
     /**

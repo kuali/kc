@@ -46,13 +46,11 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String directoryDepartment;
     private String primaryTitle;
     private String directoryTitle;
-    private String homeUnitIdentifier;
     private Boolean vacationAccrualFlag;
     private Boolean onSabbaticalFlag;
     private String idProvided;
     private String idVerified;
     private String county;
-    private Unit homeUnit;
     
     /**
      * Gets the value of personId which is actually the KIM principal id.
@@ -391,22 +389,6 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     }
 
     /**
-     * Gets the value of homeUnit.
-     * @return the value of homeUnit
-     */
-    public String getHomeUnitIdentifier() {
-        return this.homeUnitIdentifier;
-    }
-
-    /**
-     * Sets the value of homeUnit.
-     * @param homeUnitIdentifier Value to assign to this.homeUnit
-     */
-    public void setHomeUnitIdentifier(String homeUnitIdentifier) {
-        this.homeUnitIdentifier = homeUnitIdentifier;
-    }
-
-    /**
      * Gets the value of vacationAccrual.
      * @return the value of vacationAccrual
      */
@@ -486,23 +468,6 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         this.county = argCounty;
     }
     
-
-    /**
-     * Gets the home unit.
-     * @return the home unit
-     */
-    public Unit getHomeUnit() {
-        return this.homeUnit; 
-    }
-
-    /**
-     * Sets the home unit.
-     * @param homeUnit the home unit
-     */
-    public void setHomeUnit(Unit homeUnit) {
-        this.homeUnit = homeUnit;
-    }
-    
     /** {@inheritDoc} */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -529,7 +494,6 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         map.put("directoryDepartment", this.directoryDepartment);
         map.put("primaryTitle", this.primaryTitle);
         map.put("directoryTitle", this.directoryTitle);
-        map.put("homeUnitIdentifier", this.homeUnitIdentifier);
         map.put("vacationAccrualFlag", this.vacationAccrualFlag);
         map.put("onSabbaticalFlag", this.onSabbaticalFlag);
         map.put("idProvided", this.idProvided);
