@@ -209,10 +209,11 @@
             <bean parent="AnyCharacterValidationPattern" 
                   p:allowWhitespace="true" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+		<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
+                p:includeKeyInLabel="false" />
+		</property>
         <property name="summary" value="Committee Id" />
         <property name="description" value="Committee Id" />
     </bean>
