@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.service.AwardHierarchyUIService;
@@ -33,10 +34,13 @@ public class MedusaServiceImpl implements MedusaService {
 
     public String getMedusaByProposal(String moduleName, Long moduleIdentifier) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<h3>");
-        sb.append("P %2A ");
+        
         
         Collection<AwardFundingProposal> awardFundingProposals1 = getAwardFundingProposals(moduleName, moduleIdentifier);
+        if(awardFundingProposals1.size()>0){
+            sb.append("<h3>");
+            sb.append("P %2A ");
+        }
         for(AwardFundingProposal awardFundingProposal : awardFundingProposals1){
             awardFundingProposal.refreshReferenceObject("proposal");
             sb.append("Institutional Proposal " + awardFundingProposal.getProposal().getProposalNumber() + "%3A" );
@@ -59,21 +63,43 @@ public class MedusaServiceImpl implements MedusaService {
             }   
             sb.append("%5B");
         }
-        sb.append("</h3>");
+        if(awardFundingProposals1.size()>0){
+            sb.append("</h3>");
+        }
        
         return sb.toString();
     }
 
     public String getMedusaByAward(String moduleName, Long moduleIdentifier) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<h3>");
-        sb.append("A %2A ");
         
         Collection<AwardFundingProposal> awardFundingProposals1 = getAwardFundingProposals(moduleName, moduleIdentifier);
         
+        if(awardFundingProposals1.size()>0){
+            sb.append("<h3>");
+            sb.append("A %2A ");
+        }
+        
         for(AwardFundingProposal awradFundingProposal1 : awardFundingProposals1){
             awradFundingProposal1.refreshReferenceObject("award");
-            sb.append("Award " + awradFundingProposal1.getAward().getAwardNumber() + "%3A" );
+            Award award = awradFundingProposal1.getAward();
+            sb.append("Award " + award.getAwardNumber() + "%3A" );
+            sb.append("%31");
+                sb.append("%TB1");
+                    sb.append("Award " + award.getAwardNumber());
+                sb.append("!TB1");                    
+                    sb.append("Summary ").append(":").append(award.getAwardId()).append(":").append(award.getAwardTypeCode()).append(":");
+                    sb.append(award.getSponsorAwardNumber()).append(award.getAwardTypeCode()).append(":").append(award.getSponsorAwardNumber());
+                    sb.append(":").append(award.getActivityType().getDescription()).append(":").append(award.getAwardStatus()).append(":").append(award.getTitle());
+                sb.append("%TB2");
+                sb.append("!TB2");
+                sb.append("%TB3");
+                sb.append("!TB3");
+                sb.append("%TB4");
+                sb.append("!TB4");
+                sb.append("%TB5");
+                sb.append("!TB5");            
+            sb.append("%32");
             sb.append("%5A");
             Collection<AwardFundingProposal> awardFundingProposals2 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", awradFundingProposal1.getProposalId()));
             for(AwardFundingProposal awardFundingProposal2 : awardFundingProposals2){
@@ -93,7 +119,9 @@ public class MedusaServiceImpl implements MedusaService {
             }
             sb.append("%5B");
         }
-        sb.append("</h3>");
+        if(awardFundingProposals1.size()>0){
+            sb.append("</h3>");
+        }
         return sb.toString();
     }
 
