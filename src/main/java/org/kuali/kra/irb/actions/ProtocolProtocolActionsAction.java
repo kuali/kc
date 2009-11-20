@@ -51,6 +51,7 @@ import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
+import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -972,5 +973,104 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
         return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
+    }
+    
+    /**
+     * Expedite Approval.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward expediteApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
+        getProtocolExpediteApprovalService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Add a review comment to a grant exemption request.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
+        actionBean.getReviewComments().addNewComment();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Delete a review comment from a grant exemption request.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
+        actionBean.getReviewComments().deleteComment(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Move a review comment up one in a grant exemption request.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward moveUpExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
+        actionBean.getReviewComments().moveUp(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Move a review comment down one in a grant exemption request.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward moveDownExpediteApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
+        actionBean.getReviewComments().moveDown(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
+        return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
     }
 }

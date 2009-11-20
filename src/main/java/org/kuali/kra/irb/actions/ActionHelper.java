@@ -80,6 +80,7 @@ public class ActionHelper implements Serializable {
     private boolean canAssignCmtSched = false;
     private boolean canAssignReviewers = false;
     private boolean canGrantExemption = false;
+    private boolean canExpediteApproval = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -95,6 +96,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
+    private ProtocolGenericActionBean protocolExpediteApprovalBean;
     private transient ParameterService parameterService;
     
     /*
@@ -137,6 +139,7 @@ public class ActionHelper implements Serializable {
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
+        protocolExpediteApprovalBean = new ProtocolGenericActionBean();
     }
     
     /**
@@ -224,6 +227,7 @@ public class ActionHelper implements Serializable {
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignReviewers = hasAssignReviewersPermission();
         canGrantExemption = hasGrantExemptionPermission();
+        canExpediteApproval = hasExpediteApprovalPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -342,6 +346,10 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasExpediteApprovalPermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -421,6 +429,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
         return protocolGrantExemptionBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolExpediteApprovalBean() {
+        return protocolExpediteApprovalBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -472,6 +484,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanGrantExemption() {
         return canGrantExemption;
+    }
+    
+    public boolean getCanExpediteApproval() {
+        return canExpediteApproval;
     }
     
     public void setPrintTag(String printTag) {
