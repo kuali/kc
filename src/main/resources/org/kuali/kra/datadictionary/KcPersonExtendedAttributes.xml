@@ -45,7 +45,6 @@
         <ref bean="KcPersonExtendedAttributes-directoryDepartment" />
         <ref bean="KcPersonExtendedAttributes-primaryTitle" />
         <ref bean="KcPersonExtendedAttributes-directoryTitle" />
-        <ref bean="KcPersonExtendedAttributes-homeUnitIdentifier" />
         <ref bean="KcPersonExtendedAttributes-vacationAccrualFlag" />
         <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag" />
         <ref bean="KcPersonExtendedAttributes-idProvided" />
@@ -54,29 +53,6 @@
         <ref bean="KcPersonExtendedAttributes-versionNumber" />
       </list>
     </property>
-    <!-- NOTE: JHulslander, I commented this out while working on a maintenance issue, this doesn't seem to hurt having it commented, so leaving it commented out, may be able to remove at a later time
-    <property name="relationships" >
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="homeUnit" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="homeUnitIdentifier"
-                    p:targetName="unitNumber" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="homeUnit.unitName"
-                    p:targetName="unitName" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>-->
   </bean>
 
 <!-- Attribute Definitions -->
@@ -379,20 +355,6 @@
     <property name="summary" value="Directory Title" />
     <property name="description" value="Directory Title" />
   </bean>
-
-  <bean id="KcPersonExtendedAttributes-homeUnitIdentifier" parent="KcPersonExtendedAttributes-homeUnitIdentifier-parentBean" />
-
-  <bean id="KcPersonExtendedAttributes-homeUnitIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="homeUnitIdentifier" />
-    <property name="label" value="Home Unit" />
-    <property name="shortLabel" value="Home Unit" />
-    <property name="maxLength" value="20" /> <!-- get the real length -->
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.UnitValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
   
   <bean id="KcPersonExtendedAttributes-vacationAccrualFlag" parent="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean" />
 
@@ -509,7 +471,6 @@
                     p:attributeName="primaryTitle" />
               <bean parent="FieldDefinition"
                     p:attributeName="directoryTitle" />
-              <!-- <bean parent="FieldDefinition" p:attributeName="homeUnit.unitName" />  -->
               <bean parent="FieldDefinition"
                     p:attributeName="vacationAccrualFlag" />
               <bean parent="FieldDefinition"
@@ -544,7 +505,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="personId"
                p:forceInquiry="true"  />
-        <!-- <bean parent="FieldDefinition" p:attributeName="homeUnitIdentifier" />  -->
         <bean parent="FieldDefinition"
               p:attributeName="directoryTitle" />
         <bean parent="FieldDefinition"
