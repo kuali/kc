@@ -155,7 +155,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
         
         boolean foundKeyPerson = false;
         for(AwardPerson pp: getAward().getProjectPersons()) {
-            if(pp.getContact().getIdentifier().equals(travelerId)) {
+            if(pp.getContact().getIdentifier().toString().equals(travelerId)) {
                 if(pp.isEmployee()) {
                     newApprovedForeignTravel.setPersonTraveler(pp.getPerson());
                     newApprovedForeignTravel.setPersonId(pp.getPersonId());

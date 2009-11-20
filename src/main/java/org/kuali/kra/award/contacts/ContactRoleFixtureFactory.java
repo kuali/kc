@@ -25,9 +25,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
  * This class defines some mock AwardContactRoles
  */
 public final class ContactRoleFixtureFactory {
-    static final ContactRole MOCK_PI = getProposalPersonRole(ContactRole.PI_CODE, "Principal Investigator");
-    static final ContactRole MOCK_COI = getProposalPersonRole(ContactRole.COI_CODE, "Co-Investigator");
-    static final ContactRole MOCK_KEY_PERSON = getProposalPersonRole(ContactRole.KEY_PERSON_CODE, "Key Person");
+    public static final ContactRole MOCK_PI = getProposalPersonRole(ContactRole.PI_CODE, "Principal Investigator");
+    public static final ContactRole MOCK_COI = getProposalPersonRole(ContactRole.COI_CODE, "Co-Investigator");
+    public static final ContactRole MOCK_KEY_PERSON = getProposalPersonRole(ContactRole.KEY_PERSON_CODE, "Key Person");
     
     static final ContactRole MOCK_ACCOUNTANT = getUnitAdministratorType("11", "Accountant", UnitContactType.CONTACT);
     static final ContactRole MOCK_ADMIN_ASSISTANT = getUnitAdministratorType("12", "Admin Assistant", UnitContactType.CONTACT); 

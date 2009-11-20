@@ -15,124 +15,181 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KcPersonFixtureFactory;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.rice.kns.util.KualiDecimal;
+
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.junit.Test;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This test class will not be executable until we fix the Rice code where 
  * the Document and Form class constructors invoke Spring services. Geez! Have these
  * guys never read anything about unit testing?
  * 
- */     
-//@RunWith(JMock.class)
-public class ApprovedForeignTravelBeanTest {
-    private static final String TRAVELER_NAME = "Joe Smith";
+ */ 
+public class ApprovedForeignTravelBeanTest extends KraTestBase {
     private static final String DESTINATION_NAME = "Tokyo, Japan";
     private static final Date START_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis());
     private static final Date END_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 10).getTimeInMillis());
-    private static final String TRIP_AMOUNT = "Amount";
-    
-    private Mockery context;
-    private KualiRuleService ruleService;
+    private static final KualiDecimal TRIP_AMOUNT = new KualiDecimal(6000.00);
+    private static final String TRAVELER_NAME_WAS_NULL = "Traveler name was null";
+    private static final String TRAVELER_NAME_WAS_INCORRECT_PATTERN = "Traveler name was incorrect: %s";
+
     private Award award;
-    private SpecialApprovalBean bean;
+    private ApprovedForeignTravelBean bean;
+    private NonOrganizationalRolodex nonEmployeeTraveler;
+    private KcPerson employeeTraveler;
+
     private AwardApprovedForeignTravel foreignTravelTrip;
-   
+
+    private AwardPerson employee;
+    private AwardPerson nonEmployee;
+
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        award = new Award();
+        AwardForm form = new AwardForm();
+        AwardDocument awardDocument = new AwardDocument();
+        awardDocument.setAward(award);
+        form.setDocument(awardDocument);
+        bean = new ApprovedForeignTravelBean(form);
+
+        employeeTraveler = KcPersonFixtureFactory.createKcPerson("1001");
+        initializeNonEmployeeTraveler();
+
+        foreignTravelTrip = initializeForeignTravelTrip_Employee();
+
+        employee = new AwardPerson(employeeTraveler, ContactRoleFixtureFactory.MOCK_PI);
+        award.add(employee);
+        nonEmployee = new AwardPerson(nonEmployeeTraveler, ContactRoleFixtureFactory.MOCK_COI);
+        award.add(nonEmployee);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        bean = null;
+        award = null;
+        super.tearDown();
+    }
+
     @Test
-    public void testDummy() {
-        
+    public void testSunnyDayScenario_Employee() throws Exception {
+        checkForeignTravelTrip(bean, foreignTravelTrip, true);
+        Assert.assertEquals(1, award.getApprovedForeignTravelTrips().size());
     }
-//    @Before
-//    public void setUp() throws Exception {
-//        context = new JUnit4Mockery();
-//        ruleService = getRuleService();
-//        award = new Award();
-//        AwardForm form = new AwardForm();
-//        bean = new ApprovedEquipmentBean(form, getCapitalizationMinimumLoader());
-//        equipmentItem = new AwardApprovedEquipment();        
-//    }
-//    
-//    @After
-//    public void tearDown() throws Exception {
-//        equipmentItem = null;
-//        bean = null;
-//        award = null;
-//        ruleService = null;
-//        context = null;
-//    }
-//    
-//    @Test
-//    public void testAddingNewEquipmentItem() throws Exception {
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        
-//        equipmentItem.setItem(ITEM_NAME);
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        Assert.assertEquals(0, award.getApprovedEquipmentItems().size());
-//        
-//        equipmentItem.setVendor(VENDOR_NAME);
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        
-//        Assert.assertEquals(0, award.getApprovedEquipmentItems().size());
-//        equipmentItem.setModel(MODEL_NAME);
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        
-//        equipmentItem.setAmount(-INSTITUTION_MINIMUM_AMOUNT);
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        
-//        equipmentItem.setAmount(0.00);
-//        checkAddingEquipmentItem(bean, equipmentItem, false);
-//        
-//        Assert.assertEquals(0, award.getApprovedEquipmentItems().size());
-//        
-//        equipmentItem.setAmount(INSTITUTION_MINIMUM_AMOUNT);
-//        checkAddingEquipmentItem(bean, equipmentItem, true);
-//        Assert.assertEquals(1, award.getApprovedEquipmentItems().size());
-//        
-//        equipmentItem.setAmount(FEDERAL_MINIMUM_AMOUNT);
-//        checkAddingEquipmentItem(bean, equipmentItem, true);
-//        Assert.assertEquals(2, award.getApprovedEquipmentItems().size());
-//    }
-//
-//    @Test
-//    public void testDeletingEquipmentItem() throws Exception {
-//        final int NUMBER_OF_ITEMS = 5;
-//        for (int i = 1; i <= NUMBER_OF_ITEMS; i++) {
-//            award.add(new AwardApprovedEquipment(VENDOR_NAME + i, MODEL_NAME + i, ITEM_NAME + i, INSTITUTION_MINIMUM_AMOUNT));
-//        }
-//        List<AwardApprovedEquipment> originalList = new ArrayList<AwardApprovedEquipment>(award.getApprovedEquipmentItems());
-//        Assert.assertEquals(NUMBER_OF_ITEMS, award.getApprovedEquipmentItems().size());
-//        
-//        bean.deleteApprovedEquipmentItem(1);
-//        
-//        Assert.assertEquals(NUMBER_OF_ITEMS - 1, award.getApprovedEquipmentItems().size());
-//        Assert.assertFalse(award.getApprovedEquipmentItems().contains(originalList.get(0)));
-//    }
-    
-    private void checkAddingEquipmentItem(ApprovedForeignTravelBean bean, AwardApprovedForeignTravel item, boolean expectedOutcome) {
+
+    @Test
+    public void testSunnyDayScenario_Nonemployee() throws Exception {
+        AwardApprovedForeignTravel trip = initializeForeignTravelTrip_Nonemployee();
+        checkForeignTravelTrip(bean, trip, true);
+        Assert.assertEquals(1, award.getApprovedForeignTravelTrips().size());
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_NothingSet() throws Exception {
+        checkForeignTravelTrip(bean, new AwardApprovedForeignTravel(), false);
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_TravelerNameSet() throws Exception {
+        foreignTravelTrip.setPersonTraveler(null);
+        foreignTravelTrip.setTravelerName(employeeTraveler.getFullName());
+        checkForeignTravelTrip(bean, foreignTravelTrip, true);
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_TravelerNameNotSet() throws Exception {
+        foreignTravelTrip.setPersonTraveler(null);
+        checkForeignTravelTrip(bean, foreignTravelTrip, false);
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_StartDateNotSet() throws Exception {
+        foreignTravelTrip.setStartDate(null);
+        checkForeignTravelTrip(bean, foreignTravelTrip, false);
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_EndDateNotSet() throws Exception {
+        foreignTravelTrip.setEndDate(null);
+        checkForeignTravelTrip(bean, foreignTravelTrip, true);
+    }
+
+    @Test
+    public void testAddingNewForeignTravelTrip_AmountNotSet() throws Exception {
+        foreignTravelTrip.setAmount(null);
+        checkForeignTravelTrip(bean, foreignTravelTrip, false);
+    }
+
+    @Test
+    public void testSettingSelectedTravelerId_Employee() throws Exception {
+        foreignTravelTrip.setPersonTraveler(null);
+        checkForIdentificationOfTravelerNameFromTravelerId(employee);
+    }
+
+    @Test
+    public void testSettingSelectedTravelerId_nonEmployee() throws Exception {
+        foreignTravelTrip.setPersonTraveler(null);
+        checkForIdentificationOfTravelerNameFromTravelerId(nonEmployee);
+    }
+
+    private void checkForIdentificationOfTravelerNameFromTravelerId(AwardPerson awardPerson) {
+        Contactable contact = awardPerson.getContact();
+        bean.setSelectedTravelerId(contact.getIdentifier().toString());
+        Assert.assertNotNull(TRAVELER_NAME_WAS_NULL, bean.getNewApprovedForeignTravel().getTravelerName());
+        Assert.assertNotNull(createIncorrectNameMessage(contact), bean.getNewApprovedForeignTravel().getTravelerName());
+    }
+
+    private String createIncorrectNameMessage(Contactable contact) {
+        return String.format(TRAVELER_NAME_WAS_INCORRECT_PATTERN,  contact.getFullName());
+    }
+
+    private void checkForeignTravelTrip(ApprovedForeignTravelBean bean, AwardApprovedForeignTravel item, boolean expectedOutcome) {
         bean.setNewAwardApprovedForeignTravel(item);
-        bean.setRuleService(ruleService);
-        setExpectation(ruleService, bean.generateAddEvent(), expectedOutcome);
-        bean.addApprovedForeignTravel();
-        context.assertIsSatisfied();
+        Assert.assertEquals(expectedOutcome, bean.addApprovedForeignTravel());
+        Assert.assertEquals(expectedOutcome ? 1 : 0, award.getApprovedForeignTravelTrips().size());
     }
-    
-    private KualiRuleService getRuleService() {
-        return context.mock(KualiRuleService.class);
+
+    private AwardApprovedForeignTravel initializeForeignTravelTrip_Employee() {
+        AwardApprovedForeignTravel foreignTravelTrip = initializeForeignTravelTrip();
+        foreignTravelTrip.setPersonTraveler(employeeTraveler);
+        return foreignTravelTrip;
     }
-    
-    private void setExpectation(final KualiRuleService ruleService, final KualiDocumentEvent event, final boolean outcome) {
-        context.checking(new Expectations() {{
-            one(ruleService).applyRules(event); 
-            will(returnValue(outcome));
-            }});
+
+    private AwardApprovedForeignTravel initializeForeignTravelTrip_Nonemployee() {
+        AwardApprovedForeignTravel foreignTravelTrip = initializeForeignTravelTrip();
+        foreignTravelTrip.setRolodexTraveler(nonEmployeeTraveler);
+        return foreignTravelTrip;
+    }
+
+    private AwardApprovedForeignTravel initializeForeignTravelTrip() {
+        AwardApprovedForeignTravel foreignTravelTrip = new AwardApprovedForeignTravel();
+        foreignTravelTrip.setDestination(DESTINATION_NAME);
+        foreignTravelTrip.setStartDate(START_DATE);
+        foreignTravelTrip.setEndDate(END_DATE);
+        foreignTravelTrip.setAmount(TRIP_AMOUNT);
+        return foreignTravelTrip;
+    }
+
+    private void initializeNonEmployeeTraveler() {
+        nonEmployeeTraveler = new NonOrganizationalRolodex();
+        nonEmployeeTraveler.setRolodexId(1234);
+        nonEmployeeTraveler.setFirstName("Joe");
+        nonEmployeeTraveler.setLastName("Smith");
     }
 }
