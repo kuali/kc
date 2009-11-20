@@ -39,9 +39,11 @@ import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
@@ -51,6 +53,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private KraPersistenceStructureService kraPersistenceStructureService;
     private BudgetService budgetService;
     private ParameterService parameterService;
+    private DocumentService documentService;
+    
     
     /**
      * Sets the ParameterService.
@@ -284,5 +288,5 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.budgetService = budgetService;
     }
 
-
+    
 }

@@ -1719,7 +1719,12 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
-		
+		<property name="identityManagementService">
+			<ref bean="identityManagementService"/>
+		</property>
+		<property name="proposalStateService">
+			<ref bean = "proposalStateService"/>
+		</property>
 	</bean>
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">

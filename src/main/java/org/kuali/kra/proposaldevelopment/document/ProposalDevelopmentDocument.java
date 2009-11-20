@@ -16,8 +16,10 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
@@ -34,40 +36,59 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
+import org.kuali.rice.kew.actions.MovePoint;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DTOConverter;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.service.WorkflowDocumentService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.mortbay.log.Log;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
+
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "PRDV";
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
+    
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
     
     private static final long serialVersionUID = 2958631745964610527L;
@@ -121,25 +142,74 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
 
-        ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-        getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this, true));
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
+        super.doRouteStatusChange(dto);
+        String newStatus = dto.getNewRouteStatus();
+        String oldStatus = dto.getOldRouteStatus();
+        
+        if( LOG.isDebugEnabled() ) {
+            LOG.debug(String.format( "Route Status change for document %s from %s to %s" , this.getDocumentNumber(), oldStatus, newStatus ) );
+        }
+        
+        DevelopmentProposal bp = this.getDevelopmentProposal();
+        ProposalHierarchyService hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        LOG.info(String.format("Route status change for document %s - proposal number %s is moving from %s to %s", bp
+                .getProposalDocument().getDocumentHeader().getDocumentNumber(), bp.getProposalNumber(), oldStatus, newStatus));
+        
+        if (bp.isParent()) {
+            try {
+                hierarchyService.routeHierarchyChildren( this, dto, GlobalVariables.getUserSession().getPrincipalName() );
+            }
+            catch (ProposalHierarchyException e) {
+               throw new RuntimeException( "ProposalHierarchyException thrown while routing children.", e );
+            }
+        }
+        
+        bp.setProposalStateTypeCode( hierarchyService.getProposalStateTypeCode( this, true ) );
+        
     }
-    
+
     /**
      * @see org.kuali.rice.kns.document.Document#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
      */
     @Override
     public void doActionTaken(ActionTakenEventDTO event) {
         super.doActionTaken(event);
+        ActionTakenDTO actionTaken = event.getActionTaken();
+        
+        if( LOG.isDebugEnabled() ) {
+            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
+        }
+        
+        if( getDevelopmentProposal().isParent() && StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) ) {
+            ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            try {
+                    if( ArrayUtils.contains( getDocumentHeader().getWorkflowDocument().getNodeNames(), hService.getProposalDevelopmentInitialNodeName() )) {
+                        //we were rejected and then approved, so we need to update the children etc.
+                        DocumentRouteStatusChangeDTO dto = new DocumentRouteStatusChangeDTO();
+                        dto.setAppDocId(getDocumentNumber());
+                        dto.setDocumentEventCode("REJECTED_APPROVED");
+                        dto.setNewRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
+                        dto.setOldRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
+                        dto.setRouteHeaderId(getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                        hService.routeHierarchyChildren(this, dto, GlobalVariables.getUserSession().getPrincipalName() );
+                    }
+                
+                } catch( ProposalHierarchyException pe ) {
+                    throw new RuntimeException( String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s",getDocumentNumber()), pe );
+                } catch( WorkflowException we) {
+                    throw new RuntimeException( String.format( "WorkflowException trying to re-submit rejected parent:%s", getDocumentNumber() ),we);
+                }
+        }
+        
+        
         if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
             InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
-            
             String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
             this.setInstitutionalProposalNumber(proposalNumber);
         }
+        
     }
     
     private boolean isLastSubmitterApprovalAction(ActionTakenDTO actionTaken) {

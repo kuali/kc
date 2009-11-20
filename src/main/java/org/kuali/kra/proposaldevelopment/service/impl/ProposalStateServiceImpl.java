@@ -31,6 +31,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
         String proposalStateTypeCode = null;
         KualiWorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
+        
         if (wd.stateIsInitiated()) {
             proposalStateTypeCode = computeProposalStateForInitiated(proposalDevelopmentDocument);
         } else if (wd.stateIsSaved()) {
@@ -115,7 +116,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             return ProposalState.DISAPPROVED;
         }
     }
-    
+
     /**
      * Compute the proposal state when the proposal is in the workflow CANCELED state.
      * @param proposalDevelopmentDocument the proposal development document
@@ -124,6 +125,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     private String computeProposalStateForCanceled(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return ProposalState.CANCELED;
     }
+
     
     /**
      * Compute the proposal state when the proposal is in the workflow EXCEPTION state.
@@ -141,5 +143,6 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      */
     private boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag();
-    }   
+    } 
+    
 }
