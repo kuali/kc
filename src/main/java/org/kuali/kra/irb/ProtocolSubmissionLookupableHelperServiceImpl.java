@@ -116,7 +116,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
             if ("title".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 convertedFieldValues.put("protocol.title", entry.getValue());
             } else if ("scheduleDate".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committeeSchedule.scheduleDate", entry.getValue());
+                convertedFieldValues.put("committeeSchedule.scheduledDate", entry.getValue());
             } else if (COMMITTEE_ID.equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 convertedFieldValues.put("committee.committeeId", entry.getValue());
             } else {

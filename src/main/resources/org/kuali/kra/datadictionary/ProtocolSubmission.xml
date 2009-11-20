@@ -145,21 +145,8 @@
     </bean>
 
     <bean id="ProtocolSubmission-protocolNumber" parent="ProtocolSubmission-protocolNumber-parentBean" />
-    <bean id="ProtocolSubmission-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="protocolNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol No" />
-        <property name="shortLabel" value="Protocol No" />
-        <property name="maxLength" value="20" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Protocol Number" />
-        <property name="description" value="Protocol Number" />
+    <bean id="ProtocolSubmission-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber" >
+		<property name="required" value="false" />
     </bean>
 
     <bean id="ProtocolSubmission-sequenceNumber" parent="ProtocolSubmission-sequenceNumber-parentBean" />
