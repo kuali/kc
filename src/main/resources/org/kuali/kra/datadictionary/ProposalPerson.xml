@@ -292,7 +292,7 @@
   </bean>
   <bean id="ProposalPerson-homeUnit" parent="ProposalPerson-homeUnit-parentBean" />
 
-  <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="KcPersonExtendedAttributes-homeUnitIdentifier">
+  <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="KcPerson-organizationIdentifier-parentBean">
       <property name="name" value="homeUnit" />
   </bean>
   <bean id="ProposalPerson-facultyFlag" parent="ProposalPerson-facultyFlag-parentBean" />

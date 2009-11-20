@@ -58,7 +58,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="directoryDepartment"/>
         <bean parent="MaintainableFieldDefinition" p:name="primaryTitle"/>
         <bean parent="MaintainableFieldDefinition" p:name="directoryTitle"/>
-        <bean parent="MaintainableFieldDefinition" p:name="homeUnitIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="vacationAccrualFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="onSabbaticalFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="idProvided"/>
