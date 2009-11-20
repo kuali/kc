@@ -15,14 +15,14 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolGrantExemptionBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textGrantExemptionComments" value="actionHelper.protocolGrantExemptionBean.comments" />
+<c:set var="textExpediteApprovalComments" value="actionHelper.protocolExpediteApprovalBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canGrantExemption}">
+<kra:permission value="${KualiForm.actionHelper.canExpediteApproval}">
 
-<kra:innerTab tabTitle="Grant Exemption" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolGrantExemptionBean*">
+<kra:innerTab tabTitle="Expedite Approval" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpediteApprovalBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -38,11 +38,26 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.approvalDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.approvalDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
                         </nobr>
                     </td>
                 </tr>
-            
+                
+                <tr>
+                    <th width="15%"> 
+                        <div align="right">
+                            <nobr>
+                                <kul:htmlAttributeLabel attributeEntry="${attributes.expirationDate}" />
+                            </nobr>
+                        </div>
+                    </th>
+                    <td>
+                        <nobr>
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.expirationDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                        </nobr>
+                    </td>
+                </tr>
+                
                 <tr>
                     <th width="15%"> 
                         <div align="right">
@@ -53,8 +68,8 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textGrantExemptionComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.comments" attributeEntry="${attributes.comments}" />
+                            <kra:expandedTextArea textAreaFieldName="${textExpediteApprovalComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -69,24 +84,24 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
                         </nobr>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolGrantExemptionBean.reviewComments}"
-                                                       property="actionHelper.protocolGrantExemptionBean.reviewComments"
-                                                       action="${action}" 
-                                                       actionName="GrantExemption" />
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.reviewComments}"
+                                                       property="actionHelper.protocolExpediteApprovalBean.reviewComments"
+                                                       action="${action}"
+                                                       actionName="ExpediteApproval" />
                    </td>
                 </tr>
                 
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.grantExemption.anchor${tabKey}"
+                            <html:image property="methodToCall.expediteApproval.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
