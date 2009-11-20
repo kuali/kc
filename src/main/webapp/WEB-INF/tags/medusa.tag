@@ -50,7 +50,8 @@
 		</th>	
     </tr>
 </table>
-   
+
+<c:if test="${not empty KualiForm.medusaBean.medusa}" >   
 <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
   <ul id="medusaview" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
@@ -58,6 +59,7 @@
     </ul>
    </div>
 </div>
+</c:if>
 
 <input type="hidden" id = "medusaBean.medusaViewRadio" name="medusaBean.medusaViewRadio" value="${KualiForm.medusaBean.medusaViewRadio}">
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">

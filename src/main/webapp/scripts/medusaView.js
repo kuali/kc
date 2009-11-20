@@ -21,45 +21,22 @@
                  
                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                      $("#"+divId).slideToggle(300);
-                     //alert(idstr +"-"+ loadedidx)
-                     //if (idstr <= loadedidx) {  // TODO : if this is not a new node
-                     loadChildrenRA($("#itemText"+idstr).text(), tagId);
-                     //}
-                    // var subul=this.getElementsByTagName("ul")[0]
-                    // if (subul.style.display=="block")
-                    // alert("You've opened this Folder!" + idstr)
+
+                     //loadChildrenRA($("#itemText"+idstr).text(), tagId);
                     },
                 animated: "fast",
                 collapsed: true,
                 control: "#treecontrol"
-                    
-                 
               });
-     // $("#browser").treeview();
-      // $("div#foo").append("Hello World!").css("color","red");
-  /*
-	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
-	 * $.ajaxComplete(function() { $("div#foo").text(""); });
-	 */    
-      
-      // $("body").append('<div id="loading"></div>');
-      // $("#loading").css("color","red");
+
       $(document).ajaxStart(function(){
-      // this is weird, it will not show if the alert is not included??
-         // return false;
-         // var img = $('<a href="#"><img
-			// src="static/images/jquery/ajax-loader.gif" /></a>')
          $("#loading").show();
-         // alert ("start Ajax");
-         // return false;
        });
 
       $(document).ajaxComplete(function(){
-         // alert ("complete Ajax");
          $("#loading").hide();
-         // return false;
        });
-    }); // $(document).ready
+    });
          
     function processError(){
         alert('Error loading XML document');
@@ -72,6 +49,7 @@
         i++;
         var viewSelector = item_text.substring(0,item_text.indexOf("%2A")).trim();
         item_text = item_text.substring(item_text.indexOf("%2A")+3, item_text.length).trim();
+        var tbody1text = item_text.substring(item_text.indexOf("%TB1")+3, item_text.indexOf("!TB1"));
         var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         var childNodesText = item_text.substring(item_text.indexOf("%5A")+3, item_text.indexOf("%5B")).trim();
@@ -101,9 +79,31 @@
             
         var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
         var div = $('<div  class="hierarchydetail" style="margin-top:2px;" align="left"></div>').attr("id",divId);
-    	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+    	var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
  			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-    	   hidracode.appendTo(div);
+    	hidracode.appendTo(div);
+    	
+        tag.click(
+                function()
+                {
+                    // alert ("sibling
+						// "+$(this).siblings('div:eq(0)').attr("id"));
+                    $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                    var idx = $(this).attr("id").substring(11);
+                    if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
+                  	  tbodyTag1(tbody1text, "item"+idx).appendTo($("#listcontent"+idx));
+                        tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                        tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                        if ($("#"+divId).is(":hidden")) {
+                            // alert(divId + " hidden0");
+                             $("#listcontent"+idx).show();
+                             // $("#listcontent"+idx).slideToggle(300);
+                        }
+                    } else {
+                        $("#listcontent"+idx).slideToggle(300);
+                    }
+                }
+            );
     	
         var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
 
@@ -632,127 +632,6 @@ function replaceAll(Source,stringToFind,stringToReplace){
 	}
   
   /*
-	 * load children area of research when parents RA is expanding.
-	 */
-  function loadChildrenRA(nodeName, tagId) {
-      var parentNode = $("#"+tagId);
-      // alert ("load subnodes for
-		// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
-      var liNode = parentNode.parents('li:eq(0)');
-      var ulNode = liNode.children('ul:eq(0)');
-      var inputNodev;
-// alert (ulNode);
-// if (liNode.children('ul').size() > 0 ) {
-// inputNodev = ulNode.children('input:eq(0)');
-// }
-      
-      
-      // if (liNode.children('ul').size() == 0 ) {
-      if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-          // alert(liNode.children('ul').size());
-    	  loadMedusaTree();    
-      }
-      loadedidx=i;
-  } // end loadChildrenRA
-
-  
-  function displayTree(){
-          //i++;
-          var ulTag ;
-          if (liNode.children('ul').size() == 0) {
-              ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
-          } else {
-              ulTag = ulNode;
-          }
-         
-          // alert(ulTag.html());
-          
-          // ulTag.appendTo(parentNode);
-          ulTag.appendTo(liNode);
-          var loadedId = "loaded"+i;
-          var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
-          inputtag.appendTo(ulTag);
-          $(xml).find('h3').each(function(){
-          var item_text = $(this).text();
-          i++;
-          var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          item_text = item_text.replace("%3A",":");
-          var id = "item"+i;
-          var tagId = "listcontrol"+i;
-          var divId = "listcontent"+i;
-          
-         // if (i == 1) {
-      var idDiv;
-      if ( jQuery.browser.msie ) { 
-           idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																				// later
-																				// change
-																				// RA
-																				// description
-      } else {    
-           idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																		// later
-																		// change
-																		// RA
-																		// description
-      }
-          var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-          var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
-     	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
-          			"racode" + i).attr("name", "racode" + i).attr("value",racode);
-             	   hidracode.appendTo(detDiv);
-             	  
-             	   tag.click(
-                          function()
-                          {
-                              // alert ("click "+tagId);
-                              $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                              var idx = $(this).attr("id").substring(11);
-                              if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                            	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                  tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                  if ($("#listcontent"+idx).is(":hidden")) {
-                                  // alert(divId + " hidden0");
-                                       $("#listcontent"+idx).show();
-                                   // $("#listcontent"+idx).slideToggle(300);
-                                  }
-                              } else {
-                                  $("#listcontent"+idx).slideToggle(300);
-                              }   
-
-                              loadChildrenRA(item_text, tagId);
-                          }
-                      );
-             	  
-          var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-          // tag.appendTo(listitem);
-          // listitem.appendTo('ul#file31');
-          ulTagId = ulTag.attr("id");
-          // tableTag(item_text, id).appendTo(detDiv)
-          detDiv.appendTo(listitem);
-          // listitem.appendTo('ul#file31');
-          // need this ultag to force to display folder.
-          var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-          childUlTag.appendTo(listitem);
-          listitem.appendTo(ulTag);
-          // force to display folder icon
-          $("#medusaview").treeview({
-             add: listitem
-             // toggle: function() {
-             // var subul=this.getElementsByTagName("ul")[0]
-             // if (subul.style.display=="block")
-             // alert("You've opened this Folder!")
-             // }
-          });
-          
-          if (i==1) {
-          // alert (listitem.html());
-          }
-      
-          });	  
-  }
-  /*
 	 * Utility function to get code from 'code : description' This need to be
 	 * refined because if code contains ':', then this is not working correctly.
 	 */
@@ -787,14 +666,8 @@ function replaceAll(Source,stringToFind,stringToReplace){
   }
 
   $(document).ready(function(){
-
-	  //for (var k = 0; k<3;k++) {
-		  // performance test
       loadFirstLevel();
       $("#listcontent00").show();
       loadedidx=i;
-	  //}
-      // $("#listcontrol00").show();
-      // $("#listcontent00").slideToggle(300);
   })
   $("#loading").hide();
