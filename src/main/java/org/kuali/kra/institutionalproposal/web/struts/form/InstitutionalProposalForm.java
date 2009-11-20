@@ -34,6 +34,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
@@ -69,6 +70,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     
+    private MedusaBean medusaBean;
+    
     /* Populated from Proposal Log lookup for Proposal creation */
     private String proposalNumber;
     
@@ -95,6 +98,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
         
         newInstitutionalProposalSpecialReview = new InstitutionalProposalSpecialReview();
         newSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
+        medusaBean = new MedusaBean(this);
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -349,6 +353,22 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
+    }
+
+    /**
+     * Gets the medusaBean attribute. 
+     * @return Returns the medusaBean.
+     */
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+    /**
+     * Sets the medusaBean attribute value.
+     * @param medusaBean The medusaBean to set.
+     */
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
     }
     
 }

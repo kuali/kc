@@ -21,6 +21,7 @@ import java.text.ParseException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.MedusaService;
 
@@ -35,6 +36,7 @@ public class MedusaBean implements Serializable{
     private Long moduleIdentifier;
     private AwardForm awardForm;
     private ProposalDevelopmentForm proposalDevelopmentForm;
+    private InstitutionalProposalForm institutionalProposalForm;
     private String medusa;
     
     /**
@@ -53,6 +55,15 @@ public class MedusaBean implements Serializable{
      */
     public MedusaBean(AwardForm form) {
         this.awardForm = form;
+    }
+    
+    /**
+     * 
+     * Constructs a AwardReportsBean.java.
+     * @param form
+     */
+    public MedusaBean(InstitutionalProposalForm form) {
+        this.institutionalProposalForm = form;
     }
     
     /**
@@ -165,6 +176,22 @@ public class MedusaBean implements Serializable{
      */
     public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
         this.proposalDevelopmentForm = proposalDevelopmentForm;
+    }
+
+    /**
+     * Gets the institutionalProposalForm attribute. 
+     * @return Returns the institutionalProposalForm.
+     */
+    public InstitutionalProposalForm getInstitutionalProposalForm() {
+        return institutionalProposalForm;
+    }
+
+    /**
+     * Sets the institutionalProposalForm attribute value.
+     * @param institutionalProposalForm The institutionalProposalForm to set.
+     */
+    public void setInstitutionalProposalForm(InstitutionalProposalForm institutionalProposalForm) {
+        this.institutionalProposalForm = institutionalProposalForm;
     }
     
 }

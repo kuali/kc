@@ -81,6 +81,13 @@
           <property name="headerTabDisplayName" value="Institutional Proposal Actions"/>
           <property name="headerTabNavigateTo" value="institutionalProposalActions"/>
         </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalMedusaHelpUrl" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
       </list>
     </property>
     
