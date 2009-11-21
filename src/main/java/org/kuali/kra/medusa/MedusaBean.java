@@ -138,9 +138,9 @@ public class MedusaBean implements Serializable{
         medusa = "";
         
         if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
-            setMedusa(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
-        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
             setMedusa(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
+        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
+            setMedusa(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
         } 
         
         return medusa;

@@ -87,11 +87,11 @@ public class MedusaServiceImpl implements MedusaService {
             sb.append("%31");
                 sb.append("%TB1");
                     sb.append("Award " + award.getAwardNumber());
-                sb.append("!TB1");                    
+                sb.append("!TB1");
+                sb.append("%TB2");
                     sb.append("Summary ").append(":").append(award.getAwardId()).append(":").append(award.getAwardTypeCode()).append(":");
                     sb.append(award.getSponsorAwardNumber()).append(award.getAwardTypeCode()).append(":").append(award.getSponsorAwardNumber());
                     sb.append(":").append(award.getActivityType().getDescription()).append(":").append(award.getAwardStatus()).append(":").append(award.getTitle());
-                sb.append("%TB2");
                 sb.append("!TB2");
                 sb.append("%TB3");
                 sb.append("!TB3");
