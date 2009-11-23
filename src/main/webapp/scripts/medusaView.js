@@ -66,13 +66,13 @@
        
        var idDiv;
        if ( jQuery.browser.msie ) { 
-            idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+            idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text)); // for
 																					// later
 																					// change
 																					// RA
 																					// description
        } else {
-            idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+            idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text)); // for
 																			// later
 																			// change
 																			// RA
@@ -136,12 +136,22 @@
     	   return retStr; 
     }
     
-    function builduUi(item_text, racode) { 
-    	var original_item_text = item_text; 
-        var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
- 
-      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1 
-      				+"</td></tr></tbody></table>";
+   
+    
+    function builduUi(item_text) { 
+    	var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+    	var module1 = item_text.substring(0,1);
+    	var txtImage = "";
+        if(module1 == 'D'){
+        	txtImage = "<img src=\"static/images/developmentproposal12.gif\" />";
+        }else if(module1=='I'){
+        	txtImage = "<img src=\"static/images/instituteproposal12.gif\" />";
+        }else{
+        	txtImage = "<img src=\"static/images/sponsor12.gif\" />";
+        }	
+        
+      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">" + txtImage +" " + text1 
+      				+ "</td></tr></tbody></table>";
         
       	return abc; 
     }
@@ -601,13 +611,13 @@
   
   function displayDevelopmentProposalDetails(name, id){
 	  
-	  alert(name);
-	  
 	  var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	  
-	  // 1st tr	  
+	  // 1st tr
+	  var thTag1_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag1 = $('<tr></tr>');
-	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Development Proposal");
+	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html(thTag1_Text);
 	  trTag1.html(thTag1);
 	  
 	  var trTag2 = $('<tr></tr>');
@@ -624,94 +634,128 @@
 	  openNotesButton.appendTo(tdTag2_1);
 	  trTag2_1.html(tdTag2_1);
 	
+	  var tdTag2_2_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_2_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_2 = $('<tr></tr>');
 	  var thTag2_2_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal No:");
-	  var tdTag2_2_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_2_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_2_2_Text);
 	  var thTag2_2_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Status:");
-	  var tdTag2_2_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_2_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_2_4_Text);
 	  trTag2_2.html(thTag2_2_1);
 	  tdTag2_2_2.appendTo(trTag2_2);
 	  thTag2_2_3.appendTo(trTag2_2);
 	  tdTag2_2_4.appendTo(trTag2_2);
 	  
+	  var tdTag2_3_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_3 = $('<tr></tr>');
 	  var thTag2_3_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Lead Unit");
-	  var tdTag2_3_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  tdTag2_3_2_Text = replaceAll(tdTag2_3_2_Text,";",":");
+	  var tdTag2_3_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_3_2_Text);
 	  trTag2_3.html(thTag2_3_1);
 	  tdTag2_3_2.appendTo(trTag2_3);
 	  
+	  var tdTag2_4_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_4_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_4 = $('<tr></tr>');
 	  var thTag2_4_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Start Date:");
-	  var tdTag2_4_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_4_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_4_2_Text);
 	  var thTag2_4_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("End Date:");
-	  var tdTag2_4_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_4_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_4_4_Text);
 	  trTag2_4.html(thTag2_4_1);
 	  tdTag2_4_2.appendTo(trTag2_4);
 	  thTag2_4_3.appendTo(trTag2_4);
 	  tdTag2_4_4.appendTo(trTag2_4);
 	  
+	  var tdTag2_5_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_5 = $('<tr></tr>');
 	  var thTag2_5_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Title:");
-	  var tdTag2_5_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_5_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_5_2_Text);
 	  trTag2_5.html(thTag2_5_1);
 	  tdTag2_5_2.appendTo(trTag2_5);
 	    
+	  var tdTag2_6_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_6 = $('<tr></tr>');
 	  var thTag2_6_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal Type:");
-	  var tdTag2_6_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_6_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_6_2_Text);
 	  trTag2_6.html(thTag2_6_1);
 	  tdTag2_6_2.appendTo(trTag2_6);
 	    
+	  var tdTag2_7_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_7 = $('<tr></tr>');
 	  var thTag2_7_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("NSF Code:");
-	  var tdTag2_7_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_7_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_7_2_Text);
 	  trTag2_7.html(thTag2_7_1);
 	  tdTag2_7_2.appendTo(trTag2_7);
 	  
+	  var tdTag2_8_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_8 = $('<tr></tr>');
 	  var thTag2_8_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor:");
-	  var tdTag2_8_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_8_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_8_2_Text);
 	  trTag2_8.html(thTag2_8_1);
 	  tdTag2_8_2.appendTo(trTag2_8);
 	  
-	  
+	  var tdTag2_9_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);	  
 	  var trTag2_9 = $('<tr></tr>');
 	  var thTag2_9_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Prime Sponsor:");
-	  var tdTag2_9_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_9_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_9_2_Text);
 	  trTag2_9.html(thTag2_9_1);
 	  tdTag2_9_2.appendTo(trTag2_9);
 	  
+	  var tdTag2_10_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_10_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_10 = $('<tr></tr>');
 	  var thTag2_10_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor Proposal No:");
-	  var tdTag2_10_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_10_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_10_2_Text);
 	  var thTag2_10_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Activity Type:");
-	  var tdTag2_10_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_10_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_10_4_Text);
 	  trTag2_10.html(thTag2_10_1);
 	  tdTag2_10_2.appendTo(trTag2_10);
 	  thTag2_10_3.appendTo(trTag2_10);
 	  tdTag2_10_4.appendTo(trTag2_10);
 	  
+	  var tdTag2_11_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_11 = $('<tr></tr>');
 	  var thTag2_11_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Program Title:");
-	  var tdTag2_11_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_11_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_11_2_Text);
 	  trTag2_11.html(thTag2_11_1);
 	  tdTag2_11_2.appendTo(trTag2_11);
 	  
+	  var tdTag2_12_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_12_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_12 = $('<tr></tr>');
 	  var thTag2_12_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Notice of Opportunity:");
-	  var tdTag2_12_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_12_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_12_2_Text);
 	  var thTag2_12_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Program No:");
-	  var tdTag2_12_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_12_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_12_4_Text);	  
 	  trTag2_12.html(thTag2_12_1);
 	  tdTag2_12_2.appendTo(trTag2_12);
 	  thTag2_12_3.appendTo(trTag2_12);
 	  tdTag2_12_4.appendTo(trTag2_12);
 	  
+	  var tdTag2_13_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_13_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_13 = $('<tr></tr>');
 	  var thTag2_13_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Narrative:");
-	  var tdTag2_13_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var tdTag2_13_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_13_2_Text);
 	  var thTag2_13_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Budget:");
-	  var tdTag2_13_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_13_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_13_4_Text);	  
 	  trTag2_13.html(thTag2_13_1);
 	  tdTag2_13_2.appendTo(trTag2_13);
 	  thTag2_13_3.appendTo(trTag2_13);
@@ -723,9 +767,15 @@
 	  trTag2_15.html(thTag2_15_1);
 	  thTag2_15_2.appendTo(trTag2_15);
 	  
+	  var tdTag2_16_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_16_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  tdTag2_16_2_Text = replaceAll(tdTag2_16_2_Text,";",":");
+	  tdTag2_16_4_Text = replaceAll(tdTag2_16_4_Text,";",":");
 	  var trTag2_16 = $('<tr></tr>');
-	  var tdTag2_16_1 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
-	  var tdTag2_16_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
+	  var tdTag2_16_1 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_16_2_Text);
+	  var tdTag2_16_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_16_4_Text);
 	  trTag2_16.html(tdTag2_16_1);
 	  tdTag2_16_2.appendTo(trTag2_16);
 	  
@@ -787,9 +837,9 @@ function loadChildrenProposalView(viewSelector, nodeName, tagId, childrenNodeTex
 
 		        var idDiv;
 		        if ( jQuery.browser.msie ) { 
-		             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+		             idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(childNode1));
 		        } else {    
-		             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+		             idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(childNode1));
 		        }
 	            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
 	            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
@@ -867,9 +917,9 @@ function loadChildrenAwardView(viewSelector, nodeName, tagId, childrenNodeText) 
 
 	        var idDiv;
 	        if ( jQuery.browser.msie ) { 
-	             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+	             idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(childNode1));
 	        } else {    
-	             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+	             idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(childNode1));
 	        }
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
@@ -944,6 +994,9 @@ function loadThirdLevel(viewSelector, tagId, childrenNodeText) {
             var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%6C1")+4,childrenNodeText.indexOf("%6C2")).trim();
             childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%6C2")+4, childrenNodeText.length).trim();
             
+            var detailsString = childNode1.substring(childNode1.indexOf("%31")+3,childNode1.indexOf("%32")).trim();
+            childNode1 = childNode1.substring(0,childNode1.indexOf("%31")) + childNode1.substring(childNode1.indexOf("%32")+3,childNode1.length);
+            
             i++;
             
             var id = "item"+i;
@@ -952,9 +1005,9 @@ function loadThirdLevel(viewSelector, tagId, childrenNodeText) {
 
 	        var idDiv;
 	        if ( jQuery.browser.msie ) { 
-	             idDiv = $('<div></div>').attr("id","itemText"+i).html(childNode1);
+	             idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(childNode1));
 	        } else {    
-	             idDiv = $('<span>').attr("id","itemText"+i).html(childNode1);
+	             idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(childNode1));
 	        }
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
@@ -967,7 +1020,7 @@ function loadThirdLevel(viewSelector, tagId, childrenNodeText) {
                         $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                         var idx = $(this).attr("id").substring(11);
                         if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                      	  tbodyTag("xyz", "item"+idx, "D").appendTo($("#listcontent"+idx));
+                      	  tbodyTag(detailsString, "item"+idx, "D").appendTo($("#listcontent"+idx));
 
                             if ($("#"+divId).is(":hidden")) {
                                 // alert(divId + " hidden0");

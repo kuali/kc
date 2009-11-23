@@ -24,8 +24,12 @@ import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.MedusaService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,7 +52,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         for(AwardFundingProposal awardFundingProposal : awardFundingProposals1){
             awardFundingProposal.refreshReferenceObject("proposal");
-            sb.append("Institutional Proposal " + awardFundingProposal.getProposal().getProposalNumber() + "%3A" );
+            sb.append("Institutional Proposal ").append(awardFundingProposal.getProposal().getProposalNumber()).append("%3A");
             sb.append(" %31 ");
                 appendInstitutionalProposalDetails(sb,awardFundingProposal.getProposal());
             sb.append(" %32 ");
@@ -57,7 +61,10 @@ public class MedusaServiceImpl implements MedusaService {
             for(ProposalAdminDetails proposalAdminDetail : proposalAdminDetails){
                 proposalAdminDetail.refreshReferenceObject("developmentProposal");
                 sb.append("%5C1 ");
-                sb.append("Development Proposal " + proposalAdminDetail.getDevelopmentProposal().getProposalNumber());
+                sb.append("Development Proposal  ").append(proposalAdminDetail.getDevelopmentProposal().getProposalNumber()).append("%3A");
+                sb.append(" %31 ");
+                    appendDevelopmentProposalDetails(sb,proposalAdminDetail.getDevelopmentProposal());
+                sb.append(" %32 ");
                 sb.append(" %5C2");
             }   
             
@@ -65,7 +72,7 @@ public class MedusaServiceImpl implements MedusaService {
             for(AwardFundingProposal awardFundingPropsal : awardFundingProposals2){
                 awardFundingPropsal.refreshReferenceObject("award");
                 sb.append("%5C1 ");
-                sb.append("Award " + awardFundingPropsal.getAward().getAwardNumber());
+                sb.append("Award ").append(awardFundingPropsal.getAward().getAwardNumber()).append("%3A");
                 sb.append(" %5C2");
             }   
             sb.append("%5B");
@@ -75,6 +82,27 @@ public class MedusaServiceImpl implements MedusaService {
         }
        
         return sb.toString();
+    }
+
+    private void appendDevelopmentProposalDetails(StringBuilder sb, DevelopmentProposal dp) {
+        sb.append("Development Proposal ").append(dp.getProposalNumber()).append(":").append(dp.getProposalNumber()).append(":").append("status").append(":");
+        sb.append(dp.getOwnedByUnitNumber()).append(" ; ").append(dp.getOwnedByUnit().getUnitName()).append(":").append(dp.getRequestedStartDateInitial());
+        sb.append(":").append(dp.getRequestedEndDateInitial()).append(":").append(dp.getTitle()).append(":").append(dp.getProposalType().getDescription());
+        sb.append(":").append(dp.getNsfCode()).append(":").append(dp.getSponsorCode()).append(dp.getPrimeSponsorCode()).append(":").append(dp.getSponsorProposalNumber());
+        sb.append(":").append(dp.getActivityType().getDescription()).append(":").append(dp.getProgramAnnouncementTitle()).append(":");
+        sb.append(dp.getNoticeOfOpportunityCode()).append(":").append(dp.getProgramAnnouncementNumber()).append(":").append("Narrative").append(":");
+        sb.append(dp.getBudgetStatus()).append(":");
+        StringBuilder investigators = new StringBuilder();
+        StringBuilder units = new StringBuilder();
+        for(ProposalPerson proposalPerson :dp.getInvestigators()){
+            investigators.append(proposalPerson.getFullName());
+            for(ProposalPersonUnit unit: proposalPerson.getUnits()){
+                units.append(unit.getUnit().getUnitName());
+                units.append(" ; ");
+            }
+            investigators.append(" ; ");
+        }
+        sb.append(investigators).append(":").append(units);
     }
 
     public String getMedusaByAward(String moduleName, Long moduleIdentifier) {
@@ -100,7 +128,7 @@ public class MedusaServiceImpl implements MedusaService {
             for(AwardFundingProposal awardFundingProposal2 : awardFundingProposals2){
                 awradFundingProposal1.refreshReferenceObject("proposal");
                 sb.append("%5C1 ");
-                sb.append("Institutional Proposal " + awardFundingProposal2.getProposal().getProposalNumber());
+                sb.append("Institutional Proposal ").append(awardFundingProposal2.getProposal().getProposalNumber()).append("%3A");
                 sb.append(" %31 ");
                     appendInstitutionalProposalDetails(sb,awradFundingProposal1.getProposal());
                 sb.append(" %32 ");
@@ -110,10 +138,10 @@ public class MedusaServiceImpl implements MedusaService {
                 for(ProposalAdminDetails proposalAdminDetail: proposalAdminDetails){
                     proposalAdminDetail.refreshReferenceObject("developmentProposal");
                     sb.append(" %6C1 ");
-                    sb.append("Development Proposal " + proposalAdminDetail.getDevelopmentProposal().getProposalNumber());
-                    sb.append("%31");
-                    sb.append("Institutional Proposal");
-                    sb.append("%32");
+                    sb.append("Development Proposal  ").append(proposalAdminDetail.getDevelopmentProposal().getProposalNumber()).append("%3A");
+                    sb.append(" %31 ");
+                        appendDevelopmentProposalDetails(sb,proposalAdminDetail.getDevelopmentProposal());
+                    sb.append(" %32 ");
                     sb.append(" %6C2");
                 }
                 sb.append(" %6B ");
