@@ -1,5 +1,5 @@
 INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD, OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.nextVal, 'Question Permission2', 'Modify/View Question', 3, 'Y', 'KC-IDM', SYS_GUID());
+VALUES (KRIM_PERM_TMPL_ID_S.nextVal, 'Question Permission', 'Modify/View Question', 3, 'Y', 'KC-IDM', SYS_GUID());
 
 
 
