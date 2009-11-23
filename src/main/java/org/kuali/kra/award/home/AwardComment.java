@@ -32,8 +32,7 @@ public class AwardComment extends AwardAssociate {
      */
     private static final long serialVersionUID = 3611932717292205490L;
     private Long awardCommentId;
-    private Award award;
-    
+
     @AwardSyncable private String commentTypeCode; 
     @AwardSyncable private Boolean checklistPrintFlag; 
     @AwardSyncable private String comments; 
@@ -73,14 +72,6 @@ public class AwardComment extends AwardAssociate {
     public void setAwardCommentId(Long awardCommentId) {
         this.awardCommentId = awardCommentId;
     }
- 
-    /**
-     * This method...
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -101,7 +92,6 @@ public class AwardComment extends AwardAssociate {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((award == null) ? 0 : award.hashCode());
         result = prime * result + ((awardCommentId == null) ? 0 : awardCommentId.hashCode());
         return result;
     }
@@ -118,17 +108,7 @@ public class AwardComment extends AwardAssociate {
         if (getClass() != obj.getClass())
             return false;
         AwardComment other = (AwardComment) obj;
-        if (award == null) {
-            if (other.award != null)
-                return false;
-        }
-        else if (!award.equals(other.award))
-            return false;
-        if (awardCommentId == null) {
-            if (other.awardCommentId != null)
-                return false;
-        }
-        else if (!awardCommentId.equals(other.awardCommentId))
+        if (!awardCommentId.equals(other.awardCommentId))
             return false;
         return true;
     }

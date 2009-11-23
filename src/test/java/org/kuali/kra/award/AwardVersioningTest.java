@@ -214,12 +214,12 @@ public class AwardVersioningTest extends KraTestBase {
     /**
      * @return
      */
-    private AwardComment createComment(String comment) {
-        AwardComment comment1 = new AwardComment();
-        comment1.setComments(comment);
-        comment1.setChecklistPrintFlag(Boolean.TRUE);
-        comment1.setCommentTypeCode("1");
-        return comment1;
+    private AwardComment createComment(String commentText) {
+        AwardComment comment = new AwardComment();
+        comment.setComments(commentText);
+        comment.setChecklistPrintFlag(Boolean.TRUE);
+        comment.setCommentTypeCode("1");
+        return comment;
     }
     
     private AwardCostShare createCostShare(double costSharePct, String destination) {
@@ -258,6 +258,8 @@ public class AwardVersioningTest extends KraTestBase {
         awardVersion1.setAwardTypeCode(1);
         awardVersion1.setTitle(AWARD_TITLE);
         awardVersion1.setActivityTypeCode("1");
+        awardVersion1.setAwardTransactionTypeCode(1);
+        awardVersion1.setUnitNumber("IN-CARD");
         awardVersion1.setPrimeSponsorCode(GOOGLE_SPONSOR_CODE);
         awardVersion1.setSponsorCode(GOOGLE_SPONSOR_CODE);
         awardVersion1.setStatusCode(1);
