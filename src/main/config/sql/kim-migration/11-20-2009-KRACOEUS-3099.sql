@@ -1,3 +1,5 @@
+set define off
+--create table bak11202009_person_ext_t as select * from person_ext_t;
 
 DECLARE
 	CURSOR cur IS SELECT DISTINCT e.ENTITY_ID, p.HOME_UNIT, p.PERSON_ID FROM KRIM_ENTITY_T e, PERSON_EXT_T p, KRIM_PRNCPL_T r 
