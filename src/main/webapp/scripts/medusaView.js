@@ -66,17 +66,9 @@
        
        var idDiv;
        if ( jQuery.browser.msie ) { 
-            idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text)); // for
-																					// later
-																					// change
-																					// RA
-																					// description
+            idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text));
        } else {
-            idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text)); // for
-																			// later
-																			// change
-																			// RA
-																			// description
+            idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text)); 
        }
             
         var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
@@ -179,14 +171,12 @@
     
     // 2nd tr
     var trTag2 = $('<tr></tr>');    
-    var tdTag2_1 = $('<td align="right" colspan="2" class="subelementheader"></td>');
+    var tdTag2_1 = $('<td style="text-align:center;" colspan="4" ></td>');
     var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
-    openAwardButton.appendTo(tdTag2_1);
-    trTag2.html(tdTag2_1);
-    var tdTag2_2 = $('<td align="left" colspan="2" class="subelementheader"></td>');
+    tdTag2_1.html(openAwardButton);
     var notesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
-    notesButton.appendTo(tdTag2_2);
-    tdTag2_2.appendTo(trTag2);
+    notesButton.appendTo(tdTag2_1);
+    trTag2.html(tdTag2_1);
     
     //3rd tr
     var trTag3 = $('<tr></tr>');
@@ -824,6 +814,8 @@ function loadChildrenProposalView(viewSelector, nodeName, tagId, childrenNodeTex
             var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
             inputtag.appendTo(ulTag);
             var module;
+            var detailsStringArray = new Array();
+            var moduleCode = new Array();
             while(childrenNodeText.length > 0){
 	            var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%5C1")+4,childrenNodeText.indexOf("%5C2")).trim();
 	            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%5C2")+4, childrenNodeText.length).trim();
@@ -844,27 +836,29 @@ function loadChildrenProposalView(viewSelector, nodeName, tagId, childrenNodeTex
 	            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
 	            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
 	            
-	            var detailsString = childNode1.substring(childNode1.indexOf("%31")+3,childNode1.indexOf("%32")).trim();
+	            detailsStringArray[tagId.substring(11)] = childNode1.substring(childNode1.indexOf("%31")+3,childNode1.indexOf("%32")).trim();
+	            moduleCode[tagId.substring(11)] = detailsStringArray[tagId.substring(11)].substring(0,1);
 	            childNode1 = childNode1.substring(0,childNode1.indexOf("%31")) + childNode1.substring(childNode1.indexOf("%32")+3,childNode1.length);
 	            
-	            tag.click(
-	                    function()
-	                    {
-	                       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-	                        var idx = $(this).attr("id").substring(11);
-	                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-	                      	  tbodyTag(detailsString, "item"+idx, childNode1.substring(0,1)).appendTo($("#listcontent"+idx));
+	            
+	            	tag.click(
+		                    function()
+		                    {
+		                       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+		                        var idx = $(this).attr("id").substring(11);
+		                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
+		                      	  tbodyTag(detailsStringArray[idx], "item"+idx, moduleCode[idx]).appendTo($("#listcontent"+idx));
 
-	                            if ($("#"+divId).is(":hidden")) {
-	                                // alert(divId + " hidden0");
-	                                 $("#listcontent"+idx).show();
-	                                 // $("#listcontent"+idx).slideToggle(300);
-	                            }
-	                        } else {
-	                            $("#listcontent"+idx).slideToggle(300);
-	                        }
-	                    }
-	                );
+		                            if ($("#"+divId).is(":hidden")) {
+		                                // alert(divId + " hidden0");
+		                                 $("#listcontent"+idx).show();
+		                                 // $("#listcontent"+idx).slideToggle(300);
+		                            }
+		                        } else {
+		                            $("#listcontent"+idx).slideToggle(300);
+		                        }
+		                    }
+		                );
 	            
 	            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
 	            ulTagId = ulTag.attr("id");
@@ -939,7 +933,7 @@ function loadChildrenAwardView(viewSelector, nodeName, tagId, childrenNodeText) 
                         $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                         var idx = $(this).attr("id").substring(11);
                         if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                      	  tbodyTag(detailsString, "item"+idx, "P").appendTo($("#listcontent"+idx));
+                      	  tbodyTag(detailsString, "item"+idx, 'P').appendTo($("#listcontent"+idx));
 
                             if ($("#"+divId).is(":hidden")) {
                                 // alert(divId + " hidden0");
@@ -1020,7 +1014,7 @@ function loadThirdLevel(viewSelector, tagId, childrenNodeText) {
                         $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                         var idx = $(this).attr("id").substring(11);
                         if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                      	  tbodyTag(detailsString, "item"+idx, "D").appendTo($("#listcontent"+idx));
+                      	  tbodyTag(detailsString, "item"+idx, 'D').appendTo($("#listcontent"+idx));
 
                             if ($("#"+divId).is(":hidden")) {
                                 // alert(divId + " hidden0");
