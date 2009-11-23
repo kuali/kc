@@ -356,4 +356,8 @@
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+    <bean id="protocolReopenService" class="org.kuali.kra.irb.actions.reopen.ProtocolReopenServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 </beans>
