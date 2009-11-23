@@ -17,7 +17,11 @@
 <kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
 <div class="tab-container"  align="center">
 	<h3> 
-		<span class="subhead-left">Medusa</span>
+		<span class="subhead-left" style="display: inline;" >Medusa</span>
+		<span class="subhead-right" style="display: inline;" id="treecontrol">
+		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
+		</span>
     </h3>
 <table cellspacing="0" cellpadding="0" class="elementtable">	
 	<tr>
