@@ -20,7 +20,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textReopenComments" value="actionHelper.protocolReopenBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canApprove}">
+<kra:permission value="${KualiForm.actionHelper.canReopen}">
 
 <kra:innerTab tabTitle="Re-open Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolReopenBean*">
    
