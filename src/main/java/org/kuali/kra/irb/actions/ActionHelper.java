@@ -83,6 +83,7 @@ public class ActionHelper implements Serializable {
     private boolean canExpediteApproval = false;
     private boolean canApprove = false;
     private boolean canReopen = false;
+    private boolean canClose = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -101,6 +102,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolExpediteApprovalBean;
     private ProtocolGenericActionBean protocolApproveBean;
     private ProtocolGenericActionBean protocolReopenBean;
+    private ProtocolGenericActionBean protocolCloseBean;
     private transient ParameterService parameterService;
     
     /*
@@ -146,6 +148,7 @@ public class ActionHelper implements Serializable {
         protocolExpediteApprovalBean = new ProtocolGenericActionBean();
         protocolApproveBean = new ProtocolGenericActionBean();
         protocolReopenBean = new ProtocolGenericActionBean();
+        protocolCloseBean = new ProtocolGenericActionBean();
     }
     
     /**
@@ -236,6 +239,7 @@ public class ActionHelper implements Serializable {
         canExpediteApproval = hasExpediteApprovalPermission();
         canApprove = hasApprovePermission();
         canReopen = hasReopenPermission();
+        canClose = hasClosePermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -366,6 +370,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasClosePermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -457,6 +465,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolReopenBean() {
         return protocolReopenBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolCloseBean() {
+        return protocolCloseBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -520,6 +532,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanReopen() {
         return canReopen;
+    }
+    
+    public boolean getCanClose() {
+        return canClose;
     }
     
     public void setPrintTag(String printTag) {
