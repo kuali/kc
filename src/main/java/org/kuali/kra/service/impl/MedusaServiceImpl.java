@@ -71,8 +71,13 @@ public class MedusaServiceImpl implements MedusaService {
             Collection<AwardFundingProposal> awardFundingProposals2 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", awardFundingProposal.getProposalId()));
             for(AwardFundingProposal awardFundingPropsal : awardFundingProposals2){
                 awardFundingPropsal.refreshReferenceObject("award");
+                Award award = awardFundingPropsal.getAward();
+                AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
                 sb.append("%5C1 ");
                 sb.append("Award ").append(awardFundingPropsal.getAward().getAwardNumber()).append("%3A");
+                sb.append(" %31 ");
+                appendAwardDetails(sb, award, awardAmountInfo);
+                sb.append(" %32 ");
                 sb.append(" %5C2");
             }   
             sb.append("%5B");
