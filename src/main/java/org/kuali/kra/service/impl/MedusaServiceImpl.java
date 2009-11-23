@@ -20,8 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.MedusaService;
@@ -31,6 +34,8 @@ public class MedusaServiceImpl implements MedusaService {
     
     BusinessObjectService businessObjectService;
     AwardHierarchyUIService awardHierarchyUIService;
+    AwardAmountInfoService awardAmountInfoService;
+    
 
     public String getMedusaByProposal(String moduleName, Long moduleIdentifier) {
         StringBuilder sb = new StringBuilder();
@@ -44,7 +49,9 @@ public class MedusaServiceImpl implements MedusaService {
         for(AwardFundingProposal awardFundingProposal : awardFundingProposals1){
             awardFundingProposal.refreshReferenceObject("proposal");
             sb.append("Institutional Proposal " + awardFundingProposal.getProposal().getProposalNumber() + "%3A" );
-            
+            sb.append(" %31 ");
+                appendInstitutionalProposalDetails(sb,awardFundingProposal.getProposal());
+            sb.append(" %32 ");
             sb.append("%5A");
             Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", awardFundingProposal.getProposalId()));
             for(ProposalAdminDetails proposalAdminDetail : proposalAdminDetails){
@@ -83,29 +90,20 @@ public class MedusaServiceImpl implements MedusaService {
         for(AwardFundingProposal awradFundingProposal1 : awardFundingProposals1){
             awradFundingProposal1.refreshReferenceObject("award");
             Award award = awradFundingProposal1.getAward();
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             sb.append("Award " + award.getAwardNumber() + "%3A" );
-            sb.append("%31");
-                sb.append("%TB1");
-                    sb.append("Award " + award.getAwardNumber());
-                sb.append("!TB1");
-                sb.append("%TB2");
-                    sb.append("Summary ").append(":").append(award.getAwardId()).append(":").append(award.getAwardTypeCode()).append(":");
-                    sb.append(award.getSponsorAwardNumber()).append(award.getAwardTypeCode()).append(":").append(award.getSponsorAwardNumber());
-                    sb.append(":").append(award.getActivityType().getDescription()).append(":").append(award.getAwardStatus()).append(":").append(award.getTitle());
-                sb.append("!TB2");
-                sb.append("%TB3");
-                sb.append("!TB3");
-                sb.append("%TB4");
-                sb.append("!TB4");
-                sb.append("%TB5");
-                sb.append("!TB5");            
-            sb.append("%32");
+            sb.append(" %31 ");
+                appendAwardDetails(sb, award, awardAmountInfo);
+            sb.append(" %32 ");
             sb.append("%5A");
             Collection<AwardFundingProposal> awardFundingProposals2 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", awradFundingProposal1.getProposalId()));
             for(AwardFundingProposal awardFundingProposal2 : awardFundingProposals2){
                 awradFundingProposal1.refreshReferenceObject("proposal");
                 sb.append("%5C1 ");
                 sb.append("Institutional Proposal " + awardFundingProposal2.getProposal().getProposalNumber());
+                sb.append(" %31 ");
+                    appendInstitutionalProposalDetails(sb,awradFundingProposal1.getProposal());
+                sb.append(" %32 ");
                 sb.append(" %5C2");
                 Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", awardFundingProposal2.getProposalId()));
                 sb.append(" %6A ");
@@ -113,6 +111,9 @@ public class MedusaServiceImpl implements MedusaService {
                     proposalAdminDetail.refreshReferenceObject("developmentProposal");
                     sb.append(" %6C1 ");
                     sb.append("Development Proposal " + proposalAdminDetail.getDevelopmentProposal().getProposalNumber());
+                    sb.append("%31");
+                    sb.append("Institutional Proposal");
+                    sb.append("%32");
                     sb.append(" %6C2");
                 }
                 sb.append(" %6B ");
@@ -123,6 +124,47 @@ public class MedusaServiceImpl implements MedusaService {
             sb.append("</h3>");
         }
         return sb.toString();
+    }
+
+    private void appendInstitutionalProposalDetails(StringBuilder sb, InstitutionalProposal proposal) {
+        proposal.refreshReferenceObject("primeSponsor");
+        sb.append("Institutinoal Proposal ").append(proposal.getProposalNumber()).append(":").append(proposal.getProposalNumber()).append(":");
+        sb.append(proposal.getTitle()).append(":").append(proposal.getStatusCode()).append(":").append(proposal.getProposalTypeCode()).append(":");
+        sb.append(proposal.getSponsorProposalNumber()).append(":").append("a/c no").append(":").append(proposal.getActivityTypeCode()).append(":");
+        sb.append(proposal.getNsfCode()).append(":").append(proposal.getNoticeOfOpportunityCode()).append(":").append(proposal.getSponsorCode());
+        
+        String primeSponsorCode = " ";
+        String primeSponsorName = " ";
+        if(proposal.getPrimeSponsorCode()!=null){
+            primeSponsorCode = proposal.getPrimeSponsor().getSponsorCode();
+            primeSponsorName = proposal.getPrimeSponsor().getSponsorName();
+        }
+        
+        sb.append(" ").append(proposal.getSponsorName()).append(":").append(primeSponsorCode).append(" ");
+        sb.append(primeSponsorName).append(":").append(proposal.getRequestedStartDateInitial()).append(":");
+        sb.append(proposal.getRequestedStartDateTotal()).append(":").append(proposal.getRequestedEndDateInitial()).append(":").append(proposal.getRequestedEndDateTotal());
+        sb.append(":").append(proposal.getTotalDirectCostInitial()).append(":").append(proposal.getTotalDirectCostTotal()).append(":").append(proposal.getTotalIndirectCostInitial());
+        sb.append(":").append(proposal.getTotalIndirectCostTotal()).append(":").append(proposal.getTotalInitialCost()).append(":");
+        sb.append(proposal.getTotalCost()).append(":");
+        sb.append(proposal.getPrincipalInvestigator().getFullName()).append(":");
+        sb.append(proposal.getLeadUnit().getUnitNumber()).append(" ; ").append(proposal.getLeadUnit().getUnitName()).append(":");
+    }
+
+    /**
+     * This method...
+     * @param sb
+     * @param award
+     * @param awardAmountInfo
+     */
+    private void appendAwardDetails(StringBuilder sb, Award award, AwardAmountInfo awardAmountInfo) {
+        sb.append("Award ").append(award.getAwardNumber()).append(":");
+        sb.append(award.getAwardId()).append(":").append(award.getAwardTypeCode()).append(":");
+        sb.append(award.getSponsorAwardNumber()).append(":").append(award.getActivityType().getDescription()).append(":");
+        sb.append(award.getAwardStatus().getDescription()).append(":").append(award.getTitle()).append(":");
+        sb.append(award.getSponsorCode()).append(" - ").append(award.getSponsorName()).append(":").append(award.getBeginDate()).append(":");
+        sb.append(awardAmountInfo.getCurrentFundEffectiveDate()).append(":").append(awardAmountInfo.getFinalExpirationDate()).append(":");
+        sb.append(awardAmountInfo.getObligationExpirationDate()).append(":").append(awardAmountInfo.getAnticipatedTotalAmount()).append(":");
+        sb.append(awardAmountInfo.getAmountObligatedToDate());
     }
 
     private Collection<AwardFundingProposal> getAwardFundingProposals(String moduleName, Long moduleIdentifier) {
@@ -179,6 +221,22 @@ public class MedusaServiceImpl implements MedusaService {
      */
     public void setAwardHierarchyUIService(AwardHierarchyUIService awardHierarchyUIService) {
         this.awardHierarchyUIService = awardHierarchyUIService;
+    }
+
+    /**
+     * Gets the awardAmountInfoService attribute. 
+     * @return Returns the awardAmountInfoService.
+     */
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        return awardAmountInfoService;
+    }
+
+    /**
+     * Sets the awardAmountInfoService attribute value.
+     * @param awardAmountInfoService The awardAmountInfoService to set.
+     */
+    public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
+        this.awardAmountInfoService = awardAmountInfoService;
     }
 
 }

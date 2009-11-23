@@ -49,12 +49,13 @@
         i++;
         var viewSelector = item_text.substring(0,item_text.indexOf("%2A")).trim();
         item_text = item_text.substring(item_text.indexOf("%2A")+3, item_text.length).trim();
-        var tbody1text = item_text.substring(item_text.indexOf("%TB1")+3, item_text.indexOf("!TB1"));
-        var tbody2text = item_text.substring(item_text.indexOf("%TB2")+3, item_text.indexOf("!TB2"));
         var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         var childNodesText = item_text.substring(item_text.indexOf("%5A")+3, item_text.indexOf("%5B")).trim();
 
+        var detailsString = item_text.substring(item_text.indexOf("%31")+3,item_text.indexOf("%32")).trim();
+        item_text = item_text.substring(0,item_text.indexOf("%31")) + item_text.substring(item_text.indexOf("%32")+3,item_text.length);
+        
         var id = "item"+i;
         var tagId = "listcontrol"+i;
         var divId = "listcontent"+i;
@@ -92,7 +93,7 @@
                     $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                     var idx = $(this).attr("id").substring(11);
                     if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                  	  tbodyTag(tbody1text, "item"+idx, viewSelector).appendTo($("#listcontent"+idx));
+                  	  tbodyTag(detailsString, "item"+idx, viewSelector).appendTo($("#listcontent"+idx));
 
                         if ($("#"+divId).is(":hidden")) {
                             // alert(divId + " hidden0");
@@ -156,16 +157,18 @@
   }
 
   function displayAwardDetails(name, id) {
-	  
+	
 	var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
-	  
+	
     // 1st tr	  
+	var thTag1Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag1 = $('<tr></tr>');
-    var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html(name);
+    var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html(thTag1Text);
     trTag1.html(thTag1);
     
     // 2nd tr
-    var trTag2 = $('<tr></tr>');
+    var trTag2 = $('<tr></tr>');    
     var tdTag2_1 = $('<td align="right" colspan="2" class="subelementheader"></td>');
     var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
     openAwardButton.appendTo(tdTag2_1);
@@ -181,42 +184,59 @@
     trTag3.html(thTag3);
     
     //4th tr
+    var tdTag4_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag4_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	
+    
     var trTag4 = $('<tr></tr>');
     var thTag4_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Award ID:");
-    var tdTag4_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag4_2 = $('<td align="left" ></td>').html(tdTag4_2Text);
     var thTag4_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Award Type:");
-    var tdTag4_4 = $('<td align="left" class="subelementheader"></td>').html("Grant");
+    var tdTag4_4 = $('<td align="left" ></td>').html(tdTag4_4Text);
     trTag4.html(thTag4_1);
     tdTag4_2.appendTo(trTag4);
     thTag4_3.appendTo(trTag4);
     tdTag4_4.appendTo(trTag4);
     
     //5th tr
+    var tdTag5_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag5_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+    
     var trTag5 = $('<tr></tr>');
     var thTag5_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Sponsor Award ID:");
-    var tdTag5_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag5_2 = $('<td align="left" ></td>').html(tdTag5_2Text);
     var thTag5_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Activity Type:");
-    var tdTag5_4 = $('<td align="left" class="subelementheader"></td>').html("Grant");
+    var tdTag5_4 = $('<td align="left" ></td>').html(tdTag5_4Text);
     trTag5.html(thTag5_1);
     tdTag5_2.appendTo(trTag5);
     thTag5_3.appendTo(trTag5);
     tdTag5_4.appendTo(trTag5);
     
     //6th tr
+    var tdTag6_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+		
     var trTag6 = $('<tr></tr>');
     var thTag6_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Award Status:");
-    var tdTag6_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag6_2 = $('<td align="left" ></td>').html(tdTag6_2Text);
     var thTag6_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>');
-    var tdTag6_4 = $('<td align="left" class="subelementheader"></td>');
+    var tdTag6_4 = $('<td align="left" ></td>');
     trTag6.html(thTag6_1);
     tdTag6_2.appendTo(trTag6);
     thTag6_3.appendTo(trTag6);
     tdTag6_4.appendTo(trTag6);
     
     //7th tr
+    var tdTag7_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	
     var trTag7 = $('<tr></tr>');
     var thTag7_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Title:");
-    var tdTag7_2 = $('<td align="left" colspan="3" class="subelementheader"></td>').html("1243");    
+    var tdTag7_2 = $('<td align="left" colspan="3" ></td>').html(tdTag7_2Text);    
     trTag7.html(thTag7_1);
     tdTag7_2.appendTo(trTag7);
     
@@ -226,40 +246,54 @@
     trTag8.html(thTag8);
     
     //9th tr
+    var tdTag9_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag9 = $('<tr></tr>');
     var thTag9_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Sponsor:");
-    var tdTag9_2 = $('<td align="left" colspan="3" class="subelementheader"></td>').html("1243");    
+    var tdTag9_2 = $('<td align="left" colspan="3" ></td>').html(tdTag9_2Text);    
     trTag9.html(thTag9_1);
     tdTag9_2.appendTo(trTag9);
     
     //10th tr
+    var tdTag10_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag10_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag10 = $('<tr></tr>');
     var thTag10_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Project Start Date:");
-    var tdTag10_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag10_2 = $('<td align="left" ></td>').html(tdTag10_2Text);
     var thTag10_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Obligation Start Date");
-    var tdTag10_4 = $('<td align="left" class="subelementheader"></td>');
+    var tdTag10_4 = $('<td align="left" ></td>').html(tdTag10_4Text);;
     trTag10.html(thTag10_1);
     tdTag10_2.appendTo(trTag10);
     thTag10_3.appendTo(trTag10);
     tdTag10_4.appendTo(trTag10);
     
     //11th tr
+    var tdTag11_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag11_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag11 = $('<tr></tr>');
     var thTag11_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Project End Date:");
-    var tdTag11_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag11_2 = $('<td align="left" ></td>').html(tdTag11_2Text);
     var thTag11_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Obligation End Date");
-    var tdTag11_4 = $('<td align="left" class="subelementheader"></td>');
+    var tdTag11_4 = $('<td align="left" ></td>').html(tdTag11_4Text);;
     trTag11.html(thTag11_1);
     tdTag11_2.appendTo(trTag11);
     thTag11_3.appendTo(trTag11);
     tdTag11_4.appendTo(trTag11);
     
     //12th tr
+    var tdTag12_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag12_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag12 = $('<tr></tr>');
     var thTag12_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Anticipated Amount:");
-    var tdTag12_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag12_2 = $('<td align="left" ></td>').html("$"+tdTag12_2Text);
     var thTag12_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Obligated Amount");
-    var tdTag12_4 = $('<td align="left" class="subelementheader"></td>');
+    var tdTag12_4 = $('<td align="left" ></td>').html("$"+tdTag12_2Text);
     trTag12.html(thTag12_1);
     tdTag12_2.appendTo(trTag12);
     thTag12_3.appendTo(trTag12);
@@ -273,9 +307,9 @@
     //14th tr
     var trTag14 = $('<tr></tr>');
     var thTag14_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Subaward?");
-    var tdTag14_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag14_2 = $('<td align="left" ></td>').html("");
     var thTag14_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Payment Schedule?");
-    var tdTag14_4 = $('<td align="left" class="subelementheader"></td>').html("Grant");
+    var tdTag14_4 = $('<td align="left" ></td>').html("");
     trTag14.html(thTag14_1);
     tdTag14_2.appendTo(trTag14);
     thTag14_3.appendTo(trTag14);
@@ -284,9 +318,9 @@
     //15th tr
     var trTag15 = $('<tr></tr>');
     var thTag15_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Equipment?");
-    var tdTag15_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag15_2 = $('<td align="left" ></td>').html("");
     var thTag15_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Sponsor Funding Transferred?");
-    var tdTag15_4 = $('<td align="left" class="subelementheader"></td>').html("Grant");
+    var tdTag15_4 = $('<td align="left" ></td>').html("");
     trTag15.html(thTag15_1);
     tdTag15_2.appendTo(trTag15);
     thTag15_3.appendTo(trTag15);
@@ -295,9 +329,9 @@
     //16th tr
     var trTag16 = $('<tr></tr>');
     var thTag16_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Foreign Travel?");
-    var tdTag16_2 = $('<td align="left" class="subelementheader"></td>').html("1243");
+    var tdTag16_2 = $('<td align="left" ></td>').html("");
     var thTag16_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Cost Share?");
-    var tdTag16_4 = $('<td align="left" class="subelementheader"></td>');
+    var tdTag16_4 = $('<td align="left" ></td>');
     trTag16.html(thTag16_1);
     tdTag16_2.appendTo(trTag16);
     thTag16_3.appendTo(trTag16);
@@ -347,9 +381,13 @@
 
   
   function displayInstitutionalProposalDetails(name, id){
+	  
 	  var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	  
-	  // 1st tr	  
+	  // 1st tr
+	  var thTag1_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  
 	  var trTag1 = $('<tr></tr>');
 	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Institutional Proposal");
 	  trTag1.html(thTag1);
@@ -378,60 +416,77 @@
 	  thTag2_2_2.appendTo(trTag2_2);
 	  thTag2_2_3.appendTo(trTag2_2);
 	  
-	  var trTag2_3 = $('<tr></tr>');
-	  var tdTag2_3_1 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("Proposal No.");
-	  var tdTag2_3_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("Title");
-	  var tdTag2_3_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("Status");
-	  trTag2_3.html(tdTag2_3_1);
-	  tdTag2_3_2.appendTo(trTag2_3);
-	  tdTag2_3_3.appendTo(trTag2_3);
-	  
+	  var tdTag2_4_1_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_4_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_4_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_4 = $('<tr></tr>');
-	  var thTag2_4_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal No.");
-	  var tdTag2_4_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Title");
-	  var thTag2_4_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Status");
-	  var tdTag2_4_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Status");
-	  trTag2_4.html(thTag2_4_1);
+	  var tdTag2_4_1 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_4_1_Text);
+	  var tdTag2_4_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_4_2_Text);
+	  var tdTag2_4_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_4_3_Text);
+	  trTag2_4.html(tdTag2_4_1);
 	  tdTag2_4_2.appendTo(trTag2_4);
-	  thTag2_4_3.appendTo(trTag2_4);
-	  tdTag2_4_4.appendTo(trTag2_4);
+	  tdTag2_4_3.appendTo(trTag2_4);
 	  
+	  var tdTag2_5_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_5_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_5 = $('<tr></tr>');
 	  var thTag2_5_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal Type:");
-	  var tdTag2_5_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Title");
+	  var tdTag2_5_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_5_2_Text);
 	  var thTag2_5_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor Prpsl No:");
-	  var tdTag2_5_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Status");
+	  var tdTag2_5_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_5_4_Text);
 	  trTag2_5.html(thTag2_5_1);
 	  tdTag2_5_2.appendTo(trTag2_5);
 	  thTag2_5_3.appendTo(trTag2_5);
 	  tdTag2_5_4.appendTo(trTag2_5);
 	    
+	  var tdTag2_6_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_6_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_6 = $('<tr></tr>');
 	  var thTag2_6_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Account:");
-	  var tdTag2_6_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Title");
+	  var tdTag2_6_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_6_2_Text);
 	  var thTag2_6_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Activity Type:");
-	  var tdTag2_6_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Status");
+	  var tdTag2_6_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_6_4_Text);
 	  trTag2_6.html(thTag2_6_1);
 	  tdTag2_6_2.appendTo(trTag2_6);
 	  thTag2_6_3.appendTo(trTag2_6);
 	  tdTag2_6_4.appendTo(trTag2_6);
 	    
+	  var tdTag2_7_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_7_4_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_7 = $('<tr></tr>');
 	  var thTag2_7_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("NSF Code:");
-	  var tdTag2_7_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Title");
+	  var tdTag2_7_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_7_2_Text);
 	  var thTag2_7_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Notice of Opp:");
-	  var tdTag2_7_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Status");
+	  var tdTag2_7_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_7_2_Text);
 	  trTag2_7.html(thTag2_7_1);
 	  tdTag2_7_2.appendTo(trTag2_7);
 	  thTag2_7_3.appendTo(trTag2_7);
 	  tdTag2_7_4.appendTo(trTag2_7);
 	  
+	  var tdTag2_81_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var trTag2_81 = $('<tr></tr>');
+	  var thTag2_81_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor");
+	  var tdTag2_81_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_81_2_Text);
+	  trTag2_81.html(thTag2_81_1);
+	  tdTag2_81_2.appendTo(trTag2_81);
+	  
+	  var tdTag2_8_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_8 = $('<tr></tr>');
 	  var thTag2_8_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Prime Sponsor");
-	  var tdTag2_8_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("Title");
+	  var tdTag2_8_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_8_2_Text);
 	  trTag2_8.html(thTag2_8_1);
 	  tdTag2_8_2.appendTo(trTag2_8);
-	  
 	  
 	  var trTag2_9 = $('<tr></tr>');
 	  var thTag2_9_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>')
@@ -443,42 +498,62 @@
 	  thTag2_9_3.appendTo(trTag2_9);
 	  thTag2_9_4.appendTo(trTag2_9);
 	  
+	  var tdTag2_10_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_10_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_10 = $('<tr></tr>');
 	  var thTag2_10_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Requested Start Date:");
-	  var tdTag2_10_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
-	  var tdTag2_10_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_10_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_10_2_Text);
+	  var tdTag2_10_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_10_3_Text);	  
 	  trTag2_10.html(thTag2_10_1);
 	  tdTag2_10_2.appendTo(trTag2_10);
 	  tdTag2_10_3.appendTo(trTag2_10);
-	  
+
+	  var tdTag2_11_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_11_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_11 = $('<tr></tr>');
 	  var thTag2_11_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Requested End Date:");
-	  var tdTag2_11_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
-	  var tdTag2_11_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_11_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_11_2_Text);
+	  var tdTag2_11_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_11_3_Text);	  
 	  trTag2_11.html(thTag2_11_1);
 	  tdTag2_11_2.appendTo(trTag2_11);
 	  tdTag2_11_3.appendTo(trTag2_11);
 	  
+	  var tdTag2_12_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_12_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_12 = $('<tr></tr>');
 	  var thTag2_12_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Total Direct Cost:");
-	  var tdTag2_12_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
-	  var tdTag2_12_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_12_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_12_2_Text);
+	  var tdTag2_12_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_12_3_Text);	  
 	  trTag2_12.html(thTag2_12_1);
 	  tdTag2_12_2.appendTo(trTag2_12);
 	  tdTag2_12_3.appendTo(trTag2_12);
 	  
+	  var tdTag2_13_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_13_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_13 = $('<tr></tr>');
 	  var thTag2_13_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Total Indirect Cost:");
-	  var tdTag2_13_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
-	  var tdTag2_13_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_13_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_13_2_Text);
+	  var tdTag2_13_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_13_3_Text);	  
 	  trTag2_13.html(thTag2_13_1);
 	  tdTag2_13_2.appendTo(trTag2_13);
 	  tdTag2_13_3.appendTo(trTag2_13);
 	  
+	  var tdTag2_14_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_14_3_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_14 = $('<tr></tr>');
 	  var thTag2_14_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Total All Cost:");
-	  var tdTag2_14_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
-	  var tdTag2_14_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  var tdTag2_14_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html(tdTag2_14_2_Text);
+	  var tdTag2_14_3 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html(tdTag2_14_3_Text);	  
 	  trTag2_14.html(thTag2_14_1);
 	  tdTag2_14_2.appendTo(trTag2_14);
 	  tdTag2_14_3.appendTo(trTag2_14);
@@ -489,15 +564,19 @@
 	  trTag2_15.html(thTag2_15_1);
 	  thTag2_15_2.appendTo(trTag2_15);
 	  
+	  var tdTag2_16_1_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_16_2_Text = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  tdTag2_16_2_Text = replaceAll(tdTag2_16_2_Text,";",":");
 	  var trTag2_16 = $('<tr></tr>');
-	  var tdTag2_16_1 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
-	  var tdTag2_16_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
+	  var tdTag2_16_1 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_16_1_Text);
+	  var tdTag2_16_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html(tdTag2_16_2_Text);
 	  trTag2_16.html(tdTag2_16_1);
 	  tdTag2_16_2.appendTo(trTag2_16);
 	  
 	  trTag2_1.appendTo(tblTag2);
 	  trTag2_2.appendTo(tblTag2);
-	  trTag2_3.appendTo(tblTag2);
 	  trTag2_4.appendTo(tblTag2);
 	  trTag2_5.appendTo(tblTag2);
 	  trTag2_6.appendTo(tblTag2);
@@ -521,6 +600,9 @@
   }
   
   function displayDevelopmentProposalDetails(name, id){
+	  
+	  alert(name);
+	  
 	  var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	  
 	  // 1st tr	  
@@ -712,13 +794,16 @@ function loadChildrenProposalView(viewSelector, nodeName, tagId, childrenNodeTex
 	            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
 	            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
 	            
+	            var detailsString = childNode1.substring(childNode1.indexOf("%31")+3,childNode1.indexOf("%32")).trim();
+	            childNode1 = childNode1.substring(0,childNode1.indexOf("%31")) + childNode1.substring(childNode1.indexOf("%32")+3,childNode1.length);
+	            
 	            tag.click(
 	                    function()
 	                    {
 	                       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
 	                        var idx = $(this).attr("id").substring(11);
 	                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-	                      	  tbodyTag("xyz", "item"+idx, childNode1.substring(0,1)).appendTo($("#listcontent"+idx));
+	                      	  tbodyTag(detailsString, "item"+idx, childNode1.substring(0,1)).appendTo($("#listcontent"+idx));
 
 	                            if ($("#"+divId).is(":hidden")) {
 	                                // alert(divId + " hidden0");
@@ -793,6 +878,9 @@ function loadChildrenAwardView(viewSelector, nodeName, tagId, childrenNodeText) 
             ulTagId = ulTag.attr("id");
             detDiv.appendTo(listitem);
             
+            var detailsString = childNode1.substring(childNode1.indexOf("%31")+3,childNode1.indexOf("%32")).trim();
+            childNode1 = childNode1.substring(0,childNode1.indexOf("%31")) + childNode1.substring(childNode1.indexOf("%32")+3,childNode1.length);
+            
             tag.click(
                     function()
                     {
@@ -801,7 +889,7 @@ function loadChildrenAwardView(viewSelector, nodeName, tagId, childrenNodeText) 
                         $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                         var idx = $(this).attr("id").substring(11);
                         if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                      	  tbodyTag("xyz", "item"+idx, "P").appendTo($("#listcontent"+idx));
+                      	  tbodyTag(detailsString, "item"+idx, "P").appendTo($("#listcontent"+idx));
 
                             if ($("#"+divId).is(":hidden")) {
                                 // alert(divId + " hidden0");
