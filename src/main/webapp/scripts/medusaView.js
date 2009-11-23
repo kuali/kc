@@ -93,8 +93,7 @@
                     var idx = $(this).attr("id").substring(11);
                     if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
                   	  tbodyTag(tbody1text, "item"+idx, viewSelector).appendTo($("#listcontent"+idx));
-                        //tbodyTag2(tbody2text, "item"+idx).appendTo($("#listcontent"+idx));
-                        //tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+
                         if ($("#"+divId).is(":hidden")) {
                             // alert(divId + " hidden0");
                              $("#listcontent"+idx).show();
@@ -121,9 +120,9 @@
            
         });
         if(viewSelector == "A"){
-        	loadChildrenAwardView(item_text, tagId,childNodesText);	
+        	loadChildrenAwardView(viewSelector, item_text, tagId,childNodesText);	
         }else if(viewSelector == "P"){
-        	loadChildrenProposalView(item_text, tagId,childNodesText);
+        	loadChildrenProposalView(viewSelector, item_text, tagId,childNodesText);
         }	
         });
      }
@@ -522,13 +521,160 @@
   }
   
   function displayDevelopmentProposalDetails(name, id){
+	  var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	  
+	  // 1st tr	  
+	  var trTag1 = $('<tr></tr>');
+	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Development Proposal");
+	  trTag1.html(thTag1);
+	  
+	  var trTag2 = $('<tr></tr>');
+	  var tdTag1=$('<td></td>');
+	  
+	  var tblTag2 = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>');
+	  
+	  var trTag2_1 = $('<tr></tr>');
+	  var tdTag2_1 = $('<td colspan="4" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td');
+	  
+	  var openProposalButton = $('<input type="image" title="Open Proposal" alt="Open Proposal" style="border: medium none ;" src="static/images/tinybutton-openproposal.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
+	  var openNotesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
+	  openProposalButton.appendTo(tdTag2_1);
+	  openNotesButton.appendTo(tdTag2_1);
+	  trTag2_1.html(tdTag2_1);
+	
+	  var trTag2_2 = $('<tr></tr>');
+	  var thTag2_2_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal No:");
+	  var tdTag2_2_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var thTag2_2_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Status:");
+	  var tdTag2_2_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_2.html(thTag2_2_1);
+	  tdTag2_2_2.appendTo(trTag2_2);
+	  thTag2_2_3.appendTo(trTag2_2);
+	  tdTag2_2_4.appendTo(trTag2_2);
+	  
+	  var trTag2_3 = $('<tr></tr>');
+	  var thTag2_3_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Lead Unit");
+	  var tdTag2_3_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_3.html(thTag2_3_1);
+	  tdTag2_3_2.appendTo(trTag2_3);
+	  
+	  var trTag2_4 = $('<tr></tr>');
+	  var thTag2_4_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Start Date:");
+	  var tdTag2_4_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var thTag2_4_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("End Date:");
+	  var tdTag2_4_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_4.html(thTag2_4_1);
+	  tdTag2_4_2.appendTo(trTag2_4);
+	  thTag2_4_3.appendTo(trTag2_4);
+	  tdTag2_4_4.appendTo(trTag2_4);
+	  
+	  var trTag2_5 = $('<tr></tr>');
+	  var thTag2_5_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Title:");
+	  var tdTag2_5_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_5.html(thTag2_5_1);
+	  tdTag2_5_2.appendTo(trTag2_5);
+	    
+	  var trTag2_6 = $('<tr></tr>');
+	  var thTag2_6_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Proposal Type:");
+	  var tdTag2_6_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_6.html(thTag2_6_1);
+	  tdTag2_6_2.appendTo(trTag2_6);
+	    
+	  var trTag2_7 = $('<tr></tr>');
+	  var thTag2_7_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("NSF Code:");
+	  var tdTag2_7_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_7.html(thTag2_7_1);
+	  tdTag2_7_2.appendTo(trTag2_7);
+	  
+	  var trTag2_8 = $('<tr></tr>');
+	  var thTag2_8_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor:");
+	  var tdTag2_8_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_8.html(thTag2_8_1);
+	  tdTag2_8_2.appendTo(trTag2_8);
+	  
+	  
+	  var trTag2_9 = $('<tr></tr>');
+	  var thTag2_9_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Prime Sponsor:");
+	  var tdTag2_9_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_9.html(thTag2_9_1);
+	  tdTag2_9_2.appendTo(trTag2_9);
+	  
+	  var trTag2_10 = $('<tr></tr>');
+	  var thTag2_10_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Sponsor Proposal No:");
+	  var tdTag2_10_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var thTag2_10_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Activity Type:");
+	  var tdTag2_10_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_10.html(thTag2_10_1);
+	  tdTag2_10_2.appendTo(trTag2_10);
+	  thTag2_10_3.appendTo(trTag2_10);
+	  tdTag2_10_4.appendTo(trTag2_10);
+	  
+	  var trTag2_11 = $('<tr></tr>');
+	  var thTag2_11_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Program Title:");
+	  var tdTag2_11_2 = $('<td colspan="3" style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  trTag2_11.html(thTag2_11_1);
+	  tdTag2_11_2.appendTo(trTag2_11);
+	  
+	  var trTag2_12 = $('<tr></tr>');
+	  var thTag2_12_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Notice of Opportunity:");
+	  var tdTag2_12_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var thTag2_12_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Program No:");
+	  var tdTag2_12_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  trTag2_12.html(thTag2_12_1);
+	  tdTag2_12_2.appendTo(trTag2_12);
+	  thTag2_12_3.appendTo(trTag2_12);
+	  tdTag2_12_4.appendTo(trTag2_12);
+	  
+	  var trTag2_13 = $('<tr></tr>');
+	  var thTag2_13_1 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Narrative:");
+	  var tdTag2_13_2 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:left;"></td>').html("data");
+	  var thTag2_13_3 = $('<th style="border:1px solid rgb(147, 147, 147); text-align:right;"></th>').html("Budget:");
+	  var tdTag2_13_4 = $('<td style="border:1px solid rgb(147, 147, 147); text-align:right;"></td>').html("data");	  
+	  trTag2_13.html(thTag2_13_1);
+	  tdTag2_13_2.appendTo(trTag2_13);
+	  thTag2_13_3.appendTo(trTag2_13);
+	  tdTag2_13_4.appendTo(trTag2_13);
+	  
+	  var trTag2_15 = $('<tr></tr>');
+	  var thTag2_15_1 = $('<th colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></th>').html("Investigators");
+	  var thTag2_15_2 = $('<th colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></th>').html("Units");
+	  trTag2_15.html(thTag2_15_1);
+	  thTag2_15_2.appendTo(trTag2_15);
+	  
+	  var trTag2_16 = $('<tr></tr>');
+	  var tdTag2_16_1 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
+	  var tdTag2_16_2 = $('<td colspan="2" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td>').html("data");
+	  trTag2_16.html(tdTag2_16_1);
+	  tdTag2_16_2.appendTo(trTag2_16);
+	  
+	  trTag2_1.appendTo(tblTag2);
+	  trTag2_2.appendTo(tblTag2);
+	  trTag2_3.appendTo(tblTag2);
+	  trTag2_4.appendTo(tblTag2);
+	  trTag2_5.appendTo(tblTag2);
+	  trTag2_6.appendTo(tblTag2);
+	  trTag2_7.appendTo(tblTag2);
+	  trTag2_8.appendTo(tblTag2);
+	  trTag2_9.appendTo(tblTag2);
+	  trTag2_10.appendTo(tblTag2);
+	  trTag2_11.appendTo(tblTag2);
+	  trTag2_12.appendTo(tblTag2);
+	  trTag2_13.appendTo(tblTag2);
+	  trTag2_15.appendTo(tblTag2);
+	  trTag2_16.appendTo(tblTag2);
+	  
+	  tdTag1.html(tblTag2);
+	  tdTag1.appendTo(trTag2);
+	  trTag1.appendTo(tblTag);
+	  trTag2.appendTo(tblTag);
+	  
+	  return tblTag;
   }
   
   /*
 	 * load children area of research when parents RA is expanding.
 	 */
-function loadChildrenProposalView(nodeName, tagId, childrenNodeText) {
+function loadChildrenProposalView(viewSelector, nodeName, tagId, childrenNodeText) {
     var parentNode = $("#"+tagId);
     var liNode = parentNode.parents('li:eq(0)');
     var ulNode = liNode.children('ul:eq(0)');
@@ -545,11 +691,12 @@ function loadChildrenProposalView(nodeName, tagId, childrenNodeText) {
             var loadedId = "loaded"+i;
             var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
             inputtag.appendTo(ulTag);
-
+            var module;
             while(childrenNodeText.length > 0){
 	            var childNode1 = childrenNodeText.substring(childrenNodeText.indexOf("%5C1")+4,childrenNodeText.indexOf("%5C2")).trim();
 	            childrenNodeText = childrenNodeText.substring(childrenNodeText.indexOf("%5C2")+4, childrenNodeText.length).trim();
 	            
+	            module = childNode1.substring(0,1);
 	            i++;
 	            
 	            var id = "item"+i;
@@ -564,7 +711,26 @@ function loadChildrenProposalView(nodeName, tagId, childrenNodeText) {
 		        }
 	            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
 	            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
-	               	  
+	            
+	            tag.click(
+	                    function()
+	                    {
+	                       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+	                        var idx = $(this).attr("id").substring(11);
+	                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
+	                      	  tbodyTag("xyz", "item"+idx, childNode1.substring(0,1)).appendTo($("#listcontent"+idx));
+
+	                            if ($("#"+divId).is(":hidden")) {
+	                                // alert(divId + " hidden0");
+	                                 $("#listcontent"+idx).show();
+	                                 // $("#listcontent"+idx).slideToggle(300);
+	                            }
+	                        } else {
+	                            $("#listcontent"+idx).slideToggle(300);
+	                        }
+	                    }
+	                );
+	            
 	            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
 	            ulTagId = ulTag.attr("id");
 	            detDiv.appendTo(listitem);
@@ -583,7 +749,7 @@ function loadChildrenProposalView(nodeName, tagId, childrenNodeText) {
 /*
  * load children area of research when parents RA is expanding.
  */
-function loadChildrenAwardView(nodeName, tagId, childrenNodeText) {
+function loadChildrenAwardView(viewSelector, nodeName, tagId, childrenNodeText) {
 	var parentNode = $("#"+tagId);
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
@@ -627,6 +793,27 @@ function loadChildrenAwardView(nodeName, tagId, childrenNodeText) {
             ulTagId = ulTag.attr("id");
             detDiv.appendTo(listitem);
             
+            tag.click(
+                    function()
+                    {
+                        // alert ("sibling
+    						// "+$(this).siblings('div:eq(0)').attr("id"));
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        var idx = $(this).attr("id").substring(11);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
+                      	  tbodyTag("xyz", "item"+idx, "P").appendTo($("#listcontent"+idx));
+
+                            if ($("#"+divId).is(":hidden")) {
+                                // alert(divId + " hidden0");
+                                 $("#listcontent"+idx).show();
+                                 // $("#listcontent"+idx).slideToggle(300);
+                            }
+                        } else {
+                            $("#listcontent"+idx).slideToggle(300);
+                        }
+                    }
+                );
+            
             // need this ultag to force to display folder.
             var childUlTag = $('<ul></ul>').attr("id","ul"+i);
             childUlTag.appendTo(listitem);
@@ -636,7 +823,7 @@ function loadChildrenAwardView(nodeName, tagId, childrenNodeText) {
             });
             if (i==1) {
             }
-            loadThirdLevel(tagId,thirdLevelText);
+            loadThirdLevel(viewSelector, tagId,thirdLevelText);
         }
 }
 loadedidx=i;
@@ -645,7 +832,7 @@ loadedidx=i;
 /*
  * load children area of research when parents RA is expanding.
  */
-function loadThirdLevel(tagId, childrenNodeText) {
+function loadThirdLevel(viewSelector, tagId, childrenNodeText) {
 	var parentNode = $("#"+tagId);
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
@@ -684,6 +871,28 @@ function loadThirdLevel(tagId, childrenNodeText) {
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
                	  
+            tag.click(
+                    function()
+                    {
+                        // alert ("sibling
+    						// "+$(this).siblings('div:eq(0)').attr("id"));
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        var idx = $(this).attr("id").substring(11);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
+                      	  tbodyTag("xyz", "item"+idx, "D").appendTo($("#listcontent"+idx));
+
+                            if ($("#"+divId).is(":hidden")) {
+                                // alert(divId + " hidden0");
+                                 $("#listcontent"+idx).show();
+                                 // $("#listcontent"+idx).slideToggle(300);
+                            }
+                        } else {
+                            $("#listcontent"+idx).slideToggle(300);
+                        }
+                    }
+                );
+
+            
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
             ulTagId = ulTag.attr("id");
             detDiv.appendTo(listitem);
