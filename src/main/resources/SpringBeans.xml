@@ -560,9 +560,6 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="kcPersonService">
-		    <ref bean="kcPersonService" />
-		</property>
 		<property name="parameterService">
 		    <ref bean="parameterService" />
 		</property>

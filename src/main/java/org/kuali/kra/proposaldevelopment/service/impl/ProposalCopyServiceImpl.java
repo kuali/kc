@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
@@ -37,13 +36,11 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -61,8 +58,6 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -163,7 +158,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private BusinessObjectService businessObjectService;
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
-    private KcPersonService kcPersonService;
     private ParameterService parameterService;
     
     /**
@@ -768,79 +762,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             narrativeService.addNarrative(dest, destNarrative);
         }
         
-        List<Narrative> instituteAttachments = src.getDevelopmentProposal().getInstituteAttachments();
-        Narrative destInstituteAttachment;
-        for (Narrative srcInstituteAttachment : instituteAttachments) {
-            destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
-            narrativeService.addInstituteAttachment(dest, destInstituteAttachment);
-        }
-        
         setProposalAttachmentsToIncomplete(dest);
-    }
-    
-    /**
-     * Copy a list of narratives.  The only narratives that are
-     * copied are those that the user has read or modify access.
-     * @param narratives the narratives to copy
-     * @return the copied narratives
-     */
-    private List<Narrative> copyNarratives(List<Narrative> narratives, int moduleNumber) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcPerson person = kcPersonService.getKcPersonByPersonId(userId); 
-        
-        List<Narrative> newNarratives = new ArrayList<Narrative>();
-        for (Narrative narrative : narratives) {
-            if (hasReadPermission(person, narrative)) {
-                newNarratives.add(copyNarrative(person, narrative, moduleNumber++));
-            }
-        }
-        return newNarratives;
-    }
-    
-    /**
-     * Does the person have permission to read this narrative?  The
-     * person can read the narrative if they have read or modify access.
-     * @param person the person
-     * @param narrative the narrative
-     * @return true if read permission; otherwise false
-     */
-    private boolean hasReadPermission(KcPerson person, Narrative narrative) {
-        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
-        for (NarrativeUserRights userRights : userRightsList) {
-            if (StringUtils.equals(userRights.getUserId(), person.getPersonId())) {
-                if (userRights.getAccessType().equals(NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
-                    return true;
-                }
-                else if (userRights.getAccessType().equals(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
-                    return true;
-                }
-                break;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Copy a narrative.  The narrative rights are also reset to reflect that the
-     * person doing the copying is the only person who has access and that he/she
-     * has modify access.
-     * @param person the person
-     * @param narrative the narrative
-     * @param moduleNumber the narratives new module number
-     * @return the copied narrative
-     */
-    private Narrative copyNarrative(KcPerson person, Narrative narrative, int moduleNumber) {
-        Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
-        newNarrative.setModuleNumber(moduleNumber);
-        NarrativeUserRights userRights = new NarrativeUserRights();
-        userRights.setAccessType(NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
-        userRights.setUserId(person.getPersonId());
-        userRights.setPersonName(person.getFullName());
-        List<NarrativeUserRights> userRightsList = new ArrayList<NarrativeUserRights>();
-        userRightsList.add(userRights);
-        newNarrative.setVersionNumber(null);
-        newNarrative.setNarrativeUserRights(userRightsList);
-        return newNarrative;
     }
     
     /**
@@ -909,35 +831,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (Narrative narrative : narratives) {
             narrative.setModuleStatusCode("I");
         }
-    }
-    
-    /**
-     * Search the Proposal Development Document class for a property with
-     * the given name.  The property must have a setter and a getter method.
-     * 
-     * @param name the name of the property
-     * @return the setter/getter pair or null if not found
-     */
-    private DocProperty getDocProperty(String name) {
-        DocProperty docProperty = null;
-        Method getter = null;
-        Method setter = null;
-        Method[] methods = ProposalDevelopmentDocument.class.getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getName().equals("set" + name)) {
-                setter = method;
-            }
-            else if (method.getName().equals("get" + name)) {
-                getter = method;
-            }
-        }
-        if (getter != null && setter != null) {
-            if ((getter.getParameterTypes().length == 0) &&
-                (setter.getParameterTypes().length == 1)) {
-                docProperty = new DocProperty(getter, setter);
-            }
-        }
-        return docProperty;
     }
     
     /**
@@ -1095,14 +988,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
         this.keyPersonnelService = keyPersonnelService;
-    }
-    
-    /**
-     * Sets the KC Person Service.
-     * @param kcPersonService the kc person service
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
     }
     
     /**
