@@ -53,13 +53,11 @@ public class QuestionServiceTest {
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("questionRefId", "999");
             
-            final Collection<Question> questions = new ArrayList<Question>();
-            Question question = new Question();
-            questions.add(question);
+            final Question question = new Question();
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+                one(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(question));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
@@ -84,11 +82,9 @@ public class QuestionServiceTest {
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("questionRefId", "999");
             
-            final Collection<Question> questions = new ArrayList<Question>();
-            
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+                one(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(null));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
