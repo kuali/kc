@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,45 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions;
+package org.kuali.kra.correspondence.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity 
-@Table(name="PROTO_CORRESP_TYPE")
-public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase { 
-
-    private static final long serialVersionUID = -4725522827463252054L;
-
-    @Id 
-    @Column(name="PROTO_CORRESP_TYPE_CODE")
-    private Integer protoCorrespTypeCode; 
-
-    @Column(name="DESCRIPTION")
-    private String description; 
-
-    @Type(type="yes_no")
-    @Column(name="MODULE_ID")
-    private boolean moduleId; 
+public class CorrespondentType extends KraPersistableBusinessObjectBase { 
     
-    public ProtocolCorrespondenceType() { 
+    private static final long serialVersionUID = 1L;
+
+    private Integer correspondentTypeCode; 
+    private String description; 
+    private boolean qualifier; 
+    
+   
+    public CorrespondentType() { 
 
     } 
     
-    public Integer getProtoCorrespTypeCode() {
-        return protoCorrespTypeCode;
+    public Integer getCorrespondentTypeCode() {
+        return correspondentTypeCode;
     }
 
-    public void setProtoCorrespTypeCode(Integer protoCorrespTypeCode) {
-        this.protoCorrespTypeCode = protoCorrespTypeCode;
+    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
+        this.correspondentTypeCode = correspondentTypeCode;
     }
 
     public String getDescription() {
@@ -62,21 +48,21 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
         this.description = description;
     }
 
-    public boolean getModuleId() {
-        return moduleId;
+    public boolean getQualifier() {
+        return qualifier;
     }
 
-    public void setModuleId(boolean moduleId) {
-        this.moduleId = moduleId;
+    public void setQualifier(boolean qualifier) {
+        this.qualifier = qualifier;
     }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
+        hashMap.put("correspondentTypeCode", this.getCorrespondentTypeCode());
         hashMap.put("description", this.getDescription());
-        hashMap.put("moduleId", this.getModuleId());
+        hashMap.put("qualifier", this.getQualifier());
         return hashMap;
     }
     
