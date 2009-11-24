@@ -305,42 +305,56 @@
     trTag13.html(thTag13);
     
     //14th tr
+    var tdTag14_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag14_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag14 = $('<tr></tr>');
     var thTag14_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Subaward?");
-    var tdTag14_2 = $('<td align="left" ></td>').html("");
+    var tdTag14_2 = $('<td align="left" ></td>').html(tdTag14_2Text);
     var thTag14_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Payment Schedule?");
-    var tdTag14_4 = $('<td align="left" ></td>').html("");
+    var tdTag14_4 = $('<td align="left" ></td>').html(tdTag14_4Text);
     trTag14.html(thTag14_1);
     tdTag14_2.appendTo(trTag14);
     thTag14_3.appendTo(trTag14);
     tdTag14_4.appendTo(trTag14);
     
     //15th tr
+    var tdTag15_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag15_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag15 = $('<tr></tr>');
     var thTag15_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Equipment?");
-    var tdTag15_2 = $('<td align="left" ></td>').html("");
+    var tdTag15_2 = $('<td align="left" ></td>').html(tdTag15_2Text);
     var thTag15_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Sponsor Funding Transferred?");
-    var tdTag15_4 = $('<td align="left" ></td>').html("");
+    var tdTag15_4 = $('<td align="left" ></td>').html(tdTag15_4Text);
     trTag15.html(thTag15_1);
     tdTag15_2.appendTo(trTag15);
     thTag15_3.appendTo(trTag15);
     tdTag15_4.appendTo(trTag15);
     
     //16th tr
+    var tdTag16_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	var tdTag16_4Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag16 = $('<tr></tr>');
     var thTag16_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Approved Foreign Travel?");
-    var tdTag16_2 = $('<td align="left" ></td>').html("");
+    var tdTag16_2 = $('<td align="left" ></td>').html(tdTag16_2Text);
     var thTag16_3 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Cost Share?");
-    var tdTag16_4 = $('<td align="left" ></td>');
+    var tdTag16_4 = $('<td align="left" ></td>').html(tdTag16_4Text);
     trTag16.html(thTag16_1);
     tdTag16_2.appendTo(trTag16);
     thTag16_3.appendTo(trTag16);
     tdTag16_4.appendTo(trTag16);
     
     //17th tr  
+    var tdTag17_2Text = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag17 = $('<tr></tr>');
     var thTag17_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("F&A?");
-    var tdTag17_2 = $('<td colspan="3" align="left" class="subelementheader"></td>').html("1243");
+    var tdTag17_2 = $('<td colspan="3" align="left" class="subelementheader"></td>').html(tdTag17_2Text);
     trTag17.html(thTag17_1);
     tdTag17_2.appendTo(trTag17);
     
@@ -355,6 +369,38 @@
     var thTag19_2 = $('<th colspan="2" style="border: 1px solid rgb(147, 147, 147); text-align:center; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("Units");    
     trTag19.html(thTag19_1);
     thTag19_2.appendTo(trTag19);
+    
+    var trTag20 = $('<tr></tr>');
+    var tdTag20_1 = $('<td colspan="2" style="align:center"></td>');
+    var tdTag20_2 = $('<td colspan="2" style="align:center"></td>');
+    var tdTag20_1Text = "";
+    var tdTag20_2Text = "";
+    //20th tr
+    while(name.length!=1){
+    	trTag20 = $('<tr></tr>');
+    	tdTag20_1 = $('<td colspan="2" style="align:center"></td>');
+        tdTag20_2 = $('<td colspan="2" style="align:center"></td>');
+    	tdTag20_1Text = name.substring(0, name.indexOf(":"));
+    	name = name.substring(name.indexOf(":")+1, name.length);
+    	tdTag20_2Text = name.substring(0, name.indexOf(":"));
+    	name = name.substring(name.indexOf(":")+1, name.length);
+        
+    	tdTag20_1.html(tdTag20_1Text)
+        while(tdTag20_2Text.length!=0){
+        	var subText_tdTag20 = tdTag20_2Text.substring(0, tdTag20_2Text.indexOf(";"));
+        	tdTag20_2Text = tdTag20_2Text.substring(tdTag20_2Text.indexOf(";")+1, tdTag20_2Text.length);
+        	tdTag20_2.html(subText_tdTag20);        	
+        	//$('< /br>').appendTo(tdTag20_2);
+        	//subText_tdTag20.appendTo(tdTag20_2);
+        }
+    	
+    	tdTag20_1.appendTo(trTag20);
+    	tdTag20_2.appendTo(trTag20);
+        
+    }
+    tdTag20_1.appendTo(trTag20);
+    tdTag20_2.appendTo(trTag20);
+    
     
     trTag1.appendTo(tblTag);
     trTag2.appendTo(tblTag);
@@ -375,6 +421,7 @@
     trTag17.appendTo(tblTag);
     trTag18.appendTo(tblTag);
     trTag19.appendTo(tblTag);
+    trTag20.appendTo(tblTag);
     
     return tblTag;
   }    
