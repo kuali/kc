@@ -83,7 +83,7 @@ public class ActionHelper implements Serializable {
     private boolean canExpediteApproval = false;
     private boolean canApprove = false;
     private boolean canReopen = false;
-    private boolean canClose = false;
+    private boolean canCloseEnrollment = false;
     private boolean canSuspend = false;
     private boolean canSuspendByDmsb = false;
     
@@ -104,7 +104,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolExpediteApprovalBean;
     private ProtocolGenericActionBean protocolApproveBean;
     private ProtocolGenericActionBean protocolReopenBean;
-    private ProtocolGenericActionBean protocolCloseBean;
+    private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
     private ProtocolGenericActionBean protocolSuspendByDmsbBean;
     private transient ParameterService parameterService;
@@ -152,7 +152,7 @@ public class ActionHelper implements Serializable {
         protocolExpediteApprovalBean = new ProtocolGenericActionBean();
         protocolApproveBean = new ProtocolGenericActionBean();
         protocolReopenBean = new ProtocolGenericActionBean();
-        protocolCloseBean = new ProtocolGenericActionBean();
+        protocolCloseEnrollmentBean = new ProtocolGenericActionBean();
         protocolSuspendBean = new ProtocolGenericActionBean();
         protocolSuspendByDmsbBean = new ProtocolGenericActionBean();
     }
@@ -245,7 +245,7 @@ public class ActionHelper implements Serializable {
         canExpediteApproval = hasExpediteApprovalPermission();
         canApprove = hasApprovePermission();
         canReopen = hasReopenPermission();
-        canClose = hasClosePermission();
+        canCloseEnrollment = hasCloseEnrollmentPermission();
         canSuspend = hasSuspendPermission();
         canSuspendByDmsb = hasSuspendByDmsbPermission();
         
@@ -378,7 +378,7 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
-    private boolean hasClosePermission() {
+    private boolean hasCloseEnrollmentPermission() {
         return true;
     }
     
@@ -482,8 +482,8 @@ public class ActionHelper implements Serializable {
         return protocolReopenBean;
     }
     
-    public ProtocolGenericActionBean getProtocolCloseBean() {
-        return protocolCloseBean;
+    public ProtocolGenericActionBean getProtocolCloseEnrollmentBean() {
+        return protocolCloseEnrollmentBean;
     }
     
     public ProtocolGenericActionBean getProtocolSuspendBean() {
@@ -558,8 +558,8 @@ public class ActionHelper implements Serializable {
         return canReopen;
     }
     
-    public boolean getCanClose() {
-        return canClose;
+    public boolean getCanCloseEnrollment() {
+        return canCloseEnrollment;
     }
     
     public boolean getCanSuspend() {

@@ -20,7 +20,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textSuspendComments" value="actionHelper.protocolSuspendBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canClose}">
+<kra:permission value="${KualiForm.actionHelper.canSuspend}">
 
 <kra:innerTab tabTitle="Suspend" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSuspendBean*">
    

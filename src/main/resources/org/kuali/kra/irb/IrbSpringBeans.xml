@@ -361,7 +361,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="protocolCloseService" class="org.kuali.kra.irb.actions.close.ProtocolCloseServiceImpl">
+    <bean id="protocolCloseEnrollmentService" class="org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
