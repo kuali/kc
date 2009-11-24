@@ -65,7 +65,7 @@ public class ProtocolCloseServiceImpl implements ProtocolCloseService {
     }
 
    
-    public void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+    public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         // TODO Auto-generated method stub
         
     }
