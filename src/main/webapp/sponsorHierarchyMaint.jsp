@@ -224,5 +224,6 @@ tbody tr:hover {
 	<!--END SOURCE CODE =============================== -->
 
 </html:form>
+<div id="formComplete"></div>
 </body>
 </html>
