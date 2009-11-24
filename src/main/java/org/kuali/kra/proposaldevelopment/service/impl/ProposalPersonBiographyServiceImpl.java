@@ -22,25 +22,32 @@ import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.rice.kew.user.AuthenticationUserId;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
     private AttachmentDao attachmentDao;
+    private KcPersonService kcPersonService;
 
+    /**
+     * Sets the KC Person Service.
+     * @param kcPersonService the kc person service
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+    
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
@@ -170,13 +177,8 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             if (personBioAtt.hasNext()) {
                 Object[] item = (Object[])personBioAtt.next();
                 proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
-                String personName = "Person not found";
-                try {
-                    personName = KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId((String)item[1])).getPersonName();
-                }
-                catch (Exception unfe) {
-                }
-                proposalPersonBiography.setUploadUserDisplay(personName);
+                KcPerson person = kcPersonService.getKcPersonByUserName((String)item[1]);
+                proposalPersonBiography.setUploadUserDisplay(person.getFullName());
             }
 
             }

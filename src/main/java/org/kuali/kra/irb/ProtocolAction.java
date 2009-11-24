@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,7 +33,6 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -242,7 +240,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
                 Class<?> lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
-                String userName = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPrincipalId();
+                String userName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs
                     = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);

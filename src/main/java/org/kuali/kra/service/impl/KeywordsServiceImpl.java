@@ -25,7 +25,6 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;

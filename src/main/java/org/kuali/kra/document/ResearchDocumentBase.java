@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
@@ -31,12 +30,10 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.rice.shim.UniversalUserService;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -57,6 +54,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private List<DocumentNextvalue> documentNextvalues;
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
     private boolean viewOnly = false;
+    private transient PersonService personService;
 
     public ResearchDocumentBase() {
         super();
@@ -231,14 +229,9 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        try {
-            UniversalUser initiatorUser = 
-                KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiatior.setPerson(initiatorUser);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        final Person initiatorUser = this.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
+        initiatior.setPerson(initiatorUser);
+ 
         transInfo.setDocumentInitiator(initiatior);
         
         KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
@@ -300,5 +293,16 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      */
     public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
        throw new UnsupportedOperationException( "Document does not support answerSplitNodeQuestion for routeNodeName:"+routeNodeName );   
+    }
+    
+    /**
+     * Looks up and returns the PersonService.
+     * @return the person service. 
+     */
+    private PersonService getPersonService() {
+        if (this.personService == null) {
+            this.personService = KraServiceLocator.getService(PersonService.class);        
+        }
+        return this.personService;
     }
 }

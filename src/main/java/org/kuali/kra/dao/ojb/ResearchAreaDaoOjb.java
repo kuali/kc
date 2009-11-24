@@ -25,8 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.dao.ResearchAreaDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -53,7 +51,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                 Statement stmt = null;
                 try {
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
-                    String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
+                    String userName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
                     for (int i = 0; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
                             if (sqls[i].startsWith("remove((")) {

@@ -21,9 +21,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -31,6 +29,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
 
+    private transient KcPersonService kcPersonService;
+    
     private String updateUser;
     private Timestamp updateTimestamp;
     private boolean updateUserSet;
@@ -111,19 +111,18 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @return
      */
     public String getAuthorPersonName(){
-        UniversalUser user=null;
-        try {
-            user = KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(getUpdateUser()));
-        }
-        catch (Exception unfe) {
-        }
-        if (ObjectUtils.isNull(user)) {
-            return "Person not found";
-        }
-        else {
-            return user.getPersonName();
-        }
+        KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
+        return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
     }
-
-
+    
+    /**
+     * Looks up and returns the KcPersonService.
+     * @return the person service. 
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);        
+        }
+        return this.kcPersonService;
+    }
 }
