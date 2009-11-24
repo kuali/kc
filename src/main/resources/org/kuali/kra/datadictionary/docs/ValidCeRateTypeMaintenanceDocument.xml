@@ -24,7 +24,7 @@
     
     <property name="documentTypeName" value="ValidCeRateTypeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.budget.nonpersonnel.ValidCeRateTypeMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
   </bean>

@@ -475,7 +475,8 @@
 		<ruleTemplate allowOverwrite="true">
 			<name>DepartmentalApproval</name>
 			<description>Department Approval Routing Rule</description>
-			<delegationTemplate>DepartmentalDelegationTemplate</delegationTemplate>
+			<!--FIXME: this definition is missing -->
+			<!-- <delegationTemplate>DepartmentalDelegationTemplate</delegationTemplate>-->
 			<attributes>
 				<attribute>
 					<name>DepartmentalApprovalAttribute</name>

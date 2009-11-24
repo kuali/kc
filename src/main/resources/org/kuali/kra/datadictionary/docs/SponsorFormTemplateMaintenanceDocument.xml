@@ -25,7 +25,7 @@
     
     
     <property name="documentTypeName" value="SponsorFormTemplateMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
   </bean>
