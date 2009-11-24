@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -197,7 +199,29 @@ public class MedusaServiceImpl implements MedusaService {
         sb.append(award.getSponsorCode()).append(" - ").append(award.getSponsorName()).append(":").append(award.getBeginDate()).append(":");
         sb.append(awardAmountInfo.getCurrentFundEffectiveDate()).append(":").append(awardAmountInfo.getFinalExpirationDate()).append(":");
         sb.append(awardAmountInfo.getObligationExpirationDate()).append(":").append(awardAmountInfo.getAnticipatedTotalAmount()).append(":");
-        sb.append(awardAmountInfo.getAmountObligatedToDate());
+        sb.append(awardAmountInfo.getAmountObligatedToDate()).append(":").append(award.getAwardApprovedSubawards().size()==0?"N":"Y").append(":").append(award.getPaymentScheduleItems().size()==0?"N":"Y");
+        sb.append(":").append(award.getApprovedEquipmentItems().size()==0?"N":"Y").append(":").append("TBD").append(":").append(award.getApprovedForeignTravelTrips().size()==0?"N":"Y");
+        sb.append(":").append(award.getCostSharingIndicator()).append(":").append(award.getAwardFandaRate().size()==0?"N":"Y").append(":");
+        
+        StringBuilder units = new StringBuilder();
+        for(AwardPerson person: award.getProjectPersons()){
+            sb.append(person.getFullName());
+            if(person.isPrincipalInvestigator()){
+                sb.append(" (Principal Investigator)");
+            }
+            sb.append(":");
+            units = new StringBuilder();
+            for(AwardPersonUnit unit: person.getUnits()){
+                units.append(unit.getUnit().getUnitName());
+                if(unit.isLeadUnit()){
+                    units.append(" (Lead Unit)");    
+                }
+                units.append(" ; ");
+            }
+            sb.append(units);
+            sb.append(":");
+        }
+        
     }
 
     private Collection<AwardFundingProposal> getAwardFundingProposals(String moduleName, Long moduleIdentifier) {
