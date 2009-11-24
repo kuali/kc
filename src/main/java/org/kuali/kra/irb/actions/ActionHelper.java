@@ -89,6 +89,7 @@ public class ActionHelper implements Serializable {
     private boolean canClose = false;
     private boolean canExpire = false;
     private boolean canTerminate = false;
+    private boolean canPermitDataAnalysis = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -113,6 +114,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolCloseBean;
     private ProtocolGenericActionBean protocolExpireBean;
     private ProtocolGenericActionBean protocolTerminateBean;
+    private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
     private transient ParameterService parameterService;
     
     /*
@@ -164,6 +166,7 @@ public class ActionHelper implements Serializable {
         protocolCloseBean = new ProtocolGenericActionBean();
         protocolExpireBean = new ProtocolGenericActionBean();
         protocolTerminateBean = new ProtocolGenericActionBean();
+        protocolPermitDataAnalysisBean = new ProtocolGenericActionBean();
     }
     
     /**
@@ -260,6 +263,7 @@ public class ActionHelper implements Serializable {
         canClose = hasClosePermission();
         canExpire = hasExpirePermission();
         canTerminate = hasTerminatePermission();
+        canPermitDataAnalysis = hasPermitDataAnalysisPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -414,6 +418,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasPermitDataAnalysisPermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -529,6 +537,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolTerminateBean() {
         return protocolTerminateBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
+        return protocolPermitDataAnalysisBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -616,6 +628,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanTerminate() {
         return canTerminate;
+    }
+    
+    public boolean getCanPermitDataAnalysis() {
+        return canPermitDataAnalysis;
     }
     
     public void setPrintTag(String printTag) {

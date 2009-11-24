@@ -40,6 +40,7 @@
 		<kra-irb-action:deleteAction />
 		<kra-irb-action:closeEnrollmentAction />
 		<kra-irb-action:reopenAction />
+		<kra-irb-action:permitDataAnalysisAction />
 		<kra-irb-action:suspendAction />
 		<kra-irb-action:suspendByDmsbAction />
 		<kra-irb-action:closeAction />
