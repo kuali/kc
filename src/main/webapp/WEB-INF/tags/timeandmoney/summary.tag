@@ -204,7 +204,14 @@
         		</th>
         		<td>
        				<div align="left">
-       				TBD
+       				<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.awardTransferringSponsors)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
        				</div>
 	        	</td>
 	        <tr>	        	
