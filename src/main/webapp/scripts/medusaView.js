@@ -172,7 +172,7 @@
     // 2nd tr
     var trTag2 = $('<tr></tr>');    
     var tdTag2_1 = $('<td style="text-align:center;" colspan="4" ></td>');
-    var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
+    var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.docHandler.documentNumber3291").attr("name","methodToCall.docHandler.medusaBean.documentNumber3291");
     tdTag2_1.html(openAwardButton);
     var notesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
     notesButton.appendTo(tdTag2_1);
@@ -354,7 +354,7 @@
 	name = name.substring(name.indexOf(":")+1, name.length);
     var trTag17 = $('<tr></tr>');
     var thTag17_1 = $('<th style="border: 1px solid rgb(147, 147, 147); text-align:right; padding: 3px; border-collapse: collapse; vertical-align: top; background-color: rgb(230, 230, 230); background-image: none; width: 160px;"></th>').html("F&A?");
-    var tdTag17_2 = $('<td colspan="3" align="left" class="subelementheader"></td>').html(tdTag17_2Text);
+    var tdTag17_2 = $('<td colspan="3" align="left" ></td>').html(tdTag17_2Text);
     trTag17.html(thTag17_1);
     tdTag17_2.appendTo(trTag17);
     
