@@ -68,6 +68,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.suspend.ProtocolSuspendService;
+import org.kuali.kra.irb.actions.terminate.ProtocolTerminateService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
@@ -1453,5 +1454,59 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolExpireService getProtocolExpireService() {
         return KraServiceLocator.getService(ProtocolExpireService.class);
+    }
+    
+    public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        getProtocolTerminateService().terminate(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        actionBean.getReviewComments().addNewComment();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        actionBean.getReviewComments().deleteComment(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward moveUpTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        actionBean.getReviewComments().moveUp(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward moveDownTerminateReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        actionBean.getReviewComments().moveDown(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ProtocolTerminateService getProtocolTerminateService() {
+        return KraServiceLocator.getService(ProtocolTerminateService.class);
     }
 }
