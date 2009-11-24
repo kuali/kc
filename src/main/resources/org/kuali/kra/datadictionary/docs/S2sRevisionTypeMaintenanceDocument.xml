@@ -21,7 +21,7 @@
     
     
     <property name="documentTypeName" value="S2sRevisionTypeMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
   </bean>

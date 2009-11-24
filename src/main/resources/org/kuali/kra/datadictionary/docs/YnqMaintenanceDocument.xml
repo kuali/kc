@@ -23,7 +23,7 @@
     
     <property name="documentTypeName" value="YnqMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.YnqMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorization.GenericPermissableMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
   </bean>
