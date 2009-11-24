@@ -380,4 +380,8 @@
     <bean id="protocolTerminateService" class="org.kuali.kra.irb.actions.terminate.ProtocolTerminateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+    <bean id="protocolDataAnalysisService" class="org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 </beans>
