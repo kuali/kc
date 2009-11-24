@@ -46,6 +46,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KcGroupService;
@@ -704,9 +705,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             String proposalNumber = createInstitutionalProposal(
                     proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
-            //TODO: Figure out a way here.
-            //persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalNumber);
+            BusinessObjectService service = KraServiceLocator.getService(BusinessObjectService.class);
+            Collection<InstitutionalProposal> ips = service.findMatching(InstitutionalProposal.class, getFieldValues(proposalNumber, "proposalNumber"));
+            Long proposalId = ((InstitutionalProposal) ips.toArray()[0]).getProposalId();
             
+            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalId);
         }
     }
 
@@ -719,7 +722,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private Long findInstProposalNumber(String devProposalNumber) {
         Long instProposalId = null;
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues(devProposalNumber));
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues(devProposalNumber, null));
         
         for(Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();){
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
@@ -729,10 +732,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return instProposalId;
     }
 
-    private Map<String, String> getFieldValues(String devProposalNumber) {
+    private Map<String, String> getFieldValues(String value, String fieldName) {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("awardNumber", devProposalNumber);
-        return null;
+        map.put(fieldName, value);
+        return map;
     }
 
     /**
