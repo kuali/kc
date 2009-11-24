@@ -20,7 +20,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textSuspendComments" value="actionHelper.protocolSuspendByDmsbBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canClose}">
+<kra:permission value="${KualiForm.actionHelper.canSuspendByDmsb}">
 
 <kra:innerTab tabTitle="Suspend By DMSB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSuspendByDmsbBean*">
    

@@ -50,7 +50,7 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.close.ProtocolCloseService;
+import org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
@@ -1191,54 +1191,54 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-        getProtocolCloseService().closeEnrollment(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
+        getProtocolCloseEnrollmentService().closeEnrollment(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
         actionBean.getReviewComments().addNewComment();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward deleteCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
         actionBean.getReviewComments().deleteComment(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward moveUpCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveUpCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
         actionBean.getReviewComments().moveUp(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward moveDownCloseReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveDownCloseEnrollmentReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
         actionBean.getReviewComments().moveDown(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private ProtocolCloseService getProtocolCloseService() {
-        return KraServiceLocator.getService(ProtocolCloseService.class);
+    private ProtocolCloseEnrollmentService getProtocolCloseEnrollmentService() {
+        return KraServiceLocator.getService(ProtocolCloseEnrollmentService.class);
     }
     
     public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request,

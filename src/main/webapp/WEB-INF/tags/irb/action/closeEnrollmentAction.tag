@@ -18,11 +18,11 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textCloseComments" value="actionHelper.protocolCloseBean.comments" />
+<c:set var="textCloseComments" value="actionHelper.protocolCloseEnrollmentBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canClose}">
+<kra:permission value="${KualiForm.actionHelper.canCloseEnrollment}">
 
-<kra:innerTab tabTitle="Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseBean*">
+<kra:innerTab tabTitle="Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseEnrollmentBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -38,7 +38,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolCloseBean.comments" attributeEntry="${attributes.comments}" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentBean.comments" attributeEntry="${attributes.comments}" />
                             <kra:expandedTextArea textAreaFieldName="${textCloseComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
@@ -54,17 +54,17 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolCloseBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
                         </nobr>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseBean.reviewComments}"
-                                                       property="actionHelper.protocolCloseBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean.reviewComments}"
+                                                       property="actionHelper.protocolCloseEnrollmentBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Close" />
+                                                       actionName="CloseEnrollment" />
                    </td>
                 </tr>
                 
