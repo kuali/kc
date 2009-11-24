@@ -18,11 +18,11 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textExpireComments" value="actionHelper.protocolExpireBean.comments" />
+<c:set var="textComments" value="actionHelper.protocolTerminateBean.comments" />
 
-<kra:permission value="${KualiForm.actionHelper.canExpire}">
+<kra:permission value="${KualiForm.actionHelper.canTerminate}">
 
-<kra:innerTab tabTitle="Expire" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpireBean*">
+<kra:innerTab tabTitle="Terminate" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolTerminateBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -38,8 +38,8 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpireBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textExpireComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolTerminateBean.comments" attributeEntry="${attributes.comments}" />
+                            <kra:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -54,24 +54,24 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpireBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolTerminateBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
                         </nobr>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpireBean.reviewComments}"
-                                                       property="actionHelper.protocolExpireBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolTerminateBean.reviewComments}"
+                                                       property="actionHelper.protocolTerminateBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Expire" />
+                                                       actionName="Terminate" />
                    </td>
                 </tr>
                 
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.expire.anchor${tabKey}"
+                            <html:image property="methodToCall.terminate.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
