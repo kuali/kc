@@ -200,7 +200,7 @@ public class MedusaServiceImpl implements MedusaService {
         sb.append(awardAmountInfo.getCurrentFundEffectiveDate()).append(":").append(awardAmountInfo.getFinalExpirationDate()).append(":");
         sb.append(awardAmountInfo.getObligationExpirationDate()).append(":").append(awardAmountInfo.getAnticipatedTotalAmount()).append(":");
         sb.append(awardAmountInfo.getAmountObligatedToDate()).append(":").append(award.getAwardApprovedSubawards().size()==0?"N":"Y").append(":").append(award.getPaymentScheduleItems().size()==0?"N":"Y");
-        sb.append(":").append(award.getApprovedEquipmentItems().size()==0?"N":"Y").append(":").append("TBD").append(":").append(award.getApprovedForeignTravelTrips().size()==0?"N":"Y");
+        sb.append(":").append(award.getApprovedEquipmentItems().size()==0?"N":"Y").append(":").append(award.getAwardTransferringSponsors().size()==0?"N":"Y").append(":").append(award.getApprovedForeignTravelTrips().size()==0?"N":"Y");
         sb.append(":").append(award.getCostSharingIndicator()).append(":").append(award.getAwardFandaRate().size()==0?"N":"Y").append(":");
         
         StringBuilder units = new StringBuilder();
