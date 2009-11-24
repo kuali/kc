@@ -151,6 +151,112 @@
     		<span class="subhead-left">Award Details Recorded</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
         </h3>
+        <table cellpadding="0" cellspacing="0" summary="">
+	    	<tr>
+	        	<th>
+	            	<div align="right">Approved Subawrad?</div>
+	        	</th>
+	        	<td>
+	        		<div align="left">
+	        		<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.awardApprovedSubawards)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+	        		</div>
+	        	</td>
+	        	<th>
+					<div align="right">Payment Schedule?</div>
+        		</th>
+        		<td>
+        			<div align="left">
+        			<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.paymentScheduleItems)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+	        		</div>
+	        	</td>	        	       		
+	        </tr>	        	
+				<th>
+	            	<div align="right">Approved Equipment?</div>
+	        	</th>
+	        	<td>
+	        		<div align="left">
+					<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.approvedEquipmentItems)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+					</div>
+	        	</td>
+	        	<th>
+					<div align="right">Sponsor Funding Transferred?</div>
+        		</th>
+        		<td>
+       				<div align="left">
+       				TBD
+       				</div>
+	        	</td>
+	        <tr>	        	
+				<th>
+	            	<div align="right">Approved Foreign Travel?</div>
+	        	</th>
+	        	<td>
+	        		<div align="left">
+	        		<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.approvedForeignTravelTrips)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+	        		</div>
+	        	</td>
+	        	<th>
+					<div align="right">Cost Share?</div>
+        		</th>
+        		<td>
+        			<div align="left">
+        			<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.awardCostShares)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+	        		</div>
+	        	</td>	        	
+	        </tr>
+	        <tr>	        	
+	        	<th>
+	            	<div align="right">F&A?</div>
+	        	</th>
+	        	<td colspan="3">
+	        		<div align="left">
+	        		<c:choose>
+	        			<c:when test="${fn:length(KualiForm.document.award.awardFandaRate)==0}">
+	        				N
+	        			</c:when>
+	        			<c:otherwise>
+	        				Y
+	        			</c:otherwise>
+	        		</c:choose>
+	        		</div>
+	        	</td>
+	        </tr>
+        </table>
         
         <h3>
     		<span class="subhead-left">Investigators</span>
