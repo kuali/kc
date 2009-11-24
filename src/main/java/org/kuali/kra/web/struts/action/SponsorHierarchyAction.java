@@ -185,9 +185,9 @@ public class SponsorHierarchyAction extends KualiAction {
             String lookupResultsSequenceNumber = sponsorHierarchyForm.getLookupResultsSequenceNumber();
             Class<?> lookupResultsBOClass = Class.forName(sponsorHierarchyForm.getLookupResultsBOClassName());
             
-            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getPerson().getPrincipalName());
+            LookupResultsService lookupService = KraServiceLocator.getService(LookupResultsService.class);
+            String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();   // LookupService.retrieveSelectedResultBOs checks that this is the user that persisted the BO
+            Collection<PersistableBusinessObject> rawValues = lookupService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, principalId);
             int idx = 0;
             String idxString = StringUtils.substringBetween(sponsorHierarchyForm.getLookedUpCollectionName(),"[","]");
             if (StringUtils.isNotBlank(idxString)) {
