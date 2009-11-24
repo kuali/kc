@@ -31,5 +31,5 @@ public interface ProtocolCloseService {
      * @param actionBean
      * @throws Exception
      */
-    public void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 }

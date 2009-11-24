@@ -38,9 +38,10 @@
 		<kra-irb-action:reopenEnrollmentRequestAction />
 		<kra-irb-action:dataAnalysisRequestAction />
 		<kra-irb-action:deleteAction />
+		<kra-irb-action:closeEnrollmentAction />
 		<kra-irb-action:reopenAction />
 		<kra-irb-action:suspendAction />
 		<kra-irb-action:suspendByDmsbAction />
-		<kra-irb-action:closeEnrollmentAction />
+		<kra-irb-action:closeAction />
 	</div>
 </kul:tabTop>
