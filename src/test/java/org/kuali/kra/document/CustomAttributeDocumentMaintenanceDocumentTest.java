@@ -55,14 +55,14 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"customAttributeId","7");
         HtmlPage searchPage = clickOn(customAttributeDocuemntMaintenanceLookupPage, "search");
         
-        HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttributeDocument&documentTypeCode=PRDV&methodToCall=copy&customAttributeId=7");
+        HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?documentTypeName=PRDV&businessObjectClassName=org.kuali.kra.bo.CustomAttributeDocument&methodToCall=copy&customAttributeId=7");
         HtmlPage customAttributeDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
         setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Custom Attribute Document - copy test");
 
         setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.customAttributeId", "99");
-        setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.documentTypeCode", "STTC");
+        setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.documentTypeName", "STTC");
         setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.typeName", "test type name");
                 
         HtmlPage routedPage = clickOn(customAttributeDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: CustomAttributeDocument Maintenance Document");
@@ -86,7 +86,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"customAttributeId","7");
         HtmlPage searchPage = clickOn(customAttributeDocuemntMaintenanceLookupPage, "search");
         
-        HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttributeDocument&documentTypeCode=PRDV&methodToCall=edit&customAttributeId=7");
+        HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?documentTypeName=PRDV&businessObjectClassName=org.kuali.kra.bo.CustomAttributeDocument&methodToCall=edit&customAttributeId=7");
         HtmlPage customAttributeDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
@@ -117,7 +117,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         assertContains(customAttributeDocumentMaintenancePage,"Edit CustomAttributeDocument New * Custom Attribute ID: * Document Type Code: Required: unchecked Type Name:");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute Document - test");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.customAttributeId", "99");
-        setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.documentTypeCode", "STTC");
+        setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.documentTypeName", "STTC");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.typeName", "Test Type");
         HtmlPage routedCustomAttributeDocumentPage = clickOn(customAttributeDocumentMaintenancePage, "methodToCall.route", "Kuali :: CustomAttributeDocument Maintenance Document");
         

@@ -246,6 +246,8 @@
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
         </rule>
+        <!-- FIXME: This template IRBReviewComplete is not defined -->
+        <!--
         <rule>
             <name>IRBReviewCompleteRule</name>
             <documentType>ProtocolDocument</documentType>
@@ -267,6 +269,6 @@
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
-        </rule>
+        </rule>-->
     </rules>
 </data>

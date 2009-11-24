@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.ConfigurationException;
@@ -73,6 +75,9 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         
         List<String> parentKewFiles = new ArrayList<String>();
         parentKewFiles.add("DefaultKewTestData.xml");
+        parentKewFiles.add("KualiDocument.xml");
+        parentKewFiles.add("RiceDocument.xml");
+        parentKewFiles.add("KC.xml"); 
         parentKewFiles.add("KcMaintenanceDocument.xml");
         parentKewFiles.add("KcProposalsMaintenanceDocument.xml");
         parentKewFiles.add("KcAwardsMaintenanceDocument.xml");
@@ -103,15 +108,25 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         return resourceLoader.getResource(sourceName);
     }
+    
+    /**
+     * Gets the base file name from a given file path.  If the base name cannot be determined then "" is returned.
+     * @param filePath the path (ex: classpath:kew/xml/Foo.xml)
+     * @return a File name w/o extension (ex: Foo)
+     */
+    public static String getBaseXmlFileName(String filePath) {
+        final String[] tokens = filePath.replace(".xml", "").split("[\\\\/]");
+        return tokens.length > 0 ? tokens[tokens.length - 1] : "";
+    }
 
     protected void loadXmlFile(String fileName) throws Exception {
         Resource resource = new DefaultResourceLoader().getResource(fileName);
         InputStream xmlFile = resource.getInputStream();
         if (xmlFile == null) {
             throw new ConfigurationException("Didn't find file " + fileName);
-        }
+        }   
         List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();
-        XmlDocCollection docCollection = getFileXmlDocCollection(xmlFile, "UnitTestTemp");
+        XmlDocCollection docCollection = getFileXmlDocCollection(xmlFile, "UnitTestTemp." + getBaseXmlFileName(fileName) + ".");
         xmlFiles.add(docCollection);
         XmlIngesterService service = KEWServiceLocator.getXmlIngesterService();
         service.ingest(xmlFiles);
