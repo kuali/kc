@@ -41,6 +41,6 @@
 		<kra-irb-action:reopenAction />
 		<kra-irb-action:suspendAction />
 		<kra-irb-action:suspendByDmsbAction />
-		<kra-irb-action:closeAction />
+		<kra-irb-action:closeEnrollmentAction />
 	</div>
 </kul:tabTop>
