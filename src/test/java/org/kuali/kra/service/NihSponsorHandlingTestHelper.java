@@ -30,19 +30,16 @@ class NihSponsorHandlingTestHelper {
         init();
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {null, null, null, null, null, null, null, null, null, null});
         verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH});
         verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level1_NIH_AnyNode() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NIH, null, null, null, null, null, null, null, null, null});
         assignLevelValues(getSponsorHierarchyNodes().get(1),  new String[] {null, null, null, null, null, null, null, null, null, null});
@@ -55,61 +52,51 @@ class NihSponsorHandlingTestHelper {
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(1));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level2_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NIH, null, null, null, null, null, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level3_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NIH, null, null, null, null, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level4_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level5_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level6_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level7_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level8_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level9_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testIsSponsorNih_DevelopmentProposal_Level10_NIH() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
     }
 
-    @Test
     public void testNihDescriptionsAssigned() {
         assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH});
         verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));

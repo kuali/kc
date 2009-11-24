@@ -22,6 +22,8 @@ import java.util.GregorianCalendar;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -276,4 +278,7 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         assertEquals((expectedRowCount + 1), count);
     }
     
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
 }
