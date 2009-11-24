@@ -3,6 +3,16 @@
 
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
+			<name>CopyCustomActionListAttribute</name>
+			<className>
+				org.kuali.kra.workflow.CopyCustomActionListAttribute
+			</className>
+			<label>Copy Action List Attribute</label>
+			<description>Copy Action List Attribute</description>
+			<type>ActionListAttribute</type>
+		</ruleAttribute>
+
+		<ruleAttribute>
 			<name>AggregatorSearchAttribute</name>
 			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>AggregatorSearchAttribute</label>
@@ -14,11 +24,19 @@
 						<type>text</type>
 					</display>
 					<!-- This will probably use kimpersonservice ? -->
-<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
-					    <!-- not sure yet -->
-					    <!--  example //organization/organizationId -->
-						<xpathexpression>//universalUser/personUserIdentifier</xpathexpression>
+						<!-- not sure yet -->
+						<!--  example //organization/organizationId -->
+						<xpathexpression>
+							//aggregator/string
+						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -32,19 +50,29 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>BudgetCreatorSearchAttribute</name>
-			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>
+				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
+			</className>
 			<label>BudgetCreatorSearchAttribute</label>
 			<description>BudgetCreatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<searchingConfig>		
-			 <fieldDef name="budgetCreator" title="Budget Creator">
+			<searchingConfig>
+				<fieldDef name="budgetCreator" title="Budget Creator">
 					<display>
 						<type>text</type>
 					</display>
-<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+				    <!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
-						<xpathexpression>//users/budgetCreator/value</xpathexpression>
-					</fieldEvaluation> 
+						<xpathexpression>
+							//budgetcreator/string
+						</xpathexpression>
+					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
 					<users>
@@ -61,14 +89,23 @@
 			<label>NarrativeWriterSearchAttribute</label>
 			<description>NarrativeWriterSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<searchingConfig>		
-				<fieldDef name="narrativeWriter" title="Narrative Writer">
+			<searchingConfig>
+				<fieldDef name="narrativeWriter"
+					title="Narrative Writer">
 					<display>
 						<type>text</type>
 					</display>
-<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
-						<xpathexpression>//narrativeWriter/value</xpathexpression>
+						<xpathexpression>
+							//narrativewriter/string
+						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -86,14 +123,22 @@
 			<label>ViewerSearchAttribute</label>
 			<description>ViewerSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<searchingConfig>		
+			<searchingConfig>
 				<fieldDef name="viewer" title="Viewer">
 					<display>
 						<type>text</type>
 					</display>
-<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
+					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				      </fieldConversions>
+				    </lookup>
+					
 					<fieldEvaluation>
-						<xpathexpression>//viewer/value</xpathexpression>
+						<xpathexpression>
+							//viewer/string
+						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -105,32 +150,85 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
-		<ruleAttribute>		
-			<name>ApproverSearchAttribute</name>
+		
+		<ruleAttribute>
+			<name>ProposalNumberAttribute</name>
 			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-			<label>ApproverSearchAttribute</label>
-			<description>ApproverSearchAttribute</description>
+			<label>ProposalNumberSearchAttribute</label>
+			<description>ProposalNumberSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<searchingConfig>		
-				<fieldDef name="approver" title="Approver">
+			<searchingConfig>
+				<fieldDef name="proposalNumber" title="Proposal ID">
 					<display>
 						<type>text</type>
 					</display>
-<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
 					<fieldEvaluation>
-						<xpathexpression>//approver/value</xpathexpression>
+						<xpathexpression>
+							//document/developmentProposalList[1]/proposalNumber
+						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
 					<users>
-						<approver>
-							<value>%approver%</value>
-						</approver>
+						<viewer>
+							<value>%proposalNumber%</value>
+						</viewer>
 					</users>
 				</xmlSearchContent>
 			</searchingConfig>
-		</ruleAttribute>	
+		</ruleAttribute>
 		
+		
+		<ruleAttribute>
+			<name>DepartmentalApprovalAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>DepartmentalApprovalAttribute</label>
+			<description>DepartmentalApprovalAttribute</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="ownedByUnitNumber" title="Lead Unit"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+						  	wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+		
+		<ruleAttribute>
+			<name>DepartmentalBudgetApprovalAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>DepartmentalBudgetApprovalAttribute</label>
+			<description>
+				DepartmentalBudgetApprovalAttribute
+			</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="totalCost" title="Total"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+							wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetDocumentVersions/budgetVersionOverview/org.kuali.kra.budget.versions.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+
 		<!-- custom attribute -->
 		<ruleAttribute>
             <name>CustomDataAttribute</name>
@@ -222,21 +320,64 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
-			
+		
+		<ruleAttribute>
+			<name>ProposalPersons-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>ProposalPersons-XPathQualifierResolver</label>
+			<description>ProposalPersons-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<qualifier name="proposal">
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute>
+
+		<!-- 
+		<ruleAttribute>
+			<name>DepartmentRouting-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>DepartmentRouting-XPathQualifierResolver</label>
+			<description>DepartmentRouting-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<qualifier name="unitNumber">
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute> -->
+
 	</ruleAttributes>
 
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>ProposalDevelopmentDocument</name>
-			<description>Create an Awesome Development Proposal</description>
+			<description>
+				Create an Awesome Development Proposal
+			</description>
 			<label>Proposal Development Document</label>
+			<parent>KC</parent>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
+			<policies>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+				<policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+			</policies>
 			<attributes>
+				<attribute>
+					<name>CopyCustomActionListAttribute</name>
+				</attribute>
 				<attribute>
 					<name>AggregatorSearchAttribute</name>
 				</attribute>
@@ -249,42 +390,177 @@
 				<attribute>
 					<name>ViewerSearchAttribute</name>
 				</attribute>
-				<attribute>
-					<name>ApproverSearchAttribute</name>
-				</attribute>
 			</attributes>
-			<routePaths> 
-                <routePath>
-                    <start name="Initiated" nextNode="FirstApproval" />
-                    <requests name="FirstApproval" nextNode="SecondApproval" />
-                    <requests name="SecondApproval" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="Initiated">
-                    <activationType>P</activationType>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="isHierarchyChild"/>
+						<split name = "isHierarchyChild">
+							<branch name = "False">
+								<!-- The document is a hierarchy parent, or a document that is not part of a hierarchy so it is routed normally. -->
+								<requests name="OSPInitial" nextNode="ProposalPersons" />
+								<requests name="ProposalPersons" nextNode="UnitRouting" />
+								<requests name="UnitRouting" nextNode="DepartmentalRouting" />
+								<requests name="DepartmentalRouting" nextNode="OSPOfficeRouting" />
+								<requests name="OSPOfficeRouting" nextNode = "Join" />
+							</branch>
+							<branch name = "True">
+								<!-- The document is a child in a hierarchy. This node will have the system user as an approver.  If the parent moves to final approval, is rejected, or cancelled
+								     the system user will take the same action on the children.  -->
+								<requests name = "WaitForHierarchyDisposition" nextNode="Join"/>				
+							</branch>
+						</split>
+					<join name="Join"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
-                </start>
-                <requests name="FirstApproval">
+				</start>
+				<split name="isHierarchyChild">
+       			   <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+        		</split>
+				<role name="OSPInitial">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
-                    <ruleTemplate>FirstApprovalRouting</ruleTemplate>
-                </requests>
-                <requests name="SecondApproval">
+					<finalApproval>false</finalApproval>
+	            </role>
+				<role name="ProposalPersons">
+					<qualifierResolver>ProposalPersons-XPathQualifierResolver</qualifierResolver>
+                    <activationType>P</activationType>
+					<finalApproval>false</finalApproval>
+	            </role>
+				<role name="UnitRouting">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<ruleTemplate>CustomApproval</ruleTemplate>
+                    <activationType>P</activationType>
+					<finalApproval>false</finalApproval>
+	            </role>
+				<role name="DepartmentalRouting">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<ruleTemplate>DepartmentalApproval</ruleTemplate>
+                    <activationType>P</activationType>
+					<finalApproval>false</finalApproval>
+	            </role>
+				<role name="OSPOfficeRouting">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
-                    <ruleTemplate>SecondApprovalRouting</ruleTemplate>
-                </requests>
-            </routeNodes>
+					<finalApproval>false</finalApproval>
+	            </role>
+	            <requests name="WaitForHierarchyDisposition">
+					<activationType>S</activationType>
+					<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					  <ignorePrevious>true</ignorePrevious>
+					<finalApproval>false</finalApproval>
+				</requests>
+				<join name="Join"/>	            
+			</routeNodes>
 		</documentType>
 	</documentTypes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-        <ruleTemplate allowOverwrite="true">
-            <name>FirstApprovalRouting</name>
-            <description>First Approval Routing Rule Template</description>
-        </ruleTemplate>
-        <ruleTemplate allowOverwrite="true">
-            <name>SecondApprovalRouting</name>
-            <description>Second Approval Routing Rule Template</description>
-        </ruleTemplate>
-    </ruleTemplates>
+		
+		<ruleTemplate allowOverwrite="true">
+			<name>CustomApproval</name>
+			<description>Custom Approval Routing Rule</description>
+			<attributes>
+				<attribute>
+					<name>CustomDataAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>DepartmentalApproval</name>
+			<description>Department Approval Routing Rule</description>
+			<!--FIXME: this definition is missing -->
+			<!-- <delegationTemplate>DepartmentalDelegationTemplate</delegationTemplate>-->
+			<attributes>
+				<attribute>
+					<name>DepartmentalApprovalAttribute</name>
+					<required>false</required>
+				</attribute>
+				<attribute>
+					<name>DepartmentalBudgetApprovalAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>HierarchyParentDispositionApproval</name>
+			<description>Approval rule from the hierarchy parent to hierarchy children.</description>
+		</ruleTemplate>
+	</ruleTemplates>
+
+
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    
+		<rule>
+      		<documentType>ProposalDevelopmentDocument</documentType>
+      		<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
+      		<description>Approval Routing for System User Approval.  Used for routing of hierarchy child documents.</description>
+      		
+      		<responsibilities>
+        		<responsibility>
+          			<principalName>kr</principalName>
+          			<actionRequested>A</actionRequested>
+          			<priority>1</priority>
+        		</responsibility>
+      		</responsibilities>
+    	</rule>
+
+		<rule>
+			<documentType>ProposalDevelopmentDocument</documentType>
+			<ruleTemplate>CustomApproval</ruleTemplate>
+			<description>Custom approval routing</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>CustomDataAttribute</attribute>
+					<ruleTemplate>CustomApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>numberOfTrainees</key>
+							<value>10</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+		</rule>
+		
+		<rule>
+			<documentType>ProposalDevelopmentDocument</documentType>
+			<ruleTemplate>DepartmentalApproval</ruleTemplate>
+			<description>Departmental Approval Routing Rule for BL-IIDC</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>DepartmentalApprovalAttribute</attribute>
+					<ruleTemplate>DepartmentalApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>ownedByUnitNumber</key>
+							<value>BL-IIDC</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+
+				<!--
+				<ruleExtension>
+					<attribute>DepartmentalBudgetApprovalAttribute</attribute>
+					<ruleTemplate>DepartmentalApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>totalCost</key>
+							<value>100000</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+				-->
+			</ruleExtensions>
+		</rule>
+
+	</rules>
+
 </data>
