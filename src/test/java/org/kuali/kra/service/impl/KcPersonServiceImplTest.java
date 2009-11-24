@@ -93,9 +93,9 @@ public class KcPersonServiceImplTest extends KcraNoDataTestBase {
 
     @Test
     public void testGetKcPersonByPersonId() {
-        String entityID = "superuser";
+        String personID = "10000000061";
         String expectedUserName = "superuser";
-        KcPerson person = service.getKcPersonByPersonId(entityID);
+        KcPerson person = service.getKcPersonByPersonId(personID);
         assertTrue("Should have found:" + expectedUserName  + ", but found:" + person.getUserName(), expectedUserName.equals(person.getUserName()));
     }
 }

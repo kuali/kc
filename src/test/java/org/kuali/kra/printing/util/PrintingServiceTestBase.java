@@ -17,6 +17,8 @@ package org.kuali.kra.printing.util;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -34,4 +36,8 @@ public class PrintingServiceTestBase extends KraTestBase {
 		GlobalVariables.setUserSession(null);
 		super.tearDown();
 	}
+	
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
 }
