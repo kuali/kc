@@ -33,6 +33,8 @@ import org.kuali.rice.kim.bo.entity.KimEntityExternalIdentifier;
 import org.kuali.rice.kim.bo.entity.KimEntityName;
 import org.kuali.rice.kim.bo.entity.KimEntityPhone;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -59,6 +61,9 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     public KcPerson() {
         //no-arg ctor so that this BO can be used in rice...
+        //initializing to empty objects to help with unit testing
+        this.entity = new KimEntityInfo();
+        this.extendedAttributes = new KcPersonExtendedAttributes();
     }
     
     /**
@@ -191,6 +196,11 @@ public class KcPerson implements Contactable, BusinessObject {
     /** refreshes just the entity object. */
     private void refreshEntity() {
         this.entity = this.getIdentityService().getEntityInfoByPrincipalId(this.personId);
+        
+        if (this.entity == null) {
+            //TODO: implement a better strategy for avoiding null pointer
+            this.entity = new KimEntityInfo();
+        }
     }
     
     /** refreshes just the extended attributes object. */
@@ -963,8 +973,9 @@ public class KcPerson implements Contactable, BusinessObject {
     }
     
     /**
-     * Gets the principal which matches the passed in principal id.
-     * @return the Kim Principal
+     * Gets the principal which matches the passed in principal id.  This method will never return null.
+     * an empty Principal object will be returned in the case where a principal cannot be found.
+     * @return the Kim Principal.
      */
     private KimPrincipal getPrincipal() {
         for (KimPrincipal p : this.entity.getPrincipals()) {
@@ -973,7 +984,7 @@ public class KcPerson implements Contactable, BusinessObject {
             }
         }
         
-        return null;
+        return new KimPrincipalInfo();
     }
     
     /** {@inheritDoc} */       

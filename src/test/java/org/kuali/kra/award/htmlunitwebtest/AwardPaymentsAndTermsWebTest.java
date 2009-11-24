@@ -20,6 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -57,4 +59,8 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
             System.err.println(paymentReportsAndTermsPage);
         }
     }
+    
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
 }

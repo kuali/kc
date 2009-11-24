@@ -17,6 +17,8 @@ package org.kuali.kra.award.htmlunitwebtest;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -47,4 +49,8 @@ protected static final String ACTIONS_LINK_NAME = "awardActions.x";
     protected HtmlPage getAwardPaymentReportsAndTermsPage() {
         return awardActionsPage;
     }
+    
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
 }
