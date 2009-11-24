@@ -37,7 +37,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAdditionalFieldsWebTest.class);
     
-    protected static final String PROTOCOL_DOCUMENT_NAME = "Kuali :: Protocol Document";
+    
     protected static final String NEW_PROTOCOL = "Create Protocol";
     protected static final String KUALI_PORTAL_INDEX = "Kuali Portal Index";
     
@@ -278,7 +278,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlPage resultPage = super.saveDoc(page);
         
         assertNotNull(resultPage);
-        assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
+        assertEquals("Kuali :: KC Protocol", resultPage.getTitleText());
         
         setProtocolDocument(null, resultPage); //Can also be set by child if required
         

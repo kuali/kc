@@ -41,7 +41,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         validateSavedPage(resultPage); 
         
         assertNotNull(resultPage);
-        assertEquals("Kuali :: Protocol Document", resultPage.getTitleText()); 
+        assertEquals("Kuali :: KC Protocol", resultPage.getTitleText()); 
         setProtocolDocument(null,resultPage);    
         
         //Assert Required Fields
