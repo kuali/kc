@@ -88,6 +88,7 @@ public class ActionHelper implements Serializable {
     private boolean canSuspendByDmsb = false;
     private boolean canClose = false;
     private boolean canExpire = false;
+    private boolean canTerminate = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -111,6 +112,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolSuspendByDmsbBean;
     private ProtocolGenericActionBean protocolCloseBean;
     private ProtocolGenericActionBean protocolExpireBean;
+    private ProtocolGenericActionBean protocolTerminateBean;
     private transient ParameterService parameterService;
     
     /*
@@ -161,6 +163,7 @@ public class ActionHelper implements Serializable {
         protocolSuspendByDmsbBean = new ProtocolGenericActionBean();
         protocolCloseBean = new ProtocolGenericActionBean();
         protocolExpireBean = new ProtocolGenericActionBean();
+        protocolTerminateBean = new ProtocolGenericActionBean();
     }
     
     /**
@@ -256,6 +259,7 @@ public class ActionHelper implements Serializable {
         canSuspendByDmsb = hasSuspendByDmsbPermission();
         canClose = hasClosePermission();
         canExpire = hasExpirePermission();
+        canTerminate = hasTerminatePermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -406,6 +410,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasTerminatePermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -517,6 +525,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolExpireBean() {
         return protocolExpireBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolTerminateBean() {
+        return protocolTerminateBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -600,6 +612,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanExpire() {
         return canExpire;
+    }
+    
+    public boolean getCanTerminate() {
+        return canTerminate;
     }
     
     public void setPrintTag(String printTag) {
