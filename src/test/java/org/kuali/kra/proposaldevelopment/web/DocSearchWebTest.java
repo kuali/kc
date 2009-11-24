@@ -40,11 +40,11 @@ public class DocSearchWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
 
         //3. Fill in docNbr and click search.
-        setFieldValue(docSearchPage, "criteria.routeHeaderId", documentNumber);
-        final HtmlPage docSearchResultsPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
+        setFieldValue(docSearchPage, "routeHeaderId", documentNumber);
+        final HtmlPage docSearchResultsPage = clickOn(docSearchPage, "methodToCall.search");
 
         //4. Click on docNbr hyperlink to get the document page.
-        final HtmlAnchor docNumberHyperlink = docSearchResultsPage.getAnchorByHref("DocHandler.do?command=displayDocSearchView&docId=" + documentNumber);
+        final HtmlAnchor docNumberHyperlink = docSearchResultsPage.getAnchorByHref("../kew/DocHandler.do?command=displayDocSearchView&docId=" + documentNumber);
         final HtmlPage proposalPage = clickOn(docNumberHyperlink, "Kuali :: Proposal Development Document");
         assertEquals(documentNumber, getFieldValue(proposalPage, "document.documentHeader.documentNumber"));
     }
