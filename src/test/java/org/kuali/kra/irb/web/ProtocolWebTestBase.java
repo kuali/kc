@@ -64,6 +64,7 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+    protected static final String PROTOCOL_DOCUMENT_NAME = "Kuali :: KC Protocol";
     
     // KEW Struts Constants
     protected static final String KUALI_FORM_NAME = "KualiForm";
@@ -187,7 +188,7 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
         HtmlPage retval = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
         System.out.println(retval.getTitleText());
-        assertTrue("Kuali :: Protocol Document".equals(retval.getTitleText()));
+        assertTrue(PROTOCOL_DOCUMENT_NAME.equals(retval.getTitleText()));
         return retval;
     }
     
