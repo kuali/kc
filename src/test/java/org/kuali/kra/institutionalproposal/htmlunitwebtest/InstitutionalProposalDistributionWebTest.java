@@ -19,6 +19,8 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -58,4 +60,8 @@ public class InstitutionalProposalDistributionWebTest extends InstitutionalPropo
         proposalDistributionPage = clickOn(proposalDistributionPage, SAVE_METHOD);
         assertContains(proposalDistributionPage, SAVE_SUCCESS_MESSAGE);
     }
+    
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
 }

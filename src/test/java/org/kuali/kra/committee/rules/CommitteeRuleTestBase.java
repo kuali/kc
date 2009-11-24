@@ -19,6 +19,8 @@ import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -111,4 +113,9 @@ public class CommitteeRuleTestBase extends KraTestBase {
         assertNotNull(message);
         assertEquals(message.getErrorKey(), errorKey);
     }
+    
+    /** prevents init errors from not having a test method. */
+    @Test @Ignore
+    public void foo() {}
+    
 }
