@@ -32,7 +32,6 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -116,7 +115,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
 
                 Class lookupResultsBOClass = Class.forName(committeeForm.getLookupResultsBOClassName());
-                String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPrincipalId();
+                String userName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
 

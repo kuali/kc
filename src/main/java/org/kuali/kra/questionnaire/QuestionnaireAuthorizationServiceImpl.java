@@ -16,7 +16,6 @@
 package org.kuali.kra.questionnaire;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -40,8 +39,7 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
 
     }
     private String getUserName() {
-        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        return user.getPersonUserIdentifier();
+        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
     
     /**

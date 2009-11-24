@@ -18,8 +18,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +34,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -99,7 +96,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
             KualiWorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
-            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), new UniversalUser(GlobalVariables.getUserSession().getPerson()));
+            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
             DocumentService docService = KNSServiceLocator.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
