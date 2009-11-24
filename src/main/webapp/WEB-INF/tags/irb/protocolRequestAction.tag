@@ -43,5 +43,6 @@
 		<kra-irb-action:suspendAction />
 		<kra-irb-action:suspendByDmsbAction />
 		<kra-irb-action:closeAction />
+		<kra-irb-action:expireAction />
 	</div>
 </kul:tabTop>
