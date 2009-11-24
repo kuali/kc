@@ -23,8 +23,8 @@ import javax.servlet.http.HttpSessionEvent;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
@@ -66,7 +66,7 @@ public class KraHttpSessionListener extends KualiHttpSessionListener {
                 GlobalVariables.setUserSession((UserSession)se.getSession().getAttribute(KNSConstants.USER_SESSION_KEY));
                 Document document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
                 
-                UniversalUser loggedInUser = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+                Person loggedInUser = GlobalVariables.getUserSession().getPerson();
                 PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
                 
                 if (ObjectUtils.isNotNull(document)) {
@@ -82,7 +82,7 @@ public class KraHttpSessionListener extends KualiHttpSessionListener {
         }
     }
     
-    private void releaseCustomBudgetLocks(Document document, PessimisticLockService lockService, UniversalUser loggedInUser) {
+    private void releaseCustomBudgetLocks(Document document, PessimisticLockService lockService, Person loggedInUser) {
         String budgetLockDescriptor = null;
         for(PessimisticLock lock: document.getPessimisticLocks()) {
             if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {

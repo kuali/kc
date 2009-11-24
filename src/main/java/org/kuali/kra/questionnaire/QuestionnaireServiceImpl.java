@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -124,7 +121,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
                 Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME)) {
             // "Permission:NamespaceCd" format
             String[] params = permission.split(":");
-            if (unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+            if (unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
                     .getPrincipalId(), params[1], params[0])) {
                 modules.add(permissionModuleMap.get(params[0]));
             }

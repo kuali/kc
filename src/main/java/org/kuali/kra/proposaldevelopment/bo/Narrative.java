@@ -32,8 +32,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -64,7 +62,6 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     private String institutionalAttachmentTypeCode;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
-    private transient KcPersonService kcPersonService;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -76,20 +73,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
     
     protected String findLoggedInUserPersonId() {
-        String loggedInUser = ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier();
-        return getKcPersonService().getKcPersonByUserName(loggedInUser).getPersonId();//get person id for looged in user
-    }
-    
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
-    protected KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        
-        return this.kcPersonService;
+        return GlobalVariables.getUserSession().getPerson().getPrincipalId();
     }
 
     public Integer getModuleNumber() {
