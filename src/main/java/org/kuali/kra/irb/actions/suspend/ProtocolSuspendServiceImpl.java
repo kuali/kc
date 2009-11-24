@@ -64,10 +64,13 @@ public class ProtocolSuspendServiceImpl implements ProtocolSuspendService {
         this.protocolVersionService = protocolVersionService;
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#approve(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
-     */
+    
     public void suspend(Protocol protocol, ProtocolGenericActionBean approveBean) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void suspendByDmsb(Protocol protocol, ProtocolGenericActionBean approveBean) throws Exception {
         // TODO Auto-generated method stub
         
     }

@@ -85,6 +85,7 @@ public class ActionHelper implements Serializable {
     private boolean canReopen = false;
     private boolean canClose = false;
     private boolean canSuspend = false;
+    private boolean canSuspendByDmsb = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -105,6 +106,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseBean;
     private ProtocolGenericActionBean protocolSuspendBean;
+    private ProtocolGenericActionBean protocolSuspendByDmsbBean;
     private transient ParameterService parameterService;
     
     /*
@@ -152,6 +154,7 @@ public class ActionHelper implements Serializable {
         protocolReopenBean = new ProtocolGenericActionBean();
         protocolCloseBean = new ProtocolGenericActionBean();
         protocolSuspendBean = new ProtocolGenericActionBean();
+        protocolSuspendByDmsbBean = new ProtocolGenericActionBean();
     }
     
     /**
@@ -244,6 +247,7 @@ public class ActionHelper implements Serializable {
         canReopen = hasReopenPermission();
         canClose = hasClosePermission();
         canSuspend = hasSuspendPermission();
+        canSuspendByDmsb = hasSuspendByDmsbPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -382,6 +386,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasSuspendByDmsbPermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -481,6 +489,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolSuspendBean() {
         return protocolSuspendBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolSuspendByDmsbBean() {
+        return protocolSuspendByDmsbBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -552,6 +564,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanSuspend() {
         return canSuspend;
+    }
+    
+    public boolean getCanSuspendByDmsb() {
+        return canSuspendByDmsb;
     }
     
     public void setPrintTag(String printTag) {
