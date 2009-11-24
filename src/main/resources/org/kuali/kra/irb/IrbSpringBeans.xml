@@ -372,4 +372,8 @@
     <bean id="protocolCloseService" class="org.kuali.kra.irb.actions.close.ProtocolCloseServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+    <bean id="protocolExpireService" class="org.kuali.kra.irb.actions.expire.ProtocolExpireServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 </beans>
