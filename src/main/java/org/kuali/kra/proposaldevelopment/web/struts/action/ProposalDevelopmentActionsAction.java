@@ -62,7 +62,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
@@ -190,7 +189,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }   
 
     private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
-        String loggedInUserID = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPersonUniversalIdentifier();
+        String loggedInUserID = GlobalVariables.getUserSession().getPerson().getPrincipalName();
         String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         NetworkIdDTO networkId = new NetworkIdDTO(loggedInUserID);
         ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
@@ -382,7 +381,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             else {
                 String newDocId = proposalCopyService.copyProposal(doc, criteria);
-                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), new UniversalUser (GlobalVariables.getUserSession().getPerson()));
+                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
                 
                 // Switch over to the new proposal development document and
                 // go to the Proposal web page.
@@ -814,7 +813,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode());
             s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode());
         }            
-        s2sSubmissionHistory.setSubmittedBy(new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+        s2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getPerson().getPrincipalName());
         s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
         return s2sSubmissionHistory;
     }

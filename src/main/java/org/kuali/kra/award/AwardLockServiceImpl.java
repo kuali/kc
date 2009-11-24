@@ -23,14 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.exception.PessimisticLockingException;
 import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -70,7 +67,7 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
      * 
      * @param entry -
      *            the {@link Map.Entry} object that contains an edit mode such as the ones returned but
-     *            {@link #getEditMode(Document, UniversalUser)}
+     *            
      * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
      *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
      */

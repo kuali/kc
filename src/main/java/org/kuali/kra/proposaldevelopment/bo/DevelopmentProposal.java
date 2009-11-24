@@ -43,13 +43,13 @@ import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -972,7 +972,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        UniversalUser currentUser = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         for (PessimisticLock lock : getProposalDocument().getPessimisticLocks()) {
             if (lock.isOwnedByUser(currentUser)

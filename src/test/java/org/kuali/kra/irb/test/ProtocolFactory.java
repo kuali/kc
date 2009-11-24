@@ -24,7 +24,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -80,8 +79,7 @@ public class ProtocolFactory {
         setProtocolRequiredFields(protocolDocument, protocolNumber);
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
         
-        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
-        String userName = user.getPersonUserIdentifier();
+        String userName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         

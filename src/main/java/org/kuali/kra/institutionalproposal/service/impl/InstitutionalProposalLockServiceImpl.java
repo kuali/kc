@@ -21,7 +21,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -64,7 +63,7 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
      * 
      * @param entry -
      *            the {@link Map.Entry} object that contains an edit mode such as the ones returned but
-     *            {@link #getEditMode(Document, UniversalUser)}
+     *           
      * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
      *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
      */

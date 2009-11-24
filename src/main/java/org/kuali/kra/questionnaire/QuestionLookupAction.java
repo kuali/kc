@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -55,7 +54,7 @@ public class QuestionLookupAction extends KualiAction {
 
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                     .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                            new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPrincipalId());
+                            GlobalVariables.getUserSession().getPerson().getPrincipalId());
             int idx = 0;
             String idxString = StringUtils.substringBetween(questionLookupForm.getLookedUpCollectionName(), "[", "]");
             if (StringUtils.isNotBlank(idxString)) {

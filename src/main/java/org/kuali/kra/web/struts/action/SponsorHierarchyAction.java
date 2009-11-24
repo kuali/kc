@@ -31,7 +31,6 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rules.SponsorHierarchyRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
@@ -188,7 +187,7 @@ public class SponsorHierarchyAction extends KualiAction {
             
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+                        GlobalVariables.getUserSession().getPerson().getPrincipalName());
             int idx = 0;
             String idxString = StringUtils.substringBetween(sponsorHierarchyForm.getLookedUpCollectionName(),"[","]");
             if (StringUtils.isNotBlank(idxString)) {
