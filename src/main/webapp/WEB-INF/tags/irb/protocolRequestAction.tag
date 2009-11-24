@@ -40,6 +40,7 @@
 		<kra-irb-action:deleteAction />
 		<kra-irb-action:reopenAction />
 		<kra-irb-action:suspendAction />
+		<kra-irb-action:suspendByDmsbAction />
 		<kra-irb-action:closeAction />
 	</div>
 </kul:tabTop>

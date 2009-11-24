@@ -32,4 +32,6 @@ public interface ProtocolSuspendService {
      * @throws Exception
      */
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+    public void suspendByDmsb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 }
