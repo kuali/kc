@@ -39,7 +39,7 @@
 		</c:if>
 	</c:if>
 	
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true"
 		extraButtonSource="${saveViewersSrc}" extraButtonProperty="${saveViewersProperty}" extraButtonAlt="${saveViewersAlt}" />
 	<script language="javascript" src="scripts/kuali_application.js"></script>
 	<script language="javascript" src="dwr/interface/PersonService.js"></script>
