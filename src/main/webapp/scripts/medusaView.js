@@ -168,11 +168,14 @@
     var trTag1 = $('<tr></tr>');
     var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html(thTag1Text);
     trTag1.html(thTag1);
-    
+
+    var awardNumber = name.substring(0, name.indexOf(":"));
+	name = name.substring(name.indexOf(":")+1, name.length);
+	
     // 2nd tr
     var trTag2 = $('<tr></tr>');    
     var tdTag2_1 = $('<td style="text-align:center;" colspan="4" ></td>');
-    var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.docHandler.documentNumber3291").attr("name","methodToCall.docHandler.medusaBean.documentNumber3291");
+    var openAwardButton = $('<input type="image" title="Open Award" alt="Open Award" style="border: medium none ;" src="static/images/tinybutton-openaward.gif"/>').attr("property","methodToCall.docHandler.moduleIdentifier"+awardNumber+".documentTypeA").attr("name","methodToCall.docHandler.medusaBean.moduleIdentifier"+awardNumber+".documentTypeA");
     tdTag2_1.html(openAwardButton);
     var notesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
     notesButton.appendTo(tdTag2_1);
@@ -435,8 +438,11 @@
 	  var thTag1_Text = name.substring(0,name.indexOf(":"));
 	  name = name.substring(name.indexOf(":")+1,name.length);
 	  
+	  var proposalId = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  
 	  var trTag1 = $('<tr></tr>');
-	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Institutional Proposal");
+	  var thTag1=$('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html(thTag1_Text);
 	  trTag1.html(thTag1);
 	  
 	  var trTag2 = $('<tr></tr>');
@@ -447,9 +453,9 @@
 	  var trTag2_1 = $('<tr></tr>');
 	  var tdTag2_1 = $('<td colspan="4" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td');
 	  
-	  var openProposalButton = $('<input type="image" title="Open Proposal" alt="Open Proposal" style="border: medium none ;" src="static/images/tinybutton-openproposal.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
-	  var openNotesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
-	  var openNegotiationButton = $('<input type="image" title="Negotiation" alt="Negotiation" style="border: medium none ;" src="static/images/tinybutton-negotiation.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
+	  var openProposalButton = $('<input type="image" title="Open Proposal" alt="Open Proposal" style="border: medium none ;" src="static/images/tinybutton-openproposal.gif"/>').attr("property","methodToCall.docHandler.medusaBean.moduleIdentifier"+proposalId+".documentTypeIP").attr("name","methodToCall.docHandler.medusaBean.moduleIdentifier"+proposalId+".documentTypeIP");
+	  var openNotesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif" onclick="javascript: alert(\'Notes Functionality is not read yet.\'); return false;" />');
+	  var openNegotiationButton = $('<input type="image" title="Negotiation" alt="Negotiation" style="border: medium none ;" src="static/images/tinybutton-negotiation.gif" onclick="javascript: alert(\'Negotiations Functionality is not read yet.\'); return false;" />');
 	  openProposalButton.appendTo(tdTag2_1);
 	  openNotesButton.appendTo(tdTag2_1);
 	  openNegotiationButton.appendTo(tdTag2_1);	  
@@ -665,14 +671,16 @@
 	  var trTag2_1 = $('<tr></tr>');
 	  var tdTag2_1 = $('<td colspan="4" style="border:1px solid rgb(147, 147, 147); text-align:center;"></td');
 	  
-	  var openProposalButton = $('<input type="image" title="Open Proposal" alt="Open Proposal" style="border: medium none ;" src="static/images/tinybutton-openproposal.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
-	  var openNotesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif"/>').attr("property","methodToCall.copyAward.awardNumber").attr("name","methodToCall.copyAward.awardNumber");
+	  var proposalNumber = name.substring(0,name.indexOf(":"));
+	  name = name.substring(name.indexOf(":")+1,name.length);
+	  
+	  var openProposalButton = $('<input type="image" title="Open Proposal" alt="Open Proposal" style="border: medium none ;" src="static/images/tinybutton-openproposal.gif"/>').attr("property","methodToCall.docHandler.medusaBean.moduleIdentifier"+proposalNumber+".documentTypeDP").attr("name","methodToCall.docHandler.medusaBean.moduleIdentifier"+proposalNumber+".documentTypeDP");
+	  var openNotesButton = $('<input type="image" title="Notes" alt="Notes" style="border: medium none ;" src="static/images/tinybutton-notes.gif" onclick="javascript: alert(\'Notes Functionality is not read yet.\'); return false;" />');
 	  openProposalButton.appendTo(tdTag2_1);
 	  openNotesButton.appendTo(tdTag2_1);
 	  trTag2_1.html(tdTag2_1);
 	
-	  var tdTag2_2_2_Text = name.substring(0,name.indexOf(":"));
-	  name = name.substring(name.indexOf(":")+1,name.length);
+	  var tdTag2_2_2_Text = proposalNumber;
 	  var tdTag2_2_4_Text = name.substring(0,name.indexOf(":"));
 	  name = name.substring(name.indexOf(":")+1,name.length);
 	  var trTag2_2 = $('<tr></tr>');

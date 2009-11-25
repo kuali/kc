@@ -48,6 +48,10 @@ import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -58,6 +62,7 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -87,16 +92,60 @@ public class AwardAction extends BudgetParentActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;        
-        ActionForward forward = handleDocument(mapping, form, request, response, awardForm);
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        awardForm.initializeFormOrDocumentBasedOnCommand();
-        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
+        AwardForm awardForm = (AwardForm) form;
+        String moduleIdentifier = getModuleIdentifierForOpeningDocument(request);
+        ActionForward forward;
+        if(moduleIdentifier!=null){
+            String documentType = getDocumentType(request);
+            forward = new ActionForward(openDocumentFromMedusa(documentType, moduleIdentifier), true);
+        }else{
+            forward = handleDocument(mapping, form, request, response, awardForm);
+            
+            AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+            awardForm.initializeFormOrDocumentBasedOnCommand();
+            setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
+        }
+        
         
         
         return forward;
     }
-    
+
+    /*
+     * This method gets called from docHandler in AwardAction; this method creates appropriate document based on moduleIdentifier and document type passed from
+     * Medusa js file. Returns a string to forward request to appropriate document.
+     *   
+     * @param request
+     * @param moduleIdentifier
+     * @param routeHeaderId
+     * @param service
+     * @return
+     * @throws WorkflowException
+     */
+    private String openDocumentFromMedusa(String documentType, String moduleIdentifier) throws WorkflowException {
+        
+        Long routeHeaderId = null;
+        BusinessObjectService service = getBusinessObjectService();
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        if(StringUtils.equalsIgnoreCase("DP", documentType)){
+            DevelopmentProposal dp = service.findBySinglePrimaryKey(DevelopmentProposal.class, moduleIdentifier);
+            ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(dp.getProposalDocument().getDocumentNumber());
+            routeHeaderId = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        }else if(StringUtils.equalsIgnoreCase("IP", documentType)){
+            int proposalId = Integer.parseInt(moduleIdentifier);
+            InstitutionalProposal ip = service.findBySinglePrimaryKey(InstitutionalProposal.class, proposalId);
+            InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(ip.getInstitutionalProposalDocument().getDocumentNumber());
+            routeHeaderId = institutionalProposalDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        }else if(StringUtils.equalsIgnoreCase("A", documentType)){
+            int awardId = Integer.parseInt(moduleIdentifier); 
+            Award award = service.findBySinglePrimaryKey(Award.class, awardId);
+            AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
+            routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        }
+        
+        return buildForwardUrl(routeHeaderId);
+    }
+
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -774,5 +823,25 @@ public class AwardAction extends BudgetParentActionBase {
     private String determineParentAwardNumber(AwardForm awardForm) {
         String prevAwardNumber = awardForm.getPrevAwardNumber();
         return prevAwardNumber != null ? prevAwardNumber : Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    }
+    
+    protected String getModuleIdentifierForOpeningDocument(HttpServletRequest request) {
+        String moduleIdentifier = "";
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            moduleIdentifier = StringUtils.substringBetween(parameterName, ".moduleIdentifier", ".");
+        }
+
+        return moduleIdentifier;
+    }
+    
+    private String getDocumentType(HttpServletRequest request) {
+        String documentType = "";
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            documentType = StringUtils.substringBetween(parameterName, ".documentType", ".");
+        }
+
+        return documentType;
     }
 }
