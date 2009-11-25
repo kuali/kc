@@ -63,6 +63,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             committeeForm.getCommitteeDocument().setCommittee(committee);
             VersioningService versionService = new VersioningServiceImpl();
             committeeForm.getCommitteeDocument().setCommittee((Committee) versionService.createNewVersion(committee));
+            committeeForm.getCommitteeDocument().getCommittee().setCommitteeDocument(committeeForm.getCommitteeDocument());
         }
        
         committeeForm.getCommitteeHelper().prepareView();
