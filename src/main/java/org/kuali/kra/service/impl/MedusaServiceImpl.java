@@ -163,7 +163,8 @@ public class MedusaServiceImpl implements MedusaService {
 
     private void appendInstitutionalProposalDetails(StringBuilder sb, InstitutionalProposal proposal) {
         proposal.refreshReferenceObject("primeSponsor");
-        sb.append("Institutinoal Proposal ").append(proposal.getProposalNumber()).append(":").append(proposal.getProposalNumber()).append(":");
+        sb.append("Institutinoal Proposal ").append(proposal.getProposalNumber()).append(":").append(proposal.getProposalId()).append(":");
+        sb.append(proposal.getProposalNumber()).append(":");
         sb.append(proposal.getTitle()).append(":").append(proposal.getStatusCode()).append(":").append(proposal.getProposalTypeCode()).append(":");
         sb.append(proposal.getSponsorProposalNumber()).append(":").append("a/c no").append(":").append(proposal.getActivityTypeCode()).append(":");
         sb.append(proposal.getNsfCode()).append(":").append(proposal.getNoticeOfOpportunityCode()).append(":").append(proposal.getSponsorCode());
@@ -192,7 +193,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param awardAmountInfo
      */
     private void appendAwardDetails(StringBuilder sb, Award award, AwardAmountInfo awardAmountInfo) {
-        sb.append("Award ").append(award.getAwardNumber()).append(":");
+        sb.append("Award ").append(award.getAwardNumber()).append(":").append(award.getAwardId()).append(":");
         sb.append(award.getAwardId()).append(":").append(award.getAwardTypeCode()).append(":");
         sb.append(award.getSponsorAwardNumber()).append(":").append(award.getActivityType().getDescription()).append(":");
         sb.append(award.getAwardStatus().getDescription()).append(":").append(award.getTitle()).append(":");
