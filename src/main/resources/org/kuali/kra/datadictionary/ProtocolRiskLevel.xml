@@ -133,9 +133,14 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="3" />
-		</property>
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.bo.RiskLevel"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="riskLevelCode"
+                p:labelAttribute="description" />
+        </property>
 		<property name="summary" value="Risk Level Code" />
 		<property name="description" value="Risk Level Code" />
 	</bean>
@@ -154,7 +159,7 @@
 		<property name="control" >
 			<bean parent="TextareaControlDefinition"
 				p:rows="3"
-				p:cols="20" />
+				p:cols="40" />
 		</property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
@@ -179,12 +184,19 @@
 	</bean>
 
 	<bean id="ProtocolRiskLevel-status" parent="ProtocolRiskLevel-status-parentBean" />
-	<bean id="ProtocolRiskLevel-status-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+	<bean id="ProtocolRiskLevel-status-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="status" />
 		<property name="label" value="Status" />
+		<property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.actions.StatusValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
 		<property name="shortLabel" value="Status" />
 		<property name="summary" value="Status" />
 		<property name="description" value="Status" />
+		
 	</bean>
 
 	<bean id="ProtocolRiskLevel-versionNumber" parent="ProtocolRiskLevel-versionNumber-parentBean" />

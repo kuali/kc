@@ -38,6 +38,7 @@
 		<kra-irb-action:reopenEnrollmentRequestAction />
 		<kra-irb-action:dataAnalysisRequestAction />
 		<kra-irb-action:deleteAction />
+		<kra-irb-action:riskLevelAction />
 		<kra-irb-action:closeEnrollmentAction />
 		<kra-irb-action:reopenAction />
 		<kra-irb-action:permitDataAnalysisAction />
