@@ -168,10 +168,10 @@
 			<!-- <description>TestDocumentType</description> -->
 			<label>TestDocumentType</label>
 			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
-			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<docHandler>_blank</docHandler>
-			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<serviceNamespace>KEW</serviceNamespace>
 			<policies>
 				<policy>
@@ -207,10 +207,10 @@
 			<!-- <description>TestDocumentType</description> -->
 			<label>TestDocumentType</label>
 			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
-			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<docHandler>_blank</docHandler>
-			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<!-- This is set to KEWNEW for the RouteQueueTest.testGetNextDocumentsWithserviceNamespace() -->
 			<serviceNamespace>KEWNEW</serviceNamespace>
 		</documentType>
