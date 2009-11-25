@@ -90,6 +90,7 @@ public class ActionHelper implements Serializable {
     private boolean canExpire = false;
     private boolean canTerminate = false;
     private boolean canPermitDataAnalysis = false;
+    private boolean canEnterRiskLevel = true;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -129,6 +130,8 @@ public class ActionHelper implements Serializable {
     private String selectedHistoryItem;
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
     
+    private ProtocolRiskLevel newRiskLevel;
+    
     /**
      * @throws Exception 
      * Constructs an ActionHelper.
@@ -167,6 +170,7 @@ public class ActionHelper implements Serializable {
         protocolExpireBean = new ProtocolGenericActionBean();
         protocolTerminateBean = new ProtocolGenericActionBean();
         protocolPermitDataAnalysisBean = new ProtocolGenericActionBean();
+        newRiskLevel = new ProtocolRiskLevel();
     }
     
     /**
@@ -634,6 +638,10 @@ public class ActionHelper implements Serializable {
         return canPermitDataAnalysis;
     }
     
+    public boolean getCanEnterRiskLevel() {
+        return canEnterRiskLevel;
+    }
+    
     public void setPrintTag(String printTag) {
         this.printTag = printTag;
     }
@@ -743,5 +751,12 @@ public class ActionHelper implements Serializable {
         }
         return this.parameterService;
     }
+    
+    public ProtocolRiskLevel getNewRiskLevel() {
+        return newRiskLevel;
+    }
 
+    public void setNewRiskLevel(ProtocolRiskLevel newRiskLevel) {
+        this.newRiskLevel = newRiskLevel;
+    }
 }
