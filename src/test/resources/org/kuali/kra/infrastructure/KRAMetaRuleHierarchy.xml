@@ -5,7 +5,7 @@
             <name>KRAMetaRuleHierarchyTest</name>
             <label>KRAMetaRuleHierarchyTest doc label</label>
             <docHandler>has to be defined</docHandler>
-            <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+            <defaultExceptionWorkgroupName>KcAdmin</defaultExceptionWorkgroupName>
             <routePaths>
                 <routePath>
                     <start name="initial" nextNode="hierarchy" />
