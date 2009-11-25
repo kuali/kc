@@ -73,6 +73,7 @@ import org.kuali.kra.irb.actions.terminate.ProtocolTerminateService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -1564,4 +1565,32 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ProtocolDataAnalysisService getProtocolDataAnalysisService() {
         return KraServiceLocator.getService(ProtocolDataAnalysisService.class);
     }
+    
+    public ActionForward addRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolRiskLevel newRiskLevel = protocolForm.getActionHelper().getNewRiskLevel();
+        protocolForm.getProtocolDocument().getProtocol().getProtocolRiskLevels().add(newRiskLevel);
+        protocolForm.getActionHelper().setNewRiskLevel(new ProtocolRiskLevel());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+   
+    public ActionForward deleteRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int lineNum = getLineToDelete(request);
+
+        protocolForm.getProtocolDocument().getProtocol().getProtocolRiskLevels().remove(lineNum);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward submitRiskLevels(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }  
 }
