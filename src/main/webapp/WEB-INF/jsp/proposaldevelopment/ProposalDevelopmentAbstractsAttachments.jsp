@@ -31,7 +31,7 @@
 <kra-pd:proposalDevelopmentAbstracts />
 <kul:notes displayTopicFieldInNotes="true" />
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 
