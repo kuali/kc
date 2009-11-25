@@ -249,8 +249,8 @@
 		</workgroup>
 		<workgroup>
 			<id>2</id>
-			<workgroupName>WorkflowAdmin</workgroupName>
-			<description>WorkflowAdmin</description>
+			<workgroupName>KcAdmin</workgroupName>
+			<description>KcAdmin</description>
 			<members>
 				<authenticationId>ewestfal</authenticationId>
 				<authenticationId>rkirkend</authenticationId>

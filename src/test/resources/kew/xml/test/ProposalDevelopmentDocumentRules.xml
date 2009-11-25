@@ -36,7 +36,7 @@
             <forceAction>true</forceAction>
             <responsibilities>
                 <responsibility>
-	            	<workgroup>WorkflowAdmin</workgroup> 
+	            	<workgroup>KcAdmin</workgroup> 
                     <approvePolicy>A</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
