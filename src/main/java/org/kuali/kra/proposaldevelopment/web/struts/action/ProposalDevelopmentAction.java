@@ -573,33 +573,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ((KualiForm) form).setTabStates(new HashMap<String, String>());
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
-        
-        Person currentUser =  GlobalVariables.getUserSession().getPerson();
-        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
-            ProposalPerson person = person_it.next();
-            if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(StringUtils.isNotBlank(person.getUserName()) && StringUtils.equals(person.getUserName(), currentUser.getPrincipalName())){
-                    pdform.setReject(true);
-
-                }
-            }else if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.CO_INVESTIGATOR_ROLE))){
-                if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPrincipalName())){
-                    pdform.setReject(true);
-                }
-                else if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.KEY_PERSON_ROLE))){
-                    if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPrincipalName())){
-                       pdform.setReject(true);
-                    }
-                }
-            }
-        }
-        pdform.setReject(true);
         return super.headerTab(mapping, form, request, response);
     }
+    
     /**
      * 
      * This method is called to print forms
