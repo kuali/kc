@@ -373,6 +373,10 @@
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
                 </policy>
+                <policy>
+                	<name>DOCUMENT_STATUS_POLICY</name>
+                	<stringValue>app</stringValue>
+                </policy>
 			</policies>
 			<attributes>
 				<attribute>
@@ -501,8 +505,8 @@
 		<rule>
       		<documentType>ProposalDevelopmentDocument</documentType>
       		<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
-      		<description>Approval Routing for System User Approval.  Used for routing of hierarchy child documents.</description>
-      		
+      		<description>System User Approval for Hierarchy children.</description>
+			<forceAction>true</forceAction>
       		<responsibilities>
         		<responsibility>
           			<principalName>kr</principalName>
