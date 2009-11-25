@@ -31,26 +31,6 @@
 	</users>
 	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
 		<group>
-			<id>2</id>
-			<name>WorkflowAdmin</name>
-			<namespace>KR-WKFLW</namespace>
-			<description>WorkflowAdmin</description>
-			<members>
-				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
-			</members>
-		</group>
-		<group>
-		    <id>1</id>
-			<name>TestWorkgroup</name>
-			<namespace>KR-WKFLW</namespace>
-			<description>TestWorkgroup</description>
-			<members>
-				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
-			</members>
-		</group>
-		<group>
 		    <id>3</id>
 			<name>KcAdmin</name>
 			<namespace>KC-WKFLW</namespace>
