@@ -43,7 +43,7 @@ http://www.osedu.org/licenses/ECL-2.0
 </c:forEach>
 
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

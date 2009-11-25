@@ -45,7 +45,7 @@
 </c:if>
 
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
