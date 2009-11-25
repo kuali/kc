@@ -138,7 +138,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
-    private boolean reject;
+    //private boolean reject;
     private boolean saveAfterCopy;
     private String optInUnitDetails;
     private String optInCertificationStatus;
@@ -1069,13 +1069,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         return this.narratives;
     }
 
-    public boolean isReject() {
-        return reject;
-    }
-
-    public void setReject(boolean reject) {
-        this.reject = reject;
-    }
+//    public boolean isReject() {
+//        return reject;
+//    }
+//
+//    public void setReject(boolean reject) {
+//        this.reject = reject;
+//    }
     
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array

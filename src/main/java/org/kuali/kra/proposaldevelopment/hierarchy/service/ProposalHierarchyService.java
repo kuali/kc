@@ -40,6 +40,13 @@ public interface ProposalHierarchyService {
     public static final String PROPOSAL_HIERARCHY_PARENT_CANCEL="Parent Cancel";
     public static final String PROPOSAL_HIERARCHY_PARENT_DISAPPROVE="Parent Disapproved";
     public static final String PROPOSAL_HIERARCHY_PARENT_FINAL="Parent Final";
+    
+    public static final String HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION = "SYSTEM DISAPPROVED DOCUMENT - HIERARCHY PARENT WAS DISAPPROVED.";
+    public static final String HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION = "SYSTEM APPROVED DOCUMENT - HIERARCHY PARENT FINAL APPROVAL.";
+    public static final String HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION = "SYSTEM CANCELED DOCUMENT - HIERARCHY PARENT WAS CANCELLED.";
+    public static final String HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION = "SYSTEM SUBMITTED DOCUMENT -  HIERARCHY PARENT WAS SUBMITTED.";
+    public static final String HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION = "SYSTEM RE-SUBMITTED DOCUMENT -  HIERARCHY PARENT WAS RE-SUBMITTED.";
+    public static final String HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION = "SYSTEM REJECTED DOCUMENT -  HIERARCHY PARENT WAS REJECTED.";
 
     /**
      * This method takes a proposal, creates a Hierarchy
@@ -137,10 +144,11 @@ public interface ProposalHierarchyService {
      * If the proposal is a hierarchy all of the children will be returned to the initiated state as well.
      * @param proposalNumber the proposalNumber you wish to reject
      * @param reason the reason why it is rejected.  Will be added to the route log.
+     * @param principalName The princpalName to reject the document as.
      * @throws WorkflowException if there is a problem getting the workflow document, or rejecting the document.
      * @throws ProposalHierarchyException 
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason ) throws WorkflowException, ProposalHierarchyException;
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName ) throws WorkflowException, ProposalHierarchyException;
     
     
     /**
