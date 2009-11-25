@@ -97,6 +97,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
     private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
+    private static final String APPLICATION_STATUS_PARENT_ENROUTE = "Parent Enroute";
+
+
     
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -1102,29 +1105,30 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * Reject a proposal by sending it to the first node ( as named by PROPOSALDEVELOPMENTDOCUMENT_KEW_INITIAL_NODE_NAME )
      * @param proposalDoc The ProposalDevelopmentDocument that should be rejected.
-     * @param reason The reason text to be used as the annotation.
+     * @param appDocStatus the application status to set in the workflow document.
+     * @param principalName the principal name we are rejecting the document as.
+     * @param appDocStatus the application document status to apply ( does not apply if null )
      * @throws WorkflowException
      */
-    private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, boolean rejectAsSystemUser ) throws WorkflowException  {
-        if( rejectAsSystemUser ) {
-            WorkflowDocument workflowDocument = new WorkflowDocument(identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId(), proposalDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+    private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalName, String appDocStatus ) throws WorkflowException  {
+            WorkflowDocument workflowDocument = new WorkflowDocument(identityManagementService.getPrincipalByPrincipalName(principalName).getPrincipalId(), proposalDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
             workflowDocument.returnToPreviousNode(reason, getProposalDevelopmentInitialNodeName() );
-        } else {
-            proposalDoc.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(reason, getProposalDevelopmentInitialNodeName());
-        }
+            workflowDocument.updateAppDocStatus(appDocStatus);
     }
+    
     
     /**
      * Reject an entire proposal hierarchy.  This works by first rejecting each child, and then rejecting the parent.
      * @param hierarchyParent The hierarchy to reject
-     * @param reason the reason to be applied to the annotation field.  The reason will be pre-pended with static text indicating if it was a child or the parent.  
+     * @param reason the reason to be applied to the annotation field.  The reason will be pre-pended with static text indicating if it was a child or the parent.
+     * @param principalName the name of the principal that is rejecting the document.  
      * @throws ProposalHierarchyException If hierarchyParent is not a hierarchy, or there was a problem rejecting one of the documents.
      */
-    private void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason) throws ProposalHierarchyException {
+    private void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalName ) throws ProposalHierarchyException {
         
       //1. reject the parent.
         try {
-            rejectProposal( hierarchyParent, REJECT_PROPOSAL_REASON_PREFIX + reason, false );
+            rejectProposal( hierarchyParent, REJECT_PROPOSAL_REASON_PREFIX + reason, principalName, "" );
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
@@ -1133,7 +1137,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         //2. Try to reject all of the children.
         for( ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(hierarchyParent.getDevelopmentProposal().getProposalNumber())) {
             try {
-                rejectProposal( child, REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX + reason, true );
+                rejectProposal( child, REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX + reason, KEWConstants.SYSTEM_USER, "" );
             } catch (WorkflowException e) {
                 throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting child document %s", child.getDevelopmentProposal().getProposalNumber()), e );
             }
@@ -1145,13 +1149,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#rejectProposalDevelopmentDocument(java.lang.String, java.lang.String)
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason ) throws WorkflowException, ProposalHierarchyException {
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName ) throws WorkflowException, ProposalHierarchyException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(getDevelopmentProposal(proposalNumber).getProposalDocument().getDocumentNumber());
         if( !pbo.isInHierarchy() ) {
-            rejectProposal( pDoc, REJECT_PROPOSAL_REASON_PREFIX + reason, false );
+            rejectProposal( pDoc, REJECT_PROPOSAL_REASON_PREFIX + reason, principalName, null );
         } else if ( pbo.isParent() ) {
-            rejectProposalHierarchy( pDoc, reason );
+            rejectProposalHierarchy( pDoc, reason, principalName );
         } else {
             //it is a child or in some unknown state, either way we do not support rejecting it.
             throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
@@ -1224,9 +1228,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newChildStatusTarget = KEWConstants.ROUTE_HEADER_ENROUTE_CD;
             }
             else {
-                throw new UnsupportedOperationException(String.format(
-                        "Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,
-                        parentNewStatus));
+                throw new UnsupportedOperationException(String.format("Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,parentNewStatus));
             }
 
         }
@@ -1238,15 +1240,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newChildStatusTarget = parentNewStatus;
             }
             else {
-                throw new UnsupportedOperationException(String.format(
-                        "Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,
-                        parentNewStatus));
+                throw new UnsupportedOperationException(String.format("Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,parentNewStatus));
             }
         }
         else {
             throw new UnsupportedOperationException(String.format(
-                    "Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,
-                    parentNewStatus));
+                    "Do not know how to handle children of hierarchy for route status chnage from %s to %s", parentOldStatus,parentNewStatus));
         }
         return newChildStatusTarget;
     }
@@ -1262,80 +1261,46 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         LOG.info(  IdentityManagementService.class );
             for (ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber() )) {
-                
-                if (!StringUtils.equals("", childStatusTarget)) {
+                try {
+                    if (!StringUtils.equals("", childStatusTarget)) {
                     
-                    if (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, childStatusTarget)) {
-                        //The user currently must initially route the child documents in order for them to hold in the system users action list.
-                        try {
-                            workdoc = new WorkflowDocument( identityManagementService.getPrincipalByPrincipalName(userPrincipalName).getPrincipalId(), child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-                            workdoc.updateAppDocStatus("Parent Enroute.");
-                        } catch ( WorkflowException e ) {
-                            throw new ProposalHierarchyException( String.format("Workflow exception getting child document:%s.", child.getDocumentNumber()), e );
-                        }
-                        
-                       if( !workdoc.stateIsEnroute() ) {
-                            try {
-                                workdoc.routeDocument("SYSTEM ROUTED DOCUMENT -  HIERARCHY PARENT WAS ROUTED.");
-                                workdoc.updateAppDocStatus("Parent Enroute.");
-                                
-                            } catch ( WorkflowException we ) {
-                                throw new ProposalHierarchyException( String.format("Workflow submitting child document:%s.", child.getDocumentNumber()), we );
-                            }
-                        } else {
-                            //this means the status change is actually in the form of an approve action on a document that was moved back to the initial node.
-                            //we need to do an approval.
-                            try {
-                                workdoc.approve("SYSTEM ROUTED DOCUMENT -  HIERARCHY PARENT WAS ROUTED.");
-                            } catch ( WorkflowException we ) {
-                                throw new ProposalHierarchyException( String.format("Workflow approving child document:%s.", child.getDocumentNumber()), we );
-                            }
+                        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, childStatusTarget)) {
+                            //The user currently must initially route the child documents in order for them to hold in the system users action list.
                             
-                        }
-                        
-                    
-                        
-                    } else {
-               
-                        try {
-                            workdoc = new WorkflowDocument( identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER ).getPrincipalId(), 
-                                    child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+                            workdoc = new WorkflowDocument(child.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
                             
-                        } catch ( WorkflowException e ) {
-                            throw new ProposalHierarchyException( String.format("Workflow exception getting child document:%s.", child.getDocumentNumber()), e );
-                        }
+                            if( !workdoc.stateIsEnroute() ) {
+                                workdoc.routeDocument(HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION);
+                                workdoc.updateAppDocStatus(APPLICATION_STATUS_PARENT_ENROUTE);
+                            } else {
+                                //this means the status change is actually in the form of an approve action on a document that was moved back to the initial node.
+                                //we need to do an approval.
+                                workdoc.approve(HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION);
+                                workdoc.updateAppDocStatus(APPLICATION_STATUS_PARENT_ENROUTE);
+                            }
                         
-                        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_CANCEL_CD, childStatusTarget)) {
-                            try {
-                                workdoc.cancel("SYSTEM CANCELED DOCUMENT - HIERARCHY PARENT WENT TO CANCELED.");
-                                workdoc.updateAppDocStatus("");
-                            } catch ( WorkflowException we ) {
-                                throw new ProposalHierarchyException( String.format("Workflow exception cancelling child document:%s.", child.getDocumentNumber()), we );
-                            }
-                        } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, childStatusTarget)) {
-                            try {
-                                workdoc.approve("SYSTEM APPROVED DOCUMENT - HIERARCHY PARENT WENT TO FINAL.");
-                                workdoc.updateAppDocStatus("");
-                            } catch ( WorkflowException we ) {
-                                throw new ProposalHierarchyException( String.format("Workflow exception approving child document:%s.", child.getDocumentNumber()), we );
-                            }
-                        } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, childStatusTarget)) {
-                            try {
-                                workdoc.disapprove("SYSTEM DISAPPROVED DOCUMENT - HIERARCHY PARENT WAS DISAPPROVED.");
-                                workdoc.updateAppDocStatus("");
-                            } catch ( WorkflowException we ) {
-                                throw new ProposalHierarchyException( String.format("Workflow approving child document:%s.", child.getDocumentNumber()), we );
-                            }
                         } else {
-                            throw new UnsupportedOperationException(String.format(
-                                    "Do not know how to handle new child status of %s", childStatusTarget));
-                        }
+                            workdoc = new WorkflowDocument( identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER ).getPrincipalId(),child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+                            if (StringUtils.equals(KEWConstants.ROUTE_HEADER_CANCEL_CD, childStatusTarget)) {
+                                workdoc.cancel(HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION);
+                                workdoc.updateAppDocStatus("");
+                            
+                            } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, childStatusTarget)) {
+                                workdoc.approve(HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION);
+                                workdoc.updateAppDocStatus("");
+                            
+                            } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, childStatusTarget)) {
+                                workdoc.disapprove(HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION);
+                                workdoc.updateAppDocStatus("");
+                            } else {
+                                throw new UnsupportedOperationException(String.format("Do not know how to handle new child status of %s", childStatusTarget));
+                            }
                         
+                        }
                     }
-                    
+                } catch ( WorkflowException we ) {
+                    throw new ProposalHierarchyException( String.format( "WorkflowException encountrered while attempting to route child proposal %s ( document #%s ) of proposal hierarchy %s ( document #%s )", child.getDevelopmentProposal().getProposalNumber(), child.getDocumentNumber(), proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument.getDocumentNumber() ), we);
                 }
-           
-                
             }
     
     

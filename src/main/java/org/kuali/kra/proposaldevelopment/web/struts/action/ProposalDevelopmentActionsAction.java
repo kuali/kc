@@ -437,7 +437,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             //reject the document using the service.
             ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)kualiDocumentFormBase.getDocument();
             ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason);
+            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason, GlobalVariables.getUserSession().getPrincipalName());
             return super.returnToSender(request, mapping, kualiDocumentFormBase);
         }
         
