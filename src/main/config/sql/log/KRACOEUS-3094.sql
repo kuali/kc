@@ -1,3 +1,4 @@
+  set define off;
   DECLARE 
     l_edit_doc_perm_tmpl_id VARCHAR2(40);
     l_init_doc_perm_tmpl_id VARCHAR2(40);
@@ -318,4 +319,6 @@
     insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id) 
     values(krim_attr_data_id_s.nextval, l_copy_doc_perm_id, l_doc_type_id, l_doc_type_attr_id , 'KualiDocument', sys_guid() );
 
+    COMMIT;
 END;
+/
