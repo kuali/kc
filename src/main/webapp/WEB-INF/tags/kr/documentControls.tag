@@ -18,6 +18,7 @@
 <%@ attribute name="transactionalDocument" required="true" %>
 <%@ attribute name="saveButtonOverride" required="false" %>
 <%@ attribute name="suppressRoutingControls" required="false" %>
+<%@ attribute name="suppressCancelButton" required="false" %>
 <%@ attribute name="extraButtonSource" required="false" %>
 <%@ attribute name="extraButtonProperty" required="false" %>
 <%@ attribute name="extraButtonAlt" required="false" %>
@@ -72,7 +73,7 @@
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_CLOSE]}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
 	            </c:if>            
-	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_CANCEL]}">
+	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_CANCEL] and not suppressCancelButton}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="cancel" alt="cancel"/>
 	            </c:if>
                 <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_COPY]}">
