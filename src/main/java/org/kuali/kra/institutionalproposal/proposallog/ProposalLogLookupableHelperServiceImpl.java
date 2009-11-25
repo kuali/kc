@@ -104,7 +104,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     protected void checkIsLookupForProposalCreation(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get("backLocation");
-        if (returnLocation.contains("institutionalProposalHome.do")) {
+        if (returnLocation.contains("institutionalProposalCreate.do")) {
             isLookupForProposalCreation = true;
         }
     }
