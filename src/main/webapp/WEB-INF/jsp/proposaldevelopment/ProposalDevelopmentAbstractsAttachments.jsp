@@ -29,7 +29,7 @@
 <kra-pd:proposalDevelopmentPersonnelAttachments /> 
 <kra-pd:proposalDevelopmentInstitutionalAttachments /> 
 <kra-pd:proposalDevelopmentAbstracts />
-<kra-pd:proposalNotes />
+<kul:notes displayTopicFieldInNotes="true" />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
