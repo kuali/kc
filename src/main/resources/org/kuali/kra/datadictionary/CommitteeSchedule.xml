@@ -51,10 +51,10 @@
 				<ref bean="CommSchedule-selected" />
 				<ref bean="CommSchedule-viewStartTime" />
 				<ref bean="CommSchedule-viewEndTime" />
-				<ref bean="CommSchedule-committeeId" />
-				<ref bean="CommSchedule-committeeName" />
-				<ref bean="CommSchedule-committeeTypeCode" />
-				<ref bean="CommSchedule-protocolNumber" />
+				<ref bean="CommSchedule-committee.committeeId" />
+				<ref bean="CommSchedule-committee.committeeName" />
+				<ref bean="CommSchedule-committee.committeeTypeCode" />
+				<ref bean="CommSchedule-protocolSubmissions.protocolNumber" />
 				<ref bean="CommSchedule-scheduleStatus.description" />
 			</list>
 		</property>
@@ -68,7 +68,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Id" />
 		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -293,13 +293,15 @@
 	<bean id="CommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 	
-	<bean id="CommSchedule-protocolNumber" parent="CommSchedule-protocolNumber-parentBean" />
-	<bean id="CommSchedule-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
+	<bean id="CommSchedule-protocolSubmissions.protocolNumber" parent="CommSchedule-protocolSubmissions.protocolNumber-parentBean" />
+	<bean id="CommSchedule-protocolSubmissions.protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
+		<property name="name" value="protocolSubmissions.protocolNumber" />
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="CommSchedule-committeeId" parent="CommSchedule-committeeId-parentBean" />
-	<bean id="CommSchedule-committeeId-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeId">
+	<bean id="CommSchedule-committee.committeeId" parent="CommSchedule-committee.committeeId-parentBean" />
+	<bean id="CommSchedule-committee.committeeId-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeId">
+		<property name="name" value="committee.committeeId" />
 		<property name="label" value="Committee Id" />
 		<property name="shortLabel" value="Committee Id" />
 		<property name="required" value="false" />
@@ -310,13 +312,15 @@
 		</property>
 	</bean>
 
-	<bean id="CommSchedule-committeeName" parent="CommSchedule-committeeName-parentBean" />
-	<bean id="CommSchedule-committeeName-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeName">
+	<bean id="CommSchedule-committee.committeeName" parent="CommSchedule-committee.committeeName-parentBean" />
+	<bean id="CommSchedule-committee.committeeName-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeName">
+		<property name="name" value="committee.committeeName" />
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="CommSchedule-committeeTypeCode" parent="CommSchedule-committeeTypeCode-parentBean" />
-	<bean id="CommSchedule-committeeTypeCode-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeTypeCode">
+	<bean id="CommSchedule-committee.committeeTypeCode" parent="CommSchedule-committee.committeeTypeCode-parentBean" />
+	<bean id="CommSchedule-committee.committeeTypeCode-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeTypeCode">
+		<property name="name" value="committee.committeeTypeCode" />
 		<property name="required" value="false" />
 		<property name="label" value="Committee Type" />
 		<property name="shortLabel" value="Committee Type" />
@@ -426,15 +430,15 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduleStatusCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
+					p:attributeName="protocolSubmissions.protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolSubDeadline" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committee.committeeId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeName" />
+					p:attributeName="committee.committeeName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeTypeCode" />
+					p:attributeName="committee.committeeTypeCode" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -450,9 +454,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduleStatus.description" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committee.committeeId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeName" />
+					p:attributeName="committee.committeeName" />
 			</list>
 		</property>
 	</bean>
