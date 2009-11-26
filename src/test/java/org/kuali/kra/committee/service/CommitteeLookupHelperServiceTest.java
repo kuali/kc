@@ -84,6 +84,7 @@ public class CommitteeLookupHelperServiceTest extends KraTestBase {
         pkNames.add("committeeId");
         Committee committee = new Committee();
         committee.setCommitteeId("100");
+        committee.setHomeUnitNumber("000001");
         CommitteeDocument document = new CommitteeDocument();
         document.setDocumentNumber("101");
         committee.setCommitteeDocument(document);
