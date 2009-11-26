@@ -49,8 +49,8 @@
                 <ref bean="ProtocolSubmission-abstainerCount" />
                 <ref bean="ProtocolSubmission-votingComments" />
                 <ref bean="ProtocolSubmission-versionNumber" />
-                <ref bean="ProtocolSubmission-scheduleDate" />
-                <ref bean="ProtocolSubmission-title" />
+                <ref bean="ProtocolSubmission-committeeSchedule.scheduledDate" />
+                <ref bean="ProtocolSubmission-protocol.title" />
                 <ref bean="ProtocolSubmission-piName" />
                 <ref bean="ProtocolSubmission-submissionStatus.description" />
                 <ref bean="ProtocolSubmission-protocolSubmissionType.description" />
@@ -342,24 +342,21 @@
         <property name="description" value="Submission To Date" />
     </bean>
 
-    <bean id="ProtocolSubmission-scheduleDate" parent="ProtocolSubmission-scheduleDate-parentBean" />
-    <bean id="ProtocolSubmission-scheduleDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="scheduleDate" />
-        <property name="label" value="Schedule Date" />
-        <property name="shortLabel" value="Schedule Date" />
-        <property name="summary" value="Schedule Date" />
-        <property name="description" value="Schedule Date" />
-    </bean>
-
-    <bean id="ProtocolSubmission-title" parent="ProtocolSubmission-title-parentBean" />
-    <bean id="ProtocolSubmission-title-parentBean" abstract="true" parent="Protocol-title" >
-    </bean>
-    
     <bean id="ProtocolSubmission-piName" parent="ProtocolSubmission-piName-parentBean" />
     <bean id="ProtocolSubmission-piName-parentBean" abstract="true" parent="ProtocolPerson-personName" >
 		<property name="name" value="piName" />
 		<property name="label" value="PI" />
 		<property name="shortLabel" value="PI" />
+    </bean>
+
+    <bean id="ProtocolSubmission-protocol.title" parent="ProtocolSubmission-protocol.title-parentBean" />
+    <bean id="ProtocolSubmission-protocol.title-parentBean" abstract="true" parent="Protocol-title" >
+    		<property name="name" value="protocol.title" />
+    </bean>
+    
+    <bean id="ProtocolSubmission-committeeSchedule.scheduledDate" parent="ProtocolSubmission-committeeSchedule.scheduledDate-parentBean" />
+    <bean id="ProtocolSubmission-committeeSchedule.scheduledDate-parentBean" abstract="true" parent="CommSchedule-scheduledDate" >
+		<property name="name" value="committeeSchedule.scheduledDate" />
     </bean>
     
     <bean id="ProtocolSubmission-comments" parent="ProtocolSubmission-comments-parentBean" />
@@ -572,9 +569,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="submissionDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="title" />
+                    p:attributeName="protocol.title" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleDate" />
+                    p:attributeName="committeeSchedule.scheduledDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolReviewTypeCode" />
                 <bean parent="FieldDefinition"
@@ -600,9 +597,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleDate" />
+                    p:attributeName="committeeSchedule.scheduledDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="title" />
+                    p:attributeName="protocol.title" />
                 <bean parent="FieldDefinition"
                     p:attributeName="piName" />
             </list>
