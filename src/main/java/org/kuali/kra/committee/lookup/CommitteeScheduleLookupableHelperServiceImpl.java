@@ -16,13 +16,9 @@
 package org.kuali.kra.committee.lookup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Map.Entry;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
@@ -34,44 +30,25 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * 
- * This class is to create action links and inquiry url for committeeschedule lookup. Also, converts the search criteria to a couple of reference
- * object field.
+ * This class is to create action links and inquiry url for committeeschedule lookup. Also, converts the search criteria to a couple
+ * of reference object field.
  */
 @SuppressWarnings("serial")
 public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static final String COMMITTEE_ID = "committeeId";
-    private static final String  READ_ONLY = "readOnly";
+    private static final String READ_ONLY = "readOnly";
     private TaskAuthorizationService taskAuthorizationService;
 
-    /**
-     * set up the criteria map properly to point to reference or collections.
-     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        Map<String, String> convertedFieldValues = new HashMap<String, String>();
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (COMMITTEE_ID.equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committee.committeeId", entry.getValue());
-            } else if ("committeeName".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committee.committeeName", entry.getValue());
-            } else if ("protocolNumber".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("protocolSubmissions.protocolNumber", entry.getValue());
-            } else if ("committeeTypeCode".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committee.committeeTypeCode", entry.getValue());
-            } else {
-                convertedFieldValues.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return super.getSearchResults(convertedFieldValues);
-    }
 
     /**
      * Add edit/view action links based on user's permission
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -79,7 +56,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (canModifySchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, true));
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
-        } else if (canViewSchedule((CommitteeSchedule) businessObject)) {
+        }
+        else if (canViewSchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
         }
         return htmlDataList;
@@ -100,7 +78,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (isEdit) {
             htmlData.setDisplayText("edit");
             parameters.put(READ_ONLY, "false");
-        } else {
+        }
+        else {
             htmlData.setDisplayText("view");
             parameters.put(READ_ONLY, "true");
         }
@@ -122,10 +101,11 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if (COMMITTEE_ID.equals(propertyName)) {
-            inqBo = ((CommitteeSchedule) bo).getCommittee();
+        if ("committee.committeeName".equals(propertyName)) {
+            return new AnchorHtmlData();
+        } else {
+            return super.getInquiryUrl(inqBo, inqPropertyName);
         }
-        return super.getInquiryUrl(inqBo, inqPropertyName);
     }
 
     private boolean canModifySchedule(CommitteeSchedule committeeSchedule) {
@@ -140,6 +120,26 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
 
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;
+    }
+
+    /**
+     * To disable search & inquiry icons for committee.committeeid & committee.committeename
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows = super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("committee.committeeId")
+                        || field.getPropertyName().equals("committee.committeeName")) {
+                    // to disable lookup/inquiry display
+                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
+                }
+            }
+        }
+        return rows;
     }
 
 }
