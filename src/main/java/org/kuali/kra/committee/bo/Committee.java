@@ -91,11 +91,9 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     
     // transient lookup fields
     private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "1";
-    private String membershipRoleCode;
     private String committeeChair;
     private String unitName;
-    private String memberName;
-    private String researchAreaCode;
+
     /**
      * Constructs a Committee.
      */
@@ -286,14 +284,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         return managedLists;
     }
 
-    public String getMembershipRoleCode() {
-        return membershipRoleCode;
-    }
-
-    public void setMembershipRoleCode(String membershipRoleCode) {
-        this.membershipRoleCode = membershipRoleCode;
-    }
-
     public String getCommitteeChair() {
         if (StringUtils.isBlank(committeeChair) && CollectionUtils.isNotEmpty(getCommitteeMemberships())) {
             for (CommitteeMembership committeeMembership : getCommitteeMemberships()) {
@@ -329,22 +319,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
-    public String getResearchAreaCode() {
-        return researchAreaCode;
-    }
-
-    public void setResearchAreaCode(String researchAreaCode) {
-        this.researchAreaCode = researchAreaCode;
     }
 
     public Integer getOwnerSequenceNumber() {

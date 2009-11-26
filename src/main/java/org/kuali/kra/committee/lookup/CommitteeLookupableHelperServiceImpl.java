@@ -16,10 +16,8 @@
 package org.kuali.kra.committee.lookup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -53,8 +51,6 @@ import edu.emory.mathcs.backport.java.util.Collections;
 @SuppressWarnings("serial")
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
-    private static final String MEMBERSHIP_ROLE_CODE = "membershipRoleCode";
-    private static final String MEMBERSHIP_NAME = "memberName";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private static final Log LOG = LogFactory.getLog(CommitteeLookupableHelperServiceImpl.class);
@@ -63,7 +59,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResults(setupCritMaps(fieldValues)));
+        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResults(fieldValues));
         Long matchingResultsCount = new Long(activeCommittees.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
@@ -73,25 +69,6 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         }
     }
 
-    /*
-     * set up search criteria value map.  Especially for collection entity fields.
-     */
-    private Map<String,String> setupCritMaps(Map<String, String> fieldValues) {
-
-        Map <String,String> baseLookupFields = new HashMap<String,String>();
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(MEMBERSHIP_NAME)) {
-                baseLookupFields.put("committeeMemberships.personName",entry.getValue());
-            } else if (entry.getKey().equals(MEMBERSHIP_ROLE_CODE)) {
-                baseLookupFields.put("committeeMemberships.membershipRoles.membershipRoleCode",entry.getValue());
-            } else if (entry.getKey().equals(RESEARCH_AREA_CODE)) {
-                baseLookupFields.put("committeeResearchAreas.researchAreaCode",entry.getValue());
-            } else {
-                baseLookupFields.put(entry.getKey(),entry.getValue());                
-            }
-        }
-        return baseLookupFields;
-    }
     
     /**
      * Specifically, for drop down.
@@ -102,9 +79,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         List<Row> rows =  super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(RESEARCH_AREA_CODE)) {
+                if (field.getPropertyName().equals("committeeResearchAreas.researchAreaCode")) {
                     super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
-                } else if (field.getPropertyName().equals(MEMBERSHIP_NAME)) {
+                } else if (field.getPropertyName().equals("committeeMemberships.personName")) {
                     super.updateLookupField(field,PERSON_NAME,"org.kuali.kra.committee.bo.CommitteeMembership");
                 }
             }
