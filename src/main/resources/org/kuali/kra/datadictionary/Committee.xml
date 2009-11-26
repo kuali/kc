@@ -45,9 +45,9 @@
 				<ref bean="CommitteeAttribute-UpdateUser" />
 				<ref bean="CommitteeAttribute-UpdateTimestamp" />
 				<ref bean="CommitteeAttribute-VersionNumber" />
-				<ref bean="CommitteeAttribute-MembershipRoleCode" />
-				<ref bean="CommitteeAttribute-MemberName" />
-				<ref bean="CommitteeAttribute-ResearchAreaCode" />
+				<ref bean="CommitteeAttribute-committeeMemberships.membershipRoles.membershipRoleCode" />
+				<ref bean="CommitteeAttribute-committeeMemberships.personName" />
+				<ref bean="CommitteeAttribute-committeeResearchAreas.researchAreaCode" />
 				<ref bean="CommitteeAttribute-homeUnit.unitName" />
 				<ref bean="CommitteeAttribute-CommitteeChair" />
 			</list>
@@ -284,20 +284,12 @@
 	</bean>
 
     <!--  lookup field -->
-    <bean id="CommitteeAttribute-MemberName" parent="CommitteeAttribute-MemberName-parentBean" />
-	<bean id="CommitteeAttribute-MemberName-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="memberName" />
-		<property name="forceUppercase" value="true" />
+    <bean id="CommitteeAttribute-committeeMemberships.personName" parent="CommitteeAttribute-committeeMemberships.personName-parentBean" />
+	<bean id="CommitteeAttribute-committeeMemberships.personName-parentBean" abstract="true" parent="CommitteeMembership-personName" >
+		<property name="name" value="committeeMemberships.personName" />
+		<property name="required" value="false" />
 		<property name="label" value="Member Name" />
 		<property name="shortLabel" value="Member Name" />
-		<property name="maxLength" value="60" />
-		<property name="required" value="false" />
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="28" />
-		</property>
-		<property name="summary" value="Member Name" />
-		<property name="description" value="Member Name" />
 	</bean>
     
     <bean id="CommitteeAttribute-CommitteeChair" parent="CommitteeAttribute-CommitteeChair-parentBean" />
@@ -316,16 +308,13 @@
 		<property name="description" value="Committee Chair" />
 	</bean>
     
-    <bean id="CommitteeAttribute-MembershipRoleCode" parent="CommitteeAttribute-MembershipRoleCode-parentBean" />
-    <bean id="CommitteeAttribute-MembershipRoleCode-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="membershipRoleCode" />
+    <bean id="CommitteeAttribute-committeeMemberships.membershipRoles.membershipRoleCode" parent="CommitteeAttribute-committeeMemberships.membershipRoles.membershipRoleCode-parentBean" />
+    <bean id="CommitteeAttribute-committeeMemberships.membershipRoles.membershipRoleCode-parentBean" abstract="true" parent="MembershipRole-membershipRoleCode">
+	    <property name="name" value="committeeMemberships.membershipRoles.membershipRoleCode" />
 	    <property name="forceUppercase" value="false" />
+		<property name="required" value="false" />
 	    <property name="label" value="Role Description" />
 	    <property name="shortLabel" value="Role Description" />
-	    <property name="maxLength" value="3" />
-	    <property name="validationPattern" >
-	      <bean parent="AlphaNumericValidationPattern" />
-	    </property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.committee.bo.MembershipRole"
@@ -335,26 +324,15 @@
 	            p:keyAttribute="membershipRoleCode"
 	            p:labelAttribute="description" />
 	    </property>
-	    <property name="summary" value="Membership Role Code" />
-	    <property name="description" value="Membership Role Code" />
     </bean>
 
-  <bean id="CommitteeAttribute-ResearchAreaCode" parent="CommitteeAttribute-ResearchAreaCode-parentBean" />
-  <bean id="CommitteeAttribute-ResearchAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="researchAreaCode" />
+  <bean id="CommitteeAttribute-committeeResearchAreas.researchAreaCode" parent="CommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" />
+  <bean id="CommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" abstract="true" parent="ResearchArea-researchAreaCode">
+    <property name="name" value="committeeResearchAreas.researchAreaCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Research Area" />
     <property name="shortLabel" value="Research Area" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
-    </property>
-    <property name="summary" value="Research Areae" />
-    <property name="description" value="Research Area" />
+	<property name="required" value="false" />
   </bean>
 
   <bean id="CommitteeAttribute-homeUnit.unitName" parent="CommitteeAttribute-homeUnit.unitName-parentBean" />
@@ -422,11 +400,11 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="reviewTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="membershipRoleCode" />
+					p:attributeName="committeeMemberships.membershipRoles.membershipRoleCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="memberName" />
+					p:attributeName="committeeMemberships.personName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="researchAreaCode" />
+					p:attributeName="committeeResearchAreas.researchAreaCode" />
 			</list>
 		</property>
 		<property name="resultFields" >
