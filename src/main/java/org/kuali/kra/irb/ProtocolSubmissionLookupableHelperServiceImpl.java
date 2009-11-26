@@ -33,6 +33,9 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * 
@@ -104,27 +107,6 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         return PROTOCOL_NUMBER;
     }
 
-    /**
-     * This method is to convert search criteria to proper reference object field.
-     * 
-     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        Map<String, String> convertedFieldValues = new HashMap<String, String>();
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if ("title".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("protocol.title", entry.getValue());
-            } else if ("scheduleDate".equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committeeSchedule.scheduledDate", entry.getValue());
-            } else if (COMMITTEE_ID.equals(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                convertedFieldValues.put("committee.committeeId", entry.getValue());
-            } else {
-                convertedFieldValues.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return super.getSearchResults(convertedFieldValues);
-    }
 
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
@@ -137,7 +119,9 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if (PROTOCOL_NUMBER.equals(propertyName)) {
+        if ("committeeSchedule.scheduledDate".equals(propertyName) || "protocol.title".equals(propertyName)) {
+            return new AnchorHtmlData();
+        } else if (PROTOCOL_NUMBER.equals(propertyName)) {
             inqBo = ((ProtocolSubmission) bo).getProtocol();
         } else if (propertyName.equals(COMMITTEE_ID)) {
             inqBo = ((ProtocolSubmission) bo).getCommittee();
@@ -162,6 +146,24 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    /**
+     * To disable the search icon for 'title' & scheduleddate fields.  These fields are referencing to reference objects' fields.
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows = super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("protocol.title") || field.getPropertyName().equals("committeeSchedule.scheduledDate")) {
+                    // to disable lookup/inquiry display
+                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);                 
+                }
+            }
+        }
+        return rows;
     }
 
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -123,9 +122,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolSubmissionStatus submissionStatus;    
     
     
-    // lookup fields
-    private Date scheduleDate; 
-    private String title; 
+    // lookup field
     private String piName; 
 
     public ProtocolSubmission() { 
@@ -299,6 +296,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public Committee getCommittee() {
+        if (committeeIdFk != null && committee == null) {
+            refreshReferenceObject("committee");
+        }
         return committee;
     }
 
@@ -335,6 +335,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public CommitteeSchedule getCommitteeSchedule() {
+        if (scheduleIdFk != null && committeeSchedule == null) {
+            refreshReferenceObject("committeeSchedule");
+        }
         return committeeSchedule;
     }
 
@@ -379,25 +382,6 @@ public class ProtocolSubmission extends ProtocolAssociate {
         return managedLists;
     }
 
-    public Date getScheduleDate() {
-        if (committeeSchedule != null) {
-            return committeeSchedule.getScheduledDate();
-        } else {
-            return null;
-        }
-    }
-
-    public void setScheduleDate(Date scheduleDate) {
-        this.scheduleDate = scheduleDate;
-    }
-
-    public String getTitle() {
-        return getProtocol().getTitle();
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getPiName() {
         return getProtocol().getPrincipalInvestigator().getPersonName();
