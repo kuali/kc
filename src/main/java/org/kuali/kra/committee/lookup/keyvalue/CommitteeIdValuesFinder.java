@@ -38,9 +38,10 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
 
-        Collection<Committee> committees = getCommittees();
+        Collection<Committee> committees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         if (CollectionUtils.isNotEmpty(committees)) {
@@ -56,12 +57,6 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Collection<Committee> getCommittees() {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        return businessObjectService.findAll(Committee.class);
     }
 
 }
