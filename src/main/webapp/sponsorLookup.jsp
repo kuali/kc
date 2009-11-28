@@ -19,7 +19,7 @@
 <kul:page lookup="true" 
           docTitle="Add Sponsor Hierarchy" 
           transactionalDocument="false" 
-          htmlFormAction="sponsorHierarchy">
+          htmlFormAction="sponsorLookup">
 
 	<input type="hidden" id="mapKey"
 		name="mapKey" 
@@ -47,13 +47,17 @@
      function returnSponsor() {
             var sponsors = document.getElementById("selectedSponsors").value
             var mapKey = document.getElementById("mapKey").value
+           // alert("return sponsor "+mapKey+sponsors)
             window.opener.returnSponsor(sponsors, mapKey);
      
      }
      var lookupBtn=document.getElementById("lookupBtn");
      if (document.getElementById("methodToCall").value != "refresh") {
+         var mapKey = document.getElementById("mapKey").value
+        // alert("not refres "+mapKey)
         lookupBtn.click();
      } else {
+       //  alert("refresh")
         returnSponsor();
         window.close();
      }

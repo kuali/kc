@@ -211,7 +211,7 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setLookupResultsSequenceNumber(null);
         }
         
-        if (StringUtils.isNotBlank(sponsorHierarchyForm.getActionSelected()) && (sponsorHierarchyForm.getActionSelected().equals("maint") || sponsorHierarchyForm.getActionSelected().equals("new"))) {
+        if ((StringUtils.isNotBlank(sponsorHierarchyForm.getActionSelected()) && (sponsorHierarchyForm.getActionSelected().equals("maint") || sponsorHierarchyForm.getActionSelected().equals("new"))) || StringUtils.isNotBlank(sponsors)) {
             sponsorHierarchyForm.setSelectedSponsors(sponsors);
             return mapping.findForward(LOOKUP);            
         } else {
