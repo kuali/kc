@@ -1911,5 +1911,12 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardHierarchyUIService" ref="awardHierarchyUIService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
-    </bean>    
+    </bean>
+    
+    <bean id="timeAndMoneyExistenceService" class="org.kuali.kra.service.impl.TimeAndMoneyExistenceServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+    </bean>
+        
 </beans>

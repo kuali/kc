@@ -59,6 +59,7 @@ import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -126,7 +127,7 @@ public class AwardAction extends BudgetParentActionBase {
         
         Long routeHeaderId = null;
         BusinessObjectService service = getBusinessObjectService();
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = getDocumentService();
         if(StringUtils.equalsIgnoreCase("DP", documentType)){
             DevelopmentProposal dp = service.findBySinglePrimaryKey(DevelopmentProposal.class, moduleIdentifier);
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(dp.getProposalDocument().getDocumentNumber());
@@ -171,6 +172,56 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         awardForm.setOrder(order);
+    }
+    
+
+    protected TimeAndMoneyExistenceService getTimeAndMoneyExistenceService() {
+        return KraServiceLocator.getService(TimeAndMoneyExistenceService.class);
+    }
+    
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+        AwardForm awardForm = (AwardForm) form;
+
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
+            forward = super.approve(mapping, form, request, response);
+        }else{
+            getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
+        return forward;
+    }
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+        AwardForm awardForm = (AwardForm) form;
+
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
+            forward = super.route(mapping, form, request, response);
+        }else{
+            getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
+        return forward;        
+    }
+    
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+        AwardForm awardForm = (AwardForm) form;
+
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
+            forward = super.blanketApprove(mapping, form, request, response);
+        }else{
+            getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
+        return forward;
     }
     
     /**
@@ -460,7 +511,6 @@ public class AwardAction extends BudgetParentActionBase {
         
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
         boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
 
         populateAwardHierarchy(form);
@@ -486,7 +536,7 @@ public class AwardAction extends BudgetParentActionBase {
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setAward(award);
-            if(!kraWorkflowService.isInWorkflow(timeAndMoneyDocument)){
+            if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
                 createNewTimeAndMoneyDocument = Boolean.FALSE;
                 break;
             }
@@ -511,6 +561,10 @@ public class AwardAction extends BudgetParentActionBase {
 
     }
 
+    protected KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
+    }
+    
     /*
      * 
      * This adds the awardDocument to the user session which will be retrieved later when returning the the Award.
