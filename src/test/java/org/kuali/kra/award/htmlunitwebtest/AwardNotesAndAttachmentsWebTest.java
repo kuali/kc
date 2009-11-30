@@ -17,6 +17,8 @@ package org.kuali.kra.award.htmlunitwebtest;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -65,4 +67,7 @@ public class AwardNotesAndAttachmentsWebTest extends AwardWebTestBase {
         HtmlPage awardNotesAndAttachmentsPage = clickOnTab(awardHomePage, NOTES_AND_ATTACHMENTS_LINK_NAME);
         return awardNotesAndAttachmentsPage;
     }
+    
+    @Test @Ignore
+    public void dummy() {}
 }
