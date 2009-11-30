@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -308,7 +309,6 @@ public class AwardHomeAction extends AwardAction {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         ActionForward forward;
-        getTimeAndMoneyExistenceService();
         
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyNodes())){
             VersionHistory foundPending = findPendingVersion(award);
@@ -332,6 +332,7 @@ public class AwardHomeAction extends AwardAction {
                                                                                                          WorkflowException, 
                                                                                                          IOException {
         Award newVersion = getVersioningService().createNewVersion(award);
+        copyTimeAndMoneyData(award, newVersion);
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
@@ -340,6 +341,25 @@ public class AwardHomeAction extends AwardAction {
         reinitializeAwardForm(awardForm, newAwardDocument);
         response.sendRedirect(makeDocumentOpenUrl(newAwardDocument));
         return null;
+    }
+
+    /*
+     * This method copies over the time and money data that is data in AwardAmountInfo list from old Award to new Award.
+     * @param award
+     * @param newVersion
+     */
+    private void copyTimeAndMoneyData(Award award, Award newVersion) {
+        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
+            AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+            newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
+            newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
+            newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
+            newAwardAmountInfo.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+            newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
+            newAwardAmountInfo.setTimeAndMoneyDocumentNumber(awardAmountInfo.getTimeAndMoneyDocumentNumber());
+            newAwardAmountInfo.setTransactionId(awardAmountInfo.getTransactionId());
+            newVersion.getAwardAmountInfos().add(newAwardAmountInfo);
+        }
     }
     
     /**
