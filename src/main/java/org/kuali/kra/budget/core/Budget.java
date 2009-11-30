@@ -355,12 +355,7 @@ public class Budget extends KraPersistableBusinessObjectBase {
     }
     
     public boolean isUnrecoveredFandAAvailable() {
-        boolean unrecoveredFandAAvailable = false;
-        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
-            unrecoveredFandAAvailable = budgetPeriod.getUnderrecoveryAmount().isPositive();
-            if(unrecoveredFandAAvailable) { break; }
-        }
-        return unrecoveredFandAAvailable;
+        return (getUnderrecoveryAmount().doubleValue() >= 0.00);
     }
     
     /**
