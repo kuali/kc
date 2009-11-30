@@ -26,7 +26,6 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
