@@ -280,12 +280,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         Collection<InvestigatorCreditType> creditTypes = document.getDevelopmentProposal().getInvestigatorCreditTypes();
 
         for (ProposalPerson investigator : document.getDevelopmentProposal().getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getUserName());
+            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getProposalPersonNumber().toString());
             Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
                 creditTypeTotals = new HashMap<String,KualiDecimal>();
-                retval.put(investigator.getUserName(), creditTypeTotals);
+                retval.put(investigator.getProposalPersonNumber().toString(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
                 investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
