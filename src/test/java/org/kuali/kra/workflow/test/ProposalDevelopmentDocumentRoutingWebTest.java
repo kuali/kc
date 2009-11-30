@@ -25,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.infrastructure.TestUtilities;
@@ -139,7 +140,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     }
 
 
-    @Test
+    @Test @Ignore
     public void testAlternateRoutingWithMultipleApproval() throws Exception {
         HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(proposaldevelopmentPage);

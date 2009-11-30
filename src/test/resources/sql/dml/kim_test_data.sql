@@ -1743,7 +1743,7 @@ values ('206', '5B4F09744A39EF33E0404F8189D84F28', 1, '836', '20', '4', 'KUALI')
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('431', '6314CC58CF59B7B5E0404F8189D84439', 1, '306', '11', '5', 'IdentityManagementPersonDocument');
 
-Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-WKFLW','All','KIM_PRIORITY_ON_DOC_TYP_PERMS_IND',SYS_GUID(),1,'CONFG','N','Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.','A','KUALI');
+--Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-WKFLW','All','KIM_PRIORITY_ON_DOC_TYP_PERMS_IND',SYS_GUID(),1,'CONFG','N','Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.','A','KUALI');
 
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('5B1B6B919CCA6496E0404F8189D822F2', 1, 'kr', '1', null, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '1');
