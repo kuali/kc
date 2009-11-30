@@ -33,14 +33,6 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Based on user permission and document routing status; the documentactions set is created.
  */
 public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-                                                   //FYI: reverted to MaintenanceDocumentAuthorizerBase for KRACOEUS-3012
-    
-                                                   // TODO: A permanent solution on how we handle the 'initiate' permission needs to be found.
-                                                   //       Possibly a standard permission for KCMaintenanceDocument should be created.  On 
-                                                   //       top of it we can check for question or questionnaire 'modify'/'view' permission.
-                                                   //       For the time being the GenericPermissableMaintenanceDocumentAuthorizer
-                                                   //       is being used.
-                                                   //extends GenericPermissableMaintenanceDocumentAuthorizer {    
 
     /**
      * Create the documentActons based on user permission and document routing status.
