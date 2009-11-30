@@ -78,7 +78,7 @@ public class CommitteeScheduleLookupHelperServiceTest extends KraTestBase {
      */
     @Test
     public void testGetInquiryUrl() {
-        HtmlData inquiryUrl = committeeScheduleLookupableHelperServiceImpl.getInquiryUrl(initCommitteeSchedule(), "committeeId");
+        HtmlData inquiryUrl = committeeScheduleLookupableHelperServiceImpl.getInquiryUrl(initCommitteeSchedule(), "committee.committeeId");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
     }
 
