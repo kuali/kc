@@ -22,17 +22,17 @@ ALTER TABLE ROLODEX ENABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
 
 insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
   VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, COUNTRY_CODE, STATE, POSTAL_CODE)
+  EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE)
 values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
   1, sys_guid(), 100, 'Hulslander', 'Jay', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
-  'jdh34@cornell.edu', 'Ithaca', 'USA', 'NY', '14850');
+  'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
   
 insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
   VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, COUNTRY_CODE, STATE, POSTAL_CODE)
+  EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE)
 values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
   1, sys_guid(), 101, 'Hulslander2', 'Jay2', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
-  'jdh34@cornell.edu', 'Ithaca', 'USA', 'NY', '14850');
+  'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
 
 insert into sponsor_type(description, obj_id, sponsor_type_code, update_timestamp, update_user, ver_nbr)
 values('test code', sys_guid(), 'tst', sysdate, 'jhulslander', 1);
