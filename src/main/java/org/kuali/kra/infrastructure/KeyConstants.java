@@ -622,6 +622,7 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD = "error.proposal.require.priorAward";
     public static final String ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP = "error.proposal.require.id.changeapp";
     public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT = "error.proposal.require.priorAwardResubmit";
+    public static final String ERROR_AWARD_CANNOT_BE_VERSIONED = "error.award.cannot.be.versioned";
     
     /**
      * private utility class ctor.

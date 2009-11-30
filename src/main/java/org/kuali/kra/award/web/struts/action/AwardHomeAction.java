@@ -16,7 +16,6 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,15 +31,11 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
-import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.ProposalStatus;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -312,15 +307,22 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = ((AwardForm)form);
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
-        VersionHistory foundPending = findPendingVersion(award);
-        
         ActionForward forward;
-        if(foundPending != null) {
-            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
-                                         processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
-        } else {
-            forward = createAndSaveNewAwardVersion(response, awardForm, awardDocument, award);
+        getTimeAndMoneyExistenceService();
+        
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyNodes())){
+            VersionHistory foundPending = findPendingVersion(award);
+            
+            if(foundPending != null) {
+                Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
+                                             processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
+            } else {
+                forward = createAndSaveNewAwardVersion(response, awardForm, awardDocument, award);
+            }    
+        }else{
+            getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
     }
