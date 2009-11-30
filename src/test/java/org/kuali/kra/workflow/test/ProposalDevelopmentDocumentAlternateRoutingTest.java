@@ -22,6 +22,7 @@ import java.sql.Date;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.KraTestBase;
@@ -84,7 +85,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         logAfterRun();
     }
     
-    @Test
+    @Test @Ignore
     public void testAlternateRoutingPath() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService
                 .getNewDocument("ProposalDevelopmentDocument");

@@ -20,46 +20,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-@PerTestUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_KRNS_PARM_T_data.sql", delimiter = ";")
-            }
-            )
-            )
-
-public class KcPersonServiceImplTest extends KcraNoDataTestBase {
+public class KcPersonServiceImplTest extends KraTestBase {
     
     private KcPersonService service;
     private KcPersonServiceImpl service2;
 
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+    public void getServices() throws Exception {
         service = KraServiceLocator.getService(KcPersonService.class);
         service2 = (KcPersonServiceImpl)KraServiceLocator.getService(KcPersonService.class);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
-        service = null;
-        service2 = null;
-        super.tearDown();
     }
     
     @Test
