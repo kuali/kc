@@ -79,10 +79,19 @@
     </bean>
 
     <bean id="ProtocolCorrespondenceType-moduleId" parent="ProtocolCorrespondenceType-moduleId-parentBean" />
-    <bean id="ProtocolCorrespondenceType-moduleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="ProtocolCorrespondenceType-moduleId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="moduleId" />
+        <property name="forceUppercase" value="false" />
         <property name="label" value="Module Id" />
         <property name="shortLabel" value="Module Id" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="11" />
+        </property>
         <property name="summary" value="Module Id" />
         <property name="description" value="Module Id" />
     </bean>

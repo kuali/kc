@@ -38,9 +38,8 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
     @Column(name="DESCRIPTION")
     private String description; 
 
-    @Type(type="yes_no")
     @Column(name="MODULE_ID")
-    private boolean moduleId; 
+    private String moduleId; 
     
     public ProtocolCorrespondenceType() { 
 
@@ -62,11 +61,11 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
         this.description = description;
     }
 
-    public boolean getModuleId() {
+    public String getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(boolean moduleId) {
+    public void setModuleId(String moduleId) {
         this.moduleId = moduleId;
     }
 
