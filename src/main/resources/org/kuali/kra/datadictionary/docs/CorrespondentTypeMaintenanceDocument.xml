@@ -34,7 +34,7 @@
             </list>
         </property>
 
-        <property name="documentTypeName" value="Correspondent Type Maintenance Document" />
+        <property name="documentTypeName" value="CorrespondentTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
