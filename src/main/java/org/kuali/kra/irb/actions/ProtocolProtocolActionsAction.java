@@ -1593,4 +1593,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
+    
+    public ActionForward submitAdminCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
