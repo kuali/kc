@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
+import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
@@ -91,6 +92,7 @@ public class ActionHelper implements Serializable {
     private boolean canTerminate = false;
     private boolean canPermitDataAnalysis = false;
     private boolean canEnterRiskLevel = true;
+    private boolean canMakeAdminCorrection = true;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -116,6 +118,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolExpireBean;
     private ProtocolGenericActionBean protocolTerminateBean;
     private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
+    private AdminCorrectionBean protocolAdminCorrectionBean;
     private transient ParameterService parameterService;
     
     /*
@@ -171,6 +174,7 @@ public class ActionHelper implements Serializable {
         protocolTerminateBean = new ProtocolGenericActionBean();
         protocolPermitDataAnalysisBean = new ProtocolGenericActionBean();
         newRiskLevel = new ProtocolRiskLevel();
+        protocolAdminCorrectionBean = new AdminCorrectionBean();
     }
     
     /**
@@ -268,6 +272,7 @@ public class ActionHelper implements Serializable {
         canExpire = hasExpirePermission();
         canTerminate = hasTerminatePermission();
         canPermitDataAnalysis = hasPermitDataAnalysisPermission();
+        canMakeAdminCorrection = hasAdminCorrectionPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -426,6 +431,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasAdminCorrectionPermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -545,6 +554,10 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
         return protocolPermitDataAnalysisBean;
     }
+    
+    public AdminCorrectionBean getProtocolAdminCorrectionBean() {
+        return protocolAdminCorrectionBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -640,6 +653,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanEnterRiskLevel() {
         return canEnterRiskLevel;
+    }
+    
+    public boolean getCanMakeAdminCorrection() {
+        return canMakeAdminCorrection;
     }
     
     public void setPrintTag(String printTag) {
