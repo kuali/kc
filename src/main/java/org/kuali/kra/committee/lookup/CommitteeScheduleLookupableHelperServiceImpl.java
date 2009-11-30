@@ -35,12 +35,12 @@ import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * 
- * This class is to create action links and inquiry url for committeeschedule lookup. Also, converts the search criteria to a couple
- * of reference object field.
+ * This class is to create action links and inquiry url for committeeschedule lookup. 
  */
 @SuppressWarnings("serial")
 public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String READ_ONLY = "readOnly";
+    private static final String COMMITTEE_COMMITTEE_NAME = "committee.committeeName";
     private TaskAuthorizationService taskAuthorizationService;
 
 
@@ -56,8 +56,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (canModifySchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, true));
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
-        }
-        else if (canViewSchedule((CommitteeSchedule) businessObject)) {
+        } else if (canViewSchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
         }
         return htmlDataList;
@@ -78,8 +77,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (isEdit) {
             htmlData.setDisplayText("edit");
             parameters.put(READ_ONLY, "false");
-        }
-        else {
+        } else {
             htmlData.setDisplayText("view");
             parameters.put(READ_ONLY, "true");
         }
@@ -92,6 +90,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
 
     /**
      * This method is for committeeId that does not have inquiry created by lookup frame work.
+     * Also, disable inquiry link for committee name.
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
      *      java.lang.String)
@@ -101,7 +100,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if ("committee.committeeName".equals(propertyName)) {
+        if (COMMITTEE_COMMITTEE_NAME.equals(propertyName)) {
             return new AnchorHtmlData();
         } else {
             return super.getInquiryUrl(inqBo, inqPropertyName);
@@ -132,8 +131,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals("committee.committeeId")
-                        || field.getPropertyName().equals("committee.committeeName")) {
+                if ("committee.committeeId".equals(field.getPropertyName())
+                        || COMMITTEE_COMMITTEE_NAME.equals(field.getPropertyName())) {
                     // to disable lookup/inquiry display
                     field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
                 }
