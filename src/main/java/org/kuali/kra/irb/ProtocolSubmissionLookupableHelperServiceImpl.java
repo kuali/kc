@@ -16,10 +16,7 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.Rolodex;
@@ -39,12 +36,13 @@ import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * 
- * This class is to create action links and inquiry url for protocolsubmission lookup. Also, converts the search criteria to a couple of reference
- * object field.
+ * This class is to create action links and inquiry url for protocolsubmission lookup. 
  */
 @SuppressWarnings("serial")
 public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private static final String COMMITTEE_ID = "committeeId";
+    private static final String COMMITTEE_SCHEDULE_SCHEDULE_DATE = "committeeSchedule.scheduledDate";
+    private static final String PROTOCOL_TITLE = "protocol.title";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
     private KraAuthorizationService kraAuthorizationService;
@@ -75,6 +73,9 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         return htmlDataList;
     }
 
+    /*
+     * create the view link url for protocolsubmission
+     */
     private AnchorHtmlData getViewLink(ProtocolSubmission protocolSubmission) {
         AnchorHtmlData viewHtmlData = super.getViewLink(protocolSubmission.getProtocol().getProtocolDocument());
         String submissionIdParam = "&submissionId=" + protocolSubmission.getSubmissionId();
@@ -110,6 +111,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
+     * Also, disable inquiry link for protocol title & schedule date.
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
      *      java.lang.String)
@@ -119,7 +121,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if ("committeeSchedule.scheduledDate".equals(propertyName) || "protocol.title".equals(propertyName)) {
+        if (COMMITTEE_SCHEDULE_SCHEDULE_DATE.equals(propertyName) || PROTOCOL_TITLE.equals(propertyName)) {
             return new AnchorHtmlData();
         } else if (PROTOCOL_NUMBER.equals(propertyName)) {
             inqBo = ((ProtocolSubmission) bo).getProtocol();
@@ -149,7 +151,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
     }
 
     /**
-     * To disable the search icon for 'title' & scheduleddate fields.  These fields are referencing to reference objects' fields.
+     * To disable the search icon for 'title' & 'scheduleddate' fields.  These fields are referencing to reference objects' fields.
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
@@ -157,7 +159,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals("protocol.title") || field.getPropertyName().equals("committeeSchedule.scheduledDate")) {
+                if (PROTOCOL_TITLE.equals(field.getPropertyName()) || COMMITTEE_SCHEDULE_SCHEDULE_DATE.equals(field.getPropertyName())) {
                     // to disable lookup/inquiry display
                     field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);                 
                 }
