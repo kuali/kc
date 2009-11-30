@@ -25,7 +25,7 @@ public class CorrespondentType extends KraPersistableBusinessObjectBase {
 
     private Integer correspondentTypeCode; 
     private String description; 
-    private boolean qualifier; 
+    private String qualifier; 
     
    
     public CorrespondentType() { 
@@ -48,11 +48,11 @@ public class CorrespondentType extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public boolean getQualifier() {
+    public String getQualifier() {
         return qualifier;
     }
 
-    public void setQualifier(boolean qualifier) {
+    public void setQualifier(String qualifier) {
         this.qualifier = qualifier;
     }
 
