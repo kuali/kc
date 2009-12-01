@@ -37,6 +37,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
+import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
@@ -93,6 +94,7 @@ public class ActionHelper implements Serializable {
     private boolean canPermitDataAnalysis = false;
     private boolean canEnterRiskLevel = true;
     private boolean canMakeAdminCorrection = true;
+    private boolean canRecordCommitteeDecision = true;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -119,6 +121,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolTerminateBean;
     private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
     private AdminCorrectionBean protocolAdminCorrectionBean;
+    private CommitteeDecision committeeDecision;
     private transient ParameterService parameterService;
     
     /*
@@ -175,6 +178,7 @@ public class ActionHelper implements Serializable {
         protocolPermitDataAnalysisBean = new ProtocolGenericActionBean();
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = new AdminCorrectionBean();
+        committeeDecision = new CommitteeDecision();
     }
     
     /**
@@ -273,6 +277,7 @@ public class ActionHelper implements Serializable {
         canTerminate = hasTerminatePermission();
         canPermitDataAnalysis = hasPermitDataAnalysisPermission();
         canMakeAdminCorrection = hasAdminCorrectionPermission();
+        canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -435,6 +440,10 @@ public class ActionHelper implements Serializable {
         return true;
     }
     
+    private boolean hasRecordCommitteeDecisionPermission() {
+        return true;
+    }
+    
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -558,6 +567,10 @@ public class ActionHelper implements Serializable {
     public AdminCorrectionBean getProtocolAdminCorrectionBean() {
         return protocolAdminCorrectionBean;
     }
+    
+    public CommitteeDecision getCommitteeDecision() {
+        return committeeDecision;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -657,6 +670,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanMakeAdminCorrection() {
         return canMakeAdminCorrection;
+    }
+    
+    public boolean getCanRecordCommitteeDecision() {
+        return canRecordCommitteeDecision;
     }
     
     public void setPrintTag(String printTag) {
