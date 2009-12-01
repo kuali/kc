@@ -27,6 +27,7 @@
 		<kra-irb-action:assignReviewersAction />
 		<kra-irb-action:grantExemptionAction />
 		<kra-irb-action:approveAction />
+		<kra-irb-action:recordCommitteeDecisionAction />
 		<kra-irb-action:expediteApprovalAction />
 		<kra-irb-action:notifyIrbAction />
 		<kra-irb-action:createAmendmentAction />
