@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.io.Serializable;
+
 import org.kuali.kra.irb.actions.ReviewComments;
 
-public class CommitteeDecision {
+public class CommitteeDecision implements Serializable {
 
     private String motion;
     private Integer noCount;
