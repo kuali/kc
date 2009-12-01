@@ -115,9 +115,9 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
 
                 Class lookupResultsBOClass = Class.forName(committeeForm.getLookupResultsBOClassName());
-                String userName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
-                Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
+                Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, principalId);
 
                 processMultipleLookupResults(committeeForm, lookupResultsBOClass, selectedBOs);
             }
