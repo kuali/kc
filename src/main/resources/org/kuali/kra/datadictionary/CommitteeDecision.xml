@@ -1,0 +1,129 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CommitteeDecision" parent="CommitteeDecision-parentBean" />
+	<bean id="CommitteeDecision-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.decision.CommitteeDecision" />
+		<property name="objectLabel" value="Committee Decision" />
+		<property name="titleAttribute" value="CommitteeDecision-motion" />
+		<property name="attributes" >
+			<list>
+			    <ref bean="CommitteeDecision-motion" />
+			    <ref bean="CommitteeDecision-noCount" />
+			    <ref bean="CommitteeDecision-yesCount" />
+			    <ref bean="CommitteeDecision-abstainCount" />
+				<ref bean="CommitteeDecision-votingComments" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="CommitteeDecision-motion" parent="CommitteeDecision-motion-parentBean" />
+    <bean id="CommitteeDecision-motion-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="motion" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Motion" />
+        <property name="shortLabel" value="Motion" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.actions.decision.MotionValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Motion" />
+        <property name="description" value="Motion" />
+    </bean> 
+    
+	<bean id="CommitteeDecision-noCount" parent="CommitteeDecision-noCount-parentBean" />
+    <bean id="CommitteeDecision-noCount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noCount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="No" />
+        <property name="shortLabel" value="No" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+          <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+          <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="No" />
+        <property name="description" value="No" />
+    </bean>
+    
+    <bean id="CommitteeDecision-yesCount" parent="CommitteeDecision-yesCount-parentBean" />
+    <bean id="CommitteeDecision-yesCount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="yesCount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Yes" />
+        <property name="shortLabel" value="Yes" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+          <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+          <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Yes" />
+        <property name="description" value="Yes" />
+    </bean>
+    
+    <bean id="CommitteeDecision-abstainCount" parent="CommitteeDecision-abstainCount-parentBean" />
+    <bean id="CommitteeDecision-abstainCount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="abstainCount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Abstain" />
+        <property name="shortLabel" value="Abstain" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+          <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+          <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Abstain" />
+        <property name="description" value="Abstain" />
+    </bean>
+    
+    <bean id="CommitteeDecision-votingComments" parent="CommitteeDecision-votingComments-parentBean" />
+	<bean id="CommitteeDecision-votingComments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="votingComments" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Voting Comments" />
+		<property name="shortLabel" value="Voting Comments" />
+		<property name="maxLength" value="2000" />
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+		          p:rows="4"
+		          p:cols="50" />
+		</property>
+		<property name="summary" value="Voting Comments" />
+		<property name="description" value="Voting Comments" />
+	</bean>	
+
+   
+    
+</beans>
