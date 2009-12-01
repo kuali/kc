@@ -3104,3 +3104,6 @@ alter table KRIM_ROLE_PERM_T enable constraint KRIM_ROLE_PERM_TR1;
 alter table KRIM_TYP_ATTR_T enable constraint KRIM_TYP_ATTR_TR2;
 DROP SEQUENCE KRIM_ROLE_MBR_ID_S;
 create SEQUENCE KRIM_ROLE_MBR_ID_S increment by 1 start with 2000; 
+
+DROP SEQUENCE KRIM_ATTR_DATA_ID_S;
+create SEQUENCE KRIM_ATTR_DATA_ID_S increment by 1 start with 10000; 
