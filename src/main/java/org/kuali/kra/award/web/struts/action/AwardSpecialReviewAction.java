@@ -47,10 +47,11 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
-        getSpecialReviewService().addSpecialReview(award,awardForm);
-        awardForm.setNewSpecialReview(new AwardSpecialReview());
-        awardForm.setNewExemptionTypeCodes(null);
-        
+        boolean success = getSpecialReviewService().addSpecialReview(award,awardForm);
+        if (success) {
+            awardForm.setNewSpecialReview(new AwardSpecialReview());
+            awardForm.setNewExemptionTypeCodes(null);
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     private SpecialReviewService<AwardSpecialReview,AwardSpecialReviewExemption> getSpecialReviewService() {

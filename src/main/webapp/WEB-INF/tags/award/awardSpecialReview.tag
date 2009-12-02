@@ -19,7 +19,7 @@
 <c:set var="awardSpecialReviewExemptionAttributes" value="${DataDictionary.AwardSpecialReviewExemption.attributes}" />
 <c:set var="action" value="awardSpecialReview" />
 <div id="workarea">
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.award.specialReview*,newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.award.specialReview*" useRiceAuditMode="false">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.award.specialReview*,newSpecialReview*,documentExemptNumber*,awardSpecialReview*,document.awardList[0].specialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.award.specialReview*" useRiceAuditMode="false">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
