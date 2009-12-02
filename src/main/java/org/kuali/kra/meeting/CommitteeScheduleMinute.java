@@ -34,7 +34,9 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 
 /**
  * 
@@ -76,6 +78,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @Type(type="yes_no")
     @Column(name="FINAL_FLAG")
     private boolean finalFlag; 
+    
+    private Long protocolReviewerIdFk;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_CONTINGENCY_CODE", insertable=false, updatable=false)
@@ -84,6 +88,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="MINUTE_ENTRY_TYPE_CODE", insertable=false, updatable=false)
     private MinuteEntryType minuteEntryType;
+    
+    private ProtocolReviewer protocolReviewer;
 
     @Lob
     @Basic(fetch=FetchType.LAZY)
@@ -253,5 +259,19 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         this.protocol = protocol;
     }
 
+    public Long getProtocolReviewerIdFk() {
+        return protocolReviewerIdFk;
+    }
 
+    public void setProtocolReviewerIdFk(Long protocolReviewerIdFk) {
+        this.protocolReviewerIdFk = protocolReviewerIdFk;
+    }
+
+    public ProtocolReviewer getProtocolReviewer() {
+        return protocolReviewer;
+    }
+
+    public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
+        this.protocolReviewer = protocolReviewer;
+    }
 }

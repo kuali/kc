@@ -69,8 +69,11 @@
                         </c:choose>
                     </td>
                                             
-                    <td>&nbsp;</td>
-                                            
+                    <td>
+                        <kul:htmlControlAttribute property="${property}.newComment.protocolReviewerIdFk" 
+                                                  attributeEntry="${minutesAttributes.protocolReviewerIdFk}" />
+                    </td>
+                                     
                     <td valign="middle" style="text-align:center">
                         <kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" />
@@ -113,7 +116,10 @@
                             </c:otherwise>
                         </c:choose>
                                                 
-                        <td>&nbsp;</td>
+                        <td>
+                            <kul:htmlControlAttribute property="${property}.comments[${status.index}].protocolReviewerIdFk" 
+                                                      attributeEntry="${minutesAttributes.protocolReviewerIdFk}" />
+                        </td>
                                                 
                         <td style="text-align:center; vertical-align:middle">
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
