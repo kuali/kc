@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2008 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,41 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions;
+package org.kuali.kra.irb.correspondence;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = 1L;
+@Entity 
+@Table(name="PROTO_CORRESP_TYPE")
+public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase { 
 
-    private Integer validProtoActionCorespId; 
-    private Integer protocolActionTypeCode; 
+    private static final long serialVersionUID = -4725522827463252054L;
+
+    @Id 
+    @Column(name="PROTO_CORRESP_TYPE_CODE")
     private Integer protoCorrespTypeCode; 
-    private boolean finalFlag; 
+
+    @Column(name="DESCRIPTION")
+    private String description; 
+
+    @Column(name="MODULE_ID")
+    private String moduleId; 
     
-    public ValidProtoActionCoresp() { 
+    public ProtocolCorrespondenceType() { 
 
     } 
     
-    public Integer getValidProtoActionCorespId() {
-        return validProtoActionCorespId;
-    }
-
-    public void setValidProtoActionCorespId(Integer validProtoActionCorespId) {
-        this.validProtoActionCorespId = validProtoActionCorespId;
-    }
-
-    public Integer getProtocolActionTypeCode() {
-        return protocolActionTypeCode;
-    }
-
-    public void setProtocolActionTypeCode(Integer protocolActionTypeCode) {
-        this.protocolActionTypeCode = protocolActionTypeCode;
-    }
-
     public Integer getProtoCorrespTypeCode() {
         return protoCorrespTypeCode;
     }
@@ -56,22 +53,29 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
         this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 
-    public boolean getFinalFlag() {
-        return finalFlag;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFinalFlag(boolean finalFlag) {
-        this.finalFlag = finalFlag;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
     }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validProtoActionCorespId", this.getValidProtoActionCorespId());
-        hashMap.put("protocolActionTypeCode", this.getProtocolActionTypeCode());
         hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("finalFlag", this.getFinalFlag());
+        hashMap.put("description", this.getDescription());
+        hashMap.put("moduleId", this.getModuleId());
         return hashMap;
     }
     

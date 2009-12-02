@@ -647,7 +647,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">
+	<class-descriptor class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">
 		<field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleId" column="MODULE_ID" jdbc-type="VARCHAR" />
@@ -749,7 +749,7 @@
         </collection-descriptor> 
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondence" table="PROTOCOL_CORRESPONDENCE">
+	<class-descriptor class="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" table="PROTOCOL_CORRESPONDENCE">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
@@ -766,7 +766,7 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protoCorrespTypeCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolAction" class-ref="org.kuali.kra.irb.actions.ProtocolAction" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -952,7 +952,17 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.actions.ValidProtoActionCoresp" table="VALID_PROTO_ACTION_CORESP">
+	<class-descriptor class="org.kuali.kra.irb.correspondence.CorrespondentType" table="CORRESPONDENT_TYPE">
+		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="qualifier" column="QUALIFIER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.correspondence.ValidProtoActionCoresp" table="VALID_PROTO_ACTION_CORESP">
 		<field-descriptor name="validProtoActionCorespId" column="VALID_PROTO_ACTION_CORESP_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="INTEGER" />
