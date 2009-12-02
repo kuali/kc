@@ -41,6 +41,7 @@
 				<ref bean="CommitteeScheduleMinute-finalFlag" />
 				<ref bean="CommitteeScheduleMinute-protocolContingencyCode" />
 				<ref bean="CommitteeScheduleMinute-minuteEntry" />
+				<ref bean="CommitteeScheduleMinute-protocolReviewerIdFk" />
 				<ref bean="CommitteeScheduleMinute-versionNumber" />
 			</list>
 		</property>
@@ -219,6 +220,26 @@
 		<property name="summary" value="Minute Entry" />
 		<property name="description" value="Minute Entry" />
 	</bean>
+	
+	<bean id="CommitteeScheduleMinute-protocolReviewerIdFk" parent="CommitteeScheduleMinute-protocolReviewerIdFk-parentBean" />
+    <bean id="CommitteeScheduleMinute-protocolReviewerIdFk-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolReviewerIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewers" />
+        <property name="shortLabel" value="Reviewers" />
+        <property name="maxLength" value="1000" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.actions.ProtocolReviewerValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Reviewers" />
+        <property name="description" value="Reviewers" />
+     </bean>
 
 	<bean id="CommitteeScheduleMinute-versionNumber" parent="CommitteeScheduleMinute-versionNumber-parentBean" />
 	<bean id="CommitteeScheduleMinute-versionNumber-parentBean"
