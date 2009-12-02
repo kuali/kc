@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -82,7 +81,7 @@ import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.award.specialreview.AwardSpecialReviewRule;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
@@ -286,6 +285,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
+        retval &= processSpecialReviewBusinessRule(document);
+
         
         return retval;
     }
@@ -383,6 +384,34 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(errorPath);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+     * This method validates 'Proposal Special review'. It checks
+     * validSpecialReviewApproval table, and if there is a match, then checks
+     * protocalnumberflag, applicationdateflag, and approvaldataflag.
+     *
+     * @paramDocument : The awardDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processSpecialReviewBusinessRule(Document document) {
+        boolean valid = true;
+        AwardDocument awardDocument = (AwardDocument) document;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        int i = 0;
+
+        for (AwardSpecialReview awardSpecialReview : awardDocument.getAward().getSpecialReviews()) {
+            errorMap.addToErrorPath("awardSpecialReview[" + i + "]");
+            AwardSpecialReviewRule specialReviewRule = new AwardSpecialReviewRule();
+            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(awardSpecialReview, "documentExemptNumbers[" + i + "]");
+            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(awardSpecialReview);
+            
+            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            i++;
+        }
         return valid;
     }
     
