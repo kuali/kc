@@ -177,7 +177,7 @@
               </ruleExtension>            
             </ruleExtensions>
             <responsibilities>
-                <responsibility><workgroup>IRBAdmin</workgroup></responsibility>
+                <responsibility><groupName namespace="KC-WKFLW">IRBAdmin</groupName></responsibility>
             </responsibilities>
         </rule>
         <rule>
@@ -199,7 +199,7 @@
               </ruleExtension>            
             </ruleExtensions>
             <responsibilities>
-                <responsibility><workgroup>IRBAdmin</workgroup></responsibility>
+                <responsibility><groupName namespace="KC-WKFLW">IRBAdmin</groupName></responsibility>
             </responsibilities>
         </rule>
         <rule>
@@ -221,7 +221,7 @@
               </ruleExtension>            
             </ruleExtensions>
             <responsibilities>
-                <responsibility><workgroup>IRBAdmin</workgroup></responsibility>
+                <responsibility><groupName namespace="KC-WKFLW">IRBAdmin</groupName></responsibility>
             </responsibilities>
         </rule>
         <rule>
@@ -243,7 +243,7 @@
               </ruleExtension>            
             </ruleExtensions>
             <responsibilities>
-                <responsibility><workgroup>IRBAdmin</workgroup></responsibility>
+                <responsibility><groupName namespace="KC-WKFLW">IRBAdmin</groupName></responsibility>
             </responsibilities>
         </rule>
         <!-- FIXME: This template IRBReviewComplete is not defined -->
@@ -267,7 +267,7 @@
               </ruleExtension>            
             </ruleExtensions>
             <responsibilities>
-                <responsibility><workgroup>IRBAdmin</workgroup></responsibility>
+                <responsibility><groupName namespace="KC-WKFLW">IRBAdmin</groupName></responsibility>
             </responsibilities>
         </rule>-->
     </rules>
