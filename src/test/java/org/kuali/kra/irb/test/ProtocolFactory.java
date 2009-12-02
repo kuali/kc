@@ -79,9 +79,9 @@ public class ProtocolFactory {
         setProtocolRequiredFields(protocolDocument, protocolNumber);
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
         
-        String userName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
+        kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         
         documentService.saveDocument(protocolDocument);
         return protocolDocument;
