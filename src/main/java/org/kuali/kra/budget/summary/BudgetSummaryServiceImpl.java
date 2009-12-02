@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -206,32 +207,29 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     
     
     public void defaultBudgetPeriods(Budget budget) {
-        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
-        List<BudgetPeriod> budgetPeriodsToDelete = new ArrayList<BudgetPeriod>();
+        //get a list of default periods to match the current periods to
+        List<BudgetPeriod> newPeriods = new ArrayList<BudgetPeriod>();
+        generateBudgetPeriods(budget,newPeriods);
         
-        generateBudgetPeriods(budget,budget.getBudgetPeriods());
-        
-        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-            if (budgetPeriod.getBudgetPeriod() <= budgetPeriods.size()) {
-                budgetPeriod.setStartDate(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
-                budgetPeriod.setEndDate(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
-            } else {
-                budgetPeriodsToDelete.add(budgetPeriod);
-            }            
+        //remove any existing periods beyond the number of default periods
+        while (budget.getBudgetPeriods().size() > newPeriods.size()) {
+           budget.getBudgetPeriods().remove(budget.getBudgetPeriods().size()-1);
         }
-        budget.getBudgetPeriods().removeAll(budgetPeriodsToDelete);
-        if (budgetPeriods.size() > budget.getBudgetPeriods().size()) {
-            int numOfPeriods = budget.getBudgetPeriods().size();
-            while (numOfPeriods < budgetPeriods.size()) {
-                BudgetPeriod budgetPeriod = budgetPeriods.get(numOfPeriods);
-                budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
-                budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
-                budget.getBudgetPeriods().add(numOfPeriods, budgetPeriods.get(numOfPeriods));
-                numOfPeriods++;
+        //loop through the new periods and correct the dates to match the default set
+        //or add a new period if one does not exist
+        for (int i = 0; i < newPeriods.size(); i++) {
+            BudgetPeriod newPeriod = newPeriods.get(i);
+            if (i < budget.getBudgetPeriods().size()) {
+                BudgetPeriod curPeriod = budget.getBudgetPeriod(i);
+                curPeriod.setStartDate(newPeriod.getStartDate());
+                curPeriod.setEndDate(newPeriod.getEndDate());
+            } else {
+                budget.getBudgetPeriods().add(newPeriod);
             }
         }
-        
-        
+        //correct line item detail dates
+        adjustStartEndDatesForLineItems(budget);
+        calculateBudget(budget);
     }
 
     public boolean budgetLineItemExists(Budget budget, Integer budgetPeriod) {
