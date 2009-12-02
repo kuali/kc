@@ -17,6 +17,7 @@ package org.kuali.kra.budget.distributionincome;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -28,6 +29,7 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
     
     private Long budgetPeriodId;
+    private BudgetPeriod budgetPeriod;
     private Integer budgetPeriodNumber;
     private String description;
     private KualiDecimal projectIncome;
@@ -115,5 +117,13 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+
+    public void setBudgetPeriod(BudgetPeriod budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
+    }
+
+    public BudgetPeriod getBudgetPeriod() {
+        return budgetPeriod;
     }
 }
