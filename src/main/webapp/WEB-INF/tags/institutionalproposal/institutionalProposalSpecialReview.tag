@@ -20,7 +20,7 @@
 <c:set var="institutionalProposalSpecialReviewExemptionAttributes" value="${DataDictionary.InstitutionalProposalSpecialReviewExemption.attributes}" />
 <c:set var="action" value="institutionalProposalSpecialReview" />
 <div id="workarea">
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.institutionalProposal.specialReview*,newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.institutionalProposal.specialReview*" useRiceAuditMode="false">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.institutionalProposal.specialReview*,document.institutionalProposalList[0].specialReview*,newSpecialReview*,documentExemptNumber*,propSpecialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.institutionalProposal.specialReview*" useRiceAuditMode="false">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
