@@ -27,6 +27,16 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 public class ResearchAreasAction extends KualiAction {
 
 
+    /**
+     * 
+     * This method is to refresh the research area page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.refresh(mapping, form, request, response);
@@ -34,11 +44,31 @@ public class ResearchAreasAction extends KualiAction {
         return mapping.findForward("basic");
     }
 
+    /**
+     * 
+     * This method is to cancel the maintenance action and go back to portal page
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
 
+    /**
+     * 
+     * This method is to return to page.  JS will save changes before this method is called.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);

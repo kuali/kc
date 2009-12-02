@@ -183,6 +183,9 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         }
     }
 
+    /*
+     * This method is to create delete statement to remove the node and its descendants
+     */
     private void getNodesToDelete(String researchAreaCode, Statement stmt) {
         try {
             for (ResearchArea researchArea : getSubResearchAreas(researchAreaCode)) {
@@ -199,6 +202,9 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         }
     }
 
+    /*
+     * This method is to get the children research areas of the 'researchAreaCode'
+     */
     private List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
