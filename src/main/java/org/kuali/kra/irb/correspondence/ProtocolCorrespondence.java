@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions;
+package org.kuali.kra.irb.correspondence;
 
 import java.util.LinkedHashMap;
 
@@ -28,6 +28,7 @@ import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 
 @Entity 
 @Table(name="PROTOCOL_CORRESPONDENCE")

@@ -21,7 +21,7 @@
 
     <bean id="ValidProtoActionCorespMaintenanceDocument" parent="ValidProtoActionCorespMaintenanceDocument-parentBean" />
     <bean id="ValidProtoActionCorespMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.ValidProtoActionCoresp" />
+        <property name="businessObjectClass" value="org.kuali.kra.irb.correspondence.ValidProtoActionCoresp" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
@@ -43,8 +43,8 @@
     
     <bean id="ValidProtoActionCorespMaintenanceDocument-EditValidProtoActionCoresp" parent="ValidProtoActionCorespMaintenanceDocument-EditValidProtoActionCoresp-parentBean" />
     <bean id="ValidProtoActionCorespMaintenanceDocument-EditValidProtoActionCoresp-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Valid Proto Action Coresp" />
-        <property name="title" value="Edit Valid Proto Action Coresp" />
+        <property name="id" value="Edit Correspondence Generated for Protocol Action" />
+        <property name="title" value="Edit Correspondence Generated for Protocol Action" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
