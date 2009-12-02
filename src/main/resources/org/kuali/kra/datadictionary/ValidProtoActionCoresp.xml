@@ -21,8 +21,8 @@
 
     <bean id="ValidProtoActionCoresp" parent="ValidProtoActionCoresp-parentBean" />
     <bean id="ValidProtoActionCoresp-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.ValidProtoActionCoresp" />
-   		<property name="objectLabel" value="Valid Protocol Action Correspondence" />
+        <property name="businessObjectClass" value="org.kuali.kra.irb.correspondence.ValidProtoActionCoresp" />
+   		<property name="objectLabel" value="Correspondence Generated for Protocol Action" />
         <property name="inquiryDefinition" >
             <ref bean="ValidProtoActionCoresp-inquiryDefinition" />
         </property>
@@ -149,7 +149,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="ValidProtoActionCoresp-lookupDefinition" parent="ValidProtoActionCoresp-lookupDefinition-parentBean" />
     <bean id="ValidProtoActionCoresp-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Valid Proto Action Coresp Lookup" />
+        <property name="title" value="Correspondence Generated for Protocol Action Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

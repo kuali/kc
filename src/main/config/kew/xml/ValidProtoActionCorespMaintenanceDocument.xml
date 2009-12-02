@@ -5,8 +5,8 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>ValidProtocolActionCorrespondenceMaintenanceDocument</name>
-			<description>Create/Edit Correspondence Generated</description>
-			<label>Correspondent Type</label>
+			<description>Create/Edit Correspondence Generated for Protocol Action</description>
+			<label>Correspondence Generated</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>
