@@ -20,36 +20,27 @@ $(document).ready(function() {
 
 			$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
 			$("#" + divId).slideToggle(300);
-		loadChildrenRA($("#itemText" + idstr).text(), tagId);
-	},
-	animated : "fast",
-	collapsed : true,
-	control : "#treecontrol"
+			loadChildrenRA($("#itemText" + idstr).text(), tagId);
+		},
+		animated : "fast",
+		collapsed : true,
+		control : "#treecontrol"
 
 	});
 
 	/*
-	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
-	 * $.ajaxComplete(function() { $("div#foo").text(""); });
+	 * TODO : may remove following ajax start/complete 
 	 */
 
-		$(document).ajaxStart(function() {
-			// this is weird, it will not show if the alert is not included??
-				// return false;
-				// var img = $('<a href="#"><img
-				// src="static/images/jquery/ajax-loader.gif" /></a>')
-				$("#loading").show();
-				// alert ("start Ajax");
-				// return false;
-			});
+	$(document).ajaxStart(function() {
+			$("#loading").show();
+		});
 
-		$(document).ajaxComplete(function() {
-			// alert ("complete Ajax");
-				$("#loading").hide();
-				// return false;
-			});
+	$(document).ajaxComplete(function() {
+			$("#loading").hide();
+		});
 
-	}); // $(document).ready
+}); // $(document).ready
 
 /*
  * A function to add sql statement to collection of sqlscripts, which will be
@@ -68,7 +59,8 @@ function addSqlScripts(sqlcommand) {
 /*
  * top level to add research area
  */
-$("#add0").click(function() {
+$("#add0")
+		.click(function() {
 			// click 'add' for 000001
 				var trNode = $(this).parents('tr:eq(0)');
 				if (trNode.children('td:eq(1)').children('input:eq(0)').attr(
@@ -160,7 +152,6 @@ $("#add0").click(function() {
 				return false;
 			}); // add0
 
-
 /*
  * Load first level area of research when page is initially loaded
  */
@@ -178,7 +169,9 @@ function loadFirstLevel() {
 					alert('Error loading XML document');
 				},
 				success : function(xml) {
-					$(xml).find('h3').each(
+					$(xml)
+							.find('h3')
+							.each(
 									function() {
 										var item_text = $(this).text();
 										i++;
@@ -199,11 +192,11 @@ function loadFirstLevel() {
 										if (jQuery.browser.msie) {
 											idDiv = $('<div></div>').attr("id",
 													"itemText" + i).html(
-													item_text); 
+													item_text);
 										} else {
 											idDiv = $('<span>').attr("id",
 													"itemText" + i).html(
-													item_text); 
+													item_text);
 										}
 										var tag = $(
 												'<a style = "margin-left:2px;" ></a>')
@@ -217,28 +210,44 @@ function loadFirstLevel() {
 														"name", "racode" + i)
 												.attr("value", racode);
 										hidracode.appendTo(div);
-										tag.click(function() {
-												$(".hierarchydetail:not(#"+ divId + ")").slideUp(300);
-												var idx = $(this).attr("id")
-														.substring(11);
-												if ($(this).siblings(
-														'div:eq(1)').children(
-														'table:eq(0)').size() == 0) {
-													tableTag(item_text,
-															"item" + idx)
-															.appendTo(
-																	$("#listcontent"
-																			+ idx));
-													if ($("#" + divId).is(":hidden")) {
-														$("#listcontent" + idx).show();
-														// $("#listcontent"+idx).slideToggle(300);
+										tag
+												.click(function() {
+													$(
+															".hierarchydetail:not(#"
+																	+ divId
+																	+ ")")
+															.slideUp(300);
+													var idx = $(this)
+															.attr("id")
+															.substring(11);
+													if ($(this)
+															.siblings(
+																	'div:eq(1)')
+															.children(
+																	'table:eq(0)')
+															.size() == 0) {
+														tableTag(item_text,
+																"item" + idx)
+																.appendTo(
+																		$("#listcontent"
+																				+ idx));
+														if ($("#" + divId).is(
+																":hidden")) {
+															$(
+																	"#listcontent"
+																			+ idx)
+																	.show();
+															// $("#listcontent"+idx).slideToggle(300);
+														}
+													} else {
+														$("#listcontent" + idx)
+																.slideToggle(
+																		300);
 													}
-												} else {
-													$("#listcontent" + idx).slideToggle(300);
-												}
 
-												loadChildrenRA(item_text, tagId);
-											});
+													loadChildrenRA(item_text,
+															tagId);
+												});
 										var listitem = $(
 												'<li class="closed"></li>')
 												.attr("id", id).html(tag);
@@ -286,51 +295,52 @@ function tbodyTag(name, id) {
 	var tblTag = $('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%"></table>')
 	var tag = $('<th colspan="4"></th>');
 	var image = $(
-			'<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp')
-			.attr("id", "remove" + idx).click(function() {
-				var liId = "li#" + id;
-					var parentRACode;
-					if ($(liId).parents('li:eq(0)').size() == 0) {
-						parentRACode = '000001';
-					} else {
-						parentRACode = getResearchAreaCode($(liId).parents(
-								'li:eq(0)'));
-					}
-					addSqlScripts("remove((" + getResearchAreaCode($(liId))
-							+ ";" + parentRACode + "))");
-					if (deletedNodes == '') {
-						deletedNodes = getResearchAreaCode($(liId));
-					} else {
-						deletedNodes = deletedNodes + ";"
-								+ getResearchAreaCode($(liId));
-					}
-					deleteChild(id);
-					$(liId).remove();
-					cutNode = null;
-					return false; // eliminate page jumping
-				});
+			'<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child research areas"></a>&nbsp')
+			.attr("id", "remove" + idx).click(
+					function() {
+						var liId = "li#" + id;
+						var parentRACode;
+						if ($(liId).parents('li:eq(0)').size() == 0) {
+							parentRACode = '000001';
+						} else {
+							parentRACode = getResearchAreaCode($(liId).parents(
+									'li:eq(0)'));
+						}
+						addSqlScripts("remove((" + getResearchAreaCode($(liId))
+								+ ";" + parentRACode + "))");
+						if (deletedNodes == '') {
+							deletedNodes = getResearchAreaCode($(liId));
+						} else {
+							deletedNodes = deletedNodes + ";"
+									+ getResearchAreaCode($(liId));
+						}
+						deleteChild(id);
+						$(liId).remove();
+						cutNode = null;
+						return false; // eliminate page jumping
+					});
 	tag.html(image);
 	image = $(
-			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp')
+			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child research areas.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + idx).click(function() {
-					var liId = "li#" + id;
-					cutNode = $(liId).clone(true);
-					return false; // eliminate page jumping
+				var liId = "li#" + id;
+				cutNode = $(liId).clone(true);
+				return false; // eliminate page jumping
 				});
 	image.appendTo(tag);
 	image = $(
 			'<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>')
 			.attr("id", "paste" + idx).click(function() {
 
-		if (removedNode || cutNode) {
-				var parentNode = $("#" + id);
-				var ulTag = parentNode.children('ul');
-				if (ulTag.size() > 0) {
+				if (removedNode || cutNode) {
+					var parentNode = $("#" + id);
+					var ulTag = parentNode.children('ul');
+					if (ulTag.size() > 0) {
 						// alert(ulTag.attr("id"));
 				} else {
-					    alert("not found")
-					    i++;
-					    ulTag = $('<ul class="filetree"></ul>')
+					alert("not found")
+					i++;
+					ulTag = $('<ul class="filetree"></ul>')
 							.attr("id", "ul" + i);
 				}
 				if (removedNode) {
@@ -368,24 +378,27 @@ function tbodyTag(name, id) {
 								getResearchAreaCode(cutNode),
 								getResearchAreaCode($("#" + id)),
 								getResearchAreaDescription(
-										getResearchAreaCode(cutNode),
-										cutNode.children('a:eq(0)').text())));
-						$("#pcode"+$("li#" + liId).attr("id").substring(4)).html(getResearchAreaCode($("#" + id)));
+										getResearchAreaCode(cutNode), cutNode
+												.children('a:eq(0)').text())));
+						$("#pcode" + $("li#" + liId).attr("id").substring(4))
+								.html(getResearchAreaCode($("#" + id)));
 						cutNode = null;
 						ulTag.appendTo(parentNode);
-						if ($("#" + id).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
-                            /* to force it to show the child node just added.
-                             * the div 'class' is changing based on whether the node is expand or collapsed
-                             */
+						if ($("#" + id).children('div:eq(0)').attr("class")
+								.indexOf("expandable") > 0) {
+							/*
+							 * to force it to show the child node just added.
+							 * the div 'class' is changing based on whether the
+							 * node is expand or collapsed
+							 */
 							$("#" + id).children('div:eq(0)').click();
-								$("#listcontrol"+liId.substring(4)).click();
+							$("#listcontrol" + liId.substring(4)).click();
 						}
 
 					} // if then else if not paste back to parent node
 				}
 				// right now is only doing for cutnode
 				// ulTag.appendTo(parentNode);
-
 
 			}// if removednode
 			return false; // eliminate page jumping
@@ -397,6 +410,21 @@ function tbodyTag(name, id) {
 	notetag.prependTo(tag);
 	tblTag.html(tag);
 
+
+
+	getTableHeader().appendTo(tblTag);
+	getEditRow(name, id).appendTo(tblTag);
+	getAddRow(id).appendTo(tblTag);
+	tag = $('<td class="subelementcontent"></td>').html(tblTag);
+	tag = $('<tr></tr>').html(tag);
+	tag = $('<tbody></tbody>').html(tag);
+	return tag;
+}
+
+/*
+ * set up the research area table header.
+ */
+function getTableHeader() {
 	// 2nd tr
 	var trTag = $('<tr></tr>');
 	var tdTag = $('<td class="infoline" style="width:60px;"></td>').html(
@@ -413,20 +441,27 @@ function tbodyTag(name, id) {
 	var tdTag = $('<td class="infoline" style="width:65px;"></td>').html(
 			'<b>Action</b>');
 	tdTag.appendTo(trTag);
+	return trTag;
+}
 
+/*
+ * set up the 'Edit' row for research area
+ */
+function getEditRow(name, id) {
 	// 3rd tr
+	var idx = id.substring(4);
 	var trTag1 = $('<tr></tr>');
 	var tag1 = $('<th style="text-align:right;"></th>').html('Edit:');
 	var tdTag1;
-	ulTagId = $("li#"+id).parents('ul:eq(0)').attr("id");
-	//if (i < 5) {
-	//	alert(id+"-"+ulTagId+"-"+$("ul#" + ulTagId).parents('li:eq(0)').size())
-	//}
+	var ulTagId = $("li#" + id).parents('ul:eq(0)').attr("id");
+	// if (i < 5) {
+	// alert(id+"-"+ulTagId+"-"+$("ul#" + ulTagId).parents('li:eq(0)').size())
+	// }
 	if ($("ul#" + ulTagId).parents('li:eq(0)').size() == 0) {
 		// TODO : this is the second level, the children of '000001'
-		tdTag1 = $('<td></td>').attr("id","pcode"+idx).html("000001");
+		tdTag1 = $('<td></td>').attr("id", "pcode" + idx).html("000001");
 	} else {
-		tdTag1 = $('<td></td>').attr("id","pcode"+idx).html(
+		tdTag1 = $('<td></td>').attr("id", "pcode" + idx).html(
 				getResearchAreaCode($("ul#" + ulTagId).parents('li:eq(0)')));
 	}
 	trTag1.html(tag1);
@@ -450,7 +485,8 @@ function tbodyTag(name, id) {
 			.click(function() {
 				var header = $("#raHeader" + $(this).attr("id").substring(6));
 				// $("#raHeader"+i) will not work because "i" is evaluated when
-				// this function is called; not when this function is created
+					// this function is called; not when this function is
+					// created
 					var desc = editResearchArea($(this).attr("id").substring(6));
 
 					if (desc.length == 0) {
@@ -483,7 +519,15 @@ function tbodyTag(name, id) {
 	tag1.html(editlink);
 	tag1.appendTo(trTag1);
 
+	return trTag1;
+}
+
+/*
+ * set up 'add' row for research area
+ */
+function getAddRow(id) {
 	// 4th tr
+	var idx = id.substring(4);
 	var trTag2 = $('<tr></tr>');
 	var tag2 = $('<th style="text-align:right;"></th>').html('Add:');
 	var tdTag2 = $('<td></td>').html(getResearchAreaCode($("#" + id)));
@@ -496,122 +540,129 @@ function tbodyTag(name, id) {
 							.attr("id", "researchCode" + idx));
 	tdTag2.appendTo(trTag2);
 	tdTag2 = $('<td></td>').html(
-			$('<input type="text" name="m3" value="" style="width:100%;" />')
+			$('<input type="text" name="m3" value="" style="width:100%;" maxlength="200" size="80"/>')
 					.attr("id", "desc" + idx));
 	tdTag2.appendTo(trTag2);
 	tag2 = $('<th class="infoline" style="text-align:center;"></th>');
 	var addlink = $(
 			'<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>')
-			.attr("id", "addRA" + idx).click(function() {
-					var trNode = $(this).parents('tr:eq(0)');
-					if (trNode.children('td:eq(1)').children('input:eq(0)')
-							.attr("value") == "") {
-						alert("must enter research area code");
-					} else if (trNode.children('td:eq(2)').children(
-							'input:eq(0)').attr("value") == "") {
-						alert("must enter research area");
-					} else {
-						var raExist
-						$.ajax( {
-							url : 'researchAreaAjax.do',
-							type : 'GET',
-							dataType : 'html',
-							data : 'researchAreaCode='
-									+ trNode.children('td:eq(1)').children(
-											'input:eq(0)').attr("value")
-									+ '&deletedRas=' + deletedNodes
-									+ '&addRA=Y',
-							cache : false,
-							async : false,
-							timeout : 1000,
-							error : function() {
-								alert('Error loading XML document');
-							},
-							success : function(xml) {
-								$(xml).find('h3').each(function() {
-									raExist = $(this).text();
-									});
-							}
-						}); // end ajax
-
-						if (raExist == 'false'
-								&& newNodes != ";"
-								&& newNodes.indexOf(";"
+			.attr("id", "addRA" + idx)
+			.click(
+					function() {
+						var trNode = $(this).parents('tr:eq(0)');
+						if (trNode.children('td:eq(1)').children('input:eq(0)')
+								.attr("value") == "") {
+							alert("must enter research area code");
+						} else if (trNode.children('td:eq(2)').children(
+								'input:eq(0)').attr("value") == "") {
+							alert("must enter research area");
+						} else {
+							var raExist
+							$.ajax( {
+								url : 'researchAreaAjax.do',
+								type : 'GET',
+								dataType : 'html',
+								data : 'researchAreaCode='
 										+ trNode.children('td:eq(1)').children(
 												'input:eq(0)').attr("value")
-										+ ";") > -1) {
-							raExist = 'true';
-						}
-						if (raExist == 'false') {
-							var parentNode = $("#" + id);
-							var ulTag = parentNode.children('ul');
-							if (parentNode.children('ul').size() == 0) {
-								i++;
-								ulTag = $('<ul class="filetree"></ul>').attr(
-										"id", "ul" + id.substring(4));
+										+ '&deletedRas=' + deletedNodes
+										+ '&addRA=Y',
+								cache : false,
+								async : false,
+								timeout : 1000,
+								error : function() {
+									alert('Error loading XML document');
+								},
+								success : function(xml) {
+									$(xml).find('h3').each(function() {
+										raExist = $(this).text();
+									});
+								}
+							}); // end ajax
+
+							if (raExist == 'false'
+									&& newNodes != ";"
+									&& newNodes.indexOf(";"
+											+ trNode.children('td:eq(1)')
+													.children('input:eq(0)')
+													.attr("value") + ";") > -1) {
+								raExist = 'true';
 							}
+							if (raExist == 'false') {
+								var parentNode = $("#" + id);
+								var ulTag = parentNode.children('ul');
+								if (parentNode.children('ul').size() == 0) {
+									i++;
+									ulTag = $('<ul class="filetree"></ul>')
+											.attr("id", "ul" + id.substring(4));
+								}
 
-							ulTag.appendTo(parentNode);
+								ulTag.appendTo(parentNode);
 
-							var item_text = trNode.children('td:eq(1)')
-									.children('input:eq(0)').attr("value")
-									+ " : "
-									+ trNode.children('td:eq(2)').children(
-											'input:eq(0)').attr("value");
-							var listitem = setupListItem(trNode.children(
-									'td:eq(1)').children('input:eq(0)').attr(
-									"value"), trNode.children('td:eq(2)')
-									.children('input:eq(0)').attr("value"));
-							var childUlTag = $('<ul></ul>').attr("id",
-									"ul" + $(this).attr("id").substring(5));
-							childUlTag.appendTo(listitem);
-							// this is new nodes, so it is same as already
-							// loaded from DB
-							var loadedId = "loaded" + idx;
-							var inputtag = $('<input type="hidden"></input>')
-									.attr("id", loadedId);
-							inputtag.appendTo(childUlTag);
+								var item_text = trNode.children('td:eq(1)')
+										.children('input:eq(0)').attr("value")
+										+ " : "
+										+ trNode.children('td:eq(2)').children(
+												'input:eq(0)').attr("value");
+								var listitem = setupListItem(trNode.children(
+										'td:eq(1)').children('input:eq(0)')
+										.attr("value"), trNode.children(
+										'td:eq(2)').children('input:eq(0)')
+										.attr("value"));
+								var childUlTag = $('<ul></ul>').attr("id",
+										"ul" + $(this).attr("id").substring(5));
+								childUlTag.appendTo(listitem);
+								// this is new nodes, so it is same as already
+								// loaded from DB
+								var loadedId = "loaded" + idx;
+								var inputtag = $(
+										'<input type="hidden"></input>').attr(
+										"id", loadedId);
+								inputtag.appendTo(childUlTag);
 
-							listitem.appendTo(ulTag);
-							// force to display folder icon
-							$("#researcharea").treeview( {
-								add : listitem
-							});
-							newNodes = newNodes
-									+ trNode.children('td:eq(1)').children(
-											'input:eq(0)').attr("value") + ";";
+								listitem.appendTo(ulTag);
+								// force to display folder icon
+								$("#researcharea").treeview( {
+									add : listitem
+								});
+								newNodes = newNodes
+										+ trNode.children('td:eq(1)').children(
+												'input:eq(0)').attr("value")
+										+ ";";
 
-							addSqlScripts(getInsertClause(trNode.children(
-									'td:eq(1)').children('input:eq(0)').attr(
-									"value"), getResearchAreaCode($("#" + id)),
-									trNode.children('td:eq(2)').children(
-											'input:eq(0)').attr("value")));
-							if (parentNode.children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
-                               /* to force it to show the child node just added.
-                                * the div 'class' is changing based on whether the node is expand or collapsed
-                                */
-								parentNode.children('div:eq(0)').click();
-								$("#listcontrol"+listitem.attr("id").substring(4)).click();
+								addSqlScripts(getInsertClause(trNode.children(
+										'td:eq(1)').children('input:eq(0)')
+										.attr("value"),
+										getResearchAreaCode($("#" + id)),
+										trNode.children('td:eq(2)').children(
+												'input:eq(0)').attr("value")));
+								if (parentNode.children('div:eq(0)').attr(
+										"class").indexOf("expandable") > 0) {
+									/*
+									 * to force it to show the child node just
+									 * added. the div 'class' is changing based
+									 * on whether the node is expand or
+									 * collapsed
+									 */
+									parentNode.children('div:eq(0)').click();
+									$(
+											"#listcontrol"
+													+ listitem.attr("id")
+															.substring(4))
+											.click();
+								}
+								// $("#listcontrol"+listitem.attr("id").substring(4)).show();
+								// $("#listcontent"+listitem.attr("id").substring(4)).slideToggle(300);
+							} else {
+								alert("Research Area Code already exist");
 							}
-							//$("#listcontrol"+listitem.attr("id").substring(4)).show();
-							//$("#listcontent"+listitem.attr("id").substring(4)).slideToggle(300);
-						} else {
-							alert("Research Area Code already exist");
 						}
-					}
-					return false; // eliminate page jumping
-				}); // end addlink click
+						return false; // eliminate page jumping
+					}); // end addlink click
 
 	tag2.html(addlink);
 	tag2.appendTo(trTag2);
-
-	trTag.appendTo(tblTag);
-	trTag1.appendTo(tblTag);
-	trTag2.appendTo(tblTag);
-	tag = $('<td class="subelementcontent"></td>').html(tblTag);
-	tag = $('<tr></tr>').html(tag);
-	tag = $('<tbody></tbody>').html(tag);
-	return tag;
+    return trTag2;
 }
 
 /*
@@ -629,7 +680,7 @@ function editResearchArea(idx) {
 }
 
 /*
- * set up area of resear list tag. the main table detail is not set up
+ * set up area of research list tag. the main table detail is not set up
  * initially.
  */
 function setupListItem(code, name) {
@@ -735,11 +786,11 @@ function loadChildrenRA(nodeName, tagId) {
 											if (jQuery.browser.msie) {
 												idDiv = $('<div></div>').attr(
 														"id", "itemText" + i)
-														.html(item_text); 
+														.html(item_text);
 											} else {
 												idDiv = $('<span>').attr("id",
 														"itemText" + i).html(
-														item_text); 
+														item_text);
 											}
 											var tag = $(
 													'<a style = "margin-left:2px;" ></a>')
@@ -754,44 +805,51 @@ function loadChildrenRA(nodeName, tagId) {
 													.attr("name", "racode" + i)
 													.attr("value", racode);
 											hidracode.appendTo(detDiv);
-											tag.click(function() {
-													$(
-															".hierarchydetail:not(#"
-																	+ divId
-																	+ ")")
-															.slideUp(300);
-													var idx = $(this)
-															.attr("id")
-															.substring(11);
-													if ($(this)
-															.siblings(
-																	'div:eq(1)')
-															.children(
-																	'table:eq(0)')
-															.size() == 0) {
-														tableTag(item_text,
-																"item" + idx)
-																.appendTo(
-																		$("#listcontent"
-																				+ idx));
-														if ($(
-																"#listcontent"
-																		+ idx)
-																.is(":hidden")) {
+											tag
+													.click(function() {
+														$(
+																".hierarchydetail:not(#"
+																		+ divId
+																		+ ")")
+																.slideUp(300);
+														var idx = $(this).attr(
+																"id")
+																.substring(11);
+														if ($(this)
+																.siblings(
+																		'div:eq(1)')
+																.children(
+																		'table:eq(0)')
+																.size() == 0) {
+															tableTag(
+																	item_text,
+																	"item"
+																			+ idx)
+																	.appendTo(
+																			$("#listcontent"
+																					+ idx));
+															if ($(
+																	"#listcontent"
+																			+ idx)
+																	.is(
+																			":hidden")) {
+																$(
+																		"#listcontent"
+																				+ idx)
+																		.show();
+															}
+														} else {
 															$(
 																	"#listcontent"
 																			+ idx)
-																	.show();
+																	.slideToggle(
+																			300);
 														}
-													} else {
-														$("#listcontent" + idx)
-																.slideToggle(
-																		300);
-													}
 
-													loadChildrenRA(item_text,
-															tagId);
-												});
+														loadChildrenRA(
+																item_text,
+																tagId);
+													});
 											var listitem = $(
 													'<li class="closed"></li>')
 													.attr("id", id).html(tag);
@@ -804,7 +862,7 @@ function loadChildrenRA(nodeName, tagId) {
 											// force to display folder icon
 											$("#researcharea").treeview( {
 												add : listitem
-													});
+											});
 
 											if (i == 1) {
 												// alert (listitem.html());
@@ -831,7 +889,7 @@ function getResearchAreaCode(node) {
 function getResearchAreaDescription(code, nodeName) {
 
 	var endIdx = nodeName.indexOf(":", code.length);
-	//alert(code+"-"+code.length+"-"+endIdx+"-"+nodeName);
+	// alert(code+"-"+code.length+"-"+endIdx+"-"+nodeName);
 	return nodeName.substring(endIdx + 2);
 	// return nodeName;
 }
@@ -894,7 +952,7 @@ function hasFormAlreadyBeenSubmitted() {
 
 $(document).ready(function() {
 
-		// performance test
+	// performance test
 		loadFirstLevel();
 		$("#listcontent00").show();
 		// //$("#listcontent00").slideToggle(300);
@@ -912,7 +970,6 @@ $("#save").click(function() {
 		// 10 should be fine to use as check
 		sqls[sqlidx++] = sqlScripts;
 	}
-	// alert ("save"+sqls.length+sqlScripts);
 
 	for ( var k = 0; k < sqls.length; k++) {
 		if (sqls[k] != '') {
@@ -929,8 +986,6 @@ $("#save").click(function() {
 				async : false,
 				timeout : 1000,
 				error : function() {
-					// alert('Error loading XML document');
-					// jumpToAnchor('topOfForm');
 					$('<span id="msg"/>').css("color", "red").html(
 							"Error when save Areas of Research").appendTo(
 							$("#headermsg"))
@@ -940,8 +995,6 @@ $("#save").click(function() {
 				success : function(xml) {
 					$(xml).find('h3').each(function() {
 						retmsg = $(this).text();
-						// alert(raExist);
-
 						});
 					if (retmsg == 'Success') {
 						sqlScripts = "";
@@ -950,10 +1003,7 @@ $("#save").click(function() {
 								"Areas of Research saved successfully")
 								.appendTo($("#headermsg"));
 						$('<br/>').appendTo($("#headermsg"));
-						// jumpToAnchor('topOfForm');
-						// alert("success"+xml);
 					} else {
-						// alert (retmsg);
 						$('<span id="msg"/>').css("color", "red").html(
 								"Error when save Areas of Research <br/>"
 										+ retmsg).appendTo($("#headermsg"))
@@ -968,6 +1018,9 @@ $("#save").click(function() {
 	return false;
 });
 
+/*
+ * This method is for 'close' button.
+ */
 $("#close")
 		.click(function() {
 			if (sqlScripts.indexOf("#;#") > -1) {
@@ -1042,42 +1095,42 @@ $("#close")
 			// return false;
 		});
 
-
 /*
  * paste to root node
  */
- $("#paste0").click(function() {
-	if (removedNode || cutNode) {
-		var ulTag = $("#researcharea");
-	if (removedNode) {
-	} else {
-		var liId = cutNode.attr("id");
-		if ("researcharea" == $("li#" + liId).parents('ul:eq(0)').attr("id")) {
-			alert("can't paste to the root node");
-		} else {
-			var liId = cutNode.attr("id");
-			var parentRACode  = getResearchAreaCode($("li#" + liId).parents('li:eq(0)'));
-			
+$("#paste0").click(
+		function() {
+			if (removedNode || cutNode) {
+				var ulTag = $("#researcharea");
+				if (removedNode) {
+				} else {
+					var liId = cutNode.attr("id");
+					if ("researcharea" == $("li#" + liId).parents('ul:eq(0)')
+							.attr("id")) {
+						alert("can't paste to the root node");
+					} else {
+						var liId = cutNode.attr("id");
+						var parentRACode = getResearchAreaCode($("li#" + liId)
+								.parents('li:eq(0)'));
 
-			addSqlScripts(getDeleteClause(
-					getResearchAreaCode(cutNode), parentRACode));
-			$("li#" + liId).remove();
-			cutNode.appendTo(ulTag);
-			addSqlScripts(getInsertClause(
-					getResearchAreaCode(cutNode),
-					"000001",
-					getResearchAreaDescription(
-							getResearchAreaCode(cutNode),
-							cutNode.children('a:eq(0)').text())));
-			cutNode = null;
-			$("#pcode"+$("li#" + liId).attr("id").substring(4)).html("000001");
-			//ulTag.appendTo(parentNode);
-		} // if then else if not paste back to parent node
-	}
-}// if removednode
-return false; // eliminate page jumping
-}	);
-
+						addSqlScripts(getDeleteClause(
+								getResearchAreaCode(cutNode), parentRACode));
+						$("li#" + liId).remove();
+						cutNode.appendTo(ulTag);
+						addSqlScripts(getInsertClause(
+								getResearchAreaCode(cutNode), "000001",
+								getResearchAreaDescription(
+										getResearchAreaCode(cutNode), cutNode
+												.children('a:eq(0)').text())));
+						cutNode = null;
+						$("#pcode" + $("li#" + liId).attr("id").substring(4))
+								.html("000001");
+						// ulTag.appendTo(parentNode);
+					} // if then else if not paste back to parent node
+				}
+			}// if removednode
+			return false; // eliminate page jumping
+		});
 
 /*
  * To keep newnodes list up-to-date. This will prevent cases like add

@@ -93,7 +93,6 @@ public class ResearchAreasForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         this.setResearchAreas("");
-       // this.getResearchAreaCode();
     }
 
     public String getSearchResults() {

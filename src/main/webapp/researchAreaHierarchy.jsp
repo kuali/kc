@@ -27,16 +27,10 @@
 		type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css"
 		type="text/css" />
-	<%-- link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" /--%>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 
 	<a name="topOfForm"></a>
 
-	<%--
-   <div id = "loading">
-      <a href="#"><img src="static/images/jquery/ajax-loader.gif" /></a>
-   </div> 
---%>
 	<div align="center" style="margin: 10px">
 	<div id="headermsg" align="left"></div>
 	<br />
@@ -44,23 +38,21 @@
 		tabErrorKey="researchArea*">
 		<kra:researchAreas />
 	</kul:tabTop>
-     <kul:panelFooter />
+    <kul:panelFooter />
 
-  <div id="globalbuttons" class="globalbuttons">
-    <%-- <input type="submit" id="generate" value="Generate!" /> --%>
-    <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
-	<input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
-	<input type="image" name="methodToCall.close" id = "close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
-	<input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
-   </div>
+    <div id="globalbuttons" class="globalbuttons">
+        <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
+	    <input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
+	    <input type="image" name="methodToCall.close" id = "close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
+	    <input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+    </div>
 
     <script type="text/javascript" src="scripts/researchArea.js"></script> 
-<script type="text/javascript">
-  $(document).ready(function(){
-
-      $("#listcontent00").show();
-  })
-</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#listcontent00").show();
+        })
+    </script>
 </kul:page>
     
  
