@@ -47,9 +47,11 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm)form;
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
-        getSpecialReviewService().addSpecialReview(institutionalProposal,institutionalProposalForm);
-        institutionalProposalForm.setNewInstitutionalProposalSpecialReview(new InstitutionalProposalSpecialReview());
-        institutionalProposalForm.setNewExemptionTypeCodes(null);
+        boolean success = getSpecialReviewService().addSpecialReview(institutionalProposal,institutionalProposalForm);
+        if (success) {
+            institutionalProposalForm.setNewInstitutionalProposalSpecialReview(new InstitutionalProposalSpecialReview());
+            institutionalProposalForm.setNewExemptionTypeCodes(null);
+        }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
