@@ -17,7 +17,6 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import java.util.List;
 
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
@@ -81,6 +80,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
+        retval &= processSpecialReviewBusinessRule(document);
         
         return retval;
     }    
@@ -165,7 +165,35 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
         return valid;
-    }    
+    } 
+    
+    /**
+     * This method validates 'Proposal Special review'. It checks
+     * validSpecialReviewApproval table, and if there is a match, then checks
+     * protocalnumberflag, applicationdateflag, and approvaldataflag.
+     *
+     * @paramDocument : The institutionalProposalDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processSpecialReviewBusinessRule(Document document) {
+        boolean valid = true;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        int i = 0;
+
+        for (InstitutionalProposalSpecialReview propSpecialReview : institutionalProposalDocument.getInstitutionalProposal().getSpecialReviews()) {
+            errorMap.addToErrorPath("propSpecialReview[" + i + "]");
+            InstitutionalProposalSpecialReviewRule specialReviewRule = new InstitutionalProposalSpecialReviewRule();
+            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(propSpecialReview, "documentExemptNumbers[" + i + "]");
+            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(propSpecialReview);
+            
+            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            i++;
+        }
+        return valid;
+    }
     
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
