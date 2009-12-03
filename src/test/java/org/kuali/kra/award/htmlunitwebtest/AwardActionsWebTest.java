@@ -33,6 +33,7 @@ protected static final String ACTIONS_LINK_NAME = "awardActions.x";
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        getAwardHomePage().getWebClient().setJavaScriptEnabled(false);
         awardActionsPage = clickOnTab(getAwardHomePage(), ACTIONS_LINK_NAME);
     }
     
