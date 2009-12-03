@@ -215,5 +215,9 @@
 	<bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="awardTransactionLookupService" class="org.kuali.kra.award.lookup.AwardTransactionLookupServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 </beans>

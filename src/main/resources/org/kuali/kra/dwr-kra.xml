@@ -125,5 +125,9 @@
 			<param name="beanName" value="meetingService" />
 			<include method="getStandardReviewComment" />
 		</create>
+		<create creator="spring" javascript="AwardTransactionLookupService">
+			<param name="beanName" value="awardTransactionLookupService"/>
+			<include method="getApplicableTransactionIds"/>
+		</create>
 	</allow>
 </dwr>
