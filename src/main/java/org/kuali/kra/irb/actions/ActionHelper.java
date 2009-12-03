@@ -404,7 +404,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasReopenPermission() {
-        return true;
+        return hasPermission(TaskName.REOPEN_PROTOCOL);
     }
     
     private boolean hasCloseEnrollmentPermission() {

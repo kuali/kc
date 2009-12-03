@@ -220,6 +220,10 @@
                 <bean class="org.kuali.kra.irb.auth.ApproveProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApprove" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ReopenProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolReopen" />
+                </bean>
             </list>
         </property>
     </bean>
