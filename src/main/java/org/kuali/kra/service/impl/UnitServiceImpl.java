@@ -24,6 +24,9 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -39,6 +42,7 @@ public class UnitServiceImpl implements UnitService {
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
     private static final String DASH = "-";
+    private static final String UNIT_NUBMER = "unitNumber";
     private int numberOfUnits;
 
     /**
@@ -113,6 +117,15 @@ public class UnitServiceImpl implements UnitService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     *
+     * @return BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return this.businessObjectService;
     }
     
     /**
@@ -207,6 +220,16 @@ public class UnitServiceImpl implements UnitService {
             }
         }
         return subUnits;        
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(UNIT_NUBMER, unitNumber);
+        List<UnitAdministrator> unitAdministrators = 
+            (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
+        return unitAdministrators;
     }
     
 }

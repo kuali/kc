@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 
 /**
  * The Unit Service provides a set of queries related to Units.
@@ -78,4 +79,7 @@ public interface UnitService {
     public String getInitialUnitsForUnitHierarchy();
     
     public String getInitialUnitsForUnitHierarchy(int depth);
+    
+    public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber);
+
 }
