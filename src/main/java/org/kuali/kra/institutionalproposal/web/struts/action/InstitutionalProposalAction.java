@@ -93,9 +93,6 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
             , HttpServletRequest request, HttpServletResponse response) {        
         // Temp.
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-        if (ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalUnitAdministrators().isEmpty()) {
-            ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().initializeTemporaryUnitAdministrators();
-        }
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE);
     }
     
