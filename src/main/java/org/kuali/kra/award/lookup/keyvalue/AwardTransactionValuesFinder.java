@@ -65,7 +65,9 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
         List<Long> transactionIds = transactionLookupService.getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(), 
                 usableSequence);
         for (Long id : transactionIds) {
-            keyValues.add(new KeyLabelPair(id.toString(), id.toString()));
+            if (id != null) {
+                keyValues.add(new KeyLabelPair(id.toString(), id.toString()));
+            }
         }
         return keyValues;
     }
