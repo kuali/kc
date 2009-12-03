@@ -81,6 +81,7 @@ import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
 import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -96,6 +97,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.service.PermissionService;
 
 /**
  * This class...
@@ -786,17 +788,27 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     
     /**
      * Get the list of all of the Proposal roles (filter out unassigned).
-     * @return the list of proposal roles
+     * @return the list of proposal roles of type org.kuali.kra.common.permissions.web.bean.Role
      */
-    public List<Role> getProposalRoles() {
-        List<Role> proposalRoles = new ArrayList<Role>();
+    public List<org.kuali.kra.common.permissions.web.bean.Role> getProposalRoles() {
+        List<org.kuali.kra.common.permissions.web.bean.Role> returnRoleBeans = 
+            new ArrayList<org.kuali.kra.common.permissions.web.bean.Role>();
+        
         Collection<Role> roles = getKimProposalRoles();
+        
+        PermissionService permissionService = KraServiceLocator.getService("kimPermissionService");
+        
         for (Role role : roles) {
             if (!StringUtils.equals(role.getRoleName(), RoleConstants.UNASSIGNED)) {
-                proposalRoles.add(role);
+                Map<String, String> criteria = new HashMap<String, String>();
+                criteria.put("assignedToRole.roleName", role.getRoleName());
+                criteria.put("assignedToRoleNamespaceForLookup", role.getNamespaceCode());
+                List<KimPermissionInfo> permList = permissionService.lookupPermissions(criteria, true);                
+                returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
+                        role.getRoleName(), role.getRoleDescription(), permList));       
             }
-        }
-        return proposalRoles;
+        }        
+        return returnRoleBeans;
     }
     
     /**
