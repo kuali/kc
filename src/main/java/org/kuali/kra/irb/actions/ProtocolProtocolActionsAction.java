@@ -55,6 +55,7 @@ import org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisService;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
 import org.kuali.kra.irb.actions.expire.ProtocolExpireService;
@@ -1649,6 +1650,48 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
         actionBean.getReviewComments().moveDown(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
+        decision.getAbstainers().add(decision.getNewAbstainer());
+        decision.setNewAbstainer(new CommitteePerson());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
+        decision.getAbstainers().remove(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
+        decision.getRecused().add(decision.getNewRecused());
+        decision.setNewRecused(new CommitteePerson());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
+        decision.getRecused().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
