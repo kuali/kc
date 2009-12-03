@@ -97,6 +97,7 @@ public interface TaskName {
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
     public static final String APPROVE_PROTOCOL = "protocolApprove";
+    public static final String REOPEN_PROTOCOL = "protocolReopen";
     
     /*
      * Committee Tasks.
