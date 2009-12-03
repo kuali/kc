@@ -43,11 +43,15 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
         for (Award award : awards) {
             if (award.getSequenceNumber() != sequenceNumber.intValue()) {
                 for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                    excludedTransactionIds.add(amountInfo.getTransactionId());
+                    if (amountInfo.getTransactionId() != null) {
+                        excludedTransactionIds.add(amountInfo.getTransactionId());
+                    }
                 }
             } else {
                 for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                    transactionIds.add(amountInfo.getTransactionId());
+                    if (amountInfo.getTransactionId() != null) {
+                        transactionIds.add(amountInfo.getTransactionId());
+                    }
                 }
             }
         }
