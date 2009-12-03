@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.CommitteeDecision.attributes}" />
+<c:set var="cpattributes" value="${DataDictionary.CommitteePerson.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="votingComments" value="actionHelper.committeeDecision.votingComments" />
 
@@ -79,6 +80,122 @@
                         </nobr>
                     </td>
                    
+                </tr>
+                
+                <tr>
+                    <td colspan="10">
+                    
+                        <kra:innerTab tabTitle="Abstainers" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+                            <div class="innerTab-container" align="left">
+                                <table class="tab" cellpadding="0" cellspacing="0" summary="">
+                                    <tbody>
+                                    
+                                        <%-- Table headers --%>
+                                        <tr>
+                                            <th><div align="left">&nbsp</div></th> 
+                                            <kul:htmlAttributeHeaderCell literalLabel="Person" scope="col" />
+                                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+                                        </tr>
+                                        
+                                        <tr> 
+                                            <th class="infoline">add</th>
+                                            
+                                            <td>
+                                                <div align="center">
+                                                    <kul:htmlControlAttribute property="actionHelper.committeeDecision.newAbstainer.membershipId" 
+                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div align="center">
+                                                    <html:image property="methodToCall.addAbstainer.anchor${tabKey}"
+                                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                                                </div>
+                                           </td>
+                                        </tr>
+                                        
+                                        <c:forEach var="abstainer" items="${KualiForm.actionHelper.committeeDecision.abstainers}" varStatus="status">
+                                            <tr>
+                                                <th>${status.index + 1}</th>
+                                                 
+                                                <td style="text-align:center; vertical-align:middle">
+                                                    <kul:htmlControlAttribute property="actionHelper.committeeDecision.abstainers[${status.index}].membershipId" 
+                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                </td>
+                                                 
+                                                <td>
+                                                    <div align="center">
+                                                        <html:image property="methodToCall.deleteAbstainer.line${status.index}.anchor${tabKey}"
+                                                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </kra:innerTab>
+                    
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="10">
+                    
+                        <kra:innerTab tabTitle="Recused" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+                            <div class="innerTab-container" align="left">
+                                <table class="tab" cellpadding="0" cellspacing="0" summary="">
+                                    <tbody>
+                                    
+                                        <%-- Table headers --%>
+                                        <tr>
+                                            <th><div align="left">&nbsp</div></th> 
+                                            <kul:htmlAttributeHeaderCell literalLabel="Person" scope="col" />
+                                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+                                        </tr>
+                                        
+                                        <tr> 
+                                            <th class="infoline">add</th>
+                                            
+                                            <td>
+                                                <div align="center">
+                                                    <kul:htmlControlAttribute property="actionHelper.committeeDecision.newRecused.membershipId" 
+                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div align="center">
+                                                    <html:image property="methodToCall.addRecused.anchor${tabKey}"
+                                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                                                </div>
+                                           </td>
+                                        </tr>
+                                        
+                                        <c:forEach var="recused" items="${KualiForm.actionHelper.committeeDecision.recused}" varStatus="status">
+                                            <tr>
+                                                <th>${status.index + 1}</th>
+                                                 
+                                                <td style="text-align:center; vertical-align:middle">
+                                                    <kul:htmlControlAttribute property="actionHelper.committeeDecision.recused[${status.index}].membershipId" 
+                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                </td>
+                                                 
+                                                <td>
+                                                    <div align="center">
+                                                        <html:image property="methodToCall.deleteRecused.line${status.index}.anchor${tabKey}"
+                                                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </kra:innerTab>
+                    
+                    </td>
                 </tr>
                 
                 <tr>
