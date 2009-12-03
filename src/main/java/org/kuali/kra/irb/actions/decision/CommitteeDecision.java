@@ -16,9 +16,12 @@
 package org.kuali.kra.irb.actions.decision;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kra.irb.actions.ReviewComments;
 
+@SuppressWarnings("serial")
 public class CommitteeDecision implements Serializable {
 
     private String motion;
@@ -27,6 +30,11 @@ public class CommitteeDecision implements Serializable {
     private Integer abstainCount;
     private String votingComments;
     
+    private CommitteePerson newAbstainer = new CommitteePerson();
+    private CommitteePerson newRecused = new CommitteePerson();
+    
+    private List<CommitteePerson> abstainers = new ArrayList<CommitteePerson>();
+    private List<CommitteePerson> recused = new ArrayList<CommitteePerson>();
     private ReviewComments reviewComments = new ReviewComments();
 
     public String getMotion() {
@@ -75,5 +83,37 @@ public class CommitteeDecision implements Serializable {
 
     public void setReviewComments(ReviewComments reviewComments) {
         this.reviewComments = reviewComments;
+    }
+
+    public List<CommitteePerson> getAbstainers() {
+        return abstainers;
+    }
+
+    public void setAbstainers(List<CommitteePerson> abstainers) {
+        this.abstainers = abstainers;
+    }
+
+    public List<CommitteePerson> getRecused() {
+        return recused;
+    }
+
+    public void setRecused(List<CommitteePerson> recused) {
+        this.recused = recused;
+    }
+
+    public CommitteePerson getNewAbstainer() {
+        return newAbstainer;
+    }
+
+    public void setNewAbstainer(CommitteePerson newAbstainer) {
+        this.newAbstainer = newAbstainer;
+    }
+
+    public CommitteePerson getNewRecused() {
+        return newRecused;
+    }
+
+    public void setNewRecused(CommitteePerson newRecused) {
+        this.newRecused = newRecused;
     }
 }
