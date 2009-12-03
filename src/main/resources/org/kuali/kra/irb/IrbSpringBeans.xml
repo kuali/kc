@@ -216,6 +216,10 @@
                 <bean class="org.kuali.kra.irb.auth.ExpediteApprovalAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolExpediteApproval" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ApproveProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolApprove" />
+                </bean>
             </list>
         </property>
     </bean>
