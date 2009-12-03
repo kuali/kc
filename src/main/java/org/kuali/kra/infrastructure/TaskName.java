@@ -98,6 +98,7 @@ public interface TaskName {
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
     public static final String APPROVE_PROTOCOL = "protocolApprove";
     public static final String REOPEN_PROTOCOL = "protocolReopen";
+    public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     
     /*
      * Committee Tasks.
