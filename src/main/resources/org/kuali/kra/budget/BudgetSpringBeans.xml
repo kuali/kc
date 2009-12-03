@@ -54,7 +54,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRatesServiceImpl">
+	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -262,15 +262,15 @@
 		</property>
 	</bean>
 	<bean id="budgetSummaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSummaryPrint">
+		class="org.kuali.kra.budget.printing.print.BudgetSummaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryXmlStream" />
 	</bean>
 	<bean id="budgetCostShareSummaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetCostShareSummaryPrint">
+		class="org.kuali.kra.budget.printing.print.BudgetCostShareSummaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryXmlStream" />
 	</bean>
 	<bean id="budgetSalaryXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetSalaryXmlStream">
+		class="org.kuali.kra.budget.printing.xmlstream.BudgetSalaryXmlStream" scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -279,7 +279,7 @@
 		</property>
 	</bean>
 	<bean id="budgetSalaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSalaryPrint">
+		class="org.kuali.kra.budget.printing.print.BudgetSalaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSalaryXmlStream" />
 	</bean>
 	<bean id="budgetTotalXmlStream"
@@ -292,7 +292,7 @@
 		</property>
 	</bean>
 	<bean id="budgetTotalPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetTotalPrint">
+		class="org.kuali.kra.budget.printing.print.BudgetTotalPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetTotalXmlStream" />
 	</bean>
 	<bean id="budgetSummaryTotalXmlStream"
@@ -305,7 +305,7 @@
 		</property>
 	</bean>
 	<bean id="budgetSummaryTotalPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSummaryTotalPrint">
+		class="org.kuali.kra.budget.printing.print.BudgetSummaryTotalPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryTotalXmlStream" />
 	</bean>
 	<bean id="industrialCumBudgetXmlStream"
@@ -318,7 +318,7 @@
 		</property>
 	</bean>
 	<bean id="industrialCumulativeBudgetPrint"
-		class="org.kuali.kra.budget.printing.print.IndustrialCumulativeBudgetPrint">
+		class="org.kuali.kra.budget.printing.print.IndustrialCumulativeBudgetPrint" scope="prototype">
 		<property name="xmlStream" ref="industrialCumBudgetXmlStream" />
 	</bean>
 	<bean id="budgetCumilativeXmlStream"
@@ -331,7 +331,7 @@
 		</property>
 	</bean>
 	<bean id="budgetCumulativePrint"
-		class="org.kuali.kra.budget.printing.print.BudgetCumulativePrint">
+		class="org.kuali.kra.budget.printing.print.BudgetCumulativePrint" scope="prototype">
 		<property name="xmlStream" ref="budgetCumilativeXmlStream" />
 	</bean>
 	<bean id="industrialBudgetXmlStream"
@@ -344,7 +344,7 @@
 		</property>
 	</bean>
 	<bean id="industrialBudgetPrint"
-		class="org.kuali.kra.budget.printing.print.IndustrialBudgetPrint">
+		class="org.kuali.kra.budget.printing.print.IndustrialBudgetPrint" scope="prototype">
 		<property name="xmlStream" ref="industrialBudgetXmlStream" />
 	</bean>
 	
