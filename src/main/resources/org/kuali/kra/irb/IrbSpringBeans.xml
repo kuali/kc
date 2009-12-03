@@ -224,6 +224,10 @@
                 <bean class="org.kuali.kra.irb.auth.ReopenProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReopen" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.CloseEnrollmentProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolCloseEnrollment" />
+                </bean>
             </list>
         </property>
     </bean>
