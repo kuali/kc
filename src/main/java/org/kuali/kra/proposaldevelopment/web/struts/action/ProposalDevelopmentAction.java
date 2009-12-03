@@ -201,7 +201,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
-
+        // If validation is turned on, take the user to the proposal actions page (which contains the validation panel, which auto-expands)
+        if (proposalDevelopmentForm.isAuditActivated()) {
+            forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        }
+        
         doc.getDevelopmentProposal().updateProposalNumbers();
 
         proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
