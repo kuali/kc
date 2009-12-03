@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
@@ -28,33 +30,8 @@ public class ProtocolGrantExemptionAuthorizer extends ProtocolAuthorizer {
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
-        return true;
-    }
-
-    /**
-     * Is the protocol's submission in a pending or submitted to committee status?
-     * @param protocol
-     * @return
-     */
-    private boolean isPendingOrSubmittedToCommittee(Protocol protocol) {
-        return findSubmission(protocol) != null;
-    }
-    
-    /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
-            }
-        }
-        return null;
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        return canExecuteAction(task.getProtocol(), ProtocolActionType.GRANT_EXEMPTION) &&
+               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
 }
