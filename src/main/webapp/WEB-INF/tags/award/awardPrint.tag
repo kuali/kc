@@ -14,7 +14,11 @@
  limitations under the License.
 --%>
 <%-- member of AwardActions.jsp --%>
-
+<script src="scripts/jquery/jquery.js"></script>
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<script src="dwr/interface/AwardTransactionLookupService.js"/>
+<script>
+</script>
 <style type="text/css">
 .multi-col-list dl {
  	clear:both;
@@ -156,7 +160,8 @@
 				   <span style="float:left; width:33.3%; padding: 5px;">
 					<kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.awardVersion}" useShortLabel="true" />
       			    <kul:htmlControlAttribute property="awardPrintChangeReport.awardVersion" 
-      							attributeEntry="${awardPrintChangeAttributes.awardVersion}" readOnly="false"/>
+      							attributeEntry="${awardPrintChangeAttributes.awardVersion}" readOnly="false"
+      							onchange="loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');"/>
       			   </span><span style="float:left; width:33.3%; text-align:center; padding:5px;">
 					<kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.transactionId}" useShortLabel="true" />
       			    <kul:htmlControlAttribute property="awardPrintChangeReport.transactionId" 
@@ -166,7 +171,11 @@
       			    <kul:htmlControlAttribute property="awardPrintChangeReport.requireSignature" 
       							attributeEntry="${awardPrintChangeAttributes.requireSignature}" readOnly="false"/>
       			   </span>
-   							      												
+   				   <script>
+   				     $(document).ready(function() {
+   				    	loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');
+   				     });
+   				   </script>		      												
 				</td>
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printChangeReport"

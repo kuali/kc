@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.lookup.AwardTransactionLookupService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -39,6 +40,12 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class AwardTransactionValuesFinder extends KeyValuesBase {
     
+    private AwardTransactionLookupService transactionLookupService;
+    
+    public AwardTransactionValuesFinder() {
+        transactionLookupService = KraServiceLocator.getService(AwardTransactionLookupService.class);
+    }
+    
     /**
      * Grabs the current award from the current form and loops through all
      * AwardAmountInfos and puts the transaction id in both for key and value for
@@ -48,12 +55,17 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        AwardDocument doc = getDocument();
+        AwardForm form = getAwardForm();
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        for (AwardAmountInfo awardInfo : doc.getAward().getAwardAmountInfos()) {
-            if ( awardInfo.getTransactionId() != null )
-                keyValues.add(new KeyLabelPair(awardInfo.getTransactionId().toString(), awardInfo.getTransactionId().toString()));
+        Integer usableSequence = form.getAwardPrintChangeReport().getAwardVersion();
+        if (usableSequence == null) {
+            usableSequence = form.getAwardDocument().getAward().getSequenceNumber();
+        }
+        List<Long> transactionIds = transactionLookupService.getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(), 
+                usableSequence);
+        for (Long id : transactionIds) {
+            keyValues.add(new KeyLabelPair(id.toString(), id.toString()));
         }
         return keyValues;
     }
@@ -64,12 +76,15 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * 
      * @return the current document or null if not found
      */
-    private AwardDocument getDocument() {
-        AwardDocument doc = null;
-        AwardForm form = (AwardForm) GlobalVariables.getKualiForm();
-        if (form != null) {
-            doc = form.getAwardDocument();
-        }
-        return doc;
+    private AwardForm getAwardForm() {
+        return (AwardForm) GlobalVariables.getKualiForm();
+    }
+
+    private AwardTransactionLookupService getTransactionLookupService() {
+        return transactionLookupService;
+    }
+
+    public void setTransactionLookupService(AwardTransactionLookupService transactionLookupService) {
+        this.transactionLookupService = transactionLookupService;
     }
 }
