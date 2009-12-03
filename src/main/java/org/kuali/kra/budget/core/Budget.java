@@ -355,7 +355,7 @@ public class Budget extends KraPersistableBusinessObjectBase {
     }
     
     public boolean isUnrecoveredFandAAvailable() {
-        return (getUnderrecoveryAmount().doubleValue() >= 0.00);
+        return (getUnderrecoveryAmount().doubleValue() > 0.00);
     }
     
     /**
