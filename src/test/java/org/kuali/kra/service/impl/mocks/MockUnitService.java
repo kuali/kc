@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator;
 import org.kuali.kra.service.UnitService;
 
 /**
@@ -119,6 +121,11 @@ public class MockUnitService implements UnitService {
     }
     
     public String getInitialUnitsForUnitHierarchy(int depth) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
         // TODO Auto-generated method stub
         return null;
     }

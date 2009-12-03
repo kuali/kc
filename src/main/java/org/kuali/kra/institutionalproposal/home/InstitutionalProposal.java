@@ -38,6 +38,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -51,6 +52,7 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -148,7 +150,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         initializeInstitutionalProposalWithDefaultValues();
         initializeCollections();
         calculateFiscalMonthAndYearFields();
-        //initializeTemporaryUnitAdministrators();// temporary 
     } 
     
     /**
@@ -176,28 +177,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);//default value for all IP's
-    }
-    
-    /**
-     * This method is temporary until we get the rest of the contacts page funtionality set up.
-     */
-    public void initializeTemporaryUnitAdministrators() {
-        InstitutionalProposalUnitAdministrator ipua1 = new InstitutionalProposalUnitAdministrator();
-        InstitutionalProposalUnitAdministrator ipua2 = new InstitutionalProposalUnitAdministrator();
-        InstitutionalProposalUnitAdministrator ipua3 = new InstitutionalProposalUnitAdministrator();
-        ipua1.setAdministrator("000000081");
-        ipua2.setAdministrator("000000011");
-        ipua3.setAdministrator("000000052");
-        ipua1.setInstitutionalProposal(this);
-        ipua2.setInstitutionalProposal(this);
-        ipua3.setInstitutionalProposal(this);
-        ipua1.setUnitAdministratorTypeCode("1");
-        ipua2.setUnitAdministratorTypeCode("1");
-        ipua3.setUnitAdministratorTypeCode("1");
-        institutionalProposalUnitAdministrators.add(ipua1);
-        institutionalProposalUnitAdministrators.add(ipua2);
-        institutionalProposalUnitAdministrators.add(ipua3);
-
     }
     
     /**
@@ -1322,6 +1301,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * 
      * @param proposalLog ProposalLog
      */
+    /**
+     * This method...
+     * @param proposalLog
+     */
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
         this.setProposalNumber(proposalLog.getProposalNumber());
         this.setDeadlineDate(proposalLog.getDeadlineDate());
@@ -1331,6 +1314,24 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
         this.setSponsorCode(proposalLog.getSponsorCode());
         this.setTitle(proposalLog.getTitle());
+        populateInstitutionalProposalUnitAdministrators(getUnitService().retrieveUnitAdministratorsByUnitNumber(proposalLog.getLeadUnit()));
+    }
+    
+    /**
+     * This method...
+     * @param unitAdministrators
+     */
+    public void populateInstitutionalProposalUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
+        for (UnitAdministrator unitAdministrator : unitAdministrators) {
+            InstitutionalProposalUnitAdministrator newAdministrator = new InstitutionalProposalUnitAdministrator();
+            newAdministrator.setInstitutionalProposal(this);
+            newAdministrator.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
+            newAdministrator.setAdministrator(unitAdministrator.getPersonId());
+            institutionalProposalUnitAdministrators.add(newAdministrator);
+        }
+    }
+    public UnitService getUnitService() {
+        return (UnitService) KraServiceLocator.getService(UnitService.class);
     }
     
     protected BusinessObjectService getBusinessObjectService() {

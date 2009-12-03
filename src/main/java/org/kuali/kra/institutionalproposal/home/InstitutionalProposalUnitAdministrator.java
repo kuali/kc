@@ -31,7 +31,8 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
 
     private Long proposalUnitAdministratorsId; 
     private String unitAdministratorTypeCode; 
-    private String administrator; 
+    private String administrator;
+    private String unitNumber;
     
     private UnitAdministratorType unitAdministratorType;
     
@@ -64,7 +65,8 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
     public void setAdministrator(String personId) {
         this.administrator = personId;
     }  
-
+    
+   
     /**
      * Gets the unitAdministratorType attribute. 
      * @return Returns the unitAdministratorType.
@@ -79,6 +81,24 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
      */
     public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
         this.unitAdministratorType = unitAdministratorType;
+    }
+    
+    
+
+    /**
+     * Gets the unitNumber attribute. 
+     * @return Returns the unitNumber.
+     */
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    /**
+     * Sets the unitNumber attribute value.
+     * @param unitNumber The unitNumber to set.
+     */
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
     }
 
     /**
@@ -129,6 +149,8 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
         hashMap.put("proposalUnitAdministratorsId", this.getProposalUnitAdministratorsId());
         hashMap.put("unitAdministratorTypeCode", this.getUnitAdministratorTypeCode());
         hashMap.put("administrator", this.getAdministrator());
+        hashMap.put("unitNuber", this.getUnitNumber());
+
         return hashMap;
     }
     
