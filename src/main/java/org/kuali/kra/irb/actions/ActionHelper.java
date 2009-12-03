@@ -400,7 +400,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasApprovePermission() {
-        return true;
+        return hasPermission(TaskName.APPROVE_PROTOCOL);
     }
     
     private boolean hasReopenPermission() {
