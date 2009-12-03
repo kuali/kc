@@ -49,7 +49,8 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String TERMINATED = "301";                                
     public static final String SUSPENDED = "302";                                
     public static final String EXPIRED = "305";                                
-    public static final String SUSPENDED_BY_DSMB = "306";                                
+    public static final String SUSPENDED_BY_DSMB = "306";
+    public static final String EXPEDITE_APPROVAL = "205";                                
     
     private String protocolActionTypeCode;
     
