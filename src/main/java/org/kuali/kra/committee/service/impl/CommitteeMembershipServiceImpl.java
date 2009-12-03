@@ -38,17 +38,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
     private static final String REFERENCE_RESEARCH_AREA = "researchArea";
 
-//    private BusinessObjectService businessObjectService;
-    
-    /**
-     * Set the Business Object Service. Injected by the Spring Framework.
-     * 
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-//        this.businessObjectService = businessObjectService;
-    }
-
     /**
      * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembership(org.kuali.kra.committee.bo.Committee, org.kuali.kra.committee.bo.CommitteeMembership)
      */
