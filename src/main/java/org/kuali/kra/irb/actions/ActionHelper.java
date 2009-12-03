@@ -392,12 +392,11 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasGrantExemptionPermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.GRANT_EXEMPTION, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        return hasPermission(TaskName.GRANT_EXEMPTION);
     }
     
     private boolean hasExpediteApprovalPermission() {
-        return true;
+        return hasPermission(TaskName.EXPEDITE_APPROVAL);
     }
     
     private boolean hasApprovePermission() {
@@ -442,6 +441,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasRecordCommitteeDecisionPermission() {
         return true;
+    }
+    
+    private boolean hasPermission(String taskName) {
+        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {

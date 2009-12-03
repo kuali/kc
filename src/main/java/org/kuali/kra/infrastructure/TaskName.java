@@ -95,6 +95,7 @@ public interface TaskName {
     public static final String ASSIGN_REVIEWERS = "protocolAssignReviewers";
     public static final String GRANT_EXEMPTION = "protocolGrantExemption";
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
+    public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
     
     /*
      * Committee Tasks.
@@ -111,4 +112,5 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
     public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
+  
 }
