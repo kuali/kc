@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
+
+
+//Fix rice ids for use with jquery
+//Takes an id and replaces the . with \\. and adds #
+function jq(myid) { 
+  return '#' + myid.replace(/(:|\.)/g,'\\$1');
+}
+
+
 function updateSourceNameEditable(fundingTypeCodeFieldName, fundingIdFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
 	var fundingTypeCode = DWRUtil.getValue( fundingTypeCodeFieldName );
 	var allowEdit;
@@ -1582,6 +1591,28 @@ function selectAllAwardKeywords(document) {
 	  }
 	}
 }
+
+function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
+	var sequenceNumber = $(versionId).val();
+	var dwrReply = {
+		callback:function(data) {
+			if ( data != null ) {
+				//clear all current options
+			    $(transactionId).html("");
+				$(data).each(function(item) {
+					$(transactionId).append("<option value='"+$(data)[item]+"'>"+$(data)[item]+"</option>");
+				});
+			}
+		},
+		errorHandler:function( errorMessage ) {
+			window.status = errorMessage;
+			//clear all current options
+		    $(transactionId).html("");		
+		}
+	};
+	AwardTransactionLookupService.getApplicableTransactionIds(awardNumber, sequenceNumber, dwrReply);
+}
+
 
 function setAllItemsIn(id, value) {
 	$("#" + id + " INPUT[type='checkbox']").attr('checked', value);
