@@ -117,8 +117,9 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
         }
         CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
         if (ObjectUtils.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) 
-                && ObjectUtils.equals(this.committeeMembershipRoleId, committeeMembershipRole.committeeMembershipRoleId)
-                && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate)) {
+                && ObjectUtils.equals(this.membershipRoleCode, committeeMembershipRole.membershipRoleCode)
+                && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate)
+                && ObjectUtils.equals(this.endDate, committeeMembershipRole.endDate)) {
             return true;
         } else {
             return false;
