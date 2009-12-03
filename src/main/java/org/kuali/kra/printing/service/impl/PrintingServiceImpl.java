@@ -94,16 +94,15 @@ public class PrintingServiceImpl implements PrintingService {
 			Map<String, InputStream> streamMap = printableArtifact.renderXML();
 			String[] bookmarks = new String[streamMap.size()];
 			int i = 0;
+            TransformerFactory factory = TransformerFactory.newInstance();
+            FopFactory fopFactory = FopFactory.newInstance();
 			for (Source source : printableArtifact.getXSLT()) {
+                StreamSource xslt = (StreamSource) source;
+                Transformer transformer = factory.newTransformer(xslt);
 				for (Map.Entry<String, InputStream> xml : streamMap.entrySet()) {
 					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					FopFactory fopFactory = FopFactory.newInstance();
 					Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
 							outputStream);
-					TransformerFactory factory = TransformerFactory
-							.newInstance();
-					StreamSource xslt = (StreamSource) source;
-					Transformer transformer = factory.newTransformer(xslt);
 					Source src = new StreamSource(xml.getValue());
 					Result res = new SAXResult(fop.getDefaultHandler());
 					transformer.transform(src, res);
