@@ -53,7 +53,7 @@
 	                </div>
 					</td>
 					<td valign="middle">	                	               	
-							${KualiForm.document.institutionalProposal.institutionalProposalUnitAdministrators[propRowStatus.index].person.homeUnitRef.unitName}&nbsp;						 
+							${KualiForm.document.institutionalProposal.institutionalProposalUnitAdministrators[propRowStatus.index].person.unit.unitName}&nbsp;						 
 					</td>
 	                <td valign="middle">	                	
 	                		${KualiForm.document.institutionalProposal.institutionalProposalUnitAdministrators[propRowStatus.index].person.officePhone}&nbsp;	                	

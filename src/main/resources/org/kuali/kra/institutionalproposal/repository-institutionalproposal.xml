@@ -432,7 +432,7 @@
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
-	-->
+	-->	
 	<!--	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitCreditSplit" table="PROPOSAL_UNIT_CREDIT_SPLIT">
 		<field-descriptor name="proposalUnitCreditSplitId" column="PROPOSAL_UNIT_CREDIT_SPLIT_ID" jdbc-type="INTEGER" primarykey="true" />
