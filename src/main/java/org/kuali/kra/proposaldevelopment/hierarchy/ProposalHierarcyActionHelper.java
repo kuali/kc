@@ -26,6 +26,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -244,7 +245,8 @@ public class ProposalHierarcyActionHelper {
         boolean retval = false;
         for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
             if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                if (StringUtils.equals(version.getBudgetVersionOverview().getBudgetStatus(), "1")) {
+                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+                if (proposal.isProposalComplete()) {
                     retval = true;
                 }
                 break;
