@@ -424,7 +424,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasExpirePermission() {
-        return true;
+        return hasPermission(TaskName.EXPIRE_PROTOCOL);
     }
     
     private boolean hasTerminatePermission() {
