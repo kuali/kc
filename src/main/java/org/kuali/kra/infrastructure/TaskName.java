@@ -103,6 +103,7 @@ public interface TaskName {
     public static final String SUSPEND_PROTOCOL_BY_DSMB = "protocolSuspendByDsmb";
     public static final String CLOSE_PROTOCOL = "protocolClose";
     public static final String EXPIRE_PROTOCOL = "protocolExpire";
+    public static final String TERMINATE_PROTOCOL = "protocolTerminate";
     
     /*
      * Committee Tasks.
