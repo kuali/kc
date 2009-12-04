@@ -1130,7 +1130,11 @@ insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID, OBJ_ID, VER_NBR, NMSPC_CD, NM, DESC_
 values ('9', '5ADF18B6D4BB7954E0404F8189D85002', 1, 'KR-WKFLW', 'Ad Hoc Review Document', null, '5', 'Y');
 insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID, OBJ_ID, VER_NBR, NMSPC_CD, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND)
 values ('49', '662384B381B867A1E0404F8189D868A6', 1, 'KR-NS', 'Send Ad Hoc Request', null, '5', 'Y');
+insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID, OBJ_ID, VER_NBR, NMSPC_CD, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND)
+values ('1029', '77BC20590A4D319DE0404F81891029', 1, 'KC-IDM', 'Questionnaire Permission', 'Modify/View Questionnaire', '3', 'Y');
  
+
+
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('1000', '60B1DE23785042809EF2E45C0F6710C1', 1, '10', 'KRA-PD', 'Create ProposalDevelopmentDocument', 'Create Proposal Development Document', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
@@ -1372,6 +1376,13 @@ insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, D
 values ('834', '5B4F09744953EF33E0404F8189D84F26', 1, '35', 'KR-SYS', 'Assign Role', 'Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with the KUALI namespace.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('835', '5B4F09744953EF33E0404F8189D84F27', 1, '36', 'KR-SYS', 'Grant Permission', 'Authorizes users to modify the information on the Permissions tab of the Role Document for roles with the KUALI namespace.', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
+values ('1201', '77BC20590A4E319DE0404F8189D81201', 1, '1029', 'KC-QUESTIONNAIRE', 'Modify Questionnaire', 'Modify Questionnaire', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1202', '77BC20590A51319DE0404F8189D81202', 1, '1029', 'KC-QUESTIONNAIRE', 'View Questionnaire', 'View Questionnaire', 'Y');
+
+
+
 
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1000', '66AC72A924E64E31977BECE28F7CB6A1', 1, '1000', '3', '13', 'ProposalDevelopmentDocument');
@@ -1734,6 +1745,11 @@ insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_T
 values ('206', '5B4F09744A39EF33E0404F8189D84F28', 1, '836', '20', '4', 'KUALI');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('431', '6314CC58CF59B7B5E0404F8189D84439', 1, '306', '11', '5', 'IdentityManagementPersonDocument');
+
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1147', '6314CC58CF59B7B5E0404F8189D81147', 1, '1201', '1013', '13', 'QuestionnaireMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1148', '6314CC58CF59B7B5E0404F8189D81148', 1, '1202', '1013', '13', 'QuestionnaireMaintenanceDocument');
 
 --Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-WKFLW','All','KIM_PRIORITY_ON_DOC_TYP_PERMS_IND',SYS_GUID(),1,'CONFG','N','Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.','A','KUALI');
 
@@ -2775,6 +2791,11 @@ insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 values ('850', '70086A2DF17C62E4E0404F8189D863CD', 1, '63', '307', 'Y');
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('250', '70086A2DF17D62E4E0404F8189D863CD', 1, '95', '156', 'Y');
+
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10096', '77BC20590A50319DE0404F8189D10096', 1, '1125', '1201', 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10097', '77BC20590A53319DE0404F8189D10097', 1, '1126', '1202', 'Y');
 
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
 values ('1009', '9E8C6BBF7C38443088C2B420363C5200', 1, 'a', '1017', '1007', 'Y');
