@@ -412,7 +412,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasSuspendPermission() {
-        return true;
+        return hasPermission(TaskName.SUSPEND_PROTOCOL);
     }
     
     private boolean hasSuspendByDmsbPermission() {
