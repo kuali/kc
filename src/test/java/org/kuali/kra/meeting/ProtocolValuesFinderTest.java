@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 @RunWith(JMock.class)
 public class ProtocolValuesFinderTest {

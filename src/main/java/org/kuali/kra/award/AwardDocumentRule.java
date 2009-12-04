@@ -95,10 +95,11 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 

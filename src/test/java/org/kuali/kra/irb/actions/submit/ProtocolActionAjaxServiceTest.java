@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Test the ProtocolActionAjaxService implementation.

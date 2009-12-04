@@ -29,7 +29,7 @@ import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class processes audit rules (warnings) for the Terms Information related

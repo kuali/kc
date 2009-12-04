@@ -27,7 +27,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Find the Lead Units for a Proposal Development Document.  When a user

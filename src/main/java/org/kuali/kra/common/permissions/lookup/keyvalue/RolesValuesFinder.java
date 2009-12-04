@@ -22,7 +22,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * The RolesValueFinder is responsible for building the list of

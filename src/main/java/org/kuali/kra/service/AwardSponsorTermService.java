@@ -18,7 +18,7 @@ package org.kuali.kra.service;
 import java.util.List;
 
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 
 /**

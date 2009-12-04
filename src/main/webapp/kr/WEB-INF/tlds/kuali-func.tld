@@ -109,4 +109,11 @@
 	    <function-signature>boolean canDeleteNoteAttachment(org.kuali.rice.kns.document.Document, java.lang.String, java.lang.String)</function-signature>
 	    <example>${kfunc:canDeleteNoteAttachement(document, attachmentTypeCode, authorUniversalIdentifier)}</example>
 	</function>
+    <function>
+        <description>get a KNS parameter value</description>
+        <name>getKNSParameterValue</name>
+        <function-class>org.kuali.rice.kew.util.Utilities</function-class>
+        <function-signature>java.lang.String getKNSParameterValue(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+        <example>${kfunc:getKNSParameterValue(namespace, detailType, name)}</example>
+    </function>
 </taglib>

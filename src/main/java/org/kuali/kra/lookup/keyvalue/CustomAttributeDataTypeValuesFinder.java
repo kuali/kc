@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public class CustomAttributeDataTypeValuesFinder extends KeyValuesBase {
 

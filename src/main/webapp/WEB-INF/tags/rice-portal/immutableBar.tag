@@ -34,12 +34,16 @@
       <c:when test="${fn:trim(ConfigProperties.environment) == fn:trim(ConfigProperties.production.environment.code)}" >
       </c:when>
       <c:otherwise> 
+      <%-- JSTLConstants magic doesn't work for nested class KNSConstants.DetailTypes, hence the following uglyness: --%>
+      <c:set var="backdoorDetailType" value="<%=org.kuali.rice.kns.util.KNSConstants.DetailTypes.BACKDOOR_DETAIL_TYPE%>"/>
+      <c:if test="${kfunc:getKNSParameterValue(KEWConstants.KEW_NAMESPACE, backdoorDetailType, KEWConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
       <html:form action="/portal.do" method="post" style="margin:0;">
           <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">
           <input name="channelUrl" type="hidden" value="${ConfigProperties.application.url}/backdoorlogin.do">
           <input name="channelTitle" type="hidden" value="Workflow Services">
           <input name="imageField" type="submit" value="login" class="go" title="Click to login.">
-          </html:form> 
+          </html:form>
+          </c:if> 
           </c:otherwise> 
           </c:choose> 
 </div>

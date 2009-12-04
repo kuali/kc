@@ -19,15 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-//import org.kuali.kra.kim.bo.KimRoleType;
-//import org.kuali.kra.kim.bo.KimRoleType;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
-import org.kuali.kra.bo.Unit;
-
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class UnitValuesFinder extends KeyValuesBase {
 
