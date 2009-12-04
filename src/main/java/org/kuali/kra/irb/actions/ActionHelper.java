@@ -440,7 +440,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasRecordCommitteeDecisionPermission() {
-        return true;
+        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
     }
     
     private boolean hasPermission(String taskName) {

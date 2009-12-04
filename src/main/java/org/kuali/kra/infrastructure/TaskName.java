@@ -106,6 +106,7 @@ public interface TaskName {
     public static final String TERMINATE_PROTOCOL = "protocolTerminate";
     public static final String PERMIT_DATA_ANALYSIS = "protocolPermitDataAnalysis";
     public static final String PROTOCOL_ADMIN_CORRECTION = "protocolAdminCorrection";
+    public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     
     /*
      * Committee Tasks.
