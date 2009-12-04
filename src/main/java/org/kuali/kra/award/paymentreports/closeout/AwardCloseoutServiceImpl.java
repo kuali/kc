@@ -27,7 +27,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 

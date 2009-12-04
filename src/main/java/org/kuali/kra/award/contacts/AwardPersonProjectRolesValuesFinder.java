@@ -24,7 +24,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 import java.util.ArrayList;
 import java.util.Collection;

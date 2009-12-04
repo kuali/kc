@@ -11,7 +11,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  *

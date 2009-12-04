@@ -35,7 +35,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelper classes.

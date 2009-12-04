@@ -13,8 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-
+<%-- KC Modification Start --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%-- KC Modification End --%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -41,9 +42,10 @@ if (top.location != self.location) {
 
 </head>
 <body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
-
+<%-- KC Modification Start --%>
  <div id="header" title="Kuali Research Administration">
     <h1 class="kra"></h1>Kuali Research Administration
+<%-- KC Modification End --%>
   </div>
   <div id="feedback">
   	<a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a>

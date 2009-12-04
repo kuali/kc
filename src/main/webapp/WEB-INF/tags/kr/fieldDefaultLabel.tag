@@ -25,7 +25,7 @@
 
 <c:if test="${isLookup || (!(empty fieldType) && not isLookup)}">
                             
-	<th class="grid" width="${cellWidth}" align="right">
+	<th class="grid" style="width:${cellWidth};" align="right">
 	<c:if test="${!isReadOnly}">
 <label id="${fieldName}.label" for="${fieldName}">
 </c:if>

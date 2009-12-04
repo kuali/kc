@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import java.util.List;
 
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public class CongDistrictStateCodeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
 

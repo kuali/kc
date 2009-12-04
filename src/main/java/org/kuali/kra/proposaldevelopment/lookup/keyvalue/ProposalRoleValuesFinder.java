@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Finds the available set of proposal roles.  See

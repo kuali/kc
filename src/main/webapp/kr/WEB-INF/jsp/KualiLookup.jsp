@@ -99,7 +99,7 @@
     </div>
     <br/>
 
-	<table class="page-main" width="100%">
+	<table width="100%">
 	  <c:if test="${KualiForm.lookupCriteriaEnabled}">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
@@ -206,7 +206,7 @@
 				</c:if>
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+                    <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
 					<c:choose>
 						<%--NOTE: Check if exporting first, as this should be outputted without extra HTML formatting --%>
 						<c:when	test="${param['d-16544-e'] != null}">
@@ -215,37 +215,14 @@
 									maxLength="${column.maxLength}"><c:out value="${column.propertyValue}" escapeXml="false" default="" /></display:column>
 						</c:when>
 						<c:when	test="${!empty column.columnAnchor.href || column.multipleAnchors}">
-							<display:column class="${colClass}" sortable="${column.sortable}"
-								title="${column.columnTitle}" comparator="${column.comparator}">
-								<c:choose>
-									<c:when	test="${column.multipleAnchors}">
-										<c:set var="numberOfColumnAnchors" value="${column.numberOfColumnAnchors}" />
-                                        <c:choose>
-                                          <c:when test="${empty columnAnchor.target}">
-                                            <c:set var="anchorTarget" value="_blank" />
-                                          </c:when>
-                                          <c:otherwise>
-                                            <c:set var="anchorTarget" value="${columnAnchor.target}" />
-                                          </c:otherwise>
-                                        </c:choose>
-                                        <!-- Please don't change formatting of this logic:iterate block -->
-										<logic:iterate id="columnAnchor" name="column" property="columnAnchors" indexId="ctr"><a href="<c:out value="${columnAnchor.href}"/>" target='<c:out value="${columnAnchor.target}"/>' title="${columnAnchor.title}"><c:out value="${fn:substring(columnAnchor.displayText, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/><c:if test="${column.maxLength gt 0 && fn:length(columnAnchor.displayText) gt column.maxLength}">...</c:if></a><c:if test="${ctr lt numberOfColumnAnchors-1}">,&nbsp;</c:if></logic:iterate>
-									</c:when>
-									<c:otherwise>
-                                        <c:choose>
-                                          <c:when test="${empty column.columnAnchor.target}">
-                                            <c:set var="anchorTarget" value="_blank" />
-                                          </c:when>
-                                          <c:otherwise>
-                                            <c:set var="anchorTarget" value="${column.columnAnchor.target}" />
-                                          </c:otherwise>
-                                        </c:choose>
-										<a href="<c:out value="${column.columnAnchor.href}"/>" target='<c:out value="${anchorTarget}"/>' title="${column.columnAnchor.title}"><c:out
-											value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"
-											/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a>
-			                        </c:otherwise>
-			                     </c:choose>
-			                </display:column>
+							<display:column class="${colClass}" sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}">
+<c:choose><c:when test="${column.multipleAnchors}"><c:set var="numberOfColumnAnchors" value="${column.numberOfColumnAnchors}" /><c:choose>
+<c:when test="${empty columnAnchor.target}"><c:set var="anchorTarget" value="_blank" /></c:when><c:otherwise><c:set var="anchorTarget" value="${columnAnchor.target}" /></c:otherwise></c:choose>
+<!-- Please don't change formatting of this logic:iterate block -->
+<logic:iterate id="columnAnchor" name="column" property="columnAnchors" indexId="ctr"><a href="<c:out value="${columnAnchor.href}"/>" target='<c:out value="${columnAnchor.target}"/>' title="${columnAnchor.title}"><c:out value="${fn:substring(columnAnchor.displayText, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/><c:if test="${column.maxLength gt 0 && fn:length(columnAnchor.displayText) gt column.maxLength}">...</c:if></a><c:if test="${ctr lt numberOfColumnAnchors-1}">,&nbsp;</c:if></logic:iterate>
+</c:when><c:otherwise><c:choose><c:when test="${empty column.columnAnchor.target}"><c:set var="anchorTarget" value="_blank" /></c:when><c:otherwise><c:set var="anchorTarget" value="${column.columnAnchor.target}" />
+</c:otherwise></c:choose><a href="<c:out value="${column.columnAnchor.href}"/>" target='<c:out value="${anchorTarget}"/>' title="${column.columnAnchor.title}"><c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a>
+</c:otherwise></c:choose></display:column>
 						</c:when>
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 						<c:otherwise>

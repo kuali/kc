@@ -27,10 +27,11 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+
 
 /**
  * 

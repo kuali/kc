@@ -76,6 +76,6 @@
 
 	<controller processorClass="org.kuali.rice.ksb.messaging.web.KSBStrutsRequestProcessor" />
 
-	<message-resources parameter="org.kuali.rice.ksb.messaging.ApplicationResources" />
+	<message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
 
 </struts-config>

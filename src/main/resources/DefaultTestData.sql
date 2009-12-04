@@ -53,7 +53,7 @@ SYS_GUID(),
 'All',
 'STRING_TO_DATE_FORMATS',
 'CONFG',
-'MM/dd/yy;MM-dd-yy;MMMM dd, yyyy;MMddyy',
+'MM/dd/yy;MM/dd/yyyy;MM/dd/yyyy HH:mm:ss;MM/dd/yy;MM-dd-yy;MMMM dd;yyyy;MMddyy',
 1
 );
 
@@ -158,7 +158,7 @@ SYS_GUID(),
 'All',
 'STRING_TO_TIMESTAMP_FORMATS',
 'CONFG',
-'MM/dd/yyyy hh:mm a',
+'MM/dd/yyyy hh:mm a;MM/dd/yyyy;MM/dd/yyyy HH:mm:ss;MM/dd/yy;MM-dd-yy;MMMM dd;yyyy;MMddyy',
 1
 );
 

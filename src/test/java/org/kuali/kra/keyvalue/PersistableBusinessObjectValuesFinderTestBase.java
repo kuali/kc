@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public abstract class PersistableBusinessObjectValuesFinderTestBase extends KraTestBase {
     private Class valuesFinderClass;

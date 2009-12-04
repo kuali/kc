@@ -48,7 +48,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public class BudgetPersonnelBudgetAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetAction.class);

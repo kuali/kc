@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class tests DeadlineTypeValuesFinder.
