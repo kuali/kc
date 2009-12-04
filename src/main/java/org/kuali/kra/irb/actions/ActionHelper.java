@@ -436,7 +436,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasAdminCorrectionPermission() {
-        return true;
+        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
     }
     
     private boolean hasRecordCommitteeDecisionPermission() {
