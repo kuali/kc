@@ -241,6 +241,10 @@
                     <property name="taskName" value="protocolClose" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ExpireProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolExpire" />
+                </bean>
+                
             </list>
         </property>
     </bean>
