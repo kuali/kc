@@ -115,14 +115,14 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         }
     }
 
-    protected BusinessObjectService getBusinessObjectService() throws Exception {
+    protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
             businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
     
-    protected DocumentService getDocumentService() throws Exception {
+    protected DocumentService getDocumentService() {
         if(documentService == null) {
             documentService = KNSServiceLocator.getDocumentService();
         }

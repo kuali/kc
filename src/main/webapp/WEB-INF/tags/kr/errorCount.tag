@@ -17,6 +17,9 @@
 
 <%@ attribute name="auditCount" required="false" %>
 
+<c:if test="${empty auditCount}">
+  <c:set var="auditCount" value="0" />
+</c:if>
 <c:set var="errorCount" value="${ErrorContainer.errorCount + auditCount}" />
 
 <c:if test="${errorCount > 0}">

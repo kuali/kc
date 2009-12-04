@@ -26,7 +26,7 @@
         <tr>
 	    <th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.secondaryDelegatorId"/>: <bean-el:message key="general.help.delegatorId"/></span></div></th>
 	    <td>
-		     <html-el:select property="filter.delegatorId">
+		     <html-el:select property="filter.delegatorId" onchange="if(document.forms[0]['filter.primaryDelegateId']){document.forms[0]['filter.primaryDelegateId'].value='${Constants.PRIMARY_DELEGATION_DEFAULT}';}">
 			   <html-el:option value="${Constants.DELEGATION_DEFAULT}"><c:out value="${Constants.DELEGATION_DEFAULT}" /></html-el:option>
 			   <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 			   <c:forEach var="delegator" items="${delegators}">
@@ -40,7 +40,7 @@
       <tr>
 	    <th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.primaryDelegateId"/>: <bean-el:message key="general.help.primaryDelegateId"/></span></div></th>
 	    <td class="datacell">
-		     <html-el:select property="filter.primaryDelegateId">
+		     <html-el:select property="filter.primaryDelegateId" onchange="if(document.forms[0]['filter.delegatorId']){document.forms[0]['filter.delegatorId'].value='${Constants.DELEGATION_DEFAULT}';}">
 			   <html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
 			   <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 			   <c:forEach var="delegatee" items="${primaryDelegates}">

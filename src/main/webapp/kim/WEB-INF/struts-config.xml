@@ -46,28 +46,28 @@
 		</action>
 		<!--  End Required KNS Action Mappings -->
 
-		<action path="/identityManagementPersonDocument" name="IdentityManagementPersonDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonDocumentAction"
+		<action path="/identityManagementPersonDocument" name="IdentityManagementPersonDocumentForm" input="/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonDocumentAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
 			<forward name="inquiry" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
 		</action>
-		<action path="/identityManagementPersonInquiry" name="IdentityManagementPersonDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonInquiry"
+		<action path="/identityManagementPersonInquiry" name="IdentityManagementPersonDocumentForm" input="/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonInquiry"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
 		</action>
-		<action path="/identityManagementRoleDocument" name="IdentityManagementRoleDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleDocumentAction"
+		<action path="/identityManagementRoleDocument" name="IdentityManagementRoleDocumentForm" input="/WEB-INF/jsp/identityManagementRoleDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleDocumentAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementRoleDocument.jsp" />
 		</action>
-		<action path="/identityManagementGroupDocument" name="IdentityManagementGroupDocumentForm" input="/kim/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupDocumentAction"
+		<action path="/identityManagementGroupDocument" name="IdentityManagementGroupDocumentForm" input="/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupDocumentAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementGroupDocument.jsp" />
 		</action>
-		<action path="/identityManagementRoleInquiry" name="IdentityManagementRoleDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleInquiry"
+		<action path="/identityManagementRoleInquiry" name="IdentityManagementRoleDocumentForm" input="/WEB-INF/jsp/identityManagementRoleDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleInquiry"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementRoleDocument.jsp" />
 		</action>
-		<action path="/identityManagementGroupInquiry" name="IdentityManagementGroupDocumentForm" input="/kim/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupInquiry"
+		<action path="/identityManagementGroupInquiry" name="IdentityManagementGroupDocumentForm" input="/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupInquiry"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementGroupDocument.jsp" />
 		</action>
@@ -75,5 +75,5 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
-    <message-resources parameter="KR-ApplicationResources" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
 </struts-config>

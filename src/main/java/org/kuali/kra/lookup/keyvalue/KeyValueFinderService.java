@@ -18,7 +18,7 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class...

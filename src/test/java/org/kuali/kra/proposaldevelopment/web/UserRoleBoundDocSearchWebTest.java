@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import java.io.IOException;
 
+import static org.hamcrest.text.StringContains.*;
 import org.junit.Test;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -35,13 +36,12 @@ public class UserRoleBoundDocSearchWebTest extends ProposalDevelopmentWebTestBas
 
         //2. Click on doc search and get doc search page.
         final HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
-        //HtmlPage searchPage = lookup(docSearchPage, "edu.iu.uis.eden.doctype.DocumentType");
 
         //3. lookup document type.
-        setFieldValue(docSearchPage, "lookupableImplServiceName", "DocumentTypeLookupableImplService");
-        final HtmlPage documentTypeLookupPage = clickOn(docSearchPage, "methodToCall.performLookup");
-        assertTrue(documentTypeLookupPage.asText().contains("Lookup a Document type")); 
-
+        final HtmlPage documentTypeLookupPage = clickOn(docSearchPage, "Search Type");
+        assertTrue(documentTypeLookupPage.asText().contains("Document Type Lookup")); 
+        setFieldValue(documentTypeLookupPage, "name", "ProposalDevelopmentDocument");
+        
         final HtmlPage documentTypeSearchPage = clickOn(documentTypeLookupPage, "methodToCall.search");
 
         // return proposaldevelopmentdocument
@@ -49,15 +49,14 @@ public class UserRoleBoundDocSearchWebTest extends ProposalDevelopmentWebTestBas
         assertNotNull(hyperlink);
         final HtmlPage docPage = clickOn(hyperlink);
        
-        assertTrue(docPage.asText().contains("KRA Proposal Development"));
+        assertThat(docPage.asText(), containsString("KRA Proposal Development"));
         // should see the user roles specified in document type xml : aggregator/budget creator/narrative writer/viewer/approver
-        assertTrue(docPage.asText().contains("Aggregator: Budget Creator: Narrative Writer: Viewer: Approver:")); 
+        assertThat(docPage.asText(), containsString("Aggregator: Budget Creator: Narrative Writer: Viewer: Approver:")); 
          
         // 'quickstart' is temporary set to reference the login user.  When the search xpath is finalized, this may not be the same
         setFieldValue(docPage, "propertyField[0].value", "quickstart");
         final HtmlPage docSearchResultsPage = clickOn(docPage, "methodToCall.doDocSearch");
-        assertTrue(docSearchResultsPage.asText().contains(documentNumber+" KRA Proposal Development Proposal Development Document"));
-
+        assertThat(docSearchResultsPage.asText(), containsString(documentNumber+" KRA Proposal Development Proposal Development Document"));
     }
 
     /**

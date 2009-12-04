@@ -77,6 +77,14 @@
           </td>
         </tr>
         <tr>
+          <th width="50%"><div align="right">Primary Delegate Filter</div></th>
+          <td class="datacell">
+				<html-el:select property="preferences.primaryDelegateFilter">
+				  <html-el:options collection="primaryDelegateFilter" labelProperty="value" property="key"/>
+				</html-el:select>
+          </td>
+        </tr>
+        <tr>
            <td colspan="2" class="subhead" >Fields Displayed In Action List</td>
         </tr>
 

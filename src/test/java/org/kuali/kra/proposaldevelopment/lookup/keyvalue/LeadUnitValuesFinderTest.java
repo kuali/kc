@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class tests LeadUnitValuesFinder.
