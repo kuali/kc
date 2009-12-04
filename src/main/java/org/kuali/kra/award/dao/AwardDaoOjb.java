@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.OjbCollectionAware;
 
 /**
  * 
- * This class is the implementation for ProtocolDao interface.
+ * This class is the implementation for ProtocolDao interface. 
  */
 class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AwardDao {
     private static final String OSP_ADMINISTRATOR = "ospAdministrator";
