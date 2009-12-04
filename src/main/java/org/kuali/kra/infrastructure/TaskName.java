@@ -100,6 +100,7 @@ public interface TaskName {
     public static final String REOPEN_PROTOCOL = "protocolReopen";
     public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     public static final String SUSPEND_PROTOCOL = "protocolSuspend";
+    public static final String SUSPEND_PROTOCOL_BY_DSMB = "protocolSuspendByDsmb";
     
     /*
      * Committee Tasks.
@@ -116,5 +117,4 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
     public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
-  
 }
