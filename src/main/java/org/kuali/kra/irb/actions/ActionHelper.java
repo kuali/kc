@@ -428,7 +428,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasTerminatePermission() {
-        return true;
+        return hasPermission(TaskName.TERMINATE_PROTOCOL);
     }
     
     private boolean hasPermitDataAnalysisPermission() {
