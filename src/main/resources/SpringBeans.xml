@@ -59,38 +59,6 @@
 			</list>
 		</property>
 	</bean>
-
-<!--
-	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
-		<property name="forceShutdown" value="true"/>
-		<property name="transactionTimeout" value="${transaction.timeout}" />
-	</bean>
-	
-	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp">
-		<property name="transactionTimeout" value="${transaction.timeout}"/>
-	</bean>
-	
-	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-		<property name="userTransaction">
-			<ref local="AtomikosUsrTx" />
-		</property>
-		<property name="transactionManager">
-			<ref local="AtomikosTxMgr" />
-		</property>
-	</bean>
-	 
-	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
-		<property name="uniqueResourceName" value="kraDataSource"/>
-		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="poolSize" value="${datasource.pool.size}" />
-		<property name="connectionTimeout" value="${datasource.connectionTimeout}" />
-		<property name="validatingQuery" value="${datasource.pool.validationQuery}"/>
-		<property name="testOnBorrow" value="true"/>
-		<property name="url" value="${datasource.url}" />
-		<property name="user" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
-	</bean>
-	-->
 	
 	      <!--  JOTM JTA configuration -->
       <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
@@ -179,7 +147,6 @@
 				<value>docSearchCriteriaDTOLookupable</value>
 				<value>questionnaireLookupable</value>
 				<value>questionLookupable</value>
-				<value>dictionaryValidationService</value>
 				<value>kcPersonLookupable</value>
 				<value>institutionalProposalLookupable</value>
 				<value>proposalLogLookupable</value>
@@ -239,30 +206,6 @@
 
 	</bean>
 	
-	<bean id="dictionaryValidationService" class="org.kuali.kra.rice.KraDictionaryValidationServiceImpl">
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="maintenanceDocumentDictionaryService">
-			<ref bean="maintenanceDocumentDictionaryService" />
-		</property>
-		<property name="transactionalDocumentDictionaryService">
-			<ref bean="transactionalDocumentDictionaryService" />
-		</property>
-		<property name="persistenceService">
-			<ref bean="persistenceService" />
-		</property>
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService"/>
-		</property>
-	</bean>
-	
 	<bean id="transactionalDocumentDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="transactionalDocumentDictionaryService" />
 	</bean>
@@ -302,11 +245,7 @@
 	<bean id="persistenceService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="persistenceService" />
 	</bean>
-	<!-- 
-	<bean id="lookupableHelperService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
-    	<property name="serviceName" value="lookupableHelperService" />
-	</bean>
- 	-->
+
 	<bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -425,27 +364,10 @@
 		</property>
 	</bean>
 	
-	<!--  DWR -->
-	<!--
-	<bean id="kraModule" class="org.kuali.rice.kns.KualiModule">
-	<property name="scriptConfigurationFilePaths">
-	<list>
-		<value>org/kuali/kra/dwr-kra.xml</value>
-	</list>
-	</property>
-	</bean>
-	-->
-
 	<bean class="org.kuali.rice.kns.util.spring.NamedOrderedListBean">
 		<property name="name" value="scriptConfigurationFilePaths" />
 		<property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
 	</bean>
-
-    <!--
-	<bean class="org.kuali.rice.kns.web.servlet.DWRConfigFileConfigurer">
-		<property name="configFile" value="org/kuali/kra/dwr-kra.xml" />
-	</bean>
-	-->
 
 	<bean id="kraPersistenceStructureService" class="org.kuali.kra.service.impl.KraPersistenceStructureServiceImpl" />
 	
@@ -574,15 +496,7 @@
       </property>
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
-	</bean><!--
-
-	  <bean id="s2SService" class="org.kuali.kra.s2s.service.impl.S2SServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 	</bean>
-	
- 	-->
  	
  	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
  		<property name="businessObjectService">
@@ -1855,12 +1769,7 @@
 
 	<!--Proposal Development Printing Service Configuration End -->
 
-	<!--<bean id="printingUtils"
-		class="org.kuali.kra.printing.util.PrintingUtils">
-		<property name="kualiConfigurationService"
-		ref="kualiConfigurationService" />
-		</bean>
-	--><!--  Report config end -->
+    <!--  Report config end -->
 	
 	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
       <property name="serviceNameSpaceURI" value="" />

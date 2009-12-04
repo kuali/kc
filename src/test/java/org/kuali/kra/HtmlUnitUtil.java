@@ -38,7 +38,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class HtmlUnitUtil extends Assert {
-    private static final String CAS_LOGIN_PAGE_TITLE = "Central Authentication Service";
     private static final String DEFAULT_USERID = "quickstart";
     
     public static HtmlAnchor getAnchorByTitle(HtmlPage page, String anchorTitle) {
@@ -248,14 +247,18 @@ public class HtmlUnitUtil extends Assert {
     }
     
     private static HtmlPage checkForLoginPage(HtmlPage page, String userName) throws IOException {
-        if (page.getTitleText().equals(CAS_LOGIN_PAGE_TITLE)) {
-            setTextFieldValue(page, "username", userName);
-            HtmlSubmitInput loginBtn = getSubmitInput(page, "Login");
+        if (page.getTitleText().equals("Login")) {
+            HtmlForm form = (HtmlForm) page.getForms().get(0);
+            setTextFieldValue(page, "__login_user", userName);
+            HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
+            //boolean javascriptEnabled = webClient.isJavaScriptEnabled();
+            //webClient.setThrowExceptionOnScriptError(false);
             page = (HtmlPage) loginBtn.click();
-            if (page.getTitleText().equals(CAS_LOGIN_PAGE_TITLE)) {
+            if (page.getTitleText().equals("Login")) {
                 page = (HtmlPage) loginBtn.click();
             }
+            //webClient.setThrowExceptionOnScriptError(true);
         }
-        return page;  
+        return page;
     }
 }

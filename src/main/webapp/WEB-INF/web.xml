@@ -7,7 +7,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>kew.bootstrap.spring.file</param-name>
-      <param-value>SpringBeans.xml</param-value>
+      <param-value>${bootstrap.spring.file}</param-value>
     </context-param>
 
 	<filter>
@@ -20,10 +20,10 @@
 		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
 	</filter>
 
-	<filter>
-		<filter-name>BootstrapFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
-	</filter>
+  <filter>
+    <filter-name>BootstrapFilter</filter-name>
+    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+  </filter>
 
 	<filter>
 		<filter-name>UserLoginFilter</filter-name>
@@ -41,13 +41,13 @@
 	</filter-mapping>
 
     <filter-mapping>
-		<filter-name>BootstrapFilter</filter-name>
-		<servlet-name>action</servlet-name>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>action</servlet-name>
     </filter-mapping>
 
     <filter-mapping>
-		<filter-name>BootstrapFilter</filter-name>
-		<servlet-name>notification</servlet-name>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>notification</servlet-name>
     </filter-mapping>
 
 	<filter-mapping>
@@ -143,34 +143,13 @@
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-<!-- Rice content End -->
 
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
-		<init-param>
-			<param-name>config</param-name>
-			<param-value>/WEB-INF/struts-config.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>config/ken</param-name>
-			<param-value>/ken/WEB-INF/struts-config.xml</param-value>
-		</init-param>
-		<init-param>
-          <param-name>config/kew</param-name>
-          <param-value>/kew/WEB-INF/struts-config.xml</param-value>
-        </init-param>
         <init-param>
-          <param-name>config/kim</param-name>
-          <param-value>/kim/WEB-INF/struts-config.xml</param-value>
-        </init-param>
-		<init-param>
-			<param-name>config/kr</param-name>
-			<param-value>/kr/WEB-INF/struts-config.xml</param-value>
-		</init-param>
-		<init-param>
-          <param-name>config/ksb</param-name>
-          <param-value>/ksb/WEB-INF/struts-config.xml</param-value>
+          <param-name>config</param-name>
+          <param-value>/WEB-INF/struts-config.xml</param-value>
         </init-param>
 		<init-param>
 			<param-name>debug</param-name>
@@ -183,7 +162,6 @@
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 
-<!-- Rice content Start -->
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
     <servlet>
@@ -202,7 +180,7 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
-    
+
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 <!-- KC MODIFICATION START -->
@@ -218,7 +196,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
+
     <!-- KCB servlets -->
     <servlet>
         <servlet-name>kcb</servlet-name>
@@ -262,6 +240,28 @@
 		<servlet-name>edoclite</servlet-name>
 		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
+	
+	<!--  
+	
+		Following servlet and servlet mapping for the PostDataLoadEncryptionServlet are commented out.
+		Uncomment these if you want to run the servlet in order to encrypt some data in the Rice database
+		(this would most likely be used for external identifiers in KIM that require encryption)
+		
+		It is not recommended to enable this service for a production instance except during initial
+		data load.  It is not secured in any way and would allow for easy corruption of data if mishandled.
+	
+	-->
+	<!--
+	<servlet>
+	    <servlet-name>postDataLoadEncryption</servlet-name>
+	    <servlet-class>org.kuali.rice.kns.web.servlet.PostDataLoadEncryptionServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>postDataLoadEncryption</servlet-name>
+		<url-pattern>/postDataLoadEncryption</url-pattern>
+	</servlet-mapping>
+	-->
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
@@ -313,6 +313,7 @@
 	</session-config>
 
 	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 <!-- Rice content End -->

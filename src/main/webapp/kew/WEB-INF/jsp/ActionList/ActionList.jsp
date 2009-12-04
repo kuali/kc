@@ -76,29 +76,21 @@
     <div style="clear:both">
 	<div style="float:right">
 	  <div style="float:left; width:75px">
-	  <a
-         href='<c:out value="Preferences.do?returnMapping=viewActionList&returnLocation=${ConfigProperties.kew.url}/ActionList.do" />'  title="preferences"><img
-         src="${ConfigProperties.kr.url}/images/tinybutton-preferences.gif" class="tinybutton" alt="preferences" title="preferences"
-         border="0" /></a>
+		<html-el:image src="${ConfigProperties.kr.url}/images/tinybutton-preferences.gif" property="methodToCall.viewPreferences" styleClass="tinybutton" alt="preferences" title="preferences" />
       </div>
       <div style="float:left; width:52px">
-	  <a
-         href='<c:out value="ActionList.do?methodToCall=start" />'  title="refresh"><img
-         src="${ConfigProperties.kr.url}/images/tinybutton-refresh.gif" class="tinybutton" alt="refresh" title="refresh"
-         border="0" /></a>
-       </div>
-       <div style="float:left; width:39px">
-	   <a
-         href='<c:out value="ActionListFilter.do?methodToCall=start" />'  title="filter"><img
-         src="${ConfigProperties.kr.url}/images/tinybutton-filter.gif" class="tinybutton" alt="filter" title="filter"
-         border="0" /></a>
-        </div>
+		<html-el:image src="${ConfigProperties.kr.url}/images/tinybutton-refresh.gif" property="methodToCall.start" styleClass="tinybutton" alt="refresh" title="refresh" />
+      </div>
+      <div style="float:left; width:39px">
+		<html-el:image src="${ConfigProperties.kr.url}/images/tinybutton-filter.gif" property="methodToCall.viewFilter" styleClass="tinybutton" alt="filter" title="filter" />
+      </div>
 
-        <!-- Delegates selection list -->
+        <!-- Delegator selection list -->
 
 		<c:if test="${! empty ActionListForm.delegators}">
+			<html-el:hidden property="oldDelegationId" value="${ActionListForm.delegationId}" />
 			<div style="float:left; width:226px; position: relative; top: -.5em;">
-	            <html-el:select property="delegationId" onchange="document.forms[0].methodToCall.value='start';document.forms[0].submit();">
+	            <html-el:select property="delegationId" onchange="document.forms[0].methodToCall.value='start';if(document.forms[0].primaryDelegateId){document.forms[0].primaryDelegateId.value='${Constants.PRIMARY_DELEGATION_DEFAULT}';}document.forms[0].submit();">
 	              <html-el:option value="${Constants.DELEGATION_DEFAULT}"><c:out value="${Constants.DELEGATION_DEFAULT}" /></html-el:option>
 	              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 				  <c:forEach var="delegator" items="${ActionListForm.delegators}">
@@ -106,6 +98,20 @@
 				  </c:forEach>
 	            </html-el:select>
     		</div>
+		</c:if>
+
+		<!-- Primary Delegate selection list -->
+		<c:if test="${! empty ActionListForm.primaryDelegates}">
+			<html-el:hidden property="oldPrimaryDelegateId" value="${ActionListForm.primaryDelegateId}" />
+			<div style="float:left; width:226px; position: relative; top: -.5em;">
+				<html-el:select property="primaryDelegateId" onchange="document.forms[0].methodToCall.value='start';if(document.forms[0].delegationId){document.forms[0].delegationId.value='${Constants.DELEGATION_DEFAULT}';}document.forms[0].submit();">
+					<html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
+					<html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+					<c:forEach var="primaryDelegate" items="${ActionListForm.primaryDelegates}">
+						<html-el:option value="${primaryDelegate.recipientId}"><c:out value="${primaryDelegate.displayName}" /></html-el:option>
+					</c:forEach>
+				</html-el:select>
+			</div>
 		</c:if>
 
 		<c:if test="${kewUserSession.actionListFilter != null && kewUserSession.actionListFilter.filterOn}">

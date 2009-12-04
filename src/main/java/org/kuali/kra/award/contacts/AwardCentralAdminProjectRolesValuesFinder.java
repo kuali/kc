@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class finds Award Unit Contact Project Roles

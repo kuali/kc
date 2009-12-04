@@ -75,6 +75,8 @@
         <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCount.jsp"/>
         <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
+        <forward name="viewFilter" path="/ActionListFilter.do?methodToCall=start" redirect="true" />
+        <forward name="viewPreferences" path="/Preferences.do?returnMapping=viewActionList&amp;returnLocation=ActionList.do" redirect="true" />
       </action>
 
       <action path="/ActionListFilter" scope="request" validate="false" name="ActionListFilterForm"
@@ -216,7 +218,6 @@
 
 
     <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
-    <message-resources parameter="org.kuali.rice.kew.ApplicationResources" />
-    <!-- <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="SampleApplicationResources" /> -->
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
 </struts-config>
 

@@ -1039,3 +1039,7 @@ td.infoline
 #row tr.even:hover, tbody.over td { background-color: #CCFFFF; }
 #row tr.odd { background-color: #FFFFFF; }
 #row tr.even { background-color: #f4f4f4; }
+
+.page-main {
+	float:left;
+}

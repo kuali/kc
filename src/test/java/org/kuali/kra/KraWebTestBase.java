@@ -1041,7 +1041,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElement(HtmlPage page, String name, String value, String title) {
-        HtmlElement element = getElement(page.getDocumentElement(), name, value, title);
+        HtmlElement element = getElement(page.getDocumentHtmlElement(), name, value, title);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);

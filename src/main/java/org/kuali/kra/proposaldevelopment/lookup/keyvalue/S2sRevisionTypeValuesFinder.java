@@ -22,10 +22,9 @@ import java.util.List;
 
 import org.kuali.kra.bo.S2sRevisionType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class S2sRevisionTypeValuesFinder extends KeyValuesBase {
     
