@@ -38,23 +38,15 @@ public class QuestionnaireAuthorizationServiceTest extends KraTestBase{
         assertFalse(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE));
 
     }
+    
     @Test
     public void permissionViewQuestionnaireTest() {
  
         GlobalVariables.setUserSession(new UserSession("jtester"));
         assertTrue(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
+        GlobalVariables.setUserSession(new UserSession("woods"));
         assertFalse(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
 
     }
     
-    @Test
-    public void permissionModifyProtocolTest() {
- 
-        GlobalVariables.setUserSession(new UserSession("jtester"));
-        assertTrue(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_PROTOCOL));
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
-        assertFalse(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_PROTOCOL));
-
-    }
 }
