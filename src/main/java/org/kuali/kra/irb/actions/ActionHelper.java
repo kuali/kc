@@ -432,7 +432,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasPermitDataAnalysisPermission() {
-        return true;
+        return hasPermission(TaskName.PERMIT_DATA_ANALYSIS);
     }
     
     private boolean hasAdminCorrectionPermission() {
