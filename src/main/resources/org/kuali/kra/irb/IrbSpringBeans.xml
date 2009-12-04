@@ -232,6 +232,10 @@
                 <bean class="org.kuali.kra.irb.auth.SuspendProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolSuspend" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.SuspendByDsmbProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolSuspendByDsmb" />
+                </bean>
             </list>
         </property>
     </bean>
