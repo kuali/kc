@@ -51,7 +51,8 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String EXPIRED = "305";                                
     public static final String SUSPENDED_BY_DSMB = "306";
     public static final String EXPEDITE_APPROVAL = "205";
-    public static final String GRANT_EXEMPTION = "206";                                
+    public static final String GRANT_EXEMPTION = "206";
+    public static final String ADMINISTRATIVE_CORRECTION = "113";                                
     
     private String protocolActionTypeCode;
     

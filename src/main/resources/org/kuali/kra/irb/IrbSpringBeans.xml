@@ -252,6 +252,10 @@
                 <bean class="org.kuali.kra.irb.auth.PermitDataAnalysisProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolPermitDataAnalysis" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.AdminCorrectionProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAdminCorrection" />
+                </bean>
             </list>
         </property>
     </bean>
