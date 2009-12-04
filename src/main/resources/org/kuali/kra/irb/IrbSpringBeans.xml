@@ -260,6 +260,10 @@
                 <bean class="org.kuali.kra.irb.auth.RecordCommitteeDecisionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRecordCommitteeDecision" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.EnterRiskLevelProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolEnterRiskLevel" />
+                </bean>
             </list>
         </property>
     </bean>
