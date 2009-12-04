@@ -411,7 +411,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="CommSchedule-lookupDefinition" parent="CommSchedule-lookupDefinition-parentBean" />
 	<bean id="CommSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Comm Schedule Lookup" />
+		<property name="title" value="Committee Schedule Lookup" />
         <property name="lookupableID" value="committeeScheduleLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
