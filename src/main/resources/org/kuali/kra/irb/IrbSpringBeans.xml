@@ -248,6 +248,10 @@
                 <bean class="org.kuali.kra.irb.auth.TerminateProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolTerminate" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.PermitDataAnalysisProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolPermitDataAnalysis" />
+                </bean>
             </list>
         </property>
     </bean>
