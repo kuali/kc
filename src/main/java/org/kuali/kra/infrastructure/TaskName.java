@@ -101,6 +101,7 @@ public interface TaskName {
     public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     public static final String SUSPEND_PROTOCOL = "protocolSuspend";
     public static final String SUSPEND_PROTOCOL_BY_DSMB = "protocolSuspendByDsmb";
+    public static final String CLOSE_PROTOCOL = "protocolClose";
     
     /*
      * Committee Tasks.

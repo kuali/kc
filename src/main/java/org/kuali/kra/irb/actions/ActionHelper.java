@@ -420,7 +420,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasClosePermission() {
-        return true;
+        return hasPermission(TaskName.CLOSE_PROTOCOL);
     }
     
     private boolean hasExpirePermission() {
