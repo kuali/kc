@@ -92,9 +92,9 @@ public class ActionHelper implements Serializable {
     private boolean canExpire = false;
     private boolean canTerminate = false;
     private boolean canPermitDataAnalysis = false;
-    private boolean canEnterRiskLevel = true;
-    private boolean canMakeAdminCorrection = true;
-    private boolean canRecordCommitteeDecision = true;
+    private boolean canEnterRiskLevel = false;
+    private boolean canMakeAdminCorrection = false;
+    private boolean canRecordCommitteeDecision = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -278,6 +278,7 @@ public class ActionHelper implements Serializable {
         canPermitDataAnalysis = hasPermitDataAnalysisPermission();
         canMakeAdminCorrection = hasAdminCorrectionPermission();
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
+        canEnterRiskLevel = hasEnterRiskLevelPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -441,6 +442,10 @@ public class ActionHelper implements Serializable {
     
     private boolean hasRecordCommitteeDecisionPermission() {
         return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
+    }
+    
+    private boolean hasEnterRiskLevelPermission() {
+        return hasPermission(TaskName.ENTER_RISK_LEVEL);
     }
     
     private boolean hasPermission(String taskName) {
