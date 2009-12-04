@@ -21,7 +21,7 @@ import javax.persistence.Column;
 
 /**
  * 
- * This class is to maintain repetitive coeus legacy code, committeeNumber & sequenceNumber, for Committee Bos.
+ * This class is for associating common Committee properties to the extended Committee children BOs
  */
 public abstract class CommitteeAssociate extends CommitteeSequenceAssociate {
 
