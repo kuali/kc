@@ -1152,6 +1152,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
+        pdDoc.prepareForSave();
         return super.cancel(mapping, form, request, response);
     }
     
