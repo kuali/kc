@@ -32,6 +32,9 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
     public static final String ACTIVE_OPEN_TO_ENROLLMENT = "200";
     public static final String DISAPPROVED = "306";
     public static final String WITHDRAWN = "304";
+    public static final String SUSPENDED_BY_PI = "302";
+    public static final String SUSPENDED_BY_DSMB = "311";
+    public static final String SUSPENDED_BY_IRB = "308";
     
 	private String protocolStatusCode; 
 	private String description; 

@@ -15,30 +15,29 @@
  */
 package org.kuali.kra.irb.actions.suspend;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Collection;
+
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolVersionService;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * The ProtocolExpediteApprovalService implementation.
+ * The ProtocolSuspendService implementation.
  */
 public class ProtocolSuspendServiceImpl implements ProtocolSuspendService {
+    
+    private static final String NAMESPACE = "KC-PROTOCOL";
 
-    private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    private ProtocolActionService protocolActionService;
-    private ProtocolVersionService protocolVersionService;
-
-    /**
-     * Set the document service.
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
     
     /**
      * Set the business object service.
@@ -49,29 +48,44 @@ public class ProtocolSuspendServiceImpl implements ProtocolSuspendService {
     }
     
     /**
-     * Set the Protocol Action Service.
-     * @param protocolActionService
+     * @see org.kuali.kra.irb.actions.suspend.ProtocolSuspendService#suspend(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
      */
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-        this.protocolActionService = protocolActionService;
+    public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        addAction(protocol, ProtocolActionType.SUSPENDED, actionBean.getComments(), actionBean.getActionDate());
+        if (isIrbAdministrator()) {
+            protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_IRB);
+        } 
+        else {
+            protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_PI);
+        }
+        protocol.refreshReferenceObject("protocolStatus");
+        businessObjectService.save(protocol);
     }
     
     /**
-     * Inject Protocol Version Service
-     * @param protocolVersionService
+     * @see org.kuali.kra.irb.actions.suspend.ProtocolSuspendService#suspendByDsmb(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
      */
-    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
-        this.protocolVersionService = protocolVersionService;
-    }
-
-    
-    public void suspend(Protocol protocol, ProtocolGenericActionBean approveBean) throws Exception {
-        // TODO Auto-generated method stub
-        
+    public void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        addAction(protocol, ProtocolActionType.SUSPENDED_BY_DSMB, actionBean.getComments(), actionBean.getActionDate());
+        protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_DSMB);
+        protocol.refreshReferenceObject("protocolStatus");
+        businessObjectService.save(protocol);
     }
     
-    public void suspendByDmsb(Protocol protocol, ProtocolGenericActionBean approveBean) throws Exception {
-        // TODO Auto-generated method stub
-        
+    private void addAction(Protocol protocol, String actionTypeCode, String comments, Date actionDate) {
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, actionTypeCode);
+        protocolAction.setComments(comments);
+        protocolAction.setActionDate(new Timestamp(actionDate.getTime()));
+        protocol.getProtocolActions().add(protocolAction);
+    }
+    
+    private boolean isIrbAdministrator() {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        Collection<String> ids = getRoleService().getRoleMemberPrincipalIds(NAMESPACE, RoleConstants.IRB_ADMINISTRATOR, null);
+        return ids.contains(principalId);
+    }
+    
+    private RoleService getRoleService() {
+        return KraServiceLocator.getService("kimRoleManagementService");
     }
 }
