@@ -19,19 +19,23 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Suspend Service is used to suspend a protocol.
  */
 public interface ProtocolSuspendService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Suspend the protocol by the PI or by the IRB Administrator.
      * @param protocol
-     * @param approveBean
+     * @param actionBean
      * @throws Exception
      */
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
-    public void suspendByDmsb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    /**
+     * Suspend the protocol by DSMB.
+     * @param protocol
+     * @param actionBean
+     * @throws Exception
+     */
+    public void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 }
