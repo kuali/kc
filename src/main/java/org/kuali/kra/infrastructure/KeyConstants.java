@@ -561,7 +561,8 @@ public final class KeyConstants {
     // Institutional Proposal - Proposal Log
     public static final String ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS = "error.proposalLog.multiplePi";
     public static final String ERROR_INVALID_STATUS_CHANGE = "error.proposalLog.invalidStatusChange";
-    
+    public static final String ERROR_INVALID_LEADUNIT = "error.proposalLog.invalidLeadUnit";
+
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE = "error.committeeSchedule.start.and.endDate";
