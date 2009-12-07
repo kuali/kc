@@ -81,6 +81,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         
         try {
             byte[] pdfFileContents = budgetSubAwardFiles.getSubAwardXfdFileData();
+            budgetSubAwardBean.setSubAwardXfdFileData(pdfFileContents);
             PdfReader  reader = new PdfReader(pdfFileContents);
             byte[] xmlContents=getXMLFromPDF(reader);
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
@@ -92,6 +93,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             LOG.error("Not able to extract xml from pdf",e);
             subawardBudgetExtracted = false;
         }
+        
         budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXfdFileData());
         if (subawardBudgetExtracted) {
             budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXmlFileData()));
