@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -44,6 +48,14 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         if (ObjectUtils.isNotNull(proposalLog.getPiId()) && ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rolodexId", 
                     KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");
+            valid = false;
+        }
+        
+        proposalLog.refreshReferenceObject("unit");
+        if (StringUtils.isNotBlank(proposalLog.getLeadUnit()) && proposalLog.getUnit() == null) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.leadUnit", 
+                    KeyConstants.ERROR_INVALID_LEADUNIT, "");
+            
             valid = false;
         }
         
