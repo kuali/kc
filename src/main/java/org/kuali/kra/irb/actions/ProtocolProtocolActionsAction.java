@@ -1303,7 +1303,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
-        getProtocolSuspendService().suspendByDmsb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getProtocolSuspendService().suspendByDsmb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
