@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.kim.bo;
 
+import org.kuali.kra.bo.Unit;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 
 public class KcKimAttributes extends KimAttributes {
@@ -34,6 +35,8 @@ public class KcKimAttributes extends KimAttributes {
     protected String timeandmoney;
     protected String unitNumber;
     protected boolean subunits;
+    
+    protected Unit unit;
     
     public String getProposal() {
         return proposal;
@@ -89,6 +92,14 @@ public class KcKimAttributes extends KimAttributes {
     
     public void setSubunits(boolean subunits) {
         this.subunits = subunits;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
     
 }
