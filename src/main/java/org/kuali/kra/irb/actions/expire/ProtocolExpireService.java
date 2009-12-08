@@ -19,14 +19,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Expire Service is used to expire a protocol.
  */
 public interface ProtocolExpireService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Expire a protocol.
      * @param protocol
      * @param actionBean
      * @throws Exception
