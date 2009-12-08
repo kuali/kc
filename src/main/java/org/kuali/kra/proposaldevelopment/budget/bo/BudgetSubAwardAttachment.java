@@ -29,6 +29,8 @@ public class BudgetSubAwardAttachment extends BudgetAssociate {
     private String contentType;
 	private Integer subAwardNumber;
 	
+	private Long budgetSubawardAttachmentId;
+	
 	public BudgetSubAwardAttachment() {
 	    super();
 	}
@@ -65,7 +67,15 @@ public class BudgetSubAwardAttachment extends BudgetAssociate {
 		this.contentType = contentType;
 	}
 	
-	@SuppressWarnings("unchecked")
+	public Long getBudgetSubawardAttachmentId() {
+        return budgetSubawardAttachmentId;
+    }
+
+    public void setBudgetSubawardAttachmentId(Long budgetSubawardAttachmentId) {
+        this.budgetSubawardAttachmentId = budgetSubawardAttachmentId;
+    }
+
+    @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
@@ -74,6 +84,7 @@ public class BudgetSubAwardAttachment extends BudgetAssociate {
 //        hashMap.put("versionNumber", getBudgetVersionNumber());
 		hashMap.put("subAwardNumber", getSubAwardNumber());
 		hashMap.put("contentType", getContentType());
+		hashMap.put("budgetSubawardAttachmentId", getBudgetSubawardAttachmentId());
 		return hashMap;
 	}
 }
