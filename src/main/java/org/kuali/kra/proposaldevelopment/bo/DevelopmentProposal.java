@@ -975,7 +975,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         for (PessimisticLock lock : getProposalDocument().getPessimisticLocks()) {
-            if (lock.isOwnedByUser(currentUser)
+            if (lock.isOwnedByUser(currentUser) && lock.getLockDescriptor() != null
                     && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
                 refreshNarrativesFromUpdatedCopy(managedLists);
                 break;
