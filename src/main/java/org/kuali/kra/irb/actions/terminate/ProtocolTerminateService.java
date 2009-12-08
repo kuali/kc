@@ -19,14 +19,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Terminate Service is used to terminate a protocol.
  */
 public interface ProtocolTerminateService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Terminate a protocol.
      * @param protocol
      * @param actionBean
      * @throws Exception
