@@ -20,10 +20,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.rice.kns.service.BusinessObjectService;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class AwardTransactionLookupServiceImpl implements AwardTransactionLookupService {
 
@@ -35,19 +38,19 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
      */
     @SuppressWarnings("unchecked")
     public List<Long> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
-        List<Long> transactionIds = new ArrayList<Long>();
+        TreeSet<Long> transactionIds = new TreeSet<Long>();
         Map<String, String> awardValues = new HashMap<String, String>();
         awardValues.put("awardNumber", awardNumber);
         Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
         List<Long> excludedTransactionIds = new ArrayList<Long>();
         for (Award award : awards) {
-            if (award.getSequenceNumber() != sequenceNumber.intValue()) {
+            if (award.getSequenceNumber() < sequenceNumber.intValue()) {
                 for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
                     if (amountInfo.getTransactionId() != null) {
                         excludedTransactionIds.add(amountInfo.getTransactionId());
                     }
                 }
-            } else {
+            } else if (award.getSequenceNumber() == sequenceNumber.intValue()){
                 for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
                     if (amountInfo.getTransactionId() != null) {
                         transactionIds.add(amountInfo.getTransactionId());
@@ -56,8 +59,9 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
             }
         }
         transactionIds.removeAll(excludedTransactionIds);
-        
-        return transactionIds;
+        List<Long> retVal = new ArrayList<Long>(transactionIds);
+        Collections.reverse(retVal);
+        return retVal;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
