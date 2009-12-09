@@ -38,6 +38,7 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
     public static final String EXPIRED = "305";
     public static final String CLOSED_ADMINISTRATIVELY = "300";
     public static final String TERMINATED_BY_IRB = "307";
+    public static final String ACTIVE_CLOSED_TO_ENROLLMENT = "201";
     
 	private String protocolStatusCode; 
 	private String description; 
