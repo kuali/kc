@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -31,10 +32,11 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
@@ -104,11 +106,11 @@ public class BudgetPersonnelRule {
     public boolean processCheckCompleteEntriesBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap messageMap = GlobalVariables.getMessageMap();
         List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
         for (BudgetPerson budgetPerson : budgetPersons) {
             if (StringUtils.isBlank(budgetPerson.getJobCode()) || StringUtils.isBlank(budgetPerson.getAppointmentTypeCode()) || budgetPerson.getCalculationBase().isLessThan(BudgetDecimal.ZERO) || budgetPerson.getEffectiveDate() == null) {
-                errorMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_IMCOMPLETE_PERSON_ENTRIES);
+                messageMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_IMCOMPLETE_PERSON_ENTRIES);
                     valid = false;
             }
         }
@@ -133,8 +135,8 @@ public class BudgetPersonnelRule {
 
         if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
                 // just try to make sure key is on budget personnel tab
-                final ErrorMap errorMap = GlobalVariables.getErrorMap();
-                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
+                final MessageMap messageMap = GlobalVariables.getMessageMap();
+                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
                     KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
                 valid = false;
         }
@@ -145,16 +147,16 @@ public class BudgetPersonnelRule {
     public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
         boolean valid = true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap messageMap = GlobalVariables.getMessageMap();
         int i = 0;
         List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
         for (BudgetPerson budgetPerson : budgetPersons) {
             if (budgetPerson.getCalculationBase() == null) {
-                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
+                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
                     RiceKeyConstants.ERROR_REQUIRED, new String[] {"Base Salary"});
                     valid = false;
             } else if (budgetPerson.getCalculationBase().isNegative()) {
-                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
+                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
                     KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] {"Base Salary"});
                 valid = false;
             }
@@ -172,7 +174,7 @@ public class BudgetPersonnelRule {
     public boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap messageMap = GlobalVariables.getMessageMap();
         
         List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
         for (int i = 0; i < budgetPersons.size(); i++) {
@@ -180,8 +182,14 @@ public class BudgetPersonnelRule {
             for (int j = i + 1; j < budgetPersons.size(); j++) {
                 BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
-                    valid = false;
+                    BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+                    if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
+                        // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
+                    }
+                    else {
+                        messageMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                        valid = false;
+                    }
                 }
 
             }
@@ -211,7 +219,7 @@ public class BudgetPersonnelRule {
         
         boolean valid = true;
         
-        GlobalVariables.getErrorMap().addToErrorPath("document");
+        GlobalVariables.getMessageMap().addToErrorPath("document");
         valid &= this.processBudgetPersonnelBusinessRules(budgetDocument);
         
         if(valid) {
@@ -237,7 +245,7 @@ public class BudgetPersonnelRule {
             }
         }
         
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         return valid;
     }
     
@@ -261,8 +269,8 @@ public class BudgetPersonnelRule {
         final BudgetPerson personCopy = (BudgetPerson) this.boService.findByPrimaryKey(BudgetPerson.class, queryMap);
         if (!person.isDuplicatePerson(personCopy)) {
             if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
-                final ErrorMap errorMap = GlobalVariables.getErrorMap();
-                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
+                final MessageMap messageMap = GlobalVariables.getMessageMap();
+                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
                     KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
                 valid = false;
             }
@@ -282,8 +290,8 @@ public class BudgetPersonnelRule {
         
         boolean valid = true;
         if (person.getJobCode() == null) {
-            final ErrorMap errorMap = GlobalVariables.getErrorMap();
-            errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
+            final MessageMap messageMap = GlobalVariables.getMessageMap();
+            messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
                 KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
             valid = false;
         }
