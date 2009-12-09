@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -269,7 +270,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
                     if(currBudgetPeriod == null) {
                         currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
                         budgetProposalRate.setTrackAffectedPeriod(currBudgetPeriod);
-                    }else {
+                    } else {
                         if(currBudgetPeriod.indexOf(formattedPeriod) < 0) {
                             currBudgetPeriod = currBudgetPeriod.concat(formattedPeriod); 
                             budgetProposalRate.setTrackAffectedPeriod(currBudgetPeriod);
@@ -318,9 +319,37 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * */
     @SuppressWarnings("unchecked")
     private Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        Map rateFilterMap = getRateFilterMapWithActivityTypeCode(budgetDocument);
-        return (Collection<InstituteRate>) getAbstractInstituteRates(budgetDocument, InstituteRate.class, rateFilterMap);
+        //get first unit number in hierarchy with rates then select appropriate rates
+        Unit firstUnit = findFirstUnitWithRates(budgetDocument.getParentDocument().getBudgetParent().getUnit(), InstituteRate.class);
+        if (firstUnit == null) {
+            return new ArrayList();
+        }
+        Collection abstractRates = getActiveInstituteRates(InstituteRate.class, firstUnit, budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
+        return (Collection<InstituteRate>)abstractRates;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Unit findFirstUnitWithRates(Unit leadUnit, Class rateType) {
+        Unit currentUnit = leadUnit;
+        Map<String, String> currentSearchMap = new HashMap<String, String>();
+        Collection currentRates = null;
+        while (currentUnit != null) {
+            currentSearchMap.put(UNIT_NUMBER_KEY, currentUnit.getUnitNumber());            
+            currentRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, currentSearchMap));
+            if (currentRates != null && !currentRates.isEmpty()) {
+                break;
+            }
+            currentUnit = currentUnit.getParentUnit();
+        }
+        return currentUnit;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Collection<AbstractInstituteRate> getActiveInstituteRates(Class rateType, Unit unit, String activityTypeCode) {
+        Map<String, String> searchMap = new HashMap<String, String>();
+        searchMap.put(UNIT_NUMBER_KEY, unit.getUnitNumber());
+        searchMap.put(ACTIVITY_TYPE_CODE_KEY, activityTypeCode);
+        return filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, searchMap));
     }
 
     /* get all institute rates - based on 
@@ -334,15 +363,6 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, budgetParent.getUnit(), getRateFilterMap(budgetDocument));
         abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
-        String unitNumber = budgetParent.getUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, budgetParent.getUnit(), rateFilterMap);        
-        
-        return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
     }
 
     /**
@@ -364,13 +384,6 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         Map<String, String> rateFilterMap = new HashMap<String, String>();
         rateFilterMap.put(UNIT_NUMBER_KEY, budgetParent.getUnitNumber());
-        return rateFilterMap;
-    }
-    
-    private Map<String, String> getRateFilterMapWithActivityTypeCode(BudgetDocument budgetDocument) {
-        BudgetParent parentDocument = budgetDocument.getParentDocument().getBudgetParent(); 
-        Map<String, String> rateFilterMap = getRateFilterMap(budgetDocument);
-        rateFilterMap.put(ACTIVITY_TYPE_CODE_KEY, parentDocument.getActivityTypeCode());
         return rateFilterMap;
     }
 
