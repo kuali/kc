@@ -53,8 +53,7 @@ public class LookupReturnValuesFinder extends KeyValuesBase {
             }
         }
         catch (Exception e) {
-            LOG.info(e.getMessage());
-            // TODO
+            LOG.info(e.getMessage(), e);
         }
         
         if (lookupReturnFields != null) {

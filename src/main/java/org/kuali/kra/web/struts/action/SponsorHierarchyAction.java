@@ -51,7 +51,7 @@ public class SponsorHierarchyAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
+
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         ActionForward forward = super.execute(mapping, form, request, response);
         if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {

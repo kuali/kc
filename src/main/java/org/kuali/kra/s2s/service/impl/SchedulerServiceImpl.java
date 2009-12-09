@@ -80,7 +80,6 @@ public class SchedulerServiceImpl implements SchedulerService {
      * 
      * @see org.kuali.kra.s2s.service.SchedulerService#startAllServices()
      */
-    //TODO: Declarations should be outside of the loops
     public synchronized void startAllServices() {
         if (started){
             return;
