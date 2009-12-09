@@ -198,7 +198,6 @@ public class KcPerson implements Contactable, BusinessObject {
         this.entity = this.getIdentityService().getEntityInfoByPrincipalId(this.personId);
         
         if (this.entity == null) {
-            //TODO: implement a better strategy for avoiding null pointer
             this.entity = new KimEntityInfo();
         }
     }
@@ -209,7 +208,6 @@ public class KcPerson implements Contactable, BusinessObject {
             this.getBusinessObjectService().findByPrimaryKey(KcPersonExtendedAttributes.class, Collections.singletonMap("personId", this.personId));
     
         if (this.extendedAttributes == null) {
-            //TODO: implement a better strategy for avoiding null pointer
             this.extendedAttributes = new KcPersonExtendedAttributes();
         }
     }

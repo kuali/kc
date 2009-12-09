@@ -154,9 +154,6 @@ public class BudgetModular extends BudgetAssociate {
     }
     
     public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
-        int hack = 0;
-//        budgetModularIdc.setProposalNumber(this.getProposalNumber());
-//        budgetModularIdc.setBudgetVersionNumber(this.getBudgetVersionNumber());
         budgetModularIdc.setBudgetId(budgetModularIdc.getBudgetId());
         budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
         
@@ -168,7 +165,6 @@ public class BudgetModular extends BudgetAssociate {
                         testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())){
                     testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
                     testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
-                    hack = 1;
                     return;
                 }
             }
