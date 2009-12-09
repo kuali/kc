@@ -19,17 +19,15 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Reopen Service is used re-open a protocol for enrollment.
  */
 public interface ProtocolReopenService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Reopen a protocol for enrollment.
      * @param protocol
-     * @param approveBean
+     * @param actionBean
      * @throws Exception
      */
-    public void reopen(Protocol protocol, ProtocolGenericActionBean reopenBean) throws Exception;
+    public void reopen(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 }
