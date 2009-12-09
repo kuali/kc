@@ -33,7 +33,6 @@ public class KraDWRServlet extends KualiDWRServlet {
 
     @Override
     public void configure(ServletConfig servletConfig, Configuration configuration) throws ServletException {
-        // TODO Auto-generated method stub
         super.configure(servletConfig, configuration);
 
         for (Object namedOrderedListBean : KraServiceLocator.getAppContext().getBeansOfType(NamedOrderedListBean.class).values()) {
