@@ -60,7 +60,7 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     protected static final String DOCUMENT_SPONSOR_CODE = "document.institutionalProposalList[0].sponsorCode";
     
 
-    
+    protected static final String EXCEPTION_OR_SYSTEM_ERROR = "Error occurred while processing this request";
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST = "table or view does not exist";
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
@@ -71,6 +71,8 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     private static final String SAVE_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "save";
     private static final String RELOAD_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "reload";
     
+    protected static final String CHECKED = "on";
+    protected static final String UNCHECKED = "off";
     private static final String ELEMENT_GROUPING = "((<>))";
     private static final String XML_GROUPING = "((&lt;&gt;))";
     private static final String AMPERSAND = "&";
