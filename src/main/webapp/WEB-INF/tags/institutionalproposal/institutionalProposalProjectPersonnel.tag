@@ -15,7 +15,187 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%-- member of InstitutionalProposalContacts.jsp --%>
+<script src="scripts/jquery/jquery.js"></script>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Project Personnel" defaultOpen="false" tabErrorKey="">
-	Under construction
-</kul:tabTop>
+<c:set var="institutionalProposalPersonAttributes" value="${DataDictionary.InstitutionalProposalPerson.attributes}" />
+
+<%-- kra:section permission="modifyInstitutionalProposal" --%>
+<div id="workarea">
+<kul:tab tabTitle="Project Personnel" defaultOpen="false" alwaysOpen="false" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" 
+			 tabErrorKey="document.institutionalProposalList[0].projectPerson*,projectPersonnelBean.newInstitutionalProposalContact*,"
+			 auditCluster="contactsAuditErrors" tabAuditKey="document.institutionalProposalList[0].projectPerson*"
+			 transparentBackground="true">
+	<div class="tab-container" align="center">
+		<h3>
+			<span class="subhead-left">Project Personnel</span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" altText="help"/></span>
+		</h3>
+		
+		<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Project Personnel">
+			<tr>
+				<th scope="row" width="5%">&nbsp;</th>
+				<th width="15%">Person</th>
+				<th width="15%">Unit</th>
+				<th width="20%">Project Role</th>
+				<th width="15%">Office Phone</th>
+				<th width="15%">Email</th>
+				<th width="15%"><div align="center">Actions</div></th>
+			</tr>
+			
+			<tr>
+				<th class="infoline" scope="row">Add</th>
+				<td nowrap class="grid" class="infoline">
+					<div>
+						<label><span style="margin-right: 30;">Add Employee: </span></label>
+    					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
+          							attributeEntry="${institutionalProposalPersonAttributes.fullName}" readOnly="true"/>
+          				<label>
+          					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                                        fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
+  	 									lookupParameters="projectPersonnelBean.personId:personId"/>
+  	 					</label>
+  	 				</div>
+  	 				<div>
+          				<label><span style="margin-right: 3;">Add Non-employee:</span></label>
+      					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
+          								attributeEntry="${institutionalProposalPersonAttributes.fullName}" readOnly="true"/>
+      					<label>
+      						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
+      									anchor="${tabKey}" lookupParameters="projectPersonnelBean.rolodexId:rolodexId"/>
+      					</label>
+      				</div>
+	        	</td>
+	        	<td class="infoline">
+	        		<div align="center">
+	        			<c:out value="${KualiForm.projectPersonnelBean.newInstitutionalProposalContact.contactOrganizationName}" />&nbsp;
+	        		</div>
+	        	</td>
+	        	<td class="infoline">
+                    ${KualiForm.valueFinderResultDoNotCache}
+	        		<div align="center">
+		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
+	                									attributeEntry="${institutionalProposalPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 'normal');"/><br/>
+	                	<span class="keypersononly">
+					    *<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" /><span class="noscriptonly">(Required for Key Persons only)</span> 
+				         <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalContact.keyPersonRole" 
+										           attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}"/>
+					    </span>
+                    <script type="text/javascript">
+                      function proposalRoleChange(formItem, speed) {
+                          if ( $(formItem).val() == 'KP' ) {
+                              $('.keypersononly').slideDown(speed);
+                          } else {
+                              $('.keypersononly').slideUp(speed);
+                          }
+                      }
+                      $(document).ready(function() {
+                          proposalRoleChange('#projectPersonnelBean\\.contactRoleCode', 'now');
+                          $('.noscriptonly').hide();
+                      });
+                    </script>
+                    ${KualiForm.valueFinderResultCache}
+	        	</td>
+	        	<td class="infoline">
+	        		<div align="center">
+	        			<c:out value="${KualiForm.projectPersonnelBean.newInstitutionalProposalContact.contact.phoneNumber}" />&nbsp;
+	        		</div>
+	        	</td>
+	        	<td class="infoline">
+	        		<div align="center">
+	        			<c:out value="${KualiForm.projectPersonnelBean.newInstitutionalProposalContact.contact.emailAddress}" />&nbsp;
+	        		</div>
+	        	</td>
+	        	<td class="infoline">
+	        		<div align="center">
+	        			<html:image property="methodToCall.addProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+	        		</div>
+	        	</td>
+			</tr>
+			
+			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].projectPersons}" varStatus="institutionalProposalContactRowStatus">
+				<tr>
+					<th class="infoline" scope="row" rowspan="4">
+						<c:out value="${institutionalProposalContactRowStatus.index + 1}" />
+					</th>
+	                <td valign="middle">
+	                	<input type="hidden" name="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.contact.identifier}" />
+	                	<div align="center">
+	                		${institutionalProposalContact.fullName}&nbsp;
+	                		<c:choose>
+		                		<c:when test="${institutionalProposalContact.employee}">
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />
+		                		</c:when>
+		                		<c:otherwise>
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
+		                		</c:otherwise>
+		                	</c:choose>
+						</div>
+					</td>
+	                <td valign="middle">
+	                	<div align="center">
+	                		<input type="hidden" name="institutionalproposal_person.orgNumber_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.organizationIdentifier}" />
+	                		<c:out value="${institutionalProposalContact.contactOrganizationName}" />&nbsp;
+	                		<c:choose>
+		                		<c:when test="${institutionalProposalContact.employee}">
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutionalproposal_person.orgNumber_${institutionalProposalContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+		                		</c:when>
+		                		<c:otherwise>
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
+		                		</c:otherwise>
+		                	</c:choose>		                	
+						</div>
+					</td>
+	                <td valign="middle">
+	                	<div align="center">
+                            <c:set var="isNih" value="${KualiForm.document.institutionalProposalList[0].nih}" />
+                            <c:if test="${isNih}">
+                                <c:set var="roleDescription" value="${KualiForm.document.institutionalProposalList[0].nihDescription[institutionalProposalContact.contactRole.roleCode]}" />
+                            </c:if>
+                            <c:if test="${!isNih}">
+                                <c:set var="roleDescription" value="${institutionalProposalContact.contactRole.description}" />
+                            </c:if>
+	                		${roleDescription}&nbsp;
+	                	</div> 
+					</td>
+					<td valign="middle">
+						<div align="center">
+	                		${institutionalProposalContact.phoneNumber}&nbsp;
+	                	</div> 
+					</td>
+	                <td valign="middle">
+	                	<div align="center">                	
+							${institutionalProposalContact.emailAddress}&nbsp;
+						</div> 
+					</td>
+	                
+					<td>
+						<div align="center">
+							<html:image property="methodToCall.deleteProjectPerson.line${institutionalProposalContactRowStatus.index}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						</div>
+	                </td>
+	            </tr>
+	            
+	            <tr>
+	            	<td colspan="6">
+	            		<kra-ip:institutionalProposalProjectPersonnelPersonDetails institutionalProposalContact="${institutionalProposalContact}" institutionalProposalContactRowStatusIndex="${institutionalProposalContactRowStatus.index}" />
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td colspan="6">
+	            		<kra-ip:institutionalProposalProjectPersonnelUnits institutionalProposalContact="${institutionalProposalContact}" institutionalProposalPersonIndex="${institutionalProposalContactRowStatus.index}" />
+	            	</td>
+	            </tr>
+	            <tr>
+					<td colspan="6">&nbsp;</td>
+				</tr>	                     
+	    	</c:forEach>	    	
+	    </table>
+	    <c:if test="${KualiForm.institutionalProposalCreditSplitBean.institutionalProposalCreditsLimitApplicable && fn:length(KualiForm.document.institutionalProposalList[0].projectPersons) > 0}" >
+	    	<kra-ip:creditSplit/>
+	    </c:if>  
+    </div>    
+</kul:tab>
+
