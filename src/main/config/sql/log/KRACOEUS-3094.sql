@@ -264,7 +264,7 @@
     SELECT PERM_ID INTO l_initiate_doc_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document';
 
     insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_full_unmask_fld_perm_id, l_doc_type_id, l_doc_type_attr_id, 'RiceDocument', SYS_GUID());
+    values (krim_attr_data_id_s.nextval, l_initiate_doc_perm_id, l_doc_type_id, l_doc_type_attr_id, 'RiceDocument', SYS_GUID());
 
     insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
     values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, l_initiate_doc_perm_id, 'Y', SYS_GUID());
