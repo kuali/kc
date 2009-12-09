@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
     
-    private static final String USERNAME = "aslusar";
+    private static final String USERNAME = "woods";
     
     /***********************************************************************
      * Setup and TearDown
@@ -69,7 +69,7 @@ public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
         backdoorLogin(USERNAME);
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-        this.assertContains(page, "DocumentInitiationAuthorizationException");
+        this.assertContains(page, "DocumentAuthorizationException");
     }
     
     /**
@@ -97,7 +97,7 @@ public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
         
         backdoorLogin(USERNAME);
         page = this.docSearch(docNbr);
-        this.assertContains(page, "is not authorized to view document");
+        this.assertContains(page, "is not authorized to open document");
     }
     
     /**
@@ -106,7 +106,7 @@ public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
      */
     @Test
     public void testReadOnlyAuthorization() throws Exception {
-        // do later when I can add Protocol Viewers
+        // TODO : do later when I can add Protocol Viewers
     }
     
     /***********************************************************************
