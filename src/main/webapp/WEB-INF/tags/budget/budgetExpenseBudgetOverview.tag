@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="transparentBackground" description="Tab Background color" required="false" %>
 <%@ attribute name="defaultOpen" description="Tab Default Appearance" required="false" %>
+<%@ attribute name="isTop" required="false" %>
 
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.Budget.attributes}" />
@@ -26,6 +27,9 @@
 </c:if>
 <c:if test="${empty defaultOpen}">
 	<c:set var="defaultOpen" value="true" />
+</c:if>
+<c:if test="${empty isTop}">
+	<c:set var="isTop" value="false" />
 </c:if>
 
 <c:choose>
@@ -48,52 +52,16 @@
 <div id="workarea">
 <c:set var="showWarnings" value="${(KualiForm.document.budget.totalCostLimit > 0 && cumTotalCost > KualiForm.document.budget.totalCostLimit) || (KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
 
-<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="${transparentBackground}" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budgetPeriod[${budgetPeriod-1}].totalCost,document.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
-	<div class="tab-container" align="center">
-	<c:if test="${KualiForm.document.budget.totalCostLimit > 0 && cumTotalCost > KualiForm.document.budget.totalCostLimit }" >		
-    	<div align="left">
-    	&nbsp;&nbsp;&nbsp;The Total Cost Limit has been exceeded.<br/><br/>
-    	</div>    	
-    </c:if>
-	<c:if test="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit }" >		
-    	<div align="left">
-    	&nbsp;&nbsp;&nbsp;The Period Cost Limit has been exceeded.<br/><br/>
-    	</div>    	
-    </c:if>
-   	<h3>
-   		<span class="subhead-left">Budget Overview (Period ${budgetPeriod})</span>
-	   	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.parameters.BudgetPeriod" altText="help"/></span>
-    </h3>
-    <table cellpadding=0 cellspacing=0 summary="">
-	    	<tr>
-	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCostLimit}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-	    		<th width="25%"><div align="right"><a title="[Help] End Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=endDate">Period ${budgetPeriod} End Date</a></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalCostLimit}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${budgetDocumentAttributes.totalCostLimit}" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-				<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>          		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>          		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>	        		        		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
-	    	</tr>
-	    	<tr>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
-	    	</tr>
-    </table>
-    </div>        
-</kul:tab>
+<c:choose>
+	<c:when test="${isTop}">
+		<kul:tabTop tabTitle="Budget Overview (Period ${budgetPeriod})" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budgetPeriod[${budgetPeriod-1}].totalCost,document.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit">	
+			<kra-b:budgetExpenseBudgetOverviewBody />
+		</kul:tabTop>
+	</c:when>
+	<c:otherwise>
+		<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="${transparentBackground}" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budget.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budgetPeriod[${budgetPeriod-1}].totalCost,document.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budget.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
+			<kra-b:budgetExpenseBudgetOverviewBody />
+		</kul:tab>
+	</c:otherwise>
+</c:choose>
    
