@@ -19,14 +19,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Close Enrollment Service is used to close enrollment.
  */
 public interface ProtocolCloseEnrollmentService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Close enrollment for a protocol.
      * @param protocol
      * @param actionBean
      * @throws Exception
