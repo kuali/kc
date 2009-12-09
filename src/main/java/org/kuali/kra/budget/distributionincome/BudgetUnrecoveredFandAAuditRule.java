@@ -146,7 +146,6 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
     /**
      * This method should only be called if an audit error is intending to be added because it will actually 
      * add a <code>{@link List<AuditError>}</code> to the auditErrorMap.
-     * TODO : should this method move up to parent class
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String key, String problemType) {

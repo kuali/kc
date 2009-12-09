@@ -29,9 +29,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 
 public class CountryCodeValuesFinder extends KeyValuesBase{
 
-    public List<KeyLabelPair> getKeyValues() {
-        // TODO Auto-generated method stub
-        
+    public List<KeyLabelPair> getKeyValues() {      
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection Countries = keyValuesService.findAllOrderBy(Country.class,"countryName",true);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();

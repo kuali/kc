@@ -232,7 +232,6 @@ public final class BudgetModularTotalDirectCostRule {
         try {
             return (BudgetDocument) this.documentService.getByDocumentHeaderId(docNumber);
         } catch (final WorkflowException e) {
-            //FIXME find an appropriate RuntimeException to wrap this condition in
             throw new RuntimeException("Error getting document by header id, document number [" + docNumber + "]", e);
         }
     }

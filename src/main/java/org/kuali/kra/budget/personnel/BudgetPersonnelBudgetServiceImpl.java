@@ -72,11 +72,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
-    
-    private BudgetDocument getBudgetDocument(Budget budget) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /**
      * Gets the budgetPersonService attribute. 
