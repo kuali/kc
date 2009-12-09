@@ -25,11 +25,9 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -154,6 +152,12 @@ public class AwardReportsBean implements Serializable {
         this.getNewAwardReportTermRecipients().add(new AwardReportTermRecipient());
     }
     
+    public AwardReportTermRecipient getNewAwardReportTermRecipient(int index) {
+        if(getNewAwardReportTermRecipients().size() <= index) {
+            initRecipient(index); 
+        }
+        return getNewAwardReportTermRecipients().get(index);
+    }
     /**
      * 
      * This method is for initializing the new <code>AwardReportTermRecipient</code> object after the add operation.
@@ -206,7 +210,7 @@ public class AwardReportsBean implements Serializable {
      */
     AddAwardReportTermRecipientRuleEvent generateAddAwardReportTermRecipientEvent(int index) {        
         AddAwardReportTermRecipientRuleEvent event = new AddAwardReportTermRecipientRuleEvent(
-                                                            "awardReportsBean.newAwardReportTermRecipients[" + index + "]",
+                                                            "awardReportsBean.newAwardReportTermRecipient[" + index + "]",
                                                             getAwardDocument(),
                                                             getAward(),
                                                             getAward().getAwardReportTermItems().get(index),

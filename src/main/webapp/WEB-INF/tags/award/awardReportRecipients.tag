@@ -19,7 +19,7 @@
 
 <c:set var="awardReportTermRecipientAttributes" value="${DataDictionary.AwardReportTermRecipient.attributes}" />
     
-<kra:innerTab parentTab="${innerTabParent}" tabItemCount="${fn:length(KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients)}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="awardReportsBean.newAwardReportTermRecipients[${index}]*,document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients*" >
+<kra:innerTab parentTab="${innerTabParent}" tabItemCount="${fn:length(KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients)}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="awardReportsBean.newAwardReportTermRecipient[${index}]*,document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
 		<tr>			
 			<th width="6%"><div align="center">&nbsp;</div></th>
@@ -34,14 +34,14 @@
 		    </th>
 		    <td width="5%" valign="middle" class="infoline">
 		    <div align="center">
-	            <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipients[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" />
+	            <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipient[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" />
 	        </div>    
 	        </td>	        
 	        <td width="5%" valign="middle" class="infoline">
 	        <div align="center">
-	        	<kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipients[${index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
+	        	<kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
 	        	<c:out value="${KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodex.organization}" />
-	        	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:awardReportsBean.newAwardReportTermRecipients[${index}].rolodexId" anchor="${tabKey}" lookupParameters="awardReportsBean.newAwardReportTermRecipients[${index}].rolodexId:rolodexId" />
+	        	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId" anchor="${tabKey}" lookupParameters="awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId:rolodexId" />
 	        	<c:if test="${not empty KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodexId}" >
 	            	<html:image property="methodToCall.clearRolodex.line-1.awardReportTerm${index}.anchor${currentTabIndex}"
 	                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
@@ -50,7 +50,7 @@
 	        </td>					                
 	        <td width="5%" valign="middle" class="infoline">
 	        <div align="center">
-	        	<kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipients[${index}].numberOfCopies" attributeEntry="${awardReportTermRecipientAttributes.numberOfCopies}" />
+	        	<kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipient[${index}].numberOfCopies" attributeEntry="${awardReportTermRecipientAttributes.numberOfCopies}" />
 	        </div>
 	        </td>
 	        <td class="infoline">
