@@ -22,11 +22,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
@@ -42,6 +45,7 @@ import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -69,6 +73,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
+    private InstitutionalProposalProjectPersonnelBean projectPersonnelBean;
+    private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
+
     
     private MedusaBean medusaBean;
     
@@ -98,6 +105,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
         
         newInstitutionalProposalSpecialReview = new InstitutionalProposalSpecialReview();
         newSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
+        projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
+        institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean(this);
     }
     
@@ -183,6 +192,40 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
 
 
     /**
+     * Gets the projectPersonnelBean attribute. 
+     * @return Returns the projectPersonnelBean.
+     */
+    public InstitutionalProposalProjectPersonnelBean getProjectPersonnelBean() {
+        return projectPersonnelBean;
+    }
+
+    /**
+     * Sets the projectPersonnelBean attribute value.
+     * @param projectPersonnelBean The projectPersonnelBean to set.
+     */
+    public void setProjectPersonnelBean(InstitutionalProposalProjectPersonnelBean projectPersonnelBean) {
+        this.projectPersonnelBean = projectPersonnelBean;
+    }
+    
+    
+
+    /**
+     * Gets the institutionalProposalCreditSplitBean attribute. 
+     * @return Returns the institutionalProposalCreditSplitBean.
+     */
+    public InstitutionalProposalCreditSplitBean getInstitutionalProposalCreditSplitBean() {
+        return institutionalProposalCreditSplitBean;
+    }
+
+    /**
+     * Sets the institutionalProposalCreditSplitBean attribute value.
+     * @param institutionalProposalCreditSplitBean The institutionalProposalCreditSplitBean to set.
+     */
+    public void setInstitutionalProposalCreditSplitBean(InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean) {
+        this.institutionalProposalCreditSplitBean = institutionalProposalCreditSplitBean;
+    }
+
+    /**
      * Gets the institutionalProposalCostShareBean attribute. 
      * @return Returns the institutionalProposalCostShareBean.
      */
@@ -249,6 +292,13 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
 
     public String getActionName() {
         return "institutionalProposal";
+    }
+    
+    /**
+     * @return The selected lead unit
+     */
+    public String getSelectedLeadUnit() {
+        return projectPersonnelBean.getSelectedLeadUnit();
     }
 
     /**
@@ -369,6 +419,20 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
+    }
+    
+    public String getValueFinderResultDoNotCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+        return "";
+    }
+    
+    public String getValueFinderResultCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
+        }
+        return "";
     }
     
 }

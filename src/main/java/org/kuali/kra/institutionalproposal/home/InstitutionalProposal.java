@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -44,14 +45,16 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
-import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -59,7 +62,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>,
                                                                                             KeywordsManager<InstitutionalProposalScienceKeyword>,
-                                                                                            SequenceOwner<InstitutionalProposal> { 
+                                                                                            SequenceOwner<InstitutionalProposal>, Sponsorable { 
     
     
     private static final long serialVersionUID = 1L;
@@ -107,6 +110,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String idcRateIndicator; 
     private String specialReviewIndicator; 
     private Integer statusCode; 
+    private String unitNumber;
     private String scienceCodeIndicator; 
     private String nsfCode; 
     private String primeSponsorCode; 
@@ -126,6 +130,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String sponsorName;
     private ActivityType activityType; 
     private AwardType awardType; 
+    private Unit leadUnit;
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
     private InstitutionalProposalCostShare proposalCostSharing; 
     //private AwardFundingProposals awardFundingProposals; 
@@ -135,6 +140,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private InstitutionalProposalComments proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
     private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
+    
+    private List<InstitutionalProposalPerson> projectPersons;
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
@@ -177,6 +184,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);//default value for all IP's
+        projectPersons = new ArrayList<InstitutionalProposalPerson>();
     }
     
     /**
@@ -414,6 +422,15 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         awardFundingProposals = new ArrayList<AwardFundingProposal>();
     }
     
+    /**
+     * This method adds a Project Person to the institutionalProposal
+     * @param projectPerson
+     */
+    public void add(InstitutionalProposalPerson projectPerson) {
+        projectPersons.add(projectPerson);
+        projectPerson.setInstitutionalProposal(this);
+    }
+    
     public Long getProposalId() {
         return proposalId;
     }
@@ -526,6 +543,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.activityTypeCode = activityTypeCode;
     }
 
+    /**
+     * Sets the leadUnit attribute value.
+     * @param leadUnit The leadUnit to set.
+     */
+    public void setLeadUnit(Unit leadUnit) {
+        this.leadUnit = leadUnit;
+    }
+
     public Date getRequestedStartDateInitial() {
         return requestedStartDateInitial;
     }
@@ -630,12 +655,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.mailType = mailType;
     }
 
-    // Temp implementation until IP Contacts completed
     public Unit getLeadUnit() {
-        Unit unit = new Unit();
-        unit.setUnitNumber("000001");
-        unit.setUnitName("University");
-        return unit;
+        return leadUnit;
     }
     
     public String getMailAccountNumber() {
@@ -911,6 +932,37 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
+    
+    /**
+     * This method finds the lead unit number, if any
+     * @return
+     */
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    /**
+     * Sets the unitNumber attribute value.
+     * @param unitNumber The unitNumber to set.
+     */
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    /**
+     * @return
+     */
+    public String getLeadUnitNumber() {
+        return getUnitNumber();
+    }
+    
+    /**
+     * This method...
+     * @param unitNumber
+     */
+    public void setLeadUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;    
+    }
 
     /**
      * @param awards The awards to set.
@@ -934,6 +986,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setProposalCostSharing(InstitutionalProposalCostShare proposalCostSharing) {
         this.proposalCostSharing = proposalCostSharing;
     }
+    
+    
 
     /*
     public AwardFundingProposals getAwardFundingProposals() {
@@ -944,6 +998,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.awardFundingProposals = awardFundingProposals;
     }
     */
+
+    /**
+     * Gets the projectPersons attribute. 
+     * @return Returns the projectPersons.
+     */
+    public List<InstitutionalProposalPerson> getProjectPersons() {
+        return projectPersons;
+    }
+
+    /**
+     * Sets the projectPersons attribute value.
+     * @param projectPersons The projectPersons to set.
+     */
+    public void setProjectPersons(List<InstitutionalProposalPerson> projectPersons) {
+        this.projectPersons = projectPersons;
+    }
 
     public InstitutionalProposalPersonCreditSplit getProposalPerCreditSplit() {
         return proposalPerCreditSplit;
@@ -1314,6 +1384,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
         this.setSponsorCode(proposalLog.getSponsorCode());
         this.setTitle(proposalLog.getTitle());
+        this.setLeadUnit(getUnitService().getUnit(proposalLog.getLeadUnit()));
+        this.setLeadUnitNumber(proposalLog.getLeadUnit());
         populateInstitutionalProposalUnitAdministrators(getUnitService().retrieveUnitAdministratorsByUnitNumber(proposalLog.getLeadUnit()));
     }
     
@@ -1340,6 +1412,26 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     
     private void updateFundingStatus() {
         setStatusCode(awardFundingProposals.size() > 0 ? PROPOSAL_FUNDED_STATUS_CODE : PROPOSAL_PENDING_STATUS_CODE);
+    }
+
+    public Map<String, String> getNihDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean isNih() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void setNih(boolean isNih) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void setNihDescription(Map<String, String> descriptionMap) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

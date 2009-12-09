@@ -19,6 +19,10 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonSaveRuleEvent;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonSaveRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -81,6 +85,9 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
         retval &= processSpecialReviewBusinessRule(document);
+        retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
+        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
+        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         
         return retval;
     }    
@@ -147,9 +154,32 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         //retval &= super.processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalCustomDataAuditRule().processRunAuditBusinessRules(document);
+        retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
         return retval;
         
         
+    }
+    
+    private boolean processInstitutionalProposalPersonBusinessRules(ErrorMap errorMap, Document document) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(IP_ERROR_PATH);
+        InstitutionalProposalPersonSaveRuleEvent event = new InstitutionalProposalPersonSaveRuleEvent("Project Persons", "projectPersons", document);
+        boolean success = new InstitutionalProposalPersonSaveRuleImpl().processInstitutionalProposalPersonSaveBusinessRules(event);
+        errorMap.removeFromErrorPath(IP_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
+    }
+    
+    private boolean processInstitutionalProposalPersonCreditSplitBusinessRules(Document document) {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        return new InstitutionalProposalCreditSplitBean(institutionalProposalDocument).recalculateCreditSplit();
+        
+    }
+    
+    private boolean processInstitutionalProposalPersonUnitCreditSplitBusinessRules(Document document) {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        return new InstitutionalProposalCreditSplitBean(institutionalProposalDocument).recalculateCreditSplit();
     }
     
     /**
