@@ -120,10 +120,6 @@
   <c:forEach var="note" items="${notesBo}" varStatus="status">
 
 	<c:set var="authorUniversalIdentifier" value = "${note.authorUniversalIdentifier}" />
-	
-	<%-- leaving the line below commented out as a place holder in the event note display needs to be securited, awards notes
-	have no such security check --%>
-	<%--<c:if test="${kfunc:canViewNoteAttachment(KualiForm.document, 'attachmentTypeCode')}" >--%>
       <tr>
             <kul:htmlAttributeHeaderCell literalLabel="${status.index + 1}" scope="row"/>
             <td class="datacell center">
@@ -215,7 +211,6 @@
                           </c:if>  
                         </div></td>
                     </tr>
-	<%--</c:if>--%>
   </c:forEach>
               </tbody>
         </table>
