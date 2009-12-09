@@ -1474,16 +1474,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         this.newHierarchyChildProposalNumber = newHierarchyChildProposalNumber;
     }
     
-    public String getHierarchyParentStatus() {
-        return HierarchyStatusConstants.Parent.code();
-    }
-    public String getHierarchyNoneStatus() {
-        return HierarchyStatusConstants.None.code();
-    }
-    public String getHierarchyChildStatus() {
-        return HierarchyStatusConstants.Child.code();
-    }
-
     /**
      * Sets the hierarchyProposalSummaries attribute value.
      * @param hierarchyProposalSummaries The hierarchyProposalSummaries to set.
