@@ -2797,6 +2797,12 @@ values ('10096', '77BC20590A50319DE0404F8189D10096', 1, '1125', '1201', 'Y');
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('10097', '77BC20590A53319DE0404F8189D10097', 1, '1126', '1202', 'Y');
 
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+ values ('10098', sys_guid(), '1',
+   (select role_id from krim_role_t t where t.role_nm = 'User' and t.nmspc_cd = 'KUALI'),
+   (select perm_id from krim_perm_t u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'),
+   'Y');
+
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
 values ('1009', '9E8C6BBF7C38443088C2B420363C5200', 1, 'a', '1017', '1007', 'Y');
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
@@ -3078,6 +3084,8 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 values ('1603', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'cate'), 'P', null, null, sysdate);
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
 values ('1604', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'oblood'), 'P', null, null, sysdate);
+
+
 
 alter table KRIM_ENTITY_ENT_TYP_T enable constraint KRIM_ENTITY_ENT_TYP_TR1;
 alter table KRIM_ENTITY_ADDR_T enable constraint KRIM_ENTITY_ADDR_TR1;
