@@ -385,6 +385,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /** 
+     * {@inheritDoc}
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.kns.document.authorization.PessimisticLock)
+     */
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
@@ -392,9 +396,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (StringUtils.isNotEmpty(descriptor)) {
             descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
         }
-        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPrincipalIdentifier() + " as of "
-                + org.kuali.rice.core.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
-                + org.kuali.rice.core.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+        return new StringBuilder().append("This ").append(descriptor).append(" is locked for editing by ").append(lock.getOwnedByUser().getPrincipalName()).append(" as of ")
+                .append(org.kuali.rice.core.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
+                .append(org.kuali.rice.core.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
     }
 
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
@@ -412,7 +416,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
         Person loggedInUser = GlobalVariables.getUserSession().getPerson();
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
 
         String budgetLockDescriptor = null;
         for(PessimisticLock lock: document.getPessimisticLocks()) {
