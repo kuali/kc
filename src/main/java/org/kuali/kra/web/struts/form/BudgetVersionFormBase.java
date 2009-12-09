@@ -26,6 +26,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.ArrayFormatter;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.web.format.Formatter;
 
@@ -161,6 +162,16 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
         saveAfterCopy = val;
     }
     
+    public String getHierarchyParentStatus() {
+        return HierarchyStatusConstants.Parent.code();
+    }
+    public String getHierarchyNoneStatus() {
+        return HierarchyStatusConstants.None.code();
+    }
+    public String getHierarchyChildStatus() {
+        return HierarchyStatusConstants.Child.code();
+    }
+
 
     
 }
