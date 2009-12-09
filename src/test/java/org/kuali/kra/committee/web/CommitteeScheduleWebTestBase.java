@@ -139,7 +139,9 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
     protected HtmlPage prerequisite() throws Exception  {
         HtmlPage committeePage = buildCommitteePage();        
         setDefaultRequiredFields(committeePage);
-        setFieldValue(committeePage, COMMITTEE_ID_ID, new Integer(MY_COMMITTEE_ID++).toString());
+        // use MY_COMMITTEE_ID++ will cause lots of duplicate issue because it all starts from the same number.
+       // setFieldValue(committeePage, COMMITTEE_ID_ID, new Integer(MY_COMMITTEE_ID++).toString());
+        setFieldValue(committeePage, COMMITTEE_ID_ID, getNextCommitteeID());
         committeePage = saveDoc(committeePage);
         assertFalse(hasError(committeePage)); 
         

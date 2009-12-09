@@ -94,7 +94,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = new ProtocolSubmitActionServiceImpl();
