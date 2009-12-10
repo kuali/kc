@@ -27,8 +27,7 @@ public class ApproveProtocolAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return true;
-      //  return canExecuteAction(task.getProtocol(), ProtocolActionType.APPROVED) &&
-            //   hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        return canExecuteAction(task.getProtocol(), ProtocolActionType.APPROVED) &&
+               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
 }
