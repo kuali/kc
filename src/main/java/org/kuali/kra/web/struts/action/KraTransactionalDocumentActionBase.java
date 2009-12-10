@@ -29,7 +29,6 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,9 +79,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -102,9 +101,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-//        if (((KualiDocumentFormBase) form).getErrorMapFromPreviousRequest() == null) {
-//            ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
-//        }
         
         /*
          * If the document is being opened in view only mode, mark the form.  We will also
@@ -362,7 +358,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         boolean isAuthorized = authorizationService.isAuthorized(currentUser, task);
         if (!isAuthorized) {
             LOG.error("User not authorized to perform " + task.getTaskName());
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
         }
         return isAuthorized;
@@ -380,7 +376,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     public ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -498,21 +494,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     /**
-     * Hack because "TRUE" must be uppercase for pessimistic locking service to work.
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#convertSetToMap(java.util.Set)
-     */
-    @Override
-    protected Map convertSetToMap(Set s){
-        Map map = new HashMap();
-        Iterator i = s.iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
-           map.put(key, "TRUE");
-        }
-        return map;
-    }
-    
-    /**
      * Provide hooks for subclasses to perform additional tasks related to saving
      * the document.  The optional tasks are:
      *    1. Doing something right before the document is saved.
@@ -610,7 +591,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return true if the initial save; otherwise false
      */
     private boolean isInitialSave(String status) {
-        return GlobalVariables.getErrorMap().isEmpty() &&
+        return GlobalVariables.getMessageMap().hasNoErrors() &&
                StringUtils.equals("INITIATED", status);
     }
     
