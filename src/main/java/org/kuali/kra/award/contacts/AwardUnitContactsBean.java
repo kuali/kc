@@ -185,23 +185,21 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     /*
      * Remove lead unit contacts
      */
-    private void removeLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<UnitAdministrator> allLeadUnitPersonnel) {
+    private void removeUnitContactsNotInLeadUnit(Unit newLeadUnit, List<AwardUnitContact> existingUnitContacts) {
         List<AwardUnitContact> removals = new ArrayList<AwardUnitContact>();
         for(AwardUnitContact existingContact: existingUnitContacts) {
-            boolean found = false;
-            for(UnitAdministrator p: allLeadUnitPersonnel) {
-                found = p.getPersonId().equals(existingContact.getPersonId());
-                if(found) {
-                    break;
-                }
-            }
-            if(!found) {
+            if(!isUnitContactInNewLeadUnit(newLeadUnit, existingContact)) {
                 removals.add(existingContact);
             }
+            
         }
         if(removals.size() > 0) {
             getAward().getAwardUnitContacts().removeAll(removals);
         }
+    }
+
+    private boolean isUnitContactInNewLeadUnit(Unit newLeadUnit, AwardUnitContact existingContact) {
+        return existingContact.getOrganizationIdentifier().equals(newLeadUnit.getUnitNumber());
     }
 
     /*
@@ -209,9 +207,9 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      */
     private void updateExistingLeadUnitContactsFromAward(Unit leadUnit) {
         List<AwardUnitContact> existingLeadUnitContacts = findAwardUnitContactsFromLeadUnit(leadUnit);
-        List<UnitAdministrator> allLeadUnitPersonnel = findAllLeadUnitPersons(leadUnit.getUnitNumber());
-        removeLeadUnitContacts(existingLeadUnitContacts, allLeadUnitPersonnel);
-        addLeadUnitContacts(getAward().getAwardUnitContacts(), allLeadUnitPersonnel);        
+        List<UnitAdministrator> leadUnitAdministrators = findAllLeadUnitPersons(leadUnit.getUnitNumber());
+        removeUnitContactsNotInLeadUnit(leadUnit, existingLeadUnitContacts);
+        addLeadUnitContacts(getAward().getAwardUnitContacts(), leadUnitAdministrators);        
         
     }
 }
