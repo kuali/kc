@@ -731,7 +731,7 @@
 
     <!-- ************* WEB AUTHORIZATION BEGIN **************** -->
 
-    <bean id="parentTaskFactory" class="org.kuali.kra.web.struts.authorization.impl.BogusWebTaskFactory">
+    <bean id="parentTaskFactory" abstract="true">
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
 
