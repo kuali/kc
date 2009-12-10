@@ -40,6 +40,7 @@ public class ProposalHierarcyActionHelper {
     public static final String FIELD_GENERIC = "newHierarchyProposal.x";
     public static final String FIELD_PARENT_NUMBER = "newHierarchyProposalNumber";
     public static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposalNumber";
+    public static final String FIELD_PARENT_BUDGET_STATUS = "document.budgetDocumentVersion[0].budgetVersionOverview.budgetStatus";
 
     private static final String MESSAGE_LINK_SUCCESS = "message.hierarchy.link.success";
     private static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";
@@ -56,6 +57,7 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_LINK_PARENT_BUDGET_COMPLETE = "error.hierarchy.link.parentBudgetComplete";
     private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
     private static final String ERROR_UNEXPECTED = "error.hierarchy.unexpected";
+    private static final String ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE = "error.hierarchy.budget.childStatusesNotComplete";
 
     ProposalHierarchyService hierarchyService;
     
@@ -262,5 +264,27 @@ public class ProposalHierarcyActionHelper {
             txMgr.rollback(txMgr.getTransaction(null));
         }
         GlobalVariables.getMessageMap().putError(field, ERROR_UNEXPECTED, e.toString());
+    }
+    
+    public boolean checkParentChildStatusMatch(DevelopmentProposal proposal) {
+        boolean match = true;
+        try {
+            if (proposal.isParent() 
+                    && hasCompleteBudget(proposal) 
+                    && !getProposalHierarchyService().allChildBudgetsAreComplete(proposal.getProposalNumber())) {
+                match = false; 
+                GlobalVariables.getMessageMap().putError(FIELD_PARENT_BUDGET_STATUS, ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE);
+            }
+            else if (proposal.isChild() 
+                    && !hasCompleteBudget(proposal) 
+                    && hasCompleteBudget(getProposalHierarchyService().lookupParent(proposal))) {
+                match = false;
+                // TODO error
+            }        
+        } catch (ProposalHierarchyException e) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
+            match = false;
+        }
+        return match;
     }
 }
