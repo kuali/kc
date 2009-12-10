@@ -175,5 +175,5 @@ public interface ProposalHierarchyService {
      */
     public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto, String currentUserPrincipalName) throws ProposalHierarchyException;
     
-    
+    public boolean allChildBudgetsAreComplete(String parentProposalNumber);
 }

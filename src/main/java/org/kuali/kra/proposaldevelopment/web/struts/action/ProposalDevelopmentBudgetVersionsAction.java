@@ -41,6 +41,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
@@ -227,8 +228,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
+        
+        valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(pdDoc.getDevelopmentProposal());
         
         if (pdForm.isSaveAfterCopy()) {
             final List<BudgetDocumentVersion> overviews

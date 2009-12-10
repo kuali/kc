@@ -44,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
@@ -1305,4 +1306,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     
     }
+
+    public boolean allChildBudgetsAreComplete(String parentProposalNumber) {
+        boolean retval = true;
+        String completeCode = parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        for (ProposalBudgetStatus status : proposalHierarchyDao.getHierarchyChildProposalBudgetStatuses(parentProposalNumber)) {
+            if (!StringUtils.equalsIgnoreCase(completeCode, status.getBudgetStatusCode())) {
+                retval = false;
+                break;
+            }
+        }
+        return retval;
+    }
+    
 }
