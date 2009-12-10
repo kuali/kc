@@ -207,21 +207,27 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         person.setRoleChanged(false);
 
-        if ( person.getPersonId() != null ) {
-            KcPerson origPerson = person.getPerson();
-            for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
-                ProposalPersonDegree newDegree = new ProposalPersonDegree();
-                newDegree.setDegree(degree.getDegree());
-                newDegree.setDegreeCode(degree.getDegreeCode());
-                newDegree.setFieldOfStudy(degree.getFieldOfStudy());
-                newDegree.setGraduationYear(degree.getGraduationYear());
-                newDegree.setSchool(degree.getSchool());
-                newDegree.setSchoolId(degree.getSchoolId());
-                newDegree.setSchoolIdCode(degree.getSchoolIdCode());
-                newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
-                person.addDegree(newDegree);                
+        try {
+            if (person.getPersonId() != null 
+                    && person.getPerson().getExtendedAttributes() != null) {
+                KcPerson origPerson = person.getPerson();
+                for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
+                    ProposalPersonDegree newDegree = new ProposalPersonDegree();
+                    newDegree.setDegree(degree.getDegree());
+                    newDegree.setDegreeCode(degree.getDegreeCode());
+                    newDegree.setFieldOfStudy(degree.getFieldOfStudy());
+                    newDegree.setGraduationYear(degree.getGraduationYear());
+                    newDegree.setSchool(degree.getSchool());
+                    newDegree.setSchoolId(degree.getSchoolId());
+                    newDegree.setSchoolIdCode(degree.getSchoolIdCode());
+                    newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+                    person.addDegree(newDegree);                
+                }
             }
-        }               
+        } catch (IllegalArgumentException e) {
+            //catching the possibility that person.getPerson can not
+            //find a KimEntity for this person id.
+        }
     }
 
     /**
