@@ -17,6 +17,11 @@ package org.kuali.kra.bo;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import org.apache.struts.upload.FormFile;
+import org.kuali.rice.kns.bo.PersistableAttachment;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
@@ -51,6 +56,9 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idProvided;
     private String idVerified;
     private String county;
+    
+    private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);;
+    
     
     /**
      * Gets the value of personId which is actually the KIM principal id.
@@ -501,6 +509,14 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         map.put("county", this.county);
         
         return map;
+    }
+
+    public List<PersonDegree> getPersonDegrees() {
+        return personDegrees;
+    }
+
+    public void setPersonDegrees(List<PersonDegree> personDegrees) {
+        this.personDegrees = personDegrees;
     }
 
 }

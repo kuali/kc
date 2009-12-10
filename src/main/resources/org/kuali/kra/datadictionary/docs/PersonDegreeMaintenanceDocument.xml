@@ -4,7 +4,7 @@
 
   <bean id="PersonDegreeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegree"/>
@@ -12,9 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>personId</value>
-        <value>degree</value>
-        <value>degreeCode</value>
+        <value>degreeId</value>
       </list>
     </property>
     
@@ -50,4 +48,50 @@
       </list>
     </property>
   </bean>
+  <bean id="PersonDegreeMaintenanceDocument-EditPersonDegreeList" parent="PersonDegreeMaintenanceDocument-EditPersonDegreeList-parentBean"/>
+
+  <bean id="PersonDegreeMaintenanceDocument-EditPersonDegreeList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Person Degree"/>
+    <property name="title" value="Edit Person Degree"/>
+ 	<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
+					<property name="name" value="personDegrees"/>
+					<property name="sourceClassName" value="org.kuali.kra.bo.PersonDegree"/>
+					<property name="alwaysAllowCollectionDeletion" value="true"/>
+					<property name="includeAddLine" value="true"/>
+					<property name="includeMultipleLookupLine" value="false"/>
+					<property name="summaryTitle" value="Person Degrees"/>
+					<property name="summaryFields">
+					<list>
+		             <bean parent="MaintainableFieldDefinition" p:name="degree"/>
+		             <bean parent="MaintainableFieldDefinition" p:name="graduationYear"/>
+                   </list>
+					</property>
+					<property name="attributeToHighlightOnDuplicateKey" value="personId"/>
+					<property name="duplicateIdentificationFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="degreeId"/>
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+					        <!--<bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>-->
+					        <bean parent="MaintainableFieldDefinition" p:name="degree" p:required="true"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="degreeCode" p:required="true"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="graduationYear" p:required="true"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="fieldOfStudy"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="specialization"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="school"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="schoolId"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="schoolIdCode"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+						
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+  </bean>  
 </beans>

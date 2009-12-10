@@ -17,16 +17,15 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KcPersonService;
-
 /**
- * Business Object representation of a PersonDegree. A <code>{@link KcPerson}</code> may have many degrees. This represents the relationship
- * of a <code>{@link KcPerson}</code> to a degree as well as the degree itself.
+ * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship
+ * of a <code>{@link Person}</code> to a degree as well as the degree itself.
  * 
- * @see org.kuali.kra.bo.KcPerson
+ * @see org.kuali.kra.bo.Person
  */
 public class PersonDegree extends KraPersistableBusinessObjectBase {
+    private static final long serialVersionUID = 586782856382134862L;
+    private Integer degreeId;
     private String personId;
     private String degreeCode;
     private String degree;
@@ -38,8 +37,17 @@ public class PersonDegree extends KraPersistableBusinessObjectBase {
     private String schoolId;
     private String graduationYear;
     
-    private transient KcPersonService kcPersonService;
     
+    public Integer getDegreeId() {
+        return degreeId;
+    }
+
+
+    public void setDegreeId(Integer degreeId) {
+        this.degreeId = degreeId;
+    }
+
+
     public String getPersonId() {
         return personId;
     }
@@ -144,21 +152,5 @@ public class PersonDegree extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap retval = new LinkedHashMap();
         return retval;
-    }
-
-    public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(this.personId);
-    }
-    
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
-    public KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        
-        return this.kcPersonService;
     }
 }
