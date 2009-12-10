@@ -24,18 +24,19 @@ public class CopyPeriodsQuestion extends QuestionBase {
     public static final String ONE = "0";
     public static final String ALL = "1";
     
+    private static final ArrayList<String> BUTTONS;
+    static {
+        BUTTONS = new ArrayList<String>();
+        BUTTONS.add("copyoneper");
+        BUTTONS.add("copyallperiods");
+    }
+    
     /**
      * @param question
      * @param buttons
      */
     public CopyPeriodsQuestion() {
-        // this should be set by question form
-        super("Confirm", new ArrayList(2));
-        ArrayList<String> buttons = new ArrayList<String>();
-        buttons.add("copyoneper");
-        buttons.add("copyallperiods");
-        super.setButtons(buttons);
-
+        super("Confirm", BUTTONS);
     }
 
 }
