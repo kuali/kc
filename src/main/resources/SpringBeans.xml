@@ -495,8 +495,6 @@
         <ref bean="kcPersonService" />
       </property>
 	</bean>
-		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
-	</bean>
  	
  	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
  		<property name="businessObjectService">
