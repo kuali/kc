@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
@@ -36,6 +37,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DeadlineType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
@@ -261,13 +263,9 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber) {
         List<String> retval = new ArrayList<String>();
         
-        Criteria crit = new Criteria();
-        crit.addEqualTo("hierarchyParentProposalNumber", proposalNumber);
-        
-        ReportQueryByCriteria query = new ReportQueryByCriteria(DevelopmentProposal.class, crit);
-        query.setAttributes(new String[]{ "proposalNumber" });
-        
+        ReportQueryByCriteria query = createHierarchyChildProposalNumberQuery(proposalNumber);
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        
         while(iter.hasNext()) {
             Object[] result = (Object[])iter.next();
             retval.add((String)result[0]);
@@ -275,4 +273,20 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return retval;
     }
     
+    public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber) {
+        Criteria crit = new Criteria();
+        crit.addIn("proposalNumber", createHierarchyChildProposalNumberQuery(proposalNumber));
+        QueryByCriteria statusQuery = new QueryByCriteria(ProposalBudgetStatus.class, crit);
+        
+        return new ArrayList((Collection<ProposalBudgetStatus>)getPersistenceBrokerTemplate().getCollectionByQuery(statusQuery));
+    }
+    
+    private ReportQueryByCriteria createHierarchyChildProposalNumberQuery(String proposalNumber) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("hierarchyParentProposalNumber", proposalNumber);
+        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(DevelopmentProposal.class, crit);
+        query.setAttributes(new String[]{ "proposalNumber" });
+        return query;
+    }
 }

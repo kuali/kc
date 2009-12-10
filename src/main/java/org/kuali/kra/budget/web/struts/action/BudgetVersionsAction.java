@@ -51,15 +51,13 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -249,12 +247,17 @@ public class BudgetVersionsAction extends BudgetAction {
         // TODO jira 780 - it indicated only from PD screen, not sure we need it here
         // if we don't implement it here, then it's not consistent.
         boolean valid = true;
-        
         BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         Budget budget = budgetDocument.getBudget();
+
+        if (parentDocument instanceof ProposalDevelopmentDocument) {
+            valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal());
+        }
+        
         if(budgetForm.isAuditActivated()) {
             try {
-                valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getParentDocument());
+                valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(parentDocument);
             } catch (Exception ex) {
                 info("Audit rule check failed ", ex.getStackTrace());
             }
@@ -274,12 +277,12 @@ public class BudgetVersionsAction extends BudgetAction {
         }
         
         if (budgetForm.isSaveAfterCopy()) {
-            List<BudgetDocumentVersion> overviews = budgetForm.getDocument().getParentDocument().getBudgetDocumentVersions();
+            List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
             String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             debug("validating ", copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(budgetForm.getDocument().getParentDocument(), copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
         }
@@ -288,8 +291,8 @@ public class BudgetVersionsAction extends BudgetAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        updateThisBudget(budgetForm.getDocument());
-        setBudgetParentStatus(budgetForm.getDocument().getParentDocument());
+        updateThisBudget(budgetDocument);
+        setBudgetParentStatus(parentDocument);
         return super.save(mapping, form, request, response);
     }
     
