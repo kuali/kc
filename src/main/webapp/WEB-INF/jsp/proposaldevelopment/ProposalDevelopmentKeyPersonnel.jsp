@@ -92,7 +92,7 @@
            
             <br>
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
-            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
+            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
             <c:choose>
             <c:when test="${KualiForm.document.developmentProposalList[0].nih}">
             <br>
