@@ -28,8 +28,8 @@ public interface ProtocolApproveService {
      * Grant an approval to a protocol that is
      * submitted to the IRB office.
      * @param protocol
-     * @param approveBean
+     * @param actionBean
      * @throws Exception
      */
-    public void approve(Protocol protocol, ProtocolGenericActionBean approveBean) throws Exception;
+    public void approve(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 }
