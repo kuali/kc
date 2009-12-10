@@ -49,6 +49,7 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -137,6 +138,7 @@ public class ActionHelper implements Serializable {
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
     
     private ProtocolRiskLevel newRiskLevel;
+    private List<ProtocolRiskLevel> riskLevels = null;
     
     /**
      * @throws Exception 
@@ -287,6 +289,11 @@ public class ActionHelper implements Serializable {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         }
         createProtocolSummaries();
+        
+        if (riskLevels == null) {
+            riskLevels = new ArrayList<ProtocolRiskLevel>();
+            riskLevels.addAll(getProtocol().getProtocolRiskLevels());
+        }
     }
 
     private void createProtocolSummaries() {
@@ -801,5 +808,20 @@ public class ActionHelper implements Serializable {
 
     public void setNewRiskLevel(ProtocolRiskLevel newRiskLevel) {
         this.newRiskLevel = newRiskLevel;
+    }
+
+    public void addNewRiskLevel() {
+        riskLevels.add(getNewRiskLevel());
+        setNewRiskLevel(new ProtocolRiskLevel());
+    }
+    
+    public void saveRiskLevels() {
+        getProtocol().setProtocolRiskLevels(riskLevels);
+        riskLevels = new ArrayList<ProtocolRiskLevel>();
+        riskLevels.addAll(getProtocol().getProtocolRiskLevels());
+    }
+
+    public List<ProtocolRiskLevel> getRiskLevels() {
+        return riskLevels;
     }
 }

@@ -76,8 +76,8 @@
                     </td>
                 </tr>
                 
-                <c:forEach var="riskLevel" items="${KualiForm.document.protocolList[0].protocolRiskLevels}" varStatus="status">
-                    <c:set var="riskLevelPath" value="document.protocolList[0].protocolRiskLevels[${status.index}]" />
+                <c:forEach var="riskLevel" items="${KualiForm.actionHelper.riskLevels}" varStatus="status">
+                    <c:set var="riskLevelPath" value="actionHelper.riskLevels[${status.index}]" />
                     <tr>
                     
                         <th>${status.index + 1}</th>

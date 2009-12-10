@@ -1572,9 +1572,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolRiskLevel newRiskLevel = protocolForm.getActionHelper().getNewRiskLevel();
-        protocolForm.getProtocolDocument().getProtocol().getProtocolRiskLevels().add(newRiskLevel);
-        protocolForm.getActionHelper().setNewRiskLevel(new ProtocolRiskLevel());
+        protocolForm.getActionHelper().addNewRiskLevel();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1585,13 +1583,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         int lineNum = getLineToDelete(request);
 
-        protocolForm.getProtocolDocument().getProtocol().getProtocolRiskLevels().remove(lineNum);
+        protocolForm.getActionHelper().getRiskLevels().remove(lineNum);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward submitRiskLevels(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getActionHelper().saveRiskLevels();
+        getBusinessObjectService().save(protocolForm.getProtocolDocument().getProtocol());
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  

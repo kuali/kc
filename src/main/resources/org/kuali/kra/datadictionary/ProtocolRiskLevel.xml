@@ -132,6 +132,7 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.bo.RiskLevel"
@@ -167,6 +168,7 @@
 
 	<bean id="ProtocolRiskLevel-dateAssigned" parent="ProtocolRiskLevel-dateAssigned-parentBean" />
 	<bean id="ProtocolRiskLevel-dateAssigned-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="required" value="true" />
 		<property name="name" value="dateAssigned" />
 		<property name="label" value="Date Assigned" />
 		<property name="shortLabel" value="Date Assigned" />
@@ -188,6 +190,7 @@
 		<property name="name" value="status" />
 		<property name="label" value="Status" />
 		<property name="maxLength" value="1" />
+		<property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
                   p:valuesFinderClass="org.kuali.kra.irb.actions.StatusValuesFinder"
