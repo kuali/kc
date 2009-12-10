@@ -128,18 +128,24 @@ public class AwardDirectFandADistributionBean implements Serializable{
                                             awardDirectFandADistributionBean.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions();
         AwardDirectFandADistribution thisNewAwardDirectFandADistribution = awardDirectFandADistributionBean.getNewAwardDirectFandADistribution();
         int index = 0;
-      //this logic for case where the target date range falls into a valid period between the last element of the list and project end date.
-        if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, thisNewAwardDirectFandADistribution, award.getProjectEndDate())){
-            award.add(thisNewAwardDirectFandADistribution);
+        if(awardDirectFandADistributions.size() == 0) {
+            award.add(index, thisNewAwardDirectFandADistribution);
             awardDirectFandADistributionBean.init();
-        }else {
-            for(AwardDirectFandADistribution awardDirectFandADistribution : award.getAwardDirectFandADistributions()){
-                if(awardDirectFandADistribution.getEndDate().compareTo(thisNewAwardDirectFandADistribution.getStartDate()) == -1) {
-                    index++;
-                }else {
-                    award.add(index, thisNewAwardDirectFandADistribution);
-                    awardDirectFandADistributionBean.init();
-                    break;
+        }
+        else {
+        //this logic for case where the target date range falls into a valid period between the last element of the list and project end date.
+            if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, thisNewAwardDirectFandADistribution, award.getProjectEndDate())){
+                award.add(thisNewAwardDirectFandADistribution);
+                awardDirectFandADistributionBean.init();
+            }else {
+                for(AwardDirectFandADistribution awardDirectFandADistribution : award.getAwardDirectFandADistributions()){
+                    if(awardDirectFandADistribution.getEndDate().compareTo(thisNewAwardDirectFandADistribution.getStartDate()) == -1) {
+                        index++;
+                    }else {
+                        award.add(index, thisNewAwardDirectFandADistribution);
+                        awardDirectFandADistributionBean.init();
+                        break;
+                    }
                 }
             }
         }
