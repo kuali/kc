@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -39,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
@@ -204,6 +207,21 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         person.setRoleChanged(false);
 
+        if ( person.getPersonId() != null ) {
+            KcPerson origPerson = person.getPerson();
+            for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
+                ProposalPersonDegree newDegree = new ProposalPersonDegree();
+                newDegree.setDegree(degree.getDegree());
+                newDegree.setDegreeCode(degree.getDegreeCode());
+                newDegree.setFieldOfStudy(degree.getFieldOfStudy());
+                newDegree.setGraduationYear(degree.getGraduationYear());
+                newDegree.setSchool(degree.getSchool());
+                newDegree.setSchoolId(degree.getSchoolId());
+                newDegree.setSchoolIdCode(degree.getSchoolIdCode());
+                newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+                person.addDegree(newDegree);                
+            }
+        }               
     }
 
     /**

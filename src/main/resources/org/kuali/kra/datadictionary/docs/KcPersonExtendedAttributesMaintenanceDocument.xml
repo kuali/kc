@@ -8,6 +8,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="KcPersonExtendedAttributesMaintenanceDocument-EditPerson"/>
+        <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegreeList"/>
       </list>
     </property>
     <property name="lockingKeys">

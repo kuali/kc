@@ -225,8 +225,8 @@
 		
 		<reference-descriptor name="currentAward" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="currentAwardNumber"/>
-		</reference-descriptor>
-		
+		</reference-descriptor>		
+				
 		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="continuedFrom"/>
 		</reference-descriptor>
@@ -393,8 +393,9 @@
 -->
 
     <class-descriptor class="org.kuali.kra.bo.PersonDegree" table="PERSON_DEGREE">
-        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primaryKey="true"/>
+        <field-descriptor name="degreeId" column="DEGREE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_DEGREE" autoincrement="true"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" primaryKey="true"/>
         <field-descriptor name="graduationYear" column="GRADUATION_YEAR" jdbc-type="VARCHAR" />
         <field-descriptor name="fieldOfStudy" column="FIELD_OF_STUDY" jdbc-type="VARCHAR" />
@@ -481,6 +482,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
+		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.kra.bo.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="personId"/>
+		</collection-descriptor>
+        
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.bo.SchoolCode" table="SCHOOL_CODE">
