@@ -15,31 +15,23 @@
  */
 package org.kuali.kra.irb.actions.dataanalysis;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolVersionService;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 
 /**
- * The ProtocolExpediteApprovalService implementation.
+ * The ProtocolDataAnalysisService implementation.
  */
 public class ProtocolDataAnalysisServiceImpl implements ProtocolDataAnalysisService {
 
-    private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    private ProtocolActionService protocolActionService;
-    private ProtocolVersionService protocolVersionService;
 
-    /**
-     * Set the document service.
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-    
     /**
      * Set the business object service.
      * @param businessObjectService the business object service
@@ -47,26 +39,21 @@ public class ProtocolDataAnalysisServiceImpl implements ProtocolDataAnalysisServ
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    /**
-     * Set the Protocol Action Service.
-     * @param protocolActionService
-     */
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-        this.protocolActionService = protocolActionService;
-    }
-    
-    /**
-     * Inject Protocol Version Service
-     * @param protocolVersionService
-     */
-    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
-        this.protocolVersionService = protocolVersionService;
-    }
-
    
+    /**
+     * @see org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisService#permit(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
+     */
     public void permit(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        // TODO Auto-generated method stub
-        
+        addAction(protocol, ProtocolActionType.DATA_ANALYSIS_ONLY, actionBean.getComments(), actionBean.getActionDate());
+        protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY);
+        protocol.refreshReferenceObject("protocolStatus");
+        businessObjectService.save(protocol);
+    }
+    
+    private void addAction(Protocol protocol, String actionTypeCode, String comments, Date actionDate) {
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, actionTypeCode);
+        protocolAction.setComments(comments);
+        protocolAction.setActionDate(new Timestamp(actionDate.getTime()));
+        protocol.getProtocolActions().add(protocolAction);
     }
 }
