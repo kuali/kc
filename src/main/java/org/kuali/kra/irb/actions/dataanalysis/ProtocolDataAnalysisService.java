@@ -19,14 +19,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
- * The Protocol Approve Service is used to grant an
- * approval to a protocol.
+ * The Protocol Data Analysis Service is to permit the Data Analysis phrase of a protocol.
  */
 public interface ProtocolDataAnalysisService {
 
     /**
-     * Grant an approval to a protocol that is
-     * submitted to the IRB office.
+     * Permit Data Analysis.
      * @param protocol
      * @param actionBean
      * @throws Exception
