@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingRuleTest extends KraTestBase {
@@ -193,14 +194,37 @@ public class MeetingRuleTest extends KraTestBase {
 
     @Test 
     public void testValidateProtocolInMinute() throws Exception {
-        CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
+        CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute(){
+//            @Override
+//            public void refreshReferenceObject(String referenceObjectName) {
+//                if (referenceObjectName.equals("protocolContingency")) {
+//                    ProtocolContingency protocolContingency= new ProtocolContingency();
+//                    protocolContingency.setProtocolContingencyCode(getProtocolContingencyCode());
+//                    protocolContingency.setDescription(getProtocolContingencyCode()+" description");
+//                    setProtocolContingency(protocolContingency);
+//                    
+//                }
+//
+//            }
+            
+        };
         committeeScheduleMinute.setMinuteEntryTypeCode("3");
         
         Assert.assertFalse(rule.validateProtocolInMinute(committeeScheduleMinute));
         Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_EMPTY_PROTOCOL));       
+        ProtocolContingency protocolContingency= new ProtocolContingency();
+        protocolContingency.setProtocolContingencyCode("1");
+        protocolContingency.setDescription("description 1");
+        committeeScheduleMinute.setProtocolContingency(protocolContingency);
         committeeScheduleMinute.setProtocolContingencyCode("1");
+
+        
         Assert.assertFalse(rule.validateProtocolInMinute(committeeScheduleMinute));
         Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_EMPTY_PROTOCOL));       
+        protocolContingency= new ProtocolContingency();
+        protocolContingency.setProtocolContingencyCode("111");
+        protocolContingency.setDescription("description 111");
+        committeeScheduleMinute.setProtocolContingency(protocolContingency);
         committeeScheduleMinute.setProtocolContingencyCode("111");
         Assert.assertFalse(rule.validateProtocolInMinute(committeeScheduleMinute));
         Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_EMPTY_PROTOCOL));  
