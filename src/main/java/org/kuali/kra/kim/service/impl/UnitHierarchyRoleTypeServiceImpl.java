@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -109,5 +112,10 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         //Not found necessary at this time.
         return false;
     }
+    
+    @Override
+    public List<String> getUniqueAttributes(String kimTypeId){
+        return new ArrayList<String>();
+    }    
     
 }
