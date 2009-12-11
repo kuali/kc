@@ -36,7 +36,7 @@
 	<kra-irb:protocolAddPersonnelSection/>
 	<kra-irb:protocolPersons/>
   <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
-  	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deleteProtocolPerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Person"/>
   </c:if>  
