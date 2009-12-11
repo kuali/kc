@@ -147,7 +147,7 @@
 	<br/>
     <%-- <kra:section permission="modifyInstitutionalProposal"> --%>
     	<div align="center">
-        	<html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>        
+        	<html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>        
  		</div>
  	<%-- </kra:section> --%>   	 	
 </div>
