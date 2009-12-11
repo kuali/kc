@@ -69,7 +69,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
  
     @Column(name="SUBMISSION_ID_FK")
-    private Integer submissionIdFk; 
+    private Long submissionIdFk; 
 
     @Type(type="yes_no")
     @Column(name="PRIVATE_COMMENT_FLAG")
@@ -144,11 +144,11 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     }
 
 
-    public Integer getSubmissionIdFk() {
+    public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
 
-    public void setSubmissionIdFk(Integer submissionIdFk) {
+    public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
     }
 
