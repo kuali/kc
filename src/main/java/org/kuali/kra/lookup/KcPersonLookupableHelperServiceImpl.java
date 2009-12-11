@@ -36,13 +36,6 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /** {@inheritDoc} */
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        //FIXME: failing w/ a null pointer overriding to avoid...KcPersons do not have custom action urls anyway
-        return new ArrayList<HtmlData>();
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public List<KcPerson> getSearchResults(Map<String, String> fieldValues) { 
         return this.kcPersonService.getKcPersons(fieldValues);
     }

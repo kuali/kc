@@ -175,42 +175,42 @@
                     p:identifier="true"
                     p:sourceName="extendedAttributes.hasVisa"
                     p:targetName="hasVisa" />
-              -->      
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.officeLocation"
                     p:targetName="officeLocation" />
-              <!--
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.secondaryOfficeLocation"
                     p:targetName="secondaryOfficeLocation" />
-              -->      
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.school"
-                    p:targetName="school" />
-              <!--                                                                       
+                    p:targetName="school" />       
+                                          
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.yearGraduated"
                     p:targetName="yearGraduated" />
-              
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.directoryDepartment"
                     p:targetName="directoryDepartment" />      
-              
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.primaryTitle"
                     p:targetName="primaryTitle" />
-              -->
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.directoryTitle"
                     p:targetName="directoryTitle" />
-              <!--
+
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="extendedAttributes.vacationAccrualFlag"
