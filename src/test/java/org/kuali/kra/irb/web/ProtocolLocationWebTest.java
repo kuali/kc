@@ -37,7 +37,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     protected static final String NEW_ORGANIZATION_VALUE =  "000001";
     protected static final String ADDRESS_LINE_1 =  "Address Line 1";
 
-    protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor4";
+    protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor";
     protected static final String ADD_LOCATION = "methodToCall.addProtocolLocation.anchor";
     protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor4";
     protected static final String ERROR_PROTOCOL_WITHOUT_ORGANIZATION = "At least one organization must be entered.";
@@ -113,7 +113,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     public void testDeleteAndAddLocation() throws Exception{
         HtmlPage pageAfterDeleteLocation = deleteDefaultLocation();
         //add new location
-        assertDoesNotContain(pageAfterDeleteLocation, NEW_ORGANIZATION_VALUE);
+        assertDoesNotContain(pageAfterDeleteLocation, "1 000001 University Performing Organization");
         setFieldValues(pageAfterDeleteLocation, getProtocolLocationNewFieldsMap());
         HtmlPage pageAfterAddLocation = clickOnByName(pageAfterDeleteLocation, ADD_LOCATION, true);
         assertContains(pageAfterAddLocation, NEW_ORGANIZATION_VALUE);
@@ -134,13 +134,12 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     /**
      * This method is to delete default protocol location
      * @return
-     * @throws Exception
      */
     private HtmlPage deleteDefaultLocation() throws Exception{
         assertContains(protocolPage, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
         //delete existing location
-        HtmlPage pageAfterDeleteLocation = clickOn(protocolPage, DELETE_LOCATION);
-        assertDoesNotContain(pageAfterDeleteLocation, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
+        HtmlPage pageAfterDeleteLocation = clickOnByName(protocolPage, DELETE_LOCATION, true);
+        assertDoesNotContain(pageAfterDeleteLocation, "1 000001 University Performing Organization");
         return pageAfterDeleteLocation;
     }
     

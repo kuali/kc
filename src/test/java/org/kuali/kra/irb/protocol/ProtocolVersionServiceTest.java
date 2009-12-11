@@ -56,7 +56,7 @@ public class ProtocolVersionServiceTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);
     }
 
