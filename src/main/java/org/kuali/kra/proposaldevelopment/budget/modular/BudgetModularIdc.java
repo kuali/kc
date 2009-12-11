@@ -38,6 +38,12 @@ public class BudgetModularIdc extends BudgetAssociate {
     
     private RateClass rateClass;
     
+    public BudgetModularIdc() {
+        idcRate = new BudgetDecimal(0.0);
+        idcBase = new BudgetDecimal(0.0);
+        fundsRequested = new BudgetDecimal(0.0);
+    }
+    
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }

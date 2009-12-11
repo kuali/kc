@@ -154,21 +154,29 @@ public class BudgetModular extends BudgetAssociate {
     }
     
     public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
-        budgetModularIdc.setBudgetId(budgetModularIdc.getBudgetId());
+        budgetModularIdc.setBudgetId(this.getBudgetId());
         budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
         
         /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
          * otherwise add it to the list.
          */
         for (BudgetModularIdc testBudgetModularIdc: this.getBudgetModularIdcs()){
-                 if(testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
-                        testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())){
-                    testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
-                    testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
-                    return;
-                }
+             if(testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                    testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())){
+                 if (testBudgetModularIdc.getIdcBase() == null) {
+                     testBudgetModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
+                 } else {
+                     testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
+                 }
+                 if (testBudgetModularIdc.getFundsRequested() == null) {
+                     testBudgetModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
+                 } else {
+                     testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                 }
+                 return;
             }
-         this.getBudgetModularIdcs().add(budgetModularIdc);
+        }
+        this.getBudgetModularIdcs().add(budgetModularIdc);
     
          
         }
