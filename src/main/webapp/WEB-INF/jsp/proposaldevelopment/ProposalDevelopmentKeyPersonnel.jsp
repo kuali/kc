@@ -116,7 +116,7 @@
     <kra-pd:keyPersons/>
 
   <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0 and !isHierarchyParent }">
-  	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Key Person"/>
   </c:if>  
