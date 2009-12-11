@@ -55,6 +55,7 @@ import org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisService;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
@@ -1612,8 +1613,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        
+        getCommitteeDecisionService().setCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
+                                                           protocolForm.getActionHelper().getCommitteeDecision());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private CommitteeDecisionService getCommitteeDecisionService() {
+        return KraServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
     public ActionForward addCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
