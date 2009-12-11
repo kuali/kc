@@ -209,6 +209,9 @@ VALUES('KC-IP', 'D', 'proposalcommenttype.generalcomment', 'CONFG', '1', 'Code f
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND)
 VALUES('KC-IP', 'D', 'proposalcommenttype.reviewercomment', 'CONFG', '1', 'Code for IP Reviewer Proposal Comment Type', 'A', 'Y') ;
 
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', '1', 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
+
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
 
