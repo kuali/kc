@@ -32,7 +32,7 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
     public void setUp() throws Exception {
         super.setUp();
         rule = new QuestionnaireMaintenanceDocumentRule();
-        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After

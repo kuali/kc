@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +24,32 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+@PerSuiteUnitTestData(
+        @UnitTestData(
+            sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_questionnaire_associate_module.sql", delimiter = ";")
+            }
+        )
+    )
 
-public class QuestionnaireServiceTest {
+public class QuestionnaireServiceTest  extends KraTestBase {
     
         private Mockery context = new JUnit4Mockery();
+        @Before
+        public void setUp() throws Exception {
+            super.setUp();
+        }  
+
 
         @Test
         public void testCopyQuestionnaire() {
@@ -99,28 +112,35 @@ public class QuestionnaireServiceTest {
             
         }
         
+        /**
+         * 
+         * This method valid module code to Associate a Questionnaire.
+         * This method can't be done with mock, so has to use get real service call.
+         * Mock has problem with setusersession
+         */
         @Test
         public void testValidCodes() {
+            GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-            final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
-            final ParameterService parameterService = context.mock(ParameterService.class);
+//            final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
+//            final ParameterService parameterService = context.mock(ParameterService.class);
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
-            questionnaireService.setUnitAuthorizationService(unitAuthorizationService);
-            questionnaireService.setParameterService(parameterService);
-            final List<String> permissions = new ArrayList<String>();
-            permissions.add(PermissionConstants.MODIFY_PROPOSAL);
-            permissions.add(PermissionConstants.MODIFY_PROTOCOL);
-            context.checking(new Expectations() {{
-                one(parameterService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
-                        Constants.PARAMETER_COMPONENT_PERMISSION, "associateModuleQuestionnairePermission");
-                will(returnValue(permissions));
-                one(unitAuthorizationService).hasPermission("10000000001", "KRA-PD", PermissionConstants.MODIFY_PROPOSAL);
-                will(returnValue(false));
-                one(unitAuthorizationService).hasPermission("10000000001", "KC-PROTOCOL",PermissionConstants.MODIFY_PROTOCOL);
-                will(returnValue(true));
-            }});
+//            questionnaireService.setUnitAuthorizationService(unitAuthorizationService);
+//            questionnaireService.setParameterService(parameterService);
+//            final List<String> permissions = new ArrayList<String>();
+//            permissions.add(PermissionConstants.MODIFY_PROPOSAL);
+//            permissions.add(PermissionConstants.MODIFY_PROTOCOL);
+//            context.checking(new Expectations() {{
+//                one(parameterService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
+//                        Constants.PARAMETER_COMPONENT_PERMISSION, "associateModuleQuestionnairePermission");
+//                will(returnValue(permissions));
+//                one(unitAuthorizationService).hasPermission("10000000000", "KRA-PD", PermissionConstants.MODIFY_PROPOSAL);
+//                will(returnValue(false));
+//                one(unitAuthorizationService).hasPermission("10000000000", "KC-PROTOCOL",PermissionConstants.MODIFY_PROTOCOL);
+//                will(returnValue(true));
+//            }});
 
-            List<String> modules = questionnaireService.getAssociateModules();
+            List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
             assertTrue(modules.size() == 1);
             assertEquals(modules.get(0), "7");
 
