@@ -15,6 +15,17 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import org.kuali.kra.irb.Protocol;
+
+/**
+ * The Committee Decision Service processes committee decisions.
+ */
 public interface CommitteeDecisionService {
 
+    /**
+     * Record the committee's decision.
+     * @param protocol
+     * @param committeeDecision
+     */
+    void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision);
 }

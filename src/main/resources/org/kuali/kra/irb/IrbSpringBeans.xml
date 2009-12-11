@@ -436,4 +436,8 @@
     <bean id="protocolDataAnalysisService" class="org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+    <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 </beans>

@@ -15,6 +15,59 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ReviewComments;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.rice.kns.service.BusinessObjectService;
+
+/**
+ * The CommitteeDecisionService implementation.
+ */
 public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
+    private BusinessObjectService businessObjectService;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#setCommitteeDecision(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) {
+        ProtocolSubmission submission = getSubmission(protocol);
+        if (submission != null) {
+            submission.setYesVoteCount(committeeDecision.getYesCount());
+            submission.setNoVoteCount(committeeDecision.getNoCount());
+            submission.setAbstainerCount(committeeDecision.getAbstainCount());
+            submission.setVotingComments(committeeDecision.getVotingComments());
+            addReviewerComments(submission, committeeDecision.getReviewComments());
+            businessObjectService.save(submission);
+        }
+    }
+
+    private ProtocolSubmission getSubmission(Protocol protocol) {
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) {
+                return submission;
+            }
+        }
+        return null;
+    }
+    
+    private void addReviewerComments(ProtocolSubmission submission, ReviewComments reviewComments) {
+        int nextEntryNumber = 0;
+        for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
+            minute.setEntryNumber(nextEntryNumber);
+            minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+            minute.setSubmissionIdFk(submission.getSubmissionId());
+            minute.setProtocolIdFk(submission.getProtocolId());
+            minute.setScheduleIdFk(submission.getScheduleIdFk());
+            nextEntryNumber++;
+        }
+    }
 }
