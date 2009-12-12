@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +52,18 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
 
+    private static final int PERMISSIONS_LEADUNIT_RULE = 0;
+
+    private static final int PERMISSIONS_SUBMIT_RULE = 1;
+
+    private static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
+
+    private static final int PERMISSIONS_SPECIAL_RULE = 3;
+
+    private static final int PERFORMACTION_RULE = 4;
+
+    private static final int UPDATE_RULE = 5;
+
     private static final String MODIFY_ANY_PROTOCOL = "MODIFY_ANY_PROTOCOL";
 
     private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "PERFORM_IRB_ACTIONS_ON_PROTO";
@@ -77,6 +90,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
 
     private List<String> actions = new ArrayList<String>();
+    private List<DroolsRuleHandler> rulesList;
+
 
     {
         actions = Arrays.asList(actn);
@@ -148,8 +163,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
-        updateHandle.executeRules(rightMapper);
+//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
+//        updateHandle.executeRules(rightMapper);
+        rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
                 "KC-PROTOCOL", MODIFY_ANY_PROTOCOL) : false;
     }
@@ -159,8 +175,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
-        updateHandle.executeRules(rightMapper);
+//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
+//        updateHandle.executeRules(rightMapper);
+        rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     } 
@@ -172,8 +189,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
-        updateHandle.executeRules(rightMapper);
+//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
+//        updateHandle.executeRules(rightMapper);
+        rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
                 "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
@@ -183,8 +201,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
-        updateHandle.executeRules(rightMapper);
+//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
+//        updateHandle.executeRules(rightMapper);
+        rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
                 "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
@@ -210,7 +229,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setBusinessObjectService(businessObjectService);
         protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
-        getCanPerformRuleHandler().executeRules(protocolAction);
+//        getCanPerformRuleHandler().executeRules(protocolAction);
+        rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
         return protocolAction.isAllowed();
     }
 
@@ -229,11 +249,12 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmissionStatus(protocol.getProtocolSubmission().getSubmissionStatus());
 
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
-        updateHandle.executeRules(protocolAction);
+//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
+//        updateHandle.executeRules(protocolAction);
+        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
         businessObjectService.save(protocol);
         // if there is submission just added, then force this to get the last one.
-        protocol.setProtocolSubmission(null);
+        //protocol.setProtocolSubmission(null);
     }
 
     /*
@@ -245,6 +266,16 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             canPerformRuleHandler = new DroolsRuleHandler(PERFORMACTION_FILE);
         }
         return canPerformRuleHandler;
+    }
+    public void setRuleFiles(List<String> ruleFiles) throws IOException {
+        this.loadRules(ruleFiles);
+    }
+
+    private void loadRules(List<String> ruleFiles) {
+        rulesList = new ArrayList<DroolsRuleHandler>();
+        for (String ruleFile : ruleFiles) {
+            rulesList.add(new DroolsRuleHandler(ruleFile));
+        }
     }
 
 }

@@ -17,6 +17,9 @@ package org.kuali.kra.irb.actions.submit;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -24,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBase{
@@ -103,7 +107,12 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
             allowing(businessObjectService).save(protocol);
         }});
         protocolActionService.setBusinessObjectService(businessObjectService);
-        
+        try {
+            protocolActionService.setRuleFiles(getRuleFiles());
+        } catch (Exception e) {
+            
+        }
+
         ProtocolSubmissionStatus protocolSubmissionStatus = new ProtocolSubmissionStatus();
         protocolSubmissionStatus.setProtocolSubmissionStatusCode("xyz");        
         ProtocolSubmission protocolSubmission = new ProtocolSubmission();
@@ -118,7 +127,20 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         
         protocol.setProtocolNumber("001Z");
         
-        action = new ProtocolAction();
+        action = new ProtocolAction() {
+                @Override
+                public void refreshReferenceObject(String referenceObjectName) {
+                    if (referenceObjectName.equals("protocolActionType")) {
+                        ProtocolActionType protocolActionType= new ProtocolActionType();
+                        protocolActionType.setProtocolActionTypeCode(getProtocolActionTypeCode());
+                        protocolActionType.setDescription(getProtocolActionTypeCode()+" description");
+                        setProtocolActionType(protocolActionType);
+                        
+                    }
+                }
+            
+
+        };
         
     }   
     
@@ -442,4 +464,16 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         protocolActionService.updateProtocolStatus(action, protocol);        
         assertEquals("200", protocol.getProtocolStatusCode());
     }
+
+    private List<String> getRuleFiles() {
+        List<String>ruleFiles = new ArrayList<String>();
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
+        return ruleFiles;
+    }
+
 }
