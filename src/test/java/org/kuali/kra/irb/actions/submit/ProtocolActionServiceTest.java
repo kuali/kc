@@ -59,6 +59,11 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
         dao = context.mock(ProtocolDao.class);
         protocolActionService.setProtocolDao(dao);
+        try {
+            protocolActionService.setRuleFiles(getRuleFiles());
+        } catch (Exception e) {
+            
+        }
 
         ProtocolSubmission protocolSubmission = getProtocolSubmission();
         protocolSubmission.setScheduleIdFk(1L);
@@ -1193,5 +1198,16 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
          assertTrue(protocolActionService.canPerformAction("116", protocol));
          protocol.setProtocolStatusCode("311");
          assertTrue(protocolActionService.canPerformAction("116", protocol));
+    }
+    
+    private List<String> getRuleFiles() {
+        List<String>ruleFiles = new ArrayList<String>();
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
+        return ruleFiles;
     }
 }
