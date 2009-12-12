@@ -363,6 +363,16 @@
 		<property name="kraAuthorizationService" ref="kraAuthorizationService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 		<property name="protocolDao" ref="protocolDao" />
+        <property name="ruleFiles">
+			<list>
+				<value>org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl</value>
+				<value>org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl</value>
+				<value>org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl</value>
+				<value>org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
+				<value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
+				<value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
+            </list>
+        </property>
 	</bean>
 	
 	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
