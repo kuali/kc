@@ -20,13 +20,16 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -244,11 +247,15 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
+        return hasCompleteBudget(proposal.getProposalDocument());
+    }
+    
+    private boolean hasCompleteBudget(ProposalDevelopmentDocument document) {
         boolean retval = false;
-        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
+        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        for (BudgetDocumentVersion version : document.getBudgetDocumentVersions()) {
             if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
-                if (proposal.isProposalComplete()) {
+                if (StringUtils.equalsIgnoreCase(completeCode, version.getBudgetVersionOverview().getBudgetStatus())) {
                     retval = true;
                 }
                 break;
@@ -266,7 +273,8 @@ public class ProposalHierarcyActionHelper {
         GlobalVariables.getMessageMap().putError(field, ERROR_UNEXPECTED, e.toString());
     }
     
-    public boolean checkParentChildStatusMatch(DevelopmentProposal proposal) {
+    public boolean checkParentChildStatusMatch(ProposalDevelopmentDocument document) {
+        DevelopmentProposal proposal = document.getDevelopmentProposal();
         boolean match = true;
         try {
             if (proposal.isParent() 

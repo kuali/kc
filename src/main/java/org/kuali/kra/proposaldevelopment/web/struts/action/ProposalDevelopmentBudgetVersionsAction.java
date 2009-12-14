@@ -232,7 +232,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
         
-        valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(pdDoc.getDevelopmentProposal());
+        valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(pdDoc);
         
         if (pdForm.isSaveAfterCopy()) {
             final List<BudgetDocumentVersion> overviews
