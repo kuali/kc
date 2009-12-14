@@ -252,7 +252,7 @@ public class BudgetVersionsAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
 
         if (parentDocument instanceof ProposalDevelopmentDocument) {
-            valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch(((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal());
+            valid &= (new ProposalHierarcyActionHelper()).checkParentChildStatusMatch((ProposalDevelopmentDocument)parentDocument);
         }
         
         if(budgetForm.isAuditActivated()) {
