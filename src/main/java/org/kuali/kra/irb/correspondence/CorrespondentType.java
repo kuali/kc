@@ -23,7 +23,7 @@ public class CorrespondentType extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 
-    private Integer correspondentTypeCode; 
+    private String correspondentTypeCode; 
     private String description; 
     private String qualifier; 
     
@@ -32,11 +32,11 @@ public class CorrespondentType extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getCorrespondentTypeCode() {
+    public String getCorrespondentTypeCode() {
         return correspondentTypeCode;
     }
 
-    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
+    public void setCorrespondentTypeCode(String correspondentTypeCode) {
         this.correspondentTypeCode = correspondentTypeCode;
     }
 
