@@ -46,37 +46,22 @@
     <bean id="ProtocolCorrespondenceType-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Proto Corresp Type Code" />
-        <property name="shortLabel" value="Proto Corresp Type Code" />
-        <property name="maxLength" value="10" />
+        <property name="label" value="Protocol Correspodence Type Code" />
+        <property name="shortLabel" value="Protocol Correspodence Type Code" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Proto Corresp Type Code" />
         <property name="description" value="Proto Corresp Type Code" />
     </bean>
 
     <bean id="ProtocolCorrespondenceType-description" parent="ProtocolCorrespondenceType-description-parentBean" />
-    <bean id="ProtocolCorrespondenceType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
-    </bean>
+    <bean id="ProtocolCorrespondenceType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
     <bean id="ProtocolCorrespondenceType-moduleId" parent="ProtocolCorrespondenceType-moduleId-parentBean" />
     <bean id="ProtocolCorrespondenceType-moduleId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -90,7 +75,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="11" />
+                p:size="1" />
         </property>
         <property name="summary" value="Module Id" />
         <property name="description" value="Module Id" />

@@ -48,35 +48,20 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Correspondent Type Code" />
         <property name="shortLabel" value="Correspondent Type Code" />
-        <property name="maxLength" value="10" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Correspondent Type Code" />
         <property name="description" value="Correspondent Type Code" />
     </bean>
 
     <bean id="CorrespondentType-description" parent="CorrespondentType-description-parentBean" />
-    <bean id="CorrespondentType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
-    </bean>
+    <bean id="CorrespondentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
     <bean id="CorrespondentType-qualifier" parent="CorrespondentType-qualifier-parentBean" />
     <bean id="CorrespondentType-qualifier-parentBean" abstract="true" parent="AttributeDefinition" >
