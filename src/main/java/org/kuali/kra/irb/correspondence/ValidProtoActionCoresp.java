@@ -23,36 +23,36 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 
-    private Integer validProtoActionCorespId; 
-    private Integer protocolActionTypeCode; 
-    private Integer protoCorrespTypeCode; 
+    private Long validProtoActionCorespId; 
+    private String protocolActionTypeCode; 
+    private String protoCorrespTypeCode; 
     private boolean finalFlag; 
     
     public ValidProtoActionCoresp() { 
 
     } 
     
-    public Integer getValidProtoActionCorespId() {
+    public Long getValidProtoActionCorespId() {
         return validProtoActionCorespId;
     }
 
-    public void setValidProtoActionCorespId(Integer validProtoActionCorespId) {
+    public void setValidProtoActionCorespId(Long validProtoActionCorespId) {
         this.validProtoActionCorespId = validProtoActionCorespId;
     }
 
-    public Integer getProtocolActionTypeCode() {
+    public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
 
-    public void setProtocolActionTypeCode(Integer protocolActionTypeCode) {
+    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
     }
 
-    public Integer getProtoCorrespTypeCode() {
+    public String getProtoCorrespTypeCode() {
         return protoCorrespTypeCode;
     }
 
-    public void setProtoCorrespTypeCode(Integer protoCorrespTypeCode) {
+    public void setProtoCorrespTypeCode(String protoCorrespTypeCode) {
         this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 

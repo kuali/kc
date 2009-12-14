@@ -22,7 +22,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity 
@@ -33,7 +32,7 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
 
     @Id 
     @Column(name="PROTO_CORRESP_TYPE_CODE")
-    private Integer protoCorrespTypeCode; 
+    private String protoCorrespTypeCode; 
 
     @Column(name="DESCRIPTION")
     private String description; 
@@ -45,11 +44,11 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
 
     } 
     
-    public Integer getProtoCorrespTypeCode() {
+    public String getProtoCorrespTypeCode() {
         return protoCorrespTypeCode;
     }
 
-    public void setProtoCorrespTypeCode(Integer protoCorrespTypeCode) {
+    public void setProtoCorrespTypeCode(String protoCorrespTypeCode) {
         this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 
