@@ -165,8 +165,8 @@
     <bean id="InstitutionalProposal-sponsorProposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sponsorProposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Sponsor Institutional Proposal ID" />
-        <property name="shortLabel" value="Sponsor Proposal Number" />
+        <property name="label" value="Sponsor Proposal ID" />
+        <property name="shortLabel" value="Sponsor Proposal ID" />
         <property name="maxLength" value="70" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -175,8 +175,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Sponsor Proposal Number" />
-        <property name="description" value="Sponsor Proposal Number" />
+        <property name="summary" value="Sponsor Proposal ID" />
+        <property name="description" value="Sponsor Proposal ID" />
     </bean>
 
     <bean id="InstitutionalProposal-sequenceNumber" parent="InstitutionalProposal-sequenceNumber-parentBean" />
@@ -294,8 +294,8 @@
     <bean id="InstitutionalProposal-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sponsorCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Sponsor Code" />
-        <property name="shortLabel" value="Sponsor Code" />
+        <property name="label" value="Sponsor ID" />
+        <property name="shortLabel" value="Sponsor ID" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -305,16 +305,16 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Sponsor Code" />
-        <property name="description" value="Sponsor Code" />
+        <property name="summary" value="Sponsor ID" />
+        <property name="description" value="Sponsor ID" />
     </bean>
 
     <bean id="InstitutionalProposal-rolodexId" parent="InstitutionalProposal-rolodexId-parentBean" />
     <bean id="InstitutionalProposal-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="rolodexId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Rolodex Id" />
-        <property name="shortLabel" value="Rolodex Id" />
+        <property name="label" value="Rolodex ID" />
+        <property name="shortLabel" value="Rolodex ID" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -323,8 +323,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Rolodex Id" />
-        <property name="description" value="Rolodex Id" />
+        <property name="summary" value="Rolodex ID" />
+        <property name="description" value="Rolodex ID" />
     </bean>
 
     <bean id="InstitutionalProposal-noticeOfOpportunityCode" parent="InstitutionalProposal-noticeOfOpportunityCode-parentBean" />
@@ -692,8 +692,8 @@
     <bean id="InstitutionalProposal-nsfCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="nsfCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Nsf Science Code" />
-        <property name="shortLabel" value="Nsf Code" />
+        <property name="label" value="NSF Science Code" />
+        <property name="shortLabel" value="NSF Code" />
         <property name="maxLength" value="15"/>
     	<property name="validationPattern">
    			<bean parent="AnyCharacterValidationPattern"/>
@@ -708,8 +708,8 @@
       			p:keyAttribute="nsfCode" 
       			p:labelAttribute="description"/>
     	</property>
-        <property name="summary" value="Nsf Code" />
-        <property name="description" value="Nsf Code" />
+        <property name="summary" value="NSF Code" />
+        <property name="description" value="NSF Code" />
     </bean>
 
     <bean id="InstitutionalProposal-primeSponsorCode" parent="InstitutionalProposal-primeSponsorCode-parentBean" />

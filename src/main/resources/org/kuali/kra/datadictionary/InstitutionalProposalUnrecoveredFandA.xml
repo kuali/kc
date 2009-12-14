@@ -157,6 +157,7 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+        <property name="required" value="true" />
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="5" />

@@ -116,7 +116,7 @@
   	</tr>
   	<tr>
     	<th>
-    		<div align="right">Total All Cost</div></th>
+    		<div align="right">Total All Cost:</div></th>
     	</th>
     	<th>
     		<div align="right">
