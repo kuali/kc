@@ -108,7 +108,12 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         boolean valid = true;
         int currentIndex = 0;
         for(AwardDirectFandADistribution thisAwardDirectFandADistribution : thisAwardDirectFandADistributions) {
-            if(targetOverlapsWithExistingPeriods(thisAwardDirectFandADistribution, thisAwardDirectFandADistributions, currentIndex)) {
+            if(thisAwardDirectFandADistribution.getStartDate().after(thisAwardDirectFandADistribution.getEndDate())) {
+                valid = false;
+                reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_DATES, 
+                        KeyConstants.ERROR_AWARD_FANDA_DISTRIB_START_BEFORE_END_DATE);
+                break;
+            }else if(targetOverlapsWithExistingPeriods(thisAwardDirectFandADistribution, thisAwardDirectFandADistributions, currentIndex)) {
                 valid = false;
                 reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_DATES, 
                         KeyConstants.ERROR_OVERLAPPING_EXISTING_DATES);
