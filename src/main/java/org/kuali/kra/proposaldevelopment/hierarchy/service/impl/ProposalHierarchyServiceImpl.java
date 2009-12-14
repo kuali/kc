@@ -308,6 +308,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (isLast) {
             try {
                 LOG.info(String.format("***Child (#%s) was last child, cancelling Parent (#%s)", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
+                businessObjectService.save(childProposal);
                 Document doc = documentService.getByDocumentHeaderId(hierarchyProposal.getProposalDocument().getDocumentNumber());
                 documentService.cancelDocument(doc, "Removed last child from Proposal Hierarchy");
             }
@@ -317,8 +318,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         else {
             synchronizeAllChildren(hierarchyProposal);
+            businessObjectService.save(childProposal);
         }
-        businessObjectService.save(childProposal);
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
@@ -973,19 +974,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         Narrative destNarrative;
         for (Narrative srcNarrative : srcProposal.getNarratives()) {
-            if (StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getAllowMultiple(), "N")) {
+            if (StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getAllowMultiple(), "N") 
+                    && !srcProposal.getInstituteAttachments().contains(srcNarrative)) {
                 loadAttachmentContent(srcNarrative);
                 destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
                 destNarrative.setModuleStatusCode("I");
                 narrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
             }
-        }
-        
-        Narrative destInstituteAttachment;
-        for (Narrative srcInstituteAttachment : srcProposal.getInstituteAttachments()) {
-            loadAttachmentContent(srcInstituteAttachment);
-            destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
-            narrativeService.addInstituteAttachment(destProposal.getProposalDocument(), destInstituteAttachment);
         }
     }
 
