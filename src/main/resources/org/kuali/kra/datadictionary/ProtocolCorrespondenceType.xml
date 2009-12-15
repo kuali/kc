@@ -73,9 +73,11 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+        <property name="required" value="true" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="1" />
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.correspondence.CorrespondenceTypeModuleIdValuesFinder"
+                  p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Module Id" />
         <property name="description" value="Module Id" />
