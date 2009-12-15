@@ -301,7 +301,7 @@
 				</dependency>
 				<dependency>
 					<groupId>com.lowagie</groupId>
-					<artifactId>iText</artifactId>
+					<artifactId>itext</artifactId>
 					<version>2.1.2</version>
 				</dependency>
 				<dependency>
