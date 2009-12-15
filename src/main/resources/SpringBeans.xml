@@ -1806,6 +1806,15 @@
 	  </property>
 	</bean>
 	
+	<bean id="proposalLogPiDerivedRoleTypeService" class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl">
+    </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="proposalLogPiDerivedRoleTypeService"
+          p:localServiceName="proposalLogPiDerivedRoleTypeService" />
+      </property>
+    </bean>
+	
 	<bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
