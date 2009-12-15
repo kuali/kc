@@ -155,7 +155,7 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
         
     }
     
-    protected List<Lifecycle> getDefaultPerTestLifecycles() {
+    protected List<Lifecycle> getPerTestLifecycles() {
         List<Lifecycle> lifecycles = new LinkedList<Lifecycle>();
         return lifecycles;
     }
