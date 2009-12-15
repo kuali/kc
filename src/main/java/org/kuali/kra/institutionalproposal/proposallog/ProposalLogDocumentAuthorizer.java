@@ -15,80 +15,29 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.BusinessObjectAuthorizerBase;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
-/* Use this until proper KIM perms are set up */
-
-public class ProposalLogDocumentAuthorizer extends BusinessObjectAuthorizerBase implements MaintenanceDocumentAuthorizer {
+public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer {
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canInitiate(String documentTypeName, Person user) {
-        return true;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canOpen(Document document, Person user) {
-        return true;
-    }
-    
-    public boolean canReceiveAdHoc(Document document, Person user,
-            String actionRequestCode) {
-        return true;
+    @Override
+    protected void addRoleQualification(
+            BusinessObject primaryBusinessObjectOrDocument,
+            Map<String, String> attributes) {
+        super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
+        ProposalLog proposalLog = (ProposalLog) maintenanceDocument.getDocumentBusinessObject();
+        if (proposalLog.getLeadUnit() != null) {
+            attributes.put(KcKimAttributes.UNIT_NUMBER, proposalLog.getLeadUnit());
+        } else {
+            attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        }
+        attributes.put("piId", proposalLog.getPiId());
     }
     
-    public Set<String> getSecurePotentiallyReadOnlySectionIds() {
-        return new HashSet<String>();
-    }
-    
-    public Set<String> getSecurePotentiallyHiddenSectionIds() {
-        return new HashSet<String>();
-    }
-    
-    public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {
-        return true;
-    }
-    
-    public boolean canCreate(Class boClass, Person user) {
-        return true;
-    }
-
-    public boolean canMaintain(BusinessObject businessObject, Person user) {
-        return true;
-    }
-
-    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument,
-            Person user) {
-        return true;
-    }
-    
-    public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return true;
-    }
-    
-    public boolean canDeleteNoteAttachment(Document document, String attachmentTypeCode, String createdBySelfOnly, Person user) {
-        return true;
-    }
-    
-    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return true;
-    }
-    
-    public Set<String> getDocumentActions(Document document, Person user,
-            Set<String> documentActions) {
-        
-        return documentActions;
-    }
-
 }
