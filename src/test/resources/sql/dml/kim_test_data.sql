@@ -1381,7 +1381,31 @@ values ('1201', '77BC20590A4E319DE0404F8189D81201', 1, '1029', 'KC-QUESTIONNAIRE
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
 values ('1202', '77BC20590A51319DE0404F8189D81202', 1, '1029', 'KC-QUESTIONNAIRE', 'View Questionnaire', 'View Questionnaire', 'Y');
 
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1203', '77BC20590A51319DE0404F8189D81203', 1, '10', 'KC-IP', 'Create Proposal Log', 'Initiate a new Proposal Log', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1204', '77BC20590A51319DE0404F8189D81204', 1, '16', 'KC-IP', 'Edit Proposal Log', 'Edit a Proposal Log', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1205', '77BC20590A51319DE0404F8189D81205', 1, '15', 'KC-IP', 'Save Proposal Log', 'Save a Proposal Log', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1206', '77BC20590A51319DE0404F8189D81206', 1, '5', 'KC-IP', 'Submit Proposal Log', 'Submit a Proposal Log', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1207', '77BC20590A51319DE0404F8189D81207', 1, '40', 'KC-IP', 'Open Proposal Log', 'Open a Proposal Log', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1208', '77BC20590A51319DE0404F8189D81208', 1, '14', 'KC-IP', 'Cancel Proposal Log', 'Cancel a Proposal Log', 'Y');
 
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1209', '77BC20590A51319DE0404F8189D81209', 1, '10', 'KC-IP', 'Create Institutional Proposal', 'Initiate a new Institutional Proposal', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1210', '77BC20590A51319DE0404F8189D81210', 1, '16', 'KC-IP', 'Edit Institutional Proposal', 'Edit an Institutional Proposal', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1211', '77BC20590A51319DE0404F8189D81211', 1, '15', 'KC-IP', 'Save Institutional Proposal', 'Save an Institutional Proposal', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1212', '77BC20590A51319DE0404F8189D81212', 1, '5', 'KC-IP', 'Submit Institutional Proposal', 'Submit an Institutional Proposal', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1213', '77BC20590A51319DE0404F8189D81213', 1, '40', 'KC-IP', 'Open Institutional Proposal', 'Open an Institutional Proposal', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1214', '77BC20590A51319DE0404F8189D81214', 1, '14', 'KC-IP', 'Cancel Institutional Proposal', 'Cancel an Institutional Proposal', 'Y');
 
 
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
@@ -1750,6 +1774,32 @@ insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_T
 values ('1147', '6314CC58CF59B7B5E0404F8189D81147', 1, '1201', '1013', '13', 'QuestionnaireMaintenanceDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1148', '6314CC58CF59B7B5E0404F8189D81148', 1, '1202', '1013', '13', 'QuestionnaireMaintenanceDocument');
+
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1149', '6314CC58CF59B7B5E0404F8189D81149', 1, (select PERM_ID from KRIM_PERM_T where NM='Create Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1150', '6314CC58CF59B7B5E0404F8189D81150', 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1151', '6314CC58CF59B7B5E0404F8189D81151', 1, (select PERM_ID from KRIM_PERM_T where NM='Save Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1152', '6314CC58CF59B7B5E0404F8189D81152', 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1153', '6314CC58CF59B7B5E0404F8189D81153', 1, (select PERM_ID from KRIM_PERM_T where NM='Open Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1154', '6314CC58CF59B7B5E0404F8189D81154', 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Proposal Log'), '3', '13', 'ProposalLogMaintenanceDocument');
+
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1155', '6314CC58CF59B7B5E0404F8189D81155', 1, (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1156', '6314CC58CF59B7B5E0404F8189D81156', 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1157', '6314CC58CF59B7B5E0404F8189D81157', 1, (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1158', '6314CC58CF59B7B5E0404F8189D81158', 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1159', '6314CC58CF59B7B5E0404F8189D81159', 1, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1160', '6314CC58CF59B7B5E0404F8189D81160', 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
 
 --Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-WKFLW','All','KIM_PRIORITY_ON_DOC_TYP_PERMS_IND',SYS_GUID(),1,'CONFG','N','Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.','A','KUALI');
 
@@ -2803,6 +2853,32 @@ insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, a
    (select perm_id from krim_perm_t u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'),
    'Y');
 
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10099', '77BC20590A53319DE0404F8189D10098', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Create Proposal Log'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10100', '77BC20590A53319DE0404F8189D10099', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Edit Proposal Log'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10101', '77BC20590A53319DE0404F8189D10100', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Save Proposal Log'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10102', '77BC20590A53319DE0404F8189D10101', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Submit Proposal Log'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10103', '77BC20590A53319DE0404F8189D10102', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Open Proposal Log'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10104', '77BC20590A53319DE0404F8189D10103', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Cancel Proposal Log'), 'Y');
+
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10105', '77BC20590A53319DE0404F8189D10104', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10106', '77BC20590A53319DE0404F8189D10105', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10107', '77BC20590A53319DE0404F8189D10106', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10108', '77BC20590A53319DE0404F8189D10107', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10109', '77BC20590A53319DE0404F8189D10108', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10110', '77BC20590A53319DE0404F8189D10109', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
+
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
 values ('1009', '9E8C6BBF7C38443088C2B420363C5200', 1, 'a', '1017', '1007', 'Y');
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
@@ -2991,7 +3067,8 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 values ('1590', 1, SYS_GUID(), '1122', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'chew'), 'P', null, null, SYSDATE);
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
 values ('1591', 1, SYS_GUID(), '1125', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'chew'), 'P', null, null, SYSDATE);
-
+insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+values ('1592', 1, SYS_GUID(), '1120', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'P', null, null, SYSDATE);
 
 insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1029', 'EA604AC4C6BD419291CC8FADDD75C72B', 1, '1560', '1012', '1005', '000001');
@@ -3051,6 +3128,10 @@ insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_I
 values ('1056', 'B21B83CFBAF94C6FA3568F5A5202D79C', 1, '1581', '1013', '1005', '000001');
 insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1057', '234BDE9A732A43DFB64402532CB686BF', 1, '1581', '1013', '1006', 'N');
+insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1058', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID='1120' and MBR_ID='10000000001'), '1013', '1005', 'N');
+insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1059', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID='1120' and MBR_ID='10000000001'), '1013', '1006', 'N');
 
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1300', SYS_GUID(), 1, 'Y', SYSDATE);
