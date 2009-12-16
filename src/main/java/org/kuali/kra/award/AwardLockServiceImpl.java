@@ -30,6 +30,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
@@ -82,7 +83,8 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
                 || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
+            //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
+            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;
     }
