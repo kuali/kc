@@ -44,7 +44,7 @@
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditAwardTemplateComment" parent="AwardTemplateCommentMaintenanceDocument-EditAwardTemplateComment-parentBean"/>
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditAwardTemplateComment-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Comments"/>
-		<property name="title" value="Edit Award Template Comments"/>
+		<property name="title" value="Edit Sponsor Template Comments"/>
 		<property name="maintainableItems">
 			<list>
 				<!--<bean parent="MaintainableFieldDefinition"
@@ -63,7 +63,7 @@
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" parent="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean"/>
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Comments"/>
-		<property name="title" value="Edit Award Template Comments"/>
+		<property name="title" value="Edit Sponsor Template Comments"/>
 		
 		
 		<property name="maintainableItems">
@@ -75,7 +75,7 @@
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>
-					<property name="summaryTitle" value="Award Template Comments"/>
+					<property name="summaryTitle" value="Sponsor Template Comments"/>
 					<property name="summaryFields">
 					<list>
 		             <bean parent="MaintainableFieldDefinition" p:name="commentTypeCode"/>
