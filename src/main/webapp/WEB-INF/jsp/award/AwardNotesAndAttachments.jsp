@@ -29,6 +29,7 @@
 <kra-a:awardCommentTemplate/>
 <kra-a:awardNotes/>
 <kra-a:awardAttachments/>
+<kul:panelFooter />
 
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
