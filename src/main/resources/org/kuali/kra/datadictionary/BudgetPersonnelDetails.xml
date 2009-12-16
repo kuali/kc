@@ -163,19 +163,11 @@
   </bean>
   <bean id="BudgetPersonnelDetails-budgetJustification" parent="BudgetPersonnelDetails-budgetJustification-parentBean" />
 
-  <bean id="BudgetPersonnelDetails-budgetJustification-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetPersonnelDetails-budgetJustification-parentBean" abstract="true" parent="BudgetLineItem-budgetJustification-parentBean">
     <property name="name" value="budgetJustification" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Justification" />
     <property name="shortLabel" value="Budget Justification" />
-    <property name="maxLength" value="0" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="0" />
-    </property>
     <property name="summary" value="Budget Justification" />
     <property name="description" value="Budget Justification" />
   </bean>
