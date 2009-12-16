@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>AwardTemplateCommentMaintenanceDocument</name>
-			<description>Create a New Award Template Comment</description>
-			<label>Award Template Comment</label>
+			<description>Create a New Sponsor Template Comment</description>
+			<label>Sponsor Template Comment</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	

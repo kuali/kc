@@ -72,7 +72,7 @@
 					-->
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>
-					<property name="summaryTitle" value="Award Template Contacts"/>
+					<property name="summaryTitle" value="Sponsor Template Contacts"/>
 					<property name="summaryFields">
 					<list>
 		             <bean parent="MaintainableFieldDefinition" p:name="roleCode"/>

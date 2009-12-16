@@ -35,10 +35,10 @@
 				<ref bean="AwardTemplateReportTerm-templateReportTermId" />
 				<!-- <ref bean="AwardTemplateReportTerm-templateCode" />-->
 				<ref bean="AwardTemplateReportTerm-reportClassCode" />
-				<ref bean="AwardTemplateReportTerm-reportCode" />
+				<ref bean="AwardTemplateReportTerm-reportTypeCode" />
 				<ref bean="AwardTemplateReportTerm-frequencyCode" />
 				<ref bean="AwardTemplateReportTerm-frequencyBaseCode" />
-				<ref bean="AwardTemplateReportTerm-ospDistributionCode" />
+				<ref bean="AwardTemplateReportTerm-ospFileCopyCode" />
 				<ref bean="AwardTemplateReportTerm-dueDate" />
 				<ref bean="AwardTemplateReportTerm-versionNumber" />
 			</list>
@@ -106,12 +106,12 @@
 		<property name="description" value="Report Class Code" />
 	</bean>
 
-	<bean id="AwardTemplateReportTerm-reportCode" parent="AwardTemplateReportTerm-reportCode-parentBean" />
-	<bean id="AwardTemplateReportTerm-reportCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardTemplateReportTerm-reportTypeCode" parent="AwardTemplateReportTerm-reportTypeCode-parentBean" />
+	<bean id="AwardTemplateReportTerm-reportTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Report Code" />
-		<property name="shortLabel" value="Report Code" />
+		<property name="label" value="Report Type Code" />
+		<property name="shortLabel" value="Report Type Code" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -125,8 +125,8 @@
 	            p:keyAttribute="reportCode"
 	            p:labelAttribute="description" />
 	    </property>
-		<property name="summary" value="Report Code" />
-		<property name="description" value="Report Code" />
+		<property name="summary" value="Report Type Code" />
+		<property name="description" value="Report Type Code" />
 	</bean>
 
 	<bean id="AwardTemplateReportTerm-frequencyCode" parent="AwardTemplateReportTerm-frequencyCode-parentBean" />
@@ -175,12 +175,12 @@
 		<property name="description" value="Frequency Base Code" />
 	</bean>
 
-	<bean id="AwardTemplateReportTerm-ospDistributionCode" parent="AwardTemplateReportTerm-ospDistributionCode-parentBean" />
-	<bean id="AwardTemplateReportTerm-ospDistributionCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardTemplateReportTerm-ospFileCopyCode" parent="AwardTemplateReportTerm-ospFileCopy-parentBean" />
+	<bean id="AwardTemplateReportTerm-ospFileCopy-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="ospDistributionCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Osp Distribution Code" />
-		<property name="shortLabel" value="Osp Distribution Code" />
+		<property name="label" value="Osp File Copy Code" />
+		<property name="shortLabel" value="Osp File Copy Code" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -194,8 +194,8 @@
 	            p:keyAttribute="ospDistributionCode"
 	            p:labelAttribute="description" />
 	    </property>
-		<property name="summary" value="Osp Distribution Code" />
-		<property name="description" value="Osp Distribution Code" />
+		<property name="summary" value="Osp File Copy Code" />
+		<property name="description" value="Osp File Copy Code" />
 	</bean>
 
 	<bean id="AwardTemplateReportTerm-dueDate" parent="AwardTemplateReportTerm-dueDate-parentBean" />
@@ -205,6 +205,7 @@
 		<property name="shortLabel" value="Due Date" />
 		<property name="summary" value="Due Date" />
 		<property name="description" value="Due Date" />
+		<property name="required" value="false" />
 	</bean>
 
 	<bean id="AwardTemplateReportTerm-versionNumber" parent="AwardTemplateReportTerm-versionNumber-parentBean" />

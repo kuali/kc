@@ -38,7 +38,7 @@
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient" parent="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms Recipient"/>
-		<property name="title" value="Edit Award Template Report Terms Recipient"/>
+		<property name="title" value="Edit Sponsor Template Report Terms Recipient"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="templateReportTermRecipientId" p:required="true"/>
@@ -58,7 +58,7 @@
 		<property name="alwaysAllowCollectionDeletion" value="true"/>
 		<property name="includeAddLine" value="true"/>
 		<property name="includeMultipleLookupLine" value="false"/>
-		<property name="summaryTitle" value="Award Template Report Terms Recipient"/>
+		<property name="summaryTitle" value="Sponsor Template Report Terms Recipient"/>
 		<property name="summaryFields">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"/>
