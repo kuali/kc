@@ -26,6 +26,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InstitutionalProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
@@ -45,12 +46,13 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
     @SuppressWarnings("unchecked")
     @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        //String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
-        // check for entry edit mode
+         //check for entry edit mode
         for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry entry = (Map.Entry) iterator.next();
-            if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
+            //if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
+            if (isEntryEditMode(entry)) {
                 return true;
             }
         }
@@ -78,7 +80,9 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
                 || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
+            //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("true".equals(fullEntryEditModeValue)) );
+            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));         
+
         }
         return false;
     }
