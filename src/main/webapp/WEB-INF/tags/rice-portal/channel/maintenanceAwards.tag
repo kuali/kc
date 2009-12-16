@@ -43,7 +43,7 @@
     <li>Rights to Data</li>
     <li>Sub-Contract Approval</li>
     <li>Travel Restriction</li>
-  	<li><portal:portalLink displayTitle="true" title="Award Template" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardTemplate&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  	<li><portal:portalLink displayTitle="true" title="Sponsor Template" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardTemplate&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   	<!--<li>--><!--<portal:portalLink displayTitle="true" title="Award Template Contact" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardTemplateContact&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" />--><!--</li>-->
   	<!--<li>--><!--<portal:portalLink displayTitle="true" title="Award Template Comment" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardTemplateComment&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" />--><!--</li>-->
   </ul>

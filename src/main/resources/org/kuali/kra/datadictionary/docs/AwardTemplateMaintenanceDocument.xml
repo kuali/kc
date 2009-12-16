@@ -43,7 +43,7 @@
 		<!--<property name="webScriptFile" value="../dwr/interface/AwardFrequencyFilter.js" />-->
 		<!--<property name="webScriptFile" value="../scripts/kualiApplicationTest.js" />-->
 		<property name="id" value="Edit Award Template"/>
-		<property name="title" value="Edit Award Template"/>
+		<property name="title" value="Edit Sponsor Template"/>
 		<property name="maintainableItems">
 			<list>
 				<!--<bean parent="MaintainableFieldDefinition"

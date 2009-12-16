@@ -40,7 +40,7 @@
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean"/>
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms"/>
-		<property name="title" value="Edit Award Template Report Terms"/>
+		<property name="title" value="Edit Sponsor Template Report Terms"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="templateReportTermId" p:required="true"/>
@@ -50,7 +50,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="false"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
@@ -58,7 +58,7 @@
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean"/>
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms"/>
-		<property name="title" value="Edit Award Template Report Terms"/>
+		<property name="title" value="Edit Sponsor Template Report Terms"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
@@ -68,7 +68,7 @@
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>
-					<property name="summaryTitle" value="Award Report Terms"/>
+					<property name="summaryTitle" value="Sponsor Report Terms"/>
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
@@ -95,7 +95,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="false"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
 					</property>
