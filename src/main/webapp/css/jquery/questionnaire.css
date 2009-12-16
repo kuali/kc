@@ -1,0 +1,82 @@
+@charset "utf-8";
+/* CSS Document */
+
+.Qdiv
+{
+	
+	border:#666666 solid 1px;
+	border-collapse:collapse;
+	margin-bottom:5px;
+}
+
+.Qquestiondiv
+{
+	background:#939393;
+	color:#ffffff;
+	font-size:12px;
+	line-height:16px;
+	font-weight:bold;
+	padding:2px;
+}
+
+	.Qnumber
+	{
+		
+	}
+	
+	.Qquestion
+	{
+				
+	}
+	
+	.Qmoreinfocontrol
+	{
+		float:right;
+		font-size:9px;
+		font-weight:100;
+		cursor:pointer;
+	}
+
+.Qmoreinfodiv
+{
+	background:#FFFFFF;
+	padding:2px;
+}
+
+	.Qmoreinfo
+	{
+		
+	}
+
+.Qresponsediv
+{
+	background:#FFFFFF;
+	padding:2px;
+	
+}
+
+	.Qresponse
+	{
+		
+	}
+
+.sectionpage
+{
+	text-align:center;
+}
+
+/*<div class="Qdiv" id="QID001">
+	<div class="Qquestiondiv">
+		<span class="Qnumber">1.0.0</span>
+		<span class="Qquestion">Confirm live vertebrates will be used in this protocol?</span>
+	</div>
+	<div class="Qmoreinfodiv">
+		<span class="Qmoreinfo">Here is stuff about the question including explanation, policies, and regulations. [QID: QID001]</span>
+	</div>
+	<div class="Qresponsediv">
+		<span class="Qresponse">
+			<input type="radio" class="reticulate" style="border:none;" name="AID001" value="0" checked="checked" />yes
+			<input type="radio" class="reticulate" style="border:none;" name="AID001" value="1" />no
+		</span>
+	</div>
+</div>*/
