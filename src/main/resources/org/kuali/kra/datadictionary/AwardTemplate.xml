@@ -287,7 +287,7 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardTemplate-inquiryDefinition" parent="AwardTemplate-inquiryDefinition-parentBean" />
 	<bean id="AwardTemplate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="AwardTemplate Code" />
+		<property name="title" value="SponsorTemplate Code" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
