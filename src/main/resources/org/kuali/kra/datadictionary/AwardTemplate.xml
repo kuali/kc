@@ -22,7 +22,7 @@
 	<bean id="AwardTemplate" parent="AwardTemplate-parentBean" />
 	<bean id="AwardTemplate-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplate" />
-		<property name="objectLabel" value="Award Template" />
+		<property name="objectLabel" value="Sponsor Template" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardTemplate-inquiryDefinition" />
 		</property>
@@ -57,8 +57,8 @@
 	<bean id="AwardTemplate-templateCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="templateCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award Template Code" />
-		<property name="shortLabel" value="Award Template Code" />
+		<property name="label" value="Sponsor Template Code" />
+		<property name="shortLabel" value="Sponsor Template Code" />
 		<property name="maxLength" value="5" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -67,8 +67,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Award Template Code" />
-		<property name="description" value="Award Template Code" />
+		<property name="summary" value="Sponsor Template Code" />
+		<property name="description" value="Sponsor Template Code" />
 	</bean>
 
 	<bean id="AwardTemplate-description" parent="AwardTemplate-description-parentBean" />
@@ -291,7 +291,7 @@
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="AwardTemplate Code" />
+					<property name="title" value="SponsorTemplate Code" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -328,7 +328,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="AwardTemplate-lookupDefinition" parent="AwardTemplate-lookupDefinition-parentBean" />
 	<bean id="AwardTemplate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="AwardTemplate Lookup" />
+		<property name="title" value="SponsorTemplate Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
