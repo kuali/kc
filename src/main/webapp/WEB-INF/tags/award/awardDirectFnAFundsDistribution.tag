@@ -22,7 +22,7 @@
 <c:set var="action" value="timeAndMoney" />
 
 
-<kul:tab tabItemCount="${KualiForm.document.awardNumber}" tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.award.awardDirectFandADistribution*">
+<kul:tab tabItemCount="${KualiForm.document.awardNumber}" tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.award.awardDirectFandADistribution*,awardDirectFandADistributionBean.newAwardDirectFandADistribution*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Direct/F&A Funds Distribution</span>
