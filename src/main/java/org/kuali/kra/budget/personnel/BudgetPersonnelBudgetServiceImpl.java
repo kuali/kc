@@ -52,6 +52,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
             BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
+            //budget justification should never end up on the personnel details
+            newBudgetPersonnelDetails.setBudgetJustification(null);
         }catch (Exception e) {
             copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
         }
