@@ -51,10 +51,10 @@ public class ScheduleAgenda extends KraPersistableBusinessObjectBase {
     private String agendaName; 
     @Column(name="PDF_STORE")
     private byte[] pdfStore; 
-    private Timestamp createTimestamp;
     @Column(name="CREATE_TIMESTAMP")
-    private String createUser;
+    private Timestamp createTimestamp;
     @Column(name="CREATE_USER")
+    private String createUser;
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
