@@ -265,348 +265,194 @@ VALUES ('KRA-B', 'D', 'budgetCategoryType.personnel', 'CONFG', 'P', 'Personnel B
 --VALUES('KR-NS', 'Document', 'PESSIMISTIC_LOCK_ADMIN_GROUP', sys_guid(), 1, 'AUTH', 'KUALI_ROLE_SUPERVISOR', 'Workgroup which can perform admin deletion and lookup functions for Pessimistic Locks.', 'A', 'KUALI_FMSOPS');
 
 -- Award Parms
-INSERT into KRNS_PARM_T 
-	(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM,  PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR)
-	Values 
-	('KC-AWARD','D','mit.idc.validation.enabled','CONFG','1','MitIdcValidationEnabled is configurable at impl time','A',sys_guid(),'1');
+INSERT into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM,  PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+Values ('KC-AWARD','D','mit.idc.validation.enabled','CONFG','1','MitIdcValidationEnabled is configurable at impl time','A',sys_guid(),'1');
 
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','federalCapitalizationMinimum',sys_guid(),1,'CONFG','100.00','Federal Capitalization Minimum','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','federalCapitalizationMinimum',sys_guid(),1,'CONFG','100.00','Federal Capitalization Minimum','A');
   
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','institutionCapitalizationMinimum',sys_guid(),1,'CONFG','50.00','Institution Capitalization Minimum','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','institutionCapitalizationMinimum',sys_guid(),1,'CONFG','50.00','Institution Capitalization Minimum','A');
 
 -- Protocol Parms
 
 
-Insert into KRNS_PARM_DTL_TYP_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND)
-Values 
-('KC-PROTOCOL','D','1EA4E50A05844D36964A0FCBB2992881',1,'Document', 'Y');
+Insert into KRNS_PARM_DTL_TYP_T ( NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND)
+Values ('KC-PROTOCOL','D','1EA4E50A05844D36964A0FCBB2992881',1,'Document', 'Y');
 
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values 
-('KC-PROTOCOL','D','irb.protocol.referenceID1','F1C228F9D4D8408A8E0BBC801C9525ab',1,'CONFG','Reference ID1','Referece id is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.referenceID1','F1C228F9D4D8408A8E0BBC801C9525ab',1,'CONFG','Reference ID1','Referece id is configurable at impl time','A');
 
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values
-('KC-PROTOCOL','D','irb.protocol.referenceID2','F1C228F9D4D8408A8E0BBC801C9525az',1,'CONFG','Reference ID2','Referece id is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.referenceID2','F1C228F9D4D8408A8E0BBC801C9525az',1,'CONFG','Reference ID2','Referece id is configurable at impl time','A');
 
-Insert into KRNS_PARM_T
-   (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolPersonTrainingSectionRequired', '2347F6B21CAB41DAB20A395611C6ED23', 1, 'CONFG', 'True', 'Implementing institution can decide on whether to display training section', 'A');
+Insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+ Values ('KC-PROTOCOL', 'D', 'protocolPersonTrainingSectionRequired', '2347F6B21CAB41DAB20A395611C6ED23', 1, 'CONFG', 'True', 'Implementing institution can decide on whether to display training section', 'A');
 
+Insert INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','reportClassForPaymentsAndInvoices',sys_guid(),1,'CONFG','6','Report Class For Payments And Invoices','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','contactTypeOther',sys_guid(),1,'CONFG','8','Contact Type Code For Contact Type Other','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate',sys_guid(),1,'CONFG','1','Schedule Generation Period In Years When Frequency Base Code Is Final Expiration Date','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','closeoutReportTypeUserDefined',sys_guid(),1,'CONFG','UD','User Defined Close out Report Type','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','closeoutReportTypeFinancialReport',sys_guid(),1,'CONFG','1','This system parameter maps the CloseoutReportType Financial Report(closeoutReoprtTypeCode=1) with ReportClass Fiscal(reportClassCode=1). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','closeoutReportTypeTechnical',sys_guid(),1,'CONFG','4','This system parameter maps the CloseoutReportType Technical(closeoutReoprtTypeCode=4) with ReportClass Technical Management(reportClassCode=4). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','closeoutReportTypePatent',sys_guid(),1,'CONFG','3','This system parameter maps the CloseoutReportType Patent(closeoutReoprtTypeCode=3) with ReportClass Intellectual Property(reportClassCode=3). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
+VALUES ('KC-AWARD','D','closeoutReportTypeProperty',sys_guid(),1,'CONFG','2','This system parameter maps the CloseoutReportType Property(closeoutReoprtTypeCode=2) with ReportClass Property(reportClassCode=2). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
+Insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.billable', 'F1C228F9D4D8408A8E0BBC801C9525ak', 1,'CONFG','Y','Billable is configurable at impl time','A');
 
-Insert INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','reportClassForPaymentsAndInvoices',sys_guid(),1,'CONFG','6','Report Class For Payments And Invoices','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','contactTypeOther',sys_guid(),1,'CONFG','8','Contact Type Code For Contact Type Other','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate',sys_guid(),1,'CONFG','1','Schedule Generation Period In Years When Frequency Base Code Is Final Expiration Date','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeUserDefined',sys_guid(),1,'CONFG','UD','User Defined Close out Report Type','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeFinancialReport',sys_guid(),1,'CONFG','1','This system parameter maps the CloseoutReportType Financial Report(closeoutReoprtTypeCode=1) with ReportClass Fiscal(reportClassCode=1). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeTechnical',sys_guid(),1,'CONFG','4','This system parameter maps the CloseoutReportType Technical(closeoutReoprtTypeCode=4) with ReportClass Technical Management(reportClassCode=4). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypePatent',sys_guid(),1,'CONFG','3','This system parameter maps the CloseoutReportType Patent(closeoutReoprtTypeCode=3) with ReportClass Intellectual Property(reportClassCode=3). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeProperty',sys_guid(),1,'CONFG','2','This system parameter maps the CloseoutReportType Property(closeoutReoprtTypeCode=2) with ReportClass Property(reportClassCode=2). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A');
 
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values
-('KC-PROTOCOL','D','irb.protocol.billable', 'F1C228F9D4D8408A8E0BBC801C9525ak', 1,'CONFG','Y','Billable is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A');
 
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values
-('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A');
-
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values
-('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A');
-
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-Values
-('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys_guid(), 1,'CONFG','N','Linking from Award to Protocol Funding source is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+Values ('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys_guid(), 1,'CONFG','N','Linking from Award to Protocol Funding source is configurable at impl time','A');
 
 -- krew
 --INSERT INTO KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
 --VALUES('KR-WKFLW', '5E1D690C419B3E2EE0404F8189D82677', 0, 'Workflow', 'Y', NULL);
 INSERT INTO KRNS_PARM_DTL_TYP_T(NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND)
-  VALUES('KR-WKFLW', 'DocumentSearch', '18695E69ED0D4FBE8B084FCA8066D21C', 1, 'Document Search ', 'Y')
-;
+  VALUES('KR-WKFLW', 'DocumentSearch', '18695E69ED0D4FBE8B084FCA8066D21C', 1, 'Document Search ', 'Y');
 
-INSERT INTO KRNS_PARM_T
-(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM,                     OBJ_ID,     VER_NBR,  PARM_TYP_CD,  TXT, PARM_DESC_TXT, CONS_CD)
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID,     VER_NBR,  PARM_TYP_CD,  TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD',    'D',             'award.creditsplit.enabled',    sys_guid(),    1,     'CONFG',         'Y',    'Determines whether the Credit Split is turned on for Award',    'A');
   
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', sys_guid(), 1, 'CONFG', '2', 'Value for Proposal Contact Type', 'A');
+Insert into KRNS_PARM_T nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', sys_guid(), 1, 'CONFG', '2', 'Value for Proposal Contact Type', 'A');
    
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KRA-PD', 'D', 'MULTI_CAMPUS_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values('KRA-PD', 'D', 'MULTI_CAMPUS_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A');
 
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KRA-PD', 'D', 'DHHS_AGREEMENT', sys_guid(), 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values ('KRA-PD', 'D', 'DHHS_AGREEMENT', sys_guid(), 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A');
 
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Flag for enabling/disabling scheduler service', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Flag for enabling/disabling scheduler service', 'A');
 
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', sys_guid(), 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', sys_guid(), 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A');
 
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-IP','D','proposalcommenttype.generalcomment','CONFG','2','Code for General Proposal Comment Type','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-IP','D','proposalcommenttype.reviewercomment','CONFG','16','Code for IP Reviewer Proposal Comment Type','A');
 
-insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
- Values
-   ('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', sys_guid(), 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A');
+insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+ Values ('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', sys_guid(), 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A');
 
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD, NM, ACTV_IND, APPL_NMSPC_CD, OBJ_ID) VALUES ('KC-WKFLW', 'KC Workflow Infrastructure', 'Y', NULL, SYS_GUID());
 
-INSERT INTO krns_PARM_T
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalConstactsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Contacts Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalCustomDataHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Custom Data Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalSpecialReviewHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Special Review Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalIPReviewHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Review Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalDistributionHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Distribution Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalActionsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Actions Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalIPReviewActivityHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-IP','D','InstitutionalProposalUnitAdministratorHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Unit Administrator Help','A');	
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardHelpUrl',sys_guid(),1,'HELP','default.htm','Award Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardHomeHelp',sys_guid(),1,'HELP','default.htm','Award Home Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardContactsHelp',sys_guid(),1,'HELP','default.htm','Award Contacts Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCommitmentsHelp',sys_guid(),1,'HELP','default.htm','Award Commitments Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardTimeAndMoneyHelp',sys_guid(),1,'HELP','default.htm','Award Time and Money Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardPaymentsReportsAndTermsHelp',sys_guid(),1,'HELP','default.htm','Award Payments Reports and Terms Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardSpecialReviewHelp',sys_guid(),1,'HELP','default.htm','Award Special Review Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCustomDataHelp',sys_guid(),1,'HELP','default.htm','Award Custom Data Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardQuestionsHelp',sys_guid(),1,'HELP','default.htm','Award Questions Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardPermissionsHelp',sys_guid(),1,'HELP','default.htm','Award Permissions Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardNoteAndAttachmentsHelp',sys_guid(),1,'HELP','default.htm','Award Note and Attachments Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardActionsHelp',sys_guid(),1,'HELP','default.htm','Award Actions Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardApprovedEquipmentHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Equipment Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardApprovedForeignTravelHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Foreign Travel Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardApprovedSubawardHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Subaward Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCommentHelpUrl',sys_guid(),1,'HELP','default.htm','Award Comment Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardContactHelpUrl',sys_guid(),1,'HELP','default.htm','Award Contact Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCostShareHelpUrl',sys_guid(),1,'HELP','default.htm','Award Cost Share Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCustomDataHelpUrl',sys_guid(),1,'HELP','default.htm','Award Custom Data Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardPersonCreditSplitHelpUrl',sys_guid(),1,'HELP','default.htm','Award Person Credit Split Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','CommentTypeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Comment Type Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','CostShareTypeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Cost Share Type Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardFandaRateHelpUrl',sys_guid(),1,'HELP','default.htm','Award F and A Rate Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardReportTermHelpUrl',sys_guid(),1,'HELP','default.htm','Award Report Term Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardCloseoutHelpUrl',sys_guid(),1,'HELP','default.htm','Award Report Term Help','A');	
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-AWARD','D','awardAttachmentsHelpUrl',sys_guid(),1,'HELP','default.htm','Award Attachments Help','A');		
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-T','D','timeAndMoneyHelp',sys_guid(),1,'HELP','default.htm','Time And Money Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-T','D','TransactionHelp',sys_guid(),1,'HELP','default.htm','Transaction Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-T','D','PendingTransactionHelp',sys_guid(),1,'HELP','default.htm','Pending Transaction Help','A');
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-T','D','awardHierarchyNodeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Hierarchy Help','A');	
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-T','D','awardHierarchyHelpUrl',sys_guid(),1,'HELP','default.htm','Award Hierarchy Help','A');	
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KC-GEN','D','permissionsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
+INSERT INTO krns_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Help','A');
+INSERT INTO krns_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalConstactsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Contacts Help','A');
+INSERT INTO krns_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalCustomDataHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Custom Data Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalSpecialReviewHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Special Review Help','A');
+INSERT INTO krns_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalIPReviewHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Review Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalDistributionHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Distribution Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalActionsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Actions Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalIPReviewActivityHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KC-IP','D','InstitutionalProposalUnitAdministratorHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Unit Administrator Help','A');	
+INSERT INTO krns_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES ('KC-AWARD','D','awardHelpUrl',sys_guid(),1,'HELP','default.htm','Award Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES ('KC-AWARD','D','awardHomeHelp',sys_guid(),1,'HELP','default.htm','Award Home Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardContactsHelp',sys_guid(),1,'HELP','default.htm','Award Contacts Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardCommitmentsHelp',sys_guid(),1,'HELP','default.htm','Award Commitments Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardTimeAndMoneyHelp',sys_guid(),1,'HELP','default.htm','Award Time and Money Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardPaymentsReportsAndTermsHelp',sys_guid(),1,'HELP','default.htm','Award Payments Reports and Terms Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardSpecialReviewHelp',sys_guid(),1,'HELP','default.htm','Award Special Review Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardCustomDataHelp',sys_guid(),1,'HELP','default.htm','Award Custom Data Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardQuestionsHelp',sys_guid(),1,'HELP','default.htm','Award Questions Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES ('KC-AWARD','D','awardPermissionsHelp',sys_guid(),1,'HELP','default.htm','Award Permissions Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardNoteAndAttachmentsHelp',sys_guid(),1,'HELP','default.htm','Award Note and Attachments Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardActionsHelp',sys_guid(),1,'HELP','default.htm','Award Actions Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardApprovedEquipmentHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Equipment Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardApprovedForeignTravelHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Foreign Travel Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardApprovedSubawardHelpUrl',sys_guid(),1,'HELP','default.htm','Award Approved Subaward Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardCommentHelpUrl',sys_guid(),1,'HELP','default.htm','Award Comment Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardContactHelpUrl',sys_guid(),1,'HELP','default.htm','Award Contact Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardCostShareHelpUrl',sys_guid(),1,'HELP','default.htm','Award Cost Share Help','A');
+INSERT INTO krns_PARM_T 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES ('KC-AWARD','D','awardCustomDataHelpUrl',sys_guid(),1,'HELP','default.htm','Award Custom Data Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardPersonCreditSplitHelpUrl',sys_guid(),1,'HELP','default.htm','Award Person Credit Split Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','CommentTypeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Comment Type Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','CostShareTypeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Cost Share Type Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardFandaRateHelpUrl',sys_guid(),1,'HELP','default.htm','Award F and A Rate Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardReportTermHelpUrl',sys_guid(),1,'HELP','default.htm','Award Report Term Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardCloseoutHelpUrl',sys_guid(),1,'HELP','default.htm','Award Report Term Help','A');	
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-AWARD','D','awardAttachmentsHelpUrl',sys_guid(),1,'HELP','default.htm','Award Attachments Help','A');		
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-T','D','timeAndMoneyHelp',sys_guid(),1,'HELP','default.htm','Time And Money Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-T','D','TransactionHelp',sys_guid(),1,'HELP','default.htm','Transaction Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-T','D','PendingTransactionHelp',sys_guid(),1,'HELP','default.htm','Pending Transaction Help','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-T','D','awardHierarchyNodeHelpUrl',sys_guid(),1,'HELP','default.htm','Award Hierarchy Help','A');	
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-T','D','awardHierarchyHelpUrl',sys_guid(),1,'HELP','default.htm','Award Hierarchy Help','A');	
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+	VALUES 	('KC-GEN','D','permissionsHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
 
-insert into KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','A','SCHOOL_NAME','CONFG','Kuali Coeus','School Name','A');
-insert into KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','A','SCHOOL_ACRONYM','CONFG','KC','School acronym','A');
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','A','SCHOOL_NAME','CONFG','Kuali Coeus','School Name','A');
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','A','SCHOOL_ACRONYM','CONFG','KC','School acronym','A');
 
-insert into KRNS_PARM_T
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','A','ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST','CONFG','2143','obligated direct indirect cost','A');
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','A','ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST','CONFG','2143','obligated direct indirect cost','A');
 
-insert into KRNS_PARM_T
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A');	
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A');	
 
-insert into krns_parm_t
-    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd)
-    VALUES
-    ('KC-GEN', 'A', 'sponsorLevelHierarchy', '5183FC8FA0B11606E0404F8189D8140F', 1, 'HELP', 'NIH', 'Sponsor Level Hierarchy', 'A');
+insert into krns_parm_t    (nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd)
+VALUES    ('KC-GEN', 'A', 'sponsorLevelHierarchy', '5183FC8FA0B11606E0404F8189D8140F', 1, 'HELP', 'NIH', 'Sponsor Level Hierarchy', 'A');
     
-insert into KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','D','s2sschedulercronExpressionstarttime','CONFG','01-JAN-2010 00:00 AM','Starttime for s2s scheduler cron job to start','A');
-
-insert into KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
-	values 
-	('KRA-PD','D','PI_CITIZENSHIP_FROM_CUSTOM_DATA','CONFG','01-JAN-2010 00:00 AM','It defines where the citizenship info should fetch from','A');
-	
-INSERT INTO krns_PARM_T 
-	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
-	VALUES 
-	('KRA-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD',sys_guid(),1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','D','s2sschedulercronExpressionstarttime','CONFG','01-JAN-2010 00:00 AM','Starttime for s2s scheduler cron job to start','A');
+insert into KRNS_PARM_T	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) 
+values 	('KRA-PD','D','PI_CITIZENSHIP_FROM_CUSTOM_DATA','CONFG','01-JAN-2010 00:00 AM','It defines where the citizenship info should fetch from','A');
+INSERT INTO krns_PARM_T	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
+VALUES ('KRA-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD',sys_guid(),1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
 
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-IDM','EntityNameImpl','PREFIXES','61645D045B0105D7E0404F8189D849B1',1,'CONFG','Ms;Mrs;Mr;Dr',null,'A','KUALI');
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-IDM','EntityNameImpl','SUFFIXES','61645D045B0205D7E0404F8189D849B1',1,'CONFG','Jr;Sr;Mr;Md',null,'A','KUALI');
