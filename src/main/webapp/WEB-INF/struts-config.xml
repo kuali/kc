@@ -34,6 +34,7 @@
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
+        <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -296,6 +297,10 @@
       <action path="/questionnaire" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" type="org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" />
 	    &protocol_forwards;
+      </action>
+      
+      <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" />
       </action>
       <!--  KRA IRB Mapping END -->
       
