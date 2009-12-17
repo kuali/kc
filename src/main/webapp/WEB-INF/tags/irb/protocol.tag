@@ -38,7 +38,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocolList[0].title" attributeEntry="${protocolAttributes.title}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.title.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.title.label}" />
                 </td>
             </tr>
 <%--             
@@ -46,7 +46,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.description}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
                 </td>
             </tr>
  --%>            

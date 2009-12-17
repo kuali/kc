@@ -48,7 +48,7 @@
 					<td align="left" valign="middle">					
 		    		<div align="center">
 		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
-                    	<kra:expandedTextArea textAreaFieldName="awardAmountTransactionAttributes.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
+                    	<kul:expandedTextArea textAreaFieldName="awardAmountTransactionAttributes.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
 					</div>
 					</td>
     			</c:when>
@@ -66,7 +66,7 @@
 					<td align="left" valign="middle">					
 		    		<div align="center">
 		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
-                    	<kra:expandedTextArea textAreaFieldName="document.newAwardAmountTransaction.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
+                    	<kul:expandedTextArea textAreaFieldName="document.newAwardAmountTransaction.comments" action="timeAndMoney" textAreaLabel="${awardAmountTransactionAttributes.comments.label}" />
 					</div>
 					</td>    			
     			</c:otherwise>

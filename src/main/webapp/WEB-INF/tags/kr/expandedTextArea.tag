@@ -21,6 +21,7 @@
 <%@ attribute name="formKey" required="false" %>
 <%@ attribute name="sessionDocument" required="false" %>
 <%@ attribute name="title" required="false" %>
+<%@ attribute name="readOnly" required="false" %>
 
 <c:if test="${empty formKey}">
   <c:set var="formKey" value="88888888" />
@@ -34,11 +35,23 @@
            alt="Expand Text Area">
     </c:when>
     <c:otherwise>
-       <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))"
-                   src='${ConfigProperties.kr.externalizable.images.url}pencil_add.png'
-                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${formKey});return false"
+	    <c:choose>
+	    	<c:when test="${readOnly}">
+	           <c:set var="srcImage" value="${ConfigProperties.kr.externalizable.images.url}openreadonly_greenarrow01.png"/>
+	           <c:set var="altMsg" value="View Text"/>
+	    	</c:when>
+	    	<c:otherwise>
+	           <c:set var="readOnly" value="false" />
+	           <c:set var="srcImage" value="${ConfigProperties.kr.externalizable.images.url}pencil_add.png"/>
+	           <c:set var="altMsg" value="Expand Text Area"/>
+	   		</c:otherwise>
+	  	</c:choose>
+    
+       <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}:${readOnly}#))"
+                   src="${srcImage}"
+                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}','${formKey}','${readOnly}');return false"
                    styleClass="tinybutton"
                    title="${title}"
-                   alt="Expanded Text Area"/>
+                   alt="${altMsg}"/>
     </c:otherwise>
   </c:choose>

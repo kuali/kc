@@ -64,7 +64,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.newRiskLevel.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                     
@@ -105,7 +105,7 @@
                         <td>
                             <nobr>
                                 <kul:htmlControlAttribute property="${riskLevelPath}.comments" attributeEntry="${attributes.comments}" />
-                                <kra:expandedTextArea textAreaFieldName="${riskLevelPath}.comments" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                                <kul:expandedTextArea textAreaFieldName="${riskLevelPath}.comments" action="${action}" textAreaLabel="${attributes.comments.label}" />
                             </nobr>
                         </td>
                     

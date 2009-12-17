@@ -59,7 +59,6 @@
 <!-- Rice content End -->
        	
        	<forward name="closePage" path="/EmptyClosePage.html" />
-       	<forward name="kraUpdateTextArea" path="/TextArea.jsp" />
        	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
     </global-forwards>
 
@@ -119,13 +118,6 @@
           <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
           <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
       </action>
-      
-		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
-            <forward name="basic" path="/TextArea.jsp" />
-        </action>
-		<action path="/kraMaintUpdateTextArea" name="KualiForm" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
-            <forward name="basic" path="/TextArea.jsp" />
-        </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
             <forward name="basic" path="/unitHierarchy.jsp" />
@@ -326,9 +318,6 @@
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting.jsp" />
             <forward name="meetingAction" path="/WEB-INF/jsp/meeting/meetingAction.jsp" />
      </action>
-		<action path="/meetingUpdateTextArea" name="KualiForm" type="org.kuali.kra.meeting.MeetingAction">
-            <forward name="basic" path="/TextArea.jsp" />
-        </action>
 
     </action-mappings>
 

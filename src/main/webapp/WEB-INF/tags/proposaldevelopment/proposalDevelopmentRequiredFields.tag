@@ -88,7 +88,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.title}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].title" attributeEntry="${proposalDevelopmentAttributes.title}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.title.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.title.label}" />
                 </td>
             </tr>
         </table>

@@ -23,7 +23,7 @@
                             styleClass=""
                            onkeyup="textLimit(this, ${answerLength});" />
                     
-                    <kra:expandedTextArea textAreaFieldName="${questionFieldName}" 
+                    <kul:expandedTextArea textAreaFieldName="${questionFieldName}" 
                       action="questionnaire" textAreaLabel="Question Answer" />
 
                             </c:when>

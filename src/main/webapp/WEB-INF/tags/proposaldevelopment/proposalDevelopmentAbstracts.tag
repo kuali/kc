@@ -64,7 +64,7 @@
 				
                 <td align="left">
                 	<kul:htmlControlAttribute property="newProposalAbstract.abstractDetails" attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 </td>
  
 				<td>
@@ -96,7 +96,7 @@
 	             		<div align="left">
 					        <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].abstractDetails" 
 					          					      attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-                    		<kra:expandedTextArea textAreaFieldName="document.developmentProposalList[0].proposalAbstract[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
+                    		<kul:expandedTextArea textAreaFieldName="document.developmentProposalList[0].proposalAbstract[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 		</div>
                 	</td>
                 	

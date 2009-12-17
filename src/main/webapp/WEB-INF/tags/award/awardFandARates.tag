@@ -201,7 +201,7 @@
 	        			<td class="infoline" colspan="10">
 	            	 		<div align="left">
 	            	  	 		<kul:htmlControlAttribute property="document.award.awardFandaRateComment.comments" attributeEntry="${awardFandaRateCommentAttributes.comments}"/>
-	            	  	 		<kra:expandedTextArea textAreaFieldName="document.award.awardFandaRateComment.comments" action="${action}" textAreaLabel="${awardFandaRateCommentAttributes.comments.label}" />
+	            	  	 		<kul:expandedTextArea textAreaFieldName="document.award.awardFandaRateComment.comments" action="${action}" textAreaLabel="${awardFandaRateCommentAttributes.comments.label}" />
 	            	 		</div>
 	            		</td>            
 	        		</tr>
@@ -241,7 +241,7 @@
 		    		<td class="infoline" colspan="10">
 		        	 	<div align="left">
 		        	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardBenefitsRateComment.comments" attributeEntry="${awardBenefitsRateCommentAttributes.comments}"/>
-		        	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardBenefitsRateComment.comments" action="${action}" textAreaLabel="${awardBenefitsRateCommentAttributes.comments.label}" />
+		        	  	 	<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardBenefitsRateComment.comments" action="${action}" textAreaLabel="${awardBenefitsRateCommentAttributes.comments.label}" />
 		        	 	</div>
 		        	</td>            
 		    	</tr>

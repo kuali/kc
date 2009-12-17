@@ -46,7 +46,7 @@
         	 	<td class="infoline">
             	 	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	 <kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	 <kul:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
@@ -83,7 +83,7 @@
         	 	<td class="infoline">
             	 	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>

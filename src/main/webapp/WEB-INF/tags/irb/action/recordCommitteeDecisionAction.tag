@@ -76,7 +76,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.committeeDecision.votingComments" attributeEntry="${attributes.votingComments}" />
-                            <kra:expandedTextArea textAreaFieldName="${votingComments}" action="${action}" textAreaLabel="${attributes.votingComments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${votingComments}" action="${action}" textAreaLabel="${attributes.votingComments.label}" />
                         </nobr>
                     </td>
                    

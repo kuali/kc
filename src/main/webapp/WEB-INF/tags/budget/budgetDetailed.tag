@@ -129,7 +129,7 @@
 					<td valign="middle" class="darkInfoline">
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" />
-	                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />                	
+	                	<kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />                	
 	                	</div>
 					</td>
 	                <td valign="middle" class="darkInfoline">

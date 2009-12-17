@@ -321,36 +321,6 @@ function selectAllKeywords(document, keywordsArray) {
 	}
 }
 
-function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument, viewOnly){
-	  var documentWebScope
-	  if (sessionDocument == "true") {
-	      documentWebScope="session"
-	  }
-	  url=window.location.href
-	  pathname=window.location.pathname
-	  idx1=url.indexOf(pathname);
-	  idx2=url.indexOf("/",idx1+1);
-	  extractUrl=url.substr(0,idx2)
-	  if (htmlFormAction == 'maintenance') {
-	      window.open(extractUrl+"/kraMaintUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
-	  } else if (htmlFormAction == 'meetingManagement') {
-	      window.open(extractUrl+"/meetingUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
-	  } else {   
-	      window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&popupViewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
-	  }
-	}
-
-var kraTextAreaFieldName
-function kraSetTextArea() {
-  passData=document.location.search.substring(1);
-  var idx=passData.indexOf("&textAreaFieldName=")
-  var idx2=passData.indexOf("&htmlFormAction=")
-  kraTextAreaFieldName=passData.substring(idx+19,idx2)
-  text = window.opener.document.getElementById(kraTextAreaFieldName).value;
-  document.getElementById(kraTextAreaFieldName).value = text;
-  
-}
-
 function viewCommentPop(fieldName,label){
   url=window.location.href
   pathname=window.location.pathname
@@ -369,11 +339,6 @@ function setComment() {
   document.getElementById(fieldName).value = text;
   
 
-}
-
-function kraPostValueToParentWindow() {
-  opener.document.getElementById(kraTextAreaFieldName).value = document.getElementById(kraTextAreaFieldName).value;
-  self.close();
 }
 
 // dwr functions

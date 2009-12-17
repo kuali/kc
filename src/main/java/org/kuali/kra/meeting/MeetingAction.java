@@ -213,67 +213,6 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is for updatetextarea tag. Since meeting management is not a trx doc, so it has to implement this method here.
-     * this is copied from KraTransactionalDocumentActionBase
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
-    public ActionForward kraUpdateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
-
-        // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-
-        // parse textfieldname:htmlformaction
-        String parameterFields = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
-                KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
-        debug("fullParameter: ", fullParameter);
-        debug("parameterFields: ", parameterFields);
-        String[] keyValue = null;
-        if (StringUtils.isNotBlank(parameterFields)) {
-            String[] textAreaParams = parameterFields.split(KNSConstants.FIELD_CONVERSIONS_SEPARATOR);
-            debug("lookupParams: ", textAreaParams);
-            for (int i = 0; i < textAreaParams.length; i++) {
-                keyValue = textAreaParams[i].split(KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
-
-                debug("keyValue[0]: ", keyValue[0]);
-                debug("keyValue[1]: ", keyValue[1]);
-            }
-        }
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION, keyValue[1]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL, keyValue[2]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.VIEW_ONLY, keyValue[3]);
-        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR, ((KualiForm) form).getAnchor());
-        }
-
-        return mapping.findForward("kraUpdateTextArea");
-
-    }
-
-    /**
-     * 
-     * This method to post text area if js is disabled. this is also for updatetextarea tag. this is copied from
-     * KraTransactionalDocumentActionBase
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
-    public ActionForward kraPostTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * 
      * This method is to add the new other action to other action list. Other action is committee schedule act item.
      * 
      * @param mapping

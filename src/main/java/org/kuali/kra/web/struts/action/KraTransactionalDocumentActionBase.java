@@ -171,46 +171,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return super.headerTab(mapping, form, request, response);
     }
 
-
-    public ActionForward kraUpdateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
-
-        // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-
-        // parse textfieldname:htmlformaction
-        String parameterFields = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
-                KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
-        debug("fullParameter: ", fullParameter);
-        debug("parameterFields: ", parameterFields);
-        String[] keyValue = null;
-        if (StringUtils.isNotBlank(parameterFields)) {
-            String[] textAreaParams = parameterFields.split(KNSConstants.FIELD_CONVERSIONS_SEPARATOR);
-            debug("lookupParams: ", textAreaParams);
-            for (int i = 0; i < textAreaParams.length; i++) {
-                keyValue = textAreaParams[i].split(KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
-                
-                debug("keyValue[0]: ", keyValue[0]);
-                debug("keyValue[1]: ", keyValue[1]);
-            }
-        }
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION, keyValue[1]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL, keyValue[2]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.POPUP_VIEW_ONLY, keyValue[3]);
-        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR, ((KualiForm) form).getAnchor());
-        }
-
-        return mapping.findForward("kraUpdateTextArea");
-
-    }
-
-    public ActionForward kraPostTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
-        return mapping.findForward("basic");
-    }
-
     /**
      * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required.
      * <br/> <br/> A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods

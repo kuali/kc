@@ -77,7 +77,7 @@
 				<td width="25%" valign="middle" >
 					<div align=center>
                		<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
-               		<kra:expandedTextArea textAreaFieldName="${textAreaFieldNameLineItemDescription}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />
+               		<kul:expandedTextArea textAreaFieldName="${textAreaFieldNameLineItemDescription}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}/>
 					</div>
 				</td>
                 <td width="6%" valign="middle" >

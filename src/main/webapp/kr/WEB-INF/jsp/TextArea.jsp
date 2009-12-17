@@ -85,6 +85,10 @@ if (textAreaFieldLabel == null) {
 	<c:set var="textAreaFieldAnchor"
 		value="<%=request.getParameter(KualiAction.TEXT_AREA_FIELD_ANCHOR)%>" />
 </c:if>
+<c:if test="${empty textAreaReadOnly}">
+	<c:set var="textAreaReadOnly"
+		value="<%=request.getParameter(KualiAction.TEXT_AREA_READ_ONLY)%>" />
+</c:if>
 
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
@@ -94,8 +98,19 @@ if (textAreaFieldLabel == null) {
 		<tr>
 			<td>
 			  <div>
-			    <kul:htmlControlAttribute property="${textAreaFieldName}"
-				                          attributeEntry="${textAreaAttributes.extendedTextArea}" />
+			    <c:set var="attributeEntry" value="${textAreaAttributes.extendedTextArea}"/>
+			    <c:choose>
+			    	<c:when test="${textAreaReadOnly == 'true'}" >
+		            	<html:textarea property="${textAreaFieldName}" tabindex="0" 
+		                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
+		                           styleId="${textAreaFieldName}" 
+		                           readonly="true"/> 
+			    	</c:when>
+			    	<c:otherwise>
+			    		<kul:htmlControlAttribute property="${textAreaFieldName}"
+				                          attributeEntry="${attributeEntry}" />
+					</c:otherwise>
+				</c:choose>
 			  </div>
 			</td>
 		</tr>
@@ -103,11 +118,21 @@ if (textAreaFieldLabel == null) {
 		<tr>
 			<td>
 			  <div id="globalbuttons" class="globalbuttons">
-				<html:image
-					property="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
-					onclick="javascript:postValueToParentWindow();return false"
-					src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
-					styleClass="globalbuttons" title="return" alt="return" />
+			  	<c:choose>
+				    <c:when test="${textAreaReadOnly == 'true'}">
+						<html:image
+							onclick="javascript:window.close();"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+							styleClass="globalbuttons" title="close" alt="close" />
+					</c:when>
+					<c:otherwise>
+						<html:image
+							property="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
+							onclick="javascript:postValueToParentWindow();return false"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
+							styleClass="globalbuttons" title="return" alt="return" />
+					</c:otherwise>
+				</c:choose>	
 			  </div>
 			</td>
 		</tr>

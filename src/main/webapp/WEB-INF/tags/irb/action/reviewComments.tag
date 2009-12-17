@@ -59,7 +59,7 @@
                             <c:when test="${empty bean.newComment.protocolContingencyCode}">
                                 <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
                                                           attributeEntry="${minutesAttributes.minuteEntry}" />
-                               <kra:expandedTextArea textAreaFieldName="${property}.newComment.minuteEntry" 
+                               <kul:expandedTextArea textAreaFieldName="${property}.newComment.minuteEntry" 
                                                      action="${action}"
                                                      textAreaLabel="${minutesAttributes.minuteEntry.label}" />
                             </c:when>
@@ -99,7 +99,7 @@
                                 <td>
                                     <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
                                                               attributeEntry="${minutesAttributes.minuteEntry}" />
-                                    <kra:expandedTextArea textAreaFieldName="${property}.comments[${status.index}].minuteEntry"
+                                    <kul:expandedTextArea textAreaFieldName="${property}.comments[${status.index}].minuteEntry"
                                                           action="${action}"
                                                           textAreaLabel="${minutesAttributes.minuteEntry.label}" />
                                 </td>
