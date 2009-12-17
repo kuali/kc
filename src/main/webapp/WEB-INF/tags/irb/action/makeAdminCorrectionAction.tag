@@ -34,7 +34,7 @@
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolAdminCorrectionBean.comments" attributeEntry="${attributes.comments}" />
-                        <kra:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>

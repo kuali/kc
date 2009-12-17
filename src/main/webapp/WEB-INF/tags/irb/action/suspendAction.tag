@@ -39,7 +39,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolSuspendBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textSuspendComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${textSuspendComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>

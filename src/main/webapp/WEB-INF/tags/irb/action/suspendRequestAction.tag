@@ -64,7 +64,7 @@
                     <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolSuspendRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        <kra:expandedTextArea textAreaFieldName="${textSuspendReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textSuspendReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

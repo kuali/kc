@@ -103,7 +103,7 @@
 		         <th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.comments}" noColon="false" /></th>
 		         <td align="left" valign="middle">
 					<kul:htmlControlAttribute property="newProposalChangedData.comments" attributeEntry="${proposalChangedDataAttributes.comments}" />
-			      	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalChangedDataAttributes.comments.label}" />
+			      	<kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalChangedDataAttributes.comments.label}" />
 				</td>
 		    </tr>
 			<tr>

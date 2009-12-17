@@ -94,7 +94,7 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                 	<kul:htmlControlAttribute property="newSpecialReview.comments" attributeEntry="${awardSpecialReviewAttributes.comments}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
                 </div>
                 </td>
 				<td class="infoline">
@@ -153,7 +153,7 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.award.specialReview[${status.index}].comments" attributeEntry="${awardSpecialReviewAttributes.comments}" />
-                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
 	                
 	                </div>
 	                </td>

@@ -55,7 +55,7 @@
 	            <td width="1000" class="infoline">
 	            	<div align="left">
             	    	<kul:htmlControlAttribute property="awardNotepadBean.newAwardNotepad.comments" attributeEntry="${awardNotesAttributes.comments}"/>
-            	    	<kra:expandedTextArea textAreaFieldName="awardNotepadBean.newAwardNotepad.comments" action="awardHome" textAreaLabel="${awardNotesAttributes.comments.label}" />
+            	    	<kul:expandedTextArea textAreaFieldName="awardNotepadBean.newAwardNotepad.comments" action="awardHome" textAreaLabel="${awardNotesAttributes.comments.label}" />
             	    	
             	  	</div>
 	            </td>

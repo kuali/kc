@@ -54,7 +54,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textGrantExemptionComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${textGrantExemptionComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>

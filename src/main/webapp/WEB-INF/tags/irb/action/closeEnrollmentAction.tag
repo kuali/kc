@@ -39,7 +39,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textCloseComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${textCloseComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>

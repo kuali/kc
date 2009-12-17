@@ -101,7 +101,7 @@
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailDescription}"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.institutionalProposal.mailDescription" attributeEntry="${institutionalProposalAttributes.mailDescription}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${institutionalProposalAttributes.mailDescription.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${institutionalProposalAttributes.mailDescription.label}" />
                 </td>
             </tr>
         </table>
