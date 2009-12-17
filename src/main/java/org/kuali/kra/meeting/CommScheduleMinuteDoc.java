@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
@@ -49,7 +50,11 @@ public class CommScheduleMinuteDoc extends KraPersistableBusinessObjectBase {
     private String minuteName; 
     @Column(name="PDF_STORE")
     private byte[] pdfStore; 
-    
+    private Timestamp createTimestamp;
+    @Column(name="CREATE_TIMESTAMP")
+    private String createUser;
+    @Column(name="CREATE_USER")
+
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
@@ -119,6 +124,22 @@ public class CommScheduleMinuteDoc extends KraPersistableBusinessObjectBase {
 
     public void setScheduleIdFk(Long scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
     
 }
