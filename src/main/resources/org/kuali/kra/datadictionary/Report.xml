@@ -50,13 +50,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Report Code" />
 		<property name="shortLabel" value="Report Code" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="3" />
 		</property>
 		<property name="summary" value="Report Code" />
 		<property name="description" value="Report Code" />
@@ -70,11 +70,12 @@
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+			
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+			<bean parent="TextareaControlDefinition"
+				p:size="200" />
 		</property>
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
