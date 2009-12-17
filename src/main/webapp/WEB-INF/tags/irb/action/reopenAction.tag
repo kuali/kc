@@ -39,7 +39,7 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolReopenBean.comments" attributeEntry="${attributes.comments}" />
-                            <kra:expandedTextArea textAreaFieldName="${textReopenComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
+                            <kul:expandedTextArea textAreaFieldName="${textReopenComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>

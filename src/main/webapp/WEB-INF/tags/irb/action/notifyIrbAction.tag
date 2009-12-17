@@ -74,7 +74,7 @@
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.comment" attributeEntry="${attributes.comment}" />
-                        <kra:expandedTextArea textAreaFieldName="${textComment}" action="${action}" textAreaLabel="${attributes.comment.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textComment}" action="${action}" textAreaLabel="${attributes.comment.label}" />
                         </nobr>
                     </td>
                 </tr>

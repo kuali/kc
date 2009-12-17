@@ -36,7 +36,7 @@
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolWithdrawBean.reason" attributeEntry="${attributes.reason}" />
-                        <kra:expandedTextArea textAreaFieldName="${textWithdrawReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textWithdrawReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

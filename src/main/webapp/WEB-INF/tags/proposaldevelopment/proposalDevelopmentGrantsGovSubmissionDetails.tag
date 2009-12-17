@@ -100,8 +100,8 @@
 						<td>
 							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].comments" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.comments}" readOnly="true"/>
-							<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" 
-                                                  textAreaLabel="${s2sAppSubmissionAttributes.comments.description}" />
+							<kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" 
+                                                  textAreaLabel="${s2sAppSubmissionAttributes.comments.description}" readOnly="true"/>
 						</td>
 					</tr>
 

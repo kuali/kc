@@ -432,6 +432,7 @@
 	<html:hidden property="docFormKey" value="${KualiForm.formKey}" />
     <html:hidden property="docNum" value="${KualiForm.document.documentNumber}" />
 </c:if>
+<kul:editablePropertiesGuid />
 
 </html:form>
 <div id="formComplete"></div>

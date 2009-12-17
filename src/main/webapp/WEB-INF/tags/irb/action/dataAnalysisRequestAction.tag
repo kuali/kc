@@ -64,7 +64,7 @@
                     <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolDataAnalysisRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        <kra:expandedTextArea textAreaFieldName="${textReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

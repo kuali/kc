@@ -73,11 +73,9 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.contactNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.contactNotes}" 
                                                           readOnly="${readOnly}" />
-                                <c:if test="${!readOnly}">
-                                    <kra:expandedTextArea textAreaFieldName="${committeeMembership}.contactNotes" 
-                                                          action="${action}" 
-                                                          textAreaLabel="${committeeMembershipAttributes.contactNotes.label}" />
-                                </c:if>
+                                <kul:expandedTextArea textAreaFieldName="${committeeMembership}.contactNotes" 
+                                                      action="${action}" 
+                                                      textAreaLabel="${committeeMembershipAttributes.contactNotes.label}" readOnly="${readOnly}"/>
                             </td>
                             <th>
                                 <div align="right">
@@ -88,11 +86,9 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.trainingNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.trainingNotes}"
                                                           readOnly="${readOnly}" />
-                                <c:if test="${!readOnly}">
-                                    <kra:expandedTextArea textAreaFieldName="${committeeMembership}.trainingNotes" 
-                                                          action="${action}"
-                                                          textAreaLabel="${committeeMembershipAttributes.trainingNotes.label}" />
-                                </c:if>
+                                <kul:expandedTextArea textAreaFieldName="${committeeMembership}.trainingNotes" 
+                                                      action="${action}"
+                                                      textAreaLabel="${committeeMembershipAttributes.trainingNotes.label}" readOnly="${readOnly}"/>
                             </td>
                         </tr>
                     </table>

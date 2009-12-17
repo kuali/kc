@@ -88,7 +88,7 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
                 </div>
                 </td>
 				<td class="infoline">
@@ -139,7 +139,7 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
-                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
 	                
 	                </div>
 	                </td>

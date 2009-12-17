@@ -131,7 +131,7 @@
                 <td align="left" valign="middle" colspan="3">
                     <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.comments" 
                                               attributeEntry="${committeeScheduleAttribute.comments}" /> 
-                    <kra:expandedTextArea textAreaFieldName="meetingHelper.committeeSchedule.comments" action="meetingManagement" textAreaLabel="${committeeScheduleAttribute.comments.label}" />
+                    <kul:expandedTextArea textAreaFieldName="meetingHelper.committeeSchedule.comments" action="meetingManagement" textAreaLabel="${committeeScheduleAttribute.comments.label}" />
                 </td>
             </tr>
         </table>

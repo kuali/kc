@@ -31,7 +31,7 @@
        			<td class="infoline" colspan="10">
            	 		<div align="left">
            	  	 		<kul:htmlControlAttribute property="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" attributeEntry="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments}"/>
-           	  	 		<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" action="${action}" textAreaLabel="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments.label}" />
+           	  	 		<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" action="${action}" textAreaLabel="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments.label}" />
            	 		</div>
            		</td>            
        		</tr>

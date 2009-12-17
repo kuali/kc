@@ -37,7 +37,7 @@
         <td style="border:none; vertical-align:bottom; background-image: inherit; background-position: center bottom;">
             <div align="right" style="background-image: inherit; background-position: center bottom;">
                 <c:if test="${fn:length(textValue) > displaySize}">
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${textAreaLabel}"  viewOnly="true" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${textAreaLabel}"  readOnly="true" />
                 </c:if>
             </div>
         </td>

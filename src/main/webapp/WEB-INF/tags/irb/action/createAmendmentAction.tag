@@ -36,7 +36,7 @@
                     <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.summary" attributeEntry="${attributes.summary}" />
-                        <kra:expandedTextArea textAreaFieldName="${textSummary}" action="${action}" textAreaLabel="${attributes.summary.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textSummary}" action="${action}" textAreaLabel="${attributes.summary.label}" />
                         </nobr>
                     </td>
                 </tr>

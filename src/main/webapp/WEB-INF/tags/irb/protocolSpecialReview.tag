@@ -99,7 +99,7 @@
                 <div align="center">
                     <nobr>
                 	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" />
                     </nobr>
                 </div>
                 </td>
@@ -175,9 +175,7 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-                        <c:if test="${!readOnly}">
-                            <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" />
-	                    </c:if>
+                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" readOnly="${readOnly}"/>
 	                </div>
 	                </td>
 					<td>
