@@ -320,13 +320,13 @@ Values ('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys
 -- krew
 --INSERT INTO KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
 --VALUES('KR-WKFLW', '5E1D690C419B3E2EE0404F8189D82677', 0, 'Workflow', 'Y', NULL);
-INSERT INTO KRNS_PARM_DTL_TYP_T(NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND)
-  VALUES('KR-WKFLW', 'DocumentSearch', '18695E69ED0D4FBE8B084FCA8066D21C', 1, 'Document Search ', 'Y');
+INSERT INTO KRNS_PARM_DTL_TYP_T(NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) 
+ VALUES ('KR-WKFLW', 'DocumentSearch', '18695E69ED0D4FBE8B084FCA8066D21C', 1, 'Document Search ', 'Y');
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID,     VER_NBR,  PARM_TYP_CD,  TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD',    'D',             'award.creditsplit.enabled',    sys_guid(),    1,     'CONFG',         'Y',    'Determines whether the Credit Split is turned on for Award',    'A');
+VALUES ('KC-AWARD', 'D', 'award.creditsplit.enabled',    sys_guid(),    1,     'CONFG',         'Y',    'Determines whether the Credit Split is turned on for Award',    'A');
   
-Insert into KRNS_PARM_T nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
  Values ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', sys_guid(), 1, 'CONFG', '2', 'Value for Proposal Contact Type', 'A');
    
 Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
