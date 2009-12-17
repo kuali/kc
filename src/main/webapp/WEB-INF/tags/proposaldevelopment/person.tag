@@ -32,7 +32,7 @@
 		  </c:if>
 
           <!-- TAB -->
-            <div id="workarea">
+            <div>
             <div class="tab-container" align="center" id="G100">
               <h3>
                   <span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span>
