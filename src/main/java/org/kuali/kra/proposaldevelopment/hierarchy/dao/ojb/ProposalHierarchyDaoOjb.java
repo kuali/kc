@@ -34,6 +34,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.BudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.DeadlineType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -52,6 +53,7 @@ import org.kuali.rice.kns.util.OjbCollectionAware;
 public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProposalHierarchyDao {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+        
     public static String[] HIERARCHY_PROPOSAL_ATTRIBUTES = {
         "proposalDocument.documentNumber",
         "requestedStartDateInitial",
@@ -100,6 +102,22 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao#getProposalSummary(java.lang.String)
      */
     public HierarchyProposalSummary getProposalSummary(String proposalNumber) {
+        HierarchyProposalSummary retval = new HierarchyProposalSummary();
+        
+        HashMap<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("proposalNumber", proposalNumber);
+        ProposalBudgetStatus proposalBudgetStatus = (ProposalBudgetStatus)businessObjectService.findByPrimaryKey(ProposalBudgetStatus.class, primaryKeys);
+        String budgetStatusCode = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        if (proposalBudgetStatus != null) {
+            budgetStatusCode = proposalBudgetStatus.getBudgetStatusCode();
+        }
+        primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("budgetStatusCode", budgetStatusCode);
+        BudgetStatus budgetStatus = (BudgetStatus)businessObjectService.findByPrimaryKey(BudgetStatus.class, primaryKeys);
+        String budgetStatusLabel = "?";
+        if (budgetStatus != null) {
+            budgetStatusLabel = budgetStatus.getDescription();
+        }
         
         Criteria crit = new Criteria();
         crit.addEqualTo("proposalNumber", proposalNumber);
@@ -109,7 +127,6 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Object[] result = (Object[])iter.next();
-        HierarchyProposalSummary retval = new HierarchyProposalSummary();
         retval.setProposalNumber(proposalNumber);
         retval.setRequestedStartDateInitial((Date)result[1]);
         retval.setRequestedEndDateInitial((Date)result[2]);
@@ -137,7 +154,8 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         retval.setAgencyProgramCode((String)result[21]);
         retval.setBudgetVersionOverviews(getBudgetVersionOverviews(result[0].toString()));
         
-        retval.setBudget("Incomplete");
+        retval.setBudget(budgetStatusLabel);
+        /*
         for (BudgetVersionOverview budget : retval.getBudgetVersionOverviews()) {
             if (budget.isFinalVersionFlag()) {
                 String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class,
@@ -151,8 +169,11 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 break;
             }
         }
-        
+        */
         populatePersonnel(retval, proposalNumber);
+        
+        // TODO add a lookup
+        retval.setIncompleteBudgetLabel("Incomplete");
         
         return retval;
     }
