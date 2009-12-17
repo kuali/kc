@@ -316,7 +316,7 @@ VALUES ( SEQ_SPONSOR_TERM.nextval,6, 15, 'Education Department General Administr
 INSERT INTO SPONSOR_TERM ( SPONSOR_TERM_ID,SPONSOR_TERM_TYPE_CODE,SPONSOR_TERM_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( SEQ_SPONSOR_TERM.nextval,6, 17, 'STTR Collaboration Agreement', sysdate, user ); 
 INSERT INTO SPONSOR_TERM ( SPONSOR_TERM_ID,SPONSOR_TERM_TYPE_CODE,SPONSOR_TERM_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( SEQ_SPONSOR_TERM.nextval,6, 9, 'ONR, "Grant General Terms and Conditions for Educational Institutions, Nonprofit Organizations, and State and Local Government" ', sysdate, user ); 
+VALUES ( SEQ_SPONSOR_TERM.nextval,6, 9, 'ONR, "Grant General Terms and Conditions for Educational Institutions, Nonprofit Organizations, and State and Local Government"', sysdate, user ); 
 INSERT INTO SPONSOR_TERM ( SPONSOR_TERM_ID,SPONSOR_TERM_TYPE_CODE,SPONSOR_TERM_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( SEQ_SPONSOR_TERM.nextval,6, 18, 'ARPA,"Grant General Terms and Conditions for Educational Institutions, Nonprofit Organizations, and State and Local Government"', sysdate, user ); 
 INSERT INTO SPONSOR_TERM ( SPONSOR_TERM_ID,SPONSOR_TERM_TYPE_CODE,SPONSOR_TERM_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
