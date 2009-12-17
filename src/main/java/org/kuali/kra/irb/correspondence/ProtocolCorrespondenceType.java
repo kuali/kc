@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.correspondence;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,6 +40,8 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
 
     @Column(name="MODULE_ID")
     private String moduleId; 
+    
+    private List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates;
     
     public ProtocolCorrespondenceType() { 
 
@@ -66,6 +69,14 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
 
     public void setModuleId(String moduleId) {
         this.moduleId = moduleId;
+    }
+    
+    public List<ProtocolCorrespondenceTemplate> getProtocolCorrespondenceTemplates() {
+        return protocolCorrespondenceTemplates;
+    }
+
+    public void setProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates) {
+        this.protocolCorrespondenceTemplates = protocolCorrespondenceTemplates;
     }
 
     /** {@inheritDoc} */
