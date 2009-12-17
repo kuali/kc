@@ -131,7 +131,7 @@
 	         		<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}"/>
-	                		<kra:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentProtocol.comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" />
+	                		<kul:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentProtocol.comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" />
 		            	</div>
 					</td>
 					<th>
@@ -142,7 +142,7 @@
 	         		<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentProtocol.description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
-	                		<kra:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentProtocol.description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" />
+	                		<kul:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentProtocol.description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" />
 		            	</div>
 					</td>
 	         	</tr>
@@ -268,7 +268,7 @@
 			         		<td align="left" valign="middle">
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}" readOnly="${!modify}"/>
-			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" viewOnly="${!modify}"/>
+			                		<kul:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" readOnly="${!modify}"/>
 				            	</div>
 							</td>
 							<th>
@@ -279,7 +279,7 @@
 			         		<td align="left" valign="middle">
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" attributeEntry="${protocolAttachmentProtocolAttributes.description}" readOnly="${!modify}"/>
-			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" viewOnly="${!modify}"/>
+			                		<kul:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" readOnly="${!modify}"/>
 				            	</div>
 							</td>
 			         	</tr>

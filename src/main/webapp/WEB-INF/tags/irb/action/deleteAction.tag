@@ -36,7 +36,7 @@
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolDeleteBean.reason" attributeEntry="${attributes.reason}" />
-                        <kra:expandedTextArea textAreaFieldName="${textDeleteReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
+                        <kul:expandedTextArea textAreaFieldName="${textDeleteReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

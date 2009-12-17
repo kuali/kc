@@ -21,7 +21,6 @@
 	</td>
 </c:if>
 <td class="content" valign="top">
-<mainChannel:KNSMaintenanceDocuments />
 <mainChannel:workflow />
 </td>
 <td class="content" valign="top">

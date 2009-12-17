@@ -65,9 +65,7 @@
                             <td style="border:none;">
 
 								<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
-                                <c:if test="${!readOnly}">
-                                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
-                                </c:if>
+                                <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" readOnly="${readOnly}"/>
                             </td>
                         </tr>
                     </table>
@@ -130,7 +128,7 @@
                             <tr>
                                 <td style="border:none; background:none;">
                                 	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" />
-                                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName1}" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" />
+                                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName1}" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" />
                                 </td>
                             </tr>
 

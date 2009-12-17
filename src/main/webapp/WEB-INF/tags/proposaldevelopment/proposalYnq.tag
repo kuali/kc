@@ -137,7 +137,7 @@
 					<c:set var="textAreaFieldName" value="${iproposalYnq}.explanation" />
                     <td width="15%" class="${tdClass}"><div align=left><span class="copy">
                     <kul:htmlControlAttribute property="${iproposalYnq}.explanation" attributeEntry="${explanationAttribute}" disabled="${disableExplanationRequired}" styleClass="${styleClass}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${DataDictionary.ProposalYnq.attributes.explanation.label}" disabled="${disableExplanationRequired}" />
+                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${DataDictionary.ProposalYnq.attributes.explanation.label}" readOnly="${disableExplanationRequired}" />
                       </span></div>
                         <span class="fineprint"></span> </td>
                     <td width="10%" class="${tdClass}"><div align=center><span class="copy">

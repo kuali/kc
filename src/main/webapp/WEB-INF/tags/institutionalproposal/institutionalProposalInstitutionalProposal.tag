@@ -129,7 +129,7 @@
         		<tr>
             		<td style="border:none; width:100%;">
             			<kul:htmlControlAttribute property="document.institutionalProposalList[0].title" attributeEntry="${institutionalProposalAttributes.title}" />
-                    	<kra:expandedTextArea textAreaFieldName="document.institutionalProposal.title" action="institutionalProposalHome" textAreaLabel="${institutionalProposalAttributes.title.label}" />
+                    	<kul:expandedTextArea textAreaFieldName="document.institutionalProposal.title" action="institutionalProposalHome" textAreaLabel="${institutionalProposalAttributes.title.label}" />
         			</td>
             	</tr>
         	</table>

@@ -33,7 +33,7 @@
         	<td class="infoline">
             	 <div align="left">
             	  	 <kul:htmlControlAttribute property="${docAward}.award${commentMethodName}.comments" attributeEntry="${commentAttributes.comments}"/>
-            	  	 <kra:expandedTextArea textAreaFieldName="${docAward}.award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
+            	  	 <kul:expandedTextArea textAreaFieldName="${docAward}.award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
             	  </div>	 
             </td>	     	 
             <td>	 

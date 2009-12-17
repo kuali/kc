@@ -91,7 +91,7 @@
          		<td align="left" valign="middle">
                 	<div align="left">
                 		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
-                		<kra:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentNotification.comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}" />
+                		<kul:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentNotification.comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}" />
 	            	</div>
 				</td>
          	</tr>

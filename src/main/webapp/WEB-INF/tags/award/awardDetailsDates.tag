@@ -49,7 +49,7 @@
     	<td width="1000">
     		<div align="center">
     			<kul:htmlControlAttribute property="document.awardList[0].awardCurrentActionComments.comments" attributeEntry="${awardCurrentActionCommentAttributes.comments}" />
-    			<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardCurrentActionComments.comments" action="awardHome" textAreaLabel="${awardCurrentActionCommentAttributes.comments.label}" />
+    			<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardCurrentActionComments.comments" action="awardHome" textAreaLabel="${awardCurrentActionCommentAttributes.comments.label}" />
 			</div>
 		</td>
   	</tr>
@@ -131,7 +131,7 @@
         		<tr>
             		<td style="border:none; width:100%;">
             			<kul:htmlControlAttribute property="document.awardList[0].title" attributeEntry="${awardAttributes.title}" />
-                    	<kra:expandedTextArea textAreaFieldName="document.awardList[0].title" action="awardHome" textAreaLabel="${awardAttributes.title.label}" />
+                    	<kul:expandedTextArea textAreaFieldName="document.awardList[0].title" action="awardHome" textAreaLabel="${awardAttributes.title.label}" />
         			</td>
             	</tr>
         	</table>

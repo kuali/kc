@@ -74,7 +74,7 @@
 	            <td align="left" valign="middle" width="40%">
 	               	<div align="left">
 	               	    <kul:htmlControlAttribute property="meetingHelper.otherPresentBeans[${status.index}].attendance.comments" attributeEntry="${committeeScheduleAttendanceAttributes.comments}"/>
-                        <kra:expandedTextArea textAreaFieldName="meetingHelper.otherPresentBeans[${status.index}].attendance.comments" action="meetingManagement" textAreaLabel="${committeeScheduleAttendanceAttributes.comments.label}" />
+                        <kul:expandedTextArea textAreaFieldName="meetingHelper.otherPresentBeans[${status.index}].attendance.comments" action="meetingManagement" textAreaLabel="${committeeScheduleAttendanceAttributes.comments.label}" />
 	               	</div>
 				</td>
                 <c:if test="${!readOnly}">
