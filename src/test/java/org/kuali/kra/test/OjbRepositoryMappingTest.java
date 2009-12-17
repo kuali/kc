@@ -90,6 +90,7 @@ public class OjbRepositoryMappingTest {
                                                         "org/kuali/kra/award/repository-award.xml",  
                                                         "org/kuali/kra/committee/repository-committee.xml",
                                                         "org/kuali/kra/irb/repository-irb.xml",
+                                                        "org/kuali/kra/awardtimeandmoney/repository-timeandmoney.xml",
                                                         "org/kuali/kra/questionnaire/repository-questionnaire.xml"
                                                       };
 
