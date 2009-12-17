@@ -65,8 +65,9 @@ public class HierarchyProposalSummary implements Serializable {
     private List<ProposalPerson> keyPersons;
     private List<BudgetVersionOverview> budgetVersionOverviews;
 
-
     private Boolean synced;
+
+    private String incompleteBudgetLabel;
 
     /**
      * Gets the proposalNumber attribute.
@@ -564,6 +565,22 @@ public class HierarchyProposalSummary implements Serializable {
      */
     public Boolean getSynced() {
         return synced;
+    }
+
+    /**
+     * Sets the incompleteBudgetLabel attribute value.
+     * @param incompleteBudgetLabel The incompleteBudgetLabel to set.
+     */
+    public void setIncompleteBudgetLabel(String incompleteBudgetLabel) {
+        this.incompleteBudgetLabel = incompleteBudgetLabel;
+    }
+
+    /**
+     * Gets the incompleteBudgetLabel attribute. 
+     * @return Returns the incompleteBudgetLabel.
+     */
+    public String getIncompleteBudgetLabel() {
+        return incompleteBudgetLabel;
     }
 
 }
