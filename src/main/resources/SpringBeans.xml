@@ -377,6 +377,7 @@
 		<property name="kraPersistenceStructureService" ref="kraPersistenceStructureService" /> 
 		<property name="budgetService" ref="budgetService" /> 
 		<property name="parameterService" ref="parameterService" /> 
+		<property name="versionHistoryService" ref="versionHistoryService"/>
 	</bean>
 	
 	<bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
@@ -1275,6 +1276,10 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="proposalDevelopmentService">
+			<ref bean="proposalDevelopmentService" />
+		</property>
+		
 	</bean>
 
 	<bean id="s2SBudgetCalculatorService"

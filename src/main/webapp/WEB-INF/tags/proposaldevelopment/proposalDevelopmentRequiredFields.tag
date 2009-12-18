@@ -103,16 +103,14 @@
               <tbody><tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></th>
                 <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" />
-                                	<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.developmentProposalList[0].currentAwardNumber" anchor="${tabKey}" />
-                    <kul:directInquiry boClassName="org.kuali.kra.award.home.Award" inquiryParameters="document.developmentProposalList[0].currentAwardNumber:awardId" anchor="${tabKey}" />
-                
+                                	<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:document.developmentProposalList[0].currentAwardNumber" anchor="${tabKey}" />
                 </td>
               </tr>
               <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" /></div></th>
                 <td align="left" valign="middle"><kul:htmlControlAttribute property="document.developmentProposalList[0].continuedFrom" attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" />
-                <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalId:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
-                    <kul:directInquiry boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" inquiryParameters="document.developmentProposalList[0].continuedFrom:proposalId" anchor="${tabKey}" /></td>
+                <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalNumber:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
+				</td>
               </tr>
             </tbody></table>
     </div>
