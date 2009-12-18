@@ -67,7 +67,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String proposalTypeCode;
     private ProposalType proposalType;
     private String continuedFrom;
-    private InstitutionalProposal institutionalProposal;
     private String sponsorCode;
     private String activityTypeCode;
     private String ownedByUnitNumber;
@@ -75,7 +74,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Date requestedEndDateInitial;
     private String title;
     private String currentAwardNumber;
-    private Award currentAward;
     private Date deadlineDate;
     private String noticeOfOpportunityCode;
     private String deadlineType;
@@ -1866,21 +1864,5 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site: getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
-    }
-
-    public InstitutionalProposal getInstitutionalProposal() {
-        return institutionalProposal;
-    }
-
-    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
-        this.institutionalProposal = institutionalProposal;
-    }
-
-    public Award getCurrentAward() {
-        return currentAward;
-    }
-
-    public void setCurrentAward(Award currentAward) {
-        this.currentAward = currentAward;
     }
 }

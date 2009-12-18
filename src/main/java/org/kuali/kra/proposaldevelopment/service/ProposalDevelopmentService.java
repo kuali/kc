@@ -17,7 +17,9 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalDevelopmentService {
@@ -40,5 +42,9 @@ public interface ProposalDevelopmentService {
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
+    
+    public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal);
+    
+    public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal);
 
 }

@@ -56,9 +56,9 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000002";
 
     private static final String PROPOSAL_TYPE_NEW = "1";
-    private static final String PROPOSAL_TYPE_CONTINUATION = "2";
-    private static final String PROPOSAL_TYPE_RENEWAL = "3";
-    private static final String PROPOSAL_TYPE_RESUBMISSION = "4";
+    private static final String PROPOSAL_TYPE_RESUBMISSION = "2";
+    private static final String PROPOSAL_TYPE_RENEWAL = "3";    
+    private static final String PROPOSAL_TYPE_CONTINUATION = "4";
     private static final String PROPOSAL_TYPE_REVISION = "5";
     private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
     private static final String DOCUMENT_HEADER_DESCRIPTION = "ProposalDevelopmentDocumentWebTest test";
@@ -112,10 +112,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     @Test 
     public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
         processType(PROPOSAL_TYPE_NEW, false, false);
-        processType(PROPOSAL_TYPE_CONTINUATION, false, true);
-        processType(PROPOSAL_TYPE_RENEWAL, false, true);
+        processType(PROPOSAL_TYPE_CONTINUATION, false, false);
+        processType(PROPOSAL_TYPE_RENEWAL, false, false);
         processType(PROPOSAL_TYPE_RESUBMISSION, false, false);
-        processType(PROPOSAL_TYPE_REVISION, false, true);
+        processType(PROPOSAL_TYPE_REVISION, false, false);
         processType(PROPOSAL_TYPE_TASK_ORDER, false, false);
     }
 
