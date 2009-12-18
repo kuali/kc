@@ -11,7 +11,7 @@ create table eps_proposal
   organization_id               varchar2 (8),
   performing_organization_id    varchar2 (8),
   current_account_number        char (7),
-  current_award_number          char (10),
+  current_award_number          varchar2 (12),
   title                         varchar2 (150),
   sponsor_code                  char (6),
   sponsor_proposal_number       varchar2 (70),

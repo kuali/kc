@@ -30,18 +30,22 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -60,6 +64,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
+    private ProposalDevelopmentService proposalDevelopmentService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
     private static final String PROPOSAL_YNQ_STATE_REVIEW = "EQ";
@@ -250,16 +255,22 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         String federalIdComesFromAwardStr = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
         Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        proposal.refreshReferenceObject("institutionalProposal");
-        proposal.refreshReferenceObject("currentAward");
+        Award currentAward = null;
+        if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
+            currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
+        }
+        InstitutionalProposal institutionalProposal = null;
+        if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
+            institutionalProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
+        }
         if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
             return S2SConstants.FEDERAL_ID_NOT_FOUND;
         } else if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
                 return proposal.getSponsorProposalNumber();
-            } else if (proposal.getCurrentAward() != null && !StringUtils.isBlank(proposal.getCurrentAward().getSponsorAwardNumber())
+            } else if (currentAward != null && !StringUtils.isBlank(currentAward.getSponsorAwardNumber())
                     && federalIdComesFromAward) {
-                return proposal.getCurrentAward().getSponsorAwardNumber();
+                return currentAward.getSponsorAwardNumber();
             } else { 
                 return S2SConstants.FEDERAL_ID_NOT_FOUND;
             }
@@ -268,14 +279,14 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
                 return proposal.getSponsorProposalNumber();
-            } else if (proposal.getInstitutionalProposal() != null && !StringUtils.isBlank(proposal.getInstitutionalProposal().getSponsorProposalNumber())) {
-                return proposal.getInstitutionalProposal().getSponsorProposalNumber();
+            } else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
+                return institutionalProposal.getSponsorProposalNumber();
             } else {
                 return S2SConstants.FEDERAL_ID_NOT_FOUND;
             }
         }
         return S2SConstants.FEDERAL_ID_NOT_FOUND;
-    }
+    } 
 
     private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
         String proposalTypeCodeRenewal = 
@@ -289,7 +300,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
                 proposalTypeCode.equals(proposalTypeCodeRevision) ||
                 proposalTypeCode.equals(proposalTypeCodeContinuation));
-    }
+    }  
     
     /**
      * Is the Proposal Type set to Resubmission?
@@ -541,5 +552,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 }

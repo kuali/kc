@@ -17,16 +17,25 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -38,7 +47,15 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 
     
+    @Transient
     private ParameterService parameterService;
+    @Transient
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
+    public ProposalDevelopmentSponsorProgramInformationAuditRule() {
+        getParameterService();
+        getProposalDevelopmentService();
+    }
     
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
@@ -83,20 +100,25 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
             
-            proposal.refreshReferenceObject("currentAward");
             String federalIdComesFromAwardStr = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
             Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
+            Award currentAward = null;
+            if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
+                currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
+            }
             if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
-                    && StringUtils.isBlank(proposal.getSponsorProposalNumber()) 
-                    && (proposal.getCurrentAward() != null
-                    || !federalIdComesFromAward)) {
+                    && !(StringUtils.isNotBlank(proposal.getSponsorProposalNumber())
+                    || (currentAward != null && StringUtils.isNotBlank(currentAward.getSponsorAwardNumber()) && federalIdComesFromAward))) {
                 valid = false;
                 auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            proposal.refreshReferenceObject("institutionalProposal");
+            InstitutionalProposal iProposal = null;
+            if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
+                iProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
+            }
             if (isProposalTypeResubmission(proposal.getProposalTypeCode())
                     && StringUtils.isBlank(proposal.getSponsorProposalNumber())
-                    && proposal.getInstitutionalProposal() == null) {
+                    && (iProposal == null || StringUtils.isBlank(iProposal.getSponsorProposalNumber()))) {
                 valid = false;
                 auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }            
@@ -144,7 +166,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeResubmission));
-    }    
+    }          
     
     /**
      * Looks up and returns the ParameterService.
@@ -155,7 +177,12 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
         return this.parameterService;
-    }      
-        
-
+    } 
+    
+    protected ProposalDevelopmentService getProposalDevelopmentService() {
+        if (this.proposalDevelopmentService == null) {
+            this.proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        }
+        return this.proposalDevelopmentService;
+    }
 }

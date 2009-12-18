@@ -24,10 +24,13 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
@@ -36,6 +39,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -54,7 +58,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BudgetService budgetService;
     private ParameterService parameterService;
     private DocumentService documentService;
-    
+    private VersionHistoryService versionHistoryService;
+
     
     /**
      * Sets the ParameterService.
@@ -259,8 +264,43 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         
         return returnValue; 
     }
-
-
+    
+    @SuppressWarnings("unchecked")
+    public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
+        String awardNumber = proposal.getDevelopmentProposal().getCurrentAwardNumber();
+        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
+        Award award = null;
+        
+        if(vh!=null){
+            award = (Award) vh.getSequenceOwner();
+        }else{
+            HashMap<String, String> valueMap = new HashMap<String, String>();
+            valueMap.put("awardNumber", awardNumber);
+            List<Award> awards = (List<Award>)businessObjectService.findMatching(Award.class, valueMap);
+            if (awards != null && !awards.isEmpty()) {
+                award = awards.get(0);
+            }
+        }
+        return award;
+    }
+    
+    public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal) {
+        String proposalNumber = proposal.getDevelopmentProposal().getContinuedFrom();
+        VersionHistory vh = versionHistoryService.findActiveVersion(InstitutionalProposal.class, proposalNumber);
+        InstitutionalProposal ip = null;
+        
+        if (vh!=null) {
+            ip = (InstitutionalProposal) vh.getSequenceOwner();
+        } else if (StringUtils.isNotEmpty(proposalNumber)){
+            HashMap<String, String> valueMap = new HashMap<String, String>();
+            valueMap.put("proposalNumber", proposalNumber);
+            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>)businessObjectService.findMatching(InstitutionalProposal.class, valueMap);
+            if (proposals != null && !proposals.isEmpty()) {
+                ip = proposals.get(0);
+            }
+        }
+        return ip;
+    }
 
     public KraPersistenceStructureService getKraPersistenceStructureService() {
         return kraPersistenceStructureService;
@@ -286,6 +326,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
+    }
+
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
     }
 
     

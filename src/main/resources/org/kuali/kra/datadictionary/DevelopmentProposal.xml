@@ -213,21 +213,18 @@
   </bean>
   <bean id="DevelopmentProposal-currentAwardNumber" parent="DevelopmentProposal-currentAwardNumber-parentBean"/>
 
-  <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="Award-awardNumber-parentBean">
     <property name="name" value="currentAwardNumber"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Award ID"/>
     <property name="shortLabel" value="Award ID"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
     <property name="summary" value="The Sponsor Award Number for this Proposal."/>
     <property name="description" value="A unique institutionally assigned number of a previously funded application."/>
+    <property name="validationPattern" >
+      <bean parent="RegexValidationPattern"
+            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
+            p:validationErrorMessageKey="error.missing"/>
+    </property>
   </bean>
   <bean id="DevelopmentProposal-continuedFrom" parent="DevelopmentProposal-continuedFrom-parentBean"/>
 
