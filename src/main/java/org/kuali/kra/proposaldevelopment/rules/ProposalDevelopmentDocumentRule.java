@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -70,13 +71,16 @@ import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -318,6 +322,23 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                                         "requestedStartDateInitial"),
                                 dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class,
                                         "requestedEndDateInitial") });
+            }
+        }
+        
+        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
+            if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
+                valid = false;
+                errorMap.putError("developmentProposalList[0].currentAwardNumber", KeyConstants.ERROR_MISSING, 
+                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
+            }
+        }
+        
+        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
+            if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
+                valid = false;
+                errorMap.putError("developmentProposalList[0].continuedFrom", KeyConstants.ERROR_MISSING, 
+                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "continuedFrom"));                
             }
         }
         
