@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,12 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -57,13 +51,19 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class BudgetParametersAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetParametersAction.class);
     private static final String CONFIRM_RECALCULATE_BUDGET_KEY = "calculateAllPeriods";
     private static final String CONFIRM_SAVE_BUDGET_KEY = "saveAfterQuestion";
+    private static final String CONFIRM_GENERATE_ALL_PERIODS = "confirmGenerateAllPeriods";
     private static final String CONFIRM_HEADER_TAB_KEY = "headerTabAfterQuestion";
     private static final String DO_NOTHING = "doNothing";
     private static final String CONFIRM_SAVE_SUMMARY = "confirmSaveSummary";
@@ -103,8 +103,7 @@ public class BudgetParametersAction extends BudgetAction {
         
         boolean rulePassed = getKualiRuleService().applyRules(
             new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
-        if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
-            || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
+        if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setErrorMap(new ErrorMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
@@ -114,6 +113,7 @@ public class BudgetParametersAction extends BudgetAction {
                                CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);
             }
         } else {
+            // This whole else block is mostly the same as saveAfterQuestion, so why not use saveAfterQuestion here?
             updateThisBudgetVersion(budgetDocument);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
@@ -143,11 +143,34 @@ public class BudgetParametersAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * This method returns <CODE>true</CODE> if one of the two rate types has changed since the last save.
+     * @param budgetForm
+     * @return
+     */
+    private boolean isRateTypeChanged(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
+        BudgetDocument originalBudgetDocument = (BudgetDocument)KraServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
+        Budget originalBudget = originalBudgetDocument.getBudget();
+        
+        return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), budget.getOhRateClassCode())
+            || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), budget.getUrRateClassCode()));
+    }
+    
     public ActionForward saveAfterQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                            HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
+
+        // The following 3 lines are needed so the rate type is correctly propagated to the Personnel tab if
+        // the rate type was changed after a validation error occured. We might want to consider getting rid of
+        // ohRateClassCodePrevValue urRateClassCodePrevValue altogether in favor of using the BusinessObjectService
+        // as below.
+        BudgetDocument originalBudgetDocument = (BudgetDocument)KraServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
+        budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
+        budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
         
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
@@ -315,30 +338,46 @@ public class BudgetParametersAction extends BudgetAction {
      */
     public ActionForward generateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+//the rate type gets reset if there is a validation error. it shouldn't. 
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         BudgetForm budgetForm = (BudgetForm) form;
         boolean rulePassed = getKualiRuleService().applyRules(
                 new GenerateBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
         if (rulePassed) {
-            if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
-                    || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
-                        budget.getOnOffCampusFlag());
+            if (isRateTypeChanged(budgetForm)) {
+                return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), 
+                               CONFIRM_GENERATE_ALL_PERIODS, DO_NOTHING);
+            } else {
+                return confirmGenerateAllPeriods(mapping, form, request, response);
             }
-            /* calculate first period - only period 1 exists at this point */
-            getBudgetSummaryService().calculateBudget(budget);
-            /* generate all periods */
-            getBudgetSummaryService().generateAllPeriods(budget);
-
-            /* calculate all periods */
-            getBudgetSummaryService().calculateBudget(budget);
-            // reset the old start/end date if it is changed for some reason
-            getBudgetSummaryService().setupOldStartEndDate(budget, true);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
 
+    public ActionForward confirmGenerateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        
+        if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
+                || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+            KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                    budget.getOnOffCampusFlag());
+        }
+        /* calculate first period - only period 1 exists at this point */
+        getBudgetSummaryService().calculateBudget(budget);
+        /* generate all periods */
+        getBudgetSummaryService().generateAllPeriods(budget);
+
+        /* calculate all periods */
+        getBudgetSummaryService().calculateBudget(budget);
+        // reset the old start/end date if it is changed for some reason
+        getBudgetSummaryService().setupOldStartEndDate(budget, true);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward questionCalculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -404,6 +443,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * 
+     * TODO fix method description
      * This method builds a Opportunity Delete Confirmation Question as part of the Questions Framework
      * 
      * @param mapping
