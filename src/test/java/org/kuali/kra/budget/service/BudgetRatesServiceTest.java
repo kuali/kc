@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.AbstractInstituteRate;
@@ -36,7 +37,6 @@ import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -54,11 +54,8 @@ import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This test is broken and has been for some time.
@@ -68,6 +65,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * However, so many other classes depend on that service, we should tread carefully, adding to the BudgetRatesService instead of 
  * changing the API. JF 
  */
+@Ignore("deadlock")
 public class BudgetRatesServiceTest extends KraTestBase {
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";
     private static final String TRACK_AFFECTED_PERIOD_2 = "|2|";
