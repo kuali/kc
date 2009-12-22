@@ -28,7 +28,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.AbstractInstituteRate;
@@ -65,7 +64,6 @@ import org.kuali.rice.kns.util.DateUtils;
  * However, so many other classes depend on that service, we should tread carefully, adding to the BudgetRatesService instead of 
  * changing the API. JF 
  */
-@Ignore("deadlock")
 public class BudgetRatesServiceTest extends KraTestBase {
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";
     private static final String TRACK_AFFECTED_PERIOD_2 = "|2|";
@@ -167,6 +165,7 @@ public class BudgetRatesServiceTest extends KraTestBase {
         initializeActivityTypes();
     }    
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -223,8 +222,10 @@ public class BudgetRatesServiceTest extends KraTestBase {
         return proposal;
     }
 
+    @Override
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        super.tearDown();
         budgetRatesService = null;
         budgetDocument = null;
         instituteRates = null;
