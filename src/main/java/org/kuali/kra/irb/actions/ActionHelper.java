@@ -34,6 +34,7 @@ import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
@@ -80,6 +81,7 @@ public class ActionHelper implements Serializable {
     private boolean canRequestReOpenEnrollment = false;
     private boolean canRequestDataAnalysis = false;
     private boolean canDeleteProtocolAmendRenew = false;
+    private boolean canAssignToAgenda = false;
     private boolean canAssignCmtSched = false;
     private boolean canAssignReviewers = false;
     private boolean canGrantExemption = false;
@@ -108,6 +110,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
     private ProtocolDeleteBean protocolDeleteBean;
+    private ProtocolAssignToAgendaBean assignToAgendaBean;
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
@@ -164,6 +167,8 @@ public class ActionHelper implements Serializable {
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
+        assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
+        //assignToAgendaBean.init();
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
@@ -265,6 +270,7 @@ public class ActionHelper implements Serializable {
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
+        canAssignToAgenda = hasAssignToAgendaPermission();
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignReviewers = hasAssignReviewersPermission();
         canGrantExemption = hasGrantExemptionPermission();
@@ -386,6 +392,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasDeleteProtocolAmendRenewPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasAssignToAgendaPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -528,6 +539,10 @@ public class ActionHelper implements Serializable {
         return protocolDeleteBean;
     }
     
+    public ProtocolAssignToAgendaBean getAssignToAgendaBean(){
+        return this.assignToAgendaBean;
+    }
+    
     public ProtocolAssignCmtSchedBean getAssignCmtSchedBean() {
         return assignCmtSchedBean;
     }
@@ -626,6 +641,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanDeleteProtocolAmendRenew() {
         return canDeleteProtocolAmendRenew;
+    }
+    
+    public boolean getCanAssignToAgenda() {
+        return canAssignToAgenda;
     }
     
     public boolean getCanAssignCmtSched() {
