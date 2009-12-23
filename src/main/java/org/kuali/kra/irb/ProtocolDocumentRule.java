@@ -26,6 +26,9 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.assignagenda.ExecuteProtocolAssignToAgendaRule;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedRule;
@@ -383,6 +386,13 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
         return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignToAgendaRule#processAssignToAgendaRule(org.kuali.kra.irb.ProtocolDocument, ProtocolAssignToAgendaBean)
+     */
+    public boolean processAssignToAgenda(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
+        return new ProtocolAssignToAgendaRule().processAssignToAgendaRule(document, actionBean);
     }
 
     /**

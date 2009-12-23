@@ -470,6 +470,7 @@ public interface Constants {
     public static final String PROTOCOL_REOPEN_ENROLLMENT_REQUEST_PROPERTY_KEY = "actionHelper.protocolReOpenEnrollmentRequest";
     public static final String PROTOCOL_DATA_ANALYSIS_REQUEST_PROPERTY_KEY = "actionHelper.protocolDataAnalysisRequest";
     public static final String PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY = "actionHelper.protocolAssignCmtSchedAction";
+    public static final String PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY = "actionHelper.protocolAssignToAgendaAction";
     public static final String PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY = "actionHelper.protocolAssignReviewersAction";
     
     //Protocol Summary Print View

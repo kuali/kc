@@ -25,6 +25,7 @@
 		<kra-irb-action:withdrawAction />
 		<kra-irb-action:assignCmtSchedAction />
 		<kra-irb-action:assignReviewersAction />
+		<kra-irb-action:assignToAgendaAction />
 		<kra-irb-action:grantExemptionAction />
 		<kra-irb-action:approveAction />
 		<kra-irb-action:recordCommitteeDecisionAction />
