@@ -44,6 +44,9 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaEvent;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedEvent;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
@@ -91,6 +94,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
+    private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
@@ -794,6 +798,38 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        System.err.println("I got to the assignToAgenda function in ProtocolProtocolActionsAction");
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+            if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {
+              //  if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
+                    return confirm(buildAssignToAgendaConfirmationQuestion(mapping, form, request, response),
+                            CONFIRM_ASSIGN_CMT_SCHED_KEY, "");
+                //}
+                //getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            }
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * Assign a protocol to a committee/schedule.
      * @param mapping
@@ -805,7 +841,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
@@ -828,6 +863,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private StrutsConfirmation buildAssignToCmtSchedConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
+                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
+    }
+    
+    /**
+     * 
+     * Builds the confirmation question to verify if the user wants to assign the protocol to the committee.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildAssignToAgendaConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_ASSIGN_TO_AGENDA_KEY,
                 KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
     }
 
@@ -855,9 +906,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+    public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+
+        if (CONFIRM_ASSIGN_TO_AGENDA_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+            getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        }
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
         return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+    }
+    
+    private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
+        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
     }
     
     /**
