@@ -33,11 +33,6 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
-        /*
-        Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) && isAssignedToCommittee(protocol) &&
-               hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
-        */
         Protocol protocol = task.getProtocol();
         return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
                //isPendingOrSubmittedToCommittee(protocol) &&
@@ -53,8 +48,7 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
     private boolean isAssignedToCommittee(Protocol protocol) {
         ProtocolSubmission ps = findSubmission(protocol);
         return ps != null && 
-            ps.getCommitteeSchedule().getScheduledDate() != null && 
-            ps.getCommitteeSchedule().isSelected();
+            ps.getCommitteeSchedule().getScheduledDate() != null;
     }
     
     /**
