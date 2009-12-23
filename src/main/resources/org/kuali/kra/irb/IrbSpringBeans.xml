@@ -197,6 +197,10 @@
                 	<property name="taskName" value="modifyProtocolOthers" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignToAgenda" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToCmtSched" />
                 </bean>
