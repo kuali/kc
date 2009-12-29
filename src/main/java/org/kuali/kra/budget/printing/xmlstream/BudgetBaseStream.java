@@ -410,68 +410,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	/**
-	 * This method sets reportType from BudgetLineItem and iterate through
-	 * BudgetPersonnelDetails and BudgetPersonnelRateAndBase for
-	 * BudgetLASalariesForBudgetPersRateAndBase
-	 * 
-	 * @param List
-	 *            of ReportType
-	 */
-	protected void setBudgetLASalariesForBudgetPersRateAndBase(
-			List<ReportType> reportTypeList) {
-		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
-		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			Map<String, BudgetPersonnelRateAndBase> laRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-					.getBudgetPersonnelDetailsList()) {
-				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-						.getBudgetPersonnelRateAndBaseList()) {
-					if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetPersRateAndBase)) {
-						String key = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-						if (laRateBaseMap.containsKey(key)) {
-							continue;
-						}
-						ReportTypeVO reportTypeVO = getReportTypeVOListForLASalariesBudgetPersRateAndBase(
-								budgetPersDetails, budgetPersRateAndBase);
-						reportTypeVOList.add(reportTypeVO);
-						laRateBaseMap.put(key, budgetPersRateAndBase);
-					}
-				}
-			}
-		}
-		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
-	}
-
-	/**
-	 * This method gets ReportTypeVO by setting data from
-	 * BudgetPersonnelRateAndBase based on RateClassType VACATION_ON_LA
-	 * 
-	 * @param budgetPersDetails
-	 * @param budgetPersRateAndBase
-	 */
-	protected ReportTypeVO getReportTypeVOListForLASalariesBudgetPersRateAndBase(
-			BudgetPersonnelDetails budgetPersDetails,
-			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		ReportTypeVO reportTypeVO = new ReportTypeVO();
-		Date startDate = budgetPersRateAndBase.getStartDate();
-		Date endDate = budgetPersRateAndBase.getEndDate();
-		reportTypeVO.setStartDate(startDate);
-		reportTypeVO.setEndDate(endDate);
-		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
-				.getSalaryRequested());
-		reportTypeVO.setFringe(getFringeForLASalaryBudgetPersRateAndBase(
-				budgetPersDetails, startDate, endDate));
-		reportTypeVO.setCostSharingAmount(budgetPersRateAndBase
-				.getCalculatedCostSharing());
-		reportTypeVO
-				.setCalculatedCost(getFringeCostSharingForLASalaryPersonnelRateAndBase(
-						budgetPersDetails, startDate, endDate));
-		reportTypeVO.setCostElementDesc(budgetPersDetails.getCostElementBO()
-				.getDescription());
-		return reportTypeVO;
-	}
-
-	/**
 	 * This method sets reportType to ReportTypeList for BudgetLASalary and get
 	 * sum of fringe, calculatedCost, calculatedCostSharing and salary by
 	 * grouping reportType based on budgetLASalaryKey
@@ -891,7 +829,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		int sortId;
 		String categoryDesc = null;
 		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (budget.getBudgetProposalLaRates().size() > 0) {
+		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
@@ -931,7 +869,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		int sortId;
 		String categoryDesc = null;
 		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (budget.getBudgetProposalLaRates().size() > 0) {
+		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
@@ -1981,30 +1919,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	/*
-	 * This method gets fringe for LASalary based on rateClassType
-	 * EMPLOYEE_BENEFITS, VACATION and Job Code from BudgetPersonnelRateAndBase
-	 * 
-	 */
-	private BudgetDecimal getFringeForLASalaryBudgetPersRateAndBase(
-			BudgetPersonnelDetails budgetPersDetails, Date startDate,
-			Date endDate) {
-		BudgetDecimal fringe = BudgetDecimal.ZERO;
-		for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-				.getBudgetPersonnelRateAndBaseList()) {
-			if (budgetPersRateAndBase.getStartDate().equals(startDate)
-					&& budgetPersRateAndBase.getEndDate().equals(endDate)
-					&& budgetPersRateAndBase.getCalculatedCost() != null) {
-				if (isRateAndBaseEBonLA(budgetPersRateAndBase)
-						|| isRateAndBaseVAonLA(budgetPersRateAndBase)) {
-					fringe = fringe.add(budgetPersRateAndBase
-							.getCalculatedCost());
-				}
-			}
-		}
-		return fringe;
-	}
-
-	/*
 	 * This method gets fringeCostSharing for LASalaryForRateAndBase based on
 	 * StartDate, EndDate, RateClassCode and RateTypeCode from List of
 	 * BudgetRateAndBase
@@ -2025,31 +1939,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 			}
 		}
 		return fringe;
-	}
-
-	/*
-	 * This method gets fringeCostSharing for LASalary based on stratDate,
-	 * endDate, rateClassType EMPLOYEE_BENEFITS, VACATION from
-	 * BudgetPersonnelRateAndBase
-	 */
-	private BudgetDecimal getFringeCostSharingForLASalaryPersonnelRateAndBase(
-			BudgetPersonnelDetails budgetPersDetails, Date startDate,
-			Date endDate) {
-		BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
-		for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-				.getBudgetPersonnelRateAndBaseList()) {
-			if (budgetPersRateAndBase.getStartDate().equals(startDate)
-					&& budgetPersRateAndBase.getEndDate().equals(endDate)
-					&& budgetPersRateAndBase.getCalculatedCostSharing() != null) {
-				if (isRateAndBaseEBonLA(budgetPersRateAndBase)
-						|| isRateAndBaseVAonLA(budgetPersRateAndBase)) {
-					fringeCostSharing = fringeCostSharing
-							.add(budgetPersRateAndBase
-									.getCalculatedCostSharing());
-				}
-			}
-		}
-		return fringeCostSharing;
 	}
 
 	/*

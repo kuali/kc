@@ -65,7 +65,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private DepartmentalPerson aorInfo = null;
     private String applicantTypeOtherSpecify = null;
     private String federalDebtExp;
-    private long stateReviewDate = 0;
+    private String stateReviewDate = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
 
 
@@ -326,10 +326,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setLocalEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setOtherEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setStateReview(getStateReviewCode());
-        if (stateReviewDate != 0) {
-            Calendar stateDate = dateTimeService.getCurrentCalendar();
-            stateDate.setTimeInMillis(stateReviewDate);
-            sf424V2.setStateReviewAvailableDate(stateDate);
+        if (stateReviewDate != null) {
+            sf424V2.setStateReviewAvailableDate(s2sUtilService.convertDateStringToCalendar(stateReviewDate));
         }
         YesNoDataType.Enum yesNo = YesNoDataType.N_NO;
         Organization applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
@@ -492,7 +490,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             stateType = StateReview.B_PROGRAM_IS_SUBJECT_TO_E_O_12372_BUT_HAS_NOT_BEEN_SELECTED_BY_THE_STATE_FOR_REVIEW;
         }
         if (eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE) != null) {
-            stateReviewDate = Long.parseLong(eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE));
+            stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
         }
         return stateType;
     }

@@ -88,7 +88,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -99,7 +98,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
- * This class generates XML that confirms with the XSD related to Proposal
+ * This class generates XML that confirms with the RaR XSD related to Proposal
  * Submission Report or Sponsor Report. The data for XML is derived from
  * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
  * 
@@ -156,6 +155,10 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	private static final String CATEGORY_CODE_EQUIPMENT = "20";
 	private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
 	private static final String REPORT_NAME = "Research and Related";
+	private static final String REVIEW_AVAILABILITY_DATE = "04/14/2004";
+	private static final String STATE_RECEIPT_DATE = "10/17/2005";
+	private static final String AGENCY_RECEIPT_DATE = "12/31/2005";
+	private static final String APPLICATION_DATE = "01/02/2004";
 
 	/**
 	 * This method generates XML for Proposal Submission Report or Sponsor
@@ -208,8 +211,8 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 			researchAndRelatedProject
 					.setResearchCoverPage(getResearchCoverPage(
 							developmentProposal, budget));
-		} catch (PrintingException e) {
-			LOG.error("Unable to parse String date");
+		} catch (ParseException e) {
+			LOG.error("Unable to parse String date", e);
 		}
 
 		researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,
@@ -646,48 +649,48 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 					.getBudgetPersonnelDetailsList()) {
 				BudgetPerson budgetPerson = budgetPersDetails.getBudgetPerson();
 				if (budgetPerson != null) {
-					SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
-							.newInstance();
-					salariesAndWagesType
-							.setAppointmentType(budgetPerson
-									.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
-									: budgetPerson.getAppointmentTypeCode());
-					salariesAndWagesType
-							.setAppointmentMonths(new BigDecimal(
-									budgetPerson.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
-											: budgetPerson
-													.getAppointmentTypeCode()));
-					salariesAndWagesType.setSummerFundingMonths(new BigDecimal(
-							0.0));
-					salariesAndWagesType
-							.setAcademicFundingMonths(new BigDecimal(0.0));
-					salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
-					KcPerson person = budgetPerson.getPerson();
-					salariesAndWagesType.setName(getContactPersonFullName(
-							person.getLastName(), person.getFirstName(), person
-									.getMiddleName()));
-					salariesAndWagesType
-							.setProjectRole(getProjectRoleType(budgetPerson));
-					salariesAndWagesType.setProjectRoleDescription(budgetPerson
-							.getRole());
-					salariesAndWagesType.setSalariesTotal(budgetPersDetails
-							.getSalaryRequested().bigDecimalValue());
-					BigDecimal fringe = getFringeCost(budgetPersDetails)
-							.bigDecimalValue();
-					salariesAndWagesType.setFringeCost(fringe);
-					salariesAndWagesType.setRequestedCost(budgetPersDetails
-							.getSalaryRequested().bigDecimalValue());
-					salariesAndWagesType.setBaseSalary(budgetPerson
-							.getCalculationBase().bigDecimalValue());
-					salariesAndWagesType
-							.setSalaryAndFringeTotal(budgetPersDetails
-									.getSalaryRequested().bigDecimalValue()
-									.add(fringe));
+					SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(
+							budgetPersDetails, budgetPerson);
 					salariesAndWagesTypeList.add(salariesAndWagesType);
 				}
 			}
 		}
 		return salariesAndWagesTypeList.toArray(new SalariesAndWagesType[0]);
+	}
+
+	/*
+	 * This method computes the salaries and wages details of a BudgetPerson and
+	 * populates SalariesAndWagesType
+	 */
+	private SalariesAndWagesType getSalariesAndWagesType(
+			BudgetPersonnelDetails budgetPersDetails, BudgetPerson budgetPerson) {
+		SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
+				.newInstance();
+		salariesAndWagesType.setAppointmentType(budgetPerson
+				.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
+				: budgetPerson.getAppointmentTypeCode());
+		salariesAndWagesType.setAppointmentMonths(new BigDecimal(budgetPerson
+				.getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
+				: budgetPerson.getAppointmentTypeCode()));
+		salariesAndWagesType.setSummerFundingMonths(BigDecimal.ZERO);
+		salariesAndWagesType.setAcademicFundingMonths(new BigDecimal(0.0));
+		salariesAndWagesType.setFundingMonths(new BigDecimal(0.0));
+		KcPerson person = budgetPerson.getPerson();
+		salariesAndWagesType.setName(getContactPersonFullName(person
+				.getLastName(), person.getFirstName(), person.getMiddleName()));
+		salariesAndWagesType.setProjectRole(getProjectRoleType(budgetPerson));
+		salariesAndWagesType.setProjectRoleDescription(budgetPerson.getRole());
+		salariesAndWagesType.setSalariesTotal(budgetPersDetails
+				.getSalaryRequested().bigDecimalValue());
+		BigDecimal fringe = getFringeCost(budgetPersDetails).bigDecimalValue();
+		salariesAndWagesType.setFringeCost(fringe);
+		salariesAndWagesType.setRequestedCost(budgetPersDetails
+				.getSalaryRequested().bigDecimalValue());
+		salariesAndWagesType.setBaseSalary(budgetPerson.getCalculationBase()
+				.bigDecimalValue());
+		salariesAndWagesType.setSalaryAndFringeTotal(budgetPersDetails
+				.getSalaryRequested().bigDecimalValue().add(fringe));
+		return salariesAndWagesType;
 	}
 
 	/*
@@ -728,7 +731,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	private ResearchCoverPage getResearchCoverPage(
 			DevelopmentProposal developmentProposal, Budget budget)
-			throws PrintingException {
+			throws ParseException {
 		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory
 				.newInstance();
 		researchCoverPage
@@ -1114,7 +1117,8 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 				.newInstance();
 		otherAgencyQuestionsType.setOtherAgencyIndicator(false);
 		for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId().equals(PROPOSALQUESTION_ID15)) {
+			if (proposalYnq.getQuestionId().equals(PROPOSALQUESTION_ID15)
+					&& proposalYnq.getAnswer() != null) {
 				otherAgencyQuestionsType.setOtherAgencyIndicator(proposalYnq
 						.getAnswer().equals(ANSWER_INDICATOR_VALUE) ? true
 						: false);
@@ -1145,13 +1149,13 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 						.bigDecimalValue());
 			}
 		} else {
-			coreBudgetTotalsType.setApplicantCost(new BigDecimal(0));
-			coreBudgetTotalsType.setFederalCost(new BigDecimal(0));
-			coreBudgetTotalsType.setOtherCost(new BigDecimal(0));
+			coreBudgetTotalsType.setApplicantCost(BigDecimal.ZERO);
+			coreBudgetTotalsType.setFederalCost(BigDecimal.ZERO);
+			coreBudgetTotalsType.setOtherCost(BigDecimal.ZERO);
 		}
-		coreBudgetTotalsType.setLocalCost(new BigDecimal(0));
-		coreBudgetTotalsType.setProgramIncome(new BigDecimal(0));
-		coreBudgetTotalsType.setStateCost(new BigDecimal(0));
+		coreBudgetTotalsType.setLocalCost(BigDecimal.ZERO);
+		coreBudgetTotalsType.setProgramIncome(BigDecimal.ZERO);
+		coreBudgetTotalsType.setStateCost(BigDecimal.ZERO);
 		return coreBudgetTotalsType;
 	}
 
@@ -1187,17 +1191,12 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 * setting ReviewAvailityDate and SubjectToreviewQuestion data to it
 	 */
 	private CoreStateIntergovernmentalReviewType getStateIntergovernmentalReviewForResearchCoverPage()
-			throws PrintingException {
+			throws ParseException {
 		CoreStateIntergovernmentalReviewType coreStateIntergovRevType = CoreStateIntergovernmentalReviewType.Factory
 				.newInstance();
-		try {
-			coreStateIntergovRevType.setReviewAvailabilityDate(dateTimeService
-					.getCalendar(dateTimeService.convertToDate("04/14/2004")));
-		} catch (ParseException parseException) {
-			LOG.error("Unable to convert String to date format");
-			throw new PrintingException(
-					"Unable to convert String to date format", parseException);
-		}
+		coreStateIntergovRevType.setReviewAvailabilityDate(dateTimeService
+				.getCalendar(dateTimeService
+						.convertToDate(REVIEW_AVAILABILITY_DATE)));
 		coreStateIntergovRevType.setSubjectToReviewQuestion(true);
 		return coreStateIntergovRevType;
 	}
@@ -1207,17 +1206,13 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 * stateReceiptDate to it
 	 */
 	private CoreStateReceiptQualifiersType getStateReceiptQualifiersForResearchCoverPage()
-			throws PrintingException {
+			throws ParseException {
 		CoreStateReceiptQualifiersType coreStateReceiptQualifiersType = CoreStateReceiptQualifiersType.Factory
 				.newInstance();
-		try {
-			coreStateReceiptQualifiersType.setStateReceiptDate(dateTimeService
-					.getCalendar(dateTimeService.convertToDate("10/17/2005")));
-		} catch (ParseException parseException) {
-			LOG.error("Unable to convert String to date format");
-			throw new PrintingException(
-					"Unable to convert String to date format", parseException);
-		}
+		coreStateReceiptQualifiersType
+				.setStateReceiptDate(dateTimeService
+						.getCalendar(dateTimeService
+								.convertToDate(STATE_RECEIPT_DATE)));
 		return coreStateReceiptQualifiersType;
 	}
 
@@ -1226,18 +1221,14 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 * setting AgencyName and AgencyReceiptDate to it
 	 */
 	private CoreFederalAgencyReceiptQualifiersType getFederalAgencyReceiptQualifiersForResearchCoverPage()
-			throws PrintingException {
+			throws ParseException {
 		CoreFederalAgencyReceiptQualifiersType coreFedAgencyRecQualType = CoreFederalAgencyReceiptQualifiersType.Factory
 				.newInstance();
 		coreFedAgencyRecQualType.setAgencyName(Constants.NIH_SPONSOR_ACRONYM);
-		try {
-			coreFedAgencyRecQualType.setAgencyReceiptDate(dateTimeService
-					.getCalendar(dateTimeService.convertToDate("12/31/2005")));
-		} catch (ParseException parseException) {
-			LOG.error("Unable to convert String to date format");
-			throw new PrintingException(
-					"Unable to convert String to date format", parseException);
-		}
+		coreFedAgencyRecQualType
+				.setAgencyReceiptDate(dateTimeService
+						.getCalendar(dateTimeService
+								.convertToDate(AGENCY_RECEIPT_DATE)));
 		return coreFedAgencyRecQualType;
 	}
 
@@ -1246,19 +1237,13 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 * setting Application date to it
 	 */
 	private CoreApplicantSubmissionQualifiersType getApplicantSubmissionQualifiersForResearchCoverPage()
-			throws PrintingException {
+			throws ParseException {
 		CoreApplicantSubmissionQualifiersType coreApplicantSubmissionQualifiersType = CoreApplicantSubmissionQualifiersType.Factory
 				.newInstance();
-		try {
-			coreApplicantSubmissionQualifiersType
-					.setApplicationDate(dateTimeService
-							.getCalendar(dateTimeService
-									.convertToDate("01/02/2004")));
-		} catch (ParseException parseException) {
-			LOG.error("Unable to convert String to date format");
-			throw new PrintingException(
-					"Unable to convert String to date format", parseException);
-		}
+		coreApplicantSubmissionQualifiersType
+				.setApplicationDate(dateTimeService.getCalendar(dateTimeService
+						.convertToDate(APPLICATION_DATE)));
+
 		return coreApplicantSubmissionQualifiersType;
 	}
 
@@ -1604,7 +1589,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 				String questionId = proposalYnq.getQuestionId();
 				String explanation = proposalYnq.getExplanation() == null ? EMPTY_STRING
 						: proposalYnq.getExplanation();
-				if (answer.equals(ANSWER_INDICATOR_VALUE)) {
+				if (ANSWER_INDICATOR_VALUE.equals(answer)) {
 					questionAnswered = true;
 				}
 				setProjectSurvey(projectSurvey, questionAnswered, questionId,
@@ -1749,10 +1734,11 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 		HumanSubjectsType humanSubjectsType = HumanSubjectsType.Factory
 				.newInstance();
 		// exemptionNumber maximum it occurs 6 times no string array size
-		// declared as 5
-		String exemptionNumber[] = new String[5];
+		// declared as 6
+		String exemptionNumber[] = new String[6];
 		List<ProposalSpecialReview> specialReviewList = developmentProposal
 				.getPropSpecialReviews();
+		int arrayIndex = 0;
 		if (specialReviewList != null) {
 			for (ProposalSpecialReview proposalSpecialReview : specialReviewList) {
 				boolean humanSubjectsUsedQuestion = getHumanSubjectsUsedQuestion(proposalSpecialReview);
@@ -1767,7 +1753,8 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 					break;
 				} else {
 					String comments = getSpecialReviewComments(proposalSpecialReview);
-					exemptionNumber[0] = comments;
+					exemptionNumber[arrayIndex] = comments;
+					arrayIndex++;
 				}
 			}
 		}

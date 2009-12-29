@@ -27,6 +27,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -43,6 +44,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 
 	private static final String QUESTION_ID_FOR_INDIVIDUAL_YNQ = "30";
+	private static final int LOCATION_TYPE_CODE = 2;
 
 	private XmlObject getPerformanceSite() {
 		PerformanceSite12Document performanceSite12Document = PerformanceSite12Document.Factory
@@ -67,18 +69,16 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 					siteLocationDataType.setOrganizationName(organization
 							.getOrganizationName());
 				}
-				String congDistrictProject = organization
-						.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN
-						: organization.getCongressionalDistrict();
-				if (congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
-					siteLocationDataType
-							.setCongressionalDistrictProgramProject(congDistrictProject
-									.substring(0,
-											CONGRESSIONAL_DISTRICT_MAX_LENGTH));
-				} else {
-					siteLocationDataType
-							.setCongressionalDistrictProgramProject(congDistrictProject);
+				for (ProposalSite proposalSite : pdDoc.getDevelopmentProposal()
+						.getProposalSites()) {
+					String congressionalDistrict = getCongressionalDistrict(proposalSite);
+					if (congressionalDistrict != null) {
+						siteLocationDataType
+								.setCongressionalDistrictProgramProject(congressionalDistrict);
+						break;
+					}
 				}
+
 				if (organization.getDunsNumber() != null) {
 					siteLocationDataType.setDUNSNumber(organization
 							.getDunsNumber());
@@ -88,7 +88,8 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 
 			siteLocationDataType.setAddress(globLibV20Generator
 					.getAddressDataType(pdDoc.getDevelopmentProposal()
-							.getPerformingOrganization().getOrganization().getRolodex()));
+							.getPerformingOrganization().getOrganization()
+							.getRolodex()));
 		}
 		return siteLocationDataType;
 	}
@@ -101,8 +102,8 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 					.getOrganizationYnqs()) {
 				if (organizationYnq.getQuestionId().equals(
 						QUESTION_ID_FOR_INDIVIDUAL_YNQ)) {
-					YesNoDataType.Enum answer = organizationYnq
-							.getAnswer().equals("Y") ? YesNoDataType.Y_YES
+					YesNoDataType.Enum answer = organizationYnq.getAnswer()
+							.equals("Y") ? YesNoDataType.Y_YES
 							: YesNoDataType.N_NO;
 					siteLocationDataType.setIndividual(answer);
 				}
@@ -116,38 +117,53 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 				&& pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
 			Organization organization = pdDoc.getDevelopmentProposal()
 					.getPerformingOrganization().getOrganization();
-			for (ProposalSite proposalLocation : pdDoc.getDevelopmentProposal()
+			for (ProposalSite proposalSite : pdDoc.getDevelopmentProposal()
 					.getOtherOrganizations()) {
 				SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory
 						.newInstance();
-				Rolodex rolodex = proposalLocation.getRolodex();
+				Rolodex rolodex = proposalSite.getRolodex();
 				if (organization.getOrganizationName() != null) {
 					siteLocationOther.setOrganizationName(organization
 							.getOrganizationName());
 				}
 				siteLocationOther.setAddress(globLibV20Generator
 						.getAddressDataType(rolodex));
-				String congDistrictProject = organization
-						.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN
-						: organization.getCongressionalDistrict();
-				if (congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
-					siteLocationOther
-							.setCongressionalDistrictProgramProject(congDistrictProject
-									.substring(0,
-											CONGRESSIONAL_DISTRICT_MAX_LENGTH));
-				} else {
-					siteLocationOther
-							.setCongressionalDistrictProgramProject(congDistrictProject);
-				}
+
 				if (organization.getDunsNumber() != null) {
 					siteLocationOther.setDUNSNumber(organization
 							.getDunsNumber());
+				}
+
+				String congressionalDistrict = getCongressionalDistrict(proposalSite);
+				if (congressionalDistrict != null) {
+					siteLocationOther
+							.setCongressionalDistrictProgramProject(congressionalDistrict);
 				}
 
 				setSiteLocationDataType(siteLocationOther, organization);
 			}
 		}
 		return siteLocationDataTypeList.toArray(new SiteLocationDataType[0]);
+	}
+
+	private String getCongressionalDistrict(ProposalSite proposalSite) {
+		String congDistrictProject = null;
+		if (proposalSite.getLocationTypeCode()==LOCATION_TYPE_CODE) {
+			for (CongressionalDistrict congDistrict : proposalSite
+					.getCongressionalDistricts()) {
+				if (congDistrict.getSiteNumber().equals(
+						proposalSite.getSiteNumber())) {
+					congDistrictProject = congDistrict
+							.getCongressionalDistrict();
+					if (congDistrictProject != null
+							&& congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
+						congDistrictProject = congDistrictProject.substring(0,
+								CONGRESSIONAL_DISTRICT_MAX_LENGTH);
+					}
+				}
+			}
+		}
+		return congDistrictProject;
 	}
 
 	/**

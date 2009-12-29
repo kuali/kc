@@ -89,12 +89,11 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setHistoricDestionation(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
-		ProposalYnq proposalYnq = null;
-		ProposalYnq proposalYnq2 = getAnswer(HISTORIC_DESTIONATION_YNQ);
-		if (proposalYnq != null) {
+		ProposalYnq proposalYnq = getAnswer(HISTORIC_DESTIONATION_YNQ);
+		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
 			YesNoDataType.Enum answer = (proposalYnq.getAnswer().equals("Y") ? YesNoDataType.Y_YES
 					: YesNoDataType.N_NO);
-			String answerExplanation = proposalYnq2.getExplanation();
+			String answerExplanation = proposalYnq.getExplanation();
 			rrOtherProjectInfo.setHistoricDesignation(answer);
 			if (answerExplanation != null) {
 				rrOtherProjectInfo
@@ -197,8 +196,10 @@ public class RROtherProjectInfoV1_2Generator extends
 						.newInstance();
 				environmentalExemption
 						.setEnvironmentalExemptionIndicator(answer);
-				environmentalExemption
-						.setEnvironmentalExemptionExplanation(answerExplanation);
+				if (answerExplanation != null) {
+					environmentalExemption
+							.setEnvironmentalExemptionExplanation(answerExplanation);
+				}
 				environmentalImpact
 						.setEnvironmentalExemption(environmentalExemption);
 
@@ -216,7 +217,7 @@ public class RROtherProjectInfoV1_2Generator extends
 		String answerExplanation;
 		ProposalYnq proposalYnq;
 		proposalYnq = getAnswer(INTERNATIONAL_ACTIVITIES_YNQ);
-		if (proposalYnq != null) {
+		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
 			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
 					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
 			answerExplanation = proposalYnq.getExplanation();

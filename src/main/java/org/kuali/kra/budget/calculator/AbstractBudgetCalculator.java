@@ -42,8 +42,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,12 +60,12 @@ public abstract class AbstractBudgetCalculator {
     private DateTimeService dateTimeService;
     protected Budget budget;
     protected BudgetLineItemBase budgetLineItem;
-    private QueryList<BudgetProposalLaRate> lineItemPropLaRates;
-    private QueryList<BudgetProposalRate> lineItemPropRates;
+    private QueryList<BudgetLaRate> lineItemPropLaRates;
+    private QueryList<BudgetRate> lineItemPropRates;
     private List<BreakUpInterval> breakupIntervals;
     private QueryList<ValidCeRateType> infltionValidCalcCeRates;
-    private QueryList<BudgetProposalRate> underrecoveryRates;
-    private QueryList<BudgetProposalRate> inflationRates;
+    private QueryList<BudgetRate> underrecoveryRates;
+    private QueryList<BudgetRate> inflationRates;
 
     /**
      * 
@@ -100,7 +100,7 @@ public abstract class AbstractBudgetCalculator {
 //            budgetRateService.resetAllBudgetRates(budget);
 //        }
         String activityTypeCode = budget.getBudgetDocument().getParentDocument().getBudgetParent().getActivityTypeCode();
-        if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
+        if (!rates.isEmpty() && rates.get(0) instanceof BudgetRate) {
             QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), activityTypeCode);
             if (qList.isEmpty() && !budget.getActivityTypeCode().equals(activityTypeCode)) {
                 qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budget.getActivityTypeCode());                
@@ -123,40 +123,27 @@ public abstract class AbstractBudgetCalculator {
      * @return list of filtered rates
      */
     private QueryList filterRates(List rates, Date startDate, Date endDate, String activityTypeCode) {
-        //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
-//        List lineItemCalcAmts;
-//        if(budgetLineItem instanceof BudgetLineItem){
-//            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-//        }else{
-//            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-//        }
         List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
         QueryList qlRates = new QueryList(rates);
         QueryList budgetProposalRates = new QueryList();
 
-        /**
+        /*
          * Get all rates from Proposal Rates & Proposal LA Rates which matches with the rates in line item cal amts
          */
-//        if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0) {
-//            int calAmtSize = lineItemCalcAmts.size();
-//            for(int i=0;i<calAmtSize;i++){
-            for (AbstractBudgetCalculatedAmount calAmtsBean : lineItemCalcAmts) {
-//                BudgetLineItemCalculatedAmount calAmtsBean = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
-                String rateClassCode = calAmtsBean.getRateClassCode();
-                String rateTypeCode = calAmtsBean.getRateTypeCode();
-                Equals equalsRC = new Equals("rateClassCode", rateClassCode);
-                Equals equalsRT = new Equals("rateTypeCode", rateTypeCode);
-                Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
+        for (AbstractBudgetCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+            String rateClassCode = calAmtsBean.getRateClassCode();
+            String rateTypeCode = calAmtsBean.getRateTypeCode();
+            Equals equalsRC = new Equals("rateClassCode", rateClassCode);
+            Equals equalsRT = new Equals("rateTypeCode", rateTypeCode);
+            Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
 
-                And RCandRT = new And(equalsRC, equalsRT);
-                And RCRTandOnOff = new And(RCandRT, equalsOnOff);
-                QueryList filteredRates = qlRates.filter(RCRTandOnOff);
-                if (filteredRates != null && !filteredRates.isEmpty()) {
-                    budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
-                }
+            And RCandRT = new And(equalsRC, equalsRT);
+            And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+            QueryList filteredRates = qlRates.filter(RCRTandOnOff);
+            if (filteredRates != null && !filteredRates.isEmpty()) {
+                budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
             }
-
-//        }
+        }
         if (activityTypeCode != null) {
             // Add inflation rates separately because, calculated amount list will not have inflation rates listed
             if (infltionValidCalcCeRates != null && !infltionValidCalcCeRates.isEmpty()) {
@@ -168,7 +155,7 @@ public abstract class AbstractBudgetCalculator {
                     And RCRTandOnOff = new And(RCandRT, equalsOnOff);
                     Equals eActType = new Equals("activityTypeCode", activityTypeCode);
                     And RCRTandOnOffandActType = new And(RCRTandOnOff,eActType);
-                    QueryList<BudgetProposalRate> filteredRates = qlRates.filter(RCRTandOnOffandActType);
+                    QueryList<BudgetRate> filteredRates = qlRates.filter(RCRTandOnOffandActType);
                     if (filteredRates != null && !filteredRates.isEmpty()) {
                         setInflationRates(filteredRates);
                         budgetProposalRates.addAll(filteredRates);
@@ -342,8 +329,8 @@ public abstract class AbstractBudgetCalculator {
 
     protected void createAndCalculateBreakupIntervals() {
         populateCalculatedAmountLineItems();
-        setQlLineItemPropLaRates(filterRates(budget.getBudgetProposalLaRates()));
-        setQlLineItemPropRates(filterRates(budget.getBudgetProposalRates()));
+        setQlLineItemPropLaRates(filterRates(budget.getBudgetLaRates()));
+        setQlLineItemPropRates(filterRates(budget.getBudgetRates()));
         createBreakUpInterval();
         calculateBreakUpInterval();
     }
@@ -371,9 +358,9 @@ public abstract class AbstractBudgetCalculator {
             multipleRatesMesgTemplate = "Multiple Off-Campus rates found for the period ";
         }
 
-        QueryList<BudgetProposalLaRate> qlLineItemPropLaRates = getQlLineItemPropLaRates();
+        QueryList<BudgetLaRate> qlLineItemPropLaRates = getQlLineItemPropLaRates();
         LOG.info("Budget proposal LA rates size is " + qlLineItemPropLaRates.size());
-        QueryList<BudgetProposalRate> qlLineItemPropRates = getQlLineItemPropRates();
+        QueryList<BudgetRate> qlLineItemPropRates = getQlLineItemPropRates();
         LOG.info("Budget proposal rates size is " + qlLineItemPropRates.size());
 
         // combine the sorted Prop & LA Rates
@@ -406,8 +393,8 @@ public abstract class AbstractBudgetCalculator {
                 breakUpInterval.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                 breakUpInterval.setLineItemNumber(budgetLineItem.getLineItemNumber());
                 QueryList<RateAndCost> qlRateAndCosts = new QueryList<RateAndCost>();
-                QueryList<BudgetProposalRate> qlBreakupPropRates = new QueryList<BudgetProposalRate>();
-                QueryList<BudgetProposalLaRate> qlBreakupPropLARates = new QueryList<BudgetProposalLaRate>();
+                QueryList<BudgetRate> qlBreakupPropRates = new QueryList<BudgetRate>();
+                QueryList<BudgetLaRate> qlBreakupPropLARates = new QueryList<BudgetLaRate>();
                 QueryList qlTempRates = new QueryList();
                 QueryList qlMultipleRates = new QueryList();
                 String rateClassType;
@@ -504,7 +491,7 @@ public abstract class AbstractBudgetCalculator {
                                  * sort the rates in desc order and take the first rate which is the latest
                                  */
                                 qlTempRates.sort("startDate", false);
-                                BudgetProposalLaRate tempPropLaRate = (BudgetProposalLaRate) qlTempRates.get(0);
+                                BudgetLaRate tempPropLaRate = (BudgetLaRate) qlTempRates.get(0);
                                 qlBreakupPropLARates.add(tempPropLaRate);
                             }
                         }
@@ -541,7 +528,7 @@ public abstract class AbstractBudgetCalculator {
                                  * sort the rates in desc order and take the first rate which is the latest
                                  */
                                 qlTempRates.sort("startDate", false);
-                                qlBreakupPropRates.add((BudgetProposalRate) qlTempRates.get(0));
+                                qlBreakupPropRates.add((BudgetRate) qlTempRates.get(0));
                             }
                         }
                         else {
@@ -568,7 +555,7 @@ public abstract class AbstractBudgetCalculator {
                     Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
                     And RCandRT = new And(equalsRC, equalsRT);
                     And RCRTandOnOff = new And(RCandRT, equalsOnOff);
-                    QueryList<BudgetProposalRate> qlUnderRecoveryRates = qlLineItemPropRates.filter(RCRTandOnOff);
+                    QueryList<BudgetRate> qlUnderRecoveryRates = qlLineItemPropRates.filter(RCRTandOnOff);
                     if (qlUnderRecoveryRates != null && qlUnderRecoveryRates.size() > 0) {
                         LesserThan ltEndDate = new LesserThan("startDate", boundary.getEndDate());
                         Equals equalsEndDate = new Equals("startDate", boundary.getEndDate());
@@ -579,7 +566,7 @@ public abstract class AbstractBudgetCalculator {
                              * sort the rates in desc order and take the first rate which is the latest
                              */
                             qlTempRates.sort("startDate", false);
-                            breakUpInterval.setURRatesBean((BudgetProposalRate) qlTempRates.get(0));
+                            breakUpInterval.setURRatesBean((BudgetRate) qlTempRates.get(0));
                         }
                     }
                 }
@@ -610,7 +597,7 @@ public abstract class AbstractBudgetCalculator {
             Date tempStartDate = liStartDate;
             Date tempEndDate = liEndDate;
             Date rateChangeDate;
-//            BudgetProposalLaRate laRate;
+//            BudgetLaRate laRate;
             // take all rates greater than start date
             GreaterThan greaterThan = new GreaterThan("startDate", liStartDate);
             qlCombinedRates = qlCombinedRates.filter(greaterThan);
@@ -741,8 +728,8 @@ public abstract class AbstractBudgetCalculator {
                                                      .or(notEqualsOverHeadRateClassType())
                                                      .and(notEqualsInflationRateClassType()));
 
-        List<BudgetProposalLaRate> budgetProposalLaRates = budget.getBudgetProposalLaRates();
-        if (budgetProposalLaRates == null || budgetProposalLaRates.size() == 0) {
+        List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
+        if (budgetLaRates == null || budgetLaRates.size() == 0) {
             qValidCeRateTypes = qValidCeRateTypes.filter(notEqualsLabAllocationRateClassType());
         }
 
@@ -858,7 +845,7 @@ public abstract class AbstractBudgetCalculator {
      * 
      * @return Returns the underrecoveryRates.
      */
-    public QueryList<BudgetProposalRate> getUnderrecoveryRates() {
+    public QueryList<BudgetRate> getUnderrecoveryRates() {
         return underrecoveryRates;
     }
 
@@ -867,43 +854,43 @@ public abstract class AbstractBudgetCalculator {
      * 
      * @param underrecoveryRates The underrecoveryRates to set.
      */
-    public void setUnderrecoveryRates(QueryList<BudgetProposalRate> underrecoveryRates) {
+    public void setUnderrecoveryRates(QueryList<BudgetRate> underrecoveryRates) {
         this.underrecoveryRates = underrecoveryRates;
     }
 
-    public QueryList<BudgetProposalRate> getInflationRates() {
+    public QueryList<BudgetRate> getInflationRates() {
         return inflationRates;
     }
 
-    public void setInflationRates(QueryList<BudgetProposalRate> inflationRates) {
+    public void setInflationRates(QueryList<BudgetRate> inflationRates) {
         this.inflationRates = inflationRates;
     }
     /**
      * Gets the qlLineItemPropLaRates attribute. 
      * @return Returns the qlLineItemPropLaRates.
      */
-    public QueryList<BudgetProposalLaRate> getQlLineItemPropLaRates() {
+    public QueryList<BudgetLaRate> getQlLineItemPropLaRates() {
         return lineItemPropLaRates;
     }
     /**
      * Sets the qlLineItemPropLaRates attribute value.
      * @param qlLineItemPropLaRates The qlLineItemPropLaRates to set.
      */
-    public void setQlLineItemPropLaRates(QueryList<BudgetProposalLaRate> qlLineItemPropLaRates) {
+    public void setQlLineItemPropLaRates(QueryList<BudgetLaRate> qlLineItemPropLaRates) {
         this.lineItemPropLaRates = qlLineItemPropLaRates;
     }
     /**
      * Gets the qlLineItemPropRates attribute. 
      * @return Returns the qlLineItemPropRates.
      */
-    public QueryList<BudgetProposalRate> getQlLineItemPropRates() {
+    public QueryList<BudgetRate> getQlLineItemPropRates() {
         return lineItemPropRates;
     }
     /**
      * Sets the qlLineItemPropRates attribute value.
      * @param qlLineItemPropRates The qlLineItemPropRates to set.
      */
-    public void setQlLineItemPropRates(QueryList<BudgetProposalRate> qlLineItemPropRates) {
+    public void setQlLineItemPropRates(QueryList<BudgetRate> qlLineItemPropRates) {
         this.lineItemPropRates = qlLineItemPropRates;
     }
 }

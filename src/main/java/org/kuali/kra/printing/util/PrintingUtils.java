@@ -26,6 +26,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.printing.BudgetPrintType;
@@ -57,7 +58,8 @@ public class PrintingUtils {
 	private static final String XSL_PENDING_REPORT = "PendingSupport.xsl";
 	private static final String XSL_INSTITUTIONAL_PROPOSAL_REPORT = "instituteProposal.xsl";
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
-	
+	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
+
 	/**
 	 * This method fetches system constant parameters
 	 * 
@@ -71,8 +73,7 @@ public class PrintingUtils {
 				.getService(ParameterService.class);
 		// TODO:need to remove hardcoded value
 		return parameterService.getParameterValue(
-				ProposalDevelopmentDocument.class,
-				"s2s.submissiontype.application");
+				ProposalDevelopmentDocument.class, parameter);
 	}
 
 	/**
@@ -202,4 +203,30 @@ public class PrintingUtils {
         }
         return proposalPerson;
     }
+
+	/**
+	 * 
+	 * This method wili get the comment type description for given comment type
+	 * code
+	 * 
+	 * @param commentTypeCode
+	 *            Code for which description will be fetched
+	 * @param businessObjectService
+	 *            {@link BusinessObjectService}
+	 * @return String Comment Type Description
+	 */
+	public static String getCommentTypeDescription(String commentTypeCode,
+			BusinessObjectService businessObjectService) {
+		String description = null;
+		Map<String, String> commentTypeCodeMap = new HashMap<String, String>();
+		commentTypeCodeMap.put(COMMENT_TYPE_CODE_PARAMETER, commentTypeCode);
+		CommentType commentType = (CommentType) businessObjectService
+				.findByPrimaryKey(org.kuali.kra.bo.CommentType.class,
+						commentTypeCodeMap);
+		if (commentType != null) {
+			description = commentType.getDescription();
+		}
+		return description;
+	}
+
 }

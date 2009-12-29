@@ -18,7 +18,7 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
 /**
  * 
  * This class represents INSTITUTE_LA_RATE record
@@ -43,7 +43,7 @@ public class InstituteLaRate extends AbstractInstituteRate{
 
     @Override
     protected AbstractBudgetRate createBudgetRate() {
-        return new BudgetProposalLaRate();
+        return new BudgetLaRate();
     }
 	
 }

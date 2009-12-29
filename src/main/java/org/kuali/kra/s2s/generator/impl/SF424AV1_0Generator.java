@@ -157,7 +157,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                             suppliesCost = suppliesCost.add(budgetLineItem.getLineItemCost());
                         }
                         else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
-                                || budgetCategoryMap.getCategoryType().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
+                                || budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
                             travelCost = travelCost.add(budgetLineItem.getLineItemCost());
                         }
                         if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_OTHER_DIRECT_COSTS)

@@ -33,8 +33,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -180,10 +180,10 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
     }
 
     private void populateDummyRates(Budget bd) {
-        List<BudgetProposalRate> budgetProposalRates = bd.getBudgetProposalRates();
+        List<BudgetRate> budgetRates = bd.getBudgetRates();
         List<InstituteRate> instRates = (List)bos.findAll(InstituteRate.class);
         for (InstituteRate instituteRate : instRates) {
-            BudgetProposalRate bpr = new BudgetProposalRate();
+            BudgetRate bpr = new BudgetRate();
             bpr.setBudgetId(bd.getBudgetId());
             bpr.setActivityTypeCode(instituteRate.getActivityTypeCode());
             bpr.setFiscalYear(instituteRate.getFiscalYear());
@@ -194,13 +194,13 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
             bpr.setUnitNumber(instituteRate.getUnitNumber());
             bpr.setInstituteRate(instituteRate.getInstituteRate());
             bpr.setApplicableRate(bpr.getInstituteRate());
-            budgetProposalRates.add(bpr);
+            budgetRates.add(bpr);
         }
-        List<BudgetProposalLaRate> budgetProposalLaRates = bd.getBudgetProposalLaRates();
+        List<BudgetLaRate> budgetLaRates = bd.getBudgetLaRates();
         List<InstituteLaRate> instLaRates = (List)bos.findAll(InstituteLaRate.class);
         
         for (InstituteLaRate instituteLaRate : instLaRates) {
-            BudgetProposalLaRate bpr = new BudgetProposalLaRate();
+            BudgetLaRate bpr = new BudgetLaRate();
             bpr.setBudgetId(bd.getBudgetId());
             bpr.setFiscalYear(instituteLaRate.getFiscalYear());
             bpr.setOnOffCampusFlag(instituteLaRate.getOnOffCampusFlag());
@@ -210,7 +210,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
             bpr.setUnitNumber(instituteLaRate.getUnitNumber());
             bpr.setInstituteRate(instituteLaRate.getInstituteRate());
             bpr.setApplicableRate(bpr.getInstituteRate());
-            budgetProposalLaRates.add(bpr);
+            budgetLaRates.add(bpr);
         }
         
     }

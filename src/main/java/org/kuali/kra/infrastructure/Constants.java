@@ -271,7 +271,7 @@ public interface Constants {
     public static final String PROPOSAL_HIERARCHY_PAGE = "proposalHierarchy";
     
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
-    public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
+    public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
     public static final String BUDGET_DISTRIBUTION_AND_INCOME_PAGE = "budgetDistributionAndIncome";
