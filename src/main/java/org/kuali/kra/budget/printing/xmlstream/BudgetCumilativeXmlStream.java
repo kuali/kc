@@ -249,7 +249,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		setReportTypeForCumulativeBudgetSalary(reportTypeList);
-		setBudgetLASalariesForBudgetPersRateAndBaseForCumulativeReport(reportTypeList);
 		setBudgetLASalaryForBudgetRateAndBaseForCumulativeReport(reportTypeList);
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));
 		return subReportType;
@@ -283,43 +282,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		}
 		setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
 				reportTypeList, reportTypeVOList);
-	}
-
-	/*
-	 * This method sets reportType from budget and iterate through BudgetPeriod,
-	 * BudgetLineItem BudgetPersonnelDetails and BudgetPersonnelRateAndBase for
-	 * BudgetLASalariesForBudgetPersRateAndBase
-	 */
-	private void setBudgetLASalariesForBudgetPersRateAndBaseForCumulativeReport(
-			List<ReportType> reportTypeList) {
-		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				Map<String, BudgetPersonnelRateAndBase> laRateBaseMap = new HashMap<String, BudgetPersonnelRateAndBase>();
-				for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
-						.getBudgetPersonnelDetailsList()) {
-					for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
-							.getBudgetPersonnelRateAndBaseList()) {
-						if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetPersRateAndBase)) {
-							Date startDate = budgetPersRateAndBase
-									.getStartDate();
-							Date endDate = budgetPersRateAndBase.getEndDate();
-							String key = new StringBuilder(startDate.toString())
-									.append(endDate.toString()).toString();
-							if (laRateBaseMap.containsKey(key)) {
-								continue;
-							}
-							ReportTypeVO reportTypeVO = getReportTypeVOListForLASalariesBudgetPersRateAndBase(
-									budgetPersDetails, budgetPersRateAndBase);
-							reportTypeVOList.add(reportTypeVO);
-							laRateBaseMap.put(key, budgetPersRateAndBase);
-						}
-					}
-				}
-			}
-		}
-		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
 	/*
@@ -615,7 +577,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		int sortId;
 		String categoryDesc = null;
 		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (budget.getBudgetProposalLaRates().size() > 0) {
+		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1ForCumulativeReport();
@@ -719,7 +681,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		int sortId;
 		String categoryDesc = null;
 		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-		if (budget.getBudgetProposalLaRates().size() > 0) {
+		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId1ForCumulativeReport();

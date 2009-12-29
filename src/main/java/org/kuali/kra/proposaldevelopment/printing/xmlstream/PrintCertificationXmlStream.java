@@ -135,8 +135,9 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private String getOfficeName(ProposalPerson proposalPerson) {
 		String officeName = Constants.EMPTY_STRING;
 		for (ProposalPersonUnit proposalPersonUnit : proposalPerson.getUnits()) {
-			if (proposalPersonUnit.isLeadUnit()
-					&& proposalPerson.getPerson().getUnit() != null) {
+			if (proposalPerson.getPerson() != null
+					&& proposalPersonUnit.getUnit() != null
+					&& proposalPersonUnit.isLeadUnit()){
 				if (proposalPersonUnit.getUnit().getUnitName() != null) {
 					officeName = proposalPersonUnit.getUnit().getUnitName();
 					break;

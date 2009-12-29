@@ -4,33 +4,33 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetProposalRate" parent="BudgetProposalRate-parentBean" />
+  <bean id="BudgetRate" parent="BudgetRate-parentBean" />
 
-  <bean id="BudgetProposalRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.BudgetProposalRate" />
+  <bean id="BudgetRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.BudgetRate" />
 		<property name="objectLabel" value="Budget Proposal Rate" />
     <property name="inquiryDefinition" >
-      <ref bean="BudgetProposalRate-inquiryDefinition" />
+      <ref bean="BudgetRate-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="BudgetProposalRate-lookupDefinition" />
+      <ref bean="BudgetRate-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="fiscalYear" />
     <property name="attributes" >
       <list>
-        <ref bean="BudgetProposalRate-fiscalYear" />
-        <ref bean="BudgetProposalRate-onOffCampusFlag" />
-        <ref bean="BudgetProposalRate-viewLocation" />
-        <ref bean="BudgetProposalRate-affectedBudgetPeriod" />
-        <ref bean="BudgetProposalRate-budgetPeriod" />
-<!--        <ref bean="BudgetProposalRate-proposalNumber" />-->
-        <ref bean="BudgetProposalRate-rateClassCode" />
-        <ref bean="BudgetProposalRate-rateTypeCode" />
-        <ref bean="BudgetProposalRate-startDate" />
-        <ref bean="BudgetProposalRate-versionNumber" />
-        <ref bean="BudgetProposalRate-activityTypeCode" />
-        <ref bean="BudgetProposalRate-applicableRate" />
-        <ref bean="BudgetProposalRate-instituteRate" />
+        <ref bean="BudgetRate-fiscalYear" />
+        <ref bean="BudgetRate-onOffCampusFlag" />
+        <ref bean="BudgetRate-viewLocation" />
+        <ref bean="BudgetRate-affectedBudgetPeriod" />
+        <ref bean="BudgetRate-budgetPeriod" />
+<!--        <ref bean="BudgetRate-proposalNumber" />-->
+        <ref bean="BudgetRate-rateClassCode" />
+        <ref bean="BudgetRate-rateTypeCode" />
+        <ref bean="BudgetRate-startDate" />
+        <ref bean="BudgetRate-versionNumber" />
+        <ref bean="BudgetRate-activityTypeCode" />
+        <ref bean="BudgetRate-applicableRate" />
+        <ref bean="BudgetRate-instituteRate" />
       </list>
     </property>
   </bean>
@@ -38,9 +38,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetProposalRate-fiscalYear" parent="BudgetProposalRate-fiscalYear-parentBean" />
+  <bean id="BudgetRate-fiscalYear" parent="BudgetRate-fiscalYear-parentBean" />
 
-  <bean id="BudgetProposalRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiscalYear" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Fiscal Year" />
@@ -56,9 +56,9 @@
     <property name="summary" value="Fiscal Year" />
     <property name="description" value="Fiscal Year" />
   </bean>
-  <bean id="BudgetProposalRate-onOffCampusFlag" parent="BudgetProposalRate-onOffCampusFlag-parentBean" />
+  <bean id="BudgetRate-onOffCampusFlag" parent="BudgetRate-onOffCampusFlag-parentBean" />
 
-  <bean id="BudgetProposalRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="On Campus" />
@@ -74,9 +74,9 @@
     <property name="summary" value="On Off Campus Flag" />
     <property name="description" value="On Off Campus Flag" />
   </bean>
-  <bean id="BudgetProposalRate-viewLocation" parent="BudgetProposalRate-viewLocation-parentBean" />
+  <bean id="BudgetRate-viewLocation" parent="BudgetRate-viewLocation-parentBean" />
 
-  <bean id="BudgetProposalRate-viewLocation-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-viewLocation-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="viewLocation" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Location" />
@@ -93,9 +93,9 @@
     <property name="summary" value="On Off Campus Flag" />
     <property name="description" value="On Off Campus Flag" />
   </bean>
-  <bean id="BudgetProposalRate-affectedBudgetPeriod" parent="BudgetProposalRate-affectedBudgetPeriod-parentBean" />
+  <bean id="BudgetRate-affectedBudgetPeriod" parent="BudgetRate-affectedBudgetPeriod-parentBean" />
 
-  <bean id="BudgetProposalRate-affectedBudgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-affectedBudgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="affectedBudgetPeriod" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Affected Budget Period" />
@@ -108,9 +108,9 @@
     <property name="summary" value="Affected Budget Period" />
     <property name="description" value="Affected Budget Period" />
   </bean>
-  <bean id="BudgetProposalRate-budgetPeriod" parent="BudgetProposalRate-budgetPeriod-parentBean" />
+  <bean id="BudgetRate-budgetPeriod" parent="BudgetRate-budgetPeriod-parentBean" />
 
-  <bean id="BudgetProposalRate-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetPeriod" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Period" />
@@ -127,9 +127,9 @@
     <property name="summary" value="Budget Period" />
     <property name="description" value="Budget Period" />
   </bean>
-<!--  <bean id="BudgetProposalRate-proposalNumber" parent="BudgetProposalRate-proposalNumber-parentBean" />-->
+<!--  <bean id="BudgetRate-proposalNumber" parent="BudgetRate-proposalNumber-parentBean" />-->
 <!---->
-<!--  <bean id="BudgetProposalRate-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--  <bean id="BudgetRate-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
 <!--    <property name="name" value="proposalNumber" />-->
 <!--    <property name="forceUppercase" value="false" />-->
 <!--    <property name="label" value="Proposal Number" />-->
@@ -145,9 +145,9 @@
 <!--    <property name="summary" value="Proposal Number" />-->
 <!--    <property name="description" value="Proposal Number" />-->
 <!--  </bean>-->
-  <bean id="BudgetProposalRate-rateClassCode" parent="BudgetProposalRate-rateClassCode-parentBean" />
+  <bean id="BudgetRate-rateClassCode" parent="BudgetRate-rateClassCode-parentBean" />
 
-  <bean id="BudgetProposalRate-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateClassCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rate Class Code" />
@@ -163,9 +163,9 @@
     <property name="summary" value="Rate Class Code" />
     <property name="description" value="Rate Class Code" />
   </bean>
-  <bean id="BudgetProposalRate-rateTypeCode" parent="BudgetProposalRate-rateTypeCode-parentBean" />
+  <bean id="BudgetRate-rateTypeCode" parent="BudgetRate-rateTypeCode-parentBean" />
 
-  <bean id="BudgetProposalRate-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rate Type Code" />
@@ -181,18 +181,18 @@
     <property name="summary" value="Rate Type Code" />
     <property name="description" value="Rate Type Code" />
   </bean>
-  <bean id="BudgetProposalRate-startDate" parent="BudgetProposalRate-startDate-parentBean" />
+  <bean id="BudgetRate-startDate" parent="BudgetRate-startDate-parentBean" />
 
-  <bean id="BudgetProposalRate-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="BudgetRate-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
     <property name="label" value="Start Date" />
     <property name="shortLabel" value="Start Date" />
     <property name="summary" value="Start Date" />
     <property name="description" value="Start Date." />
   </bean>
-  <bean id="BudgetProposalRate-versionNumber" parent="BudgetProposalRate-versionNumber-parentBean" />
+  <bean id="BudgetRate-versionNumber" parent="BudgetRate-versionNumber-parentBean" />
 
-  <bean id="BudgetProposalRate-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="versionNumber" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Version Number" />
@@ -208,9 +208,9 @@
     <property name="summary" value="Version Number" />
     <property name="description" value="Version Number" />
   </bean>
-  <bean id="BudgetProposalRate-activityTypeCode" parent="BudgetProposalRate-activityTypeCode-parentBean" />
+  <bean id="BudgetRate-activityTypeCode" parent="BudgetRate-activityTypeCode-parentBean" />
 
-  <bean id="BudgetProposalRate-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Activity Type Code" />
@@ -226,9 +226,9 @@
     <property name="summary" value="Activity Type Code" />
     <property name="description" value="Activity Type Code" />
   </bean>
-  <bean id="BudgetProposalRate-applicableRate" parent="BudgetProposalRate-applicableRate-parentBean" />
+  <bean id="BudgetRate-applicableRate" parent="BudgetRate-applicableRate-parentBean" />
 
-  <bean id="BudgetProposalRate-applicableRate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-applicableRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="applicableRate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Applicable Rate" />
@@ -242,9 +242,9 @@
     <property name="summary" value="Applicable Rate" />
     <property name="description" value="Applicable Rate" />
   </bean>
-  <bean id="BudgetProposalRate-instituteRate" parent="BudgetProposalRate-instituteRate-parentBean" />
+  <bean id="BudgetRate-instituteRate" parent="BudgetRate-instituteRate-parentBean" />
 
-  <bean id="BudgetProposalRate-instituteRate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetRate-instituteRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="instituteRate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Institute Rate" />
@@ -261,9 +261,9 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetProposalRate-inquiryDefinition" parent="BudgetProposalRate-inquiryDefinition-parentBean" />
+  <bean id="BudgetRate-inquiryDefinition" parent="BudgetRate-inquiryDefinition-parentBean" />
 
-  <bean id="BudgetProposalRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="BudgetRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Prop Rates" />
     <property name="inquirySections" >
       <list>
@@ -309,9 +309,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetProposalRate-lookupDefinition" parent="BudgetProposalRate-lookupDefinition-parentBean" />
+  <bean id="BudgetRate-lookupDefinition" parent="BudgetRate-lookupDefinition-parentBean" />
 
-  <bean id="BudgetProposalRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="BudgetRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Prop Rates Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 

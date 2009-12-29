@@ -42,8 +42,8 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.BudgetRatesServiceImpl;
 import org.kuali.kra.budget.rates.RateClass;
@@ -107,21 +107,21 @@ public class BudgetRatesServiceTest extends KraTestBase {
     
     @Test
     public void testResetAllBudgetRates() throws Exception {
-        setRates(budgetDocument.getBudget().getBudgetProposalRates());
-        setRates(budgetDocument.getBudget().getBudgetProposalLaRates());
+        setRates(budgetDocument.getBudget().getBudgetRates());
+        setRates(budgetDocument.getBudget().getBudgetLaRates());
         budgetRatesService.resetAllBudgetRates(budgetDocument.getBudget());
-        checkApplicableRateEqualsInstituteRate(budgetDocument.getBudget().getBudgetProposalRates());
-        checkApplicableRateEqualsInstituteRate(budgetDocument.getBudget().getBudgetProposalLaRates());        
+        checkApplicableRateEqualsInstituteRate(budgetDocument.getBudget().getBudgetRates());
+        checkApplicableRateEqualsInstituteRate(budgetDocument.getBudget().getBudgetLaRates());        
     }
     
 
     @Test
     public void testResetBudgetRatesForRateClassType() throws Exception {
-        setRates(budgetDocument.getBudget().getBudgetProposalRates());
-        setRates(budgetDocument.getBudget().getBudgetProposalLaRates());
+        setRates(budgetDocument.getBudget().getBudgetRates());
+        setRates(budgetDocument.getBudget().getBudgetLaRates());
         budgetRatesService.resetBudgetRatesForRateClassType(RATE_CLASS_CODE_3, budgetDocument.getBudget());
-        checkApplicableRateEqualsInstituteRateForRateClass(RATE_CLASS_CODE_3, budgetDocument.getBudget().getBudgetProposalRates());
-        checkApplicableRateEqualsInstituteRateForRateClass(RATE_CLASS_CODE_3, budgetDocument.getBudget().getBudgetProposalLaRates());
+        checkApplicableRateEqualsInstituteRateForRateClass(RATE_CLASS_CODE_3, budgetDocument.getBudget().getBudgetRates());
+        checkApplicableRateEqualsInstituteRateForRateClass(RATE_CLASS_CODE_3, budgetDocument.getBudget().getBudgetLaRates());
     }
 
 
@@ -130,7 +130,7 @@ public class BudgetRatesServiceTest extends KraTestBase {
         changeInstituteRates();        
         budgetRatesService.syncAllBudgetRates(budgetDocument);
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
-        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
+        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
     }
     
@@ -140,7 +140,7 @@ public class BudgetRatesServiceTest extends KraTestBase {
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
-        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
+        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
     }  
     
@@ -150,14 +150,14 @@ public class BudgetRatesServiceTest extends KraTestBase {
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
-        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
+        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
     } 
 
     @Test
     public void testViewLocation() throws Exception {
-        testViewLocation(budgetDocument.getBudget().getBudgetProposalRates());
-        testViewLocation(budgetDocument.getBudget().getBudgetProposalLaRates());
+        testViewLocation(budgetDocument.getBudget().getBudgetRates());
+        testViewLocation(budgetDocument.getBudget().getBudgetLaRates());
     }
     
     @BeforeClass
@@ -256,14 +256,14 @@ public class BudgetRatesServiceTest extends KraTestBase {
     }
     
     private void checkSyncedRates() {
-        for(BudgetProposalRate budgetProposalRate: budgetDocument.getBudget().getBudgetProposalRates()) {
-            Assert.assertEquals(TEST_INSTITUTE_RATE, budgetProposalRate.getInstituteRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
-            Assert.assertEquals(TEST_INSTITUTE_RATE, budgetProposalRate.getApplicableRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
+        for(BudgetRate budgetRate: budgetDocument.getBudget().getBudgetRates()) {
+            Assert.assertEquals(TEST_INSTITUTE_RATE, budgetRate.getInstituteRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
+            Assert.assertEquals(TEST_INSTITUTE_RATE, budgetRate.getApplicableRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
         }
         
-        for(BudgetProposalLaRate budgetProposalLaRate: budgetDocument.getBudget().getBudgetProposalLaRates()) {
-            Assert.assertEquals(TEST_INSTITUTE_LA_RATE, budgetProposalLaRate.getInstituteRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
-            Assert.assertEquals(TEST_INSTITUTE_LA_RATE, budgetProposalLaRate.getApplicableRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
+        for(BudgetLaRate budgetLaRate: budgetDocument.getBudget().getBudgetLaRates()) {
+            Assert.assertEquals(TEST_INSTITUTE_LA_RATE, budgetLaRate.getInstituteRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
+            Assert.assertEquals(TEST_INSTITUTE_LA_RATE, budgetLaRate.getApplicableRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
         }
     }
     
@@ -375,18 +375,18 @@ public class BudgetRatesServiceTest extends KraTestBase {
         instituteRate.setFiscalYear("2006");
     }
     
-    private BudgetProposalRate generateBudgetProposalRate(String activityTypeCode, String rateClassCode, String rateTypeCode, Date startDate, String onOffCampusFlag) {
-        BudgetProposalRate budgetProposalRate = new BudgetProposalRate();
-        budgetProposalRate.setActivityTypeCode(activityTypeCode);
-        budgetProposalRate.setRateClassCode(rateClassCode);
-        budgetProposalRate.setRateTypeCode(rateTypeCode);
+    private BudgetRate generateBudgetProposalRate(String activityTypeCode, String rateClassCode, String rateTypeCode, Date startDate, String onOffCampusFlag) {
+        BudgetRate budgetRate = new BudgetRate();
+        budgetRate.setActivityTypeCode(activityTypeCode);
+        budgetRate.setRateClassCode(rateClassCode);
+        budgetRate.setRateTypeCode(rateTypeCode);
         RateType rateType = new RateType();
         rateType.setDescription(rateTypeCode);
-        budgetProposalRate.setRateType(rateType);
-        budgetProposalRate.setStartDate(referenceStartDate);
-        budgetProposalRate.setOnOffCampusFlag(Constants.ON_CAMUS_FLAG.equals(onOffCampusFlag));
-        budgetProposalRate.setFiscalYear("2008");        
-        return budgetProposalRate;
+        budgetRate.setRateType(rateType);
+        budgetRate.setStartDate(referenceStartDate);
+        budgetRate.setOnOffCampusFlag(Constants.ON_CAMUS_FLAG.equals(onOffCampusFlag));
+        budgetRate.setFiscalYear("2008");        
+        return budgetRate;
     }
     
     @SuppressWarnings("unchecked")

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
+<c:set var="budgetRatesAttributes" value="${DataDictionary.BudgetRate.attributes}" />
 <c:set var="action" value="budgetRates" />
 
 <div id="workarea">
@@ -30,19 +30,19 @@
 	The tabKey var created below creates the tabAuditKey and tabErrorKey for the kul:tab tag 
 	since the contents between the tabs are only differentiated by consecutive numbering.
 --%>
-<c:set var="tabKey" value="document.budget.budgetProposalRate[${rateClass}]*" />
-<c:forEach items="${KualiForm.document.budget.budgetProposalRates}" var="proposalRates" varStatus="status">
-	<bean:define id="irateClassType" name="KualiForm" property="document.budget.budgetProposalRates[${status.index}].rateClass.rateClassType"/>
-	<bean:define id="displayRow" name="KualiForm" property="document.budget.budgetProposalRates[${status.index}].displayLocation"/>
+<c:set var="tabKey" value="document.budget.budgetRate[${rateClass}]*" />
+<c:forEach items="${KualiForm.document.budget.budgetRates}" var="proposalRates" varStatus="status">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budget.budgetRates[${status.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budget.budgetRates[${status.index}].displayLocation"/>
 	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
-		<c:set var="tabKey" value="${tabKey},document.budgetProposalRates[${status.index}]*" />
+		<c:set var="tabKey" value="${tabKey},document.budgetRates[${status.index}]*" />
 	</c:if>
 </c:forEach>
-<c:forEach items="${KualiForm.document.budget.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
-	<bean:define id="irateClassType" name="KualiForm" property="document.budget.budgetProposalLaRates[${laStatus.index}].rateClass.rateClassType"/>
-	<bean:define id="displayRow" name="KualiForm" property="document.budget.budgetProposalLaRates[${laStatus.index}].displayLocation"/>
+<c:forEach items="${KualiForm.document.budget.budgetLaRates}" var="proposalLaRates" varStatus="laStatus">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budget.budgetLaRates[${laStatus.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budget.budgetLaRates[${laStatus.index}].displayLocation"/>
 	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
-		<c:set var="tabKey" value="${tabKey},document.budgetProposalLaRates[${laStatus.index}]*" />
+		<c:set var="tabKey" value="${tabKey},document.budgetLaRates[${laStatus.index}]*" />
 	</c:if>
 </c:forEach>   
     
@@ -53,37 +53,37 @@
    		<h3>${rateClass}</h3>
         <table id="${rateClass}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.onOffCampusFlag" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.fiscalYear" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.onOffCampusFlag" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.fiscalYear" />
              <!-- 
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.affectedBudgetPeriod" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.affectedBudgetPeriod" />
 	    	-->
 
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.startDate" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.instituteRate" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.applicableRate" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.startDate" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.instituteRate" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetRate.attributes.applicableRate" />
 			<c:set var="rowIndex" value="1" />
 
-			<c:forEach items="${KualiForm.document.budget.budgetProposalRates}" var="proposalRates" varStatus="status">
-    	 	  	<c:set var="budgetProposalRate" value="document.budget.budgetProposalRates[${status.index}]" /> 
+			<c:forEach items="${KualiForm.document.budget.budgetRates}" var="proposalRates" varStatus="status">
+    	 	  	<c:set var="budgetRate" value="document.budget.budgetRates[${status.index}]" /> 
 						<c:set var="styleClass" value=""/>
-						<kul:checkErrors keyMatch="document.budget.budgetProposalRate[${rateClass}][${status.index}].applicableRate"/>
+						<kul:checkErrors keyMatch="document.budget.budgetRate[${rateClass}][${status.index}].applicableRate"/>
 	                	<c:if test="${hasErrors}">
 	                    	<c:set var="styleClass" value="errorField"/>
 	                	</c:if>
-	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
+	 			<kra-b:budgetRatesTab budgetRate="${budgetRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
 			</c:forEach>
 
 
 
-			<c:forEach items="${KualiForm.document.budget.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
-    	 	  	<c:set var="budgetProposalLaRate" value="document.budget.budgetProposalLaRates[${laStatus.index}]" /> 
+			<c:forEach items="${KualiForm.document.budget.budgetLaRates}" var="proposalLaRates" varStatus="laStatus">
+    	 	  	<c:set var="budgetLaRate" value="document.budget.budgetLaRates[${laStatus.index}]" /> 
 						<c:set var="styleClass" value=""/>
-						<kul:checkErrors keyMatch="document.budget.budgetProposalRate[${rateClass}][${laStatus.index}].applicableRate"/>
+						<kul:checkErrors keyMatch="document.budget.budgetRate[${rateClass}][${laStatus.index}].applicableRate"/>
 	                	<c:if test="${hasErrors}">
 	                    	<c:set var="styleClass" value="errorField"/>
 	                	</c:if>
-	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalLaRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
+	 			<kra-b:budgetRatesTab budgetRate="${budgetLaRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
 			</c:forEach>
 
 

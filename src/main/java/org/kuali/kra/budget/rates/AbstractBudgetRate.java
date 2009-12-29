@@ -187,4 +187,88 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((affectedBudgetPeriod == null) ? 0 : affectedBudgetPeriod.hashCode());
+        result = prime * result + ((applicableRate == null) ? 0 : applicableRate.hashCode());
+        result = prime * result + ((budget == null) ? 0 : budget.hashCode());
+        result = prime * result + ((budgetId == null) ? 0 : budgetId.hashCode());
+        result = prime * result + ((budgetPeriod == null) ? 0 : budgetPeriod.hashCode());
+        result = prime * result + (displayLocation ? 1231 : 1237);
+        result = prime * result + ((oldApplicableRate == null) ? 0 : oldApplicableRate.hashCode());
+        result = prime * result + ((trackAffectedPeriod == null) ? 0 : trackAffectedPeriod.hashCode());
+        result = prime * result + ((viewLocation == null) ? 0 : viewLocation.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractBudgetRate other = (AbstractBudgetRate) obj;
+        if (affectedBudgetPeriod == null) {
+            if (other.affectedBudgetPeriod != null)
+                return false;
+        }
+        else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod))
+            return false;
+        if (applicableRate == null) {
+            if (other.applicableRate != null)
+                return false;
+        }
+        else if (!applicableRate.equals(other.applicableRate))
+            return false;
+        if (budget == null) {
+            if (other.budget != null)
+                return false;
+        }
+        else if (!budget.equals(other.budget))
+            return false;
+        if (budgetId == null) {
+            if (other.budgetId != null)
+                return false;
+        }
+        else if (!budgetId.equals(other.budgetId))
+            return false;
+        if (budgetPeriod == null) {
+            if (other.budgetPeriod != null)
+                return false;
+        }
+        else if (!budgetPeriod.equals(other.budgetPeriod))
+            return false;
+        if (displayLocation != other.displayLocation)
+            return false;
+        if (oldApplicableRate == null) {
+            if (other.oldApplicableRate != null)
+                return false;
+        }
+        else if (!oldApplicableRate.equals(other.oldApplicableRate))
+            return false;
+        if (trackAffectedPeriod == null) {
+            if (other.trackAffectedPeriod != null)
+                return false;
+        }
+        else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod))
+            return false;
+        if (viewLocation == null) {
+            if (other.viewLocation != null)
+                return false;
+        }
+        else if (!viewLocation.equals(other.viewLocation))
+            return false;
+        return true;
+    }
 }

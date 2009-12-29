@@ -37,6 +37,7 @@ import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.Operator;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.RelationalOperator;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -104,17 +105,12 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
         try{
             field = dataClass.getDeclaredField(fieldName);
             if(! field.isAccessible()) {
-                //String methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
-                //System.out.println(methodName);
-                //method = dataClass.getMethod(methodName, null);
                 throw new NoSuchFieldException();
             }
         }catch (NoSuchFieldException noSuchFieldException) {
-            //noSuchFieldException.printStackTrace();
             //field not available. Use method invokation.
             try{
                 String methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
-                //System.out.println(methodName);
                 method = dataClass.getMethod(methodName, null);
             }catch (NoSuchMethodException noSuchMethodException) {
                 noSuchMethodException.printStackTrace();
@@ -145,9 +141,6 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                         }
                     }
                     else{
-                        //Object obj1 = method.invoke(current, null);
-                        //Object obj2 = method.invoke(next, null);
-                        
                         Comparable thisObj = (Comparable)method.invoke(current, null);
                         Comparable otherObj = (Comparable)method.invoke(next, null);
                         if (thisObj == null) {
@@ -161,7 +154,6 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                                 compareValue = thisObj.compareTo(otherObj);
                             }
                         }
-                        //compareValue = ((Comparable)method.invoke(current, null)).compareTo((Comparable)method.invoke(next, null));
                     }
                 }catch (IllegalAccessException illegalAccessException) {
                     illegalAccessException.printStackTrace();
@@ -392,12 +384,8 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                     if(value != null) {
                         Object values[] = {value};
                         dataValue = (Comparable)method.invoke(current, values);
-//                        dblVal = Double.parseDouble(((Comparable)method.invoke(current, values)).toString());
-//                        sum = sum + Double.parseDouble(((Comparable)method.invoke(current, values)).toString());
                     }else {
                         dataValue = (Comparable)method.invoke(current, null);
-//                        dblVal = Double.parseDouble(((Comparable)method.invoke(current, null)).toString());
-//                        sum = sum + Double.parseDouble(((Comparable)method.invoke(current, null)).toString());
                     }
                     if(dataValue!=null){
                         sum+=Double.parseDouble(dataValue.toString());
@@ -622,5 +610,9 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
     @Override
     public String toString() {
         return this.backingList.toString();
+    }
+
+    public List<E> toArrayList() {
+        return this.backingList;
     }
 }

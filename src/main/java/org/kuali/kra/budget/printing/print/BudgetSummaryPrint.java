@@ -73,8 +73,7 @@ public class BudgetSummaryPrint extends AbstractPrint {
 		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
 				getDocument(), getReportParameters());
 		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey)
-					.newInputStream());
+			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey).newInputStream());
 		}
 		return xmlStreamMap;
 	}

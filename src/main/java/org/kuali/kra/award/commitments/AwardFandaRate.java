@@ -42,6 +42,7 @@ public class AwardFandaRate extends AwardAssociate {
     private String destinationAccount; 
     private Date startDate; 
     private Date endDate;
+    private FandaRateType fandaRateType;
     
     /**
      * 
@@ -369,5 +370,21 @@ public class AwardFandaRate extends AwardAssociate {
             return false;
         }   
         return true;
+    }
+
+    /**
+     * Gets the fandaRateType attribute. 
+     * @return Returns the fandaRateType.
+     */
+    public FandaRateType getFandaRateType() {
+        return fandaRateType;
+    }
+
+    /**
+     * Sets the fandaRateType attribute value.
+     * @param fandaRateType The fandaRateType to set.
+     */
+    public void setFandaRateType(FandaRateType fandaRateType) {
+        this.fandaRateType = fandaRateType;
     }    
 }

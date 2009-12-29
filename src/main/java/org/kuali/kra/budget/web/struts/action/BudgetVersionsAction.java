@@ -41,7 +41,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -166,7 +166,7 @@ public class BudgetVersionsAction extends BudgetAction {
         Budget budgetOpen = budgetDocument.getBudget();
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
-        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
+        Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);

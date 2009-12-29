@@ -27,8 +27,8 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -40,13 +40,13 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class BreakUpInterval{
     private Boundary boundary; 
     private BudgetDecimal underRecovery; 
-    private QueryList<BudgetProposalRate> breakupIntervalRates; 
-    private QueryList<BudgetProposalLaRate> breakUpIntervalLaRates; 
+    private QueryList<BudgetRate> breakupIntervalRates; 
+    private QueryList<BudgetLaRate> breakUpIntervalLaRates; 
     private QueryList<RateAndCost> breakupCalculatedAmounts;  
     private FormulaMaker formulaMaker; 
     private BudgetDecimal applicableAmt = BudgetDecimal.ZERO; 
     private BudgetDecimal applicableAmtCostSharing = BudgetDecimal.ZERO; 
-    private BudgetProposalRate uRRatesBean;
+    private BudgetRate uRRatesBean;
     private boolean laWithEBVACalculated = false;
 
 //    private String proposalNumber;
@@ -64,8 +64,8 @@ public class BreakUpInterval{
         //initialize formula maker & Under Recovery
         this.formulaMaker = new FormulaMaker();
         this.underRecovery = new BudgetDecimal(0);
-//        this.budgetProposalRates = new QueryList<BudgetProposalRate>();
-//        this.budgetProposalLaRates = new QueryList<BudgetProposalLaRate>();
+//        this.budgetProposalRates = new QueryList<BudgetRate>();
+//        this.budgetProposalLaRates = new QueryList<BudgetLaRate>();
         calculate();
     }
    
@@ -121,7 +121,7 @@ public class BreakUpInterval{
                Equals equalsRT;
                And RCandRT;
 //               QueryList<ValidCalcType> tempRates;
-//               BudgetProposalLaRate proposalLaRate;
+//               BudgetLaRate proposalLaRate;
                
                //get the Rate Class Type
                rateClassType = validCalcType.getRateClassType();
@@ -561,29 +561,29 @@ public class BreakUpInterval{
     /** Getter for property cvPropRates.
      * @return Value of property cvPropRates.
      */
-    public QueryList<BudgetProposalRate> getBudgetProposalRates() {
+    public QueryList<BudgetRate> getBudgetProposalRates() {
         return breakupIntervalRates;
     }
     
     /** Setter for property cvPropRates.
-     * @param budgetProposalRates New value of property cvPropRates.
+     * @param budgetRates New value of property cvPropRates.
      */
-    public void setBudgetProposalRates(QueryList<BudgetProposalRate> budgetProposalRates) {
-        this.breakupIntervalRates = budgetProposalRates;
+    public void setBudgetProposalRates(QueryList<BudgetRate> budgetRates) {
+        this.breakupIntervalRates = budgetRates;
     }
     
     /** Getter for property cvPropLARates.
      * @return Value of property cvPropLARates.
      */
-    public QueryList<BudgetProposalLaRate> getBudgetProposalLaRates() {
+    public QueryList<BudgetLaRate> getBudgetProposalLaRates() {
         return breakUpIntervalLaRates;
     }
     
     /** Setter for property cvPropLARates.
-     * @param budgetProposalLaRates New value of property cvPropLARates.
+     * @param budgetLaRates New value of property cvPropLARates.
      */
-    public void setBudgetProposalLaRates(QueryList<BudgetProposalLaRate> budgetProposalLaRates) {
-        this.breakUpIntervalLaRates = budgetProposalLaRates;
+    public void setBudgetProposalLaRates(QueryList<BudgetLaRate> budgetLaRates) {
+        this.breakUpIntervalLaRates = budgetLaRates;
     }
     
     /** Getter for property cvAmountDetails.
@@ -636,7 +636,7 @@ public class BreakUpInterval{
      * @return Value of property uRRatesBean.
      *
      */
-    public BudgetProposalRate getURRatesBean() {
+    public BudgetRate getURRatesBean() {
         return uRRatesBean;
     }
     
@@ -644,7 +644,7 @@ public class BreakUpInterval{
      * @param uRRatesBean New value of property uRRatesBean.
      *
      */
-    public void setURRatesBean(BudgetProposalRate uRRatesBean) {
+    public void setURRatesBean(BudgetRate uRRatesBean) {
         this.uRRatesBean = uRRatesBean;
     }
     

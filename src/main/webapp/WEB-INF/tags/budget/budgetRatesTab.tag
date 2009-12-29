@@ -15,33 +15,33 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="budgetProposalRate" description="Budget proposal and la rates" required="true" %>
+<%@ attribute name="budgetRate" description="Budget proposal and la rates" required="true" %>
 <%@ attribute name="rateClassType" description="rate class type code" required="true" %>
 <%@ attribute name="styleClass" description="style class to validate applicable rate " required="true" %>
-<c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
+<c:set var="budgetRatesAttributes" value="${DataDictionary.BudgetRate.attributes}" />
 <c:set var="action" value="budgetRates" />
-				  <bean:define id="irateClassType" name="KualiForm" property="${budgetProposalRate}.rateClass.rateClassType"/>
-				  <bean:define id="displayRow" name="KualiForm" property="${budgetProposalRate}.displayLocation"/>
+				  <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassType"/>
+				  <bean:define id="displayRow" name="KualiForm" property="${budgetRate}.displayLocation"/>
     			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
                   <tr>
                     <td width="10%" class="${tdClass}">
                     	<div align=left>
                     	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.rateType.description"/>
+                    		<bean:write name="KualiForm" property="${budgetRate}.rateType.description"/>
                       	</span>
                       	</div>
                     </td>
                     <td width="10%" class="${tdClass}">
                     	<div align=left>
                     	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.onOffCampusFlag"/>
+                    		<bean:write name="KualiForm" property="${budgetRate}.onOffCampusFlag"/>
                       	</span>
                       	</div>
                     </td>
                     <td width="10%" class="${tdClass}">
                     	<div align=left>
                     	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.fiscalYear"/>
+                    		<bean:write name="KualiForm" property="${budgetRate}.fiscalYear"/>
                       	</span>
                       	</div>
                     </td>
@@ -51,7 +51,7 @@
                     	<div align=left>
                     	<span class="copy">
 					        &nbsp;
-		                    <bean:write name="KualiForm" property="${budgetProposalRate}.affectedBudgetPeriod"/>
+		                    <bean:write name="KualiForm" property="${budgetRate}.affectedBudgetPeriod"/>
                       	</span>
                       	</div>
                     </td>
@@ -59,21 +59,21 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-	                    	<bean:write name="KualiForm" property="${budgetProposalRate}.startDate"/>
+	                    	<bean:write name="KualiForm" property="${budgetRate}.startDate"/>
                       	</span>
                       	</div>
                     </td>
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-	                    	<bean:write name="KualiForm" property="${budgetProposalRate}.instituteRate"/>
+	                    	<bean:write name="KualiForm" property="${budgetRate}.instituteRate"/>
                       	</span>
                       	</div>
                     </td>
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                			<kul:htmlControlAttribute property="${budgetProposalRate}.exactApplicableRate" attributeEntry="${budgetProposalRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
+                			<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
                       	</span>
                       	</div>
                     </td>
