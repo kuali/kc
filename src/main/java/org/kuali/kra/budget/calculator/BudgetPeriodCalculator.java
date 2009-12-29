@@ -36,7 +36,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -291,14 +291,14 @@ public class BudgetPeriodCalculator {
 
             And rcAndRtAndLtOrEqEDAndGtSD = new And(rcAndRt, ltOrEqEDAndGtSD);
 
-            QueryList<BudgetProposalRate> vecPropInflationRates = new QueryList<BudgetProposalRate>(budget
-                    .getBudgetProposalRates()).filter(rcAndRtAndLtOrEqEDAndGtSD);
+            QueryList<BudgetRate> vecPropInflationRates = new QueryList<BudgetRate>(budget
+                    .getBudgetRates()).filter(rcAndRtAndLtOrEqEDAndGtSD);
 
             if (!vecPropInflationRates.isEmpty()) {
                 // Sort so that the recent date comes first
                 vecPropInflationRates.sort("startDate", false);
 
-                BudgetProposalRate proposalRatesBean = vecPropInflationRates.get(0);
+                BudgetRate proposalRatesBean = vecPropInflationRates.get(0);
                 BudgetDecimal applicableRate = proposalRatesBean.getApplicableRate();
                 // lineItemCost = lineItemCost * (100 + applicableRate) / 100;
                 lineItemCost = lineItemCost.add(lineItemCost.percentage(applicableRate));

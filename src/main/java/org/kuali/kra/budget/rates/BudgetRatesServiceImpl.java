@@ -70,8 +70,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @see org.kuali.kra.budget.rates.BudgetRatesService#resetAllBudgetRates(org.kuali.kra.budget.core.Budget)
      */
     public void resetAllBudgetRates(Budget budget) {
-        resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetProposalRates());
-        resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetProposalLaRates());
+        resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetRates());
+        resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetLaRates());
     }
     
     /**
@@ -82,8 +82,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      */
     public void resetBudgetRatesForRateClassType(String rateClassType, Budget budget) {
         List<RateClass> rateClasses = budget.getRateClasses();
-        resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetProposalRates());
-        resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetProposalLaRates());        
+        resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetRates());
+        resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetLaRates());        
     }
     
     /**
@@ -95,11 +95,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         List<InstituteLaRate> allInstituteLaRates = new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument));
         
         if(isOutOfSync(budget)) {
-            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetProposalRates()); 
-            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budget.getBudgetProposalLaRates());
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetRates()); 
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budget.getBudgetLaRates());
             
-            budget.getBudgetProposalRates().clear();
-            budget.getBudgetProposalLaRates().clear();
+            budget.getBudgetRates().clear();
+            budget.getBudgetLaRates().clear();
             budget.getRateClasses().clear();
             
             // since different rate schedules can change UnrecoveredFandA, clear here
@@ -108,11 +108,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
             getBudgetRates(budgetDocument, allInstituteRates);
             getBudgetLaRates(budgetDocument, allInstituteLaRates);
             
-            syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetProposalRates());
-            syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetProposalLaRates());
+            syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
+            syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
         } else {
-            syncBudgetRates(budget.getBudgetProposalRates(), allInstituteRates);
-            syncBudgetRates(budget.getBudgetProposalLaRates(), allInstituteLaRates);
+            syncBudgetRates(budget.getBudgetRates(), allInstituteRates);
+            syncBudgetRates(budget.getBudgetLaRates(), allInstituteLaRates);
         }
     }
 
@@ -131,8 +131,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      *  
      * */
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget) {
-        viewLocation(viewLocation, budgetPeriod, budget.getBudgetProposalRates());
-        viewLocation(viewLocation, budgetPeriod, budget.getBudgetProposalLaRates());        
+        viewLocation(viewLocation, budgetPeriod, budget.getBudgetRates());
+        viewLocation(viewLocation, budgetPeriod, budget.getBudgetLaRates());        
     }
     
     /* sync budget rates for a panel
@@ -144,18 +144,18 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         if(isOutOfSync(budget)) {
             populateInstituteRates(budgetDocument);
             
-            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetProposalRates()); 
-            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budget.getBudgetProposalLaRates());
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetRates()); 
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budget.getBudgetLaRates());
             replaceRateClassesForRateClassType(rateClassType, budget, budget.getInstituteRates());
             replaceRateClassesForRateClassType(rateClassType, budget, budget.getInstituteLaRates());
-            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetProposalRates(), budget.getInstituteRates());
-            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetProposalLaRates(), budget.getInstituteLaRates());
-            syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetProposalRates());
-            syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetProposalLaRates());
+            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetRates(), budget.getInstituteRates());
+            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetLaRates(), budget.getInstituteLaRates());
+            syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
+            syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
         } else {
             List<RateClass> rateClasses = budget.getRateClasses();            
-            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteRates(budgetDocument), budget.getBudgetProposalRates());
-            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteLaRates(budgetDocument), budget.getBudgetProposalLaRates());
+            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteRates(budgetDocument), budget.getBudgetRates());
+            syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteLaRates(budgetDocument), budget.getBudgetLaRates());
         }
     }    
     
@@ -174,23 +174,23 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         //String activityTypeDescription = budget.getProposal().getActivityType().getDescription().concat(SPACE);
         Budget budget = budgetDocument.getBudget();
         String activityTypeDescription = getActivityTypeDescription(budgetDocument);
-        List<BudgetProposalRate> budgetProposalRates = budget.getBudgetProposalRates();
-        List<BudgetProposalLaRate> budgetProposalLaRates = budget.getBudgetProposalLaRates();
+        List<BudgetRate> budgetRates = budget.getBudgetRates();
+        List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
         for(RateClassType rateClassType : rateClassTypes) {
             if(rateClassType.getPrefixActivityType()) {
                 String newRateClassTypeDescription = activityTypeDescription.concat(rateClassType.getDescription()); 
                 rateClassType.setDescription(newRateClassTypeDescription);
                 rateClassType.setPrefixActivityType(false);
                 /* set in proposal rates reference */
-                for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
-                    RateClassType BPRateClassType = budgetProposalRate.getRateClass().getRateClassTypeT();
+                for(BudgetRate budgetRate: budgetRates) {
+                    RateClassType BPRateClassType = budgetRate.getRateClass().getRateClassTypeT();
                     if(rateClassType.getRateClassType().equalsIgnoreCase(BPRateClassType.getRateClassType())) {
                         BPRateClassType.setDescription(newRateClassTypeDescription);
                     }
                 }
                 /* set in proposal LA rates reference */
-                for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
-                    RateClassType BPLRateClassType = budgetProposalLaRate.getRateClass().getRateClassTypeT();
+                for(BudgetLaRate budgetLaRate: budgetLaRates) {
+                    RateClassType BPLRateClassType = budgetLaRate.getRateClass().getRateClassTypeT();
                     if(rateClassType.getRateClassType().equalsIgnoreCase(BPLRateClassType.getRateClassType())) {
                         BPLRateClassType.setDescription(newRateClassTypeDescription);
                     }
@@ -215,8 +215,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         } else {
             BudgetParentDocument parentDoc = getBudgetParentDocument(budget);
             String activityTypeCode=null;
-            if (CollectionUtils.isNotEmpty(budget.getBudgetProposalRates())) {
-                activityTypeCode = ((BudgetProposalRate)budget.getBudgetProposalRates().get(0)).getActivityTypeCode();
+            if (CollectionUtils.isNotEmpty(budget.getBudgetRates())) {
+                activityTypeCode = ((BudgetRate)budget.getBudgetRates().get(0)).getActivityTypeCode();
             }
 
             if (activityTypeCode != null) {
@@ -257,43 +257,43 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @return .
      */
     private void updateRatesForEachPeriod(Budget budget) {
-        List<BudgetProposalRate> budgetProposalRates = budget.getBudgetProposalRates();
-        List<BudgetProposalLaRate> budgetProposalLaRates = budget.getBudgetProposalLaRates();
+        List<BudgetRate> budgetRates = budget.getBudgetRates();
+        List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
 
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
-                if(budgetProposalRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
+            for(BudgetRate budgetRate: budgetRates) {
+                if(budgetRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
                     String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
                     String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
-                    String currBudgetPeriod = budgetProposalRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
+                    String currBudgetPeriod = budgetRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
                     if(currBudgetPeriod == null) {
                         currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
-                        budgetProposalRate.setTrackAffectedPeriod(currBudgetPeriod);
-                    } else {
-                        if(currBudgetPeriod.indexOf(formattedPeriod) < 0) {
-                            currBudgetPeriod = currBudgetPeriod.concat(formattedPeriod); 
-                            budgetProposalRate.setTrackAffectedPeriod(currBudgetPeriod);
-                        }
-                    }
-                    budgetProposalRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(currBudgetPeriod));
-                }
-            }
-            for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
-                if(budgetProposalLaRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
-                    String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
-                    String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
-                    String currBudgetPeriod = budgetProposalLaRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
-                    if(currBudgetPeriod == null) {
-                        currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
-                        budgetProposalLaRate.setTrackAffectedPeriod(currBudgetPeriod);
+                        budgetRate.setTrackAffectedPeriod(currBudgetPeriod);
                     }else {
                         if(currBudgetPeriod.indexOf(formattedPeriod) < 0) {
                             currBudgetPeriod = currBudgetPeriod.concat(formattedPeriod); 
-                            budgetProposalLaRate.setTrackAffectedPeriod(currBudgetPeriod);
+                            budgetRate.setTrackAffectedPeriod(currBudgetPeriod);
                         }
                     }
-                    budgetProposalLaRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(currBudgetPeriod));
+                    budgetRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(currBudgetPeriod));
+                }
+            }
+            for(BudgetLaRate budgetLaRate: budgetLaRates) {
+                if(budgetLaRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
+                    String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
+                    String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
+                    String currBudgetPeriod = budgetLaRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
+                    if(currBudgetPeriod == null) {
+                        currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
+                        budgetLaRate.setTrackAffectedPeriod(currBudgetPeriod);
+                    }else {
+                        if(currBudgetPeriod.indexOf(formattedPeriod) < 0) {
+                            currBudgetPeriod = currBudgetPeriod.concat(formattedPeriod); 
+                            budgetLaRate.setTrackAffectedPeriod(currBudgetPeriod);
+                        }
+                    }
+                    budgetLaRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(currBudgetPeriod));
                 }
             }
         }
@@ -532,8 +532,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
     
     private boolean isOutOfSync(Budget budget) {
-        return isOutOfSync(budget.getInstituteRates(), budget.getBudgetProposalRates()) || 
-                isOutOfSync(budget.getInstituteLaRates(), budget.getBudgetProposalLaRates());
+        return isOutOfSync(budget.getInstituteRates(), budget.getBudgetRates()) || 
+                isOutOfSync(budget.getInstituteLaRates(), budget.getBudgetLaRates());
     }
     
     @SuppressWarnings("unchecked")
@@ -678,7 +678,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         Budget budget = budgetDocument.getBudget();
         List<InstituteRate> instituteRates = budget.getInstituteRates();        
         filterRates(budget, allInstituteRates, instituteRates);        
-        List<BudgetProposalRate> budgetRates = budget.getBudgetProposalRates();
+        List<BudgetRate> budgetRates = budget.getBudgetRates();
         
         syncBudgetRateCollections(rateClassTypes, budgetDocument, instituteRates, budgetRates);
         
@@ -692,7 +692,6 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
 
     private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
         getBudgetLaRates(rateClassTypes, budgetDocument, new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument)));
     }
     
@@ -706,7 +705,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         Budget budget = budgetDocument.getBudget();
         List<InstituteLaRate> instituteLaRates = budget.getInstituteLaRates();        
         filterRates(budget, allInstituteLaRates, instituteLaRates);        
-        List<BudgetProposalLaRate> budgetRates = budget.getBudgetProposalLaRates();
+        List<BudgetLaRate> budgetRates = budget.getBudgetLaRates();
         
         syncBudgetRateCollections(rateClassTypes, budgetDocument, instituteLaRates, budgetRates);   
     }
@@ -734,11 +733,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
   public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
       Budget budget = budgetDocument.getBudget();
 
-      syncAllRateClasses(budget, (List) budget.getBudgetProposalRates());
-      syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetProposalRates());
+      syncAllRateClasses(budget, (List) budget.getBudgetRates());
+      syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetRates());
       
-      syncAllRateClasses(budget, (List) budget.getBudgetProposalLaRates());
-      syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetProposalLaRates());
+      syncAllRateClasses(budget, (List) budget.getBudgetLaRates());
+      syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetLaRates());
 
       checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
   }
@@ -879,22 +878,19 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
 
     private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument budgetDocument, InstituteRate instituteRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
-        return new BudgetProposalRate(budgetParent.getUnitNumber(), instituteRate);
+        return new BudgetRate(budgetParent.getUnitNumber(), instituteRate);
     }
     
     private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument budgetDocument, InstituteLaRate instituteLaRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
-        return new BudgetProposalLaRate(budgetParent.getUnitNumber(), instituteLaRate);
+        return new BudgetLaRate(budgetParent.getUnitNumber(), instituteLaRate);
     }
 
     private AbstractBudgetRate generateBudgetRate(BudgetDocument budgetDocument, AbstractInstituteRate abstractInstituteRate) {
-//        DevelopmentProposal proposal = budgetDocument.getParentDocument().getDevelopmentProposal();
         Budget budget = budgetDocument.getBudget();
         AbstractBudgetRate abstractBudgetRate = (abstractInstituteRate instanceof InstituteRate) ?
                         generateBudgetProposalRate(budgetDocument, (InstituteRate) abstractInstituteRate) :
                         generateBudgetProposalLaRate(budgetDocument, (InstituteLaRate) abstractInstituteRate);
-//        abstractBudgetRate.setProposalNumber(proposal.getProposalNumber());
-//        abstractBudgetRate.setBudgetVersionNumber(budget.getBudgetVersionNumber());
         abstractBudgetRate.setBudgetId(budget.getBudgetId());                
         abstractBudgetRate.setBudget(budget);
         return abstractBudgetRate;
@@ -942,8 +938,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument) {
         populateInstituteRates(budgetDocument);
         Budget budget = budgetDocument.getBudget();
-        return isOutOfSyncForRateAudit(budget.getInstituteRates(), budget.getBudgetProposalRates()) || 
-                isOutOfSyncForRateAudit(budget.getInstituteLaRates(), budget.getBudgetProposalLaRates());
+        return isOutOfSyncForRateAudit(budget.getInstituteRates(), budget.getBudgetRates()) || 
+                isOutOfSyncForRateAudit(budget.getInstituteLaRates(), budget.getBudgetLaRates());
     }
     
     /**
@@ -971,7 +967,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
                 AbstractInstituteRate instituteRate = (AbstractInstituteRate)rate1;
                 if ((instituteRate.getRateKeyAsString()+instituteRate.getInstituteRate()).equals(budgetRate.getRateKeyAsString()+budgetRate.getInstituteRate())) {
                     if (instituteRate instanceof InstituteRate) {
-                        if (((InstituteRate)instituteRate).getActivityTypeCode().equals(((BudgetProposalRate)budgetRate).getActivityTypeCode())) {
+                        if (((InstituteRate)instituteRate).getActivityTypeCode().equals(((BudgetRate)budgetRate).getActivityTypeCode())) {
                             isRateMatched = true;
                             break;                            
                         }

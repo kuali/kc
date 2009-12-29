@@ -30,7 +30,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -143,7 +143,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             budgetDocument.refreshReferenceObject("parentDocument");
         }
         Budget budget = budgetDocument.getBudget();
-        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budget);
+        Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budget);
         
         if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,

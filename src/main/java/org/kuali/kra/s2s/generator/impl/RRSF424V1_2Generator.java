@@ -38,6 +38,7 @@ import gov.grants.apply.system.globalLibraryV20.AddressDataType;
 import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.OrganizationDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -89,7 +90,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		rrsf42412.setSubmittedDate(s2sUtilService.getCurrentCalendar());
 		rrsf42412.setSubmissionTypeCode(SubmissionTypeDataType.Enum
-				.forString(getSubmissionTypeCode()));
+				.forInt(Integer.parseInt(getSubmissionTypeCode())));
 		rrsf42412.setStateID(getRolodexState());
 		rrsf42412.setApplicantInfo(getApplicationInfo());
 		rrsf42412.setEmployerID(getEmployerId());
@@ -378,8 +379,27 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			// entry for TASK ORDER
 			applicationType
 					.setApplicationTypeCode(getApplicationTypeCodeDataType());
-			setRevisionCode(applicationType, submissionInfo);
-			setRevisionOtherCodeExplanation(applicationType, submissionInfo);
+			if (Integer.parseInt(pdDoc.getDevelopmentProposal()
+					.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
+
+				String revisionCode = null;
+				if (submissionInfo.get(S2SConstants.KEY_REVISION_CODE) != null) {
+					revisionCode = submissionInfo
+							.get(S2SConstants.KEY_REVISION_CODE);
+					RevisionTypeCodeDataType.Enum revisionCodeApplication = RevisionTypeCodeDataType.Enum
+							.forString(revisionCode);
+					applicationType.setRevisionCode(revisionCodeApplication);
+				}
+
+				String revisionCodeOtherDesc = null;
+				if (submissionInfo
+						.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION) != null) {
+					revisionCodeOtherDesc = submissionInfo
+							.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION);
+					applicationType
+							.setRevisionCodeOtherExplanation(revisionCodeOtherDesc);
+				}
+			}
 		}
 		setOtherAgencySubmissionDetails(applicationType);
 		return applicationType;
@@ -411,33 +431,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		}
 	}
 
-	private void setRevisionOtherCodeExplanation(
-			ApplicationType applicationType, Map<String, String> submissionInfo) {
-		if (Integer.parseInt(pdDoc.getDevelopmentProposal()
-				.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_RESUBMISSION) {
-			if (submissionInfo.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION) != null) {
-				String revisionCodeOtherDesc = submissionInfo
-						.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION);
-				applicationType
-						.setRevisionCodeOtherExplanation(revisionCodeOtherDesc);
-			}
-		}
-	}
-
-	private void setRevisionCode(ApplicationType applicationType,
-			Map<String, String> submissionInfo) {
-		if (Integer.parseInt(pdDoc.getDevelopmentProposal()
-				.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
-			if (submissionInfo.get(S2SConstants.KEY_REVISION_CODE) != null) {
-				String revisionCode = submissionInfo
-						.get(S2SConstants.KEY_REVISION_CODE);
-				RevisionTypeCodeDataType.Enum revisionCodeApplication = RevisionTypeCodeDataType.Enum
-						.forString(revisionCode);
-				applicationType.setRevisionCode(revisionCodeApplication);
-			}
-		}
-	}
-
 	private Enum getApplicationTypeCodeDataType() {
 		return ApplicationTypeCodeDataType.Enum.forInt(Integer.parseInt(pdDoc
 				.getDevelopmentProposal().getProposalTypeCode()));
@@ -453,9 +446,11 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		RRSF42412.ProposedProjectPeriod proposedProjectPeriod = RRSF42412.ProposedProjectPeriod.Factory
 				.newInstance();
 		proposedProjectPeriod.setProposedStartDate(s2sUtilService
-				.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
+				.convertDateToCalendar(pdDoc.getDevelopmentProposal()
+						.getRequestedStartDateInitial()));
 		proposedProjectPeriod.setProposedEndDate(s2sUtilService
-				.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
+				.convertDateToCalendar(pdDoc.getDevelopmentProposal()
+						.getRequestedEndDateInitial()));
 		return proposedProjectPeriod;
 	}
 
@@ -596,21 +591,49 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
 	private void setAddress(AORInfoType aorInfoType) {
 		AddressDataType address = AddressDataType.Factory.newInstance();
-		address.setStreet1(departmentalPerson.getAddress1());
-		address.setStreet2(departmentalPerson.getAddress2());
-		address.setCity(departmentalPerson.getCity());
 
-		if (departmentalPerson.getState() != null) {
-			address.setState(globLibV20Generator
-					.getStateCodeDataType(departmentalPerson.getState()));
+		if (departmentalPerson.getAddress1() != null) {
+			if (departmentalPerson.getAddress1().length() > 55) {
+				address.setStreet1(departmentalPerson.getAddress1().substring(
+						0, 55));
+			} else {
+				address.setStreet1(departmentalPerson.getAddress1());
+			}
 		}
+		if (departmentalPerson.getAddress2() != null) {
+			if (departmentalPerson.getAddress2().length() > 55) {
+				address.setStreet2(departmentalPerson.getAddress2().substring(
+						0, 55));
+			} else {
+				address.setStreet2(departmentalPerson.getAddress2());
+			}
+		}
+
+		if (departmentalPerson.getCounty() != null) {
+			address.setCounty(departmentalPerson.getCounty());
+		}
+		address.setCity(departmentalPerson.getCity());
 		address.setZipPostalCode(departmentalPerson.getPostalCode());
-		if (departmentalPerson.getCountryCode() != null) {
-			address
-					.setCountry(globLibV20Generator
-							.getCountryCodeDataType(departmentalPerson
-									.getCountryCode()));
+
+		CountryCodeDataType.Enum countryCodeDataType = globLibV20Generator
+				.getCountryCodeDataType(departmentalPerson.getCountryCode());
+		address.setCountry(countryCodeDataType);
+
+		String state = departmentalPerson.getState();
+		if (state != null && !state.equals("")) {
+			if (countryCodeDataType != null) {
+				if (countryCodeDataType
+						.equals(CountryCodeDataType.USA_UNITED_STATES)) {
+					address
+							.setState(globLibV20Generator
+									.getStateCodeDataType(departmentalPerson
+											.getState()));
+				} else {
+					address.setProvince(state);
+				}
+			}
 		}
+
 		aorInfoType.setAddress(address);
 		aorInfoType.setPhone(departmentalPerson.getOfficePhone());
 		aorInfoType.setFax(departmentalPerson.getFaxNumber());
@@ -619,9 +642,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	}
 
 	private void setDivisionName(AORInfoType aorInfoType) {
-		if (departmentalPerson.getHomeUnit() == null) {
-			aorInfoType.setDivisionName(S2SConstants.VALUE_UNKNOWN);
-		} else {
+		if (departmentalPerson.getHomeUnit() != null) {
 			aorInfoType.setDivisionName(departmentalPerson.getHomeUnit());
 		}
 	}
@@ -652,61 +673,9 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		}
 		ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
 		switch (orgTypeCode) {
-		case 1: {
-			// local
-			applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
-			break;
-		}
-		case 2: {
-			// state
-			applicantTypeCode = ApplicantTypeCodeDataType.A_STATE_GOVERNMENT;
-			break;
-		}
 		case 3: {
 			// federal
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			break;
-		}
-		case 4: {
-			// Private non-profit
-			applicantTypeCode = ApplicantTypeCodeDataType.M_NONPROFIT_WITH_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		}
-		case 5: {
-			// Non-Profit
-			applicantTypeCode = ApplicantTypeCodeDataType.N_NONPROFIT_WITHOUT_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		}
-		case 6: {
-			// For-profit
-			applicantTypeCode = ApplicantTypeCodeDataType.Q_FOR_PROFIT_ORGANIZATION_OTHER_THAN_SMALL_BUSINESS;
-			break;
-		}
-		case 7: {
-			// Other
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			break;
-		}
-		case 8: {
-			// Indian Tribal Government
-			applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
-			break;
-		}
-		case 9: {
-			// Individual
-			applicantTypeCode = ApplicantTypeCodeDataType.P_INDIVIDUAL;
-			applicantType.setApplicantTypeCode(applicantTypeCode);
-			break;
-		}
-		case 10: {
-			// Inst of higher learning
-			applicantTypeCode = ApplicantTypeCodeDataType.O_PRIVATE_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		}
-		case 11: {
-			// Small Business
-			applicantTypeCode = ApplicantTypeCodeDataType.R_SMALL_BUSINESS;
-			applicantType.setApplicantTypeCode(applicantTypeCode);
 			break;
 		}
 		case 14: {
@@ -726,30 +695,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			isWomenOwned.setStringValue(VALUE_YES);
 			smallOrganizationType.setIsWomenOwned(isWomenOwned);
 			smallBusflag = true;
-			break;
-		}
-		case 21: {
-			applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		}
-		case 22: {
-			applicantTypeCode = ApplicantTypeCodeDataType.B_COUNTY_GOVERNMENT;
-			break;
-		}
-		case 23: {
-			applicantTypeCode = ApplicantTypeCodeDataType.D_SPECIAL_DISTRICT_GOVERNMENT;
-			break;
-		}
-		case 24: {
-			applicantTypeCode = ApplicantTypeCodeDataType.G_INDEPENDENT_SCHOOL_DISTRICT;
-			break;
-		}
-		case 25: {
-			applicantTypeCode = ApplicantTypeCodeDataType.L_PUBLIC_INDIAN_HOUSING_AUTHORITY;
-			break;
-		}
-		case 26: {
-			applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
 			break;
 		}
 		default: {
@@ -787,8 +732,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		if (s2sOpportunity != null
 				&& s2sOpportunity.getS2sSubmissionTypeCode() != null) {
 			s2sOpportunity.refreshNonUpdateableReferences();
-			submissionTypeCode = s2sOpportunity.getS2sSubmissionType()
-					.getDescription();
+			submissionTypeCode = s2sOpportunity.getS2sSubmissionTypeCode();
 		}
 		return submissionTypeCode;
 	}
@@ -848,7 +792,11 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		String federalId = s2sUtilService.getFederalId(pdDoc);
 		if (federalId != null
 				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
-			rrsf42412.setFederalID(federalId);
+			if (federalId.length() > 30) {
+				rrsf42412.setFederalID(federalId.substring(0, 30));
+			} else {
+				rrsf42412.setFederalID(federalId);
+			}
 		}
 	}
 

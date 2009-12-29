@@ -23,13 +23,14 @@ public enum AwardPrintParameters {
 	ADDRESS_LIST("addressList"), FOREIGN_TRAVEL("foreignTravel"), REPORTING(
 			"reporting"), CLOSEOUT("closeout"), FUNDING_SUMMARY(
 			"fundingSummary"), SPECIAL_REVIEW("specialReview"), COMMENTS(
-			"commentst"), HIERARCHY_INFO("hierarchyInfo"), SUBCONTRACT(
+			"comments"), HIERARCHY_INFO("hierarchyInfo"), SUBCONTRACT(
 			"subcontract"), COST_SHARING("costSharing"), KEYWORDS("keywords"), TECHNICAL_REPORTING(
 			"technicalReporting"), EQUIPMENT("equipment"), OTHER_DATA(
 			"otherData"), TERMS("terms"), FA_COST("fACost"), PAYMENT("payment"), FLOW_THRU(
-			"flowThru"), PROPOSAL_DUE("proposalDue"), SIGNATURE_REQUIRED(
+			"flowThru"), PROPOSAL_DUE("proposalDue"), INDIRECT_COST(
+			"indirectCost"), SCIENCE_CODE("scienceCode"), SIGNATURE_REQUIRED(
 			"signatureRequired"), SEQUENCE_NUMBER("sequenceNumber"), TRANSACTION_ID(
-			"transactionId");
+			"transactionId"), HIGHEST_TRANSACTION_ID_INDEX ("highestTransactionIdIndex");
 
 	private final String awardPrintParameter;
 

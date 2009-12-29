@@ -350,9 +350,9 @@
 			<xs:element name="AllBudgetTotals" type="rar:BudgetTotalsType"/>
 			<xs:element name="BudgetPeriod" type="rar:BudgetPeriodType" maxOccurs="5"/>
 			<xs:element name="BudgetJustification" type="rar:DescriptionBlockType" minOccurs="0"/>
-			<xs:element name="BudgetDirectCostsTotal" minOccurs="0"/>
-			<xs:element name="BudgetIndirectCostsTotal" minOccurs="0"/>
-			<xs:element name="BudgetCostsTotal" minOccurs="0"/>
+			<xs:element name="BudgetDirectCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="BudgetIndirectCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="BudgetCostsTotal" type="common:CurrencyType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="HumanSubjectsType">

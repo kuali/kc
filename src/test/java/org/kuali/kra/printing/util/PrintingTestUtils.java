@@ -84,7 +84,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -1271,9 +1271,9 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount5.setRateType(rateType5);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount5);
 
-		// BudgetProposalLaRate
-		List<BudgetProposalLaRate> budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
-		BudgetProposalLaRate budgetPropLaRate = new BudgetProposalLaRate();
+		// BudgetLaRate
+		List<BudgetLaRate> budgetLaRates = new ArrayList<BudgetLaRate>();
+		BudgetLaRate budgetPropLaRate = new BudgetLaRate();
 		budgetPropLaRate.setActive(true);
 		budgetPropLaRate.setBudget(budget);
 		budgetPropLaRate.setRateTypeCode("1");
@@ -1284,8 +1284,8 @@ public class PrintingTestUtils {
 				.getTimeInMillis()));
 		budgetPropLaRate.setApplicableRate(new BudgetDecimal(30));
 		budgetPropLaRate.setInstituteRate(new BudgetDecimal(30));
-		budgetProposalLaRates.add(budgetPropLaRate);
-		budget.setBudgetProposalLaRates(budgetProposalLaRates);
+		budgetLaRates.add(budgetPropLaRate);
+		budget.setBudgetLaRates(budgetLaRates);
 
 		budgetLineItem
 				.setBudgetLineItemCalculatedAmounts(budgetLineItemCalculatedAmounts);

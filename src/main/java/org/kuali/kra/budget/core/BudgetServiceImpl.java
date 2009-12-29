@@ -42,7 +42,7 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -379,13 +379,13 @@ public class BudgetServiceImpl implements BudgetService {
         return false;
     }
     
-    public Collection<BudgetProposalRate> getSavedProposalRates(Budget budget) {
+    public Collection<BudgetRate> getSavedProposalRates(Budget budget) {
         Map qMap = new HashMap();
         qMap.put("budgetId",budget.getBudgetId());
-        return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
+        return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
     
-    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String activityTypeCode) {
+    public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String activityTypeCode) {
         if (CollectionUtils.isNotEmpty(allPropRates)) {
             Equals equalsActivityType = new Equals("activityTypeCode", activityTypeCode);
             QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
@@ -432,16 +432,16 @@ public class BudgetServiceImpl implements BudgetService {
         }
         Map<String,Object> qMap = new HashMap<String,Object>();
         qMap.put("budgetId",budget.getBudgetId());
-        ArrayList<BudgetProposalRate> allPropRates = (ArrayList)businessObjectService.findMatching(
-                BudgetProposalRate.class, qMap);
+        ArrayList<BudgetRate> allPropRates = (ArrayList)businessObjectService.findMatching(
+                BudgetRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
             qMap.put("activityTypeCode",budgetParent.getActivityTypeCode());
-            Collection<BudgetProposalRate> matchActivityTypePropRates =businessObjectService.findMatching(
-                BudgetProposalRate.class, qMap);
+            Collection<BudgetRate> matchActivityTypePropRates =businessObjectService.findMatching(
+                BudgetRate.class, qMap);
             if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
-                for (BudgetProposalRate budgetProposalRate : allPropRates) { 
-                    if (!budgetProposalRate.getActivityTypeCode().equals(budgetParent.getActivityTypeCode())) {
-                        return budgetProposalRate.getActivityTypeCode();
+                for (BudgetRate budgetRate : allPropRates) { 
+                    if (!budgetRate.getActivityTypeCode().equals(budgetParent.getActivityTypeCode())) {
+                        return budgetRate.getActivityTypeCode();
                     }
                 }
                 return budgetParent.getActivityTypeCode();                
@@ -557,10 +557,10 @@ public class BudgetServiceImpl implements BudgetService {
         return panelName.toString();
     }
 
-    public Collection<BudgetProposalRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {
+    public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {
         Map qMap = new HashMap();
         qMap.put("budgetId",budgetToOpen.getBudgetId());
-        return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
+        return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
 
     /**

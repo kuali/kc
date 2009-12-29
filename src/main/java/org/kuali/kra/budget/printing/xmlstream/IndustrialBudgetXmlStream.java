@@ -194,7 +194,6 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		setReportTypeForIndustrialBudgetSalary(reportTypeList);
-		setBudgetLASalariesForBudgetPersRateAndBase(reportTypeList);
 		setBudgetLASalaryForBudgetRateAndBase(reportTypeList);
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));
 		return subReportType;
