@@ -93,7 +93,6 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 		if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
 				.getBudgetPrintType())) {
 			printable = getBudgetSummaryPrint();
-			
 		} else if (reportName
 				.equals(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
 						.getBudgetPrintType())) {

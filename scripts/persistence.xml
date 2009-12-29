@@ -97,7 +97,7 @@
     <class>org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase</class>
     <class>org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase</class>
     <class>org.kuali.kra.budget.core.CostElement</class>
-    <class>org.kuali.kra.budget.rates.BudgetProposalRate</class>
+    <class>org.kuali.kra.budget.rates.BudgetRate</class>
     <class>org.kuali.kra.bo.InstituteLaRate</class>
     <class>org.kuali.kra.bo.InstituteRate</class>
     <class>org.kuali.kra.budget.personnel.JobCode</class>
@@ -107,7 +107,7 @@
     <class>org.kuali.kra.budget.calculator.ValidCalcType</class>
     <class>org.kuali.kra.budget.personnel.ValidCeJobCode</class>
     <class>org.kuali.kra.budget.rates.ValidCeRateType</class>
-    <class>org.kuali.kra.budget.rates.BudgetProposalLaRate</class>
+    <class>org.kuali.kra.budget.rates.BudgetLaRate</class>
     <class>org.kuali.kra.budget.personnel.BudgetPersonnelDetails</class>
     <class>org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular</class>
     <class>org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc</class>

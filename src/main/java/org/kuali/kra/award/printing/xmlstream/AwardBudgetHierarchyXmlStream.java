@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.AmountInfoType;
+import noNamespace.AwardNoticeDocument;
 import noNamespace.AwardType;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardType.AwardAmountInfo;
@@ -57,11 +58,11 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		AwardDocument awardDocument = (AwardDocument) document;
 		Award award = awardDocument.getAward();
+		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory.newInstance();
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
-		if (award != null) {
-			awardNotice.setAward(getAwardType(award));
-			awardNotice.setSchoolInfo(getSchoolInfoType());
-		}
+		awardNotice.setAward(getAwardType(award));
+		awardNotice.setSchoolInfo(getSchoolInfoType());
+		awardNoticeDocument.setAwardNotice(awardNotice);
 		budgetHierarchyMap.put(AwardPrintType.AWARD_BUDGET_HIERARCHY
 				.getAwardPrintType(), awardNotice);
 		return budgetHierarchyMap;

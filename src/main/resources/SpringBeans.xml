@@ -1664,15 +1664,15 @@
 		</property>
 	</bean>
 	<bean id="awardTemplatePrint"
-		class="org.kuali.kra.award.printing.print.AwardTemplatePrint">
+		class="org.kuali.kra.award.printing.print.AwardTemplatePrint" scope="prototype">
 		<property name="xmlStream" ref="awardTemplateXmlStream" />
 	</bean>
 	<bean id="awardDeltaPrint"
-		class="org.kuali.kra.award.printing.print.AwardDeltaPrint">
+		class="org.kuali.kra.award.printing.print.AwardDeltaPrint" scope="prototype">
 		<property name="xmlStream" ref="awardDeltaXmlStream" />
 	</bean>
 	<bean id="awardNoticePrint"
-		class="org.kuali.kra.award.printing.print.AwardNoticePrint">
+		class="org.kuali.kra.award.printing.print.AwardNoticePrint" scope="prototype">
 		<property name="xmlStream" ref="awardNoticeXmlStream" />
 	</bean>
 
@@ -1726,15 +1726,15 @@
 		</property>
 	</bean>
 	<bean id="currentProposalPrint"
-		class="org.kuali.kra.institutionalproposal.printing.print.CurrentProposalPrint">
+		class="org.kuali.kra.institutionalproposal.printing.print.CurrentProposalPrint" scope="prototype">
 		<property name="xmlStream" ref="currentProposalXmlStream" />
 	</bean>
 	<bean id="pendingProposalPrint"
-		class="org.kuali.kra.institutionalproposal.printing.print.PendingProposalPrint">
+		class="org.kuali.kra.institutionalproposal.printing.print.PendingProposalPrint" scope="prototype">
 		<property name="xmlStream" ref="pendingProposalXmlStream" />
 	</bean>
 	<bean id="institutionalProposalPrint"
-		class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint">
+		class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint" scope="prototype">
 		<property name="xmlStream" ref="institutionalProposalXmlStream" />
 	</bean>
 	<bean id="institutionalProposalPrintingService"
@@ -1760,7 +1760,7 @@
 		</property>
 	</bean>
 	<bean id="printCertificationPrint"
-		class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint">
+		class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint" scope="prototype">
 		<property name="xmlStream" ref="printCertificationXmlStream" />
 	</bean>
 	<bean id="proposalDevelopmentPrintingService"

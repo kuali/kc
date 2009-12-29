@@ -68,6 +68,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
 	private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
+	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
 
 	private XmlObject getPHS398CareerDevelopmentAwardSup() {
 		PHS398CareerDevelopmentAwardSupDocument phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSupDocument.Factory
@@ -88,13 +89,13 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 	}
 
 	private Enum getCitizenshipDataType() {
-		int citizenSource = 1;
+		String citizenSource = "1";
 		String piCitizenShipValue = s2sUtilService
 				.getParameterValue(PI_CUSTOM_DATA);
 		if (piCitizenShipValue != null) {
-			citizenSource = Integer.parseInt(piCitizenShipValue);
+			citizenSource = piCitizenShipValue;
 		}
-		if (citizenSource == 0) {
+		if (citizenSource.equals("0")) {
 			for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
 					.getProposalPersons()) {
 				if (proposalPerson.isInvestigator()) {
@@ -109,32 +110,18 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 
 	private ApplicationType getApplicationType() {
 		ApplicationType applicationType = null;
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
+				&& !pdDoc.getDevelopmentProposal().getProposalTypeCode()
+						.equals(PROPOSAL_TYPE_TASK_ORDER)) {
+			// Check !=6 to ensure that if proposalType='TASK ORDER", it must
+			// not set. THis is because the enum has no
+			// entry for TASK ORDER
 			applicationType = ApplicationType.Factory.newInstance();
-			if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("1")) {
-				applicationType.setTypeOfApplication(TypeOfApplication.NEW);
-			} else if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("3")) {
-				applicationType
-						.setTypeOfApplication(TypeOfApplication.CONTINUATION);
-			} else if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("4")) {
-				applicationType
-						.setTypeOfApplication(TypeOfApplication.REVISION);
-			} else if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("5")) {
-				applicationType.setTypeOfApplication(TypeOfApplication.RENEWAL);
-			} else if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("6")) {
-				applicationType
-						.setTypeOfApplication(TypeOfApplication.RESUBMISSION);
-			} else if (pdDoc.getDevelopmentProposal().getProposalTypeCode()
-					.equals("7")) {
-				applicationType.setTypeOfApplication(TypeOfApplication.NEW);
-			} else {
-				applicationType.setTypeOfApplication(TypeOfApplication.NEW);
-			}
+			applicationType.setTypeOfApplication(TypeOfApplication.Enum
+					.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal()
+							.getProposalTypeCode())));
+		} else {
+			applicationType.setTypeOfApplication(TypeOfApplication.NEW);
 		}
 		return applicationType;
 	}

@@ -35,8 +35,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
-;
-
 /**
  * 
  * This class is used to generate XML Document object for grants.gov
@@ -113,19 +111,25 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setIncomeBudgetPeriods(PHS398Checklist13 phsChecklist,
 			List<BudgetProjectIncome> projectIncomes) {
-		phsChecklist.setProgramIncome(YesNoDataType.Y_YES);
-		IncomeBudgetPeriod incomeBudgPeriod = IncomeBudgetPeriod.Factory
-				.newInstance();
+		if (projectIncomes.isEmpty()) {
+			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
+		} else {
+			phsChecklist.setProgramIncome(YesNoDataType.Y_YES);
+		}
+		
 		IncomeBudgetPeriod[] budgetPeriodsArray = null;
 		if (projectIncomes != null) {
 			budgetPeriodsArray = new IncomeBudgetPeriod[projectIncomes.size()];
 		}
 		int periodCount = 0;
-		BigDecimal amount = BigDecimal.ZERO;
+		BigDecimal amount;
 		for (BudgetProjectIncome projectIncome : projectIncomes) {
+			IncomeBudgetPeriod incomeBudgPeriod = IncomeBudgetPeriod.Factory
+					.newInstance();
+			amount = BigDecimal.ZERO;
 			if (projectIncome.getProjectIncome() != null) {
-				amount = amount.add(projectIncome.getProjectIncome()
-						.bigDecimalValue());
+				amount = projectIncome.getProjectIncome()
+						.bigDecimalValue();
 			}
 			incomeBudgPeriod.setAnticipatedAmount(amount);
 			String description = getProjectIncomeDescription(projectIncome);

@@ -24,7 +24,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -70,17 +70,17 @@ public interface BudgetService {
      * @param proposalActivityTypeCode
      * @return
      */
-    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String proposalActivityTypeCode);
+    public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String proposalActivityTypeCode);
    
     /**
      * 
      * This method returns the saved Proposal Rates collection.
      * @param pdDoc
      * @param budgetVersionNumbe
-     * @return Collection<BudgetProposalRate>
+     * @return Collection<BudgetRate>
      */
 
-    public Collection<BudgetProposalRate> getSavedProposalRates(Budget budget);
+    public Collection<BudgetRate> getSavedProposalRates(Budget budget);
     
     /**
      * check if this line item CE has inflation rate
@@ -142,7 +142,7 @@ public interface BudgetService {
      */
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
-    public Collection<BudgetProposalRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
+    public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
 
     /**
      * 

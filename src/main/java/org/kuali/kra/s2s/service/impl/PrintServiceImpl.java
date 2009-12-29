@@ -20,7 +20,6 @@ import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.Gra
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -96,7 +95,6 @@ public class PrintServiceImpl implements PrintService {
 	private BusinessObjectService businessObjectService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SValidatorService s2SValidatorService;
-	private ArrayList<String> bookmarksList = null;
 	private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
 	private static final String KEY_PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
 	private static final String KEY_SPONSOR_CODE = "SPONSOR_CODE";
@@ -338,11 +336,12 @@ public class PrintServiceImpl implements PrintService {
 		GrantsGovAttachmentData grantsGovPdfData = new GrantsGovAttachmentData();
 		ByteArrayOutputStream[] pdfArray = null;
 		S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
+		List<String> bookmarksList = new ArrayList<String>();
 		if (s2sAppSubmission != null
 				&& s2sAppSubmission.getGgTrackingId() != null) {
-			pdfArray = getSubmittedPDFStream(pdDoc);
+			pdfArray = getSubmittedPDFStream(pdDoc, bookmarksList);
 		} else {
-			pdfArray = getPDFStream(pdDoc);
+			pdfArray = getPDFStream(pdDoc, bookmarksList);
 		}
 		if (pdfArray == null) {
 			return null;
@@ -405,13 +404,14 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @param pdDoc
 	 *            Proposal Development Document.
+	 * @param bookmarksList
 	 * @return ByteArrayOutputStream[] of the submitted application data.
 	 * @throws S2SException
 	 */
 	private ByteArrayOutputStream[] getSubmittedPDFStream(
-			ProposalDevelopmentDocument pdDoc) throws S2SException {
+			ProposalDevelopmentDocument pdDoc, List<String> bookmarksList)
+			throws S2SException {
 		ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
-		bookmarksList = new ArrayList<String>();
 		byte[] formPdfBytes = null;
 		ByteArrayOutputStream[] pdfArray = null;
 		GrantApplicationDocument submittedXml;
@@ -524,13 +524,14 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @param pdDoc
 	 *            ProposalDevelopmentDocument
+	 * @param bookmarksList
 	 * @return ByteArrayOutputStream[] PDF byte Array
 	 * @throws S2SException
 	 */
 	private ByteArrayOutputStream[] getPDFStream(
-			ProposalDevelopmentDocument pdDoc) throws S2SException {
+			ProposalDevelopmentDocument pdDoc, List<String> bookmarksList)
+			throws S2SException {
 		ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
-		bookmarksList = new ArrayList<String>();
 		byte[] formPdfBytes = null;
 		FormMappingInfo info = null;
 		S2SFormGenerator s2sFormGenerator = null;
@@ -569,7 +570,8 @@ public class PrintServiceImpl implements PrintService {
 						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
 						try {
 							attStream.write(attachmentData.getContent());
-							if(!isPdfType(attachmentData.getContent())) continue;
+							if (!isPdfType(attachmentData.getContent()))
+								continue;
 						} catch (IOException e) {
 							LOG.error(e.getMessage(), e);
 							throw new S2SException(e);
@@ -831,7 +833,8 @@ public class PrintServiceImpl implements PrintService {
 			// Document xmlDoc = (Document) xmlObject.getDomNode();
 			// return generatePdfBytes(xmlDoc, stylesheetBytes);
 
-			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/" + stylesheet));
+			Source xsltSource = new StreamSource(getClass()
+					.getResourceAsStream("/" + stylesheet));
 			return generatePdfBytes(xmlObject, xsltSource);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
@@ -951,58 +954,64 @@ public class PrintServiceImpl implements PrintService {
 			this.streamData = streamData;
 		}
 	}
-    private boolean isPdfType(byte[] data) {
-        final int ATTRIBUTE_CHUNK_SIZE = 1200;//increased for ppt
-        final String PRE_HEXA = "0x";
 
-        boolean retValue = false;
-        String str[] = {"25","50","44","46"};
-        byte byteCheckArr[] = new byte[4];
-        byte byteDataArr[] = new byte[4];
-        
-        for(int byteIndex = 0; byteIndex < byteCheckArr.length; byteIndex++){
-            byteCheckArr[byteIndex] = Integer.decode(PRE_HEXA + str[byteIndex]).byteValue();
-        }
-        
-        int startPoint, endPoint;
-        
-        startPoint = 0;
-        endPoint = (ATTRIBUTE_CHUNK_SIZE > (data.length/2)) ? data.length/2 : ATTRIBUTE_CHUNK_SIZE;
-        
-        for(int forwardIndex = startPoint; forwardIndex < endPoint - str.length; forwardIndex++){
-            if(forwardIndex == 0) {
-                //Fill All Data
-                for(int fillIndex = 0; fillIndex < str.length; fillIndex++){
-                    byteDataArr[fillIndex] =  toUnsignedByte(data[fillIndex]);
-                }
-            }else{
-                //Push Data, Fill last index
-                for(int fillIndex = 0; fillIndex < str.length - 1; fillIndex++){
-                    byteDataArr[fillIndex] =  byteDataArr[fillIndex + 1];
-                }
-                byteDataArr[str.length - 1] = toUnsignedByte(data[str.length - 1 + forwardIndex]);
-            }
-            
-            if(new String(byteCheckArr).equals(new String(byteDataArr))) {
-                retValue = true;
-            }
-        }
-        
-        return retValue;
-    }
-    /**
-     * convert int to unsigned byte
-     */
-    private  static byte toUnsignedByte(int intVal) {
-        byte byteVal;
-        if (intVal > 127) {
-            int temp = intVal - 256;
-            byteVal = (byte)temp;
-        } else {
-            byteVal = (byte)intVal;
-        }
-        return byteVal;
-    }
+	private boolean isPdfType(byte[] data) {
+		final int ATTRIBUTE_CHUNK_SIZE = 1200;// increased for ppt
+		final String PRE_HEXA = "0x";
+
+		boolean retValue = false;
+		String str[] = { "25", "50", "44", "46" };
+		byte byteCheckArr[] = new byte[4];
+		byte byteDataArr[] = new byte[4];
+
+		for (int byteIndex = 0; byteIndex < byteCheckArr.length; byteIndex++) {
+			byteCheckArr[byteIndex] = Integer.decode(PRE_HEXA + str[byteIndex])
+					.byteValue();
+		}
+
+		int startPoint, endPoint;
+
+		startPoint = 0;
+		endPoint = (ATTRIBUTE_CHUNK_SIZE > (data.length / 2)) ? data.length / 2
+				: ATTRIBUTE_CHUNK_SIZE;
+
+		for (int forwardIndex = startPoint; forwardIndex < endPoint
+				- str.length; forwardIndex++) {
+			if (forwardIndex == 0) {
+				// Fill All Data
+				for (int fillIndex = 0; fillIndex < str.length; fillIndex++) {
+					byteDataArr[fillIndex] = toUnsignedByte(data[fillIndex]);
+				}
+			} else {
+				// Push Data, Fill last index
+				for (int fillIndex = 0; fillIndex < str.length - 1; fillIndex++) {
+					byteDataArr[fillIndex] = byteDataArr[fillIndex + 1];
+				}
+				byteDataArr[str.length - 1] = toUnsignedByte(data[str.length
+						- 1 + forwardIndex]);
+			}
+
+			if (new String(byteCheckArr).equals(new String(byteDataArr))) {
+				retValue = true;
+			}
+		}
+
+		return retValue;
+	}
+
+	/**
+	 * convert int to unsigned byte
+	 */
+	private static byte toUnsignedByte(int intVal) {
+		byte byteVal;
+		if (intVal > 127) {
+			int temp = intVal - 256;
+			byteVal = (byte) temp;
+		} else {
+			byteVal = (byte) intVal;
+		}
+		return byteVal;
+	}
 
 	/**
 	 * Gets the s2SUtilService attribute.

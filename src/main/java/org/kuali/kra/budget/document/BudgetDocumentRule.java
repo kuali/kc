@@ -48,8 +48,8 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelAuditRule;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRateAuditRule;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -182,19 +182,19 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
-        for (BudgetProposalRate budgetProposalRate : budgetDocument.getBudget().getBudgetProposalRates()) {
-            String rateClassType = budgetProposalRate.getRateClass().getRateClassTypeT().getDescription();
+        for (BudgetRate budgetRate : budgetDocument.getBudget().getBudgetRates()) {
+            String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
-            if(budgetProposalRate.isApplicableRateNull()) {
+            if(budgetRate.isApplicableRateNull()) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
-            }else if(!BudgetDecimal.isNumeric(budgetProposalRate.getApplicableRate().toString())) {
+            }else if(!BudgetDecimal.isNumeric(budgetRate.getApplicableRate().toString())) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                switch(verifyApplicableRate(budgetProposalRate.getApplicableRate())) {
+                switch(verifyApplicableRate(budgetRate.getApplicableRate())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
                         errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);
@@ -211,22 +211,22 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         }
 
         i = 0;
-        for (BudgetProposalLaRate budgetProposalLaRate : budgetDocument.getBudget().getBudgetProposalLaRates()) {
+        for (BudgetLaRate budgetLaRate : budgetDocument.getBudget().getBudgetLaRates()) {
             String rateClassType = "";
-            if (ObjectUtils.isNotNull(budgetProposalLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetProposalLaRate.getRateClass().getRateClassTypeT())) {
-                rateClassType = budgetProposalLaRate.getRateClass().getRateClassTypeT().getDescription();
+            if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassTypeT())) {
+                rateClassType = budgetLaRate.getRateClass().getRateClassTypeT().getDescription();
             }
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
-            if(budgetProposalLaRate.isApplicableRateNull()) {
+            if(budgetLaRate.isApplicableRateNull()) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
-            }else if(!BudgetDecimal.isNumeric(budgetProposalLaRate.getApplicableRate().toString())) {
+            }else if(!BudgetDecimal.isNumeric(budgetLaRate.getApplicableRate().toString())) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                switch(verifyApplicableRate(budgetProposalLaRate.getApplicableRate())) {
+                switch(verifyApplicableRate(budgetLaRate.getApplicableRate())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
                         errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);

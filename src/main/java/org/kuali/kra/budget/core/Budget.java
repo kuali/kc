@@ -55,8 +55,8 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.rates.BudgetProposalLaRate;
-import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateClassType;
@@ -112,8 +112,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
     private BudgetDecimal underrecoveryAmount;
     private String urRateClassCode;
     private RateClass rateClass;
-    private List<BudgetProposalRate> budgetProposalRates;
-    private List<BudgetProposalLaRate> budgetProposalLaRates;
+    private List<BudgetRate> budgetRates;
+    private List<BudgetLaRate> budgetLaRates;
     private List<BudgetPeriod> budgetPeriods;
     private List<BudgetProjectIncome> budgetProjectIncomes;
     private List<BudgetCostShare> budgetCostShares;
@@ -160,8 +160,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
         budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
-        budgetProposalRates = new ArrayList<BudgetProposalRate>();
-        budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
+        budgetRates = new ArrayList<BudgetRate>();
+        budgetLaRates = new ArrayList<BudgetLaRate>();
         budgetPeriods = new ArrayList<BudgetPeriod>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         budgetUnrecoveredFandAs = new ArrayList<BudgetUnrecoveredFandA>();
@@ -613,8 +613,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
         managedLists.add(budgetLineItems);
         managedLists.add(getBudgetPersons());
         managedLists.add(getBudgetPeriods());
-        managedLists.add(getBudgetProposalLaRates());
-        managedLists.add(getBudgetProposalRates());
+        managedLists.add(getBudgetLaRates());
+        managedLists.add(getBudgetRates());
         managedLists.add(getBudgetSubAwards());
         return managedLists;
     }
@@ -668,35 +668,35 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     /**
-     * Gets the budgetProposalRates attribute. 
-     * @return Returns the budgetProposalRates.
+     * Gets the budgetRates attribute. 
+     * @return Returns the budgetRates.
      */
-    public List<BudgetProposalRate> getBudgetProposalRates() {
-        return budgetProposalRates;
+    public List<BudgetRate> getBudgetRates() {
+        return budgetRates;
     }
 
     /**
-     * Sets the budgetProposalRates attribute value.
-     * @param budgetProposalRates The budgetProposalRates to set.
+     * Sets the budgetRates attribute value.
+     * @param budgetRates The budgetRates to set.
      */
-    public void setBudgetProposalRates(List<BudgetProposalRate> budgetProposalRates) {
-        this.budgetProposalRates = budgetProposalRates;
+    public void setBudgetRates(List<BudgetRate> budgetRates) {
+        this.budgetRates = budgetRates;
     }
 
     /**
-     * Gets the budgetProposalLaRates attribute. 
-     * @return Returns the budgetProposalLaRates.
+     * Gets the budgetLaRates attribute. 
+     * @return Returns the budgetLaRates.
      */
-    public List<BudgetProposalLaRate> getBudgetProposalLaRates() {
-        return budgetProposalLaRates;
+    public List<BudgetLaRate> getBudgetLaRates() {
+        return budgetLaRates;
     }
 
     /**
-     * Sets the budgetProposalLaRates attribute value.
-     * @param budgetProposalLaRates The budgetProposalLaRates to set.
+     * Sets the budgetLaRates attribute value.
+     * @param budgetLaRates The budgetLaRates to set.
      */
-    public void setBudgetProposalLaRates(List<BudgetProposalLaRate> budgetProposalLaRates) {
-        this.budgetProposalLaRates = budgetProposalLaRates;
+    public void setBudgetLaRates(List<BudgetLaRate> budgetLaRates) {
+        this.budgetLaRates = budgetLaRates;
     }
 
     /**
@@ -740,7 +740,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     public List<RateClassType> getRateClassTypes() {
-        if(rateClassTypes.isEmpty() && !rateClassTypesReloaded && (!this.getBudgetProposalRates().isEmpty() || !this.getBudgetProposalLaRates().isEmpty())) {
+        if(rateClassTypes.isEmpty() && !rateClassTypesReloaded && (!this.getBudgetRates().isEmpty() || !this.getBudgetLaRates().isEmpty())) {
           getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, getBudgetDocument());
         } else if(rateClassTypesReloaded) {
             if (!rateClassTypes.isEmpty()) {
@@ -818,21 +818,21 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     
     /**
      * This method adds an item to its collection
-     * @param budgetProposalRate
+     * @param budgetRate
      */
-    public void add(BudgetProposalRate budgetProposalRate) {
-        if(budgetProposalRate != null) {
-            getBudgetProposalRates().add(budgetProposalRate);
+    public void add(BudgetRate budgetRate) {
+        if(budgetRate != null) {
+            getBudgetRates().add(budgetRate);
         }
     }
     
     /**
      * This method adds an item to its collection
-     * @param budgetProposalLaRate
+     * @param budgetLaRate
      */
-    public void add(BudgetProposalLaRate budgetProposalLaRate) {
-        if(budgetProposalLaRate != null) {
-            getBudgetProposalLaRates().add(budgetProposalLaRate);
+    public void add(BudgetLaRate budgetLaRate) {
+        if(budgetLaRate != null) {
+            getBudgetLaRates().add(budgetLaRate);
         }
     }
     
@@ -1159,9 +1159,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     private RateDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
         RateDecimal applicableRate = RateDecimal.ZERO_RATE;
-        for(BudgetProposalRate budgetProposalRate: getBudgetProposalRates()) {
-            if(Integer.valueOf(budgetProposalRate.getFiscalYear()).equals(fiscalYear) && budgetProposalRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetProposalRate.getOnOffCampusFlag()) {
-                applicableRate = new RateDecimal(budgetProposalRate.getApplicableRate().bigDecimalValue());
+        for(BudgetRate budgetRate: getBudgetRates()) {
+            if(Integer.valueOf(budgetRate.getFiscalYear()).equals(fiscalYear) && budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetRate.getOnOffCampusFlag()) {
+                applicableRate = new RateDecimal(budgetRate.getApplicableRate().bigDecimalValue());
                 break;
             }
         }
@@ -1687,6 +1687,381 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((activityTypeCode == null) ? 0 : activityTypeCode.hashCode());
+        result = prime * result + ((budgetCategoryTypeCodes == null) ? 0 : budgetCategoryTypeCodes.hashCode());
+        result = prime * result + ((budgetCostShares == null) ? 0 : budgetCostShares.hashCode());
+        result = prime * result + ((budgetDocument == null) ? 0 : budgetDocument.hashCode());
+        result = prime * result + ((budgetId == null) ? 0 : budgetId.hashCode());
+        result = prime * result + ((budgetJustification == null) ? 0 : budgetJustification.hashCode());
+        result = prime * result + ((budgetLaRates == null) ? 0 : budgetLaRates.hashCode());
+        result = prime * result + (budgetLineItemDeleted ? 1231 : 1237);
+        result = prime * result + ((budgetPeriods == null) ? 0 : budgetPeriods.hashCode());
+        result = prime * result + ((budgetPersonnelDetailsList == null) ? 0 : budgetPersonnelDetailsList.hashCode());
+        result = prime * result + ((budgetPersons == null) ? 0 : budgetPersons.hashCode());
+        result = prime * result + ((budgetPrintForms == null) ? 0 : budgetPrintForms.hashCode());
+        result = prime * result + ((budgetProjectIncomes == null) ? 0 : budgetProjectIncomes.hashCode());
+        result = prime * result + ((budgetRates == null) ? 0 : budgetRates.hashCode());
+        result = prime * result + ((budgetStatus == null) ? 0 : budgetStatus.hashCode());
+        result = prime * result + ((budgetSubAwards == null) ? 0 : budgetSubAwards.hashCode());
+        result = prime * result + ((budgetSummaryTotals == null) ? 0 : budgetSummaryTotals.hashCode());
+        result = prime * result + ((budgetUnrecoveredFandAs == null) ? 0 : budgetUnrecoveredFandAs.hashCode());
+        result = prime * result + ((budgetVersionNumber == null) ? 0 : budgetVersionNumber.hashCode());
+        result = prime * result + ((calculatedExpenseTotals == null) ? 0 : calculatedExpenseTotals.hashCode());
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((costSharingAmount == null) ? 0 : costSharingAmount.hashCode());
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + (finalVersionFlag ? 1231 : 1237);
+        result = prime * result + ((instituteLaRates == null) ? 0 : instituteLaRates.hashCode());
+        result = prime * result + ((instituteRates == null) ? 0 : instituteRates.hashCode());
+        result = prime * result + ((modularBudgetFlag == null) ? 0 : modularBudgetFlag.hashCode());
+        result = prime * result
+                + ((nonPersonnelCalculatedExpenseTotals == null) ? 0 : nonPersonnelCalculatedExpenseTotals.hashCode());
+        result = prime * result
+                + ((objectCodeListByBudgetCategoryType == null) ? 0 : objectCodeListByBudgetCategoryType.hashCode());
+        result = prime * result + ((objectCodePersonnelFringeTotals == null) ? 0 : objectCodePersonnelFringeTotals.hashCode());
+        result = prime * result + ((objectCodePersonnelList == null) ? 0 : objectCodePersonnelList.hashCode());
+        result = prime * result + ((objectCodePersonnelSalaryTotals == null) ? 0 : objectCodePersonnelSalaryTotals.hashCode());
+        result = prime * result + ((objectCodeTotals == null) ? 0 : objectCodeTotals.hashCode());
+        result = prime * result + ((ohRateClassCode == null) ? 0 : ohRateClassCode.hashCode());
+        result = prime * result + ((ohRateTypeCode == null) ? 0 : ohRateTypeCode.hashCode());
+        result = prime * result + ((onOffCampusFlag == null) ? 0 : onOffCampusFlag.hashCode());
+        result = prime * result + ((personnelCalculatedExpenseTotals == null) ? 0 : personnelCalculatedExpenseTotals.hashCode());
+        result = prime * result + ((rateClass == null) ? 0 : rateClass.hashCode());
+        result = prime * result + ((rateClassTypes == null) ? 0 : rateClassTypes.hashCode());
+        result = prime * result + (rateClassTypesReloaded ? 1231 : 1237);
+        result = prime * result + ((rateClasses == null) ? 0 : rateClasses.hashCode());
+        result = prime * result + (rateSynced ? 1231 : 1237);
+        result = prime * result + ((residualFunds == null) ? 0 : residualFunds.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((summaryPeriodEndDate == null) ? 0 : summaryPeriodEndDate.hashCode());
+        result = prime * result + ((summaryPeriodStartDate == null) ? 0 : summaryPeriodStartDate.hashCode());
+        result = prime * result + ((totalCost == null) ? 0 : totalCost.hashCode());
+        result = prime * result + ((totalCostLimit == null) ? 0 : totalCostLimit.hashCode());
+        result = prime * result + ((totalDirectCost == null) ? 0 : totalDirectCost.hashCode());
+        result = prime * result + ((totalIndirectCost == null) ? 0 : totalIndirectCost.hashCode());
+        result = prime * result + ((underrecoveryAmount == null) ? 0 : underrecoveryAmount.hashCode());
+        result = prime * result + ((urRateClassCode == null) ? 0 : urRateClassCode.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Budget other = (Budget) obj;
+        if (activityTypeCode == null) {
+            if (other.activityTypeCode != null)
+                return false;
+        }
+        else if (!activityTypeCode.equals(other.activityTypeCode))
+            return false;
+        if (budgetCategoryTypeCodes == null) {
+            if (other.budgetCategoryTypeCodes != null)
+                return false;
+        }
+        else if (!budgetCategoryTypeCodes.equals(other.budgetCategoryTypeCodes))
+            return false;
+        if (budgetCostShares == null) {
+            if (other.budgetCostShares != null)
+                return false;
+        }
+        else if (!budgetCostShares.equals(other.budgetCostShares))
+            return false;
+        if (budgetDocument == null) {
+            if (other.budgetDocument != null)
+                return false;
+        }
+        else if (!budgetDocument.equals(other.budgetDocument))
+            return false;
+        if (budgetId == null) {
+            if (other.budgetId != null)
+                return false;
+        }
+        else if (!budgetId.equals(other.budgetId))
+            return false;
+        if (budgetJustification == null) {
+            if (other.budgetJustification != null)
+                return false;
+        }
+        else if (!budgetJustification.equals(other.budgetJustification))
+            return false;
+        if (budgetLaRates == null) {
+            if (other.budgetLaRates != null)
+                return false;
+        }
+        else if (!budgetLaRates.equals(other.budgetLaRates))
+            return false;
+        if (budgetLineItemDeleted != other.budgetLineItemDeleted)
+            return false;
+        if (budgetPeriods == null) {
+            if (other.budgetPeriods != null)
+                return false;
+        }
+        else if (!budgetPeriods.equals(other.budgetPeriods))
+            return false;
+        if (budgetPersonnelDetailsList == null) {
+            if (other.budgetPersonnelDetailsList != null)
+                return false;
+        }
+        else if (!budgetPersonnelDetailsList.equals(other.budgetPersonnelDetailsList))
+            return false;
+        if (budgetPersons == null) {
+            if (other.budgetPersons != null)
+                return false;
+        }
+        else if (!budgetPersons.equals(other.budgetPersons))
+            return false;
+        if (budgetPrintForms == null) {
+            if (other.budgetPrintForms != null)
+                return false;
+        }
+        else if (!budgetPrintForms.equals(other.budgetPrintForms))
+            return false;
+        if (budgetProjectIncomes == null) {
+            if (other.budgetProjectIncomes != null)
+                return false;
+        }
+        else if (!budgetProjectIncomes.equals(other.budgetProjectIncomes))
+            return false;
+        if (budgetRates == null) {
+            if (other.budgetRates != null)
+                return false;
+        }
+        else if (!budgetRates.equals(other.budgetRates))
+            return false;
+        if (budgetStatus == null) {
+            if (other.budgetStatus != null)
+                return false;
+        }
+        else if (!budgetStatus.equals(other.budgetStatus))
+            return false;
+        if (budgetSubAwards == null) {
+            if (other.budgetSubAwards != null)
+                return false;
+        }
+        else if (!budgetSubAwards.equals(other.budgetSubAwards))
+            return false;
+        if (budgetSummaryTotals == null) {
+            if (other.budgetSummaryTotals != null)
+                return false;
+        }
+        else if (!budgetSummaryTotals.equals(other.budgetSummaryTotals))
+            return false;
+        if (budgetUnrecoveredFandAs == null) {
+            if (other.budgetUnrecoveredFandAs != null)
+                return false;
+        }
+        else if (!budgetUnrecoveredFandAs.equals(other.budgetUnrecoveredFandAs))
+            return false;
+        if (budgetVersionNumber == null) {
+            if (other.budgetVersionNumber != null)
+                return false;
+        }
+        else if (!budgetVersionNumber.equals(other.budgetVersionNumber))
+            return false;
+        if (calculatedExpenseTotals == null) {
+            if (other.calculatedExpenseTotals != null)
+                return false;
+        }
+        else if (!calculatedExpenseTotals.equals(other.calculatedExpenseTotals))
+            return false;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (costSharingAmount == null) {
+            if (other.costSharingAmount != null)
+                return false;
+        }
+        else if (!costSharingAmount.equals(other.costSharingAmount))
+            return false;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        }
+        else if (!endDate.equals(other.endDate))
+            return false;
+        if (finalVersionFlag != other.finalVersionFlag)
+            return false;
+        if (instituteLaRates == null) {
+            if (other.instituteLaRates != null)
+                return false;
+        }
+        else if (!instituteLaRates.equals(other.instituteLaRates))
+            return false;
+        if (instituteRates == null) {
+            if (other.instituteRates != null)
+                return false;
+        }
+        else if (!instituteRates.equals(other.instituteRates))
+            return false;
+        if (modularBudgetFlag == null) {
+            if (other.modularBudgetFlag != null)
+                return false;
+        }
+        else if (!modularBudgetFlag.equals(other.modularBudgetFlag))
+            return false;
+        if (nonPersonnelCalculatedExpenseTotals == null) {
+            if (other.nonPersonnelCalculatedExpenseTotals != null)
+                return false;
+        }
+        else if (!nonPersonnelCalculatedExpenseTotals.equals(other.nonPersonnelCalculatedExpenseTotals))
+            return false;
+        if (objectCodeListByBudgetCategoryType == null) {
+            if (other.objectCodeListByBudgetCategoryType != null)
+                return false;
+        }
+        else if (!objectCodeListByBudgetCategoryType.equals(other.objectCodeListByBudgetCategoryType))
+            return false;
+        if (objectCodePersonnelFringeTotals == null) {
+            if (other.objectCodePersonnelFringeTotals != null)
+                return false;
+        }
+        else if (!objectCodePersonnelFringeTotals.equals(other.objectCodePersonnelFringeTotals))
+            return false;
+        if (objectCodePersonnelList == null) {
+            if (other.objectCodePersonnelList != null)
+                return false;
+        }
+        else if (!objectCodePersonnelList.equals(other.objectCodePersonnelList))
+            return false;
+        if (objectCodePersonnelSalaryTotals == null) {
+            if (other.objectCodePersonnelSalaryTotals != null)
+                return false;
+        }
+        else if (!objectCodePersonnelSalaryTotals.equals(other.objectCodePersonnelSalaryTotals))
+            return false;
+        if (objectCodeTotals == null) {
+            if (other.objectCodeTotals != null)
+                return false;
+        }
+        else if (!objectCodeTotals.equals(other.objectCodeTotals))
+            return false;
+        if (ohRateClassCode == null) {
+            if (other.ohRateClassCode != null)
+                return false;
+        }
+        else if (!ohRateClassCode.equals(other.ohRateClassCode))
+            return false;
+        if (ohRateTypeCode == null) {
+            if (other.ohRateTypeCode != null)
+                return false;
+        }
+        else if (!ohRateTypeCode.equals(other.ohRateTypeCode))
+            return false;
+        if (onOffCampusFlag == null) {
+            if (other.onOffCampusFlag != null)
+                return false;
+        }
+        else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
+            return false;
+        if (personnelCalculatedExpenseTotals == null) {
+            if (other.personnelCalculatedExpenseTotals != null)
+                return false;
+        }
+        else if (!personnelCalculatedExpenseTotals.equals(other.personnelCalculatedExpenseTotals))
+            return false;
+        if (rateClass == null) {
+            if (other.rateClass != null)
+                return false;
+        }
+        else if (!rateClass.equals(other.rateClass))
+            return false;
+        if (rateClassTypes == null) {
+            if (other.rateClassTypes != null)
+                return false;
+        }
+        else if (!rateClassTypes.equals(other.rateClassTypes))
+            return false;
+        if (rateClassTypesReloaded != other.rateClassTypesReloaded)
+            return false;
+        if (rateClasses == null) {
+            if (other.rateClasses != null)
+                return false;
+        }
+        else if (!rateClasses.equals(other.rateClasses))
+            return false;
+        if (rateSynced != other.rateSynced)
+            return false;
+        if (residualFunds == null) {
+            if (other.residualFunds != null)
+                return false;
+        }
+        else if (!residualFunds.equals(other.residualFunds))
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        }
+        else if (!startDate.equals(other.startDate))
+            return false;
+        if (summaryPeriodEndDate == null) {
+            if (other.summaryPeriodEndDate != null)
+                return false;
+        }
+        else if (!summaryPeriodEndDate.equals(other.summaryPeriodEndDate))
+            return false;
+        if (summaryPeriodStartDate == null) {
+            if (other.summaryPeriodStartDate != null)
+                return false;
+        }
+        else if (!summaryPeriodStartDate.equals(other.summaryPeriodStartDate))
+            return false;
+        if (totalCost == null) {
+            if (other.totalCost != null)
+                return false;
+        }
+        else if (!totalCost.equals(other.totalCost))
+            return false;
+        if (totalCostLimit == null) {
+            if (other.totalCostLimit != null)
+                return false;
+        }
+        else if (!totalCostLimit.equals(other.totalCostLimit))
+            return false;
+        if (totalDirectCost == null) {
+            if (other.totalDirectCost != null)
+                return false;
+        }
+        else if (!totalDirectCost.equals(other.totalDirectCost))
+            return false;
+        if (totalIndirectCost == null) {
+            if (other.totalIndirectCost != null)
+                return false;
+        }
+        else if (!totalIndirectCost.equals(other.totalIndirectCost))
+            return false;
+        if (underrecoveryAmount == null) {
+            if (other.underrecoveryAmount != null)
+                return false;
+        }
+        else if (!underrecoveryAmount.equals(other.underrecoveryAmount))
+            return false;
+        if (urRateClassCode == null) {
+            if (other.urRateClassCode != null)
+                return false;
+        }
+        else if (!urRateClassCode.equals(other.urRateClassCode))
+            return false;
+        return true;
     }
 }
 
