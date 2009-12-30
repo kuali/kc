@@ -185,4 +185,12 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         }
         return this.proposalDevelopmentService;
     }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
 }

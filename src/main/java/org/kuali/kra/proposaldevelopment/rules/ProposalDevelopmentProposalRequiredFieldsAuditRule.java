@@ -108,4 +108,12 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         return this.proposalDevelopmentService;
     }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
 }
