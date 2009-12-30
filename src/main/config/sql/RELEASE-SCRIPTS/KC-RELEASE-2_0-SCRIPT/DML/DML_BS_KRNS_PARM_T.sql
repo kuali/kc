@@ -94,8 +94,26 @@ VALUES ('KC-AWARD', 'D', 'closeoutReportTypeProperty', SYS_GUID () , 1, 'CONFG',
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND, OBJ_ID, VER_NBR)
 VALUES ('KC-AWARD', 'D', 'mit.idc.validation.enabled', 'CONFG', '1', 'MitIdcValidationEnabled is configurable at impl time', 'A', 'WorkflowAdmin', 'Y', SYS_GUID () , '1') ;
 
-INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Help', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD', 'D', 'reportClassForPaymentsAndInvoices', SYS_GUID () , 1, 'CONFG', '6', 'Report Class For Payments And Invoices', 'A', 'WorkflowAdmin', 'Y') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD', 'D', 'federalCapitalizationMinimum', SYS_GUID () , 1, 'CONFG', '0.00', 'Federal Capitalization Minimum', 'A', 'WorkflowAdmin', 'Y') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD', 'D', 'institutionCapitalizationMinimum', SYS_GUID () , 1, 'CONFG', '0.00', 'Institution Capitalization Minimum', 'A', 'WorkflowAdmin', 'Y') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-PROTOCOL', 'D', 'protocolPersonTrainingSectionRequired', '2347F6B21CAB41DAB20A395611C6ED23', 1, 'CONFG', 'True', 'Implementing institution can decide on whether to display training section', 'A', 'WorkflowAdmin', 'Y') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD', 'D', 'scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate', SYS_GUID () , 1, 'CONFG', '1', 'Schedule Generation Period In Years When Frequency Base Code Is Final Expiration Date', 'A', 'WorkflowAdmin', 'Y') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD', 'D', 'contactTypeOther', SYS_GUID () , 1, 'CONFG', '8', 'Contact Type Code For Contact Type Other', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
@@ -211,6 +229,13 @@ VALUES('KC-IP', 'D', 'proposalcommenttype.reviewercomment', 'CONFG', '1', 'Code 
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', '1', 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
+
+UPDATE KRNS_PARM_T 
+SET TXT='MM/dd/yy;MM/dd/yyyy;MM/dd/yyyy hh:mm a;MM/dd/yyyy HH:mm:ss;MM/dd/yy;MM-dd-yy;MMMM dd;yyyy;MMddyy' 
+WHERE NMSPC_CD = 'KR-NS'
+      AND PARM_DTL_TYP_CD = 'All'
+      AND PARM_NM = 'STRING_TO_DATE_FORMATS'
+      AND APPL_NMSPC_CD = 'KUALI';
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
