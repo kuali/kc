@@ -21,14 +21,18 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -52,6 +56,10 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase 
     private String proposalTypeCodeContinuation;
     private String proposalTypeCodeResubmission;
     private String proposalTypeCodeNew;
+    private String changeCorrectedTypeCode;
+    
+    private ProposalDevelopmentDocument pdDoc = null;
+    private DevelopmentProposal proposal = null;
     
     Date tomorrow;
 
@@ -73,7 +81,14 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase 
         
         Calendar calendar = new GregorianCalendar();
         calendar.add(Calendar.DATE, 1);
-        tomorrow = new Date(calendar.getTimeInMillis());        
+        tomorrow = new Date(calendar.getTimeInMillis());
+        
+        pdDoc = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        proposal = pdDoc.getDevelopmentProposal();  
+        proposal.setDeadlineDate(tomorrow);
+        proposal.setProposalTypeCode(proposalTypeCodeNew);
+        proposal.setS2sOpportunity(new S2sOpportunity());
+        changeCorrectedTypeCode = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
     }
 
     @After
@@ -86,17 +101,19 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase 
     }
     
     @Test public void testRequireSponsorIdWhenNew() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        DevelopmentProposal proposal = document.getDevelopmentProposal();
-        proposal.setDeadlineDate(tomorrow);
+        auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
         proposal.setProposalTypeCode(proposalTypeCodeNew);
-        proposal.setS2sOpportunity(new S2sOpportunity());
-        String changeCorrectedType = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
-        proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedType);
-        validateAuditRule(document, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
+        proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedTypeCode);
+        proposal.setSponsorProposalNumber(null);
+        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateAuditRule(document, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+        GlobalVariables.getAuditErrorMap().clear();
+        proposal.setSponsorProposalNumber(null);
+        proposal.setContinuedFrom("1");
+        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+        auditRule.setProposalDevelopmentService(null);
     }
 
     /**
@@ -120,6 +137,19 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase 
             assertEquals("proposal.RequiredFieldsforSavingDocument", auditError.getLink());
     
             assertEquals(Constants.AUDIT_ERRORS, auditCluster.getCategory());
+        }
+    }
+    
+    class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
+        public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
+            if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
+                InstitutionalProposal instProposal = new InstitutionalProposal();
+                instProposal.setProposalNumber(doc.getDevelopmentProposal().getContinuedFrom());
+                instProposal.setSponsorProposalNumber("IP123456");
+                return instProposal;
+            } else {
+                return null;
+            }
         }
     }
 
