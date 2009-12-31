@@ -42,6 +42,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -2786,5 +2787,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    public boolean isOutOfRatesSync(Budget budget) {
+        return getAwardFandaRate().size()!=budget.getBudgetRates().size();
     }
 }

@@ -746,10 +746,11 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             if (!rateClassTypes.isEmpty()) {
                 rateClassTypes.clear();
             }
+            rateClassTypesReloaded = false;
             getBudgetRatesService().getBudgetRates(this.rateClassTypes, getBudgetDocument());
         }
         
-        rateClassTypesReloaded = false;
+        
         Collections.sort(rateClassTypes, new RateClassTypeComparator());
         return rateClassTypes;
     }
