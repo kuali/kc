@@ -32,6 +32,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
@@ -1864,5 +1865,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site: getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
+    }
+
+    public boolean isOutOfRatesSync(Budget budget) {
+        return false;
     }
 }
