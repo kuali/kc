@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +33,18 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockServ
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class...
@@ -43,6 +59,44 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         ActionForward actionForward = super.execute(mapping, form, request, response);
         new AuditActionHelper().auditConditionally((InstitutionalProposalForm)form);
         return actionForward;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    // TODO I'm overriding this because KraTransactionalDocumentActionBase assumes the authorizer is of type KcDocumentAuthorizerBase
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        if (formBase.isFormDocumentInitialized()) {
+            Document document = formBase.getDocument();
+            Person user = GlobalVariables.getUserSession().getPerson();
+            DocumentPresentationController documentPresentationController = KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(document);
+            DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+            Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
+            documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
+
+            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+                documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
+            }
+            
+            Set<String> editModes = new HashSet<String>();
+            if (!documentAuthorizer.canOpen(document, user)) {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+            } else if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            } else {
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+            }
+            Map editMode = this.convertSetToMap(editModes);
+            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+                editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+            }
+            
+            formBase.setDocumentActions(convertSetToMap(documentActions));
+            formBase.setEditingMode(editMode);
+        }
+        
     }
     
     /**
