@@ -1407,6 +1407,14 @@ values ('1213', '77BC20590A51319DE0404F8189D81213', 1, '40', 'KC-IP', 'Open Inst
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
 values ('1214', '77BC20590A51319DE0404F8189D81214', 1, '14', 'KC-IP', 'Cancel Institutional Proposal', 'Cancel an Institutional Proposal', 'Y');
 
+-- add standard permissions for IP Review
+insert into KRIM_PERM_T values ('1215', sys_guid(), 1, '10', 'KC-IP', 'Create Intellectual Property Review', 'Initiate a new Intellectual Property Review', 'Y');
+insert into KRIM_PERM_T values ('1216', sys_guid(), 1, '16', 'KC-IP', 'Edit Intellectual Property Review', 'Edit a Intellectual Property Review', 'Y');
+insert into KRIM_PERM_T values ('1217', sys_guid(), 1, '15', 'KC-IP', 'Save Intellectual Property Review', 'Save a Intellectual Property Review', 'Y');
+insert into KRIM_PERM_T values ('1218', sys_guid(), 1, '5', 'KC-IP', 'Submit Intellectual Property Review', 'Submit a Intellectual Property Review', 'Y');
+insert into KRIM_PERM_T values ('1219', sys_guid(), 1, '40', 'KC-IP', 'Open Intellectual Property Review', 'Open a Intellectual Property Review', 'Y');
+insert into KRIM_PERM_T values ('1220', sys_guid(), 1, '14', 'KC-IP', 'Cancel Intellectual Property Review', 'Cancel a Intellectual Property Review', 'Y');
+
 
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1000', '66AC72A924E64E31977BECE28F7CB6A1', 1, '1000', '3', '13', 'ProposalDevelopmentDocument');
@@ -1800,6 +1808,14 @@ insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_T
 values ('1159', '6314CC58CF59B7B5E0404F8189D81159', 1, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1160', '6314CC58CF59B7B5E0404F8189D81160', 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), '3', '13', 'InstitutionalProposalDocument');
+
+-- specify doc type qualifier for IP Review permissions
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Create Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Save Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
 
 --Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-WKFLW','All','KIM_PRIORITY_ON_DOC_TYP_PERMS_IND',SYS_GUID(),1,'CONFG','N','Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.','A','KUALI');
 
@@ -2264,6 +2280,10 @@ values ('90', '61815E6C62D0B647E0404F8189D873B3', 1, 'System User', 'KR-SYS', 'T
 insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
 values ('95', '67F145466E8B9160E0404F8189D86771', 1, 'Document Initiator', 'KR-SYS', 'This role derives its members from users with the Initiate Document permission for a given document type.', '66', 'Y', null);
 
+-- create new role: Institutional Proposal Maintainer
+insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND)
+values ('96', sys_guid(), 1, 'Institutional Proposal Maintainer', 'KC-IP', 'Maintain Institutional Proposals', (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'), 'Y');
+
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
 values ('1490', 1, '847B746162AB4699BA6C070F2BED4635', '1114', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'P', null, null, to_date('07-10-2009 15:41:46', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
@@ -2499,6 +2519,10 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 values ('1283', 1, 'D0B057F8E7B949EFA94AE8CDA47DE41B', '63', 'admin', 'P', null, null, to_date('08-12-2008', 'dd-mm-yyyy'));
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
 values ('1282', 1, '5B4B421E43857717E0404F8189D821F7', '90', '1', 'P', null, null, null);
+
+-- assign Institutional Proposal Maintainer role to quickstart
+insert into KRIM_ROLE_MBR_T (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) 
+values ('1284', 1, sys_guid(), (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PRNCPL_ID from KRIM_PRNCPL_T where PRNCPL_NM='quickstart'), 'P');
 
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('10002', '77BC20590A50319DE0404F8189D80DB4', 1, '1119', '1199', 'Y');
@@ -2879,6 +2903,20 @@ values ('10109', '77BC20590A53319DE0404F8189D10108', 1, '1120', (select PERM_ID 
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('10110', '77BC20590A53319DE0404F8189D10109', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
 
+-- assign institutional proposal (mod) & IP permissions (mod) to Modify Institutional Proposal role
+insert into KRIM_ROLE_PERM_T values ('10125', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10126', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10127', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10128', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10129', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10130', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10131', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Create Intellectual Property Review'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10132', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Edit Intellectual Property Review'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10133', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Save Intellectual Property Review'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10134', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10135', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), 'Y');
+insert into KRIM_ROLE_PERM_T values ('10136', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), 'Y');
+
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
 values ('1009', '9E8C6BBF7C38443088C2B420363C5200', 1, 'a', '1017', '1007', 'Y');
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
@@ -3133,6 +3171,12 @@ values ('1058', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where RO
 insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1059', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID='1120' and MBR_ID='10000000001'), '1013', '1006', 'N');
 
+-- qualify role assignment at unit 000001 with descend on
+insert into KRIM_ROLE_MBR_ATTR_DATA_T 
+values ('1060', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID=(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer') and MBR_ID=(select PRNCPL_ID from KRIM_PRNCPL_T where PRNCPL_NM='quickstart')), '1013', '1005', '000001');
+insert into KRIM_ROLE_MBR_ATTR_DATA_T 
+values ('1061', sys_guid(), 1, (select ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID=(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer') and MBR_ID=(select PRNCPL_ID from KRIM_PRNCPL_T where PRNCPL_NM='quickstart')), '1013', '1006', 'Y');
+
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1300', SYS_GUID(), 1, 'Y', SYSDATE);
 INSERT INTO KRIM_PRNCPL_T (PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID, VER_NBR) 
@@ -3165,8 +3209,6 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 values ('1603', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'cate'), 'P', null, null, sysdate);
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
 values ('1604', 1, SYS_GUID(), '1130', (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'oblood'), 'P', null, null, sysdate);
-
-
 
 alter table KRIM_ENTITY_ENT_TYP_T enable constraint KRIM_ENTITY_ENT_TYP_TR1;
 alter table KRIM_ENTITY_ADDR_T enable constraint KRIM_ENTITY_ADDR_TR1;

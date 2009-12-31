@@ -1819,6 +1819,16 @@
           p:localServiceName="proposalLogPiDerivedRoleTypeService" />
       </property>
     </bean>
+    
+    <bean id="unitAdministratorDerivedRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl">
+        <property name="unitService" ref="unitService" />
+    </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="unitAdministratorDerivedRoleTypeService"
+          p:localServiceName="unitAdministratorDerivedRoleTypeService" />
+      </property>
+    </bean>
 	
 	<bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />

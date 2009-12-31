@@ -13,22 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.proposallog.service.impl;
+package org.kuali.kra.kim.service.impl;
 
 import java.util.List;
 
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
-public class ProposalLogPiDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimRoleTypeService {
+/**
+ * Checks whether the principal is a Unit Administrator for the given unit.
+ */
+public class UnitAdministratorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimRoleTypeService {
+    
+    private UnitService unitService;
     
     @Override
     public boolean hasApplicationRole(
             String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
         
-        String piId = qualification.get("piId");
-        return piId != null && piId.equals(principalId);
+        String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
+        
+        List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
+        for (UnitAdministrator unitAdministrator : unitAdministrators) {
+            if (unitAdministrator.getPersonId().equals(principalId)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+    
 }
