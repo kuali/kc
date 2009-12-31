@@ -213,7 +213,6 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
                 return "";
             }
         } else {
-            BudgetParentDocument parentDoc = getBudgetParentDocument(budget);
             String activityTypeCode=null;
             if (CollectionUtils.isNotEmpty(budget.getBudgetRates())) {
                 activityTypeCode = ((BudgetRate)budget.getBudgetRates().get(0)).getActivityTypeCode();
@@ -318,7 +317,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    private Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument) {
+    protected Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument) {
         //get first unit number in hierarchy with rates then select appropriate rates
         Unit firstUnit = findFirstUnitWithRates(budgetDocument.getParentDocument().getBudgetParent().getUnit(), InstituteRate.class);
         if (firstUnit == null) {
@@ -531,7 +530,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         getApplicableRates(budget, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
     }
     
-    private boolean isOutOfSync(Budget budget) {
+    protected boolean isOutOfSync(Budget budget) {
         return isOutOfSync(budget.getInstituteRates(), budget.getBudgetRates()) || 
                 isOutOfSync(budget.getInstituteLaRates(), budget.getBudgetLaRates());
     }
@@ -777,7 +776,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         Map<String, RateClass> mapOfMatchingRateClasses = new HashMap<String, RateClass>();
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateType() != null) {
-                RateClass rateClass = abstractInstituteRate.getRateType().getRateClass(); 
+                RateClass rateClass = abstractInstituteRate.getRateType().getRateClass();
+                if(rateClass==null) abstractInstituteRate.getRateType().refreshNonUpdateableReferences();
+                rateClass = abstractInstituteRate.getRateType().getRateClass();
                 if(rateClass.getRateClassType().equals(rateClassType) && mapOfMatchingRateClasses.get(rateClass.getRateClassCode()) == null) {
                     mapOfMatchingRateClasses.put(rateClass.getRateClassCode(), rateClass);
                 }

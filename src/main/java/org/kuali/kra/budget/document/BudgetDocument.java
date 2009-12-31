@@ -70,14 +70,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             for (BudgetPeriod budgetPeriod : budgetPeriods) {
                 ObjectUtils.setObjectPropertyDeep(budgetPeriod, "budgetId", Long.class, budgetId);
             }
-        }
-        catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
+        getBudget().setRateClassTypesReloaded(getParentDocument().getBudgetParent().isOutOfRatesSync(getBudget()));
     }
 
     @Override
     public void initialize() {
+        
     }
 
     public Integer getHackedDocumentNextValue(String propertyName) {
