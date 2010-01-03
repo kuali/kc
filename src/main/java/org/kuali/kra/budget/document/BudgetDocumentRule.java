@@ -114,10 +114,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
-        GlobalVariables.getErrorMap().addToErrorPath("document");
-       
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
-        
+        GlobalVariables.getErrorMap().addToErrorPath("document");        
         GlobalVariables.getErrorMap().addToErrorPath("proposal");
         if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
             budgetDocument.refreshReferenceObject("proposal");
@@ -126,6 +123,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         
+        GlobalVariables.getErrorMap().addToErrorPath("budget"); 
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
         
         valid &= processBudgetExpenseBusinessRules(budgetDocument);
@@ -136,6 +134,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         valid &= processBudgetProjectIncomeBusinessRule(budgetDocument);
 
+        GlobalVariables.getErrorMap().removeFromErrorPath("budget");
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         
