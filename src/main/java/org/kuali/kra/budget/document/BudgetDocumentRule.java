@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
@@ -160,6 +161,19 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
                 valid = false;
             }
+            //check for duplicate fiscal year and source accounts on all unchecked cost shares
+            if (i < budgetDocument.getBudget().getBudgetCostShareCount()) {
+                for (int j = i+1; j < budgetDocument.getBudget().getBudgetCostShareCount(); j++) {
+                    BudgetCostShare tmpCostShare = budgetDocument.getBudget().getBudgetCostShare(j);
+                    if (budgetCostShare.getFiscalYear().intValue() == tmpCostShare.getFiscalYear().intValue()
+                            && StringUtils.equalsIgnoreCase(budgetCostShare.getSourceAccount(), tmpCostShare.getSourceAccount())) {
+                        errorMap.putError("fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE, 
+                                budgetCostShare.getFiscalYear().toString(), 
+                                budgetCostShare.getSourceAccount()==null?"\"\"":budgetCostShare.getSourceAccount());
+                        valid = false;
+                    }
+                }
+            }            
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }

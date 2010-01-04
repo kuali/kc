@@ -21,7 +21,7 @@
 <kul:tabTop 
 		tabTitle="Cost Sharing (${KualiForm.document.budget.budgetCostShareCount})" 
 		defaultOpen="false" 
-		tabErrorKey="newCostShare*,document.budgetCostShare*"
+		tabErrorKey="newCostShare*,document.budget.budgetCostShare*"
 		auditCluster="budgetCostShareAuditErrors" 
 		tabAuditKey="document.budget.budgetCostShare*"
 		>
