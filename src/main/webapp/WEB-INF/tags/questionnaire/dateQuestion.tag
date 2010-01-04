@@ -3,10 +3,12 @@
 <%@ attribute name="answer" required="true" type="org.kuali.kra.questionnaire.answer.Answer" %>
 <%@ attribute name="questionIndex" required="true" %>
                         
-    <div class="Qresponsediv">
+    <div class="${responseDivClass}">
         <span class="Qresponse">
-            <input type="text" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" 
-               maxlength="10" size="10" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
+            <%-- 'class' is a little different than the other conditions because onchange is handled in tag not by jquery 
+                 jquery 'change' is not working for date from date picker --%>
+            <input type="text" class="QanswerDate" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" 
+               onchange = "answerChanged(this)" maxlength="10" size="10" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
 <img src="kr/static/images/cal.gif" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer_datepicker" style="cursor: pointer;"
              title="Date selector" alt="Date selector"
              onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
