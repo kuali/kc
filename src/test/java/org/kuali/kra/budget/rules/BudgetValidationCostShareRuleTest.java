@@ -29,7 +29,7 @@ import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class BudgetValidationCostShareRuleTest extends TestCase {
+public class BudgetValidationCostShareRuleTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final BudgetDecimal SHARE_AMOUNT = new BudgetDecimal(100.00);
     private static final BudgetDecimal SHARE_PCT = new BudgetDecimal(5.55);

@@ -22,12 +22,10 @@ import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactType;
@@ -39,7 +37,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the AwardUnitContactsBean 
  */
-@RunWith(JMock.class)
 public class AwardUnitContactsBeanTest extends KraTestBase {
 
     private static final int THREE = 3;
@@ -54,7 +51,7 @@ public class AwardUnitContactsBeanTest extends KraTestBase {
     private List<ContactType> contactTypes;
     
     @Before
-    public void setUp() {
+    public void initLocalTest() throws Exception {
         initAward();
         initBean();
         bos = context.mock(BusinessObjectService.class);

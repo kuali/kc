@@ -39,7 +39,8 @@ public class MeetingRuleTest extends KraTestBase {
     private Time12HrFmt viewTime;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         viewTime = new Time12HrFmt("01:00", MERIDIEM.PM);
         viewStartTime = new Time12HrFmt("01:00", MERIDIEM.PM);
         viewEndTime = new Time12HrFmt("01:00", MERIDIEM.PM);
@@ -48,6 +49,7 @@ public class MeetingRuleTest extends KraTestBase {
 
     @After
     public void tearDown() throws Exception {
+        super.tearDown();
         rule = null;
     }
 

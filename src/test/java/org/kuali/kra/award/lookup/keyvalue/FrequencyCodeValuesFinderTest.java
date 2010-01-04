@@ -35,6 +35,7 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
     
     @Before
     public void setUp() throws Exception {        
+        super.setUp();
         frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("1","55");
         frequencyCodes = new ArrayList<KeyLabelPair>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();        
@@ -42,7 +43,7 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
 
     @After
     public void tearDown() throws Exception {
-        
+        super.tearDown();
         frequencyCodeValuesFinder = null;
         frequencyCodes = null;
     }

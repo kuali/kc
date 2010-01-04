@@ -345,7 +345,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.NotifyIrbAuthorizerTest.class,
     org.kuali.kra.committee.rules.CommitteeScheduleStartAndEndDateRuleTest.class,
     org.kuali.kra.service.impl.VersioningServiceImplTest.class,
-    org.kuali.kra.document.ValidCalcTypeMaintenanceDocumentTest.class
+    org.kuali.kra.document.ValidCalcTypeMaintenanceDocumentTest.class,
+    org.kuali.kra.proposaldevelopment.service.ProposalStateServiceTest.class
 
     
 })
