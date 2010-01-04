@@ -17,6 +17,7 @@
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalCostShareAttributes" value="${DataDictionary.InstitutionalProposalCostShare.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <c:set var="tabItemCount" value="0" />
 <c:forEach var="institutionalProposalCostShare" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">               
@@ -36,7 +37,7 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.amount}" useShortLabel="true" noColon="true"/></th>
-				<th><div align="center">Actions</div></th>
+				<c:if test="${!readOnly}"><th><div align="center">Actions</div></th></c:if>
 			</tr>
 			
 			<tr>
@@ -66,12 +67,14 @@
             	   	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
             	  	</div>
 	            </td>
-	            <td class="infoline">
-	            	<div align=center>
-						<html:image property="methodToCall.addCostShare.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-	            </td>
+	            <c:if test="${!readOnly}">
+	               <td class="infoline">
+	            	  <div align=center>
+						  <html:image property="methodToCall.addCostShare.anchor${tabKey}"
+						  src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+					   </div>
+	               </td>
+	            </c:if>
           	</tr>
           	
          <c:forEach var="institutionalProposalCostShares" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">
@@ -104,12 +107,14 @@
 	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
 					</div>
 	                </td>
+	                <c:if test="${!readOnly}">
 					<td width="10%">
-					<div align="center">&nbsp;
-						<html:image property="methodToCall.deleteCostShare.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-					</div>
+					   <div align="center">&nbsp;
+						  <html:image property="methodToCall.deleteCostShare.line${status.index}.anchor${currentTabIndex}"
+						  src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </div>
 	                </td>
+	                </c:if>
 	            </tr>
         	</c:forEach> 
           	<tr>
@@ -119,14 +124,16 @@
 	                	$<fmt:formatNumber value="${KualiForm.document.institutionalProposal.totalCostShareAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
-	         	<th scope="row">&nbsp;</th>
+	         	<c:if test="${!readOnly}"><th scope="row">&nbsp;</th></c:if>
           	</tr>
           	
         </table>
    </div>
+   <c:if test="${!readOnly}">
    <div class="tab-container" align="center">
 		<html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>           
+   </c:if>
 </kul:tab>
 

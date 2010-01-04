@@ -17,7 +17,7 @@
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
-
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
@@ -35,9 +35,11 @@
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.institutionalProposal.newDescription}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
-              		lookedUpCollectionName="institutionalProposalScienceKeywords" 
-              		anchor="${tabKey}"/>
+                    <c:if test="${!readOnly}">
+              		    <kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+              		    lookedUpCollectionName="institutionalProposalScienceKeywords" 
+              		    anchor="${tabKey}"/>
+              		</c:if>
 			  </td>
 
               <td width="20%" class="infoline"><div align="center">
