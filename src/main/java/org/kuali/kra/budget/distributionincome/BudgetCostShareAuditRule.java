@@ -18,6 +18,7 @@ package org.kuali.kra.budget.distributionincome;
 import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.rice.kns.document.Document;
@@ -76,6 +77,19 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
                                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                                     params));
             }
+            //ensure fiscal year is within the project period
+            Calendar startCal = Calendar.getInstance();
+            Calendar endCal = Calendar.getInstance();
+            startCal.setTime(budgetDocument.getStartDate());
+            endCal.setTime(budgetDocument.getEndDate());
+            if (fiscalYear < startCal.get(Calendar.YEAR) || fiscalYear > endCal.get(Calendar.YEAR)) {
+                retval = false;
+                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
+                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_INVALID,
+                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                     new String[]{fiscalYear.toString()}));
+                                     
+            }            
             i++;
         }
         return retval;
