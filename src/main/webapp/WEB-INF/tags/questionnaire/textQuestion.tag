@@ -5,7 +5,7 @@
 <%@ attribute name="questionIndex" required="true" %>
 
 <c:set var="questionFieldName" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />                        
-    <div class="Qresponsediv">
+    <div class="${responseDivClass}">
         <span class="Qresponse">
             <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
                 <tr>
@@ -28,7 +28,7 @@
 
                             </c:when>
                             <c:otherwise>
-            <input type="text" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
+            <input type="text" class="Qanswer" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
                value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
                             </c:otherwise>
                         </c:choose>
