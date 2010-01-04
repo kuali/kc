@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.rules;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +28,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 /**
  * This class is parent for AddXxx Tests, where Xxx is a BudgetDistributionandIncomeComponent
  */
-public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
+public abstract class AddBudgetDistributionAndIncomeTest {
 
     protected BudgetDocument document;
     

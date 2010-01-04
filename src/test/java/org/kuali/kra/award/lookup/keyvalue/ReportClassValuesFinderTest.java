@@ -32,6 +32,7 @@ public class ReportClassValuesFinderTest extends KraTestBase{
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         reportClassValuesFinder = new ReportClassValuesFinder();
         reportClasses = new ArrayList<KeyLabelPair>();
         reportClasses = reportClassValuesFinder.getKeyValues();
@@ -39,6 +40,7 @@ public class ReportClassValuesFinderTest extends KraTestBase{
 
     @After
     public void tearDown() throws Exception {
+        super.tearDown();
         reportClassValuesFinder = null;
         reportClasses = null;
     }

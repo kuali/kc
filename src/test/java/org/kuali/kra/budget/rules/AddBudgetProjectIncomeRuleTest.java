@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class AddBudgetProjectIncomeRuleTest extends TestCase {
+public class AddBudgetProjectIncomeRuleTest {
     private static final KualiDecimal PROJECT_INCOME_AMOUNT = new KualiDecimal(100.00);
     private static final int BUDGET_PERIOD_NO = 1;
     private AddBudgetProjectIncomeRule addBudgetProjectIncomeRule;
