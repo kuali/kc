@@ -1,5 +1,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="questionIndex" required="true" %>
+    <c:set var="responseDivClass" value="Qresponsediv" scope="request"/>   
+    <c:if test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber != 0}" >
+        <c:set var="responseDivClass" value="Qresponsediv-parent-${answerHeaderIndex}-${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber}"  scope="request"/>   
+    </c:if>                 
 <%--<div id="panelcontent03"> --%>
 <%--    <table class="content_table">  
         <tr>
@@ -11,7 +15,6 @@
 					  <c:set var="answerValidationError" value="true" scope="request"/>
 				    </c:if>
 			     </c:forEach>
-            
                 <c:choose>
                     <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 1}" >
                         <kra-questionnaire:yesNoQuestion question="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
@@ -40,6 +43,18 @@
                     <c:otherwise>
                     </c:otherwise>
                 </c:choose>
+                <c:set var="questionNumber" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionNumber}" />
+                <%-- TODO : following id is not appropriate because different questionnaire may have the same id --%>
+                <input type="hidden" id="parent-${questionNumber}-${answerHeaderIndex}" name="parent-${questionNumber}-${answerHeaderIndex}" value="${fieldName}" />
+                <input type="hidden" id="childDisplay-${answerHeaderIndex}-${questionNumber}" name="childDisplay-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
+                <input type="hidden" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild"  value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
+            <c:if test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber != 0}">
+                <div class = "condition">
+                    <input type="hidden" id="conditionFlag-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionFlag}" />
+                    <input type="hidden" id="condition-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.condition}" />
+                    <input type="hidden" id="conditionValue-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionValue}" />
+                </div>
+            </c:if>
 <%--            </td>
         </tr>
     </table>   --%> 
