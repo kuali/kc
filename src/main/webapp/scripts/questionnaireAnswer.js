@@ -1,55 +1,5 @@
 		$(document).ready(function(){
 			
-			// Opened Panel
-/*				$(".openedpanelcontrol").toggle(
-					function()
-					{
-						$(this).parent().parent().parent().parent().next().slideUp(400);
-						$(this).attr("src","../images/tinybutton-show.gif");
-					},function(){
-						$(this).parent().parent().parent().parent().next().slideDown(400);
-						$(this).attr("src","../images/tinybutton-hide.gif");
-					}
-				);
-*/			
-			// Closed Panel
-/*				$(".closedpaneldiv").attr("style","display:none;");
-				$(".closedpanelcontrol").toggle(
-					function()
-					{
-						$(this).parent().parent().parent().parent().next().slideDown(400);
-						$(this).attr("src","../images/tinybutton-hide.gif");
-					},function(){
-						$(this).parent().parent().parent().parent().next().slideUp(400);
-						$(this).attr("src","../images/tinybutton-show.gif");
-					}
-				);
-*/				
-			// Opened Section
-/*				$(".openedsectioncontrol").toggle(
-					function()
-					{
-						$(this).parent().parent().parent().parent().next().slideUp(400);
-						$(this).attr("src","../images/tinybutton-show.gif");
-					},function(){
-						$(this).parent().parent().parent().parent().next().slideDown(400);
-						$(this).attr("src","../images/tinybutton-hide.gif");
-					}
-				);
-*/			
-			// Closed Section
-/*				$(".closedsectiondiv").attr("style","display:none;");
-				$(".closedsectioncontrol").toggle(
-					function()
-					{
-						$(this).parent().parent().parent().parent().next().slideDown(400);
-						$(this).attr("src","../images/tinybutton-hide.gif");
-					},function(){
-						$(this).parent().parent().parent().parent().next().slideUp(400);
-						$(this).attr("src","../images/tinybutton-show.gif");
-					}
-				);
-*/			
 			// More/Less Information...
 				$(".Qmoreinfocontrol").parent().next().hide(0);
 				$(".Qmoreinfocontrol").toggle(
@@ -63,46 +13,22 @@
 					}
 				);
 				
-
-
-
-
 					
 		});
 
 		// set up Questions show/hide	
         var ansHeaderSize = $("#numberOfQuestionaires").attr("value");
     for ( var i = 0; i < ansHeaderSize; i++) {
-        /*  this is not working for toggle, always got the last one, so has to implement a little diferent.
-		var panelcontentid = "questionpanelcontent"+i;
-		var panelcontrolid = "questionpanelcontrol"+i;
-        alert("size "+ansHeaderSize+" - "+i+panelcontentid+panelcontrolid);
-        var control = $("#"+panelcontrolid);
-        var content = $("#"+panelcontentid);
-        control.toggle(
-            function()
-            {
-                alert("control id = "+$(this).attr("id"));
-                content.slideDown(500);
-                control.html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-            },function(){
-                alert("control id = "+panelcontrolid);
-                content.slideUp(500);
-                control.html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-            }
-        );
-        $("#"+panelcontrolid).click();
-        $("#"+panelcontrolid).click();
-  */
         $("#questionpanelcontent"+i).hide();
     }
 
+    /*
+     * questionnaire panel to toggle hide/show of panel
+     */
     $(".questionpanel").toggle(
             function()
             {
-                //alert("control id = "+$(this).attr("id"));
                 var panelcontentid = "questionpanelcontent"+$(this).attr("id").substring(20);
-                //alert("control id = "+$(this).attr("id")+panelcontentid);
                 $("#"+panelcontentid).slideDown(500);
                 $(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
             },function(){
@@ -118,12 +44,7 @@
      */
     $('table[@id^=table-parent-]').each(
 			function() {
-				//alert ("hide child "+$(this).attr("id"));
-			//	$(this).hide();
-			//}
-			//	alert("child value "+$(this).children().children().children().children().children('input[id^=childDisplay]').attr("value"));
 			if ($(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-			//	alert ("hide child "+$(this).attr("id"));
 				$(this).hide();
 			}
 			});
@@ -141,30 +62,19 @@
      * function that handles answer change.   It will check whether to hide to show the affected descendant answers.
      */
 	function answerChanged(answer) {
-		//alert ("changed "+$(answer).attr("value")+"-"+$(answer).parents('div[class^=Qresponsediv]').siblings('div[class^=Qresponsediv]').size());
 		var qn= $(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
- 		//alert ("answerChanged "+$(answer).attr("id"));
-       //alert("qn "+$(qn).attr("id")+"-"+$(qn).attr("id").indexOf("-")+"-"+$(qn).attr("id").substring(7,$(qn).attr("id").indexOf(7,"-")));
         if (qn) {
             var answerValue = $(answer).attr("value");
             var idx = $(qn).attr("id").substring(7,$(qn).attr("id").indexOf("-",7));
             var headerIdx = $(qn).attr("id").substring($(qn).attr("id").indexOf("-",7)+1);
             var responseDiv = $(answer).parents('div[class^=Qresponsediv]');
             var prefix = "table-parent-"+headerIdx+"-"+idx;
-          // alert("table condition size "+$("table[@id^="+prefix+"]").children().size()+"-"+prefix);
            $("table[@id^="+prefix+"]").each(                           
         			function() {
                         var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
-            			//alert("table "+$(this).attr("id")+"-"+conditionDiv.size());
                         var qidx = $(this).attr("id").substring(prefix.length+1);
                         // not sure why conditionDiv is not 'undefine' if the node is not set
-                        //if (conditionDiv && conditionDiv.size() > 1) {
-                        //	conditionDiv = $(conditionDiv(':eq(0)'));
-                        //}	
-            			//alert("table "+$(this).attr("id")+"-"+conditionDiv.size());
                         if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
-                        //    alert(typeof(eval(conditionDiv)) + " "+conditionDiv.children('input:eq(0)').attr("value") +"-"+conditionDiv.children('input:eq(1)').attr("value") +"-"+conditionDiv.children('input:eq(2)').attr("value") +"-")
-        				//  alert ("show child "+conditionDiv.children('input:eq(1)').attr("id").substring(9));
                            if (isConditionMatchAnswers(responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
                            		$(this).show();                                   		
                            		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
@@ -178,24 +88,8 @@
                            		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
                            		//$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.answer").attr("value","");
                            		emptyAnswerForHiddenQuestion(this);
-/*                           		
-                           		$(this).find('.Qanswer').each(
-                           		function() {		
-                           		  var radioChecked = $(this).attr('checked');
-                                  alert("radio "+radioChecked+"-"+qidx)
-                           		  if (radioChecked) {
-                           			  $(this).attr('checked', false);
-                                  } else {
-                                	  if ($(this).attr("type") != "radio") {
-                                		  $(this).attr("value","");
-                                	  }
-                                  }	  
-                           		}); 
- */                          		
                            }    
-        				//$(this).show();
                         }  else {
-                     		//alert ("hide "+conditionDiv.children('input:eq(1)').attr("id").substring(10));
                       		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
                       		$(this).hide();
                        		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
@@ -214,14 +108,12 @@
 	 * without condition set up.
 	 */
     function showChildren(parentIndicator) {
-		//alert("show child table "+parentIndicator);
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
         $("table[@id^="+prefix+"]").each(                           
     			function() {
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
-    				//alert("show child table "+$(this).attr("id"));
                     if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
                    		$(this).show();                   		
                    		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
@@ -237,16 +129,13 @@
      * descendants and hide all of then under this hierarchy.
      */
     function hideChildren(parentIndicator) {
-		//alert("hide child table "+parentIndicator);
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
         $("table[@id^="+prefix+"]").each(                           
     			function() {
-    				//alert("hide child table "+$(this).attr("id"));
               		$(this).hide();
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
-        			//alert("table "+$(this).attr("id")+"-"+conditionDiv.size());
                     
                     if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
                       		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));                           
@@ -261,7 +150,6 @@
     }   
 
     function emptyAnswerForHiddenQuestion(questionTable) {
-    	//alert("in emptyAnswerForHiddenQuestion"+$(questionTable).attr("id"))
    		$(questionTable).find('[class^=Qanswer]').each(
            		function() {		
            		  var radioChecked = $(this).attr('checked');
@@ -289,14 +177,12 @@
 				function() {
 					if (!isMatched) {
                         var answer = $(this).children().children().children().children().children().children('input').attr("value");
-                       // alert("other answer ");
                         isMatched = isConditionMatched(condition, conditionValue, answer);
 					}
                     
 				}
 			)
 		}
-		//alert ("ismatch "+isNaN(condition) +"-"+condition+"-"+isMatched);
 		
 		return isMatched;
 		
@@ -317,7 +203,6 @@
 		var isMatched = false;
         if (condition == 1) {
           // contains text value
-            //alert ("condition 1 "+parentAnswer+"-"+conditionValue+"-"+parentAnswer.indexOf(conditionValue));
             isMatched = ((parentAnswer.toUpperCase()).indexOf(conditionValue.toUpperCase()) >= 0);
         } else if (condition == 2) {
           // match text   
@@ -325,6 +210,8 @@
         } else if (condition >= 3 && condition <= 7) {
             if (isNaN(parentAnswer)) {
     		   alert("Value must be a number");
+            } else if (!_isInteger(parentAnswer)){
+     		   alert("Value must be a positive integer");
             } else {
             	isMatched = (condition == 3 && (Number(parentAnswer) < Number(conditionValue))) ||
             	            (condition == 4 && (Number(parentAnswer) <= Number(conditionValue))) ||
@@ -333,7 +220,6 @@
             	            (condition == 7 && (Number(parentAnswer) > Number(conditionValue)));
             }    
     	} else if (condition > 7) {
-    		//alert(condition)
         	if (!isDate(parentAnswer, 'MM/dd/yyyy')) {
     		    alert("Not a Valid Date (mm/dd/yyyy)");
         	} else {
