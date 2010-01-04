@@ -16,14 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
-
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].statusCode,document.institutionalProposalList[0].activityTypeCode,document.institutionalProposalList[0].proposalTypeCode,document.institutionalProposalList[0].title,document.institutionalProposalList[0].currentAwardNumber">
 	<!-- Institution -->
 <div class="tab-container" align="center">
 
 <h3>
-	<span class="subhead-left">Institutional Proposal</span>
+	<span class="subhead-left">Institutional Proposal ${readOnly}</span>
 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
@@ -55,8 +55,10 @@
 		</th>
     	<td>
     		<div align="left"> 
-					<kul:htmlControlAttribute property="document.institutionalProposalList[0].currentAwardNumber" attributeEntry="${institutionalProposalAttributes.currentAwardNumber}"/>
-					<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.institutionalProposal.currentAwardNumber" anchor="${tabKey}"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].currentAwardNumber" attributeEntry="${institutionalProposalAttributes.currentAwardNumber}"/>
+				<c:if test="${!readOnly}">
+			         <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.institutionalProposal.currentAwardNumber" anchor="${tabKey}"/>
+			    </c:if>
 			</div>
     	</td>
     	<th>
