@@ -216,7 +216,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 + PFP + desc + PFP + question.getQuestion().getQuestionTypeId() + PFP + question.getQuestionNumber() + PFP
                 + question.getCondition() + PFP + question.getConditionValue() + PFP + question.getParentQuestionNumber() + PFP
                 + question.getQuestion().getSequenceNumber() + PFP + getQeustionResponse(question.getQuestion()) + PFP
-                + question.getVersionNumber() + PFP + question.getConditionFlag();
+                + question.getVersionNumber() + PFP + (question.getConditionFlag() ? "Y" : "N");
 
     }
 
