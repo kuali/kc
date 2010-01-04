@@ -26,6 +26,7 @@ import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -78,13 +79,13 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
                                                     params));
             }
             //ensure fiscal year is within the project period
-            Calendar startCal = Calendar.getInstance();
-            Calendar endCal = Calendar.getInstance();
-            startCal.setTime(budgetDocument.getStartDate());
-            endCal.setTime(budgetDocument.getEndDate());
-            if (fiscalYear < startCal.get(Calendar.YEAR) || fiscalYear > endCal.get(Calendar.YEAR)) {
+            List<Integer> validFiscalYears = new ArrayList<Integer>();
+            for (FiscalYearSummary fys : budgetDocument.getFiscalYearCostShareTotals()) {
+                validFiscalYears.add(fys.getFiscalYear());
+            }
+            if (!validFiscalYears.contains(fiscalYear)) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
+                getAuditWarnings().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
                                      KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_INVALID,
                                      Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                      new String[]{fiscalYear.toString()}));
