@@ -20,7 +20,7 @@
  </textarea>--%>
             <html:textarea property="${questionFieldName}" style="" title="Question Answer" tabindex="${tabindex}"
                            rows="3" cols="100"
-                            styleClass=""
+                            styleClass="Qanswer"
                            onkeyup="textLimit(this, ${answerLength});" />
                     
                     <kul:expandedTextArea textAreaFieldName="${questionFieldName}" 
