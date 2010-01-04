@@ -29,10 +29,11 @@ import javax.persistence.Table;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
 @Entity 
-@Table(name="OSP$COEUS_MODULE")
+@Table(name="COEUS_MODULE")
 public class CoeusModule extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
+    public static final String IRB_MODULE_CODE = "7";
 
     @Id 
     @Column(name="MODULE_CODE")
