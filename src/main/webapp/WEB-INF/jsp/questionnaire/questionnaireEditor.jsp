@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+<script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 
 
 <kul:tab defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
