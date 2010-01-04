@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Unit Tests for the Proposal State Service Implementation.
  */
-@Ignore 
-public class ProposalStateServiceTest extends MockObjectTestCase {
+public class ProposalStateServiceTest extends KraTestBase {
     
     /*
      * Workflow states.
@@ -44,10 +44,14 @@ public class ProposalStateServiceTest extends MockObjectTestCase {
     private static final int EXCEPTION = 7;
     
     private ProposalStateService service;
+    private Mockery mockery;
+    private KualiWorkflowDocument mock;
     
-    @BeforeClass
-    public void setUp() {
-        service = new ProposalStateServiceImpl();
+    @Before
+    public void initTest() {
+        mockery = new JUnit4Mockery();
+        service = KraServiceLocator.getService(ProposalStateService.class);
+        mock = mockery.mock(KualiWorkflowDocument.class);
     }
 
     /**
@@ -156,11 +160,10 @@ public class ProposalStateServiceTest extends MockObjectTestCase {
         doc.getDevelopmentProposal().setSubmitFlag(submitted);
         
         DocumentHeader docHdr = new DocumentHeader();
-        
-        Mock mock = mock(KualiWorkflowDocument.class);
+
         setMockExpectations(mock, workflowState);
          
-        docHdr.setWorkflowDocument((KualiWorkflowDocument) mock.proxy());
+        docHdr.setWorkflowDocument((KualiWorkflowDocument) mock);
         doc.setDocumentHeader(docHdr);
         
         return doc;
@@ -171,65 +174,59 @@ public class ProposalStateServiceTest extends MockObjectTestCase {
      * @param mock the KualiWorkflowDocument mock
      * @param workflowState the workflow state
      */
-    private void setMockExpectations(Mock mock, int workflowState) {
-        switch (workflowState) {
-            case INITIATED:
-                expects(mock, "stateIsInitiated", true);
-                break;
-                
-            case SAVED:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", true);
-                break;
-                
-            case ENROUTE:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", false);
-                expects(mock, "stateIsEnroute", true);
-                break;
-                
-            case APPROVED:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", false);
-                expects(mock, "stateIsEnroute", false);
-                expects(mock, "stateIsApproved", true);
-                break;
-                
-            case DISAPPROVED:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", false);
-                expects(mock, "stateIsEnroute", false);
-                expects(mock, "stateIsApproved", false);
-                expects(mock, "stateIsDisapproved", true);
-                break;
-                
-            case CANCELED:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", false);
-                expects(mock, "stateIsEnroute", false);
-                expects(mock, "stateIsApproved", false);
-                expects(mock, "stateIsDisapproved", false);
-                expects(mock, "stateIsCanceled", true);
-                break;
-                
-            case EXCEPTION:
-                expects(mock, "stateIsInitiated", false);
-                expects(mock, "stateIsSaved", false);
-                expects(mock, "stateIsEnroute", false);
-                expects(mock, "stateIsApproved", false);
-                expects(mock, "stateIsDisapproved", false);
-                expects(mock, "stateIsCanceled", false);
-                break;
-        }
-    }
-    
-    /**
-     * Set the expectation for a mock.
-     * @param mock the mock
-     * @param methodName the method to be invoked
-     * @param retValue the expected return value
-     */
-    private void expects(Mock mock, String methodName, boolean retValue) {
-        mock.expects(this.atLeastOnce()).method(methodName).will(returnValue(retValue));
+    private void setMockExpectations(final KualiWorkflowDocument mock, final int workflowState) {
+        
+        mockery.checking(new Expectations() {{
+            
+            switch (workflowState) {
+                case INITIATED:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(true));
+                    break;
+                    
+                case SAVED:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(true));
+                    break;
+                    
+                case ENROUTE:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(true));
+                    break;
+                    
+                case APPROVED:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(true));
+                    break;
+                    
+                case DISAPPROVED:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(true));
+                    break;
+                    
+                case CANCELED:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsCanceled(); will(returnValue(true));
+                    break;
+                    
+                case EXCEPTION:
+                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(false));
+                    atLeast(1).of(mock).stateIsCanceled(); will(returnValue(false));
+                    break;
+            }
+        }});
     }
 }
