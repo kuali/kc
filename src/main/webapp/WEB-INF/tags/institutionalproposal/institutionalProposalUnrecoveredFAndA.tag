@@ -17,8 +17,9 @@
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalUnrecoveredFandAAttributes" value="${DataDictionary.InstitutionalProposalUnrecoveredFandA.attributes}" />
-
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="tabItemCount" value="0" />
+
 <c:forEach var="institutionalProposalUnrecoveredFandA" items="${KualiForm.document.institutionalProposal.institutionalProposalUnrecoveredFandAs}" varStatus="status">               
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
 </c:forEach>
@@ -38,7 +39,7 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.sourceAccount}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}" useShortLabel="true" noColon="true"/></th>
 				
-				<th><div align="center">Actions</div></th>
+				<c:if test="${!readOnly}"><th><div align="center">Actions</div></th></c:if>
 			</tr>
 			<tr>
             	<th width="50" align="center" scope="row"><div align="center">Add:</div></th>
@@ -72,12 +73,14 @@
             	   	 	<kul:htmlControlAttribute property="institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}" styleClass="amount"/>
             	  	</div>
 	            </td>
+	            <c:if test="${!readOnly}">
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addUnrecoveredFandA.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
 	            </td>
+	            </c:if>
           	</tr>
          <c:forEach var="institutionalProposalUnrecoveredFandAs" items="${KualiForm.document.institutionalProposal.institutionalProposalUnrecoveredFandAs}" varStatus="status">
 	             <tr>
@@ -114,12 +117,14 @@
 	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalUnrecoveredFandAs[${status.index}].underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}" styleClass="amount"/>
 					</div>
 	                </td>
+	                <c:if test="${!readOnly}">
 					<td width="10%">
 					<div align="center">&nbsp;
 						<html:image property="methodToCall.deleteUnrecoveredFandA.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
 	                </td>
+	                </c:if>
 	            </tr>
         	</c:forEach> 
           	<tr>
@@ -129,13 +134,15 @@
 	                	$<fmt:formatNumber value="${KualiForm.document.institutionalProposal.totalUnrecoveredFandAAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
-	         	<th scope="row">&nbsp;</th>
+	         	<c:if test="${!readOnly}"><th scope="row">&nbsp;</th></c:if>
           	</tr>
           	
         </table>
    </div>
+   <c:if test="${!readOnly}">
    <div class="tab-container" align="center">
 		<html:image property="methodToCall.recalculateUnrecoveredFandATotal.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>
+   </c:if>
 </kul:tab>
