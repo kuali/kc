@@ -231,6 +231,7 @@ public final class KeyConstants {
 
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING = "error.budget.distribution.fiscalYearMissing";
+    public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_INVALID = "error.budget.distribution.fiscalYearInvalid";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO = "error.budget.distribution.unallocatedMustBeZero";
     public static final String AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT = "warning.budget.distribution.fiscalYearInconsistent";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA = "error.budget.distribution.duplicate.unrecoveredFA";
@@ -280,6 +281,7 @@ public final class KeyConstants {
     public static final String WARNING_BASE_SALARY_ZERO = "warning..base.salary.zero";
 
     public static final String ERROR_COST_SHARE_PERCENTAGE = "error.costSharing.percentage";
+    public static final String ERROR_COST_SHARE_DUPLICATE = "error.costSharing.duplicate";
     public static final String ERROR_NO_FIELD_TO_EDIT = "error.alterproposaldata.nofieldtoedit";
     public static final String ERROR_PERSONNEL_DETAIL_DATES = "error.personnel.detail.dates";
     public static final String ERROR_PERSONNEL_DETAIL_END_DATE = "error.personnel.detail.end.date";
