@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
+<c:set var="readOnly" value="${!KualiForm.questionnaireHelper.answerQuestionnaire}" scope = "request"/>
 <div id="workarea">
 <c:forEach items="${KualiForm.questionnaireHelper.answerHeaders}" var="answerHeader" varStatus="status">
     <c:set var="transparent" value="false" />
@@ -23,6 +24,7 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
+    <%-- 
     <c:choose>
     <c:when test="${answerHeader.completed}">
      	<c:set var="tabTitle" value="${answerHeader.questionnaire.name} (Complete)" />
@@ -30,7 +32,7 @@
     <c:otherwise>
      	<c:set var="tabTitle" value="${answerHeader.questionnaire.name} (Incomplete)" />
     </c:otherwise> 
-    </c:choose>
+    </c:choose>--%>
 		<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
         <kra-questionnaire:questionnaireAnswers/>
 				
