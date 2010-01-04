@@ -234,7 +234,7 @@
 
     /*
      * If q child questin's condition becomes unmatched, then need to navigate thru the
-     * descendants and hide all of then undeer this hierarchy.
+     * descendants and hide all of then under this hierarchy.
      */
     function hideChildren(parentIndicator) {
 		//alert("hide child table "+parentIndicator);
@@ -261,10 +261,11 @@
     }   
 
     function emptyAnswerForHiddenQuestion(questionTable) {
+    	//alert("in emptyAnswerForHiddenQuestion"+$(questionTable).attr("id"))
    		$(questionTable).find('[class^=Qanswer]').each(
            		function() {		
            		  var radioChecked = $(this).attr('checked');
-                  //alert("radio "+radioChecked+"-"+qidx)
+                 // alert("radio "+radioChecked)
            		  if (radioChecked) {
            			  $(this).attr('checked', false);
                   } else {
