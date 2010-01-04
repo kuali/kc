@@ -20,34 +20,24 @@
 <%@ attribute name="answer" required="true" type="org.kuali.kra.questionnaire.answer.Answer" %>
 <%@ attribute name="questionIndex" required="true" %>
                         
-<%--<c:set var="qname" value="HD${answerHeaderIndex}-QN${questionIndex}"/>            
-<div class="Qdiv" id="${qname}div">
-    <div class="Qquestiondiv">
-        <span class="Qmoreinfocontrol">More Information...</span>
-        <!--<span class="Qnumber">1.0.0</span>-->
-        <span class="Qquestion">${question.question}</span>
-        
-    </div>
-    <kra-questionnaire:questionMoreInfo question="${question}" />--%>
-    <%-- nee 'onCLick' because IE is not working well with 'onChange' which will not take effect until cursor is moving to somewhere --%>
-    <div class="${responseDivClass}">
-        <span class="Qresponse">
-            <c:choose>
-                <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
-                    <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="Y" />Yes
-                </c:when>
-                <c:otherwise >
-                    <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" value="Y" />Yes
-                </c:otherwise>
-            </c:choose>  
-            <c:choose>
-                <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'N'}" >
-                    <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="N" />No
-                </c:when>
-                <c:otherwise >
-                    <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"  value="N" />No
-                </c:otherwise>
-            </c:choose>  
-        </span>
-    </div>
-<%--</div>--%>
+    <%-- need 'onCLick' because IE is not working well with 'onChange' which will not take effect until cursor is moving to somewhere --%>
+<div class="${responseDivClass}">
+    <span class="Qresponse">
+        <c:choose>
+            <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
+                <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="Y" />Yes
+            </c:when>
+            <c:otherwise >
+                <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" value="Y" />Yes
+            </c:otherwise>
+        </c:choose>  
+        <c:choose>
+            <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'N'}" >
+                <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="N" />No
+            </c:when>
+            <c:otherwise >
+                <input type="radio" class="QanswerYesNo" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"  value="N" />No
+            </c:otherwise>
+        </c:choose>  
+    </span>
+</div>
