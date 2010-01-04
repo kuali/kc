@@ -61,6 +61,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 /**
  * This class tests the KraServiceLocator
  */
+@Ignore
 public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopmentWebTestBase {
     private static final int IMAGE_INPUT = 4;
     private static final int SUBMIT_INPUT_BY_NAME = 5;
@@ -140,7 +141,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     }
 
 
-    @Test @Ignore
+    @Test
     public void testAlternateRoutingWithMultipleApproval() throws Exception {
         HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(proposaldevelopmentPage);

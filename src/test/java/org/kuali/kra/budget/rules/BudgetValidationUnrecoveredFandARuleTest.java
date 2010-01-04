@@ -30,7 +30,7 @@ import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAR
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class BudgetValidationUnrecoveredFandARuleTest extends TestCase {
+public class BudgetValidationUnrecoveredFandARuleTest {
     private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);
     private static final RateDecimal APPLICABLE_RATE = new RateDecimal(19.875);
     private final String ON_CAMPUS = "Y";

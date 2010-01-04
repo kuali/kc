@@ -40,6 +40,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 import org.springframework.core.io.ClassPathResource;
 
+@Ignore
 public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
     private KraKEWXmlDataLoaderLifecycle customKEWLifecycle = null;
@@ -85,7 +86,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         logAfterRun();
     }
     
-    @Test @Ignore
+    @Test
     public void testAlternateRoutingPath() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService
                 .getNewDocument("ProposalDevelopmentDocument");
