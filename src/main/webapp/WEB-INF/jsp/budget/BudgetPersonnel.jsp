@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.developmentProposalList[0].hierarchyStatus}" />
+<c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.budgetParent.hierarchyStatus}" />
 <c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />

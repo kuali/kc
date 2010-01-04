@@ -44,4 +44,5 @@ public interface BudgetParent {
     public boolean isNih();
     public Map<String, String> getNihDescription();
     public boolean isOutOfRatesSync(Budget budget);
+    public String getHierarchyStatus();
 }
