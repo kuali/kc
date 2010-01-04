@@ -55,6 +55,9 @@
 	</bean>
 
 	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator">
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

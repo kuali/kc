@@ -2792,4 +2792,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public boolean isOutOfRatesSync(Budget budget) {
         return getAwardFandaRate().size()!=budget.getBudgetRates().size();
     }
+
+    public String getHierarchyStatus() {
+        return "N";
+    }
 }
