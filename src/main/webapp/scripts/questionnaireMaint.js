@@ -1177,7 +1177,7 @@ function okToAddRequirement(response, value) {
 		alert("Please select a response");
 	} else if (response >= 3 && response <= 7 && isNaN(value)) {
 		alert("Value must be a number");
-	} else if (response > 7 && !isDate(value)) {
+	} else if (response > 7 && !isDate(value, 'MM/dd/yyyy')) {
 		alert("Not a Valid Date (mm/dd/yyyy)");
 	} else {
 		valid = true;
@@ -1589,49 +1589,6 @@ function adjustGroupDown() {
 	
 }
 
-// http://www.redips.net/javascript/date-validation/
-// code found in web. no license info. can we use it ?
-function isDate(txtDate) {
-	var objDate; // date object initialized from the txtDate string
-	var mSeconds; // milliseconds from txtDate
-	// date length should be 10 characters - no more, no less
-	if (txtDate.length != 10)
-		return false;
-
-	// extract day, month and year from the txtDate string
-	// expected format is mm/dd/yyyy
-	// subtraction will cast variables to integer implicitly
-	if (isNaN(txtDate.substring(3, 5)) || isNaN(txtDate.substring(0, 2))
-			|| isNaN(txtDate.substring(6, 10))) {
-		return false;
-	}
-	if (txtDate.substring(2, 3) != '/' || txtDate.substring(5, 6) != '/') {
-		return false;
-	}	
-
-	var day = txtDate.substring(3, 5) - 0;
-	var month = txtDate.substring(0, 2) - 1; // because months in JS start
-	// with 0
-	var year = txtDate.substring(6, 10) - 0;
-
-	// test year range
-	if (year < 999 || year > 3000) {
-		return false;
-	}	
-
-	// convert txtDate to the milliseconds
-	mSeconds = (new Date(year, month, day)).getTime();
-
-	// set the date object from milliseconds
-	objDate = new Date();
-	objDate.setTime(mSeconds);
-
-	// if there exists difference then date isn't valid
-	if (objDate.getFullYear() != year || objDate.getMonth() != month || objDate.getDate() != day) {
-		return false;
-	}	
-	return true;
-}
 
 /* integrate with edit, new */
 // -- should be shared

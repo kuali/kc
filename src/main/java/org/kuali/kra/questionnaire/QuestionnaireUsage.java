@@ -26,13 +26,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity 
 @Table(name="QUESTIONNAIRE_USAGE")
-public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> { 
+public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>,SequenceAssociate<Questionnaire> { 
     
     private static final long serialVersionUID = -5676341963373665440L;
     @Id 
@@ -167,5 +168,12 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         this.questionnaireSequenceNumber = questionnaireSequenceNumber;
     }
 
-    
+    public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
+        if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
+            return this.getQuestionnaireSequenceNumber().compareTo(argQuestionnaireUsage.getQuestionnaireSequenceNumber());
+        } else {
+            return this.getQuestionnaireRefIdFk().compareTo(argQuestionnaireUsage.getQuestionnaireRefIdFk());
+        }
+    }
+
 }
