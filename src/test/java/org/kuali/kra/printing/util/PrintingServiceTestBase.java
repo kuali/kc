@@ -23,7 +23,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class PrintingServiceTestBase extends KraTestBase {
+public abstract class PrintingServiceTestBase extends KraTestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -36,8 +36,4 @@ public class PrintingServiceTestBase extends KraTestBase {
 		GlobalVariables.setUserSession(null);
 		super.tearDown();
 	}
-	
-    /** prevents init errors from not having a test method. */
-    @Test @Ignore
-    public void foo() {}
 }
