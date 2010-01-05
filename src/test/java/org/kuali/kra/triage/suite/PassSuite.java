@@ -260,7 +260,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardDataValidationWebTest.class,
     org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizerTest.class,
-    org.kuali.kra.printing.util.PrintingServiceTestBase.class,
     org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentRuleTest.class,
     org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtilTest.class,
     org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
@@ -272,7 +271,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeTypeTest.class,
     org.kuali.kra.irb.auth.CreateProtocolAuthorizerTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinderTest.class,
-    org.kuali.kra.committee.rules.CommitteeRuleTestBase.class,
     org.kuali.kra.committee.web.CommitteeScheduleWebFilterTest.class,
     org.kuali.kra.service.impl.InstitutionalProposalCustomAttributeServiceImplTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardAttachmentsWebTest.class,
@@ -346,8 +344,18 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.rules.CommitteeScheduleStartAndEndDateRuleTest.class,
     org.kuali.kra.service.impl.VersioningServiceImplTest.class,
     org.kuali.kra.document.ValidCalcTypeMaintenanceDocumentTest.class,
-    org.kuali.kra.proposaldevelopment.service.ProposalStateServiceTest.class
-
+    org.kuali.kra.proposaldevelopment.service.ProposalStateServiceTest.class,
+    org.kuali.kra.committee.rules.CommitteeMembershipAddRuleTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardActionsWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardNotesAndAttachmentsWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardPaymentsAndTermsWebTest.class,
+    org.kuali.kra.committee.web.CommitteeScheduleWebTestBase.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDistributionWebTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalHomeWebTest.class,
+    org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
+    org.kuali.kra.irb.web.ProtocolDataValidationWebTest.class,
+    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
+    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class
     
 })
 /** these are all the test class where all the test methods are currently passing. */

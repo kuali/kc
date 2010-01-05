@@ -47,7 +47,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         }
     )
 )
-public class CommitteeRuleTestBase extends KraTestBase {
+public abstract class CommitteeRuleTestBase extends KraTestBase {
 
     protected DocumentService documentService = null;
 
@@ -113,9 +113,5 @@ public class CommitteeRuleTestBase extends KraTestBase {
         assertNotNull(message);
         assertEquals(message.getErrorKey(), errorKey);
     }
-    
-    /** prevents init errors from not having a test method. */
-    @Test @Ignore
-    public void foo() {}
     
 }
