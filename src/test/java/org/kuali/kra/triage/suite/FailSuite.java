@@ -95,7 +95,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.HtmlUnitUtilTest.class,
     org.kuali.kra.budget.printing.xmlstream.CostSharingSummaryByPeriodXmlStreamTest.class,
     org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStreamTest.class,
-    org.kuali.kra.committee.web.CommitteeScheduleWebAddSchedulePanelTest.class,
     org.kuali.kra.s2s.generator.impl.CD511V1_1GeneratorTest.class,
     org.kuali.kra.award.permissions.AwardPermissionsRuleTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_1GeneratorTest.class,
@@ -158,7 +157,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.service.BudgetCalculationServiceTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRKeyPersonV1_0GeneratorTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardCommentWebTest.class,
     org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0GeneratorTest.class,
     org.kuali.kra.award.home.AwardCommentFactoryTest.class,
     org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
@@ -183,7 +181,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.bo.BudgetCostShareIntegrationTest.class,
     org.kuali.kra.service.SpecialReviewServiceTest.class,
     org.kuali.kra.budget.calculator.LineItemCalculatorTest.class,
-    org.kuali.kra.irb.protocol.ProtocolProtocolServiceTest.class,
     org.kuali.kra.s2s.generator.impl.RRSF424V1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.ED524BudgetV1_1GeneratorTest.class,
     org.kuali.kra.budget.web.BudgetExpenseWebTest.class,
@@ -197,10 +194,8 @@ import org.junit.runners.Suite.SuiteClasses;
     edu.mit.coeus.utils.documenttype.DocumentTypeCheckerTest.class,
     org.kuali.kra.s2s.generator.impl.SFLLLV1_0GeneratorTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCostShareWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardDirectFandADistributionWebTest.class,
     org.kuali.kra.award.home.AwardCommentTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_1GeneratorTest.class,
-    org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRequiredFieldsAuditRuleTest.class,
     org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceTest.class,
     org.kuali.kra.institutionalproposal.service.InstitutionalProposalServiceTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalLocationRuleTest.class,
@@ -222,11 +217,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class,
     org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3GeneratorTest.class,
-    org.kuali.kra.committee.web.CommitteeWebTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_1GeneratorTest.class,
     org.kuali.kra.institutionalproposal.printing.xmlstream.CurrentProposalXmlStreamTest.class,
-    org.kuali.kra.meeting.MinuteEntryTypeValuesFinderTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverLetterV1_0GeneratorTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardCloseoutWebTest.class,
     org.kuali.kra.s2s.generator.impl.RRBudgetV1_1GeneratorTest.class,
@@ -258,8 +251,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.S2sOpportunityWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.budget.calculator.BudgetPersonnelCalculationTest.class,
+    org.kuali.kra.meeting.MeetingRuleTest.class,
     org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceTest.class,
-    org.kuali.kra.meeting.MeetingRuleTest.class
+    org.kuali.kra.meeting.MinuteEntryTypeValuesFinderTest.class
     
 })
 /**
