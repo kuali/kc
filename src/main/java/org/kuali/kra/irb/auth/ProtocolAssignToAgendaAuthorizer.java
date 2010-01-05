@@ -48,7 +48,8 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
     private boolean isAssignedToCommittee(Protocol protocol) {
         ProtocolSubmission ps = findSubmission(protocol);
         return ps != null && 
-            ps.getCommitteeSchedule().getScheduledDate() != null;
+        ps.getCommitteeSchedule() != null && 
+        ps.getCommitteeSchedule().getScheduledDate() != null;
     }
     
     /**
