@@ -355,7 +355,13 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
     org.kuali.kra.irb.web.ProtocolDataValidationWebTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
-    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class
+    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class,
+    org.kuali.kra.committee.web.CommitteeWebTest.class,
+    org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRequiredFieldsAuditRuleTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardDirectFandADistributionWebTest.class,
+    org.kuali.kra.irb.protocol.ProtocolProtocolServiceTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardCommentWebTest.class,
+    org.kuali.kra.committee.web.CommitteeScheduleWebAddSchedulePanelTest.class
     
 })
 /** these are all the test class where all the test methods are currently passing. */
