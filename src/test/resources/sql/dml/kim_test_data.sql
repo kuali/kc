@@ -1,3 +1,6 @@
+DROP SEQUENCE KRIM_ATTR_DATA_ID_S;
+create SEQUENCE KRIM_ATTR_DATA_ID_S increment by 1 start with 10000; 
+
 alter table KRIM_ENTITY_ENT_TYP_T disable constraint KRIM_ENTITY_ENT_TYP_TR1;
 alter table KRIM_ENTITY_ADDR_T disable constraint KRIM_ENTITY_ADDR_TR1;
 alter table KRIM_ENTITY_ADDR_T disable constraint KRIM_ENTITY_ADDR_TR2;
