@@ -40,7 +40,7 @@
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean"/>
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms"/>
-		<property name="title" value="Edit Sponsor Template Report Terms"/>
+		<property name="title" value="Edit Sponsor Template Reports"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="templateReportTermId" p:required="true"/>
@@ -58,7 +58,7 @@
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean"/>
 	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms"/>
-		<property name="title" value="Edit Sponsor Template Report Terms"/>
+		<property name="title" value="Edit Sponsor Template Reports"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
@@ -68,7 +68,7 @@
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>
-					<property name="summaryTitle" value="Sponsor Report Terms"/>
+					<property name="summaryTitle" value="Sponsor Template Report"/>
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
