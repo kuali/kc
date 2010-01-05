@@ -1541,6 +1541,9 @@
     <bean id="questionService" class="org.kuali.kra.questionnaire.question.QuestionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    <bean id="questionnaireAnswerService" class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 	
 	<bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
 		<property name="businessObjectService">

@@ -37,6 +37,7 @@ import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.participant.ParticipantsHelper;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
+import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.web.struts.form.Auditable;
@@ -63,6 +64,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
+    private QuestionnaireHelper questionnaireHelper;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient ProtocolAttachmentHelper attachmentsHelper;
@@ -98,6 +100,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
+        setQuestionnaireHelper(new QuestionnaireHelper(this));
         setAttachmentsHelper(new ProtocolAttachmentHelper(this));
         setNotepadHelper(new ProtocolNotepadHelper(this));
         setNewProtocolReference(new ProtocolReference());
@@ -356,4 +359,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
         return true;
     }
+
+    public QuestionnaireHelper getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
+
+    public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
+    }
+    
 }

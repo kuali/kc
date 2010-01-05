@@ -125,4 +125,7 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
     public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
+    
+    public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "answerProtocolQuestionnaire";
+
 }
