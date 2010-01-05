@@ -84,15 +84,13 @@
     <bean id="ProtoCorrespTempl-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="committeeIdFk" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Committee Id Fk" />
-        <property name="shortLabel" value="Committee Id Fk" />
+        <property name="label" value="Committee" />
+        <property name="shortLabel" value="Committee" />
         <property name="maxLength" value="12" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeValuesFinder"
+                p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Committee Id Fk" />
         <property name="description" value="Committee Id Fk" />
