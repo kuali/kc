@@ -92,6 +92,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
+        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
+        ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
         return mapping.findForward("questionnaire");
     }
     
