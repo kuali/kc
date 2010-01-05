@@ -89,7 +89,7 @@
         
     <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
 		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
-		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="moduleSubItemKey" column="MODULE_SUB_ITEM_KEY" jdbc-type="VARCHAR" />
@@ -102,15 +102,16 @@
 		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionnaireRefIdFk"/>
 		</reference-descriptor>
-		<collection-descriptor name="questionnaireAnswers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="answerHeaderId"/>
+		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="answerHeaderIdFk"/>
 		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
-		<field-descriptor name="answerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
-		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="id" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+		<field-descriptor name="answerHeaderIdFk" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="questionnaireQuestionsIdFk" column="QUESTIONNAIRE_QUESTIONS_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="answerNumber" column="ANSWER_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" />
@@ -119,11 +120,14 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="answerHeader" class-ref="org.kuali.kra.questionnaire.answer.AnswerHeader" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="answerHeaderId"/>
+			<foreignkey field-ref="answerHeaderIdFk"/>
 		</reference-descriptor>
-		<!-- <reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionRefIdFk"/>
-		</reference-descriptor>-->
+		</reference-descriptor>
+		<reference-descriptor name="questionnaireQuestion" class-ref="org.kuali.kra.questionnaire.QuestionnaireQuestion" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionnaireQuestionsIdFk"/>
+		</reference-descriptor>
 	</class-descriptor>
 
 <!--  Questionnaire maint related -->
@@ -235,7 +239,7 @@
         <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="moduleItemCode"/>
         </reference-descriptor>
-        <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="questionnaireRefIdFk"/>
         </reference-descriptor>
     </class-descriptor>

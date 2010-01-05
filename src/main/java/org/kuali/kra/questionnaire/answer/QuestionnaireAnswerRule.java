@@ -1,0 +1,126 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.questionnaire.answer;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+
+public class QuestionnaireAnswerRule {
+    
+    private static final String QUESTION_TYPE_NUMBER = "3";
+    private static final String QUESTION_TYPE_DATE = "4";
+    private static final String QUESTION_TYPE_TEXT = "5";
+    private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
+    private static final Map<String, ValidationPattern> VALIDATION_CLASSES;
+    static {
+        final Map<String, ValidationPattern> tempPatterns = new HashMap<String, ValidationPattern>();
+
+        final AnyCharacterValidationPattern anyCharVal = new AnyCharacterValidationPattern();
+        anyCharVal.setAllowWhitespace(true);
+
+        tempPatterns.put(QUESTION_TYPE_TEXT, anyCharVal);
+        tempPatterns.put(QUESTION_TYPE_DATE, new DateValidationPattern());
+        tempPatterns.put(QUESTION_TYPE_NUMBER, new NumericValidationPattern());
+
+        VALIDATION_CLASSES = Collections.unmodifiableMap(tempPatterns);
+    }
+
+    public boolean processQuestionnaireAnswerRules(List<AnswerHeader> answerHeaders) {
+        boolean valid = true;
+        int answerHeaderIndex = 0;
+        for (AnswerHeader answerHeader : answerHeaders) {
+            int questionIndex = 0;
+            for (Answer answer : answerHeader.getAnswers()) {
+                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers["
+                        + questionIndex + "].answer";
+                if (StringUtils.isNotBlank(answer.getAnswer())
+                        && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
+                    valid &= validateAttributeFormat(answer, errorKey, questionIndex);
+                }
+                questionIndex++;
+            }
+            answerHeaderIndex++;
+        }
+
+        return valid;
+    }
+
+    /*
+     * 
+     * This method is to validate the format/length of questionnaire answer
+     * 
+     * @param answer
+     * 
+     * @param errorKey
+     * 
+     * @return
+     */
+    private boolean validateAttributeFormat(Answer answer, String errorKey, int questionIndex) {
+
+
+        boolean valid = true;
+
+        ValidationPattern validationPattern = VALIDATION_CLASSES.get(answer.getQuestion().getQuestionTypeId().toString());
+
+        // if there is no data type matched, then set error ?
+        Pattern validationExpression = validationPattern.getRegexPattern();
+
+        String validFormat = getValidFormat(answer.getQuestion().getQuestionTypeId().toString());
+
+        if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
+            if (answer.getQuestion().getQuestionTypeId().toString().equals(QUESTION_TYPE_DATE)) {
+                if (!answer.getAnswer().matches(DATE_REGEX)) {
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, "Answer "+(questionIndex+1),
+                            answer.getAnswer(), validFormat);
+                    valid = false;
+                }
+            }
+            else if (!validationExpression.matcher(answer.getAnswer()).matches()) {
+                GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT,
+                        new String[] { "Answer "+(questionIndex+1), answer.getAnswer(), validFormat });
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    private String getValidFormat(String dataType) {
+        String validFormat = Constants.DATA_TYPE_STRING;
+        if (dataType.equalsIgnoreCase(QUESTION_TYPE_NUMBER)) {
+            validFormat = Constants.DATA_TYPE_NUMBER;
+        }
+        else if (dataType.equalsIgnoreCase(QUESTION_TYPE_DATE)) {
+            validFormat = Constants.DATA_TYPE_DATE;
+        }
+        return validFormat;
+    }
+
+
+}
