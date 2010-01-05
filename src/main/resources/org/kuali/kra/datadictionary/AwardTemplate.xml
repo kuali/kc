@@ -328,7 +328,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="AwardTemplate-lookupDefinition" parent="AwardTemplate-lookupDefinition-parentBean" />
 	<bean id="AwardTemplate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="SponsorTemplate Lookup" />
+		<property name="title" value="Sponsor Template Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
