@@ -42,8 +42,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_CONTINGENCY.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_MINUTE_ENTRY_TYPE.sql", delimiter = ";") }))
+        @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";") }))
 /**
  * 
  * This class is for meeting web page test.

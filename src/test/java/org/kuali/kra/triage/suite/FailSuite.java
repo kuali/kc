@@ -252,8 +252,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.budget.calculator.BudgetPersonnelCalculationTest.class,
     org.kuali.kra.meeting.MeetingRuleTest.class,
-    org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceTest.class,
-    org.kuali.kra.meeting.MinuteEntryTypeValuesFinderTest.class
+    org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceTest.class
     
 })
 /**
