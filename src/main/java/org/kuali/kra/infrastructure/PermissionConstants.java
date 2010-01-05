@@ -58,7 +58,8 @@ public interface PermissionConstants {
     public static final String MAINTAIN_PROTO_REVIEW_COMMENTS = "MAINTAIN_PROTO_REVIEW_COMMENTS";
     public static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
     public static final String VIEW_RESTRICTED_NOTES = "View Restricted Notes";
-    
+    public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "Answer Protocol Questionnaire";
+
     /*
      * Committee Permissions
      */

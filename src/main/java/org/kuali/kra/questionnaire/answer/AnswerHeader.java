@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,39 +25,61 @@ import org.kuali.kra.questionnaire.Questionnaire;
 /**
  * Holds additional information related to a series of {@link Answer Answers}.
  */
-public class AnswerHeader extends KraPersistableBusinessObjectBase { 
-    
+public class AnswerHeader extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private Integer moduleItemCode; 
-    private String moduleItemKey; 
-    private Integer moduleSubItemCode; 
+    private Long answerHeaderId;
+    private String moduleItemCode;
+    private String moduleItemKey;
+    private Integer moduleSubItemCode;
     private String moduleSubItemKey;
     private Long questionnaireRefIdFk;
-    private Questionnaire questionnaire; 
-    private boolean completed; 
+    private Questionnaire questionnaire;
+    private boolean completed = false;
+
+    private List<Answer> answers;
     
-    private List<Answer> answers; 
-    
+    // Transient properties for questionnaire answer 
+    private boolean newerVersionPublished = false;
+    private String updateOption ;
+
+    public AnswerHeader() {
+        super();
+    }
+
+    public AnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Long questionnaireRefIdFk) {
+        this.moduleItemCode = moduleQuestionnaireBean.getModuleItemCode();
+        this.moduleItemKey = moduleQuestionnaireBean.getModuleItemKey();
+        this.moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
+        this.questionnaireRefIdFk = questionnaireRefIdFk;
+        // current coeus is setting this to 0
+        this.moduleSubItemCode = 0;
+        answers = new ArrayList<Answer>();
+
+    }
+
     /**
-     * Gets the moduleItemCode attribute. 
+     * Gets the moduleItemCode attribute.
+     * 
      * @return Returns the moduleItemCode.
      */
-    public Integer getModuleItemCode() {
+    public String getModuleItemCode() {
         return this.moduleItemCode;
     }
 
     /**
      * Sets the moduleItemCode attribute value.
+     * 
      * @param moduleItemCode The moduleItemCode to set.
      */
-    public void setModuleItemCode(Integer moduleItemCode) {
+    public void setModuleItemCode(String moduleItemCode) {
         this.moduleItemCode = moduleItemCode;
     }
 
     /**
-     * Gets the moduleItemKey attribute. 
+     * Gets the moduleItemKey attribute.
+     * 
      * @return Returns the moduleItemKey.
      */
     public String getModuleItemKey() {
@@ -65,6 +88,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the moduleItemKey attribute value.
+     * 
      * @param moduleItemKey The moduleItemKey to set.
      */
     public void setModuleItemKey(String moduleItemKey) {
@@ -72,7 +96,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the moduleSubItemCode attribute. 
+     * Gets the moduleSubItemCode attribute.
+     * 
      * @return Returns the moduleSubItemCode.
      */
     public Integer getModuleSubItemCode() {
@@ -81,6 +106,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the moduleSubItemCode attribute value.
+     * 
      * @param moduleSubItemCode The moduleSubItemCode to set.
      */
     public void setModuleSubItemCode(Integer moduleSubItemCode) {
@@ -88,7 +114,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the moduleSubItemKey attribute. 
+     * Gets the moduleSubItemKey attribute.
+     * 
      * @return Returns the moduleSubItemKey.
      */
     public String getModuleSubItemKey() {
@@ -97,6 +124,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the moduleSubItemKey attribute value.
+     * 
      * @param moduleSubItemKey The moduleSubItemKey to set.
      */
     public void setModuleSubItemKey(String moduleSubItemKey) {
@@ -104,7 +132,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionnaireId attribute. 
+     * Gets the questionnaireId attribute.
+     * 
      * @return Returns the questionnaireRefId.
      */
     public Long getQuestionnaireRefIdFk() {
@@ -113,6 +142,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the questionnaireId attribute value.
+     * 
      * @param questionnaireId The questionnaireId to set.
      */
     public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
@@ -120,7 +150,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionnaire attribute. 
+     * Gets the questionnaire attribute.
+     * 
      * @return Returns the questionnaire.
      */
     public Questionnaire getQuestionnaire() {
@@ -129,6 +160,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the questionnaire attribute value.
+     * 
      * @param questionnaire The questionnaire to set.
      */
     public void setQuestionnaire(Questionnaire questionnaire) {
@@ -136,23 +168,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionnaireCompletionId attribute. 
-     * @return Returns the questionnaireCompletionId.
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id attribute value.
-     * @param id The id to set.
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the completed attribute. 
+     * Gets the completed attribute.
+     * 
      * @return Returns the completed.
      */
     public boolean getCompleted() {
@@ -161,6 +178,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the completed attribute value.
+     * 
      * @param completed The completed to set.
      */
     public void setCompleted(boolean completed) {
@@ -168,7 +186,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the answers attribute. 
+     * Gets the answers attribute.
+     * 
      * @return Returns the answers.
      */
     public List<Answer> getAnswers() {
@@ -177,6 +196,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the answers attribute value.
+     * 
      * @param answers The answers to set.
      */
     public void setAnswers(List<Answer> answers) {
@@ -184,7 +204,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     }
 
     /** {@inheritDoc} */
-    @Override 
+    @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("moduleItemCode", this.getModuleItemCode());
@@ -192,8 +212,34 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         hashMap.put("moduleSubItemCode", this.getModuleSubItemCode());
         hashMap.put("moduleSubItemKey", this.getModuleSubItemKey());
         hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
-        hashMap.put("id", this.getId());
+        hashMap.put("answerHeaderId", this.getAnswerHeaderId());
         hashMap.put("completed", Boolean.valueOf(this.getCompleted()));
         return hashMap;
     }
+
+    public Long getAnswerHeaderId() {
+        return answerHeaderId;
+    }
+
+    public void setAnswerHeaderId(Long answerHeaderId) {
+        this.answerHeaderId = answerHeaderId;
+    }
+    
+    public boolean isNewerVersionPublished() {
+        return newerVersionPublished;
+    }
+
+    public void setNewerVersionPublished(boolean newerVersionPublished) {
+        this.newerVersionPublished = newerVersionPublished;
+    }
+
+    public String getUpdateOption() {
+        return updateOption;
+    }
+
+    public void setUpdateOption(String updateOption) {
+        this.updateOption = updateOption;
+    }
+
+
 }

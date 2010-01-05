@@ -22,8 +22,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -36,6 +40,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
 
     /**
      * Inject the Document Service.
@@ -80,6 +85,13 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
         businessObjectService.save(newProtocol);
+        // TODO : versioning questionnaire answer
+        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE,
+                protocolDocument.getProtocol()));
+        if (!newAnswerHeaders.isEmpty()) {
+            businessObjectService.save(newAnswerHeaders);
+        }
+
         
         return newProtocolDocument;
     }
@@ -154,4 +166,9 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         }
         return protocol;
     }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
 }
