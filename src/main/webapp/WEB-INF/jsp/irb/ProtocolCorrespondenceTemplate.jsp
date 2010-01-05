@@ -21,7 +21,8 @@
 
 <kul:page lookup="true" 
           docTitle="Correspondence Template" 
-          transactionalDocument="false" 
+          transactionalDocument="false"
+          renderMultipart="true" 
           htmlFormAction="protocolCorrespondenceTemplate">
           
     <script language="javascript" src="scripts/kuali_application.js"></script>
@@ -111,12 +112,8 @@
                         </td>
                         <td>
                             <div align="left">
-                               <c:choose>
-                                    <c:when test="${empty KualiForm.newCorrespondenceTemplates[status.index].committee.committeeName}">(select)</c:when>
-                                    <c:otherwise>${KualiForm.newCorrespondenceTemplates[status.index].committee.committeeName}</c:otherwise>
-                                </c:choose>
-                                <kul:lookup boClassName="org.kuali.kra.committee.bo.Committee" 
-                                    fieldConversions="id:newCorrespondenceTemplates[${status.index}].committeeIdFk,committeeName:newCorrespondenceTemplates[${status.index}].committee.committeeName" />
+                                <kul:htmlControlAttribute property="newCorrespondenceTemplates[${status.index}].committeeIdFk"
+                                                          attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeIdFk}" />
                             </div>
                         </td>
                         <td>
@@ -134,7 +131,7 @@
                         </td>
                         <td>
                             <div align="center">
-                            <html:image property="methodToCall.addCorrespondence Template" 
+                            <html:image property="methodToCall.addCorrespondenceTemplate.correspondenceType[${status.index}]" 
                                 src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
                                 title="Add Correspondence Template" 
                                 alt="Add Correspondence Template" 
@@ -196,6 +193,15 @@
     </div> 
 </kul:tab>
 
-<kul:panelFooter /> 
+<kul:panelFooter />
+
+<div id="globalbuttons" class="globalbuttons">
+    <c:if test="${!readOnly}">
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
+    </c:if>
+    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reload.gif" styleClass="globalbuttons" property="methodToCall.reload" title="reload" alt="reload" onclick="excludeSubmitRestriction=true"/>
+    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
+    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="cancel" alt="cancel"/>
+</div>
 
 </kul:page>
