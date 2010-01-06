@@ -169,9 +169,16 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     }
 
     public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
-        if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
-            return this.getQuestionnaireSequenceNumber().compareTo(argQuestionnaireUsage.getQuestionnaireSequenceNumber());
-        } else {
+        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaire()
+                .getQuestionnaireId())) {
+            if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
+                return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
+            }
+            else {
+                return argQuestionnaireUsage.getQuestionnaireRefIdFk().compareTo(this.getQuestionnaireRefIdFk());
+            }
+        }
+        else {
             return this.getQuestionnaireRefIdFk().compareTo(argQuestionnaireUsage.getQuestionnaireRefIdFk());
         }
     }

@@ -36,7 +36,17 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
+/**
+ * 
+ * This is Helper class for questionnaire answer.
+ */
 public class QuestionnaireHelper implements Serializable {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 2799300472544313825L;
+    private static final String UPDATE_WITH_NO_ANSWER_COPY = "1";
 
     /**
      * Each Helper must contain a reference to its document form so that it can access the actual document.
@@ -49,15 +59,27 @@ public class QuestionnaireHelper implements Serializable {
     private List<String> headerLabels;
     transient private QuestionnaireAnswerService questionnaireAnswerService;
 
+    /**
+     * 
+     * Constructs a QuestionnaireHelper.java. To hook up with protocol form.
+     * @param form
+     */
     public QuestionnaireHelper(ProtocolForm form) {
         this.form = form;
     }
 
+    /**
+     * 
+     * This method is to set up things for questionnaire page to be displayed.
+     */
     public void prepareView() {
         initializePermissions(getProtocol());
     }
 
 
+    /*
+     * authorization check.
+     */
     private void initializePermissions(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.ANSWER_PROTOCOL_QUESTIONNAIRE, protocol);
         answerQuestionnaire = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -97,7 +119,7 @@ public class QuestionnaireHelper implements Serializable {
 
     /**
      * 
-     * This method get/setup questionnaire answers when 'questionnaire' page is clicked
+     * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
      */
     public void populateAnswers() {
         setAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol())));
@@ -117,12 +139,12 @@ public class QuestionnaireHelper implements Serializable {
     }
     
     /*
-     * get questionnaire from the appropriate questionnaire usage
+     * get questionnaire display label from the appropriate questionnaire usage
      */
     private String getQuestionnaireLabel(List<QuestionnaireUsage> usages) {
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
-            Collections.reverse((List<QuestionnaireUsage>) usages);
+           // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
             if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode())) {
@@ -155,18 +177,20 @@ public class QuestionnaireHelper implements Serializable {
      */
     public void updateQuestionnaireAnswer(int answerHeaderIndex) {
         AnswerHeader answerHeader = answerHeaders.get(answerHeaderIndex);
-        if (answerHeader.getUpdateOption().equals("1")) {
+        if (UPDATE_WITH_NO_ANSWER_COPY.equals(answerHeader.getUpdateOption())) {
             // no copy
             answerHeaders.remove(answerHeaderIndex);
-            answerHeaders.add(answerHeaderIndex, questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire()));
+            answerHeaders.add(answerHeaderIndex, questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(
+                CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire()));
         } else {
-            AnswerHeader newAnswerHeader = questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire());
+            AnswerHeader newAnswerHeader = questionnaireAnswerService.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(
+                CoeusModule.IRB_MODULE_CODE, getProtocol()), answerHeader.getQuestionnaire());
             questionnaireAnswerService.copyAnswerToNewVersion(answerHeader, newAnswerHeader);
             answerHeaders.remove(answerHeaderIndex);
             answerHeaders.add(answerHeaderIndex, newAnswerHeader);
         }
         resetHeaderLabels();
-        
+
     }
     
     /**
@@ -179,8 +203,8 @@ public class QuestionnaireHelper implements Serializable {
     
     /**
      * 
-     * This method to update whetehr a child question answer is displayed or not.  This is specifically
-     * used when 'looup' value is returned because the js 'onchange' is not working in this case.
+     * This method to update whether a child question answer is displayed or not.  This is specifically
+     * used when 'lookup' value is returned because the js 'onchange' is not working in this case.
      * @param headerIndex
      */
     public void updateChildIndicator(int headerIndex) {
