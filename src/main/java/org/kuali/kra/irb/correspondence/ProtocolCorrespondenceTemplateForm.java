@@ -108,7 +108,7 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
      * as there are ProtocolCorrespondenceType.
      * @return List<ProtocolCorrespondenceTemplate>
      */
-    private List<ProtocolCorrespondenceTemplate> initNewCorrespondenceTemplates() {
+    public List<ProtocolCorrespondenceTemplate> initNewCorrespondenceTemplates() {
         List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         for(ProtocolCorrespondenceType correspondenceType : getCorrespondenceTypes()) {
             newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());

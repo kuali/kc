@@ -21,6 +21,8 @@ package org.kuali.kra.irb.correspondence;
  */
 public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorrespondenceTemplateService {
 
+    private static final String REFERENCE_COMMITTEE = "committee";
+
     /**
      * 
      * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#addProtocolCorrespondenceTemplate()
@@ -28,7 +30,12 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
     public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate) {
         // TODO Auto-generated method stub
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
-        correspondenceTemplate.setFileName("sample.add");
+        if(correspondenceTemplate.getCommitteeIdFk() == 1) {
+            correspondenceTemplate.setFileName("sample1.add");
+        } else {
+            correspondenceTemplate.setFileName("sample2.add");
+        }
+        correspondenceTemplate.refreshReferenceObject(REFERENCE_COMMITTEE);
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
 
