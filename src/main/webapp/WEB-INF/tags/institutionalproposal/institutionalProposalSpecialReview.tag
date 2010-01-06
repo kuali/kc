@@ -19,6 +19,8 @@
 <c:set var="institutionalProposalSpecialReviewAttributes" value="${DataDictionary.InstitutionalProposalSpecialReview.attributes}" />
 <c:set var="institutionalProposalSpecialReviewExemptionAttributes" value="${DataDictionary.InstitutionalProposalSpecialReviewExemption.attributes}" />
 <c:set var="action" value="institutionalProposalSpecialReview" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.institutionalProposal.specialReview*,document.institutionalProposalList[0].specialReview*,newSpecialReview*,documentExemptNumber*,propSpecialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.institutionalProposal.specialReview*" useRiceAuditMode="false">
 	<div class="tab-container" align="center">
@@ -135,8 +137,10 @@
 	                <td align="left" valign="middle">
 	                <div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.specialReview[${status.index}].expirationDate" attributeEntry="${institutionalProposalSpecialReviewAttributes.expirationDate}" datePicker="true"/></div>
 	                </td>
-	                <td align="left" valign="middle" class="infoline">
+	                <td align="left" valign="middle">
 	               		 <div align="center">
+	               		    <c:choose>
+	               		      <c:when test="${!readOnly}">
 	               		 	<c:set var="selected" value="" />
 	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.institutionalProposal.specialReviews[status.index].exemptionTypeCodes}"/>
 	               		 	<c:forEach var="key" items="${sltdExemptionTypeCodes}">
@@ -149,6 +153,17 @@
 									</c:if>
 								</c:forEach>
 							 </html:select>
+							 </c:when>
+							 <c:otherwise>
+							     <c:forEach var="exemptionCode" items="${KualiForm.document.institutionalProposal.specialReviews[status.index].exemptionTypeCodes}">
+							         <c:forEach var="keyLabel" items="${exemptionTypes}">
+							             <c:if test="${keyLabel.exemptionTypeCode == exemptionCode}">
+							                 <c:out value="${keyLabel.description}" /><br/>
+							             </c:if>
+							         </c:forEach>
+							     </c:forEach>
+							 </c:otherwise>
+							</c:choose>
 						 </div>	  			
 	                </td>
 	                <td align="left" valign="middle">
