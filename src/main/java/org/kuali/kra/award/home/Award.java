@@ -42,9 +42,16 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -59,6 +66,8 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+
+import com.ctc.wstx.io.EBCDICCodec;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -2789,9 +2798,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    public boolean isOutOfRatesSync(Budget budget) {
-        return getAwardFandaRate().size()!=budget.getBudgetRates().size();
-    }
 
     public String getHierarchyStatus() {
         return "N";

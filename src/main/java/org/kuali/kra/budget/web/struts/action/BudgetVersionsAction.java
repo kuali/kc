@@ -167,6 +167,9 @@ public class BudgetVersionsAction extends BudgetAction {
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
+        if(getBudgetRateService().performSyncFlag(budgetDocument)){
+            budget.setRateClassTypesReloaded(true);
+        }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
@@ -182,6 +185,10 @@ public class BudgetVersionsAction extends BudgetAction {
         return new ActionForward(forward, true);
     }
     
+    private BudgetRatesService getBudgetRateService() {
+        return KraServiceLocator.getService(BudgetRatesService.class);
+    }
+
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
     }

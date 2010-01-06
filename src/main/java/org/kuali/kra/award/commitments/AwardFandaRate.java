@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -140,6 +141,9 @@ public class AwardFandaRate extends AwardAssociate {
         return onCampusFlag;
     }
 
+    public Boolean getOnOffCampusFlag() {
+        return onCampusFlag.equals("N");
+    }
     /**
      * 
      * This method...
@@ -372,6 +376,44 @@ public class AwardFandaRate extends AwardAssociate {
         return true;
     }
 
+    public boolean equals(BudgetRate budgetRate){
+        if (applicableFandaRate == null) {
+            if (budgetRate.getApplicableRate() != null){
+                return false;
+            }                
+        }else if (!applicableFandaRate.equals(budgetRate.getApplicableRate())){
+            return false;
+        }            
+        if (fandaRateTypeCode == null) {
+            if (budgetRate.getRateTypeCode() != null){
+                return false;
+            }   
+        }else if (!fandaRateTypeCode.toString().equals(budgetRate.getRateTypeCode())){
+            return false;
+        }            
+        if (fiscalYear == null) {
+            if (budgetRate.getFiscalYear() != null){
+                return false;
+            }   
+        }else if (!fiscalYear.equals(budgetRate.getFiscalYear())){
+            return false;
+        }            
+        if (onCampusFlag == null) {
+            if (budgetRate.getOnOffCampusFlag() != null){
+                return false;
+            }   
+        }else if (!getOnOffCampusFlag().equals(budgetRate.getOnOffCampusFlag())){
+            return false;
+        }            
+        if (startDate == null) {
+            if (budgetRate.getStartDate() != null){
+                return false;
+            }   
+        }else if (!startDate.equals(budgetRate.getStartDate())){
+            return false;
+        }        
+        return true;
+    }
     /**
      * Gets the fandaRateType attribute. 
      * @return Returns the fandaRateType.
