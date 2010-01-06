@@ -16,15 +16,8 @@
 package org.kuali.kra;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.ConfigurationException;
 import org.kuali.rice.core.lifecycle.Lifecycle;
@@ -108,49 +101,22 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         return resourceLoader.getResource(sourceName);
     }
-    
-    /**
-     * Gets the base file name from a given file path.  If the base name cannot be determined then "" is returned.
-     * @param filePath the path (ex: classpath:kew/xml/Foo.xml)
-     * @return a File name w/o extension (ex: Foo)
-     */
-    public static String getBaseXmlFileName(String filePath) {
-        final String[] tokens = filePath.replace(".xml", "").split("[\\\\/]");
-        return tokens.length > 0 ? tokens[tokens.length - 1] : "";
-    }
 
     protected void loadXmlFile(String fileName) throws Exception {
         Resource resource = new DefaultResourceLoader().getResource(fileName);
-        InputStream xmlFile = resource.getInputStream();
+        File xmlFile = resource.getFile();
         if (xmlFile == null) {
             throw new ConfigurationException("Didn't find file " + fileName);
         }   
         List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();
-        XmlDocCollection docCollection = getFileXmlDocCollection(xmlFile, "UnitTestTemp." + getBaseXmlFileName(fileName) + ".");
+        XmlDocCollection docCollection = new FileXmlDocCollection(xmlFile);
         xmlFiles.add(docCollection);
         XmlIngesterService service = KEWServiceLocator.getXmlIngesterService();
         service.ingest(xmlFiles);
-        for (Iterator iterator = docCollection.getXmlDocs().iterator(); iterator.hasNext();) {
-            XmlDoc doc = (XmlDoc) iterator.next();
+        for (XmlDoc doc : docCollection.getXmlDocs()) {
             if (!doc.isProcessed()) {
                 throw new RuntimeException("Failed to ingest xml doc: " + doc.getName());
             }
         }
     }
-
-    protected FileXmlDocCollection getFileXmlDocCollection(InputStream xmlFile, String tempFileName) throws IOException {
-        if (xmlFile == null) {
-            throw new RuntimeException("Didn't find the xml file " + tempFileName);
-        }
-        File temp = File.createTempFile(tempFileName, ".xml");
-        FileOutputStream fos = new FileOutputStream(temp);
-        int data = -1;
-        while ((data = xmlFile.read()) != -1) {
-            fos.write(data);
-        }
-        fos.close();
-        xmlFile.close();
-        return new FileXmlDocCollection(temp);
-    }
-
 }
