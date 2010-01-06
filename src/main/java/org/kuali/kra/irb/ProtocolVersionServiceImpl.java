@@ -85,7 +85,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
         businessObjectService.save(newProtocol);
-        // TODO : versioning questionnaire answer
+        // versioning questionnaire answer
         List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE,
                 protocolDocument.getProtocol()));
         if (!newAnswerHeaders.isEmpty()) {
