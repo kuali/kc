@@ -24,20 +24,20 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questionnaire">
+  	
   	<script src="scripts/jquery/jquery.js"></script>
-<link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-<script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
+    <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
   	
 	<kra-irb:protocolQuestionnaireAnswers/>
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-  	
-  	
-  <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+   	
+    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
   	
   	
 </kul:documentPage>

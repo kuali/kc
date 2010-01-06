@@ -17,8 +17,7 @@
 		});
 
 		// set up Questions show/hide	
-        var ansHeaderSize = $("#numberOfQuestionaires").attr("value");
-    for ( var i = 0; i < ansHeaderSize; i++) {
+    for ( var i = 0; i < $("#numberOfQuestionaires").attr("value"); i++) {
         $("#questionpanelcontent"+i).hide();
     }
 
@@ -59,8 +58,11 @@
 			});
 
     /*
-     * function that handles answer change.   It will check whether to hide to show the affected descendant answers.
-     */
+     * function that handles answer change.   It will check whether to hide or show the affected descendant answers.
+     * Notes : 1. check the siblings (of "input") of 'div[class^=Qresponsediv]', this input id contains answer header and question answer index
+     *         2. The child questions have table id starts with 'table-parent-{answerheaderindex}-{questionanswerindex}-{childquestionanswerindex}"
+     *         3. All the matched children questions should be checked whether answer match condition or not.
+     */     
 	function answerChanged(answer) {
 		var qn= $(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
         if (qn) {
@@ -69,8 +71,9 @@
             var headerIdx = $(qn).attr("id").substring($(qn).attr("id").indexOf("-",7)+1);
             var responseDiv = $(answer).parents('div[class^=Qresponsediv]');
             var prefix = "table-parent-"+headerIdx+"-"+idx;
-           $("table[@id^="+prefix+"]").each(                           
+           $("table[@id^="+prefix+"-]").each(                           
         			function() {
+        				//alert ("prefix "+prefix+"-"+$(this).attr("id"));
                         var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
                         var qidx = $(this).attr("id").substring(prefix.length+1);
                         // not sure why conditionDiv is not 'undefine' if the node is not set
@@ -103,7 +106,7 @@
 	}
 
 	/*
-	 * If a child answer matched condition, then this will be called to see if any other descendats
+	 * If a answer matched child condition, then this will be called to see if any further descendants
 	 * under this question hierarchy need to be 'shown' too.  This is in general related to descendant
 	 * without condition set up.
 	 */
@@ -111,7 +114,7 @@
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[@id^="+prefix+"]").each(                           
+        $("table[@id^="+prefix+"-]").each(                           
     			function() {
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
                     if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
@@ -125,14 +128,14 @@
     }   
 
     /*
-     * If q child questin's condition becomes unmatched, then need to navigate thru the
-     * descendants and hide all of then under this hierarchy.
+     * If a child questin's condition becomes unmatched, then need to navigate thru the
+     * descendants and hide all of them under this hierarchy.
      */
     function hideChildren(parentIndicator) {
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[@id^="+prefix+"]").each(                           
+        $("table[@id^="+prefix+"-]").each(                           
     			function() {
               		$(this).hide();
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
@@ -149,6 +152,9 @@
 
     }   
 
+    /*
+     * uncheck radio button if it is checked and empty answer fields if it is not a 'radio' type.
+     */
     function emptyAnswerForHiddenQuestion(questionTable) {
    		$(questionTable).find('[class^=Qanswer]').each(
            		function() {		
@@ -169,8 +175,7 @@
      * check if the answer matched the condition set up for the child question.
      */
 	function isConditionMatchAnswers(responseDiv, condition, conditionValue, parentAnswer) {
-		// if condition is not set, then it is a required question if its parents is displayed
-		//alert ("ismatch "+isNaN(condition) +"-"+condition);
+		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
 		var isMatched = isNaN(condition) || isConditionMatched(condition, conditionValue, parentAnswer);
 		if (!isMatched && responseDiv.siblings('div[class^=Qresponsediv]').size() > 0) {
 			responseDiv.siblings('div[class^=Qresponsediv]').each (
@@ -190,14 +195,15 @@
 	
     /*
      * condition check for all the conditions implemented in this release 2.1.
+     * Coeus seems only to allow positive integer if condition is related to number
      */
     function isConditionMatched(condition, conditionValue, parentAnswer) {
 
-      /*
+      /* The following conditions is set up in questionnaire maintenance document maintenance
        * var responseArray = [ 'select', 'Contains text value', 'Matches text',
-                 		'Less than number', 'Less than or equals number', 'Equals number',
-                		'Greater than or equals number', 'Greater than number', 'Before date',
-                		'After date' ];                 
+       *          		'Less than number', 'Less than or equals number', 'Equals number',
+       *         		'Greater than or equals number', 'Greater than number', 'Before date',
+       *         		'After date' ];                 
        */
        
 		var isMatched = false;
