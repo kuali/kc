@@ -58,25 +58,9 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         setStartDate(abstractInstituteRate.getStartDate());
         setUnitNumber(unitNumber);
         setOldApplicableRate(abstractInstituteRate.getInstituteRate());
+        setNonEditableRateFlag(abstractInstituteRate.getNonEditableRateFlag());
     }
     
-//	public String getProposalNumber() {
-//		return proposalNumber;
-//	}
-//
-//	public void setProposalNumber(String proposalNumber) {
-//		this.proposalNumber = proposalNumber;
-//	}
-//
-//
-//	public Integer getBudgetVersionNumber() {
-//		return budgetVersionNumber;
-//	}
-//
-//	public void setBudgetVersionNumber(Integer budgetVersionNumber) {
-//		this.budgetVersionNumber = budgetVersionNumber;
-//	}
-
 	public BudgetDecimal getApplicableRate() {
 		return BudgetDecimal.returnZeroIfNull(applicableRate);
 	}

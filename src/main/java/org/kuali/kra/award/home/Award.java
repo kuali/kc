@@ -2802,4 +2802,5 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getHierarchyStatus() {
         return "N";
     }
+
 }

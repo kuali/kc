@@ -445,6 +445,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     public String getDocumentRoleTypeCode() {
         return RoleConstants.AWARD_ROLE_TYPE;
+    }
+
+    @Override
+    public boolean getProposalBudgetFlag() {
+        return false;
     } 
     
 }
