@@ -49,8 +49,13 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(index);
         ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getNewCorrespondenceTemplates().get(index);
 
-        getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
-        //correspondenceTemplateForm.setNewCorrespondenceTemplates(new ArrayList<ProtocolCorrespondenceTemplate>());
+        // check any business rules
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        if (rulePassed) {
+            getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
+            //correspondenceTemplateForm.setNewCorrespondenceTemplates(correspondenceTemplateForm.initNewCorrespondenceTemplates());
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -62,13 +67,18 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         return (ProtocolCorrespondenceTemplateService)KraServiceLocator.getService("protocolCorrespondenceTemplateService");
     }
     
+    /**
+     * This method returns the index of the selected correspondence type
+     * @param request
+     * @return index
+     */
     protected int getSelectedCorrespondenceType(HttpServletRequest request) {
-        int selectedCorrespondenceType = -1;
+        int index = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            selectedCorrespondenceType = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceType[", "]"));
+            index = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceType[", "]"));
         }
-        return selectedCorrespondenceType;
+        return index;
     }
 
 }
