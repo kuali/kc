@@ -87,22 +87,24 @@
         <property name="label" value="Committee" />
         <property name="shortLabel" value="Committee" />
         <property name="maxLength" value="12" />
+        <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
-        <property name="summary" value="Committee Id Fk" />
-        <property name="description" value="Committee Id Fk" />
+        <property name="summary" value="Committee" />
+        <property name="description" value="Committee" />
     </bean>
 
     <bean id="ProtoCorrespTempl-fileName" parent="ProtoCorrespTempl-fileName-parentBean" />
     <bean id="ProtoCorrespTempl-fileName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="fileName" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="File Name" />
-        <property name="shortLabel" value="File Name" />
+        <property name="label" value="File" />
+        <property name="shortLabel" value="File" />
         <property name="maxLength" value="150" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
         </property>
@@ -110,8 +112,8 @@
             <bean parent="TextControlDefinition"
                 p:size="150" />
         </property>
-        <property name="summary" value="File Name" />
-        <property name="description" value="File Name" />
+        <property name="summary" value="File" />
+        <property name="description" value="File" />
     </bean>
     <bean id="ProtoCorrespTempl-correspondenceTemplate" parent="ProtoCorrespTempl-correspondenceTemplate-parentBean" />
     <bean id="ProtoCorrespTempl-correspondenceTemplate-parentBean" abstract="true" parent="AttributeDefinition" >

@@ -34,7 +34,7 @@
          alwaysOpen="true"
          transparentBackground="true" 
          useCurrentTabIndexAsKey="true"
-         tabErrorKey="document.newMaintainableObject.*">
+         tabErrorKey="">
          
     <div class="tab-container" align="center" id="G100">
         <h3>
@@ -47,7 +47,7 @@
                           parentTab="Correspondence Templates" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="document.committeeList[0].committeeMemberships[${memberIndex}].membershipTypeCode,document.committeeList[0].committeeMemberships[${memberIndex}].termStartDate,document.committeeList[0].committeeMemberships[${memberIndex}].termEndDate">
+                          tabErrorKey="newCorrespondenceTemplates[${status.index}].*">
                 <p style="text-align:left; font-weight:bold;">Default</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
@@ -97,10 +97,12 @@
                 <p style="text-align:left; font-weight:bold;">Customized per Committee</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
-                        <th width="5%"></th>
-                        <th width="35%">Committee</th>
-                        <th width="35%">File</th>
-                        <th width="25%">Actions</th>
+                        <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="center" />
+                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeIdFk}" scope="col" align="center" />
+                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.fileName}" scope="col" align="center" />
+                        <c:if test="${!readOnly}">
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center" />
+                        </c:if>
                     </tr>
                     
                     <%-- New Template --%>
@@ -156,32 +158,30 @@
                             </td>
                             <td>
                                 <div align="center">
-                <kul:htmlControlAttribute property="correspondenceTypes[${status.index}].protocolCorrespondenceTemplates[${status2.index}].fileName" 
-                                          attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.fileName}"
-                                          readOnly="true" />
-                                          <br>
                                     ${protocolCorrespondenceTemplate.fileName}
                                 </div>
                             </td>
-                            <td>
-                                <div align="center">
-                                    <html:image property="methodToCall.viewCorrespondenceTemplate" 
-                                        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
-                                        title="View Correspondence Template" 
-                                        alt="View Correspondence Template" 
-                                        styleClass="tinybutton" />
-                                    <html:image property="methodToCall.replaceCorrespondenceTemplate" 
-                                        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
-                                        title="Replace Correspondence Template" 
-                                        alt="Replace Correspondence Template" 
-                                        styleClass="tinybutton" />
-                                    <html:image property="methodToCall.deleteCorrespondenceTemplate" 
-                                        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
-                                        title="Delete Correspondence Template" 
-                                        alt="Delete Correspondence Template" 
-                                        styleClass="tinybutton" />
-                                </div>
-                            </td>
+                            <c:if test="${!readOnly}">
+                                <td>
+                                    <div align="center">
+                                        <html:image property="methodToCall.viewCorrespondenceTemplate" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
+                                            title="View Correspondence Template" 
+                                            alt="View Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                        <html:image property="methodToCall.replaceCorrespondenceTemplate" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
+                                            title="Replace Correspondence Template" 
+                                            alt="Replace Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                        <html:image property="methodToCall.deleteCorrespondenceTemplate" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
+                                            title="Delete Correspondence Template" 
+                                            alt="Delete Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                    </div>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     <%-- Existing Templates --%>
