@@ -30,8 +30,8 @@
         </c:if>
 	
         <h3>
-        <span class="subhead-left"><a href="#" id ="questionpanelcontrol${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
-          Questions </span>
+            <span class="subhead-left"><a href="#" id ="questionpanelcontrol${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+                Questions </span>
  	        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.questionnaire.answer.AnswerHeader" altText="help"/></span>
         </h3>
         <div id="questionpanelcontent${answerHeaderIndex}">
@@ -39,17 +39,20 @@
             <c:forEach items="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
 
                 <c:if test="${questionid ne answer.questionNumber}" >
+                <%-- This 'if' block displays tab header for each question. if question has multiple answers
+                     This is only displayed once when the 1st answer of this question is displayed --%>
                     <c:if test="${!empty questionid}" >
+                    <%-- close tags for each question --%>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                     </c:if>
 
-    <c:set var="tableId" value="table-${answerHeaderIndex}-${status.index}" />   
-     <c:if test="${answer.questionnaireQuestion.parentQuestionNumber != 0}" >
-        <c:set var="tableId" value="table-parent-${answerHeaderIndex}-${answer.questionnaireQuestion.parentQuestionNumber}-${status.index}"/>   
-    </c:if>                 
+                    <c:set var="tableId" value="table-${answerHeaderIndex}-${status.index}" />   
+                    <c:if test="${answer.questionnaireQuestion.parentQuestionNumber != 0}" >
+                        <c:set var="tableId" value="table-parent-${answerHeaderIndex}-${answer.questionnaireQuestion.parentQuestionNumber}-${status.index}"/>   
+                    </c:if>                 
 
                     <c:set var="qname" value="HD${answerHeaderIndex}-QN${status.index}"/>            
                     <c:set var="questionid" value="${answer.questionNumber}" />
@@ -66,39 +69,41 @@
                                     <kra-questionnaire:questionMoreInfo question="${answer.question}" />
                 </c:if>
 
-            <c:choose>
-                <c:when test = "${readOnly}" >
-                      <input type="hidden" id="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" name="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" value="${answer.matchedChild}" />                
-                      <c:choose>
-                          <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
-                             <c:choose>
-                                <c:when test = "${answer.answer == 'Y'}" >
-                                    Yes
-                                </c:when>
-                                 <c:when test = "${answer.answer == 'N'}" >
-                                    No
-                                </c:when>
-                                 <c:when test = "${answer.answer == 'X'}" >
-                                    N/A
-                                </c:when>
-                                <c:otherwise>
+                <c:choose>
+                    <%-- decide whether it is readonly mode --%>
+                    <c:when test = "${readOnly}" >
+                        <input type="hidden" id="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" name="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" value="${answer.matchedChild}" />                
+                        <c:choose>
+                            <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
+                                <c:choose>
+                                    <c:when test = "${answer.answer == 'Y'}" >
+                                      Yes
+                                    </c:when>
+                                    <c:when test = "${answer.answer == 'N'}" >
+                                      No
+                                    </c:when>
+                                    <c:when test = "${answer.answer == 'X'}" >
+                                      N/A
+                                    </c:when>
+                                    <c:otherwise>
                                     
-                                </c:otherwise>
-                             </c:choose>
-                          </c:when>
-                          <c:otherwise>
-                              ${answer.answer} </br>
-                          </c:otherwise>
-                     </c:choose>
-                </c:when>
-                <c:otherwise>
-                     <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" />        
-                </c:otherwise>
-            </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                  ${answer.answer} </br>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" />        
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
 
             <c:set var="questionid" value="${answer.questionNumber}" />
 
+           <%-- following 4 tags is to close the last question's display tag --%>
                                 </div>
                             </td>
                         </tr>

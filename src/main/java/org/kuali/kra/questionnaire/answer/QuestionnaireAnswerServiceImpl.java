@@ -58,10 +58,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<QuestionnaireUsage> questionnaireUsages = (List<QuestionnaireUsage>) businessObjectService.findMatching(
                 QuestionnaireUsage.class, fieldValues);
 
-        // us this sort, to list the higher version before lower version
+        // use this sort, to list the higher version before lower version
         if (CollectionUtils.isNotEmpty(questionnaireUsages)) {
             Collections.sort((List<QuestionnaireUsage>) questionnaireUsages);
-            Collections.reverse((List<QuestionnaireUsage>) questionnaireUsages);
+          //  Collections.reverse((List<QuestionnaireUsage>) questionnaireUsages);
         }
 
         // the higher version will have higher questionnaireidfk
@@ -103,10 +103,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode());
-        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
-            Collections.sort((List<QuestionnaireUsage>) usages);
-            Collections.reverse((List<QuestionnaireUsage>) usages);
-        }
+        // TODO : seems already sorted in getPublishedQuestionnaire
+//        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
+//            Collections.sort((List<QuestionnaireUsage>) usages);
+//            Collections.reverse((List<QuestionnaireUsage>) usages);
+//        }
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
@@ -197,6 +198,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 answer.setAnswer("");
             }
         }
+        newAnswerHeader.setCompleted(isQuestionnaireAnswerComplete(newAnswerHeader.getAnswers()));
     }
 
     /**

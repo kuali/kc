@@ -41,7 +41,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         // TODO : this a little tricky for questionnaire answer. technically, no protocol data has
-        // been changed, and only need to save questionnaire.
+        // been changed, and only need to save questionnaire answer.
         // maybe manually render 'save' button, so we can change method to call, and implemented method here ?
         // still missing 'validation'. just trying to save for now.
         ((ProtocolForm) form).getQuestionnaireHelper().preSave();
@@ -76,7 +76,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         // TODO : do we need to save before update ?
         ((ProtocolForm) form).getQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
-        getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
+        //getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
