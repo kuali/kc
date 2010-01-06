@@ -19,6 +19,7 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
 
 import java.beans.PropertyDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,6 +39,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -62,7 +64,8 @@ public class OjbRepositoryMappingTest {
     
     private static final Log LOG = LogFactory.getLog(OjbRepositoryMappingTest.class);
     
-    private static final String TEST_CONFIG_FILE_PATH = "%s/kuali/test/dev/kra-test-config-2-0.xml";
+    private static final String INTERNAL_TEST_CONFIG_FILE_PATH = "META-INF/kra-test-config.xml";
+    private static final String EXTERNAL_DEV_CONFIG_FILE_PATH = "%s/kuali/test/dev/kra-test-config-2-0.xml";
     
     // For XML parsing and validation
     private static final String CLASS_DESCRIPTOR_NAME = "class-descriptor";
@@ -102,9 +105,22 @@ public class OjbRepositoryMappingTest {
     private String dsSchema;
     private String dsDriver;
 
+    /** gets the external path to the application's test config. */
+    private static String getExternalConfigLocation() throws SAXException, IOException {
+       
+        final String internalpath = OjbRepositoryMappingTest.class.getClassLoader().getResource(INTERNAL_TEST_CONFIG_FILE_PATH).getPath();
+        ConfigFileLoader internalConfig = new ConfigFileLoader(internalpath);
+        Map<String, String> internalParams = internalConfig.loadConfigFileParms();
+        String internalPath = internalParams.get("config.location");
+        
+        String path = FileUtils.fileExists(internalPath) ? internalPath : String.format(EXTERNAL_DEV_CONFIG_FILE_PATH, System.getProperty("user.home"));;
+        
+        return path;
+    }
+    
     @BeforeClass
     public static void loadParms() throws Exception {
-        ConfigFileLoader loader = new ConfigFileLoader(createConfigPath()); 
+        ConfigFileLoader loader = new ConfigFileLoader(getExternalConfigLocation()); 
         configFileParms = loader.loadConfigFileParms();
     }
     
@@ -116,14 +132,6 @@ public class OjbRepositoryMappingTest {
         }
     }
     
-    /**
-     * This method creates the config path to the test config file
-     * @return
-     */
-    private static String createConfigPath() {
-        return String.format(TEST_CONFIG_FILE_PATH, System.getProperty("user.home"));
-    }
-
     @Before
     public void setUp() throws Exception {
         dsUrl = configFileParms.get(DATASOURCE_URL_NAME);
@@ -134,6 +142,7 @@ public class OjbRepositoryMappingTest {
         
         LOG.debug(String.format("dsUrl = %s\n", dsUrl));
         LOG.debug(String.format("dsUser = %s\n", dsUser));
+        LOG.debug(String.format("dsDriver = %s\n", dsDriver));
         LOG.debug(String.format("dsSchema = %s\n", dsSchema));
     }
 
