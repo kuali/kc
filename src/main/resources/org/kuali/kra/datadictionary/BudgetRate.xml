@@ -23,7 +23,6 @@
         <ref bean="BudgetRate-viewLocation" />
         <ref bean="BudgetRate-affectedBudgetPeriod" />
         <ref bean="BudgetRate-budgetPeriod" />
-<!--        <ref bean="BudgetRate-proposalNumber" />-->
         <ref bean="BudgetRate-rateClassCode" />
         <ref bean="BudgetRate-rateTypeCode" />
         <ref bean="BudgetRate-startDate" />
@@ -127,24 +126,6 @@
     <property name="summary" value="Budget Period" />
     <property name="description" value="Budget Period" />
   </bean>
-<!--  <bean id="BudgetRate-proposalNumber" parent="BudgetRate-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetRate-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="proposalNumber" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="Proposal Number" />-->
-<!--    <property name="shortLabel" value="Proposal Number" />-->
-<!--    <property name="maxLength" value="12" />-->
-<!--    <property name="validationPattern" >-->
-<!--      <bean parent="AlphaNumericValidationPattern" />-->
-<!--    </property>-->
-<!--    <property name="control" >-->
-<!--      <bean parent="TextControlDefinition"-->
-<!--            p:size="12" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Proposal Number" />-->
-<!--    <property name="description" value="Proposal Number" />-->
-<!--  </bean>-->
   <bean id="BudgetRate-rateClassCode" parent="BudgetRate-rateClassCode-parentBean" />
 
   <bean id="BudgetRate-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -242,6 +223,7 @@
     <property name="summary" value="Applicable Rate" />
     <property name="description" value="Applicable Rate" />
   </bean>
+
   <bean id="BudgetRate-instituteRate" parent="BudgetRate-instituteRate-parentBean" />
 
   <bean id="BudgetRate-instituteRate-parentBean" abstract="true" parent="AttributeDefinition">
@@ -278,9 +260,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="onOffCampusFlag"
                     p:forceInquiry="true" />
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="proposalNumber"-->
-<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="rateClassCode"
                     p:forceInquiry="true" />
@@ -325,8 +304,6 @@
               p:attributeName="fiscalYear" />
         <bean parent="FieldDefinition"
               p:attributeName="onOffCampusFlag" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="rateClassCode" />
         <bean parent="FieldDefinition"
@@ -351,9 +328,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="onOffCampusFlag"
               p:forceInquiry="true" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber"-->
-<!--              p:forceInquiry="true" />-->
         <bean parent="FieldDefinition"
               p:attributeName="rateClassCode"
               p:forceInquiry="true" />

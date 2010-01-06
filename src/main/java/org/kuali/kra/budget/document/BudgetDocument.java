@@ -57,7 +57,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         super();
         budgets = new ArrayList<Budget>();
     }
-
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();

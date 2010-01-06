@@ -48,6 +48,8 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 	private Unit unit;
     private Boolean active = Boolean.TRUE;
 	
+    private boolean nonEditableRateFlag;
+
     
 	public final Boolean getActive() {
         return active;
@@ -176,6 +178,22 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     
     private String getLocationFlagAsString(boolean campusFlag) {
         return campusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+    }
+
+    /**
+     * Gets the nonEditableRateFlag attribute. 
+     * @return Returns the nonEditableRateFlag.
+     */
+    public boolean getNonEditableRateFlag() {
+        return nonEditableRateFlag;
+    }
+
+    /**
+     * Sets the nonEditableRateFlag attribute value.
+     * @param nonEditableRateFlag The nonEditableRateFlag to set.
+     */
+    public void setNonEditableRateFlag(boolean flatRateCalculation) {
+        this.nonEditableRateFlag = flatRateCalculation;
     }
 
     /**

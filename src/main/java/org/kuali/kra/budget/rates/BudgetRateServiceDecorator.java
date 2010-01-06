@@ -131,6 +131,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
         awardInstituteRate.setRateType(createRateType(awardEBRateClassCode,awardEBRateTypeCode,"Special EB Rate"));
         awardInstituteRate.setRateClassCode(awardEBRateClassCode);
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
+        awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateType");
         awardInstituteRate.refreshReferenceObject("rateClass");
         return awardInstituteRate;
@@ -159,6 +160,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
         awardInstituteRate.setRateClassCode(getDefaultFnARateClassCode());
         Boolean onCampusFlag = new Boolean(awardFnARate.getOnCampusFlag().equals("N"));
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
+        awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateClass");
         return awardInstituteRate;
     }

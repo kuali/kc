@@ -21,7 +21,6 @@ import org.kuali.kra.bo.InstituteRate;
 
 public class BudgetRate extends AbstractBudgetRate {
 	private String activityTypeCode;
-	private boolean flatRateCalculation;
 
 	public BudgetRate() {
 	    super();
@@ -77,22 +76,6 @@ public class BudgetRate extends AbstractBudgetRate {
         else if (!activityTypeCode.equals(other.activityTypeCode))
             return false;
         return true;
-    }
-
-    /**
-     * Gets the flatRateCalculation attribute. 
-     * @return Returns the flatRateCalculation.
-     */
-    public boolean isFlatRateCalculation() {
-        return flatRateCalculation;
-    }
-
-    /**
-     * Sets the flatRateCalculation attribute value.
-     * @param flatRateCalculation The flatRateCalculation to set.
-     */
-    public void setFlatRateCalculation(boolean flatRateCalculation) {
-        this.flatRateCalculation = flatRateCalculation;
     }
 
 }
