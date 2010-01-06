@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Savepoint;
 import java.sql.Statement;
+import java.sql.Struct;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -240,5 +241,24 @@ public class TrackingConnection implements Connection {
     /** {@inheritDoc} */
     public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
         this.connection.setTypeMap(map);
+    }
+    
+    //to avoid the complexities of setting the bootclasspath & other cross compiler issues
+    //I'm implementing the new methods implemented in java 1.6 here so that compiling with a
+    //java 1.6 compiler will just work...Not the "correct" solution but this code is for
+    //diagnostic purposes only
+    /** {@inheritDoc} */
+    public boolean isWrapperFor(Class<?> iface) {
+        throw new UnsupportedOperationException("not supported until java 1.6");
+    }
+    
+    /** {@inheritDoc} */
+    public <T> T unwrap(Class<T> iface) {
+        throw new UnsupportedOperationException("not supported until java 1.6");
+    }
+    
+    /** {@inheritDoc} */
+    public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+        throw new UnsupportedOperationException("not supported until java 1.6");
     }
 }

@@ -65,5 +65,19 @@ public class TrackingDataSource implements DataSource {
     /** {@inheritDoc} */
     public void setLogWriter(PrintWriter out) throws SQLException {
         this.dataSource.setLogWriter(out);
-    }    
+    }
+    
+    //to avoid the complexities of setting the bootclasspath & other cross compiler issues
+    //I'm implementing the new methods implemented in java 1.6 here so that compiling with a
+    //java 1.6 compiler will just work...Not the "correct" solution but this code is for
+    //diagnostic purposes only
+    /** {@inheritDoc} */
+    public boolean isWrapperFor(Class<?> iface) {
+        throw new UnsupportedOperationException("not supported until java 1.6");
+    }
+    
+    /** {@inheritDoc} */
+    public <T> T unwrap(Class<T> iface) {
+        throw new UnsupportedOperationException("not supported until java 1.6");
+    }
 }
