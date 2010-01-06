@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,8 +37,6 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -91,6 +88,18 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
             Map editMode = this.convertSetToMap(editModes);
             if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
                 editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+            }
+            
+            // We don't want to use KNS way to determine can edit document overview
+            // It should be the same as can edit
+            if (editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+                if (!documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
+                    documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                }
+            } else {
+                if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
+                    documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                }
             }
             
             formBase.setDocumentActions(convertSetToMap(documentActions));
