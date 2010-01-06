@@ -48,22 +48,10 @@ import org.junit.Test;
 
 @PerSuiteUnitTestData(
         @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.sql", delimiter = ";")
-                //@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERIOD_TYPE.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_TYPE.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_MAPPING.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_MAPS.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_budget_details_cam_amts.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_budget_line_item_for_total.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERIOD_TYPE.sql", delimiter = ";")
-                //,@UnitTestFile(filename = "classpath:sql/dml/load_budget_status.sql", delimiter = ";")
-            }
-            )
-            )
-
-public class BudgetPersonServiceImplTest extends KcraNoDataTestBase{
+                sqlFiles = {
+                        @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.SQL", delimiter = ";")
+                    }))
+public class BudgetPersonServiceImplTest extends KcraNoDataTestBase {
     
     private BudgetPersonService budgetPersonService;
     private BudgetPersonServiceImpl budgetPersonService2;
