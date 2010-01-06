@@ -31,8 +31,11 @@ import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -85,16 +88,15 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
         if(firstRate.getStartDate().after(award.getRequestedStartDateInitial())){
             firstRate.setStartDate(award.getRequestedStartDateInitial());
         }
-        
-
         for (InstituteRate awardEBRate : awardEbRates) {
             instituteRatesForAward.add(awardEBRate);
         }
         for (InstituteRate instituteRate : instituteRates) {
-            if(!instituteRate.getRateClassType().equals(OVERHEAD.getRateClassType()) &&
-                    !instituteRate.getRateClassType().equals(EMPLOYEE_BENEFITS.getRateClassType())){
-                instituteRatesForAward.add(instituteRate);
+            if(instituteRate.getRateClassType().equals(OVERHEAD.getRateClassType()) ||
+                    (!awardEbRates.isEmpty() & instituteRate.getRateClassType().equals(EMPLOYEE_BENEFITS.getRateClassType()))){
+                continue;
             }
+            instituteRatesForAward.add(instituteRate);
         }
         return instituteRatesForAward;
     }
@@ -102,11 +104,11 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
     private List<InstituteRate> createAwardEBInstituteRates(Award award) {
         List<InstituteRate> awardEBInstituteRates = new ArrayList<InstituteRate>();
         KualiDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
-        if(specialEbRateOnCampus!=null && specialEbRateOnCampus.isPositive()){
+        if(specialEbRateOnCampus!=null){
             awardEBInstituteRates.add(createEBInstituteRate(award,specialEbRateOnCampus,Boolean.TRUE));
         }
         KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
-        if(specialEbRateOffCampus!=null && specialEbRateOffCampus.isPositive()){
+        if(specialEbRateOffCampus!=null){
             awardEBInstituteRates.add(createEBInstituteRate(award,specialEbRateOffCampus,Boolean.FALSE));
         }
         return awardEBInstituteRates;
@@ -188,9 +190,67 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
     
     private boolean isOutOfSyncAwardRates(Budget budget) {
         Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
-        return award.isOutOfRatesSync(budget);
+        return isOutOfRatesSync(award,budget);
+    }
+    private boolean isOutOfRatesSync(Award award,Budget budget) {
+        List<AwardFandaRate> fnaRates = award.getAwardFandaRate();
+        QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
+        boolean ratesOutOfSync = false;
+        if(!fnaRates.isEmpty()){
+            Equals eqOhRateClassType = new Equals("rateClassType",OVERHEAD.getRateClassType());
+            List<BudgetRate> filteredOhRates = budgetRates.filter(eqOhRateClassType);
+            ratesOutOfSync = fnaRates.size()!=filteredOhRates.size();
+            if(!ratesOutOfSync){
+                for (BudgetRate budgetRate : filteredOhRates) {
+                    ratesOutOfSync = !fnaRatesContains(fnaRates,budgetRate);
+                    if(ratesOutOfSync) return ratesOutOfSync;
+                }
+            }
+            
+        }
+        Equals eqEbRateClassType = new Equals("rateClassType",EMPLOYEE_BENEFITS.getRateClassType());
+        KualiDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
+        if(specialEbRateOnCampus!=null){
+            Equals eqOnCampus = new Equals("onOffCampusFlag",Boolean.TRUE);
+            And onCampusEbRateClassType = new And(eqEbRateClassType,eqOnCampus);
+            List<BudgetRate> filteredEbRates = budgetRates.filter(onCampusEbRateClassType);
+            ratesOutOfSync=filteredEbRates.size()!=1;
+            if(!ratesOutOfSync){
+                BudgetRate budgetEbOnCampusRate = filteredEbRates.get(0);
+                ratesOutOfSync = budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOnCampus.bigDecimalValue());
+            }
+            
+            
+        }
+        KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
+        if(!ratesOutOfSync && specialEbRateOffCampus!=null){
+            Equals eqOffCampus = new Equals("onOffCampusFlag",Boolean.FALSE);
+            And offCampusEbRateClassType = new And(eqEbRateClassType,eqOffCampus);
+            List<BudgetRate> filteredOffCampusEbRates = budgetRates.filter(offCampusEbRateClassType);
+            ratesOutOfSync=filteredOffCampusEbRates.size()!=1;
+            if(!ratesOutOfSync){
+                BudgetRate budgetEbOnCampusRate = filteredOffCampusEbRates.get(0);
+                ratesOutOfSync = budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOffCampus.bigDecimalValue());
+            }
+        }
+
+        return ratesOutOfSync;
     }
 
+    
+    private boolean fnaRatesContains(List<AwardFandaRate> fnaRates, BudgetRate budgetRate) {
+        for (AwardFandaRate awardFandaRate : fnaRates) {
+            if(!awardFandaRate.equals(budgetRate)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean performSyncFlag(BudgetDocument budgetDocument) {
+        return isAwardBudget(budgetDocument);
+    }
     /**
      * Gets the parameterService attribute. 
      * @return Returns the parameterService.

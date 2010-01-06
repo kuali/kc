@@ -749,8 +749,6 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             rateClassTypesReloaded = false;
             getBudgetRatesService().getBudgetRates(this.rateClassTypes, getBudgetDocument());
         }
-        
-        
         Collections.sort(rateClassTypes, new RateClassTypeComparator());
         return rateClassTypes;
     }

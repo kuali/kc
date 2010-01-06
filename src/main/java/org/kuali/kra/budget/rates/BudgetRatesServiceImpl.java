@@ -1044,5 +1044,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         getBudgetRates(new ArrayList<RateClassType>(), budgetDocument);
     }
 
+    /**
+     * By default it does not have to perform sync
+     * @see org.kuali.kra.budget.rates.BudgetRatesService#performSyncFlag()
+     */
+    public boolean performSyncFlag(BudgetDocument budgetDocument) {
+        return false;
+    }
+
 
 }
