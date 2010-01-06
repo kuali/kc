@@ -179,7 +179,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
             }
         }
         else {
-            return this.getQuestionnaireRefIdFk().compareTo(argQuestionnaireUsage.getQuestionnaireRefIdFk());
+            return this.getQuestionnaire().getQuestionnaireId().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId());
         }
     }
 
