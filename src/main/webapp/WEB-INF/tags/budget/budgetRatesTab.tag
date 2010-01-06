@@ -46,7 +46,7 @@
                       	</div>
                     </td>
                     
-                    <!-- 
+                    <%-- 
                     <td width="15%" class="${tdClass}">
                     	<div align=left>
                     	<span class="copy">
@@ -55,7 +55,7 @@
                       	</span>
                       	</div>
                     </td>
-                     -->
+                     --%>
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
@@ -73,7 +73,15 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                			<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
+                    		<bean:define id="nonEditableRateFlag" name="KualiForm" property="${budgetRate}.nonEditableRateFlag"/>
+                    		<c:choose>
+							<c:when test="${nonEditableRateFlag == 'No'}">
+                				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
+							</c:when>
+                			<c:otherwise>
+		                    	<bean:write name="KualiForm" property="${budgetRate}.applicableRate"/>
+                			</c:otherwise>
+                			</c:choose>
                       	</span>
                       	</div>
                     </td>

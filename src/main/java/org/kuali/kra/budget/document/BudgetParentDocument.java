@@ -112,4 +112,5 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
       return docEntry.getHeaderNavigationList();
     }
     public abstract T getBudgetParent();
+    public abstract boolean getProposalBudgetFlag();
 }
