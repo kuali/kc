@@ -43,6 +43,6 @@ public interface BudgetParent {
     public ProposalPersonRole getProposalEmployeeRole(String personId);
     public boolean isNih();
     public Map<String, String> getNihDescription();
-    public boolean isOutOfRatesSync(Budget budget);
+//    public boolean isOutOfRatesSync(Budget budget);
     public String getHierarchyStatus();
 }

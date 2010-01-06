@@ -73,7 +73,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }catch (Exception e) {
             e.printStackTrace();
         }
-        getBudget().setRateClassTypesReloaded(getParentDocument().getBudgetParent().isOutOfRatesSync(getBudget()));
     }
 
     @Override

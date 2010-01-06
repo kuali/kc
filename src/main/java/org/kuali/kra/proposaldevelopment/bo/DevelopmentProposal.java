@@ -1867,7 +1867,4 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
     }
 
-    public boolean isOutOfRatesSync(Budget budget) {
-        return false;
-    }
 }
