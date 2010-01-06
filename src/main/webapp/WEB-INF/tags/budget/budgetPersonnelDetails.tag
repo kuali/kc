@@ -32,9 +32,9 @@
 
 <kul:tabTop defaultOpen="true" tabTitle="Personnel Budget Details" tabErrorKey="*">
 	<div class="tab-container" align="center">
-	   <div class="h2-container">
-       		<span class="subhead-left"><h2>Personnel Budget Details - ${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList[personNumber].budgetPerson.personName}</h2></span>
-       </div>	
+	   <h3>
+       		<span class="subhead-left">Personnel Budget Details - ${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList[personNumber].budgetPerson.personName}</span>       		
+       </h3>	
 		<div>
 		
 		<input type="hidden" name="budgetPeriod" value="${budgetPeriodNumber}" />
