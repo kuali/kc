@@ -47,7 +47,7 @@
 		<property name="title" value="Edit Sponsor Template Terms"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/>
+				<!--  <bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/> -->
 				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
@@ -63,33 +63,33 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
 					<property name="name" value="templateTerms"/>
-					<property name="sourceClassName" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
+					<property name="sourceClassName" value="org.kuali.kra.bo.SponsorTerm"/>
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<!--
 						<property name="sourceClassName" value="LookupDefinition" />
 						<property name="sourceAttributeName"
 						value="org.kuali.kra.award.home.AwardTemplateTerm" />
 					-->
-					<property name="includeAddLine" value="true"/>
-					<property name="includeMultipleLookupLine" value="false"/>
+					<property name="includeAddLine" value="false"/>
+					<property name="includeMultipleLookupLine" value="true"/>
 					<property name="summaryTitle" value="Sponsor Template Terms"/>
 					<property name="summaryFields">
 					<list>
-						<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode"/>
-			             <bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
+					    <bean parent="MaintainableFieldDefinition" p:name="sponsorTerm.sponsorTermType.description"/>
+			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
                    </list>
 					</property>
 					<property name="attributeToHighlightOnDuplicateKey" value="sponsorTermId"/>
 					<property name="duplicateIdentificationFields">
 						<list>
-							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode" />-->
+							
 							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode"/>
-							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:required="true"/>
+					    	<bean parent="MaintainableFieldDefinition" p:name="sponsorTerm.sponsorTermType.description" p:unconditionallyReadOnly="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:template = "sponsorTermId" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
 					</property>

@@ -37,6 +37,7 @@
 				<ref bean="AwardTemplateTerm-sponsorTermTypeCode" />
 				<ref bean="AwardTemplateTerm-sponsorTermId" />
 				<ref bean="AwardTemplateTerm-versionNumber" />
+				<ref bean="AwardTemplateTerm-SponsorTerm"/>
 			</list>
 		</property>
 	</bean>
@@ -78,6 +79,27 @@
 		<property name="summary" value="Award Template Code" />
 		<property name="description" value="Award Template Code" />
 	</bean>-->
+	
+	<bean id="AwardTemplateTerm-SponsorTerm" parent="AwardTemplateTerm-SponsorTerm-parentBean" />
+  	<bean id="AwardTemplateTerm-SponsorTerm-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="sponsorTerm.sponsorTermType.description" />
+    	<property name="forceUppercase" value="false" />
+    	<property name="label" value="Sponsor Term Type" />
+    	<property name="shortLabel" value="Sponsor Term Type" />
+    	
+    	<!--  <property name="validationPattern" >
+      		<bean parent="AlphaNumericValidationPattern" />
+    	</property> -->
+    	<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="40" />
+		</property>
+		<property name="summary" value="Sponsor Term Type" />
+    	<property name="description" value="Sponsor Term Type" />
+  </bean>
+	
+	
+	
 	<bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sponsorTermTypeCode" />
