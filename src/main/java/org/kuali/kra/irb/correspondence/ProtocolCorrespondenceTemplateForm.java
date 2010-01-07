@@ -40,15 +40,8 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     
     public ProtocolCorrespondenceTemplateForm() {
         super();
-        if (getCorrespondenceTypes() == null) {
-            this.setCorrespondenceTypes(initCorrespondenceTypes());
-        }
-        if (getDefaultCorrespondenceTemplates() == null) {
-            this.setDefaultCorrespondenceTemplates(initNewCorrespondenceTemplates());
-        }
-        if (getNewCorrespondenceTemplates() == null) {
-            this.setNewCorrespondenceTemplates(initNewCorrespondenceTemplates());
-        }
+        this.setCorrespondenceTypes(initCorrespondenceTypes());
+        this.resetForm();
     }
 
     public void setTestName(String testName) {
@@ -101,19 +94,19 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         LookupService lookupService = KNSServiceLocator.getLookupService();
         return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(ProtocolCorrespondenceType.class, new HashMap());
     }
-    
+
     /**
      * 
-     * This method returns an initialized list of ProtocolCorrespondenceTemplate with exactly the same elements
-     * as there are ProtocolCorrespondenceType.
-     * @return List<ProtocolCorrespondenceTemplate>
+     * This method resets the input fields for the default correspondence templates and the new committee correspondence templates.
      */
-    public List<ProtocolCorrespondenceTemplate> initNewCorrespondenceTemplates() {
-        List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
-        for(ProtocolCorrespondenceType correspondenceType : getCorrespondenceTypes()) {
-            newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
+    public void resetForm() {
+        this.defaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        for(ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
+            this.defaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
+            this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
         }
-        return newCorrespondenceTemplates;
+        
     }
 
 }

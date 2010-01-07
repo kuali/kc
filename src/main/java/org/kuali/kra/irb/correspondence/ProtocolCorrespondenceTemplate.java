@@ -101,7 +101,7 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("protoCorrespTemplId", this.getProtoCorrespTemplId());
         hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("committeeId", this.getCommitteeIdFk());
+        hashMap.put("committeeIdFk", this.getCommitteeIdFk());
         hashMap.put("fileName", this.getFileName());
         hashMap.put("correspondenceTemplate", this.getCorrespondenceTemplate());
         return hashMap;

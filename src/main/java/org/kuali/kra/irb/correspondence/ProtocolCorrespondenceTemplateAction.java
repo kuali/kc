@@ -53,7 +53,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
         if (rulePassed) {
             getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
-            //correspondenceTemplateForm.setNewCorrespondenceTemplates(correspondenceTemplateForm.initNewCorrespondenceTemplates());
+            correspondenceTemplateForm.resetForm();
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -64,11 +64,11 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return (ProtocolCorrespondenceTemplateService)KraServiceLocator.getService("protocolCorrespondenceTemplateService");
+        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("protocolCorrespondenceTemplateService");
     }
     
     /**
-     * This method returns the index of the selected correspondence type
+     * This method returns the index of the selected correspondence type.
      * @param request
      * @return index
      */
