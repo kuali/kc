@@ -503,8 +503,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return RoleConstants.PROPOSAL_ROLE_TYPE;
     }
 
-    @Override
-    public boolean getProposalBudgetFlag() {
-        return true;
+    public String getProposalBudgetFlag() {
+        return "true";
     }
 }
