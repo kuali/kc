@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
     
-    org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
     org.kuali.kra.irb.protocol.participant.ProtocolParticipantRuleTest.class,
@@ -256,7 +255,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImplTest.class,
     org.kuali.kra.s2s.service.PrintFormTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonAddRuleImplTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardDataValidationWebTest.class,
     org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizerTest.class,
