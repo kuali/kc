@@ -19,25 +19,14 @@
 <c:set var="readOnly" value="${!KualiForm.questionnaireHelper.answerQuestionnaire}" scope = "request"/>
 <div id="workarea">
 <c:forEach items="${KualiForm.questionnaireHelper.answerHeaders}" var="answerHeader" varStatus="status">
-    <c:set var="transparent" value="false" />
-
-    <c:if test="${status.first}">
-      <c:set var="transparent" value="true" />
-    </c:if> 
-    <%-- 
-    <c:choose>
-    <c:when test="${answerHeader.completed}">
-     	<c:set var="tabTitle" value="${answerHeader.questionnaire.name} (Complete)" />
-    </c:when>
-    <c:otherwise>
-     	<c:set var="tabTitle" value="${answerHeader.questionnaire.name} (Incomplete)" />
-    </c:otherwise> 
-    </c:choose>--%>
-		<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
-        <kra-questionnaire:questionnaireAnswers/>
+	<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
+	<input type="hidden" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions" id ="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions" 
+           value = "${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions}" />
+		
+     <kra-questionnaire:questionnaireAnswers/>
 				
 				 
- </c:forEach>
+</c:forEach>
 
 <c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) > 0}">
     <input type="hidden" name="numberOfQuestionaires" id ="numberOfQuestionaires" 
