@@ -22,6 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
     
+    org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
     org.kuali.kra.irb.protocol.participant.ProtocolParticipantRuleTest.class,
@@ -190,7 +191,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.rules.ResearchDocumentBaseAuditRuleTest.class,
     org.kuali.kra.budget.service.BudgetServiceTest.class,
     org.kuali.kra.dao.RolodexDaoOjbTest.class,
-    org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
     org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceTest.class,
     org.kuali.kra.committee.service.CommitteeAuthorizationServiceImplTest.class,
     org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImplTest.class,
