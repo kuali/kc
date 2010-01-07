@@ -13,6 +13,10 @@
      	<c:set var="tabTitle" value="${KualiForm.questionnaireHelper.headerLabels[answerHeaderIndex]} (Incomplete)" />
     </c:otherwise> 
     </c:choose>
+    <c:set var="showQuestions" value="false" />
+    <c:if test="${!empty KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions and KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions == 'Y'}">
+      <c:set var="showQuestions" value="true" />
+    </c:if> 
 
 <kul:tab tabTitle="${tabTitle}"
 					 tabErrorKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}]*"
@@ -20,7 +24,7 @@
 					 tabAuditKey="" 
 					 useRiceAuditMode="true"
 			         tabDescription=""
-			         defaultOpen="${hasErrors}" 
+			         defaultOpen="${showQuestions}" 
 					 useCurrentTabIndexAsKey="true"
 			         transparentBackground="${transparent}">
 			         

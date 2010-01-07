@@ -26,6 +26,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerRule;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class represents the Struts Action for Protocol Questionnaires.
@@ -76,7 +82,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         // TODO : do we need to save before update ?
         ((ProtocolForm) form).getQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
-        //getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
+        getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
@@ -90,7 +96,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             throws Exception {
         ActionForward forward =  super.refresh(mapping, form, request, response);
         if (request.getParameter("refreshCaller").toString().equals("kualiLookupable")) {
-            // Lookup field 'onchange' is not working if really 'lookup', so do it on server side
+            // Lookup field 'onchange' is not working if it is return a value from 'lookup', so do it on server side
             for (Object obj : request.getParameterMap().keySet()) {
                 if (StringUtils.indexOf((String) obj, "questionnaireHelper.answerHeaders[") == 0) {
                     ((ProtocolForm) form).getQuestionnaireHelper().updateChildIndicator(Integer.parseInt(StringUtils.substringBetween((String) obj, "questionnaireHelper.answerHeaders[",
@@ -101,5 +107,51 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
+        ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+        
+        return actionForward;
+    }
+
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+        // only want to prompt them to save if they already can save
+        boolean valid = true;
+        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
+            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+            // logic for close question
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response,
+                        KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration
+                                .getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE),
+                        KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+            } else {
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question))
+                        && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    // if yes button clicked - save the doc
+                    valid = isValidSave((ProtocolForm) form);
+                    if (valid) {
+                        ((ProtocolForm) form).getQuestionnaireHelper().preSave();
+                        getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders());
+                    }
+                }
+            }
+        }
+
+        if (valid) {
+            return super.close(mapping, form, request, response);
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
 
 }
