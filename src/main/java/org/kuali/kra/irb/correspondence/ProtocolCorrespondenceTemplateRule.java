@@ -52,7 +52,8 @@ public class ProtocolCorrespondenceTemplateRule {
      */
     private boolean committeeSpecified(Long committeeIdFk, int index) {
         if (committeeIdFk == null) {
-            GlobalVariables.getMessageMap().putError("newCorrespondenceTemplates[" + index +"].committeeIdFk", KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError("newCorrespondenceTemplates[" + index + "].committeeIdFk", 
+                    KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED);
             return false;
         } else {
             return true;
@@ -69,8 +70,9 @@ public class ProtocolCorrespondenceTemplateRule {
     private boolean duplicateCommittee(List<ProtocolCorrespondenceTemplate> correspondenceTemplates, Long committeeIdFk, int index) {
         boolean duplicate = false;
         for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceTemplates) {
-            if (correspondenceTemplate.getCommitteeIdFk() == committeeIdFk) {
-                GlobalVariables.getMessageMap().putError("newCorrespondenceTemplates[" + index +"].committeeIdFk", KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE);
+            if (correspondenceTemplate.getCommitteeIdFk().equals(committeeIdFk)) {
+                GlobalVariables.getMessageMap().putError("newCorrespondenceTemplates[" + index + "].committeeIdFk", 
+                        KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE);
                 duplicate = true;
                 break;
             }
