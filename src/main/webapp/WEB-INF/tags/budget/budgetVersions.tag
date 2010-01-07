@@ -31,6 +31,7 @@
 <kra:section permission="modifyProposalBudget">
   <c:set var="readonly" value="false"/>
  </kra:section> 
+ 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}">
 
 	<div class="tab-container" align="center">
@@ -51,7 +52,10 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalIndirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th>Total</th>
 				<th>Budget Status</th>
+				
+				<c:if test="${proposalBudgetFlag}">
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
+				</c:if>
 				<kra:section permission="openBudgets">
 				    <th><div align="center">Actions</div></th>
 				</kra:section>
@@ -66,7 +70,9 @@
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>
-	            <td class="infoline">&nbsp;</td>
+            	<c:if test="${proposalBudgetFlag}">
+	            	<td class="infoline">&nbsp;</td>
+	            </c:if>
 	            <td class="infoline">
             		<div align=center>
             			<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
@@ -120,13 +126,15 @@
 		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
 		            	</div>
             		</td>
-	            	<td class="tab-subhead">
-	            		<div align="center">
-	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
-	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
-	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
-	            		</div>
-	            	</td>
+           			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
+            		<c:if test="${proposalBudgetFlag}">
+		            	<td class="tab-subhead">
+		            		<div align="center">
+		            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
+		            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
+		            		</div>
+		            	</td>
+	            	</c:if>
 	            	<kra:section permission="openBudgets">
 	           			<td nowrap class="tab-subhead">
 	           				<div align=center>
@@ -143,9 +151,17 @@
             		<th align="right" scope="row">&nbsp;</th>
             		<td colspan="8" style="padding:0px; border-left:none">
             			<table cellpadding="0" cellspacing="0" summary="" style="width:100%;">
-                			<tr>
-	                    		<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
-	                    		<td align="left" width="12%">${budgetVersion.budgetVersionOverview.residualFunds}&nbsp;</td>
+	                		<tr>
+							   	<c:choose>
+									<c:when test="${proposalBudgetFlag}">
+		                    			<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
+		                    			<td align="left" width="12%">${budgetVersion.budgetVersionOverview.residualFunds}&nbsp;</td>
+									</c:when>
+									<c:otherwise>
+		                    			<th width="1%" nowrap>&nbsp;</th>
+		                    			<td align="left" width="12%">&nbsp;</td>
+									</c:otherwise>
+								</c:choose>
 	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
 	                    		<td align="left" width="99%">${budgetVersion.budgetVersionOverview.rateClass.description}&nbsp;</td>
                   			</tr>
