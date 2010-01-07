@@ -100,8 +100,12 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
             
-            String federalIdComesFromAwardStr = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
-            Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
+            String federalIdComesFromAwardStr = null;
+            try {
+                federalIdComesFromAwardStr = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+            } catch (Exception e) { }
+            Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null 
+                                            && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
             Award currentAward = null;
             if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
                 currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
