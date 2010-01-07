@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
 	<c:set target="${KualiForm.documentActions}" property="canSave" value="true"/>
 </c:if> 

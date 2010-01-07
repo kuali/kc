@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
-public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable  {
+public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -280,6 +280,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROPOSAL_ROLE_TYPE;
+    }
+    public String getProposalBudgetFlag() {
+        return getParentDocument().getProposalBudgetFlag();
     }
     
 }

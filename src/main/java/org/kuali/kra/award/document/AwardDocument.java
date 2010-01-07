@@ -447,9 +447,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return RoleConstants.AWARD_ROLE_TYPE;
     }
 
-    @Override
-    public boolean getProposalBudgetFlag() {
-        return false;
+    public String getProposalBudgetFlag() {
+        return "false";
     } 
     
 }

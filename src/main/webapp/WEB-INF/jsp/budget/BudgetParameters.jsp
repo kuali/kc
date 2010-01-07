@@ -17,6 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:if test="${readOnly}">
 	<c:set var="extraButtons" value="" scope="request"/>
 </c:if>
@@ -30,9 +31,15 @@
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Parameters" /></div>
-
-<kra-b:budgetParameters /> 
-<kra-b:budgetPeriodAndTotals /> 
+   	<c:choose>
+		<c:when test="${proposalBudgetFlag}">
+			<kra-b:budgetParameters />
+		</c:when>
+		<c:otherwise>
+			<kra-b:awardBudgetParameters />
+		</c:otherwise>
+	</c:choose>
+	<kra-b:budgetPeriodAndTotals /> 
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <kul:documentControls 
 		transactionalDocument="true" 
