@@ -30,7 +30,7 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
     public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate) {
         // TODO Auto-generated method stub
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
-        if(correspondenceTemplate.getCommitteeIdFk() == 1) {
+        if (correspondenceTemplate.getCommitteeIdFk() == 1) {
             correspondenceTemplate.setFileName("sample1.add");
         } else {
             correspondenceTemplate.setFileName("sample2.add");
