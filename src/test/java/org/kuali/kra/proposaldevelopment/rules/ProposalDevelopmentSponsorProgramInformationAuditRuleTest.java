@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
@@ -59,7 +60,31 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     private String proposalTypeCodeResubmission;
     private String proposalTypeCodeNew; 
     
-    Date tomorrow;    
+    Date tomorrow;
+    
+    private class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
+        public ProposalDevelopmentServiceMock() { }
+        public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
+            if (StringUtils.isNotBlank(proposal.getDevelopmentProposal().getCurrentAwardNumber())) {
+                Award award = new Award();
+                award.setAwardNumber(proposal.getDevelopmentProposal().getCurrentAwardNumber());
+                award.setSponsorAwardNumber("AW123456");
+                return award;
+            } else {
+               return null;
+            }
+        }
+        public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
+            if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
+                InstitutionalProposal instProposal = new InstitutionalProposal();
+                instProposal.setProposalNumber(doc.getDevelopmentProposal().getContinuedFrom());
+                instProposal.setSponsorProposalNumber("IP123456");
+                return instProposal;
+            } else {
+                return null;
+            }
+        }
+    }    
 
     @Before
     public void setUp() throws Exception {
@@ -69,6 +94,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         documentService = KNSServiceLocator.getDocumentService();
         parameterService = KNSServiceLocator.getParameterService();
         auditRule = new ProposalDevelopmentSponsorProgramInformationAuditRule();
+        auditRule.setParameterService(parameterService);
         
         proposalTypeCodeRenewal = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         proposalTypeCodeRevision = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
@@ -131,14 +157,6 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
-        GlobalVariables.getAuditErrorMap().clear();
-        auditRule.setParameterService(new ParameterServiceMock("N"));
-        proposal.setSponsorProposalNumber(null);
-        proposal.setCurrentAwardNumber("000001-0001");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
-        GlobalVariables.getAuditErrorMap().clear();        
-        auditRule.setParameterService(new ParameterServiceMock("Y"));
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
         GlobalVariables.getAuditErrorMap().clear();
         auditRule.setProposalDevelopmentService(null);
@@ -213,45 +231,6 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
             assertEquals(Constants.GRANTSGOV_ERRORS, auditCluster.getCategory());
         }
     }
-    
-    class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
-        public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
-            if (StringUtils.isNotBlank(proposal.getDevelopmentProposal().getCurrentAwardNumber())) {
-                Award award = new Award();
-                award.setAwardNumber(proposal.getDevelopmentProposal().getCurrentAwardNumber());
-                award.setSponsorAwardNumber("AW123456");
-                return award;
-            } else {
-               return null;
-            }
-        }
-        public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
-            if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
-                InstitutionalProposal instProposal = new InstitutionalProposal();
-                instProposal.setProposalNumber(doc.getDevelopmentProposal().getContinuedFrom());
-                instProposal.setSponsorProposalNumber("IP123456");
-                return instProposal;
-            } else {
-                return null;
-            }
-        }
-    }
-    
-    class ParameterServiceMock extends ParameterServiceImpl {
-        public String useCurrentAward = "N";
-        public ParameterServiceMock(String useCurrentAward) {
-            this.useCurrentAward = useCurrentAward;
-        }
-        public String getParameterValue(Class clazz, String name) {
-            if (clazz.equals(ProposalDevelopmentDocument.class) 
-                    && "FEDERAL_ID_COMES_FROM_CURRENT_AWARD".equals(name)) {
-                return useCurrentAward;
-            } else {
-                return super.getParameterValue(clazz, name);
-            }
-        }
-    }
-    
     
 
 }
