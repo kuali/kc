@@ -36,7 +36,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
 public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase 
-                                                            implements BudgetVersionCollection, Permissionable  {
+                                                            implements BudgetVersionCollection,BudgetDocumentTypeChecker, Permissionable  {
     
     /**
      * Looks up and returns the ParameterService.
@@ -112,5 +112,4 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
       return docEntry.getHeaderNavigationList();
     }
     public abstract T getBudgetParent();
-    public abstract boolean getProposalBudgetFlag();
 }

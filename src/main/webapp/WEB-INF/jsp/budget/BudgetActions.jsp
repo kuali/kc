@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -39,7 +40,9 @@
 		       <kra-b:budgetJustification top="true" />
 		   </c:otherwise>
 	    </c:choose>
-		<kra-b:budgetSubAwardsBudget />
+	    <c:if test="${proposalBudgetFlag}">
+			<kra-b:budgetSubAwardsBudget />
+	    </c:if>
 		<kul:panelFooter />
 	</div>
 
