@@ -61,7 +61,11 @@ public class QuestionnaireAnswerRule {
                         + questionIndex + "].answer";
                 if (StringUtils.isNotBlank(answer.getAnswer())
                         && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
-                    valid &= validateAttributeFormat(answer, errorKey, questionIndex);
+                    boolean validAttributeFormat = validateAttributeFormat(answer, errorKey, questionIndex);
+                    if (!validAttributeFormat) {
+                        answerHeader.setShowQuestions("Y");
+                    }
+                    valid &= validAttributeFormat;
                 }
                 questionIndex++;
             }

@@ -43,9 +43,11 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     // Transient properties for questionnaire answer 
     private boolean newerVersionPublished = false;
     private String updateOption ;
+    private String showQuestions ;
 
     public AnswerHeader() {
         super();
+        showQuestions = "N";
     }
 
     public AnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Long questionnaireRefIdFk) {
@@ -56,6 +58,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         // current coeus is setting this to 0
         this.moduleSubItemCode = 0;
         answers = new ArrayList<Answer>();
+        showQuestions = "N";
 
     }
 
@@ -239,6 +242,14 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     public void setUpdateOption(String updateOption) {
         this.updateOption = updateOption;
+    }
+
+    public String getShowQuestions() {
+        return showQuestions;
+    }
+
+    public void setShowQuestions(String showQuestions) {
+        this.showQuestions = showQuestions;
     }
 
 
