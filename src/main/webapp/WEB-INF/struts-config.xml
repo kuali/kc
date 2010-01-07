@@ -291,7 +291,7 @@
 	    &protocol_forwards;
       </action>
       
-      <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" />
       </action>
       <!--  KRA IRB Mapping END -->

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
     
     private List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates;
     
-    public ProtocolCorrespondenceType() { 
-
+    public ProtocolCorrespondenceType() {
+        setProtocolCorrespondenceTemplates(new ArrayList<ProtocolCorrespondenceTemplate>());
     } 
     
     public String getProtoCorrespTypeCode() {
