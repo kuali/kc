@@ -31,7 +31,7 @@
 <kra:section permission="modifyProposalBudget">
   <c:set var="readonly" value="false"/>
  </kra:section> 
- 
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}">
 
 	<div class="tab-container" align="center">
@@ -52,7 +52,6 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalIndirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th>Total</th>
 				<th>Budget Status</th>
-				
 				<c:if test="${proposalBudgetFlag}">
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
 				</c:if>
