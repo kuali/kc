@@ -1,0 +1,54 @@
+<config>
+	<!-- App specific parameters -->
+	<param name="app.code">kra</param>
+	<param name="kns.test.port">9925</param>
+	<param name="app.host">http://127.0.0.1:${kns.test.port}</param>
+	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="production.environment.code">PRD</param>
+
+	<!-- Database parameters -->
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:XE</param>
+	<param name="datasource.username">KRAUNT</param>
+	<param name="datasource.password">untpass</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
+	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="datasource.pool.maxWait">30000</param>
+	<param name="datasource.pool.minSize">1</param>
+	<param name="datasource.pool.maxSize">50</param>
+	<param name="datasource.pool.size">5</param>
+	<param name="datasource.connectionTimeout">30000</param>
+
+
+	<!-- Dependent parameters -->
+	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
+	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
+
+	<param name="application.url">${app.host}/${app.context.name}</param>
+	<param name="kr.url">${application.url}/kr</param>
+	<param name="appserver.url">http://127.0.0.1:8080</param>
+	<param name="ken.url">${application.url}/ken</param>
+	<param name="kew.url">${application.url}/kew</param>
+	<param name="kim.url">${application.url}/kim</param>
+	<param name="ksb.url">${application.url}/ksb</param>
+	<param name="rice.url">${application.url}/kr</param>
+	<param name="workflow.url">${application.url}/kew</param>
+	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	
+	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${application.url}</param>
+
+	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
+	<param name="attachments.directory">${java.io.tmpdir}</param>
+	<param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
+
+
+	<!-- Ken stuffs... -->
+
+	<param name="notification.basewebappurl">${app.host}/${app.context.name}/ken</param>
+
+	<param name="notification.ojb.platform">Oracle</param>
+
+</config>

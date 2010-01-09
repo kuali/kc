@@ -64,8 +64,8 @@ public class OjbRepositoryMappingTest {
     
     private static final Log LOG = LogFactory.getLog(OjbRepositoryMappingTest.class);
     
-    private static final String INTERNAL_TEST_CONFIG_FILE_PATH = "META-INF/kra-test-config.xml";
-    private static final String EXTERNAL_DEV_CONFIG_FILE_PATH = "%s/kuali/test/dev/kra-test-config-2-0.xml";
+    private static final String INTERNAL_TEST_CONFIG_FILE_PATH = "META-INF/kc-test-config.xml";
+    private static final String EXTERNAL_DEV_CONFIG_FILE_PATH = "%s/kuali/test/dev/kc-test-config-2-0.xml";
     
     // For XML parsing and validation
     private static final String CLASS_DESCRIPTOR_NAME = "class-descriptor";
