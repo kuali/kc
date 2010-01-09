@@ -33,7 +33,7 @@
 	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/kra-config.xml</value>
+				<value>classpath:META-INF/kc-config.xml</value>
 			</list>
 		</property>
 	</bean>

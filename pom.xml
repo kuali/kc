@@ -137,14 +137,14 @@
 						<filtering>true</filtering>
 						<directory>${basedir}/src/main/resources</directory>
 						<includes>
-							<include>META-INF/kra-config.xml</include>
+							<include>META-INF/kc-config.xml</include>
 							<include>log4j.xml</include>
 						</includes>
 					</resource>
 					<resource>
 						<directory>${basedir}/src/main/resources</directory>
 						<excludes>
-							<exclude>kra-config.xml</exclude> 
+							<exclude>kc-config.xml</exclude> 
 						</excludes>
 					</resource>
 					<!-- 
@@ -423,14 +423,14 @@
 						<filtering>true</filtering>
 						<directory>${basedir}/src/test/resources</directory>
 						<includes>
-							<include>META-INF/kra-test-config.xml</include>
+							<include>META-INF/kc-test-config.xml</include>
 							<include>log4j.xml</include>
 						</includes>
 					</testResource>
 					<testResource>
 						<directory>${basedir}/src/test/resources</directory>
 						<excludes>
-							<exclude>kra-test-config.xml</exclude> 
+							<exclude>kc-test-config.xml</exclude> 
 						</excludes>
 					</testResource>
 				</testResources>
