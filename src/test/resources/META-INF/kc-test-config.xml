@@ -18,9 +18,9 @@
 	<param name="environment">dev</param>
 	<param name="module.name">kra</param>
 	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
-	<param name="config.location">${user.home}/kuali/test/dev/kra-test-config-2-0.xml</param>
+	<param name="config.location">classpath:META-INF/kc-test-config-defaults.xml</param>
+	<param name="config.location">${user.home}/kuali/test/dev/kc-test-config-2-0.xml</param>
 	<param name="config.location">${alt.build.location}</param>
 	<!-- <param name="config.location">${alt.config.location}</param>-->
 	
-	<param name="kns.editable.properties.history.size">20</param>
 </config>
