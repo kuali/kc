@@ -88,12 +88,12 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
     
     @Override
     protected String getModuleTestConfigLocation() {
-        return "classpath:META-INF/kra-test-config.xml";
+        return "classpath:META-INF/kc-test-config.xml";
     }
 
     @Override
     public List<Lifecycle> getSuiteLifecycles() {
-        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kra-test-config.xml";
+        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kc-test-config.xml";
         List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
         //lifeCycles.add(new KraSQLDataLoaderLifecycle());
         lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
