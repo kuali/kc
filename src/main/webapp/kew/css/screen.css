@@ -940,6 +940,12 @@ td.tan {
 .exception-error-div, .error-div {
 }
 
+.left-errmsg
+{
+    text-align: left;
+    padding-left: 20px;
+}
+
 .message-div {
 }
 
@@ -986,3 +992,12 @@ div.posttext
 	padding-bottom: 4px;
 	padding-top: 4px;
 }
+
+div.msg-excol
+{
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+

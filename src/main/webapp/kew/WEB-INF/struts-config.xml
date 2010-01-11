@@ -188,7 +188,7 @@
       </action>
 
       <action path="/Ingester" name="IngesterForm" scope="request" validate="false"
-      	type="org.kuali.rice.kew.batch.web.IngesterAction">
+      	type="org.kuali.rice.kew.batch.web.IngesterAction"  input="/WEB-INF/jsp/batch/ingester.jsp">
       	<forward name="view" path="/WEB-INF/jsp/batch/ingester.jsp"/>
 	  </action>
 

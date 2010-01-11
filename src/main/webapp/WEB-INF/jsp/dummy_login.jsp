@@ -79,7 +79,9 @@
 	                <label>Username:&nbsp;</label>
 	            </td>
 	            <td class="rightTd" align="left">
+<%-- KC MODIFICATION START --%>
 	                <input type="text" name="__login_user" value="" size="20"/>
+<%-- KC MODIFICATION END --%>
 	            </td>
             </tr>
             <c:if test="${requestScope.showPasswordField}">
@@ -87,7 +89,9 @@
             <td class="leftTd" width="Infinity%" align="right">
                 <label>Password:&nbsp;</label>
             </td>
+<%-- KC MODIFICATION START --%>
               <td class="rightTd" align="left"><input type="password" name="__login_pw" value="" size="20"/></td>
+<%-- KC MODIFICATION END --%>
             </tr>
             </c:if>
             <c:if test="${requestScope.invalidPassword}">

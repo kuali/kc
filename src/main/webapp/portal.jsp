@@ -15,7 +15,6 @@
 --%>
 
 
-<%--<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"--%>
 <%-- KC Modification Start --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%-- KC Modification End --%>

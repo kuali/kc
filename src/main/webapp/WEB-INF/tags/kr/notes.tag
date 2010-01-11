@@ -54,7 +54,7 @@
   <c:set var="noteColSpan" value="${noteColSpan + 1}" />
 </c:if>
 
-<kul:tab tabTitle="${tabTitle}" defaultOpen="${!empty notesBo or (not empty defaultOpen and defaultOpen)}" tabErrorKey="${Constants.DOCUMENT_NOTES_ERRORS}" tabItemCount="${fn:length(notesBo)}" transparentBackground="${transparentBackground}" >
+<kul:tab tabTitle="${tabTitle}" defaultOpen="${!empty notesBo or (not empty defaultOpen and defaultOpen)}" tabErrorKey="${Constants.DOCUMENT_NOTES_ERRORS},attachmentFile" tabItemCount="${fn:length(notesBo)}" transparentBackground="${transparentBackground}" >
     <c:set var="notesAttributes" value="${DataDictionary.Note.attributes}" />
     <div class="tab-container" align=center id="G4">
     <p align=left><jsp:doBody/>
