@@ -92,6 +92,7 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
     <plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
 </struts-config>
 

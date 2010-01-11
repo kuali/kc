@@ -33,12 +33,20 @@
 	<SCRIPT type="text/javascript">
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
-  </SCRIPT>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
+    </SCRIPT>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
 
 	<div class="headerarea-small" id="headerarea-small">
-		<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
-			resourceKey="lookupHelpText" altText="lookup help" /></h1>
+		<h1><c:out value="${KualiForm.lookupable.title}" /> <c:choose>
+			<c:when test="${KualiForm.fields.docTypeFullName != null}">
+				<%-- this is a custom doc search --%>
+				<kul:help searchDocumentTypeName="${KualiForm.fields.docTypeFullName}" altText="lookup help" />
+			</c:when>
+			<c:otherwise>
+				<%-- KNS looup --%>
+				<kul:help lookupBusinessObjectClassName="${KualiForm.lookupable.businessObjectClass.name}" altText="lookup help" />
+			</c:otherwise>
+		</c:choose></h1>
 	</div>
 	<kul:enterKey methodToCall="search" />
 

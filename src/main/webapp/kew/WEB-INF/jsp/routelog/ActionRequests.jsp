@@ -45,34 +45,33 @@
     </c:if>
     <%-- 
     <tr>
-        <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.actionRequestId"/>:</td>
+        <td width="20%" align="right" class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.actionRequestId"/>:</td>
         <td class="datacell1"><c:out value="${actionRequest.actionRequestId}" />&nbsp;</td>
     </tr>
     <tr>
-        <td align=right class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.requestStatus"/>:</td>
+        <td align="right" class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.requestStatus"/>:</td>
         <td class="datacell1"><c:out value="${actionRequest.statusLabel}" />&nbsp;</td>
     </tr>
     <tr>
-        <td align=right class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.responsibilityId"/>:</td>
+        <td align="right" class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.responsibilityId"/>:</td>
         <td class="datacell1"><c:out value="${actionRequest.responsibilityId}" />&nbsp;</td>
     </tr>
     <tr>
-        <td align=right class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.responsibility"/>:</td>
+        <td align="right" class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.responsibility"/>:</td>
         <td class="datacell1"><c:out value="${actionRequest.responsibilityDesc}" />&nbsp;</td>
     </tr>
     <tr>
-        <td align=right class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.annotation"/>:</td>
+        <td align="right" class="thnormal"><bean-el:message key="routeLog.ActionRequests.actionRequest.label.annotation"/>:</td>
         <td class="datacell1"><c:out value="${actionRequest.annotation}" />&nbsp;</td>
     </tr>
     --%>
     <c:if test="${actionRequest.ruleBaseValuesId != null}">
         <tr>
-            <td align=right class="thnormal">Rule:</td>
+            <c:if test="${level == 0}"><th>Rule</th></c:if>
+            <c:if test="${level != 0}"><td class="thnormal" style="text-align:right;">Rule</td></c:if>
             <td class="datacell1">
-             <a href="<c:url value="Rule.do">
-                        <c:param name="currentRuleId" value="${actionRequest.ruleBaseValuesId}" />
-                        <c:param name="methodToCall" value="report" />
-                    </c:url>"><c:out value="${actionRequest.ruleBaseValuesId}" /></a>
+                <kul:inquiry boClassName="org.kuali.rice.kew.rule.RuleBaseValues" keyValues="ruleBaseValuesId=${actionRequest.ruleBaseValuesId}"
+                        render="true"><c:out value="${actionRequest.ruleBaseValuesId}" /></kul:inquiry>
             </td>
         </tr>
     </c:if>
@@ -81,7 +80,7 @@
           <td colspan="4" style="padding: 0; border: 0;">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding: 0; border: 0;">
                <tr>
-                <th width="5%">&nbsp;</td>
+                <th width="5%">&nbsp;</th>
                 <th width="15%"><bean-el:message key="routeLog.ActionRequests.pendingActionRequests.label.action"/></th>
                 <th width="15%"><bean-el:message key="routeLog.ActionRequests.pendingActionRequests.label.requestedOf"/></th>
                 <th width="22%"><bean-el:message key="routeLog.ActionRequests.pendingActionRequests.label.timeDate"/></th>

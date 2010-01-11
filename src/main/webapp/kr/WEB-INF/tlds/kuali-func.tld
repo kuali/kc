@@ -116,4 +116,11 @@
         <function-signature>java.lang.String getKNSParameterValue(java.lang.String, java.lang.String, java.lang.String)</function-signature>
         <example>${kfunc:getKNSParameterValue(namespace, detailType, name)}</example>
     </function>
+    <function>
+        <description>get a named image url for a button, looking first for a property application.custom.image.url.(given image name).  If that is not found, a default image URL is generated</description>
+        <name>getButtonImageUrl</name>
+        <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+        <function-signature>java.lang.String getButtonImageUrl(java.lang.String)</function-signature>
+        <example>${kfunc:getButtonImageUrl((imageName)}</example>
+    </function>
 </taglib>
