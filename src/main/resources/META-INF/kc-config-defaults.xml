@@ -16,6 +16,10 @@
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
 	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
 
+	<!-- image overrides -->
+	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
+	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
+
 	<param name="title.inquiry.url.value.prependtext"></param>
 
 	<param name="application.url">${app.host}/${app.context.name}</param>
