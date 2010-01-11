@@ -65,7 +65,7 @@
 				varStatus="status">
 				<html:image
 					property="methodToCall.processAnswer.button${status.index}" 
-					src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_${button}.gif" styleClass="confirm" />
+					src="${kfunc:getButtonImageUrl(button)}" styleClass="confirm" />
 			</c:forEach></div>
 			</td>
 		</tr>

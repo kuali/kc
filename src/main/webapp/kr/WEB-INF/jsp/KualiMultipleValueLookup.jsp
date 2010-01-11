@@ -31,7 +31,7 @@
 
 	<div class="headerarea-small" id="headerarea-small">
 	<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
-		resourceKey="lookupHelpText" altText="lookup help" /></h1>
+		lookupBusinessObjectClassName="${KualiForm.lookupable.businessObjectClass.name}" altText="lookup help" /></h1>
 	</div>
 	<kul:enterKey methodToCall="search" />
 
