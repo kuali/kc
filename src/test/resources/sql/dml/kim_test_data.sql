@@ -97,76 +97,76 @@ values ('OTH_ACADMC_GRP', '9DD4B7096239493D8B6087A3018D4C8A', 1, 'Other Academic
 insert into KRIM_AFLTN_TYP_T (AFLTN_TYP_CD, OBJ_ID, VER_NBR, NM, EMP_AFLTN_TYP_IND, ACTV_IND, DISPLAY_SORT_CD, LAST_UPDT_DT)
 values ('MED_STAFF', '3817C1C7E528492BA36F3DA9E56EBB3F', 1, 'Medical Staff', 'Y', 'Y', 'j', to_date('07-10-2009 13:19:27', 'dd-mm-yyyy hh24:mi:ss'));
 
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1007', '7C4715B8ECFE42639D326C562F9079E6', 1, 'sectionName', null, 'Y', 'KC-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes', null);
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1008', 'DB4F5017C6634DEF8315DC82D6D87882', 1, 'documentAction', null, 'Y', 'KC-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes', null);
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1034', '0EE6F03068C84E14ABB6172EC20A29CE', 1, 'proposal', 'Proposal Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1035', '28C70DC2EC1648CFB8600B14CFB3A581', 1, 'protocol', 'Protocol Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1036', 'A26C4B4DB5DD4FD5B5A9F9F77365C441', 1, 'committee', 'Committee Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1037', '3166D61D78A7445AA9C996E36B773113', 1, 'award', 'Award Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1038', 'D070A6E993F247848FA1696AC92FD363', 1, 'timeandmoney', 'TimeAndMoney Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1005', '9F2F1D462E0C40CE8A3B215FC01CD9A2', 1, 'unitNumber', 'Unit Number', 'Y', 'KC-SYS', 'org.kuali.kfs.sys.identity.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1006', 'FB23FA5EE83C47A4BF8C8727068E370D', 1, 'subunits', 'Descend Flag', 'Y', 'KC-SYS', 'org.kuali.kfs.sys.identity.KcKimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('1', '5ADF18B6D4887954E0404F8189D85002', 1, 'beanName', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('10', '5ADF18B6D4917954E0404F8189D85002', 1, 'editMode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('11', '5ADF18B6D4927954E0404F8189D85002', 1, 'parameterName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('12', '5ADF18B6D4937954E0404F8189D85002', 1, 'campusCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('13', '5ADF18B6D4947954E0404F8189D85002', 1, 'documentTypeName', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('14', '5ADF18B6D4957954E0404F8189D85002', 1, 'actionRequestCd', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('15', '5ADF18B6D4967954E0404F8189D85002', 1, 'routeStatusCode', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('16', '5ADF18B6D4977954E0404F8189D85002', 1, 'routeNodeName', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('17', '5ADF18B6D4987954E0404F8189D85002', 1, 'entityTypeCode', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('18', '5ADF18B6D4997954E0404F8189D85002', 1, 'roleName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('19', '5ADF18B6D49A7954E0404F8189D85002', 1, 'permissionName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('2', '5ADF18B6D4897954E0404F8189D85002', 1, 'actionClass', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('20', '5ADF18B6D49B7954E0404F8189D85002', 1, 'responsibilityName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('21', '5ADF18B6D49C7954E0404F8189D85002', 1, 'groupName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('3', '5ADF18B6D48A7954E0404F8189D85002', 1, 'buttonName', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('4', '5ADF18B6D48B7954E0404F8189D85002', 1, 'namespaceCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('40', '5C4970B2B2DF8277E0404F8189D80B30', 1, 'required', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('41', '5C4970B2B2E08277E0404F8189D80B30', 1, 'actionDetailsAtRoleMemberLevel', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('42', '5C7D997640635002E0404F8189D86F11', 1, 'documentNumber', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('44', '603B735FA6BCFE21E0404F8189D8083B', 1, 'sectionId', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('5', '5ADF18B6D48C7954E0404F8189D85002', 1, 'componentName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('6', '5ADF18B6D48D7954E0404F8189D85002', 1, 'propertyName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('7', '603B735FA6BAFE21E0404F8189D8083B', 1, 'existingRecordsOnly', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('8', '5ADF18B6D48F7954E0404F8189D85002', 1, 'createdBySelfOnly', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('9', '5ADF18B6D4907954E0404F8189D85002', 1, 'attachmentTypeCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM, APPL_URL)
-values ('46', '69FA55ACC2EE2598E0404F8189D86880', 1, 'qualifierResolverProvidedIdentifier', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes', '${application.url}');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1007', '7C4715B8ECFE42639D326C562F9079E6', 1, 'sectionName', null, 'Y', 'KC-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1008', 'DB4F5017C6634DEF8315DC82D6D87882', 1, 'documentAction', null, 'Y', 'KC-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1034', '0EE6F03068C84E14ABB6172EC20A29CE', 1, 'proposal', 'Proposal Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1035', '28C70DC2EC1648CFB8600B14CFB3A581', 1, 'protocol', 'Protocol Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1036', 'A26C4B4DB5DD4FD5B5A9F9F77365C441', 1, 'committee', 'Committee Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1037', '3166D61D78A7445AA9C996E36B773113', 1, 'award', 'Award Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1038', 'D070A6E993F247848FA1696AC92FD363', 1, 'timeandmoney', 'TimeAndMoney Number', 'Y', 'KC-SYS', 'org.kuali.kra.kim.bo.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1005', '9F2F1D462E0C40CE8A3B215FC01CD9A2', 1, 'unitNumber', 'Unit Number', 'Y', 'KC-SYS', 'org.kuali.kfs.sys.identity.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1006', 'FB23FA5EE83C47A4BF8C8727068E370D', 1, 'subunits', 'Descend Flag', 'Y', 'KC-SYS', 'org.kuali.kfs.sys.identity.KcKimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('1', '5ADF18B6D4887954E0404F8189D85002', 1, 'beanName', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('10', '5ADF18B6D4917954E0404F8189D85002', 1, 'editMode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('11', '5ADF18B6D4927954E0404F8189D85002', 1, 'parameterName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('12', '5ADF18B6D4937954E0404F8189D85002', 1, 'campusCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('13', '5ADF18B6D4947954E0404F8189D85002', 1, 'documentTypeName', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('14', '5ADF18B6D4957954E0404F8189D85002', 1, 'actionRequestCd', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('15', '5ADF18B6D4967954E0404F8189D85002', 1, 'routeStatusCode', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('16', '5ADF18B6D4977954E0404F8189D85002', 1, 'routeNodeName', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('17', '5ADF18B6D4987954E0404F8189D85002', 1, 'entityTypeCode', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('18', '5ADF18B6D4997954E0404F8189D85002', 1, 'roleName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('19', '5ADF18B6D49A7954E0404F8189D85002', 1, 'permissionName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('2', '5ADF18B6D4897954E0404F8189D85002', 1, 'actionClass', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('20', '5ADF18B6D49B7954E0404F8189D85002', 1, 'responsibilityName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('21', '5ADF18B6D49C7954E0404F8189D85002', 1, 'groupName', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('3', '5ADF18B6D48A7954E0404F8189D85002', 1, 'buttonName', null, 'Y', 'KR-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('4', '5ADF18B6D48B7954E0404F8189D85002', 1, 'namespaceCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('40', '5C4970B2B2DF8277E0404F8189D80B30', 1, 'required', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('41', '5C4970B2B2E08277E0404F8189D80B30', 1, 'actionDetailsAtRoleMemberLevel', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('42', '5C7D997640635002E0404F8189D86F11', 1, 'documentNumber', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('44', '603B735FA6BCFE21E0404F8189D8083B', 1, 'sectionId', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('5', '5ADF18B6D48C7954E0404F8189D85002', 1, 'componentName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('6', '5ADF18B6D48D7954E0404F8189D85002', 1, 'propertyName', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('7', '603B735FA6BAFE21E0404F8189D8083B', 1, 'existingRecordsOnly', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('8', '5ADF18B6D48F7954E0404F8189D85002', 1, 'createdBySelfOnly', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('9', '5ADF18B6D4907954E0404F8189D85002', 1, 'attachmentTypeCode', null, 'Y', 'KR-NS', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
+values ('46', '69FA55ACC2EE2598E0404F8189D86880', 1, 'qualifierResolverProvidedIdentifier', null, 'Y', 'KR-IDM', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
 insert into KRIM_EMAIL_TYP_T (EMAIL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, DISPLAY_SORT_CD, LAST_UPDT_DT)
 values ('HM', '5B97C50B03776110E0404F8189D85213', 1, 'Home', 'Y', 'b', to_date('13-11-2008', 'dd-mm-yyyy'));
