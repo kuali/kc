@@ -170,7 +170,6 @@
     					<artifactId>maven-resources-plugin</artifactId>
     					<version>2.2</version>
 					</plugin>
-				</plugins>
 				<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>2.3.1</version>
@@ -190,6 +189,7 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>2.0</version>
 				</plugin>
+				</plugins>
 			</build>
 			<dependencies>
 				<dependency>
