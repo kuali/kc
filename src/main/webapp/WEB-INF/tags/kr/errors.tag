@@ -87,7 +87,9 @@
                         <%-- include error path in a comment so a developer can fix it --%>
                         <!-- remaining error path = "${key}" -->
                         <html:errors property="${key}"/>
-                        <c:set target="${KualiForm.displayedErrors}" property="${key}" value="true"/>
+                        <c:if test="${KualiForm != null}">
+                      		<c:set target="${KualiForm.displayedErrors}" property="${key}" value="true"/>
+                    	</c:if> 
                     </c:if>
                 </c:forEach>
             </c:when>

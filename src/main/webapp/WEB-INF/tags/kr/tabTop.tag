@@ -36,8 +36,8 @@
         <c:set var="isOpen" value="${(currentTab == 'OPEN')}" />
     </c:when>
 </c:choose>
-<%-- if the section has errors, override and set isOpen to true --%>
 <%-- KC MODIFICATION --%>
+<%-- if the section has errors, override and set isOpen to true --%>
 <c:if test="${!empty tabErrorKey or !empty tabAuditKey}">
 <%-- END KC MODIFICATIN --%>
   <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>

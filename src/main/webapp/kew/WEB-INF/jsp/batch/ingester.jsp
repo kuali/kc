@@ -43,6 +43,11 @@
   </ul>
 </c:if>
 
+<kul:errors displayRemaining="true"
+	errorTitle="Other errors:"
+	warningTitle="Other warnings:"
+	infoTitle="Other informational messages:"/>
+
 </div>
 <div>
 <br><br>

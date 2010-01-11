@@ -37,7 +37,13 @@
 </table>
 
 <br>
-<jsp:include page="../WorkflowMessages.jsp" flush="true" />
+
+<div class="msg-excol">
+  <div class="left-errmsg">
+    <kul:errors errorTitle="Errors found in Search Criteria:" /> 
+    <kul:messages />
+  </div>
+</div>
 
 <html-el:form action="/DocumentOperation.do">
 <html-el:hidden property="lookupInvocationModule" />
@@ -49,9 +55,6 @@
     <td width="20" height="30">&nbsp;</td>
     <td height="30">
       <strong>Operate on a document</strong>
-       <html-el:messages id="msg">
-		 <font color="red"><c:out value="${msg}"/></font><br>
-	   </html-el:messages>
     </td>
     <td width="20" height="30">&nbsp;</td>
   </tr>
