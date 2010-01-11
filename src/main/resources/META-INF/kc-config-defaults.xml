@@ -69,7 +69,7 @@
 	<param name="datasource.connectionTimeout">30000</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
-	<param name="keystore.location">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
+	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
 	<param name="keystore.password">s1t0spss!xX-tst</param>
 
 	<param name="dev.mode">true</param>
@@ -156,6 +156,9 @@
 	<param name="kim.cache.responsibility.max.age.seconds" override="false">30</param>
 	<param name="kim.cache.person.max.size" override="false">3000</param>
 	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
+	
+	<param name="kim.identityArchiveServiceImpl.executionIntervalSeconds" override="false">600</param>
+    <param name="kim.identityArchiveServiceImpl.maxWriteQueueSize" override="false">300</param>
 
 	<param name="kns.cache.parameter.max.size" override="false">3000</param>
 	<param name="kns.cache.parameter.max.age.seconds" override="false">3600</param>
