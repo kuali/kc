@@ -76,7 +76,7 @@
 	<param name="settings.directory">/usr/local/rice/</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
-	<param name="keystore.location">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
+	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
 	<param name="keystore.password">s1t0spss!xX-tst</param>
 	
 	
