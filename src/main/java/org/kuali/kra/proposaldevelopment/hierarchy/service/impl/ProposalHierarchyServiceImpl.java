@@ -664,6 +664,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         primaryKeys.put("costElement", indirectCostElement);
                         costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
                         parentLineItem = new BudgetLineItem();
+                        parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
                         parentLineItem.setBudgetId(budgetId);
@@ -687,6 +688,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         primaryKeys.put("costElement", directCostElement);
                         costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
                         parentLineItem = new BudgetLineItem();
+                        parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
                         parentLineItem.setBudgetId(budgetId);
