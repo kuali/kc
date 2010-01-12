@@ -103,7 +103,8 @@ transactionalDocument="true"
 	extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 			extraButtonAlt="${extraButtonAlt}" 
-				extraButtons="${extraButtons}" />
+				extraButtons="${extraButtons}"
+				suppressCancelButton="${hierarchyStatus == KualiForm.hierarchyParentStatus}" />
 </p>
 
 <script language="javascript" src="scripts/kuali_application.js"></script>
