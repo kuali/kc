@@ -345,6 +345,9 @@ Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, pa
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-IP','D','proposalcommenttype.generalcomment','CONFG','2','Code for General Proposal Comment Type','A');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-IP','D','proposalcommenttype.reviewercomment','CONFG','16','Code for IP Reviewer Proposal Comment Type','A');
 
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM,         OBJ_ID,     VER_NBR,  PARM_TYP_CD,  TXT, PARM_DESC_TXT, CONS_CD)
+  VALUES ('KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', sys_guid(),    1,     'CONFG',      'N', 'Determines whether the Credit Split is turned on for IP', 'A');
+
 insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)
  Values ('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', sys_guid(), 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A');
 

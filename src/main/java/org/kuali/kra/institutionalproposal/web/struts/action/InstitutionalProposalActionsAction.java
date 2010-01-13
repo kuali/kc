@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.web.struts.form.ReportHelperBean;
+import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -40,5 +43,29 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (InstitutionalProposalForm) form, false);
+    }
+
+    /**
+     * Prepare current report (i.e. Awards that selected person is on)
+     * {@inheritDoc}
+     */
+    public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                                    throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        request.setAttribute(ReportHelperBean.CURRENT_REPORT_BEANS_KEY, helper.prepareCurrentReport());
+        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Prepare pending report (i.e. InstitutionalProposals that selected person is on)
+     * {@inheritDoc}
+     */
+    public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                                    throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        request.setAttribute(ReportHelperBean.PENDING_REPORT_BEANS_KEY, helper.preparePendingReport());
+        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
