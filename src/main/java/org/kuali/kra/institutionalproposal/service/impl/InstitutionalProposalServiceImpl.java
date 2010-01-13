@@ -26,6 +26,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -36,7 +40,11 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -156,8 +164,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private InstitutionalProposalDocument mergeProposals(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal, Budget budget)
         throws WorkflowException {
         
-        //Budget budget = developmentProposal.get
-        
         InstitutionalProposalDocument institutionalProposalDocument = 
             (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
         
@@ -166,11 +172,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         
         //set proposal number on new Institutional Proposal so that it will be propagated to all created child BO's before initial save.
         Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE);
-        DecimalFormat formatter = new DecimalFormat("00000000");        
+        DecimalFormat formatter = new DecimalFormat("00000000");
         String nextProposalNumberAsString = formatter.format(nextProposalNumber);
         institutionalProposal.setProposalNumber(nextProposalNumberAsString);
 
-        
         // Base fields from Dev proposal
         institutionalProposal.setProposalTypeCode(Integer.parseInt(developmentProposal.getProposalTypeCode()));
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
@@ -181,12 +186,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setRequestedStartDateInitial(developmentProposal.getRequestedStartDateInitial());
         institutionalProposal.setRequestedEndDateInitial(developmentProposal.getRequestedEndDateInitial());
         institutionalProposal.setDeadlineDate(developmentProposal.getDeadlineDate());
-        if (developmentProposal.getRolodex() != null) {
-            institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
-        }
         institutionalProposal.setNoticeOfOpportunityCode(developmentProposal.getNoticeOfOpportunityCode());
         institutionalProposal.setNumberOfCopies(developmentProposal.getNumberOfCopies());
-        //institutionalProposal.setDeadlineType(developmentProposal.getDeadlineType());
+        institutionalProposal.setDeadlineType(developmentProposal.getDeadlineType());
         institutionalProposal.setMailBy(developmentProposal.getMailBy());
         institutionalProposal.setMailType(developmentProposal.getMailType());
         institutionalProposal.setMailAccountNumber(developmentProposal.getMailAccountNumber());
@@ -195,6 +197,60 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setCurrentAwardNumber(developmentProposal.getCurrentAwardNumber());
         institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());
         institutionalProposal.setNewDescription(developmentProposal.getNewDescription());
+        if (developmentProposal.getRolodex() != null) {
+            institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
+        }
+        
+        // Contacts
+        for (ProposalPerson pdPerson : developmentProposal.getProposalPersons()) {
+            InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
+            if (ObjectUtils.isNotNull(pdPerson.getPersonId())) {
+                ipPerson.setPersonId(pdPerson.getPersonId());
+            }
+            if (ObjectUtils.isNotNull(pdPerson.getRolodexId())) {
+                ipPerson.setRolodexId(pdPerson.getRolodexId());
+            }
+            ipPerson.setAutoIncrementSet(pdPerson.isAutoIncrementSet());
+            ipPerson.setContactRoleCode(pdPerson.getRole().getRoleCode());
+            for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
+                InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
+                ipPersonCreditSplit.setAutoIncrementSet(pdPersonCreditSplit.isAutoIncrementSet());
+                ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
+                ipPersonCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
+                ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
+                ipPerson.add(ipPersonCreditSplit);
+            }
+            ipPerson.setEmailAddress(pdPerson.getEmailAddress());
+            ipPerson.setFaculty(pdPerson.getFacultyFlag());
+            ipPerson.setFullName(pdPerson.getFullName());
+            ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
+            ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
+            ipPerson.setPerson(pdPerson.getPerson());
+            ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
+            ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
+            ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
+            // ipPerson.setSummerEffort(pdPerson.getPercentageEffort());
+            // ipPerson.setAcademicYearEffort(pdPerson.getPercentageEffort());
+            // ipPerson.setCalendarYearEffort(pdPerson.getPercentageEffort());
+            // ipPerson.setUnitName(pdPerson.getUnit().getUnitName());
+            for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
+                InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
+                ipPersonUnit.setAutoIncrementSet(pdPersonUnit.isAutoIncrementSet());
+                ipPersonUnit.setLeadUnit(pdPersonUnit.isLeadUnit());
+                ipPersonUnit.setNewCollectionRecord(pdPersonUnit.isNewCollectionRecord());
+                ipPersonUnit.setUnitNumber(pdPersonUnit.getUnitNumber());
+                for (ProposalUnitCreditSplit pdPersonCreditSplit : pdPersonUnit.getCreditSplits()) {
+                    InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit = new InstitutionalProposalPersonUnitCreditSplit();
+                    ipPersonUnitCreditSplit.setAutoIncrementSet(pdPersonCreditSplit.isAutoIncrementSet());
+                    ipPersonUnitCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
+                    ipPersonUnitCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
+                    ipPersonUnitCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
+                    ipPersonUnit.add(ipPersonUnitCreditSplit);
+                }
+                ipPerson.add(ipPersonUnit);
+            }
+            institutionalProposal.add(ipPerson);
+        }
         
         /* Special Reviews. Module hard coupling - revisit this. */
         for (ProposalSpecialReview dpSpecialReview : developmentProposal.getPropSpecialReviews()) {
@@ -203,18 +259,18 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipSpecialReview.setApprovalDate(dpSpecialReview.getApprovalDate());
             ipSpecialReview.setApprovalTypeCode(dpSpecialReview.getApprovalTypeCode());
             ipSpecialReview.setComments(dpSpecialReview.getComments());
-            //ipSpecialReview.setExemptionTypeCodes(dpSpecialReview.get);
-            //ipSpecialReview.setExemptionTypes(dpSpecialReview.getExemptionTypes());
             ipSpecialReview.setExpirationDate(dpSpecialReview.getExpirationDate());
             ipSpecialReview.setProtocolNumber(dpSpecialReview.getProtocolNumber());
             ipSpecialReview.setSpecialReview(dpSpecialReview.getSpecialReview());
             ipSpecialReview.setSpecialReviewApprovalType(dpSpecialReview.getSpecialReviewApprovalType());
             ipSpecialReview.setSpecialReviewCode(dpSpecialReview.getSpecialReviewCode());
-//            for(InstitutionalProposalSpecialReviewExemption ipExempt: dpSpecialReview.gete) {
-//                ipSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
-//            }
             ipSpecialReview.setSpecialReviewNumber(dpSpecialReview.getSpecialReviewNumber());
             ipSpecialReview.setValidSpecialReviewApproval(dpSpecialReview.getValidSpecialReviewApproval());
+            // for(InstitutionalProposalSpecialReviewExemption ipExempt: dpSpecialReview.gete) {
+            //     ipSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+            // }
+            // ipSpecialReview.setExemptionTypeCodes(dpSpecialReview.get);
+            // ipSpecialReview.setExemptionTypes(dpSpecialReview.getExemptionTypes());
             institutionalProposal.addSpecialReview(ipSpecialReview);
         }
         
