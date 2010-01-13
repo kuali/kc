@@ -41,9 +41,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -143,6 +146,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Integer hierarchyLastSyncHashCode;
     private String hierarchyBudgetType;
     private transient ParameterService parameterService;
+    private transient ProposalHierarchyService proposalHierarchyService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -153,6 +157,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
         return this.parameterService;
+    }
+    
+    /**
+     * Looks up and returns the ProposalHierarchyService.
+     * @return the proposal hierarchy service. 
+     */
+    protected ProposalHierarchyService getProposalHierarchyService() {
+        if (this.proposalHierarchyService == null) {
+            this.proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);        
+        }
+        return this.proposalHierarchyService;
     }
     
     /**
@@ -1659,6 +1674,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             return true;
         }
         return false;
+    }
+    
+    public boolean isParentProposalComplete() {
+        boolean retval = false;
+        if (isChild()) {
+            try {
+                DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
+                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
+                retval = parent.isProposalComplete();
+            }
+            catch (ProposalHierarchyException x) {
+                // this should never happen
+                throw new IllegalStateException(x);
+            }
+        }
+        return retval;
     }
 
 //    public int getNumberOfVersions() {
