@@ -15,24 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.warn;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
@@ -42,6 +24,8 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.web.struts.form.ReportHelperBean;
+import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -65,7 +49,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -82,6 +65,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -98,13 +82,28 @@ import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kim.service.PermissionService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.warn;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 
 /**
- * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * This class is the Struts form bean for DevelopmentProposal
  */
-public class ProposalDevelopmentForm extends BudgetVersionFormBase {
+public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer {
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
@@ -171,7 +170,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
     private String institutionalProposalToVersion;
     
     private MedusaBean medusaBean;
-    
+
+    private ReportHelperBean reportHelperBean;
+
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -226,6 +227,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
         versionNumberForS2sOpportunity = null;
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         medusaBean = new MedusaBean(this);
+        reportHelperBean = new ReportHelperBean(this);
     }
     
     //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -1581,6 +1583,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase {
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
-    }    
-    
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ReportHelperBean getReportHelperBean() {
+        return reportHelperBean;
+    }
 }
