@@ -47,7 +47,7 @@
 	<!--messages -->
 	<param name="core.rice.struts.message.resources">KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources</param>
 	<param name="kc.struts.message.resources">ApplicationResources</param>
-	<param name="rice.struts.message.resources">${kc.struts.message.resources}, ${core.rice.struts.message.resources}</param>
+	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
 	<param name="transaction.timeout">3600</param>
 	<param name="memory.monitor.threshold">.85</param>
