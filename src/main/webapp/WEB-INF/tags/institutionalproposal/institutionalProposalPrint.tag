@@ -21,8 +21,6 @@
     	<h3>
     		<span class="subhead-left">Print</span>
         </h3>
-        <kra-pd:proposalDevelopmentActionsPrintForms />
-        <kra-pd:printProposalSponsorForms />
-	    <kra:printReports requestUri="/proposalDevelopmentActions.do"/>
+        <kra:printReports requestUri="/institutionalProposalActions.do"/>
     </div> 
 </kul:tab>

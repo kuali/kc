@@ -27,11 +27,11 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="actions">
   	
-This is the  Institutional Proposal Contacts - Under Construction
+This is the  Institutional Proposal Actions - Under Construction
 
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
-
 <kul:adHocRecipients />
+<kra-ip:institutionalProposalPrint />
 <kul:routeLog /> 
 
 <kul:panelFooter />	

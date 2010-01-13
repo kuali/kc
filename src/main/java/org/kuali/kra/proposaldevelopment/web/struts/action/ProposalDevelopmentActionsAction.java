@@ -43,6 +43,8 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.common.web.struts.form.ReportHelperBean;
+import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1182,8 +1184,29 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return super.acknowledge(mapping, form, request, response);
     }
 
-    
+    /**
+     * Prepare current report (i.e. Awards that selected person is on)
+     * {@inheritDoc}
+     */
+    public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                                    throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        request.setAttribute(ReportHelperBean.CURRENT_REPORT_BEANS_KEY, helper.prepareCurrentReport());
+        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName()); 
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
+    /**
+     * Prepare pending report (i.e. InstitutionalProposals that selected person is on)
+     * {@inheritDoc}
+     */
+    public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                                    throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        request.setAttribute(ReportHelperBean.PENDING_REPORT_BEANS_KEY, helper.preparePendingReport());
+        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
     
     

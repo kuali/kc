@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
+import org.kuali.kra.common.web.struts.form.ReportHelperBean;
+import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -48,12 +43,17 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
-                                                            implements CustomDataForm, Auditable, MultiLookupFormBase,
-                                                                       SpecialReviewFormBase<InstitutionalProposalSpecialReviewExemption>{
+public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm, Auditable,
+                                                                        MultiLookupFormBase, ReportHelperBeanContainer,
+                                                                        SpecialReviewFormBase<InstitutionalProposalSpecialReviewExemption>{
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -75,9 +75,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     private InstitutionalProposalProjectPersonnelBean projectPersonnelBean;
     private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
-
     
     private MedusaBean medusaBean;
+    private ReportHelperBean reportHelperBean;
     
     /* Populated from Proposal Log lookup for Proposal creation */
     private String proposalNumber;
@@ -108,6 +108,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
         projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean(this);
+        reportHelperBean = new ReportHelperBean(this);
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -434,5 +435,12 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
         }
         return "";
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    public ReportHelperBean getReportHelperBean() {
+        return reportHelperBean;
+    }
 }

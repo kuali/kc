@@ -1863,5 +1863,13 @@
         <property name="documentService" ref="documentService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
     </bean>
-        
+
+    <bean id="currentAndPendingReportService" class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl">
+        <property name="currentReportDao" ref="currentReportDao" />
+        <property name="pendingReportDao" ref="pendingReportDao" />
+    </bean>
+
+    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.CurrentReportDaoOjb" />
+    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
+
 </beans>

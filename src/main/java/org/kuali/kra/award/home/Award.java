@@ -42,16 +42,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.calculator.RateClassType;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.Or;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -67,11 +59,11 @@ import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import com.ctc.wstx.io.EBCDICCodec;
-
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -2798,9 +2790,36 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-
     public String getHierarchyStatus() {
         return "N";
     }
 
+    /**
+     * This method gets the obligated, distributable amount for the Award. This may be replacable with the Award TimeAndMoney obligatedAmount value, but
+     * at the time of its creation, TimeAndMoney wasn't complete
+     * @return
+     */
+    public KualiDecimal calculateObligatedDistributedAmountTotal() {
+        KualiDecimal sum = KualiDecimal.ZERO;
+        for(AwardAmountInfo amountInfo: getAwardAmountInfos()) {
+            KualiDecimal obligatedDistributableAmount = amountInfo.getObliDistributableAmount();
+            sum = sum.add(obligatedDistributableAmount != null ? obligatedDistributableAmount : KualiDecimal.ZERO);
+        }
+        return sum;
+    }
+
+    /**
+     * This method finds the latest final expiration date from the collection of AmnoutInfos
+     * @return The latest final expiration date from the collection of AmnoutInfos. If there are no AmoutInfos, 1/1/1900 is returned  
+     */
+    public Date findLatestFinalExpirationDate() {
+        Date latestExpDate = new Date(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTimeInMillis());
+        for(AwardAmountInfo amountInfo: getAwardAmountInfos()) {
+            Date expDate = amountInfo.getFinalExpirationDate();
+            if(expDate != null && expDate.after(latestExpDate)) {
+                latestExpDate = expDate;
+            }
+        }
+        return latestExpDate;
+    }
 }

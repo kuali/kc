@@ -1,0 +1,76 @@
+package org.kuali.kra.common.printing;
+
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so this class implements an interface whose behavior is completely inapplicable
+ */
+public abstract class ReportBean implements BusinessObject {
+    protected static final DateFormat DATE_FORMATTER = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
+
+    private static final Comparator comparableComparator;
+
+    static {
+        comparableComparator = new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Comparable) o1).compareTo(o2);
+            }
+        };
+    }
+
+    protected abstract List<Column> createColumns();
+
+    public void refresh() {
+        throw new UnsupportedOperationException("This bean can't be refreshed");
+    }
+
+    public void prepareForWorkflow() {
+        throw new UnsupportedOperationException("This bean has no workflow");
+    }
+
+    protected Column createColumn(String label, String propertyName, Object property) {
+        if(property == null) {
+            property = "";
+        }
+        Column column = new Column(label, propertyName);
+        column.setComparator(comparableComparator);
+        column.setFormatter(Formatter.getFormatter(property.getClass()));
+        column.setPropertyValue(column.getFormatter().format(property).toString());
+        return column;
+    }
+
+    /**
+     * Here's the story of this method:
+     *
+     * Rice found a great utility called DisplayTag (http://displaytag.sourceforge.net). I've worked with DisplayTag. It's a simple and effective tool for
+     * creating tables with a lot of inherent functionality.
+     *
+     * Rice then ruined its simplicity by creating couplings to Rice classes in the exporters (CSV, XML, and XLS) so that the
+     * basic DisplayTag behavior of exporting a table of POJOs no longer works. (These dependencies are manifested in properties set in displaytag.properties,
+     * specifically, the export.<media>.class properties.
+     *
+     * Instead of working with a collection of POJOs Rice forced the collection to be a collection of ResultRows which have a bunch of Rice framework specific
+     * properties. Each ResultRow forces the properties of the bean to be expressed as another Rice-specific type called a Column. A Column also has a bunch of
+     * Rice-framework specific properties.
+     *
+     * This is the modus operandi of Rice. Find something which has great utility and modify it until it only works to solve one kind of Rice-specific
+     * problem. In this case, they were trying to create a generic lookup solution. Along the way, they ruined a perfectly good utility API, DisplayTag.
+     *
+     * To work around this foolishness, this POJO has a factory method to create a ResultRow from itself. That ResultRow creates Column objects for each
+     * property.
+     */
+    public ResultRow createResultRow() {
+        ResultRow resultRow = new ResultRow(createColumns(), null, null);
+        resultRow.setBusinessObject(this);
+        return resultRow;
+    }
+}
