@@ -35,6 +35,7 @@
   		errorKey="document.developmentProposalList[0].budgetVersion*,document.developmentProposalList[0].finalVersionFlag"
   		requestedStartDateInitial="${KualiForm.document.developmentProposal.requestedStartDateInitial}"
 		requestedEndDateInitial="${KualiForm.document.developmentProposal.requestedEndDateInitial}"
+		hierarchyParentBudgetIsComplete="${KualiForm.document.developmentProposal.parentProposalComplete}"
 		/>
   	
   	<kul:documentControls 
