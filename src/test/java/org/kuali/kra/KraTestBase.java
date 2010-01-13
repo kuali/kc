@@ -16,8 +16,6 @@
 
 package org.kuali.kra;
 
-import org.junit.After;
-import org.junit.Before;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -129,19 +127,5 @@ import org.kuali.rice.test.data.UnitTestFile;
             }
         )
     )
-public abstract class KraTestBase extends KcraNoDataTestBase {
-
-    @Before
-    public void setUp() throws Exception {
-        setContextName("/kra-dev");
-        setRelativeWebappRoot("/src/main/webapp");
-        //setXmlFilename("classpath:DefaultTestData.xml");
-        setSqlFilename("classpath:DefaultTestData.sql");
-        super.setUp();
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
+public abstract class KraTestBase extends KcraNoDataTestBase  {
 }
