@@ -18,15 +18,11 @@ package org.kuali.kra;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.ConfigurationException;
 import org.kuali.rice.core.lifecycle.Lifecycle;
 import org.kuali.rice.core.util.ClassLoaderUtils;
-import org.kuali.rice.kew.batch.FileXmlDocCollection;
-import org.kuali.rice.kew.batch.XmlDoc;
-import org.kuali.rice.kew.batch.XmlDocCollection;
-import org.kuali.rice.kew.batch.XmlIngesterService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.batch.KEWXmlDataLoader;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -103,20 +99,6 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
     }
 
     protected void loadXmlFile(String fileName) throws Exception {
-        Resource resource = new DefaultResourceLoader().getResource(fileName);
-        File xmlFile = resource.getFile();
-        if (xmlFile == null) {
-            throw new ConfigurationException("Didn't find file " + fileName);
-        }   
-        List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();
-        XmlDocCollection docCollection = new FileXmlDocCollection(xmlFile);
-        xmlFiles.add(docCollection);
-        XmlIngesterService service = KEWServiceLocator.getXmlIngesterService();
-        service.ingest(xmlFiles);
-        for (XmlDoc doc : docCollection.getXmlDocs()) {
-            if (!doc.isProcessed()) {
-                throw new RuntimeException("Failed to ingest xml doc: " + doc.getName());
-            }
-        }
+        KEWXmlDataLoader.loadXmlResource(fileName);
     }
 }
