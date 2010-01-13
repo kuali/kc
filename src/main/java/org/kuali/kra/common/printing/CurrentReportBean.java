@@ -1,8 +1,13 @@
-package org.kuali.kra.institutionalproposal.printing.print;
+package org.kuali.kra.common.printing;
 
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.ui.Column;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is a DTO bean for storing data for the Current Report
@@ -12,9 +17,9 @@ import java.sql.Date;
  * AwardPersons are searched if there's a linked AwardFundingProposal. If there's no DevelopmentProposal and no linked Award, an UnsupportedOperationException
  * will be thrown during the creation of the report
  *
- *
+ * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so this class implements an interface whose behavior is completely inapplicable
  */
-public class CurrentReportBean {
+public class CurrentReportBean extends ReportBean {
     /**
      * Award.awardNumber
      */
@@ -38,7 +43,7 @@ public class CurrentReportBean {
      * Source: The mocks suggest Award.timeAndMoney.obligatedAmount would be useful, but at the time of the development of the Current report, Award Time and
      * Money hadn't been completed. So, we'll sum the awardAmountInfo.obliDistributableAmount values for a total.
      */
-    private String awardAmount;
+    private KualiDecimal awardAmount;
 
     /**
      * Source: Award.awardEffectiveDate
@@ -57,32 +62,43 @@ public class CurrentReportBean {
     private KualiDecimal academicYearEffort;
 
     /**
-     * Source: Award (personId in KeyPersonnel) -> summerYearEffort
-     */
-    private KualiDecimal summerYearEffort;
-
-    /**
      * Source: Award (personId in KeyPersonnel) -> calendarYearEffort
      */
     private KualiDecimal calendarYearEffort;
+
+    /**
+     * Source: Award (personId in KeyPersonnel) -> summerYearEffort
+     */
+    private KualiDecimal summerEffort;
+
+    public CurrentReportBean(AwardPerson awardPerson) {
+        this.roleCode = awardPerson.getRoleCode();
+        this.academicYearEffort = awardPerson.getAcademicYearEffort();
+        this.calendarYearEffort = awardPerson.getCalendarYearEffort();
+        this.summerEffort = awardPerson.getSummerEffort();
+
+        Award award = awardPerson.getAward();
+        this.awardNumber = award.getAwardNumber();
+        this.sponsorName = award.getSponsorName();
+        this.awardTitle = award.getTitle();
+        this.awardAmount = award.calculateObligatedDistributedAmountTotal();
+        this.projectStartDate = award.getAwardEffectiveDate();
+        this.projectEndDate = award.findLatestFinalExpirationDate();
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CurrentReportBean)) return false;
+        return awardNumber.equals(((CurrentReportBean) o).awardNumber);
 
-        CurrentReportBean that = (CurrentReportBean) o;
-
-        if (!awardNumber.equals(that.awardNumber)) return false;
-
-        return true;
     }
 
     public KualiDecimal getAcademicYearEffort() {
         return academicYearEffort;
     }
 
-    public String getAwardAmount() {
+    public KualiDecimal getAwardAmount() {
         return awardAmount;
     }
 
@@ -114,8 +130,8 @@ public class CurrentReportBean {
         return sponsorName;
     }
 
-    public KualiDecimal getSummerYearEffort() {
-        return summerYearEffort;
+    public KualiDecimal getSummerEffort() {
+        return summerEffort;
     }
 
     @Override
@@ -123,43 +139,18 @@ public class CurrentReportBean {
         return awardNumber.hashCode();
     }
 
-    public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
-        this.academicYearEffort = academicYearEffort;
-    }
-
-    public void setAwardAmount(String awardAmount) {
-        this.awardAmount = awardAmount;
-    }
-
-    public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
-
-    public void setAwardTitle(String awardTitle) {
-        this.awardTitle = awardTitle;
-    }
-
-    public void setCalendarYearEffort(KualiDecimal calendarYearEffort) {
-        this.calendarYearEffort = calendarYearEffort;
-    }
-
-    public void setProjectEndDate(Date projectEndDate) {
-        this.projectEndDate = projectEndDate;
-    }
-
-    public void setProjectStartDate(Date projectStartDate) {
-        this.projectStartDate = projectStartDate;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
-    public void setSponsorName(String sponsorName) {
-        this.sponsorName = sponsorName;
-    }
-
-    public void setSummerYearEffort(KualiDecimal summerYearEffort) {
-        this.summerYearEffort = summerYearEffort;
+    protected List<Column> createColumns() {
+        List<Column> columns = new ArrayList<Column>();
+        columns.add(createColumn("Award Number", "awardNumber", awardNumber));
+        columns.add(createColumn("Sponsor", "sponsorName", sponsorName));
+        columns.add(createColumn("Role", "roleCode", roleCode));
+        columns.add(createColumn("Title", "awardTitle", awardTitle));
+        columns.add(createColumn("Award Amount", "awardAmount", awardAmount));
+        columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate));
+        columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate));
+        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort));
+        columns.add(createColumn("Summer Effort", "summerEffort", summerEffort));
+        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort));
+        return columns;
     }
 }
