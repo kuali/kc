@@ -1,56 +1,49 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KcPersonExtendedAttributes" parent="KcPersonExtendedAttributes-parentBean" />
+  <bean id="KcPersonExtendedAttributes" parent="KcPersonExtendedAttributes-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.KcPersonExtendedAttributes" />
-    <property name="objectLabel" value="Kc Person Extended Attributes" />
-    <property name="inquiryDefinition" >
-      <ref bean="KcPersonExtendedAttributes-inquiryDefinition" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.KcPersonExtendedAttributes"/>
+    <property name="objectLabel" value="Kc Person Extended Attributes"/>
+    <property name="inquiryDefinition">
+      <ref bean="KcPersonExtendedAttributes-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="KcPersonExtendedAttributes-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="KcPersonExtendedAttributes-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="personId" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
-            p:parameterName="proposalDevelopmentKcPersonExtendedAttributesHelpUrl"
-            p:parameterDetailType="D" />
+    <property name="titleAttribute" value="personId"/>
+    <property name="helpDefinition">
+      <bean p:parameterDetailType="D" p:parameterName="proposalDevelopmentKcPersonExtendedAttributesHelpUrl" p:parameterNamespace="KRA-PD" parent="HelpDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="KcPersonExtendedAttributes-personId" />
-        <ref bean="KcPersonExtendedAttributes-ageByFiscalYear" />
-        <ref bean="KcPersonExtendedAttributes-race" />
-        <ref bean="KcPersonExtendedAttributes-educationLevel" />
-        <ref bean="KcPersonExtendedAttributes-degree" />
-        <ref bean="KcPersonExtendedAttributes-major" />
-        <ref bean="KcPersonExtendedAttributes-handicappedFlag" />
-        <ref bean="KcPersonExtendedAttributes-handicapType" />
-        <ref bean="KcPersonExtendedAttributes-veteranFlag" />
-        <ref bean="KcPersonExtendedAttributes-veteranType" />
-        <ref bean="KcPersonExtendedAttributes-visaCode" />
-        <ref bean="KcPersonExtendedAttributes-visaType" />
-        <ref bean="KcPersonExtendedAttributes-visaRenewalDate" />
-        <ref bean="KcPersonExtendedAttributes-hasVisa" />
-        <ref bean="KcPersonExtendedAttributes-officeLocation" />
-        <ref bean="KcPersonExtendedAttributes-secondaryOfficeLocation" />
-        <ref bean="KcPersonExtendedAttributes-school" />
-        <ref bean="KcPersonExtendedAttributes-yearGraduated" />
-        <ref bean="KcPersonExtendedAttributes-directoryDepartment" />
-        <ref bean="KcPersonExtendedAttributes-primaryTitle" />
-        <ref bean="KcPersonExtendedAttributes-directoryTitle" />
-        <ref bean="KcPersonExtendedAttributes-vacationAccrualFlag" />
-        <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag" />
-        <ref bean="KcPersonExtendedAttributes-idProvided" />
-        <ref bean="KcPersonExtendedAttributes-idVerified" />
-        <ref bean="KcPersonExtendedAttributes-county" />
-        <ref bean="KcPersonExtendedAttributes-versionNumber" />
+        <ref bean="KcPersonExtendedAttributes-personId"/>
+        <ref bean="KcPersonExtendedAttributes-ageByFiscalYear"/>
+        <ref bean="KcPersonExtendedAttributes-race"/>
+        <ref bean="KcPersonExtendedAttributes-educationLevel"/>
+        <ref bean="KcPersonExtendedAttributes-degree"/>
+        <ref bean="KcPersonExtendedAttributes-major"/>
+        <ref bean="KcPersonExtendedAttributes-handicappedFlag"/>
+        <ref bean="KcPersonExtendedAttributes-handicapType"/>
+        <ref bean="KcPersonExtendedAttributes-veteranFlag"/>
+        <ref bean="KcPersonExtendedAttributes-veteranType"/>
+        <ref bean="KcPersonExtendedAttributes-visaCode"/>
+        <ref bean="KcPersonExtendedAttributes-visaType"/>
+        <ref bean="KcPersonExtendedAttributes-visaRenewalDate"/>
+        <ref bean="KcPersonExtendedAttributes-hasVisa"/>
+        <ref bean="KcPersonExtendedAttributes-officeLocation"/>
+        <ref bean="KcPersonExtendedAttributes-secondaryOfficeLocation"/>
+        <ref bean="KcPersonExtendedAttributes-school"/>
+        <ref bean="KcPersonExtendedAttributes-yearGraduated"/>
+        <ref bean="KcPersonExtendedAttributes-directoryDepartment"/>
+        <ref bean="KcPersonExtendedAttributes-primaryTitle"/>
+        <ref bean="KcPersonExtendedAttributes-directoryTitle"/>
+        <ref bean="KcPersonExtendedAttributes-vacationAccrualFlag"/>
+        <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag"/>
+        <ref bean="KcPersonExtendedAttributes-idProvided"/>
+        <ref bean="KcPersonExtendedAttributes-idVerified"/>
+        <ref bean="KcPersonExtendedAttributes-county"/>
+        <ref bean="KcPersonExtendedAttributes-versionNumber"/>
       </list>
     </property>
   </bean>
@@ -58,360 +51,340 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean" />
+  <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="personId" />
-    <property name="label" value="KcPersonExtendedAttributes Id" />
-    <property name="shortLabel" value="KcPersonExtendedAttributes Id" />
-    <property name="maxLength" value="100" />
-    <property name="summary" value="KcPersonExtendedAttributes Id" />
-    <property name="description" value="KcPersonExtendedAttributes Id" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-personId-parentBean" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="personId"/>
+    <property name="label" value="KcPersonExtendedAttributes Id"/>
+    <property name="shortLabel" value="KcPersonExtendedAttributes Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="summary" value="KcPersonExtendedAttributes Id"/>
+    <property name="description" value="KcPersonExtendedAttributes Id"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-ageByFiscalYear" parent="KcPersonExtendedAttributes-ageByFiscalYear-parentBean" />
+  <bean id="KcPersonExtendedAttributes-ageByFiscalYear" parent="KcPersonExtendedAttributes-ageByFiscalYear-parentBean"/>
   
-  <bean id="KcPersonExtendedAttributes-ageByFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="ageByFiscalYear" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Age by Fiscal Year" />
-    <property name="shortLabel" value="Age by FY" />
-    <property name="maxLength" value="3" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-ageByFiscalYear-parentBean" parent="AttributeDefinition">
+    <property name="name" value="ageByFiscalYear"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Age by Fiscal Year"/>
+    <property name="shortLabel" value="Age by FY"/>
+    <property name="maxLength" value="3"/>
+    <property name="control">
+      <bean p:size="3" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Age by Fiscal Year" />
-    <property name="description" value="Age by Fiscal Year" />
+    <property name="summary" value="Age by Fiscal Year"/>
+    <property name="description" value="Age by Fiscal Year"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-race" parent="KcPersonExtendedAttributes-race-parentBean" />
+  <bean id="KcPersonExtendedAttributes-race" parent="KcPersonExtendedAttributes-race-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-race-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="race" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Race" />
-    <property name="shortLabel" value="Race" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-race-parentBean" parent="AttributeDefinition">
+    <property name="name" value="race"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Race"/>
+    <property name="shortLabel" value="Race"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Race" />
-    <property name="description" value="Race" />
+    <property name="summary" value="Race"/>
+    <property name="description" value="Race"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-educationLevel" parent="KcPersonExtendedAttributes-educationLevel-parentBean" />
+  <bean id="KcPersonExtendedAttributes-educationLevel" parent="KcPersonExtendedAttributes-educationLevel-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-educationLevel-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="educationLevel" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Education Level" />
-    <property name="shortLabel" value="Edu Lev" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-educationLevel-parentBean" parent="AttributeDefinition">
+    <property name="name" value="educationLevel"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Education Level"/>
+    <property name="shortLabel" value="Edu Lev"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Education Level" />
-    <property name="description" value="Education Level" />
+    <property name="summary" value="Education Level"/>
+    <property name="description" value="Education Level"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-degree" parent="KcPersonExtendedAttributes-degree-parentBean" />
+  <bean id="KcPersonExtendedAttributes-degree" parent="KcPersonExtendedAttributes-degree-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-degree-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="degree" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Degree" />
-    <property name="shortLabel" value="Degree" />
-    <property name="maxLength" value="11" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-degree-parentBean" parent="AttributeDefinition">
+    <property name="name" value="degree"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Degree"/>
+    <property name="shortLabel" value="Degree"/>
+    <property name="maxLength" value="11"/>
+    <property name="control">
+      <bean p:size="11" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Degree" />
-    <property name="description" value="Degree" />
+    <property name="summary" value="Degree"/>
+    <property name="description" value="Degree"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-major" parent="KcPersonExtendedAttributes-major-parentBean" />
+  <bean id="KcPersonExtendedAttributes-major" parent="KcPersonExtendedAttributes-major-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-major-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="major" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Major" />
-    <property name="shortLabel" value="Major" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-major-parentBean" parent="AttributeDefinition">
+    <property name="name" value="major"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Major"/>
+    <property name="shortLabel" value="Major"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Major" />
-    <property name="description" value="Major" />
+    <property name="summary" value="Major"/>
+    <property name="description" value="Major"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-handicappedFlag" parent="KcPersonExtendedAttributes-handicappedFlag-parentBean" />
+  <bean id="KcPersonExtendedAttributes-handicappedFlag" parent="KcPersonExtendedAttributes-handicappedFlag-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-handicappedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="handicappedFlag" />
-    <property name="label" value="Is Handicapped" />
-    <property name="shortLabel" value="Handicapped" />
-    <property name="summary" value="Is Handicapped" />
-    <property name="description" value="Is Handicapped" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-handicappedFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="handicappedFlag"/>
+    <property name="label" value="Is Handicapped"/>
+    <property name="shortLabel" value="Handicapped"/>
+    <property name="summary" value="Is Handicapped"/>
+    <property name="description" value="Is Handicapped"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-handicapType" parent="KcPersonExtendedAttributes-handicapType-parentBean" />
+  <bean id="KcPersonExtendedAttributes-handicapType" parent="KcPersonExtendedAttributes-handicapType-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-handicapType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="handicapType" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Handicap Type" />
-    <property name="shortLabel" value="Handicap Typ" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-handicapType-parentBean" parent="AttributeDefinition">
+    <property name="name" value="handicapType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Handicap Type"/>
+    <property name="shortLabel" value="Handicap Typ"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Handicap Type" />
-    <property name="description" value="Handicap Type" />
+    <property name="summary" value="Handicap Type"/>
+    <property name="description" value="Handicap Type"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-veteranFlag" parent="KcPersonExtendedAttributes-veteranFlag-parentBean" />
+  <bean id="KcPersonExtendedAttributes-veteranFlag" parent="KcPersonExtendedAttributes-veteranFlag-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-veteranFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="veteranFlag" />
-    <property name="label" value="Veteran" />
-    <property name="shortLabel" value="Veteran" />
-    <property name="summary" value="Veteran" />
-    <property name="description" value="Veteran" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-veteranFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="veteranFlag"/>
+    <property name="label" value="Veteran"/>
+    <property name="shortLabel" value="Veteran"/>
+    <property name="summary" value="Veteran"/>
+    <property name="description" value="Veteran"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-veteranType" parent="KcPersonExtendedAttributes-veteranType-parentBean" />
+  <bean id="KcPersonExtendedAttributes-veteranType" parent="KcPersonExtendedAttributes-veteranType-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-veteranType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="veteranType" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Veteran Type" />
-    <property name="shortLabel" value="Veteran Type" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-veteranType-parentBean" parent="AttributeDefinition">
+    <property name="name" value="veteranType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Veteran Type"/>
+    <property name="shortLabel" value="Veteran Type"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Veteran Type" />
-    <property name="description" value="Veteran Type" />
+    <property name="summary" value="Veteran Type"/>
+    <property name="description" value="Veteran Type"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-visaCode" parent="KcPersonExtendedAttributes-visaCode-parentBean" />
+  <bean id="KcPersonExtendedAttributes-visaCode" parent="KcPersonExtendedAttributes-visaCode-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-visaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="visaCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Visa Code" />
-    <property name="shortLabel" value="Visa Code" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-visaCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="visaCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Visa Code"/>
+    <property name="shortLabel" value="Visa Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Visa Code" />
-    <property name="description" value="Visa Code" />
+    <property name="summary" value="Visa Code"/>
+    <property name="description" value="Visa Code"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-visaType" parent="KcPersonExtendedAttributes-visaType-parentBean" />
+  <bean id="KcPersonExtendedAttributes-visaType" parent="KcPersonExtendedAttributes-visaType-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-visaType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="visaType" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Visa Type" />
-    <property name="shortLabel" value="Visa Type" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-visaType-parentBean" parent="AttributeDefinition">
+    <property name="name" value="visaType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Visa Type"/>
+    <property name="shortLabel" value="Visa Type"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Visa Type" />
-    <property name="description" value="Visa Type" />
+    <property name="summary" value="Visa Type"/>
+    <property name="description" value="Visa Type"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-visaRenewalDate" parent="KcPersonExtendedAttributes-visaRenewalDate-parentBean" />
+  <bean id="KcPersonExtendedAttributes-visaRenewalDate" parent="KcPersonExtendedAttributes-visaRenewalDate-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-visaRenewalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-    <property name="name" value="visaRenewalDate" />
-    <property name="label" value="Visa Renewal Date" />
-    <property name="shortLabel" value="Visa Renew Dt" />
-    <property name="required" value="false" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-visaRenewalDate-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="visaRenewalDate"/>
+    <property name="label" value="Visa Renewal Date"/>
+    <property name="shortLabel" value="Visa Renew Dt"/>
+    <property name="required" value="false"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10"
-            p:datePicker="true" />
+    <property name="control">
+      <bean p:datePicker="true" p:size="10" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Visa Renewal Date" />
-    <property name="description" value="Visa Renewal Date" />
+    <property name="summary" value="Visa Renewal Date"/>
+    <property name="description" value="Visa Renewal Date"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-hasVisa" parent="KcPersonExtendedAttributes-hasVisa-parentBean" />
+  <bean id="KcPersonExtendedAttributes-hasVisa" parent="KcPersonExtendedAttributes-hasVisa-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-hasVisa-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="hasVisa" />
-    <property name="label" value="Has Visa" />
-    <property name="shortLabel" value="HasVisa" />
-    <property name="summary" value="Has Visa" />
-    <property name="description" value="Has Visa" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-hasVisa-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hasVisa"/>
+    <property name="label" value="Has Visa"/>
+    <property name="shortLabel" value="HasVisa"/>
+    <property name="summary" value="Has Visa"/>
+    <property name="description" value="Has Visa"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-officeLocation" parent="KcPersonExtendedAttributes-officeLocation-parentBean" />
+  <bean id="KcPersonExtendedAttributes-officeLocation" parent="KcPersonExtendedAttributes-officeLocation-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-officeLocation-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="officeLocation" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Office Location" />
-    <property name="shortLabel" value="Office Loc" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-officeLocation-parentBean" parent="AttributeDefinition">
+    <property name="name" value="officeLocation"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Office Location"/>
+    <property name="shortLabel" value="Office Loc"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Office Location" />
-    <property name="description" value="Office Location" />
+    <property name="summary" value="Office Location"/>
+    <property name="description" value="Office Location"/>
   </bean>
   
-  <bean id="KcPersonExtendedAttributes-secondaryOfficeLocation" parent="KcPersonExtendedAttributes-secondaryOfficeLocation-parentBean" />
+  <bean id="KcPersonExtendedAttributes-secondaryOfficeLocation" parent="KcPersonExtendedAttributes-secondaryOfficeLocation-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-secondaryOfficeLocation-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="secondaryOfficeLocation" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Secondary Office Location" />
-    <property name="shortLabel" value="2nd Office Loc" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-secondaryOfficeLocation-parentBean" parent="AttributeDefinition">
+    <property name="name" value="secondaryOfficeLocation"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Secondary Office Location"/>
+    <property name="shortLabel" value="2nd Office Loc"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Secondary Office Location" />
-    <property name="description" value="Secondary Office Location" />
+    <property name="summary" value="Secondary Office Location"/>
+    <property name="description" value="Secondary Office Location"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-school" parent="KcPersonExtendedAttributes-school-parentBean" />
+  <bean id="KcPersonExtendedAttributes-school" parent="KcPersonExtendedAttributes-school-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-school-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="school" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="School" />
-    <property name="shortLabel" value="School" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-school-parentBean" parent="AttributeDefinition">
+    <property name="name" value="school"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="School"/>
+    <property name="shortLabel" value="School"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean p:size="50" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="School" />
-    <property name="description" value="School" />
+    <property name="summary" value="School"/>
+    <property name="description" value="School"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-yearGraduated" parent="KcPersonExtendedAttributes-yearGraduated-parentBean" />
+  <bean id="KcPersonExtendedAttributes-yearGraduated" parent="KcPersonExtendedAttributes-yearGraduated-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-yearGraduated-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="yearGraduated" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Year Graduated" />
-    <property name="shortLabel" value="YearGrad" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-yearGraduated-parentBean" parent="AttributeDefinition">
+    <property name="name" value="yearGraduated"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Year Graduated"/>
+    <property name="shortLabel" value="YearGrad"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Year Graduated" />
-    <property name="description" value="Year Graduated" />
+    <property name="summary" value="Year Graduated"/>
+    <property name="description" value="Year Graduated"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-directoryDepartment" parent="KcPersonExtendedAttributes-directoryDepartment-parentBean" />
+  <bean id="KcPersonExtendedAttributes-directoryDepartment" parent="KcPersonExtendedAttributes-directoryDepartment-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-directoryDepartment-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="directoryDepartment" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Directory Department" />
-    <property name="shortLabel" value="DirectoryDepart" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-directoryDepartment-parentBean" parent="AttributeDefinition">
+    <property name="name" value="directoryDepartment"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Directory Department"/>
+    <property name="shortLabel" value="DirectoryDepart"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Directory Department" />
-    <property name="description" value="Directory Department" />
+    <property name="summary" value="Directory Department"/>
+    <property name="description" value="Directory Department"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-primaryTitle" parent="KcPersonExtendedAttributes-primaryTitle-parentBean" />
+  <bean id="KcPersonExtendedAttributes-primaryTitle" parent="KcPersonExtendedAttributes-primaryTitle-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-primaryTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="primaryTitle" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Primary Title" />
-    <property name="shortLabel" value="Primary Title" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-primaryTitle-parentBean" parent="AttributeDefinition">
+    <property name="name" value="primaryTitle"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Primary Title"/>
+    <property name="shortLabel" value="Primary Title"/>
+    <property name="maxLength" value="51"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Primary Title" />
-    <property name="description" value="PrimaryTitle" />
+    <property name="summary" value="Primary Title"/>
+    <property name="description" value="PrimaryTitle"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-directoryTitle" parent="KcPersonExtendedAttributes-directoryTitle-parentBean" />
+  <bean id="KcPersonExtendedAttributes-directoryTitle" parent="KcPersonExtendedAttributes-directoryTitle-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-directoryTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="directoryTitle" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Directory Title" />
-    <property name="shortLabel" value="Direct Title" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-directoryTitle-parentBean" parent="AttributeDefinition">
+    <property name="name" value="directoryTitle"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Directory Title"/>
+    <property name="shortLabel" value="Direct Title"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Directory Title" />
-    <property name="description" value="Directory Title" />
+    <property name="summary" value="Directory Title"/>
+    <property name="description" value="Directory Title"/>
   </bean>
   
-  <bean id="KcPersonExtendedAttributes-vacationAccrualFlag" parent="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean" />
+  <bean id="KcPersonExtendedAttributes-vacationAccrualFlag" parent="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="vacationAccrualFlag" />
-    <property name="label" value="Is Vacation Accrual" />
-    <property name="shortLabel" value="Vac Accru" />
-    <property name="summary" value="Is Vacation Accrual" />
-    <property name="description" value="Is Vacation Accrual" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="vacationAccrualFlag"/>
+    <property name="label" value="Is Vacation Accrual"/>
+    <property name="shortLabel" value="Vac Accru"/>
+    <property name="summary" value="Is Vacation Accrual"/>
+    <property name="description" value="Is Vacation Accrual"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-onSabbaticalFlag" parent="KcPersonExtendedAttributes-onSabbaticalFlag-parentBean" />
+  <bean id="KcPersonExtendedAttributes-onSabbaticalFlag" parent="KcPersonExtendedAttributes-onSabbaticalFlag-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-onSabbaticalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="onSabbaticalFlag" />
-    <property name="label" value="Is on Sabbatical" />
-    <property name="shortLabel" value="Sabbatical" />
-    <property name="summary" value="Is on Sabbatical" />
-    <property name="description" value="Is on Sabbatical" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-onSabbaticalFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="onSabbaticalFlag"/>
+    <property name="label" value="Is on Sabbatical"/>
+    <property name="shortLabel" value="Sabbatical"/>
+    <property name="summary" value="Is on Sabbatical"/>
+    <property name="description" value="Is on Sabbatical"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-idProvided" parent="KcPersonExtendedAttributes-idProvided-parentBean" />
+  <bean id="KcPersonExtendedAttributes-idProvided" parent="KcPersonExtendedAttributes-idProvided-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-idProvided-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="idProvided" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Id Provided" />
-    <property name="shortLabel" value="Id Provided" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-idProvided-parentBean" parent="AttributeDefinition">
+    <property name="name" value="idProvided"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Id Provided"/>
+    <property name="shortLabel" value="Id Provided"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Id Provided" />
-    <property name="description" value="Id Provided" />
+    <property name="summary" value="Id Provided"/>
+    <property name="description" value="Id Provided"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-idVerified" parent="KcPersonExtendedAttributes-idVerified-parentBean" />
+  <bean id="KcPersonExtendedAttributes-idVerified" parent="KcPersonExtendedAttributes-idVerified-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-idVerified-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="idVerified" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Id Verified" />
-    <property name="shortLabel" value="Id Verified" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-idVerified-parentBean" parent="AttributeDefinition">
+    <property name="name" value="idVerified"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Id Verified"/>
+    <property name="shortLabel" value="Id Verified"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean p:size="25" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Id Verified" />
-    <property name="description" value="Id Verified" />
+    <property name="summary" value="Id Verified"/>
+    <property name="description" value="Id Verified"/>
   </bean>
-  <bean id="KcPersonExtendedAttributes-county" parent="KcPersonExtendedAttributes-county-parentBean" />
+  <bean id="KcPersonExtendedAttributes-county" parent="KcPersonExtendedAttributes-county-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-county-parentBean" abstract="true" parent="KraAttributeReferenceDummy-county">
+  <bean abstract="true" id="KcPersonExtendedAttributes-county-parentBean" parent="KraAttributeReferenceDummy-county">
   </bean>
 
-  <bean id="KcPersonExtendedAttributes-versionNumber" parent="KcPersonExtendedAttributes-versionNumber-parentBean" />
+  <bean id="KcPersonExtendedAttributes-versionNumber" parent="KcPersonExtendedAttributes-versionNumber-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean abstract="true" id="KcPersonExtendedAttributes-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
   <!--<bean id="KcPersonExtendedAttributes-biosketchDescription" parent="KcPersonExtendedAttributes-biosketchDescription-parentBean" />
@@ -447,70 +420,43 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="KcPersonExtendedAttributes-inquiryDefinition" parent="KcPersonExtendedAttributes-inquiryDefinition-parentBean" />
+  <bean id="KcPersonExtendedAttributes-inquiryDefinition" parent="KcPersonExtendedAttributes-inquiryDefinition-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="KcPersonExtendedAttributes" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="KcPersonExtendedAttributes-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="KcPersonExtendedAttributes"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="KcPersonExtendedAttributes" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="KcPersonExtendedAttributes"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="personId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="ageByFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="race" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="educationLevel" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="degree" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="major" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="handicappedFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="handicapType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="veteranFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="veteranType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="visaCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="visaType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="visaRenewalDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="hasVisa" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="officeLocation" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="secondaryOfficeLocation" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="school" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="yearGraduated" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="directoryDepartment" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="primaryTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="directoryTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vacationAccrualFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="onSabbaticalFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="idProvided" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="idVerified" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="county" />                  
+              <bean p:attributeName="personId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="ageByFiscalYear" parent="FieldDefinition"/>
+              <bean p:attributeName="race" parent="FieldDefinition"/>
+              <bean p:attributeName="educationLevel" parent="FieldDefinition"/>
+              <bean p:attributeName="degree" parent="FieldDefinition"/>
+              <bean p:attributeName="major" parent="FieldDefinition"/>
+              <bean p:attributeName="handicappedFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="handicapType" parent="FieldDefinition"/>
+              <bean p:attributeName="veteranFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="veteranType" parent="FieldDefinition"/>
+              <bean p:attributeName="visaCode" parent="FieldDefinition"/>
+              <bean p:attributeName="visaType" parent="FieldDefinition"/>
+              <bean p:attributeName="visaRenewalDate" parent="FieldDefinition"/>
+              <bean p:attributeName="hasVisa" parent="FieldDefinition"/>
+              <bean p:attributeName="officeLocation" parent="FieldDefinition"/>
+              <bean p:attributeName="secondaryOfficeLocation" parent="FieldDefinition"/>
+              <bean p:attributeName="school" parent="FieldDefinition"/>
+              <bean p:attributeName="yearGraduated" parent="FieldDefinition"/>
+              <bean p:attributeName="directoryDepartment" parent="FieldDefinition"/>
+              <bean p:attributeName="primaryTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="directoryTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="vacationAccrualFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="onSabbaticalFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="idProvided" parent="FieldDefinition"/>
+              <bean p:attributeName="idVerified" parent="FieldDefinition"/>
+              <bean p:attributeName="county" parent="FieldDefinition"/>                  
             </list>
           </property>
         </bean>
@@ -521,41 +467,30 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="KcPersonExtendedAttributes-lookupDefinition" parent="KcPersonExtendedAttributes-lookupDefinition-parentBean" />
+  <bean id="KcPersonExtendedAttributes-lookupDefinition" parent="KcPersonExtendedAttributes-lookupDefinition-parentBean"/>
 
-  <bean id="KcPersonExtendedAttributes-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="KcPersonExtendedAttributes Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+  <bean abstract="true" id="KcPersonExtendedAttributes-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="KcPersonExtendedAttributes Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="personId"
-               p:forceInquiry="true"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="directoryTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="officeLocation" />
-        <bean parent="FieldDefinition"
-              p:attributeName="school" />
+        <bean p:attributeName="personId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="directoryTitle" parent="FieldDefinition"/>
+        <bean p:attributeName="officeLocation" parent="FieldDefinition"/>
+        <bean p:attributeName="school" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="personId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="directoryDepartment" />
-        <bean parent="FieldDefinition"
-              p:attributeName="directoryTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="officeLocation" />
-        <bean parent="FieldDefinition"
-              p:attributeName="school" />
+        <bean p:attributeName="personId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="directoryDepartment" parent="FieldDefinition"/>
+        <bean p:attributeName="directoryTitle" parent="FieldDefinition"/>
+        <bean p:attributeName="officeLocation" parent="FieldDefinition"/>
+        <bean p:attributeName="school" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

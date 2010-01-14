@@ -1,34 +1,27 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="InvestigatorCreditType" parent="InvestigatorCreditType-parentBean" />
+  <bean id="InvestigatorCreditType" parent="InvestigatorCreditType-parentBean"/>
 
-  <bean id="InvestigatorCreditType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" />
-		<property name="objectLabel" value="Investigator Credit Type" />
-    <property name="inquiryDefinition" >
-      <ref bean="InvestigatorCreditType-inquiryDefinition" />
+  <bean abstract="true" id="InvestigatorCreditType-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+		<property name="objectLabel" value="Investigator Credit Type"/>
+    <property name="inquiryDefinition">
+      <ref bean="InvestigatorCreditType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="InvestigatorCreditType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="InvestigatorCreditType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="invCreditTypeCode" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
-            p:parameterName="proposalDevelopmentCreditSplitHelpUrl"
-            p:parameterDetailType="D" />
+    <property name="titleAttribute" value="invCreditTypeCode"/>
+    <property name="helpDefinition">
+      <bean p:parameterDetailType="D" p:parameterName="proposalDevelopmentCreditSplitHelpUrl" p:parameterNamespace="KRA-PD" parent="HelpDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="InvestigatorCreditType-invCreditTypeCode" />
-        <ref bean="InvestigatorCreditType-description" />
-        <ref bean="InvestigatorCreditType-addsToHundred" />
-        <ref bean="InvestigatorCreditType-active" />
-        <ref bean="InvestigatorCreditType-versionNumber" />
+        <ref bean="InvestigatorCreditType-invCreditTypeCode"/>
+        <ref bean="InvestigatorCreditType-description"/>
+        <ref bean="InvestigatorCreditType-addsToHundred"/>
+        <ref bean="InvestigatorCreditType-active"/>
+        <ref bean="InvestigatorCreditType-versionNumber"/>
       </list>
     </property>
   </bean>
@@ -36,65 +29,60 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="InvestigatorCreditType-invCreditTypeCode" parent="InvestigatorCreditType-invCreditTypeCode-parentBean" />
+  <bean id="InvestigatorCreditType-invCreditTypeCode" parent="InvestigatorCreditType-invCreditTypeCode-parentBean"/>
 
-  <bean id="InvestigatorCreditType-invCreditTypeCode-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="invCreditTypeCode" />
-    <property name="label" value="Investigator Credit Type Code" />
-    <property name="shortLabel" value="Inv Cred Typ Cd" />
-    <property name="summary" value="Investigator Credit Type Code" />
-    <property name="description" value="Investigator Credit Type Code" />
+  <bean abstract="true" id="InvestigatorCreditType-invCreditTypeCode-parentBean" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="invCreditTypeCode"/>
+    <property name="label" value="Investigator Credit Type Code"/>
+    <property name="shortLabel" value="Inv Cred Typ Cd"/>
+    <property name="summary" value="Investigator Credit Type Code"/>
+    <property name="description" value="Investigator Credit Type Code"/>
+  <property name="maxLength" value="3"/></bean>
+  <bean id="InvestigatorCreditType-description" parent="InvestigatorCreditType-description-parentBean"/>
+
+  <bean abstract="true" id="InvestigatorCreditType-description-parentBean" parent="KraAttributeReferenceDummy-description">
+  <property name="maxLength" value="300"/></bean>
+  <bean id="InvestigatorCreditType-addsToHundred" parent="InvestigatorCreditType-addsToHundred-parentBean"/>
+
+  <bean abstract="true" id="InvestigatorCreditType-addsToHundred-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="addsToHundred"/>
+    <property name="label" value="Adds to Hundred"/>
+    <property name="shortLabel" value="Adds Hundred"/>
+    <property name="summary" value="Adds to Hundred"/>
+    <property name="description" value="Adds to Hundred"/>
   </bean>
-  <bean id="InvestigatorCreditType-description" parent="InvestigatorCreditType-description-parentBean" />
+  <bean id="InvestigatorCreditType-active" parent="InvestigatorCreditType-active-parentBean"/>
 
-  <bean id="InvestigatorCreditType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  <bean abstract="true" id="InvestigatorCreditType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Is Active"/>
+    <property name="shortLabel" value="Is Active"/>
+    <property name="summary" value="Is Active"/>
+    <property name="description" value="Is Active"/>
   </bean>
-  <bean id="InvestigatorCreditType-addsToHundred" parent="InvestigatorCreditType-addsToHundred-parentBean" />
+  <bean id="InvestigatorCreditType-versionNumber" parent="InvestigatorCreditType-versionNumber-parentBean"/>
 
-  <bean id="InvestigatorCreditType-addsToHundred-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="addsToHundred" />
-    <property name="label" value="Adds to Hundred" />
-    <property name="shortLabel" value="Adds Hundred" />
-    <property name="summary" value="Adds to Hundred" />
-    <property name="description" value="Adds to Hundred" />
-  </bean>
-  <bean id="InvestigatorCreditType-active" parent="InvestigatorCreditType-active-parentBean" />
-
-  <bean id="InvestigatorCreditType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="active" />
-    <property name="label" value="Is Active" />
-    <property name="shortLabel" value="Is Active" />
-    <property name="summary" value="Is Active" />
-    <property name="description" value="Is Active" />
-  </bean>
-  <bean id="InvestigatorCreditType-versionNumber" parent="InvestigatorCreditType-versionNumber-parentBean" />
-
-  <bean id="InvestigatorCreditType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean abstract="true" id="InvestigatorCreditType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="InvestigatorCreditType-inquiryDefinition" parent="InvestigatorCreditType-inquiryDefinition-parentBean" />
+  <bean id="InvestigatorCreditType-inquiryDefinition" parent="InvestigatorCreditType-inquiryDefinition-parentBean"/>
 
-  <bean id="InvestigatorCreditType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Investigator Credit Type" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="InvestigatorCreditType-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Investigator Credit Type"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Investigator Credit Type" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Investigator Credit Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="invCreditTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="addsToHundred" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean p:attributeName="invCreditTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="description" parent="FieldDefinition"/>
+              <bean p:attributeName="addsToHundred" parent="FieldDefinition"/>
+              <bean p:attributeName="active" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -105,35 +93,28 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="InvestigatorCreditType-lookupDefinition" parent="InvestigatorCreditType-lookupDefinition-parentBean" />
+  <bean id="InvestigatorCreditType-lookupDefinition" parent="InvestigatorCreditType-lookupDefinition-parentBean"/>
 
-  <bean id="InvestigatorCreditType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Investigator Credit Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+  <bean abstract="true" id="InvestigatorCreditType-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Investigator Credit Type Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-    <property name="defaultSort" >
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invCreditTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean p:attributeName="invCreditTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invCreditTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean p:attributeName="invCreditTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

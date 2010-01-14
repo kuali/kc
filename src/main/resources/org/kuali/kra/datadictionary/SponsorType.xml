@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SponsorType" parent="SponsorType-parentBean" />
+  <bean id="SponsorType" parent="SponsorType-parentBean"/>
 
-  <bean id="SponsorType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorType" />
-		<property name="objectLabel" value="Sponsor Type" />
-    <property name="inquiryDefinition" >
-      <ref bean="SponsorType-inquiryDefinition" />
+  <bean abstract="true" id="SponsorType-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorType"/>
+		<property name="objectLabel" value="Sponsor Type"/>
+    <property name="inquiryDefinition">
+      <ref bean="SponsorType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="SponsorType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="SponsorType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="sponsorTypeCode" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="sponsorTypeCode"/>
+    <property name="attributes">
       <list>
-        <ref bean="SponsorType-sponsorTypeCode" />
-        <ref bean="SponsorType-description" />
-        <ref bean="SponsorType-versionNumber" />
+        <ref bean="SponsorType-sponsorTypeCode"/>
+        <ref bean="SponsorType-description"/>
+        <ref bean="SponsorType-versionNumber"/>
       </list>
     </property>
   </bean>
@@ -28,49 +24,45 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SponsorType-sponsorTypeCode" parent="SponsorType-sponsorTypeCode-parentBean" />
+  <bean id="SponsorType-sponsorTypeCode" parent="SponsorType-sponsorTypeCode-parentBean"/>
 
-  <bean id="SponsorType-sponsorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sponsorTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sponsor Type" />
-    <property name="shortLabel" value="Sponsor Type" />
-    <property name="maxLength" value="3" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+  <bean abstract="true" id="SponsorType-sponsorTypeCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="sponsorTypeCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sponsor Type"/>
+    <property name="shortLabel" value="Sponsor Type"/>
+    <property name="maxLength" value="3"/>
+    <property name="control">
+      <bean p:size="4" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Sponsor Type" />
-    <property name="description" value="Sponsor Type" />
+    <property name="summary" value="Sponsor Type"/>
+    <property name="description" value="Sponsor Type"/>
   </bean>
-  <bean id="SponsorType-description" parent="SponsorType-description-parentBean" />
+  <bean id="SponsorType-description" parent="SponsorType-description-parentBean"/>
 
-  <bean id="SponsorType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
-  <bean id="SponsorType-versionNumber" parent="SponsorType-versionNumber-parentBean" />
+  <bean abstract="true" id="SponsorType-description-parentBean" parent="KraAttributeReferenceDummy-description">
+  <property name="maxLength" value="100"/></bean>
+  <bean id="SponsorType-versionNumber" parent="SponsorType-versionNumber-parentBean"/>
 
-  <bean id="SponsorType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean abstract="true" id="SponsorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="SponsorType-inquiryDefinition" parent="SponsorType-inquiryDefinition-parentBean" />
+  <bean id="SponsorType-inquiryDefinition" parent="SponsorType-inquiryDefinition-parentBean"/>
 
-  <bean id="SponsorType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Sponsor Type" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="SponsorType-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Sponsor Type"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Sponsor Type" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Sponsor Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="sponsorTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean p:attributeName="sponsorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -81,31 +73,26 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="SponsorType-lookupDefinition" parent="SponsorType-lookupDefinition-parentBean" />
+  <bean id="SponsorType-lookupDefinition" parent="SponsorType-lookupDefinition-parentBean"/>
 
-  <bean id="SponsorType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Sponsor Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+  <bean abstract="true" id="SponsorType-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Sponsor Type Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-    <property name="defaultSort" >
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:attributeName="sponsorTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:attributeName="sponsorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

@@ -1,27 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DegreeType" parent="DegreeType-parentBean" />
+  <bean id="DegreeType" parent="DegreeType-parentBean"/>
 
-  <bean id="DegreeType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType" />
-		<property name="objectLabel" value="Degree Type" />
-    <property name="inquiryDefinition" >
-      <ref bean="DegreeType-inquiryDefinition" />
+  <bean abstract="true" id="DegreeType-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType"/>
+		<property name="objectLabel" value="Degree Type"/>
+    <property name="inquiryDefinition">
+      <ref bean="DegreeType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="DegreeType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="DegreeType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="degreeCode" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="degreeCode"/>
+    <property name="attributes">
       <list>
-        <ref bean="DegreeType-degreeCode" />
-        <ref bean="DegreeType-degreeLevel" />
-        <ref bean="DegreeType-description" />
-        <ref bean="DegreeType-versionNumber" />
+        <ref bean="DegreeType-degreeCode"/>
+        <ref bean="DegreeType-degreeLevel"/>
+        <ref bean="DegreeType-description"/>
+        <ref bean="DegreeType-versionNumber"/>
       </list>
     </property>
   </bean>
@@ -29,72 +25,66 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DegreeType-degreeCode" parent="DegreeType-degreeCode-parentBean" />
+  <bean id="DegreeType-degreeCode" parent="DegreeType-degreeCode-parentBean"/>
 
-  <bean id="DegreeType-degreeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="degreeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Degree Code" />
-    <property name="shortLabel" value="Degree Code" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+  <bean abstract="true" id="DegreeType-degreeCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="degreeCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Degree Code"/>
+    <property name="shortLabel" value="Degree Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Degree Code" />
-    <property name="description" value="Degree Code" />
+    <property name="summary" value="Degree Code"/>
+    <property name="description" value="Degree Code"/>
   </bean>
-  <bean id="DegreeType-degreeLevel" parent="DegreeType-degreeLevel-parentBean" />
+  <bean id="DegreeType-degreeLevel" parent="DegreeType-degreeLevel-parentBean"/>
 
-  <bean id="DegreeType-degreeLevel-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="degreeLevel" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Degree Level" />
-    <property name="shortLabel" value="Level" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+  <bean abstract="true" id="DegreeType-degreeLevel-parentBean" parent="AttributeDefinition">
+    <property name="name" value="degreeLevel"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Degree Level"/>
+    <property name="shortLabel" value="Level"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean p:size="4" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Degree Level" />
-    <property name="description" value="Degree Level description..." />
+    <property name="summary" value="Degree Level"/>
+    <property name="description" value="Degree Level description..."/>
   </bean>
-  <bean id="DegreeType-description" parent="DegreeType-description-parentBean" />
+  <bean id="DegreeType-description" parent="DegreeType-description-parentBean"/>
 
-  <bean id="DegreeType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  <bean abstract="true" id="DegreeType-description-parentBean" parent="KraAttributeReferenceDummy-description">
   </bean>
-  <bean id="DegreeType-versionNumber" parent="DegreeType-versionNumber-parentBean" />
+  <bean id="DegreeType-versionNumber" parent="DegreeType-versionNumber-parentBean"/>
 
-  <bean id="DegreeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean abstract="true" id="DegreeType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="DegreeType-inquiryDefinition" parent="DegreeType-inquiryDefinition-parentBean" />
+  <bean id="DegreeType-inquiryDefinition" parent="DegreeType-inquiryDefinition-parentBean"/>
 
-  <bean id="DegreeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Degree Type" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="DegreeType-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Degree Type"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Degree Type" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Degree Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="degreeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="degreeLevel" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean p:attributeName="degreeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
+              <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -105,35 +95,28 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="DegreeType-lookupDefinition" parent="DegreeType-lookupDefinition-parentBean" />
+  <bean id="DegreeType-lookupDefinition" parent="DegreeType-lookupDefinition-parentBean"/>
 
-  <bean id="DegreeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Degree Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+  <bean abstract="true" id="DegreeType-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Degree Type Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-    <property name="defaultSort" >
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="degreeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="degreeLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:attributeName="degreeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="degreeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="degreeLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:attributeName="degreeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
+        <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
