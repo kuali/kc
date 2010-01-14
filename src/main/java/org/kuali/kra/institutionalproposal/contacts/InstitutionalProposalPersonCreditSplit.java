@@ -36,7 +36,7 @@ public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusine
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
 
     private Long institutionalProposalPersonCreditSplitId;
-    private InstitutionalProposalPerson institutionalProposalPerson;    
+    private InstitutionalProposalPerson institutionalProposalPerson;
     private KualiDecimal credit;
     private InvestigatorCreditType investigatorCreditType;
     
