@@ -109,6 +109,23 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         assertEquals(customAttribute.getDataLength(),new Integer(35));
         assertEquals(customAttribute.getDataTypeCode(),"1");
 
+        
+        // reset the length value back, otherwise it may affect customattributeserviceimpltest
+        customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
+        searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
+        
+        editLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=edit&id=7");
+        customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
+        documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
+
+        setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentDescription", "Custom Attribute - edit test");
+
+        setFieldValue(customAttributeMaintenanceEditPage, "document.newMaintainableObject.dataLength", "30");
+                
+        routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        
+        assertContains(routedPage, "Document was successfully submitted.");
 
     }
 
