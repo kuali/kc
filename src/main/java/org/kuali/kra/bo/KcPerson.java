@@ -26,13 +26,16 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CountryCodeService;
 import org.kuali.rice.kim.bo.entity.KimEntity;
+import org.kuali.rice.kim.bo.entity.KimEntityAddress;
 import org.kuali.rice.kim.bo.entity.KimEntityAffiliation;
 import org.kuali.rice.kim.bo.entity.KimEntityCitizenship;
+import org.kuali.rice.kim.bo.entity.KimEntityEmail;
 import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
 import org.kuali.rice.kim.bo.entity.KimEntityExternalIdentifier;
 import org.kuali.rice.kim.bo.entity.KimEntityName;
 import org.kuali.rice.kim.bo.entity.KimEntityPhone;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityAddressInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
@@ -313,7 +316,12 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of emailAddress
      */
     public String getEmailAddress() {
-        return this.getEntityType().getDefaultEmailAddress().getEmailAddress();
+        for (KimEntityEmail email : this.getEntityType().getEmailAddresses()) {
+            if (email.isActive() && email.isDefault()) {
+                return email.getEmailAddress();
+            }
+        }
+        return "";
     }
 
     /**
@@ -677,7 +685,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine1
      */
     public String getAddressLine1() {
-        return this.getEntityType().getDefaultAddress().getLine1();
+        return this.getDefaultActiveAddress().getLine1();
     }
 
     /**
@@ -686,7 +694,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine2
      */
     public String getAddressLine2() {
-        return this.getEntityType().getDefaultAddress().getLine2();
+        return this.getDefaultActiveAddress().getLine2();
     }
 
     /**
@@ -695,7 +703,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine3
      */
     public String getAddressLine3() {
-        return this.getEntityType().getDefaultAddress().getLine3();
+        return this.getDefaultActiveAddress().getLine3();
     }
 
     /**
@@ -704,7 +712,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of city
      */
     public String getCity() {
-        return this.getEntityType().getDefaultAddress().getCityName();
+        return this.getDefaultActiveAddress().getCityName();
     }
 
     /**
@@ -722,7 +730,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of state
      */
     public String getState() {
-        return this.getEntityType().getDefaultAddress().getStateCode();
+        return this.getDefaultActiveAddress().getStateCode();
     }
 
     /**
@@ -731,7 +739,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of postalCode
      */
     public String getPostalCode() {
-        return this.getEntityType().getDefaultAddress().getPostalCode();
+        return this.getDefaultActiveAddress().getPostalCode();
     }
 
     /**
@@ -740,7 +748,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of countryCode
      */
     public String getCountryCode() {
-        return this.convert2DigitCountryCodeTo3Digit(this.getEntityType().getDefaultAddress().getCountryCode());
+        return this.convert2DigitCountryCodeTo3Digit(this.getDefaultActiveAddress().getCountryCode());
     }
     
     /**
@@ -935,11 +943,25 @@ public class KcPerson implements Contactable, BusinessObject {
         return extId.getExternalId(); 
     }
     
+    /** 
+     * Gets the default & active address.
+     * @return address
+     */
+    private KimEntityAddress getDefaultActiveAddress() {
+        for (KimEntityAddress address : this.getEntityType().getAddresses()) {
+            if (address.isActive() && address.isDefault()) {
+                return address;
+            }
+        }
+        
+        return new KimEntityAddressInfo();
+    }
+    
     /**
      * Gets the entity type that represents a person in KC.  KC only supports a single entity type.
      * @return the entity type object
      */
-    private KimEntityEntityType getEntityType() {
+    private KimEntityEntityType getEntityType() {     
         return this.entity.getEntityType("PERSON");
     }
     
