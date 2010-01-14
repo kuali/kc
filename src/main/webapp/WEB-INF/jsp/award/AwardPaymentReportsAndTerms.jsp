@@ -31,7 +31,6 @@
 <kra-a:awardPaymentAndInvoices />
 <kra-a:awardReports />
 <kra-a:awardTerms />
-<kra-a:awardSponsorTermsTemplate />
 <kra-a:awardSpecialApproval />
 <kra-a:awardCloseout />
 
