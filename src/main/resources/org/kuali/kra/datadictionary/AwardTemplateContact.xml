@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,53 +12,47 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateContact" parent="AwardTemplateContact-parentBean" />
-	<bean id="AwardTemplateContact-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateContact" />
-		<property name="objectLabel" value="Award Template Contact" />
-		<property name="inquiryDefinition" >
-			<ref bean="AwardTemplateContact-inquiryDefinition" />
+	<bean id="AwardTemplateContact" parent="AwardTemplateContact-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateContact"/>
+		<property name="objectLabel" value="Award Template Contact"/>
+		<property name="inquiryDefinition">
+			<ref bean="AwardTemplateContact-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="AwardTemplateContact-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="AwardTemplateContact-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="templateContactId" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="templateContactId"/>
+		<property name="attributes">
 			<list>
-				<ref bean="AwardTemplateContact-templateContactId" />
+				<ref bean="AwardTemplateContact-templateContactId"/>
 				<!--<ref bean="AwardTemplateContact-templateCode" />-->
-				<ref bean="AwardTemplateContact-roleCode" />
-				<ref bean="AwardTemplateContact-rolodexId" />
-				<ref bean="AwardTemplateContact-versionNumber" />
+				<ref bean="AwardTemplateContact-roleCode"/>
+				<ref bean="AwardTemplateContact-rolodexId"/>
+				<ref bean="AwardTemplateContact-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardTemplateContact-templateContactId" parent="AwardTemplateContact-templateContactId-parentBean" />
-	<bean id="AwardTemplateContact-templateContactId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="templateContactId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Template Contact Id" />
-		<property name="shortLabel" value="Template Contact Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="AwardTemplateContact-templateContactId" parent="AwardTemplateContact-templateContactId-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-templateContactId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="templateContactId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Template Contact Id"/>
+		<property name="shortLabel" value="Template Contact Id"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Template Contact Id" />
-		<property name="description" value="Template Contact Id" />
+		<property name="summary" value="Template Contact Id"/>
+		<property name="description" value="Template Contact Id"/>
 	</bean>
 
 	<!--<bean id="AwardTemplateContact-templateCode" parent="AwardTemplateContact-templateCode-parentBean" />-->
@@ -84,71 +78,60 @@
 		<property name="description" value="Template Code" />
 	</bean>-->
 
-	<bean id="AwardTemplateContact-roleCode" parent="AwardTemplateContact-roleCode-parentBean" />
-	<bean id="AwardTemplateContact-roleCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="roleCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Contact Type Code" />
-		<property name="shortLabel" value="Contact Type Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="AwardTemplateContact-roleCode" parent="AwardTemplateContact-roleCode-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-roleCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="roleCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Contact Type Code"/>
+		<property name="shortLabel" value="Contact Type Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="roleCode"
-	            p:labelAttribute="description" />
+	    <property name="control">
+	      <bean p:businessObjectClass="org.kuali.kra.award.home.ContactType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="roleCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
 	    </property>
-		<property name="summary" value="Contact Type Code" />
-		<property name="description" value="Contact Type Code" />
+		<property name="summary" value="Contact Type Code"/>
+		<property name="description" value="Contact Type Code"/>
 	</bean>
 
-	<bean id="AwardTemplateContact-rolodexId" parent="AwardTemplateContact-rolodexId-parentBean" />
-	<bean id="AwardTemplateContact-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="rolodexId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Rolodex Id" />
-		<property name="shortLabel" value="Rolodex Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="AwardTemplateContact-rolodexId" parent="AwardTemplateContact-rolodexId-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-rolodexId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="rolodexId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Rolodex Id"/>
+		<property name="shortLabel" value="Rolodex Id"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Rolodex Id" />
-		<property name="description" value="Rolodex Id" />
+		<property name="summary" value="Rolodex Id"/>
+		<property name="description" value="Rolodex Id"/>
 	</bean>
 
-	<bean id="AwardTemplateContact-versionNumber" parent="AwardTemplateContact-versionNumber-parentBean" />
-	<bean id="AwardTemplateContact-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="AwardTemplateContact-versionNumber" parent="AwardTemplateContact-versionNumber-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="AwardTemplateContact-inquiryDefinition" parent="AwardTemplateContact-inquiryDefinition-parentBean" />
-	<bean id="AwardTemplateContact-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Template Contact Id" />
-		<property name="inquirySections" >
+	<bean id="AwardTemplateContact-inquiryDefinition" parent="AwardTemplateContact-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Template Contact Id"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Template Contact Id" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Template Contact Id"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="templateContactId" 
-								p:forceInquiry="true" />
+							<bean p:attributeName="templateContactId" p:forceInquiry="true" parent="FieldDefinition"/>
 							<!--<bean parent="FieldDefinition"
 								p:attributeName="templateCode" />-->
-							<bean parent="FieldDefinition"
-								p:attributeName="roleCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="rolodexId" />
+							<bean p:attributeName="roleCode" parent="FieldDefinition"/>
+							<bean p:attributeName="rolodexId" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -157,39 +140,31 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="AwardTemplateContact-lookupDefinition" parent="AwardTemplateContact-lookupDefinition-parentBean" />
-	<bean id="AwardTemplateContact-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Template Contact Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="AwardTemplateContact-lookupDefinition" parent="AwardTemplateContact-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="AwardTemplateContact-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Template Contact Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateContactId" 
-					p:forceInquiry="true" />
+				<bean p:attributeName="templateContactId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
-				<bean parent="FieldDefinition"
-					p:attributeName="roleCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
+				<bean p:attributeName="roleCode" parent="FieldDefinition"/>
+				<bean p:attributeName="rolodexId" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateContactId" 
-					p:forceInquiry="true" />
+				<bean p:attributeName="templateContactId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
-				<bean parent="FieldDefinition"
-					p:attributeName="roleCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
+				<bean p:attributeName="roleCode" parent="FieldDefinition"/>
+				<bean p:attributeName="rolodexId" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

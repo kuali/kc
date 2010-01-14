@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
  * Copyright 2006-2009 The Kuali Foundation
  * 
@@ -14,211 +14,188 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="Frequency" parent="Frequency-parentBean" />
-	<bean id="Frequency-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.Frequency" />
-		<property name="objectLabel" value="Frequency" />
-		<property name="inquiryDefinition" >
-			<ref bean="Frequency-inquiryDefinition" />
+	<bean id="Frequency" parent="Frequency-parentBean"/>
+	<bean abstract="true" id="Frequency-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.Frequency"/>
+		<property name="objectLabel" value="Frequency"/>
+		<property name="inquiryDefinition">
+			<ref bean="Frequency-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="Frequency-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="Frequency-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="frequencyCode" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="frequencyCode"/>
+		<property name="attributes">
 			<list>
-				<ref bean="Frequency-frequencyCode" />
-				<ref bean="Frequency-description" />
-				<ref bean="Frequency-numberOfDays" />
-				<ref bean="Frequency-numberOfMonths" />
-				<ref bean="Frequency-repeatFlag" />
-				<ref bean="Frequency-proposalDueFlag" />
-				<ref bean="Frequency-invoiceFlag" />
-				<ref bean="Frequency-advanceNumberOfDays" />
-				<ref bean="Frequency-advanceNumberOfMonths" />
-				<ref bean="Frequency-versionNumber" />
+				<ref bean="Frequency-frequencyCode"/>
+				<ref bean="Frequency-description"/>
+				<ref bean="Frequency-numberOfDays"/>
+				<ref bean="Frequency-numberOfMonths"/>
+				<ref bean="Frequency-repeatFlag"/>
+				<ref bean="Frequency-proposalDueFlag"/>
+				<ref bean="Frequency-invoiceFlag"/>
+				<ref bean="Frequency-advanceNumberOfDays"/>
+				<ref bean="Frequency-advanceNumberOfMonths"/>
+				<ref bean="Frequency-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="Frequency-frequencyCode" parent="Frequency-frequencyCode-parentBean" />
-	<bean id="Frequency-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="frequencyCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Frequency Code" />
-		<property name="shortLabel" value="Frequency Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="Frequency-frequencyCode" parent="Frequency-frequencyCode-parentBean"/>
+	<bean abstract="true" id="Frequency-frequencyCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="frequencyCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Frequency Code"/>
+		<property name="shortLabel" value="Frequency Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Frequency Code" />
-		<property name="description" value="Frequency Code" />
+		<property name="summary" value="Frequency Code"/>
+		<property name="description" value="Frequency Code"/>
 	</bean>
 
-	<bean id="Frequency-description" parent="Frequency-description-parentBean" />
-	<bean id="Frequency-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+	<bean id="Frequency-description" parent="Frequency-description-parentBean"/>
+	<bean abstract="true" id="Frequency-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
 	</bean>
 
-	<bean id="Frequency-numberOfDays" parent="Frequency-numberOfDays-parentBean" />
-	<bean id="Frequency-numberOfDays-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="numberOfDays" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Number Of Days" />
-		<property name="shortLabel" value="Number Of Days" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="Frequency-numberOfDays" parent="Frequency-numberOfDays-parentBean"/>
+	<bean abstract="true" id="Frequency-numberOfDays-parentBean" parent="AttributeDefinition">
+		<property name="name" value="numberOfDays"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Number Of Days"/>
+		<property name="shortLabel" value="Number Of Days"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Number Of Days" />
-		<property name="description" value="Number Of Days" />
+		<property name="summary" value="Number Of Days"/>
+		<property name="description" value="Number Of Days"/>
 	</bean>
 
-	<bean id="Frequency-numberOfMonths" parent="Frequency-numberOfMonths-parentBean" />
-	<bean id="Frequency-numberOfMonths-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="numberOfMonths" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Number Of Months" />
-		<property name="shortLabel" value="Number Of Months" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="Frequency-numberOfMonths" parent="Frequency-numberOfMonths-parentBean"/>
+	<bean abstract="true" id="Frequency-numberOfMonths-parentBean" parent="AttributeDefinition">
+		<property name="name" value="numberOfMonths"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Number Of Months"/>
+		<property name="shortLabel" value="Number Of Months"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Number Of Months" />
-		<property name="description" value="Number Of Months" />
+		<property name="summary" value="Number Of Months"/>
+		<property name="description" value="Number Of Months"/>
 	</bean>
 
-	<bean id="Frequency-repeatFlag" parent="Frequency-repeatFlag-parentBean" />
-	<bean id="Frequency-repeatFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="repeatFlag" />
-		<property name="label" value="Repeat Flag" />
-		<property name="shortLabel" value="Repeat Flag" />
-		<property name="summary" value="Repeat Flag" />
-		<property name="description" value="Repeat Flag" />
+	<bean id="Frequency-repeatFlag" parent="Frequency-repeatFlag-parentBean"/>
+	<bean abstract="true" id="Frequency-repeatFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="repeatFlag"/>
+		<property name="label" value="Repeat Flag"/>
+		<property name="shortLabel" value="Repeat Flag"/>
+		<property name="summary" value="Repeat Flag"/>
+		<property name="description" value="Repeat Flag"/>
 	</bean>
 
-	<bean id="Frequency-proposalDueFlag" parent="Frequency-proposalDueFlag-parentBean" />
-	<bean id="Frequency-proposalDueFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="proposalDueFlag" />
-		<property name="label" value="Proposal Due Flag" />
-		<property name="shortLabel" value="Proposal Due Flag" />
-		<property name="summary" value="Proposal Due Flag" />
-		<property name="description" value="Proposal Due Flag" />
+	<bean id="Frequency-proposalDueFlag" parent="Frequency-proposalDueFlag-parentBean"/>
+	<bean abstract="true" id="Frequency-proposalDueFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="proposalDueFlag"/>
+		<property name="label" value="Proposal Due Flag"/>
+		<property name="shortLabel" value="Proposal Due Flag"/>
+		<property name="summary" value="Proposal Due Flag"/>
+		<property name="description" value="Proposal Due Flag"/>
 	</bean>
 
-	<bean id="Frequency-invoiceFlag" parent="Frequency-invoiceFlag-parentBean" />
-	<bean id="Frequency-invoiceFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="invoiceFlag" />
-		<property name="label" value="Invoice Flag" />
-		<property name="shortLabel" value="Invoice Flag" />
-		<property name="summary" value="Invoice Flag" />
-		<property name="description" value="Invoice Flag" />
+	<bean id="Frequency-invoiceFlag" parent="Frequency-invoiceFlag-parentBean"/>
+	<bean abstract="true" id="Frequency-invoiceFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="invoiceFlag"/>
+		<property name="label" value="Invoice Flag"/>
+		<property name="shortLabel" value="Invoice Flag"/>
+		<property name="summary" value="Invoice Flag"/>
+		<property name="description" value="Invoice Flag"/>
 	</bean>
 
-	<bean id="Frequency-advanceNumberOfDays" parent="Frequency-advanceNumberOfDays-parentBean" />
-	<bean id="Frequency-advanceNumberOfDays-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="advanceNumberOfDays" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Advance Number Of Days" />
-		<property name="shortLabel" value="Advance Number Of Days" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="Frequency-advanceNumberOfDays" parent="Frequency-advanceNumberOfDays-parentBean"/>
+	<bean abstract="true" id="Frequency-advanceNumberOfDays-parentBean" parent="AttributeDefinition">
+		<property name="name" value="advanceNumberOfDays"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Advance Number Of Days"/>
+		<property name="shortLabel" value="Advance Number Of Days"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Advance Number Of Days" />
-		<property name="description" value="Advance Number Of Days" />
+		<property name="summary" value="Advance Number Of Days"/>
+		<property name="description" value="Advance Number Of Days"/>
 	</bean>
 
-	<bean id="Frequency-advanceNumberOfMonths" parent="Frequency-advanceNumberOfMonths-parentBean" />
-	<bean id="Frequency-advanceNumberOfMonths-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="advanceNumberOfMonths" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Advance Number Of Months" />
-		<property name="shortLabel" value="Advance Number Of Months" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="Frequency-advanceNumberOfMonths" parent="Frequency-advanceNumberOfMonths-parentBean"/>
+	<bean abstract="true" id="Frequency-advanceNumberOfMonths-parentBean" parent="AttributeDefinition">
+		<property name="name" value="advanceNumberOfMonths"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Advance Number Of Months"/>
+		<property name="shortLabel" value="Advance Number Of Months"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Advance Number Of Months" />
-		<property name="description" value="Advance Number Of Months" />
+		<property name="summary" value="Advance Number Of Months"/>
+		<property name="description" value="Advance Number Of Months"/>
 	</bean>
 
-	<bean id="Frequency-versionNumber" parent="Frequency-versionNumber-parentBean" />
-	<bean id="Frequency-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="Frequency-versionNumber" parent="Frequency-versionNumber-parentBean"/>
+	<bean abstract="true" id="Frequency-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="Frequency-inquiryDefinition" parent="Frequency-inquiryDefinition-parentBean" />
-	<bean id="Frequency-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Frequency Code" />
-		<property name="inquirySections" >
+	<bean id="Frequency-inquiryDefinition" parent="Frequency-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="Frequency-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Frequency Code"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Frequency Code" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Frequency Code"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="frequencyCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="numberOfDays" />
-							<bean parent="FieldDefinition"
-								p:attributeName="numberOfMonths" />
-							<bean parent="FieldDefinition"
-								p:attributeName="repeatFlag" />
-							<bean parent="FieldDefinition"
-								p:attributeName="proposalDueFlag" />
-							<bean parent="FieldDefinition"
-								p:attributeName="invoiceFlag" />
-							<bean parent="FieldDefinition"
-								p:attributeName="advanceNumberOfDays" />
-							<bean parent="FieldDefinition"
-								p:attributeName="advanceNumberOfMonths" />
+							<bean p:attributeName="frequencyCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
+							<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
+							<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
+							<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/>
+							<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
+							<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
+							<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -227,59 +204,39 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="Frequency-lookupDefinition" parent="Frequency-lookupDefinition-parentBean" />
-	<bean id="Frequency-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Frequency Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="Frequency-lookupDefinition" parent="Frequency-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="Frequency-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Frequency Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="frequencyCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfDays" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfMonths" />
-				<bean parent="FieldDefinition"
-					p:attributeName="repeatFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="proposalDueFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="advanceNumberOfDays" />
-				<bean parent="FieldDefinition"
-					p:attributeName="advanceNumberOfMonths" />
+				<bean p:attributeName="frequencyCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
+				<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
+				<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
+				<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="frequencyCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfDays" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfMonths" />
-				<bean parent="FieldDefinition"
-					p:attributeName="repeatFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="proposalDueFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="advanceNumberOfDays" />
-				<bean parent="FieldDefinition"
-					p:attributeName="advanceNumberOfMonths" />
+				<bean p:attributeName="frequencyCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
+				<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
+				<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
+				<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

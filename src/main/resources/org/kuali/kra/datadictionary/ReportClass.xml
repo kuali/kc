@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
  * Copyright 2006-2009 The Kuali Foundation
  * 
@@ -14,103 +14,90 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="ReportClass" parent="ReportClass-parentBean" />
-	<bean id="ReportClass-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportClass" />
-		<property name="objectLabel" value="Report Class" />
-		<property name="inquiryDefinition" >
-			<ref bean="ReportClass-inquiryDefinition" />
+	<bean id="ReportClass" parent="ReportClass-parentBean"/>
+	<bean abstract="true" id="ReportClass-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportClass"/>
+		<property name="objectLabel" value="Report Class"/>
+		<property name="inquiryDefinition">
+			<ref bean="ReportClass-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="ReportClass-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="ReportClass-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="reportClassCode" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="reportClassCode"/>
+		<property name="attributes">
 			<list>
-				<ref bean="ReportClass-reportClassCode" />
-				<ref bean="ReportClass-description" />
-				<ref bean="ReportClass-generateReportRequirements" />
-				<ref bean="ReportClass-versionNumber" />
+				<ref bean="ReportClass-reportClassCode"/>
+				<ref bean="ReportClass-description"/>
+				<ref bean="ReportClass-generateReportRequirements"/>
+				<ref bean="ReportClass-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ReportClass-reportClassCode" parent="ReportClass-reportClassCode-parentBean" />
-	<bean id="ReportClass-reportClassCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="reportClassCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Report Class Code" />
-		<property name="shortLabel" value="Report Class Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="ReportClass-reportClassCode" parent="ReportClass-reportClassCode-parentBean"/>
+	<bean abstract="true" id="ReportClass-reportClassCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="reportClassCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Report Class Code"/>
+		<property name="shortLabel" value="Report Class Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Report Class Code" />
-		<property name="description" value="Report Class Code" />
+		<property name="summary" value="Report Class Code"/>
+		<property name="description" value="Report Class Code"/>
 	</bean>
 
-	<bean id="ReportClass-description" parent="ReportClass-description-parentBean" />
-	<bean id="ReportClass-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+	<bean id="ReportClass-description" parent="ReportClass-description-parentBean"/>
+	<bean abstract="true" id="ReportClass-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
 	</bean>
 
-	<bean id="ReportClass-generateReportRequirements" parent="ReportClass-generateReportRequirements-parentBean" />
-	<bean id="ReportClass-generateReportRequirements-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="generateReportRequirements" />
-		<property name="label" value="Generate Report Requirements" />
-		<property name="shortLabel" value="Generate Report Requirements" />
-		<property name="summary" value="Generate Report Requirements" />
-		<property name="description" value="Generate Report Requirements" />
+	<bean id="ReportClass-generateReportRequirements" parent="ReportClass-generateReportRequirements-parentBean"/>
+	<bean abstract="true" id="ReportClass-generateReportRequirements-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="generateReportRequirements"/>
+		<property name="label" value="Generate Report Requirements"/>
+		<property name="shortLabel" value="Generate Report Requirements"/>
+		<property name="summary" value="Generate Report Requirements"/>
+		<property name="description" value="Generate Report Requirements"/>
 	</bean>
 
-	<bean id="ReportClass-versionNumber" parent="ReportClass-versionNumber-parentBean" />
-	<bean id="ReportClass-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="ReportClass-versionNumber" parent="ReportClass-versionNumber-parentBean"/>
+	<bean abstract="true" id="ReportClass-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="ReportClass-inquiryDefinition" parent="ReportClass-inquiryDefinition-parentBean" />
-	<bean id="ReportClass-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Report Class Code" />
-		<property name="inquirySections" >
+	<bean id="ReportClass-inquiryDefinition" parent="ReportClass-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="ReportClass-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Report Class Code"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Report Class Code" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Report Class Code"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="reportClassCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="generateReportRequirements" />
+							<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -119,35 +106,27 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="ReportClass-lookupDefinition" parent="ReportClass-lookupDefinition-parentBean" />
-	<bean id="ReportClass-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Report Class Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="ReportClass-lookupDefinition" parent="ReportClass-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="ReportClass-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Report Class Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="reportClassCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="generateReportRequirements" />
+				<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="reportClassCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="generateReportRequirements" />
+				<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
