@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,54 +12,48 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateComment" parent="AwardTemplateComment-parentBean" />
-	<bean id="AwardTemplateComment-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateComment" />
-		<property name="objectLabel" value="Sponsor Template Comment" />
-		<property name="inquiryDefinition" >
-			<ref bean="AwardTemplateComment-inquiryDefinition" />
+	<bean id="AwardTemplateComment" parent="AwardTemplateComment-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateComment"/>
+		<property name="objectLabel" value="Sponsor Template Comment"/>
+		<property name="inquiryDefinition">
+			<ref bean="AwardTemplateComment-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="AwardTemplateComment-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="AwardTemplateComment-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="templateCommentsId" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="templateCommentsId"/>
+		<property name="attributes">
 			<list>
-				<ref bean="AwardTemplateComment-templateCommentsId" />
+				<ref bean="AwardTemplateComment-templateCommentsId"/>
 				<!--<ref bean="AwardTemplateComment-templateCode" />-->
-				<ref bean="AwardTemplateComment-commentTypeCode" />
-				<ref bean="AwardTemplateComment-checklistPrintFlag" />
-				<ref bean="AwardTemplateComment-comments" />
-				<ref bean="AwardTemplateComment-versionNumber" />
+				<ref bean="AwardTemplateComment-commentTypeCode"/>
+				<ref bean="AwardTemplateComment-checklistPrintFlag"/>
+				<ref bean="AwardTemplateComment-comments"/>
+				<ref bean="AwardTemplateComment-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardTemplateComment-templateCommentsId" parent="AwardTemplateComment-templateCommentsId-parentBean" />
-	<bean id="AwardTemplateComment-templateCommentsId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="templateCommentsId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Template Comments Id" />
-		<property name="shortLabel" value="Template Comments Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="AwardTemplateComment-templateCommentsId" parent="AwardTemplateComment-templateCommentsId-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-templateCommentsId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="templateCommentsId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Template Comments Id"/>
+		<property name="shortLabel" value="Template Comments Id"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Template Comments Id" />
-		<property name="description" value="Template Comments Id" />
+		<property name="summary" value="Template Comments Id"/>
+		<property name="description" value="Template Comments Id"/>
 	</bean>
 
 	<!--<bean id="AwardTemplateComment-templateCode" parent="AwardTemplateComment-templateCode-parentBean" />-->
@@ -80,83 +74,70 @@
 		<property name="description" value="Template Code" />
 	</bean>-->
 
-	<bean id="AwardTemplateComment-commentTypeCode" parent="AwardTemplateComment-commentTypeCode-parentBean" />
-	<bean id="AwardTemplateComment-commentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="commentTypeCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Comment Type" />
-		<property name="shortLabel" value="Comment Type" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+	<bean id="AwardTemplateComment-commentTypeCode" parent="AwardTemplateComment-commentTypeCode-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-commentTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="commentTypeCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Comment Type"/>
+		<property name="shortLabel" value="Comment Type"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern"/>
 		</property>
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.CommentType"
-	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardTemplateCommentTypeValueFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="commentTypeCode"
-	            p:labelAttribute="description" />
+	    <property name="control">
+	      <bean p:businessObjectClass="org.kuali.kra.bo.CommentType" p:includeKeyInLabel="false" p:keyAttribute="commentTypeCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardTemplateCommentTypeValueFinder" parent="SelectControlDefinition"/>
 	    </property>
-		<property name="summary" value="Comment Type" />
-		<property name="description" value="Comment Type" />
+		<property name="summary" value="Comment Type"/>
+		<property name="description" value="Comment Type"/>
 	</bean>
 
-	<bean id="AwardTemplateComment-checklistPrintFlag" parent="AwardTemplateComment-checklistPrintFlag-parentBean" />
-	<bean id="AwardTemplateComment-checklistPrintFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="checklistPrintFlag" />
-		<property name="label" value="Checklist Print Flag" />
-		<property name="shortLabel" value="Checklist Print Flag" />
-		<property name="summary" value="Checklist Print Flag" />
-		<property name="description" value="Checklist Print Flag" />
+	<bean id="AwardTemplateComment-checklistPrintFlag" parent="AwardTemplateComment-checklistPrintFlag-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-checklistPrintFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="checklistPrintFlag"/>
+		<property name="label" value="Checklist Print Flag"/>
+		<property name="shortLabel" value="Checklist Print Flag"/>
+		<property name="summary" value="Checklist Print Flag"/>
+		<property name="description" value="Checklist Print Flag"/>
 	</bean>
 
-	<bean id="AwardTemplateComment-comments" parent="AwardTemplateComment-comments-parentBean" />
-	<bean id="AwardTemplateComment-comments-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="comments" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Comments" />
-		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="2000" />
-		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+	<bean id="AwardTemplateComment-comments" parent="AwardTemplateComment-comments-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-comments-parentBean" parent="AttributeDefinition">
+		<property name="name" value="comments"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Comments"/>
+		<property name="shortLabel" value="Comments"/>
+		<property name="maxLength" value="2000"/>
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
 		</property>
-	    <property name="control" >
-	      <bean parent="TextareaControlDefinition"
-	            p:rows="5"
-	            p:cols="40" />
+	    <property name="control">
+	      <bean p:cols="40" p:rows="5" parent="TextareaControlDefinition"/>
 	    </property>
-		<property name="summary" value="Comments" />
-		<property name="description" value="Comments" />
+		<property name="summary" value="Comments"/>
+		<property name="description" value="Comments"/>
 	</bean>
 
-	<bean id="AwardTemplateComment-versionNumber" parent="AwardTemplateComment-versionNumber-parentBean" />
-	<bean id="AwardTemplateComment-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="AwardTemplateComment-versionNumber" parent="AwardTemplateComment-versionNumber-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="AwardTemplateComment-inquiryDefinition" parent="AwardTemplateComment-inquiryDefinition-parentBean" />
-	<bean id="AwardTemplateComment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Template Comments Id" />
-		<property name="inquirySections" >
+	<bean id="AwardTemplateComment-inquiryDefinition" parent="AwardTemplateComment-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Template Comments Id"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Template Comments Id" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Template Comments Id"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="templateCommentsId" 
-								p:forceInquiry="true" />
+							<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
 							<!--<bean parent="FieldDefinition"
 								p:attributeName="templateCode" />-->
-							<bean parent="FieldDefinition"
-								p:attributeName="commentTypeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="checklistPrintFlag" />
-							<bean parent="FieldDefinition"
-								p:attributeName="comments" />
+							<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
+							<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
+							<bean p:attributeName="comments" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -165,43 +146,33 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="AwardTemplateComment-lookupDefinition" parent="AwardTemplateComment-lookupDefinition-parentBean" />
-	<bean id="AwardTemplateComment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Template Comments Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="AwardTemplateComment-lookupDefinition" parent="AwardTemplateComment-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="AwardTemplateComment-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Template Comments Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateCommentsId" 
-					p:forceInquiry="true" />
+				<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
-				<bean parent="FieldDefinition"
-					p:attributeName="commentTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="checklistPrintFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+				<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="comments" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateCommentsId" 
-					p:forceInquiry="true" />
+				<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
-				<bean parent="FieldDefinition"
-					p:attributeName="commentTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="checklistPrintFlag" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+				<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="comments" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

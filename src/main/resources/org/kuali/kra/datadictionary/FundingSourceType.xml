@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,105 +12,92 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="FundingSourceType" parent="FundingSourceType-parentBean" />
-	<bean id="FundingSourceType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.bo.FundingSourceType" />
-		<property name="objectLabel" value="Funding Source Type" />
-		<property name="inquiryDefinition" >
-			<ref bean="FundingSourceType-inquiryDefinition" />
+	<bean id="FundingSourceType" parent="FundingSourceType-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.bo.FundingSourceType"/>
+		<property name="objectLabel" value="Funding Source Type"/>
+		<property name="inquiryDefinition">
+			<ref bean="FundingSourceType-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="FundingSourceType-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="FundingSourceType-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="fundingSourceTypeCode" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="fundingSourceTypeCode"/>
+		<property name="attributes">
 			<list>
-				<ref bean="FundingSourceType-fundingSourceTypeCode" />
-				<ref bean="FundingSourceType-description" />
-				<ref bean="FundingSourceType-fundingSourceTypeFlag" />
-				<ref bean="FundingSourceType-versionNumber" />
+				<ref bean="FundingSourceType-fundingSourceTypeCode"/>
+				<ref bean="FundingSourceType-description"/>
+				<ref bean="FundingSourceType-fundingSourceTypeFlag"/>
+				<ref bean="FundingSourceType-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="FundingSourceType-fundingSourceTypeCode" parent="FundingSourceType-fundingSourceTypeCode-parentBean" />
-	<bean id="FundingSourceType-fundingSourceTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="fundingSourceTypeCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Funding Source Type Code" />
-		<property name="shortLabel" value="Funding Source Type Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="FundingSourceType-fundingSourceTypeCode" parent="FundingSourceType-fundingSourceTypeCode-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-fundingSourceTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="fundingSourceTypeCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Funding Source Type Code"/>
+		<property name="shortLabel" value="Funding Source Type Code"/>
+		<property name="maxLength" value="22"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Funding Source Type Code" />
-		<property name="description" value="Funding Source Type Code" />
+		<property name="summary" value="Funding Source Type Code"/>
+		<property name="description" value="Funding Source Type Code"/>
 	</bean>
 
-	<bean id="FundingSourceType-description" parent="FundingSourceType-description-parentBean" />
-	<bean id="FundingSourceType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="required" value="true" />
+	<bean id="FundingSourceType-description" parent="FundingSourceType-description-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="required" value="true"/>
 		
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Funding Type" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Funding Type"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
 	</bean>
 
-	<bean id="FundingSourceType-fundingSourceTypeFlag" parent="FundingSourceType-fundingSourceTypeFlag-parentBean" />
-	<bean id="FundingSourceType-fundingSourceTypeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="fundingSourceTypeFlag" />
-		<property name="label" value="Funding Source Type Flag" />
-		<property name="shortLabel" value="Funding Source Type Flag" />
-		<property name="summary" value="Funding Source Type Flag" />
-		<property name="description" value="Funding Source Type Flag" />
+	<bean id="FundingSourceType-fundingSourceTypeFlag" parent="FundingSourceType-fundingSourceTypeFlag-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-fundingSourceTypeFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="fundingSourceTypeFlag"/>
+		<property name="label" value="Funding Source Type Flag"/>
+		<property name="shortLabel" value="Funding Source Type Flag"/>
+		<property name="summary" value="Funding Source Type Flag"/>
+		<property name="description" value="Funding Source Type Flag"/>
 	</bean>
 
-	<bean id="FundingSourceType-versionNumber" parent="FundingSourceType-versionNumber-parentBean" />
-	<bean id="FundingSourceType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="FundingSourceType-versionNumber" parent="FundingSourceType-versionNumber-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="FundingSourceType-inquiryDefinition" parent="FundingSourceType-inquiryDefinition-parentBean" />
-	<bean id="FundingSourceType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Funding Source Type Code" />
-		<property name="inquirySections" >
+	<bean id="FundingSourceType-inquiryDefinition" parent="FundingSourceType-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Funding Source Type Code"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Funding Source Type Code" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Funding Source Type Code"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="fundingSourceTypeCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="fundingSourceTypeFlag" />
+							<bean p:attributeName="fundingSourceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="fundingSourceTypeFlag" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -119,35 +106,27 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="FundingSourceType-lookupDefinition" parent="FundingSourceType-lookupDefinition-parentBean" />
-	<bean id="FundingSourceType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Funding Source Type Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="FundingSourceType-lookupDefinition" parent="FundingSourceType-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="FundingSourceType-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Funding Source Type Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSourceTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSourceTypeFlag" />
+				<bean p:attributeName="fundingSourceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="fundingSourceTypeFlag" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSourceTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSourceTypeFlag" />
+				<bean p:attributeName="fundingSourceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="fundingSourceTypeFlag" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

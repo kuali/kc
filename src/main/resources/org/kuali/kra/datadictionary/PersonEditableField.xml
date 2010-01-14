@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PersonEditableField" parent="PersonEditableField-parentBean" />
+  <bean id="PersonEditableField" parent="PersonEditableField-parentBean"/>
 
-  <bean id="PersonEditableField-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonEditableField" />
-		<property name="objectLabel" value="Person Editable Field" />
-    <property name="inquiryDefinition" >
-      <ref bean="PersonEditableField-inquiryDefinition" />
+  <bean abstract="true" id="PersonEditableField-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonEditableField"/>
+		<property name="objectLabel" value="Person Editable Field"/>
+    <property name="inquiryDefinition">
+      <ref bean="PersonEditableField-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PersonEditableField-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PersonEditableField-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="fieldName" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="fieldName"/>
+    <property name="attributes">
       <list>
-        <ref bean="PersonEditableField-fieldName" />
-        <ref bean="PersonEditableField-active" />
-        <ref bean="PersonEditableField-versionNumber" />
+        <ref bean="PersonEditableField-fieldName"/>
+        <ref bean="PersonEditableField-active"/>
+        <ref bean="PersonEditableField-versionNumber"/>
       </list>
     </property>
   </bean>
@@ -28,58 +24,53 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PersonEditableField-fieldName" parent="PersonEditableField-fieldName-parentBean" />
+  <bean id="PersonEditableField-fieldName" parent="PersonEditableField-fieldName-parentBean"/>
 
-  <bean id="PersonEditableField-fieldName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fieldName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Field Name" />
-    <property name="shortLabel" value="Field Name" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+  <bean abstract="true" id="PersonEditableField-fieldName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="fieldName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Field Name"/>
+    <property name="shortLabel" value="Field Name"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinder" parent="SelectControlDefinition"/>
     </property>
-    <property name="summary" value="Field Name" />
-    <property name="description" value="Field Name" />
+    <property name="summary" value="Field Name"/>
+    <property name="description" value="Field Name"/>
   </bean>
-  <bean id="PersonEditableField-active" parent="PersonEditableField-active-parentBean" />
+  <bean id="PersonEditableField-active" parent="PersonEditableField-active-parentBean"/>
 
-  <bean id="PersonEditableField-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="active" />
-    <property name="label" value="Active" />
-    <property name="shortLabel" value="Active" />
-    <property name="summary" value="Active" />
-    <property name="description" value="Active" />
+  <bean abstract="true" id="PersonEditableField-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
   </bean>
-  <bean id="PersonEditableField-versionNumber" parent="PersonEditableField-versionNumber-parentBean" />
+  <bean id="PersonEditableField-versionNumber" parent="PersonEditableField-versionNumber-parentBean"/>
 
-  <bean id="PersonEditableField-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean abstract="true" id="PersonEditableField-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PersonEditableField-inquiryDefinition" parent="PersonEditableField-inquiryDefinition-parentBean" />
+  <bean id="PersonEditableField-inquiryDefinition" parent="PersonEditableField-inquiryDefinition-parentBean"/>
 
-  <bean id="PersonEditableField-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Person Editable Fields" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="PersonEditableField-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Person Editable Fields"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Person Editable Field" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Person Editable Field"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="fieldName"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean p:attributeName="fieldName" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="active" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -90,32 +81,26 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PersonEditableField-lookupDefinition" parent="PersonEditableField-lookupDefinition-parentBean" />
+  <bean id="PersonEditableField-lookupDefinition" parent="PersonEditableField-lookupDefinition-parentBean"/>
 
-  <bean id="PersonEditableField-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Person Editable Field Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+  <bean abstract="true" id="PersonEditableField-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Person Editable Field Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-    <property name="defaultSort" >
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fieldName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean p:attributeName="fieldName" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fieldName"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active"
-              p:forceInquiry="true" />
+        <bean p:attributeName="fieldName" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="active" p:forceInquiry="true" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
