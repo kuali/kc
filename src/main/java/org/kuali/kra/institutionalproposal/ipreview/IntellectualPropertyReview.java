@@ -60,6 +60,8 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private String ipReviewSequenceStatus;
     private Long proposalIdToLink;
     
+    private KcPerson person;
+    
     private transient ParameterService parameterService;
     private transient KcPersonService kcPersonService;
     private transient String generalCommentCode;
@@ -158,7 +160,8 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
     
     public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(ipReviewer);
+        return person;
+        //return getKcPersonService().getKcPersonByPersonId(ipReviewer);
     }
     
     /**
@@ -222,6 +225,13 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     
     public void setProposalIpReviewJoin(ProposalIpReviewJoin proposalIpReviewJoin) {
         this.proposalIpReviewJoins.add(0, proposalIpReviewJoin);
+    }
+    
+    public String getLeadUnitNumber() {
+        if (!ObjectUtils.isNull(this.getProposalIpReviewJoin())) {
+            return this.getProposalIpReviewJoin().getInstitutionalProposal().getUnitNumber();
+        }
+        return "";
     }
 
     /**
