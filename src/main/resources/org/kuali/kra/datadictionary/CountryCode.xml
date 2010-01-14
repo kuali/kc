@@ -1,29 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CountryCode" parent="CountryCode-parentBean" />
+  <bean id="CountryCode" parent="CountryCode-parentBean"/>
 
-  <bean id="CountryCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.CountryCode" />
-    <property name="objectLabel" value="Country Code" />
-    <property name="inquiryDefinition" >
-      <ref bean="CountryCode-inquiryDefinition" />
+  <bean abstract="true" id="CountryCode-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.CountryCode"/>
+    <property name="objectLabel" value="Country Code"/>
+    <property name="inquiryDefinition">
+      <ref bean="CountryCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CountryCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CountryCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="twoCharacterCountryCode" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="twoCharacterCountryCode"/>
+    <property name="attributes">
       <list>
-        <ref bean="CountryCode-twoCharacterCountryCode" />
-        <ref bean="CountryCode-threeCharacterCountryCode" />
-        <ref bean="CountryCode-countryName" />
-        <ref bean="CountryCode-id" />
-        <ref bean="CountryCode-versionNumber" />
-        <ref bean="CountryCode-updateUser" />
+        <ref bean="CountryCode-twoCharacterCountryCode"/>
+        <ref bean="CountryCode-threeCharacterCountryCode"/>
+        <ref bean="CountryCode-countryName"/>
+        <ref bean="CountryCode-id"/>
+        <ref bean="CountryCode-versionNumber"/>
+        <ref bean="CountryCode-updateUser"/>
         <ref bean="CountryCode-updateTimestamp"/>
       </list>
     </property>
@@ -32,161 +28,147 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CountryCode-twoCharacterCountryCode" parent="CountryCode-twoCharacterCountryCode-parentBean" />
+  <bean id="CountryCode-twoCharacterCountryCode" parent="CountryCode-twoCharacterCountryCode-parentBean"/>
 
-  <bean id="CountryCode-twoCharacterCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="twoCharacterCountryCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Two Character Country Code" />
-    <property name="shortLabel" value="2 char Country Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
-    <property name="summary" value="2 character Country Code" />
-    <property name="description" value="Country Code" />
-  </bean>
-  
-  <bean id="CountryCode-threeCharacterCountryCode" parent="CountryCode-threeCharacterCountryCode-parentBean" />
-
-  <bean id="CountryCode-threeCharacterCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="threeCharacterCountryCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Three Character Country Code" />
-    <property name="shortLabel" value="3 char Country Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="3 character Country Code" />
-    <property name="description" value="Country Code" />
-  </bean>
-  
-  <bean id="CountryCode-countryName" parent="CountryCode-countryName-parentBean" />
-
-  <bean id="CountryCode-countryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="countryName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Country Name" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Country Name" />
-    <property name="description" value="Country Name description..." />
-  </bean>
-  
-  <bean id="CountryCode-id" parent="CountryCode-id-parentBean" />
-
-  <bean id="CountryCode-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="id" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Country Code ID" />
-    <property name="shortLabel" value="id" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Country Code ID" />
-    <property name="description" value="Country Code ID" />
-  </bean>
-  
-  
-  <bean id="CountryCode-versionNumber" parent="CountryCode-versionNumber-parentBean" />
-
-  <bean id="CountryCode-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-  	<property name="name" value="versionNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Version Number" />
-    <property name="shortLabel" value="version number" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Version Number" />
-    <property name="description" value="Version Number" />
-  </bean>
-  
-  <bean id="CountryCode-updateUser" parent="CountryCode-updateUser-parentBean" />
-
-  <bean id="CountryCode-updateUser-parentBean" abstract="true" parent="AttributeDefinition">
-  	<property name="name" value="updateUser" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Last Updated By" />
-    <property name="shortLabel" value="update user" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
+  <bean abstract="true" id="CountryCode-twoCharacterCountryCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="twoCharacterCountryCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Two Character Country Code"/>
+    <property name="shortLabel" value="2 char Country Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="control">
+      <bean p:size="2" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Last Updated By" />
-    <property name="description" value="Last Updated By" />
+    <property name="summary" value="2 character Country Code"/>
+    <property name="description" value="Country Code"/>
   </bean>
   
-  <bean id="CountryCode-updateTimestamp" parent="CountryCode-updateTimestamp-parentBean" />
+  <bean id="CountryCode-threeCharacterCountryCode" parent="CountryCode-threeCharacterCountryCode-parentBean"/>
 
-  <bean id="CountryCode-updateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
-  	<property name="name" value="updateTimestamp" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Last Updated On" />
-    <property name="shortLabel" value="update date" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
+  <bean abstract="true" id="CountryCode-threeCharacterCountryCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="threeCharacterCountryCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Three Character Country Code"/>
+    <property name="shortLabel" value="3 char Country Code"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="control">
+      <bean p:size="3" parent="TextControlDefinition"/>
     </property>
-    <property name="summary" value="Last Updated on" />
-    <property name="description" value="Last Updated on" />
+    <property name="summary" value="3 character Country Code"/>
+    <property name="description" value="Country Code"/>
+  </bean>
+  
+  <bean id="CountryCode-countryName" parent="CountryCode-countryName-parentBean"/>
+
+  <bean abstract="true" id="CountryCode-countryName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="countryName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Country Name"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Country Name"/>
+    <property name="description" value="Country Name description..."/>
+  </bean>
+  
+  <bean id="CountryCode-id" parent="CountryCode-id-parentBean"/>
+
+  <bean abstract="true" id="CountryCode-id-parentBean" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Country Code ID"/>
+    <property name="shortLabel" value="id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Country Code ID"/>
+    <property name="description" value="Country Code ID"/>
+  </bean>
+  
+  
+  <bean id="CountryCode-versionNumber" parent="CountryCode-versionNumber-parentBean"/>
+
+  <bean abstract="true" id="CountryCode-versionNumber-parentBean" parent="AttributeDefinition">
+  	<property name="name" value="versionNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Version Number"/>
+    <property name="shortLabel" value="version number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Version Number"/>
+    <property name="description" value="Version Number"/>
+  </bean>
+  
+  <bean id="CountryCode-updateUser" parent="CountryCode-updateUser-parentBean"/>
+
+  <bean abstract="true" id="CountryCode-updateUser-parentBean" parent="AttributeDefinition">
+  	<property name="name" value="updateUser"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Last Updated By"/>
+    <property name="shortLabel" value="update user"/>
+    <property name="maxLength" value="60"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Last Updated By"/>
+    <property name="description" value="Last Updated By"/>
+  </bean>
+  
+  <bean id="CountryCode-updateTimestamp" parent="CountryCode-updateTimestamp-parentBean"/>
+
+  <bean abstract="true" id="CountryCode-updateTimestamp-parentBean" parent="AttributeDefinition">
+  	<property name="name" value="updateTimestamp"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Last Updated On"/>
+    <property name="shortLabel" value="update date"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Last Updated on"/>
+    <property name="description" value="Last Updated on"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-<bean id="CountryCode-inquiryDefinition" parent="CountryCode-inquiryDefinition-parentBean" />
+<bean id="CountryCode-inquiryDefinition" parent="CountryCode-inquiryDefinition-parentBean"/>
 
-  <bean id="CountryCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Country Code Inquiry" />
-    <property name="inquirySections" >
+  <bean abstract="true" id="CountryCode-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Country Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Country Code" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Country Code"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition" p:attributeName="id"/>
-              <bean parent="FieldDefinition" p:attributeName="twoCharacterCountryCode" p:forceInquiry="true" />
-              <bean parent="FieldDefinition" p:attributeName="threeCharacterCountryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="countryName" />
-              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
-              <bean parent="FieldDefinition" p:attributeName="updateUser" />
-              <bean parent="FieldDefinition" p:attributeName="updateTimestamp" />
+              <bean p:attributeName="id" parent="FieldDefinition"/>
+              <bean p:attributeName="twoCharacterCountryCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="threeCharacterCountryCode" parent="FieldDefinition"/>
+              <bean p:attributeName="countryName" parent="FieldDefinition"/>
+              <bean p:attributeName="versionNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="updateUser" parent="FieldDefinition"/>
+              <bean p:attributeName="updateTimestamp" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -196,27 +178,27 @@
 
 <!-- Business Object Lookup Definition -->
   
-  <bean id="CountryCode-lookupDefinition" parent="CountryCode-lookupDefinition-parentBean" />
+  <bean id="CountryCode-lookupDefinition" parent="CountryCode-lookupDefinition-parentBean"/>
 
-  <bean id="CountryCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Country Code Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+  <bean abstract="true" id="CountryCode-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Country Code Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="twoCharacterCountryCode" />
-        <bean parent="FieldDefinition" p:attributeName="threeCharacterCountryCode" />
-        <bean parent="FieldDefinition" p:attributeName="countryName" />
+        <bean p:attributeName="twoCharacterCountryCode" parent="FieldDefinition"/>
+        <bean p:attributeName="threeCharacterCountryCode" parent="FieldDefinition"/>
+        <bean p:attributeName="countryName" parent="FieldDefinition"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="twoCharacterCountryCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="threeCharacterCountryCode"/>
-        <bean parent="FieldDefinition" p:attributeName="countryName" />
+        <bean p:attributeName="twoCharacterCountryCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="threeCharacterCountryCode" parent="FieldDefinition"/>
+        <bean p:attributeName="countryName" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,91 +12,79 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardStatus" parent="AwardStatus-parentBean" />
-	<bean id="AwardStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus" />
-		<property name="objectLabel" value="Award Status" />
-		<property name="inquiryDefinition" >
-			<ref bean="AwardStatus-inquiryDefinition" />
+	<bean id="AwardStatus" parent="AwardStatus-parentBean"/>
+	<bean abstract="true" id="AwardStatus-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus"/>
+		<property name="objectLabel" value="Award Status"/>
+		<property name="inquiryDefinition">
+			<ref bean="AwardStatus-inquiryDefinition"/>
 		</property>
-		<property name="lookupDefinition" >
-			<ref bean="AwardStatus-lookupDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="AwardStatus-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="statusCode" />
-		<property name="attributes" >
+		<property name="titleAttribute" value="statusCode"/>
+		<property name="attributes">
 			<list>
-				<ref bean="AwardStatus-statusCode" />
-				<ref bean="AwardStatus-description" />
-				<ref bean="AwardStatus-versionNumber" />
+				<ref bean="AwardStatus-statusCode"/>
+				<ref bean="AwardStatus-description"/>
+				<ref bean="AwardStatus-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardStatus-statusCode" parent="AwardStatus-statusCode-parentBean" />
-	<bean id="AwardStatus-statusCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="statusCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Status Code" />
-		<property name="shortLabel" value="Status Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	<bean id="AwardStatus-statusCode" parent="AwardStatus-statusCode-parentBean"/>
+	<bean abstract="true" id="AwardStatus-statusCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="statusCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Status Code"/>
+		<property name="shortLabel" value="Status Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Status Code" />
-		<property name="description" value="Status Code" />
+		<property name="summary" value="Status Code"/>
+		<property name="description" value="Status Code"/>
 	</bean>
 
-	<bean id="AwardStatus-description" parent="AwardStatus-description-parentBean" />
-	<bean id="AwardStatus-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+	<bean id="AwardStatus-description" parent="AwardStatus-description-parentBean"/>
+	<bean abstract="true" id="AwardStatus-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
 	</bean>
 
-	<bean id="AwardStatus-versionNumber" parent="AwardStatus-versionNumber-parentBean" />
-	<bean id="AwardStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="AwardStatus-versionNumber" parent="AwardStatus-versionNumber-parentBean"/>
+	<bean abstract="true" id="AwardStatus-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="AwardStatus-inquiryDefinition" parent="AwardStatus-inquiryDefinition-parentBean" />
-	<bean id="AwardStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Status Code" />
-		<property name="inquirySections" >
+	<bean id="AwardStatus-inquiryDefinition" parent="AwardStatus-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="AwardStatus-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Status Code"/>
+		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Status Code" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields" >
+					<property name="title" value="Status Code"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="statusCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+							<bean p:attributeName="statusCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -105,31 +93,25 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="AwardStatus-lookupDefinition" parent="AwardStatus-lookupDefinition-parentBean" />
-	<bean id="AwardStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Award Status Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+	<bean id="AwardStatus-lookupDefinition" parent="AwardStatus-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="AwardStatus-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Award Status Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
-		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
 		</bean>
 		</property>
-		<property name="lookupFields" >
+		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+				<bean p:attributeName="statusCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultFields" >
+		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+				<bean p:attributeName="statusCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
