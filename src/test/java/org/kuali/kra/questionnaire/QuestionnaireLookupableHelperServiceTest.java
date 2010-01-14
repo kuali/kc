@@ -38,17 +38,6 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
-
-@PerSuiteUnitTestData(
-@UnitTestData(
-  sqlFiles = {
-       @UnitTestFile(filename = "classpath:sql/dml/load_QUESTION.sql", delimiter = ";")
-}
-)
-)
 
 public class QuestionnaireLookupableHelperServiceTest  extends KraTestBase {
 
