@@ -14,13 +14,19 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<c:set var="syncPropertyName" value="awardSponsorTerms" />
+<c:set var="action" value="awardTemplateSync" />
 
 <kul:tab tabTitle="Terms" defaultOpen="false" tabErrorKey="document.awardList[0].awardSponsorTerms*" auditCluster="termsAuditErrors" tabAuditKey="document.termsAuditRules*" useRiceAuditMode="true">
-	<div class="tab-container" align="right"> 	      
+	<div class="tab-container" align="center"> 	      
         <c:forEach var="sponsorTermType" items="${KualiForm.sponsorTermFormHelper.sponsorTermTypes}" varStatus="sponsorTermTypeIndex">        	        	
 			<kra-a:awardTermsTypes index="${sponsorTermTypeIndex.index}" sponsorTermTypeKey="${sponsorTermType.key}" sponsorTermTypeLabel="${sponsorTermType.label}" />
 		</c:forEach>
+		
+		<br/>
+		<html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
+		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+		
 	</div>
 </kul:tab>
 
