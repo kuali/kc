@@ -23,14 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.IdentityService;
-
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.bo.impl.PersonImpl;;
 
 /**
  * Service for working with KcPerson objects.
@@ -46,20 +43,7 @@ public class KcPersonServiceImpl implements KcPersonService {
             throw new IllegalArgumentException("the fieldValues are null");
         }
         
-        //convert username and kcpersonid to proper naming such the person service can use them
-        if(fieldValues.containsKey("userName")){
-            String userNameSearchValue = fieldValues.get("userName");
-            fieldValues.put("principalName", userNameSearchValue);
-        }
-        
-        if(fieldValues.containsKey("personId")){
-            String personIdSearchValue = fieldValues.get("personId");
-            fieldValues.put("principalId", personIdSearchValue);
-        }
-        if(fieldValues.containsKey("officePhone")){
-            String officePhoneSerachValue = fieldValues.get("officePhone");
-            fieldValues.put("phoneNumber", officePhoneSerachValue);
-        }
+        this.modifyFieldValues(fieldValues);
         
         //final List<KimEntityInfo> entities = this.identityService.lookupEntityInfo(fieldValues, true);
         final List<PersonImpl> people = KraServiceLocator.getService(PersonService.class).findPeople(fieldValues, true);
@@ -68,15 +52,37 @@ public class KcPersonServiceImpl implements KcPersonService {
         return this.createKcPersonsFromPeople(people);
     }
     
+    /**
+     * Modifies field values so that different field keys can be used for a lookup.
+     * @param fieldValues the field values to modify
+     */
+    private void modifyFieldValues(final Map<String, String> fieldValues) {
+        //convert username and kcpersonid to proper naming such the person service can use them
+        if (fieldValues.containsKey("userName")){
+            String userNameSearchValue = fieldValues.get("userName");
+            fieldValues.put("principalName", userNameSearchValue);
+        }
+        
+        if (fieldValues.containsKey("personId")){
+            String personIdSearchValue = fieldValues.get("personId");
+            fieldValues.put("principalId", personIdSearchValue);
+        }
+        
+        if (fieldValues.containsKey("officePhone")){
+            String officePhoneSerachValue = fieldValues.get("officePhone");
+            fieldValues.put("phoneNumber", officePhoneSerachValue);
+        }
+    }
+    
     /** {@inheritDoc} */
     public KcPerson getKcPersonByUserName(final String userName) {
         if (StringUtils.isEmpty(userName)) {
             throw new IllegalArgumentException("the userName is null or empty");
         }
         KimEntity entity = this.identityService.getEntityInfoByPrincipalName(userName);
-        if(entity == null)
+        if (entity == null) {
             return null;
-        
+        }
         return KcPerson.fromEntityAndUserName(entity, userName);
     }
     

@@ -15,14 +15,11 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
