@@ -100,9 +100,20 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     @Override
     protected Lifecycle getLoadApplicationLifecycle() {
         return new BaseLifecycle() {
+            private Lifecycle jetty;
+            @Override
             public void start() throws Exception {
-                new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot()).start();
+                jetty = new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot());
+                jetty.start();
                 super.start();
+            }
+            
+            @Override
+            public void stop() throws Exception {
+                if (jetty != null) {
+                    jetty.stop();
+                }
+                super.stop();
             }
         };  
     }
