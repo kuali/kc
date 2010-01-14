@@ -8,7 +8,7 @@ var maxCopyNodeIdx = 0;
 var cutNode;
 var copyNode;
 var sqlScripts = "createnew";
-var jsContextPath = "${pageContext.request.contextPath}";
+//var jsContextPath = "${pageContext.request.contextPath}";
 var sqls = [];
 var sqlidx = 0;
 var groupid = 0;
