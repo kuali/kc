@@ -32,17 +32,13 @@ public interface ProtocolAssignToAgendaService {
     
     public String getAssignedCommitteeName(Protocol protocol);
     
-    /**
-     * Get the schedule currently assigned to the protocol.
-     * @param protocol
-     * @return the scheduleId or null if there is none
-     */
-    //public String getAssignedScheduleId(Protocol protocol);
     
     public Date getAssignedScheduleDate(Protocol protocol);
     
     
     public String getAssignToAgendaComments(Protocol protocol);
+    
+    public boolean isAssignedToAgenda(Protocol protocol);
     
     /**
      * Assign a protocol to a committee/schedule.
