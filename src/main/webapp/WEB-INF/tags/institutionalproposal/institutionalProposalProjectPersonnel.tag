@@ -20,6 +20,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="institutionalProposalPersonAttributes" value="${DataDictionary.InstitutionalProposalPerson.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <%-- kra:section permission="modifyInstitutionalProposal" --%>
 <div id="workarea">
@@ -44,6 +45,7 @@
 				<th width="15%"><div align="center">Actions</div></th>
 			</tr>
 			
+			<c:if test="${!readOnly}">
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
@@ -113,6 +115,7 @@
 	        		</div>
 	        	</td>
 			</tr>
+			</c:if>
 			
 			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].projectPersons}" varStatus="institutionalProposalContactRowStatus">
 				<tr>
