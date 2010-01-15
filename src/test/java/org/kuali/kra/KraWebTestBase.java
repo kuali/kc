@@ -86,7 +86,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         documentService = KNSServiceLocator.getDocumentService();
         webClient = new WebClient();
 
-        setPortalPage(buildPageFromUrl("http://127.0.0.1:" + getPort() + "/kra-dev/", "Kuali Portal Index"));
+        setPortalPage(buildPageFromUrl("http://127.0.0.1:" + getPort() + "/kc-dev/", "Kuali Portal Index"));
 
     }
 

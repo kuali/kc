@@ -49,7 +49,7 @@ public class HtmlUnitUtilTest extends KraTestBase {
         transactionalLifecycle = null;
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         //transactionalLifecycle.start(); 
-        kraHomePageUrl = "http://localhost:" + getPort() + "/kra-dev/";
+        kraHomePageUrl = "http://localhost:" + getPort() + "/kc-dev/";
     }
     
     @Test

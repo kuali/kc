@@ -44,7 +44,7 @@ import org.kuali.rice.test.web.HtmlUnitUtil;
  */
 public abstract class KcraNoDataTestBase extends RiceTestCase {
 
-    private static final String CONTEXT_NAME = "/kra-dev";
+    private static final String CONTEXT_NAME = "/kc-dev";
     private static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
     private static final String SQL_FILE_NAME = "classpath:DefaultTestData.sql";
     private static final String XML_FILE_NAME = "classpath:DefaultTestData.xml";

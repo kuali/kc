@@ -57,7 +57,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
         boService = KNSServiceLocator.getBusinessObjectService();
         document = createDocument();
         transactionalLifecycle.start(); 
-        kraHomePageUrl = "http://localhost:" + getPort() + "/kra-dev/";
+        kraHomePageUrl = "http://localhost:" + getPort() + "/kc-dev/";
     }
     
     private PessimisticLock findDocumentProposalLock() {
