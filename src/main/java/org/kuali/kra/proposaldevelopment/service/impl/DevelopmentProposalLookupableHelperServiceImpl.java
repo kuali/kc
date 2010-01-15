@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -36,9 +39,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     static final String INVESTIGATOR = "principalInvestigatorName";
+    static final String PERSON_ID = "personId";
+    static final String ROLODEX_ID = "rolodexId";
+
     private static final long serialVersionUID = 1371970456980693936L;
 
     private KraAuthorizationService kraAuthorizationService;
+    private KcPersonService kcPersonService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -85,6 +92,32 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     }
 
     /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        BusinessObject inqBo = bo;
+        String inqPropertyName = propertyName;
+        if (propertyName.equals(INVESTIGATOR)) {
+            DevelopmentProposal proposal = (DevelopmentProposal)bo;
+            ProposalPerson principalInvestigator = proposal.getPrincipalInvestigator();
+            if (principalInvestigator != null) {
+                if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
+                    inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
+                    inqPropertyName = PERSON_ID;
+                } else {
+                    if (principalInvestigator.getRolodexId() != null) {
+                        inqBo = new Rolodex();
+                        ((Rolodex) inqBo).setRolodexId(principalInvestigator.getRolodexId());
+                        inqPropertyName = ROLODEX_ID;
+                    }
+                }
+            }
+        }
+        return super.getInquiryUrl(inqBo, inqPropertyName);    
+    }
+
+    /**
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getDocumentTypeName()
      */
     @Override
@@ -114,6 +147,14 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
      */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
+    }
+
+    /**
+     * Sets the kcPersonService attribute value.
+     * @param kcPersonService The kcPersonService to set.
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
 }
