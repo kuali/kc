@@ -214,7 +214,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         //Login as jtester User
         GlobalVariables.setUserSession(new UserSession("jtester"));
         final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
         final HtmlPage pageAfterLogin = login(newWebClient, url, "kew/ActionList.do", "jtester");
         assertNotNull(pageAfterLogin);
 
