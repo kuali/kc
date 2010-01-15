@@ -25,20 +25,18 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -1072,6 +1070,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         return null;
     }
+    
+    public String getOwnedByUnitName() {
+        Unit unit = getOwnedByUnit();
+        return unit != null ? unit.getUnitName() : null;
+    }
 
 
     /**
@@ -1080,7 +1083,21 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @return ProposalPerson
      */
     public ProposalPerson getPrincipalInvestigator() {
+        if (principalInvestigator == null) {
+            for (ProposalPerson person : proposalPersons) {
+                if (StringUtils.equals(person.getProposalPersonRoleId(), "PI")) {
+                    principalInvestigator = person;
+                    break;
+                }
+            }
+            
+        }
         return principalInvestigator;
+    }
+    
+    public String getPrincipalInvestigatorName() {
+        ProposalPerson pi = getPrincipalInvestigator();
+        return pi != null ? pi.getFullName() : null;
     }
 
     /**

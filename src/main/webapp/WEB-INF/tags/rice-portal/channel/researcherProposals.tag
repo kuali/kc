@@ -16,10 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <channel:portalChannelTop channelTitle="Proposals" />
 <div class="body">
-  <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="Proposals Enroute" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals Enroute</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.principalName}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
-</ul>
+	<ul class="chan">
+		<li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
+		<li><portal:portalLink displayTitle="false" title="Proposals Enroute" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals Enroute</portal:portalLink></li>
+		<li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.principalName}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
+	</ul>
+	<strong>Lists</strong>
+	<ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Search Development Proposals" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	</ul>
 </div>
 <channel:portalChannelBottom />
