@@ -27,6 +27,7 @@ Note: a users DEFAULT TABLESPACE is set with the CREATE USER statement or ALTER 
 
 Run the oracle.sql script in sql/oracle directory of the distribution.  All paths in the script are relative, so depending on your tool you may need
 to start the script from within that directory for it to function properly.
+NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
 
 
 Installation Steps - MySQL
