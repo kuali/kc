@@ -17,5 +17,14 @@
       <active>true</active>
       <routingVersion>2</routingVersion>
     </documentType>
+    <documentType>
+      <name>IdentityManagementGenericPermissionMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <label>Permission</label>
+      <docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
   </documentTypes>
+  
 </data>
