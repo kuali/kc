@@ -16,10 +16,11 @@
 <config>
 	<!-- Hardcoding this for now; need to fix to pass in environment as prop -->
 	<param name="environment">dev</param>
-	<param name="module.name">kra</param>
+	<param name="module.name">kc</param>
+	<param name="service.namespace">kc</param>
 	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
 	<param name="config.location">classpath:META-INF/kc-test-config-defaults.xml</param>
-	<param name="config.location">${user.home}/kuali/test/dev/kc-test-config-2-0.xml</param>
+	<param name="config.location">${user.home}/kuali/test/dev/kc-test-config.xml</param>
 	<param name="config.location">${alt.build.location}</param>
 	<!-- <param name="config.location">${alt.config.location}</param>-->
 	
