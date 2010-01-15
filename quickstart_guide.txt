@@ -25,7 +25,7 @@ Requirements:
 4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
 	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
 
-5. Deploy kra-pre.war to your servlet container (see user guide for your particular servlet container).
+5. Deploy kc-pre.war to your servlet container (see user guide for your particular servlet container).
 
 6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-pre, if not overridden).
 
