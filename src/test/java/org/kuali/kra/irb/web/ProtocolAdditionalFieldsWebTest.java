@@ -162,7 +162,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         
         //Set user with KRA Admin permission
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        setPortalPage(buildPageFromUrl("http://localhost:" + getPort() + "/kra-dev/",KUALI_PORTAL_INDEX));
+        setPortalPage(buildPageFromUrl("http://localhost:" + getPort() + "/kc-dev/",KUALI_PORTAL_INDEX));
         
         //Search doc saved earlier to edit check box field
         HtmlPage editablePage = super.saveAndSearchDoc(resultPage);
