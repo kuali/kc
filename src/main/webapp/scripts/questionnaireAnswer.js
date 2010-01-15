@@ -15,7 +15,6 @@
 				
 				// set up Questions show/hide	
 			    for ( var i = 0; i < $("#numberOfQuestionaires").attr("value"); i++) {
-			    	//alert("show q "+$("#questionnaireHelper\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value"))
 		    		$("#questionpanelcontent"+i).hide();
 			    	if ($("#questionnaireHelper\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y') {
 			    		$("#questionpanelcontrol"+i).click();
@@ -51,9 +50,9 @@
      */
     $('table[@id^=table-parent-]').each(
 			function() {
-			if ($(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-				$(this).hide();
-			}
+			    if ($(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
+				    $(this).hide();
+			    }
 			});
 
     /*
@@ -81,7 +80,6 @@
             var prefix = "table-parent-"+headerIdx+"-"+idx;
            $("table[@id^="+prefix+"-]").each(                           
         			function() {
-        				//alert ("prefix "+prefix+"-"+$(this).attr("id"));
                         var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
                         var qidx = $(this).attr("id").substring(prefix.length+1);
                         // not sure why conditionDiv is not 'undefine' if the node is not set
@@ -92,12 +90,10 @@
                            		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
                           		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
                            } else {
-                         		//alert ("hide "+$(this + ' .Qanswer').size());
                           		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10));
                           		$(this).hide();
                            		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
                            		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                           		//$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.answer").attr("value","");
                            		emptyAnswerForHiddenQuestion(this);
                            }    
                         }  else {
@@ -105,7 +101,6 @@
                       		$(this).hide();
                        		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
                        		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                       		//$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.answer").attr("value","");
                        		emptyAnswerForHiddenQuestion(this);
 
                         }
@@ -153,7 +148,6 @@
                        		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
                             var qidx = $(this).attr("id").substring(prefix.length+1);
                        		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                       		//$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.answer").attr("value","");
                        		emptyAnswerForHiddenQuestion(this);
                     } 
     			});
@@ -167,7 +161,6 @@
    		$(questionTable).find('[class^=Qanswer]').each(
            		function() {		
            		  var radioChecked = $(this).attr('checked');
-                 // alert("radio "+radioChecked)
            		  if (radioChecked) {
            			  $(this).attr('checked', false);
                   } else {
