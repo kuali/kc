@@ -38,7 +38,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 
- * This is Helper class for questionnaire answer.
+ * This is Helper class for protocol questionnaire.
  */
 public class QuestionnaireHelper implements Serializable {
 
