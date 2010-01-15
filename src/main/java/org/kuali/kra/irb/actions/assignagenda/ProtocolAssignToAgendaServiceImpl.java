@@ -16,21 +16,30 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Iterator;
+import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.ProtocolSubmittedBean;
+import org.kuali.kra.meeting.ScheduleActItemType;
 import org.kuali.rice.kns.service.BusinessObjectService;
-//import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgendaService {
     
     private BusinessObjectService businessObjectService;
-    private CommitteeService committeeService;
-    //private ProtocolAssignCmtSchedServiceImpl protocolAssignCmtSchedServiceImpl;
+    private DocumentService documentService;
+    private ProtocolActionService protocolActionService;
+    //private CommitteeService committeeService;
     
     /**
      * Set the Business Object Service.
@@ -40,13 +49,21 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         this.businessObjectService = businessObjectService;
     }
     
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
+    }
+    
     /**
      * Set the Committee Service
      * @param committeeService
      */
-    public void setCommitteeService(CommitteeService committeeService) {
-        this.committeeService = committeeService;
-    }
+    //public void setCommitteeService(CommitteeService committeeService) {
+      //  this.committeeService = committeeService;
+    //}
     
     private ProtocolSubmission findSubmission(Protocol protocol) {
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
@@ -59,12 +76,78 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     }
 
     public void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
-        // TODO Auto-generated method stub
-
+        
+        ProtocolSubmission submission = findSubmission(protocol);        
+        if(actionBean.isProtocolAssigned()){
+            if(!isAssignedToAgenda(protocol)){
+                //add a new protocol action
+                ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
+                protocolAction.setComments(actionBean.getComments());
+                protocolActionService.updateProtocolStatus(protocolAction, protocol);
+                protocol.getProtocolActions().add(protocolAction);
+                protocolAction.setActionDate(new Timestamp(actionBean.getScheduleDate().getTime()));
+            }else{
+                //update the comment of an existing protocol action
+                ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
+                pa.setComments(actionBean.getComments());
+                documentService.saveDocument(protocol.getProtocolDocument());
+                return;
+            }            
+            documentService.saveDocument(protocol.getProtocolDocument());
+        }else if(!actionBean.isProtocolAssigned() && isAssignedToAgenda(protocol)){
+            //un assign the protocol            
+            ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
+            pa.setProtocolActionTypeCode(ProtocolActionType.DISAPPROVED);
+            pa.setComments(actionBean.getComments());
+            documentService.saveDocument(protocol.getProtocolDocument());
+            return;
+        }
+        
+    }
+    
+    public boolean isAssignedToAgenda(Protocol protocol){
+        /*
+        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
+        while(i.hasNext()){
+            ProtocolAction pa = i.next();
+            if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)){
+                return true;
+            }
+        }
+        return false;*/
+        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
+        //if there is a protocol action return true, otherwise return false
+        return pa != null;
     }
 
     public String getAssignToAgendaComments(Protocol protocol) {
-        // TODO Auto-generated method stub
+        /*
+        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
+        while(i.hasNext()){
+            ProtocolAction pa = i.next();
+            if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)){
+                return pa.getComments();
+            }
+        } 
+        //no proper protocol action found, return empty string
+        return "";*/
+        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
+        if(pa == null){
+            return "";
+        }else{
+            return pa.getComments();
+        }
+    }
+    
+    private ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol){
+        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
+        while(i.hasNext()){
+            ProtocolAction pa = i.next();
+            if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)){
+                return pa;
+            }
+        } 
+        //no proper protocol action found, return null
         return null;
     }
 
@@ -82,11 +165,4 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         ProtocolSubmission ps = findSubmission(protocol);
         return ps.getCommitteeSchedule().getScheduledDate();
     }
-    
-    /**
-    public String getAssignedScheduleId(Protocol protocol) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-**/
 }
