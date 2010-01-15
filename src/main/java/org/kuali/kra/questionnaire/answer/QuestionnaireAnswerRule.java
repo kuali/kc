@@ -31,11 +31,16 @@ import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPat
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
+/**
+ * 
+ * This class is primarily to validate questionnaire answer format.
+ */
 public class QuestionnaireAnswerRule {
-    
+
     private static final String QUESTION_TYPE_NUMBER = "3";
     private static final String QUESTION_TYPE_DATE = "4";
     private static final String QUESTION_TYPE_TEXT = "5";
+    private static final String ANSWER = "Answer ";
     private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
     private static final Map<String, ValidationPattern> VALIDATION_CLASSES;
     static {
@@ -51,14 +56,21 @@ public class QuestionnaireAnswerRule {
         VALIDATION_CLASSES = Collections.unmodifiableMap(tempPatterns);
     }
 
+    /**
+     * 
+     * This method will validate 'answer' if it not empty.
+     * 
+     * @param answerHeaders
+     * @return
+     */
     public boolean processQuestionnaireAnswerRules(List<AnswerHeader> answerHeaders) {
         boolean valid = true;
         int answerHeaderIndex = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
             int questionIndex = 0;
             for (Answer answer : answerHeader.getAnswers()) {
-                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers["
-                        + questionIndex + "].answer";
+                String errorKey = "questionnaireHelper.answerHeaders[" + answerHeaderIndex + "].answers[" + questionIndex
+                        + "].answer";
                 if (StringUtils.isNotBlank(answer.getAnswer())
                         && VALIDATION_CLASSES.containsKey(answer.getQuestion().getQuestionTypeId().toString())) {
                     boolean validAttributeFormat = validateAttributeFormat(answer, errorKey, questionIndex);
@@ -77,7 +89,7 @@ public class QuestionnaireAnswerRule {
 
     /*
      * 
-     * This method is to validate the format/length of questionnaire answer
+     * This method is to validate the format of questionnaire answer
      * 
      * @param answer
      * 
@@ -97,17 +109,16 @@ public class QuestionnaireAnswerRule {
 
         String validFormat = getValidFormat(answer.getQuestion().getQuestionTypeId().toString());
 
-        if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
+        if (validationExpression != null && !".*".equals(validationExpression.pattern())) {
             if (answer.getQuestion().getQuestionTypeId().toString().equals(QUESTION_TYPE_DATE)) {
                 if (!answer.getAnswer().matches(DATE_REGEX)) {
-                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, "Answer "+(questionIndex+1),
-                            answer.getAnswer(), validFormat);
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                            ANSWER + (questionIndex + 1), answer.getAnswer(), validFormat);
                     valid = false;
                 }
-            }
-            else if (!validationExpression.matcher(answer.getAnswer()).matches()) {
+            } else if (!validationExpression.matcher(answer.getAnswer()).matches()) {
                 GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT,
-                        new String[] { "Answer "+(questionIndex+1), answer.getAnswer(), validFormat });
+                        new String[] { ANSWER + (questionIndex + 1), answer.getAnswer(), validFormat });
                 valid = false;
             }
         }
@@ -118,8 +129,7 @@ public class QuestionnaireAnswerRule {
         String validFormat = Constants.DATA_TYPE_STRING;
         if (dataType.equalsIgnoreCase(QUESTION_TYPE_NUMBER)) {
             validFormat = Constants.DATA_TYPE_NUMBER;
-        }
-        else if (dataType.equalsIgnoreCase(QUESTION_TYPE_DATE)) {
+        } else if (dataType.equalsIgnoreCase(QUESTION_TYPE_DATE)) {
             validFormat = Constants.DATA_TYPE_DATE;
         }
         return validFormat;
