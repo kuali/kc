@@ -224,13 +224,10 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
-		</property>
-		<!--<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"
 				p:includeKeyInLabel="false" />
-		</property>-->
+		</property>
 		<property name="summary" value="Lead Unit (Owned by Unit)" />
 		<property name="description"
 			value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
