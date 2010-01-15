@@ -2,7 +2,7 @@ KC Release 2.0 Beta
 -------------------
 
 KC database release bundle contains all SQL scripts needed to install a new schema (tables, constraints, bootstrap data) 
-required to launch/execute KRA application.
+required to launch/execute KC application.
 
 
 Installation Steps - Oracle
