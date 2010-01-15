@@ -123,7 +123,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Comments" />
 		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="2000" />
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"

@@ -35,7 +35,6 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
-               //isPendingOrSubmittedToCommittee(protocol) &&
                isAssignedToCommittee(protocol) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }

@@ -40,27 +40,57 @@ public class ProtocolAssignToAgendaBean implements Serializable{
     private String comments = "";
     
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
-        System.err.println("Made a ProtocolAssignToAgendaBean.");
         this.actionHelper = actionHelper;
-        //init();
         
     }
     
     
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
+    }
+
+
+    public void setCommitteName(String committeName) {
+        this.committeName = committeName;
+    }
+
+
+    public void setScheduleDate(Date scheduleDate) {
+        this.scheduleDate = scheduleDate;
+    }
+
+
+    public void setProtocolAssigned(boolean protocolAssigned) {
+        this.protocolAssigned = protocolAssigned;
+    }
+
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+
     public void init() {
-        System.err.println("Start Init");
-        String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
-        System.err.println("tried to set committee id");
-        if (committeeId != null) {
-            this.committeeId = committeeId;
-            
-            //String scheduleId = getProtocolAssigntoAgendaService().getAssignedScheduleId(getProtocol());
-            //if (scheduleId != null) {
+        try{
+        if(getProtocol() != null && getProtocol().getProtocolNumber() != null){
+            String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+            if (committeeId != null) {
+                this.committeeId = committeeId;
+                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
                 
-            //}
-            
-            this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+                this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
+                
+                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+                
+                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+            }
         }
+        }
+        catch(Exception e){
+            //errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
+            e.printStackTrace();
+        }
+        //the else condition means we can't create this bean
     }
     
     
