@@ -18,28 +18,12 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolAssignToAgendaBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
-<%--<kra:permission value="${KualiForm.actionHelper.canAssignToAgenda}">--%>
-<%--this is turned off so I can committ some changes without people being bothered by incomplete code--%>
-<kra:permission value="${false}">
+<kra:permission value="${KualiForm.actionHelper.canAssignToAgenda}">
 
-<kra:innerTab tabTitle="Assign to Agenda (underconstruction)" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignToAgendaAction*">
+<kra:innerTab tabTitle="Assign to Agenda" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignToAgendaAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
-            	<tr>
-            		<td colspan="2">
-            			KualiForm.actionHelper.canAssignToAgenda: ${KualiForm.actionHelper.canAssignToAgenda }<Br/>
-						<%--
-            			KualiForm.actionHelper.protocolAssigned: ${KualiForm.actionHelper.assignToAgendaBean.protocolAssigned }<Br/>
-            			KualiForm.actionHelper.comments: ${KualiForm.actionHelper.assignToAgendaBean.comments }<Br/>
-            			
-            			KualiForm : ${KualiForm }<br/>
-            			KualiForm.actionhelper : ${KualiForm.actionHelper }<br/>
-            			KualiForm.actionhelper.assignToAgendaBean : ${KualiForm.actionHelper.assignToAgendaBean }<br/>
-            			KualiForm.actionhelper.assignToAgendaBean.committeeId : ${KualiForm.actionHelper.assignToAgendaBean.committeeId }<br/>
-            			 --%>
-            		</td>
-            	</tr>
 	            <tr>
 	            	<th> 
 	                    <div align="right">
