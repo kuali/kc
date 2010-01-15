@@ -150,6 +150,7 @@
 				<value>kcPersonLookupable</value>
 				<value>institutionalProposalLookupable</value>
 				<value>proposalLogLookupable</value>
+				<value>proposalDevelopmentLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -389,6 +390,19 @@
 		<property name="budgetService" ref="budgetService" /> 
 		<property name="parameterService" ref="parameterService" /> 
 		<property name="versionHistoryService" ref="versionHistoryService"/>
+	</bean>
+
+	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="proposalDevelopmentLookupableHelperService" />
+  		</property>  		
+	</bean>
+
+	<bean id="proposalDevelopmentLookupableHelperService" 
+			class="org.kuali.kra.proposaldevelopment.service.impl.DevelopmentProposalLookupableHelperServiceImpl" 
+			parent="lookupableHelperService" 
+			scope="prototype">
+		<property name="kraAuthorizationService" ref="kraAuthorizationService"/>
 	</bean>
 	
 	<bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
