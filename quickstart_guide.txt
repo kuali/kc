@@ -1,7 +1,3 @@
-This guide contains the basic instructions for:
-
-- installing the out-of-the-box Kuali Coeus 2.0 Beta distribution
-
 
 *** Installing the out-of-the-box Kuali Coeus 2.0 Beta distribution ***
 
@@ -11,13 +7,14 @@ Requirements:
 	- Servlet 2.4 / JSP 2.0 Compatible Servlet Container such as Apache Tomcat 5.5
 	- Oracle database instance
 
-1. Run the database scripts using the instructions provided in sql/ReadMe.txt
+1. Run the database scripts using the instructions provided in sql/db_readme.txt
 
 2. Place config/kc-config.xml.template in one of the configured default locations: {Userhome}/kuali/main/pre/kc-config.xml OR /opt/sa_forms/java/pre/kra/kc-config.xml.
    (NOTE: This is what is often referred to as the external kc-config.xml, whereas the internal kc-config.xml is located within the webapp)
    (ADDITIONAL NOTE: If you are upgrading and have an existing kc-config.xml in this location, please replace it, as new parameters are often added)
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\pre
 	* To use a different directory, open kra-pre.war and edit the "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config.xml.
+	* You SHOULD also be able to pass a java parameter of alt.config.location to your j2ee container (not guaranteed to work)
 	(NOTE: This file is the internal kc-config.xml and also contains the "environment" parameter referenced in the external kc-config.xml file)
 
 3. Edit parameters in the external kc-config.xml (that you just placed in step #2) as desired.
@@ -28,8 +25,8 @@ Requirements:
 4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
 	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
 
-5. Deploy binary/kra-pre.war to your servlet container (see user guide for your particular servlet container).
+5. Deploy kra-pre.war to your servlet container (see user guide for your particular servlet container).
 
-6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kra-config.xml -- app.context.name is kra-pre, if not overridden).
+6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-pre, if not overridden).
 
 7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
