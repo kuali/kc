@@ -101,7 +101,7 @@
                 <kul:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.regulation" 
                                       action="maintenance" 
                                       textAreaLabel="${DataDictionary.Question.attributes.question.label}"
-                                      viewOnly="${readOnly}" />
+                                      readOnly="${readOnly}" />
             </td>
         </tr>
     </table>
