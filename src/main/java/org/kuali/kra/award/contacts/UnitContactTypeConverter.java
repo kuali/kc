@@ -25,7 +25,7 @@ import org.kuali.kra.bo.UnitContactType;
 public class UnitContactTypeConverter implements FieldConversion {
     private static final long serialVersionUID = -3298305889586306843L;
     
-    private static final String JAVA_TYPE_ERROR = "Java type not a UnitTypeConverter";
+    private static final String JAVA_TYPE_ERROR = "Java type not a UnitContactType";
     private static final String SQL_TYPE_ERROR = "SQL type not a String";
     
 
