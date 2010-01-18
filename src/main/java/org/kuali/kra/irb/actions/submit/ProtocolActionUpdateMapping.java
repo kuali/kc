@@ -33,7 +33,7 @@ public class ProtocolActionUpdateMapping implements FactBean {
 
     Protocol protocol;
     
-    ProtocolSubmissionStatus protocolSubmissionStatus;
+    ProtocolSubmission protocolSubmission;
     
     public ProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
         super();
@@ -43,12 +43,12 @@ public class ProtocolActionUpdateMapping implements FactBean {
         this.protocolNumberARCondition = specialCondition;
     }
     
-    public ProtocolSubmissionStatus getProtocolSubmissionStatus() {
-        return protocolSubmissionStatus;
+    public ProtocolSubmission getProtocolSubmission() {
+        return protocolSubmission;
     }
 
-    public void setProtocolSubmissionStatus(ProtocolSubmissionStatus protocolSubmissionStatus) {
-        this.protocolSubmissionStatus = protocolSubmissionStatus;
+    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+        this.protocolSubmission = protocolSubmission;
     }
     
     public String getActionTypeCode() {
