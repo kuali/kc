@@ -201,8 +201,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
         this.submissionStatusCode = submissionStatusCode;
         if (StringUtils.isBlank(submissionStatusCode)) {
             submissionStatus = null;
-        }
-        else {
+        } else if (getSubmissionStatus() == null || !submissionStatusCode.equals(getSubmissionStatus().getProtocolSubmissionStatusCode())) {
             refreshReferenceObject("submissionStatus");
         }
     }

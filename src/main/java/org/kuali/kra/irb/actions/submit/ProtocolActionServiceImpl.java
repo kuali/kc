@@ -247,7 +247,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
             specialCondition);
         protocolAction.setProtocol(protocol);
-        protocolAction.setProtocolSubmissionStatus(protocol.getProtocolSubmission().getSubmissionStatus());
+        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
 
 //        DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
 //        updateHandle.executeRules(protocolAction);
