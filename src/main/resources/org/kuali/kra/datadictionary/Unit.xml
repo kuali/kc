@@ -21,6 +21,7 @@
         <ref bean="Unit-unitNumber" />
         <ref bean="Unit-parentUnitNumber" />
         <ref bean="Unit-parentUnit.unitName" />
+        <ref bean="Unit-parentUnit.unitNumber" />
         <ref bean="Unit-organizationId" />
         <ref bean="Unit-organization.organizationName" />
         <ref bean="Unit-unitName" />
@@ -116,6 +117,14 @@
     <property name="label" value="Parent Unit" />
     <property name="shortLabel" value="Parent Unit" />
   </bean>
+  
+  <bean id="Unit-parentUnit.unitNumber" parent="Unit-parentUnit.unitNumber-parentBean" />
+
+  <bean id="Unit-parentUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="name" value="parentUnit.unitNumber" />
+    <property name="label" value="Parent Unit Number" />
+    <property name="shortLabel" value="Parent Unit Number" />
+  </bean>
   <bean id="Unit-organizationId" parent="Unit-organizationId-parentBean" />
 
   <bean id="Unit-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -184,6 +193,8 @@
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="parentUnit.unitName" />
+                    <bean parent="FieldDefinition"
+                    p:attributeName="parentUnit.unitNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="organization.organizationName" />
               <bean parent="FieldDefinition"
