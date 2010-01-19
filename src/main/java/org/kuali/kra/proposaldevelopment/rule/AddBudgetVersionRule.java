@@ -32,5 +32,8 @@ public interface AddBudgetVersionRule  extends BusinessRule {
      * @param event The {@link AddBudgetVersionEvent} triggering the rule
      * @returns true if it passed, false if it failed
      */
+    public boolean processAddBudgetVersionName(AddBudgetVersionEvent event);
+    
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event);
+    
  }
