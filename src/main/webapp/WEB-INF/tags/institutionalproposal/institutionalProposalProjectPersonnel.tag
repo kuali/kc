@@ -175,8 +175,10 @@
 	                
 					<td>
 						<div align="center">
+						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteProjectPerson.line${institutionalProposalContactRowStatus.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						  </c:if>
 						</div>
 	                </td>
 	            </tr>
