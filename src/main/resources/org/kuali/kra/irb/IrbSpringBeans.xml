@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006-2009 The Kuali Foundation.
+    Copyright 2006-2009 The Kuali Foundation.
 
-	Licensed under the Educational Community License, Version 1.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-	http://www.opensource.org/licenses/ecl1.php
+    http://www.opensource.org/licenses/ecl1.php
 
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -26,25 +26,25 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
     <bean id="irbModuleConfiguration" parent="irbModuleConfiguration-parentBean" />
-	
+    
     <bean id="irbModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
-		<property name="databaseRepositoryFilePaths">
-			<list>
-				<value>org/kuali/kra/irb/repository-irb.xml</value>
-			</list>
-		</property>
-	</bean>
-	<!-- Protocol Services -->
-	<bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
-	</bean>	
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/kra/irb/repository-irb.xml</value>
+            </list>
+        </property>
+    </bean>
+    <!-- Protocol Services -->
+    <bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
+    </bean> 
 
-	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceImpl">
-	</bean>	
-	
-	<bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.location.ProtocolLocationServiceImpl">
+    <bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceImpl">
+    </bean> 
+    
+    <bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.location.ProtocolLocationServiceImpl">
         <property name="organizationService" ref="organizationService" />
-	</bean>
-		
+    </bean>
+        
     <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -62,25 +62,25 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">
+    <bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
         <property name="protocolPersonTrainingService">
             <ref bean="protocolPersonTrainingService" />
         </property>        
-	</bean>	
+    </bean> 
 
-	<bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">
+    <bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-	</bean>	
-	
-	<bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
+    </bean> 
+    
+    <bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
         <constructor-arg index="1" ref="protocolDao"/>
-	</bean>
+    </bean>
 
     <!-- Protocol Task Authorizers -->
     
@@ -121,35 +121,35 @@
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.NotifyIrbAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolNotifyIrb" />
+                    <property name="taskName" value="protocolNotifyIrb" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolWithdraw" />
+                    <property name="taskName" value="protocolWithdraw" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolRequestClose" />
+                    <property name="taskName" value="protocolRequestClose" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolRequestCloseEnrollment" />
+                    <property name="taskName" value="protocolRequestCloseEnrollment" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolRequestReOpenEnrollment" />
+                    <property name="taskName" value="protocolRequestReOpenEnrollment" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolRequestSuspension" />
+                    <property name="taskName" value="protocolRequestSuspension" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolRequestDataAnalysis" />
+                    <property name="taskName" value="protocolRequestDataAnalysis" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolAmendRenewDelete" />
+                    <property name="taskName" value="protocolAmendRenewDelete" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
@@ -158,43 +158,43 @@
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolGeneralInfoAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolGeneralInfo" />
+                    <property name="taskName" value="modifyProtocolGeneralInfo" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolFundingSourceAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolFundingSource" />
+                    <property name="taskName" value="modifyProtocolFundingSource" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolReferencesAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolReferences" />
+                    <property name="taskName" value="modifyProtocolReferences" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolOrganizationsAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolOrganizations" />
+                    <property name="taskName" value="modifyProtocolOrganizations" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolSubjects" />
+                    <property name="taskName" value="modifyProtocolSubjects" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolAttachments" />
+                    <property name="taskName" value="modifyProtocolAttachments" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolAreasOfResearch" />
+                    <property name="taskName" value="modifyProtocolAreasOfResearch" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolSpecialReview" />
+                    <property name="taskName" value="modifyProtocolSpecialReview" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPersonnelAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolPersonnel" />
+                    <property name="taskName" value="modifyProtocolPersonnel" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolOthersAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolOthers" />
+                    <property name="taskName" value="modifyProtocolOthers" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaAuthorizer" parent="parentProtocolAuthorizer">
@@ -282,14 +282,14 @@
         <property name="protocolNumberService" ref="protocolNumberService" />
     </bean>
 
-	<bean id="protocolLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="protocolLookupableHelperService" />
-  		</property>  		
-	</bean>	
+    <bean id="protocolLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="protocolLookupableHelperService" />
+        </property>         
+    </bean> 
 
-	<bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+    <bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
         <property name="protocolDao">
             <ref bean="protocolDao" />
         </property>
@@ -299,15 +299,15 @@
         <property name="kraAuthorizationService">
             <ref bean="kraAuthorizationService" />
         </property>
-  	</bean>
+    </bean>
 
-	<bean id="protocolSubmissionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="protocolSubmissionLookupableHelperService" />
-  		</property>  		
-	</bean>	
-	<bean id="protocolSubmissionLookupableHelperService" class="org.kuali.kra.irb.ProtocolSubmissionLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+    <bean id="protocolSubmissionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="protocolSubmissionLookupableHelperService" />
+        </property>         
+    </bean> 
+    <bean id="protocolSubmissionLookupableHelperService" class="org.kuali.kra.irb.ProtocolSubmissionLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
        <!--  <property name="protocolDao">
             <ref bean="protocolDao" />
         </property> -->
@@ -317,7 +317,7 @@
         <property name="kraAuthorizationService">
             <ref bean="kraAuthorizationService" />
         </property>
-  	</bean>
+    </bean>
 
     <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoOjb">
         <property name="lookupDao">
@@ -326,87 +326,87 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-	</bean>	
-	<bean id="protocolProtocolService" class="org.kuali.kra.irb.protocol.ProtocolProtocolServiceImpl">
+    </bean> 
+    <bean id="protocolProtocolService" class="org.kuali.kra.irb.protocol.ProtocolProtocolServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-	</bean>	
-	
-	<bean id="checkListService" class="org.kuali.kra.irb.actions.submit.CheckListServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
-	<bean id="protocolActionAjaxService" class="org.kuali.kra.irb.actions.submit.ProtocolActionAjaxServiceImpl">
-		<property name="committeeService" ref="committeeService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
+    </bean> 
+    
+    <bean id="checkListService" class="org.kuali.kra.irb.actions.submit.CheckListServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="protocolActionAjaxService" class="org.kuali.kra.irb.actions.submit.ProtocolActionAjaxServiceImpl">
+        <property name="committeeService" ref="committeeService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
-	<bean id="protocolSubmitActionService" class="org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl">
-		<property name="documentService" ref="documentService" />
-		<property name="protocolActionService" ref="protocolActionService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="protocolFinderDao" ref="protocolFinderDao" />
-	</bean>
-	
-	<bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
-		<property name="documentService" ref="documentService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="protocolActionService" ref="protocolActionService" />
-		<property name="protocolVersionService" ref="protocolVersionService" />
-	</bean>
-	
-	<bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="protocolActionService" ref="protocolActionService" />
-	</bean>
-	
-	<bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
-	<bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="kraAuthorizationService" ref="kraAuthorizationService" />
-		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
-		<property name="protocolDao" ref="protocolDao" />
+    <bean id="protocolSubmitActionService" class="org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolFinderDao" ref="protocolFinderDao" />
+    </bean>
+    
+    <bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolVersionService" ref="protocolVersionService" />
+    </bean>
+    
+    <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+    </bean>
+    
+    <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="protocolDao" ref="protocolDao" />
         <property name="ruleFiles">
-			<list>
-				<value>org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl</value>
-				<value>org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl</value>
-				<value>org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl</value>
-				<value>org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
-				<value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
-				<value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
+            <list>
+                <value>org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
             </list>
         </property>
-	</bean>
-	
-	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
-		<property name="protocolCopyService" ref="protocolCopyService" />
-		<property name="documentService" ref="documentService" />
-		<property name="kraLookupDao" ref="kraLookupDao" />
-	</bean>
-	
-	<bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-	</bean>
-	
-	<bean id="protocolDeleteService" class="org.kuali.kra.irb.actions.delete.ProtocolDeleteServiceImpl">
-	    <property name="documentService" ref="documentService" />
-	    <property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
-	<bean id="protocolFinderDao" class="org.kuali.kra.irb.ProtocolFinderDaoOjb" parent="platformAwareDao" />
-	
-	<bean id="protocolVersionService" class="org.kuali.kra.irb.ProtocolVersionServiceImpl">
-	    <property name="documentService" ref="documentService" />
-	    <property name="businessObjectService" ref="businessObjectService" />
-	    <property name="versioningService" ref="versioningService" />
-	    <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
-	</bean>
-	
-	<bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
+    </bean>
+    
+    <bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
+        <property name="protocolCopyService" ref="protocolCopyService" />
+        <property name="documentService" ref="documentService" />
+        <property name="kraLookupDao" ref="kraLookupDao" />
+    </bean>
+    
+    <bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean>
+    
+    <bean id="protocolDeleteService" class="org.kuali.kra.irb.actions.delete.ProtocolDeleteServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="protocolFinderDao" class="org.kuali.kra.irb.ProtocolFinderDaoOjb" parent="platformAwareDao" />
+    
+    <bean id="protocolVersionService" class="org.kuali.kra.irb.ProtocolVersionServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="versioningService" ref="versioningService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+    </bean>
+    
+    <bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeService" ref="committeeService" />
     </bean>
@@ -466,6 +466,7 @@
     </bean>
     
     <bean id="protocolCorrespondenceTemplateService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
 </beans>

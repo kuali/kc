@@ -47,7 +47,7 @@
                           parentTab="Correspondence Templates" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="newCorrespondenceTemplates[${status.index}].*">
+                          tabErrorKey="newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*">
                 <p style="text-align:left; font-weight:bold;">Default</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
@@ -98,7 +98,7 @@
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
                         <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="center" />
-                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeIdFk}" scope="col" align="center" />
+                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" scope="col" align="center" />
                         <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.fileName}" scope="col" align="center" />
                         <c:if test="${!readOnly}">
                             <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center" />
@@ -114,8 +114,8 @@
                         </td>
                         <td>
                             <div align="left">
-                                <kul:htmlControlAttribute property="newCorrespondenceTemplates[${status.index}].committeeIdFk"
-                                                          attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeIdFk}" />
+                                <kul:htmlControlAttribute property="newCorrespondenceTemplates[${status.index}].committeeId"
+                                                          attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" />
                             </div>
                         </td>
                         <td>
@@ -154,6 +154,12 @@
                             <td>
                                 <div align="left">
                                     ${protocolCorrespondenceTemplate.committee.committeeName}
+                                    <c:forEach items="${ErrorPropertyList}" var="key">
+                                        <c:set var="propertyName" value="correspondenceTypes[${status.index}].protocolCorrespondenceTemplates[${status2.index}].committeeId" />
+                                        <c:if test="${key eq propertyName}">
+                                            <kul:fieldShowErrorIcon />
+                                        </c:if>
+                                    </c:forEach>            
                                 </div>
                             </td>
                             <td>

@@ -22,7 +22,7 @@
     <bean id="ProtoCorrespTempl" parent="ProtoCorrespTempl-parentBean" />
     <bean id="ProtoCorrespTempl-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate" />
-   		<property name="objectLabel" value="Correspondence Template" />
+        <property name="objectLabel" value="Correspondence Template" />
         <property name="inquiryDefinition" >
             <ref bean="ProtoCorrespTempl-inquiryDefinition" />
         </property>
@@ -34,7 +34,7 @@
             <list>
                 <ref bean="ProtoCorrespTempl-protoCorrespTemplId" />
                 <ref bean="ProtoCorrespTempl-protoCorrespTypeCode" />
-                <ref bean="ProtoCorrespTempl-committeeIdFk" />
+                <ref bean="ProtoCorrespTempl-committeeId" />
                 <ref bean="ProtoCorrespTempl-fileName" />
                 <ref bean="ProtoCorrespTempl-correspondenceTemplate" />
                 <ref bean="ProtoCorrespTempl-versionNumber" />
@@ -80,17 +80,17 @@
         <property name="description" value="Proto Corresp Type Code" />
     </bean>
 
-    <bean id="ProtoCorrespTempl-committeeIdFk" parent="ProtoCorrespTempl-committeeIdFk-parentBean" />
-    <bean id="ProtoCorrespTempl-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="committeeIdFk" />
+    <bean id="ProtoCorrespTempl-committeeId" parent="ProtoCorrespTempl-committeeId-parentBean" />
+    <bean id="ProtoCorrespTempl-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="committeeId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Committee" />
         <property name="shortLabel" value="Committee" />
-        <property name="maxLength" value="12" />
+        <property name="maxLength" value="15" />
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Committee" />
@@ -154,7 +154,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="protoCorrespTypeCode" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="committeeIdFk" />
+                                p:attributeName="committeeId" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="correspondenceTemplate" />
                         </list>
@@ -181,7 +181,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protoCorrespTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="committeeIdFk" />
+                    p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="correspondenceTemplate" />
             </list>
@@ -194,7 +194,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protoCorrespTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="committeeIdFk" />
+                    p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="correspondenceTemplate" />
             </list>

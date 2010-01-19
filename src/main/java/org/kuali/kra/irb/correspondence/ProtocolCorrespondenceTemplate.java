@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase { 
     
@@ -27,16 +29,14 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
 
     private Integer protoCorrespTemplId; 
     private String protoCorrespTypeCode; 
-    private Long committeeIdFk; 
+    private String committeeId; 
     private String fileName;
     private byte[] correspondenceTemplate; 
     
-    private Committee committee;
     private transient FormFile templateFile;
     
     public ProtocolCorrespondenceTemplate() {
         super();
-        this.committee = new Committee();
     } 
     
     public Integer getProtoCorrespTemplId() {
@@ -55,12 +55,12 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 
-    public void setCommitteeIdFk(Long committeeIdFk) {
-        this.committeeIdFk = committeeIdFk;
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
     }
 
-    public Long getCommitteeIdFk() {
-        return committeeIdFk;
+    public String getCommitteeId() {
+        return committeeId;
     }
 
     public String getFileName() {
@@ -79,12 +79,8 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         this.correspondenceTemplate = correspondenceTemplate;
     }
 
-    public void setCommittee(Committee committee) {
-        this.committee = committee;
-    }
-
     public Committee getCommittee() {
-        return committee;
+        return getCommitteeService().getCommitteeById(committeeId);
     }
 
     public void setTemplateFile(FormFile templateFile) {
@@ -95,16 +91,23 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         return templateFile;
     }
 
+    public String getCommitteeName() {
+        return null;
+    }
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("protoCorrespTemplId", this.getProtoCorrespTemplId());
         hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("committeeIdFk", this.getCommitteeIdFk());
+        hashMap.put("committeeId", this.getCommitteeId());
         hashMap.put("fileName", this.getFileName());
         hashMap.put("correspondenceTemplate", this.getCorrespondenceTemplate());
         return hashMap;
     }
     
+    private CommitteeService getCommitteeService() {
+        return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
+    }
 }

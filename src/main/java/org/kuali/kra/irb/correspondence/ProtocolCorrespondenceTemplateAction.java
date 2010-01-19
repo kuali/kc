@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +26,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -50,7 +54,8 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getNewCorrespondenceTemplates().get(index);
 
         // check any business rules
-        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddProtocolCorrespondenceTemplateRules(correspondenceType, 
+                newCorrespondenceTemplate, index);
         if (rulePassed) {
             getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
@@ -81,4 +86,73 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         return index;
     }
 
+    /**
+     * 
+     * This method is called when saving the correspondence templates.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = correspondenceTemplateForm.getCorrespondenceTypes();
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
+        if (rulePassed) {
+            getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes);
+            //TODO: cniesen - display "RiceKeyConstants.MESSAGE_SAVED" message
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when reloading the correspondence templates.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        GlobalVariables.getMessageMap().putInfo("generic.message", RiceKeyConstants.MESSAGE_RELOADED);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when closing the correspondence templates.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when canceling the correspondence templates.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        //return mapping.findForward(Constants.MAPPING_BASIC);
+        return super.cancelled(mapping, form, request, response);
+    }
 }
