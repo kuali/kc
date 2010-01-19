@@ -17,12 +17,13 @@ package org.kuali.kra.award.budget;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 
 public class AwardBudgetExt extends Budget { 
     
     private static final long serialVersionUID = 1L;
+
+    public static final String AWARD_BUDGET_TYPE_NEW_PARAMETER = "AWARD_BUDGET_TYPE_NEW_PARAMETER";
 
     private String awardBudgetStatusCode; 
     private String awardBudgetTypeCode; 
