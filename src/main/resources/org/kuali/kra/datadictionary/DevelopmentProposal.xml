@@ -79,6 +79,7 @@
 				<ref bean="DevelopmentProposal-hierarchyStatusName" />
 				<ref bean="DevelopmentProposal-principalInvestigatorName" />
 				<ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
+				<ref bean="DevelopmentProposal-budgetStatus" />
 			</list>
 		</property>
 	</bean>
@@ -824,6 +825,24 @@
 		<property name="summary" value="Investigator" />
 		<property name="description" value="Investigator" />
 	</bean>
+	
+	<bean id="DevelopmentProposal-budgetStatus" parent="DevelopmentProposal-budgetStatus-parentBean"/>
+
+	  <bean id="DevelopmentProposal-budgetStatus-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="budgetStatus"/>
+	    <property name="forceUppercase" value="false"/>
+	    <property name="label" value="Budget Status"/>
+	    <property name="shortLabel" value="Budget Status"/>
+	    <property name="maxLength" value="1"/>
+	    <property name="validationPattern">
+	      <bean parent="AlphaNumericValidationPattern"/>
+	    </property>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode" p:labelAttribute="description"/>
+	    </property>
+	    <property name="summary" value="Budget Status summary"/>
+	    <property name="description" value="The status of the final budget version for this Proposal Development Document"/>
+	  </bean>
 	
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />

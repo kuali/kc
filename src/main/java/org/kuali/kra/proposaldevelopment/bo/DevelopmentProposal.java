@@ -1915,4 +1915,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
     }
 
+    public String getDefaultBudgetStatusParameter() {
+        return Constants.BUDGET_STATUS_INCOMPLETE_CODE;
+    }
+
 }

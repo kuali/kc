@@ -18,6 +18,7 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
+<c:set var="awardBudgetAttributes" value="${DataDictionary.AwardBudgetExt.attributes}" />
 <c:set var="textAreaFieldName" value="document.budget.comments" />
 <c:set var="action" value="budgetAction" />
 <c:set var="KRAConst" value="${org.kuali.kra.infrastructure.Constants}"/>
@@ -26,11 +27,9 @@
 
 <c:forEach var="budgetDocumentVersions" items="${KualiForm.document.parentDocument.budgetDocumentVersions}" varStatus="status">
 	<c:if test="${status.index + 1 != KualiForm.document.budget.budgetVersionNumber}">
-		<input type="hidden" id="finalVersionFlag${status.index}" name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.finalVersionFlag" value='<bean:write name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.finalVersionFlag"/>' />
-		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.budgetStatus" value='<bean:write name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.budgetStatus"/>' />
-	</c:if>
+		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.budget.awardBudgetStatusCode" value='<bean:write name="KualiForm" property="document.budget.awardBudgetExt.awardBudgetStatusCode"/>' />
+	</c:if> 
 </c:forEach>
- 
 <kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.totalCostLimit" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
 	<div class="tab-container" align="center">
     	<h3>Budget Overview</h3>
@@ -57,12 +56,9 @@
                 </td>           		
         	</tr>
 			<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>
 			    <td>
-			    	 <input type=hidden name="KualiForm" property="hack" id="hack" disabled="true" />
-			         <html:hidden name="KualiForm" property="document.budget.budgetStatus"  disabled="true" />
-	      			<html:hidden name="KualiForm" property="document.budget.finalVersionFlag" disabled="true" />
-			         <kul:htmlControlAttribute property="document.budget.budgetStatus" readOnly="${readOnly}" readOnlyAlternateDisplay="Complete" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select" onchange="javascript: toggleFinalCheckboxSummary(document)" disabled="${viewOnly}"/>
+			         <kul:htmlControlAttribute property="document.budget.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" readOnly="${readOnly}" disabled="${viewOnly}"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
