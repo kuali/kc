@@ -26,7 +26,7 @@ import org.kuali.kra.bo.UnitContactType;
  * This class models a Unit Contact
  */
 public class AwardUnitContact extends AwardContact {
-    private static final String OSP_ADMINISTRATOR = "OSP_ADMINISTRATOR";
+    public  static final String OSP_ADMINISTRATOR = "OSP_ADMINISTRATOR";
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE = "UNIT_ADMINISTRATOR_TYPE_CODE";
     private static final String CONTACT_TYPE_CODE = "CONTACT_TYPE_CODE";
     private static final long serialVersionUID = -9168956728201616266L;
