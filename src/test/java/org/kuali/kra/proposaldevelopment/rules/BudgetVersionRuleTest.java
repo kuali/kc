@@ -80,7 +80,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testNegativeNullName() throws Exception {
-        assertFalse(new AddBudgetVersionEvent("", (Document) proposal, null).invokeRuleMethod(new BudgetVersionRule()));
+        assertFalse(new AddBudgetVersionEvent("", (Document) proposal, (String)null).invokeRuleMethod(new BudgetVersionRule()));
     }
     
     /**
