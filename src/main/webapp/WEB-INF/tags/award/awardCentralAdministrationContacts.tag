@@ -95,8 +95,9 @@
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-	                		<kul:htmlControlAttribute property="centralAdminContactsBean.centralAdminContacts[${awardContactRowStatus.index}].contactRoleCode" 
-	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}" />
+                            <kul:htmlControlAttribute property="centralAdminContactsBean.centralAdminContacts[${awardContactRowStatus.index}].contactRoleCode"
+	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}"
+                                                        disabled="${KualiForm.centralAdminContactsBean.centralAdminContacts[awardContactRowStatus.index].contactRoleCode=='2'}"/>
 	                	</div>
 					</td>
 					<td valign="middle">
