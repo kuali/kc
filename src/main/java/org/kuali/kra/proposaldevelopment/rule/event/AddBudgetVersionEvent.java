@@ -20,6 +20,8 @@ import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.logger;
 
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -29,6 +31,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 public class AddBudgetVersionEvent extends KraDocumentEventBase {
     
     private String versionName;
+    private Budget budget;
 
     /**
      * Convenience constructor for {@link #AddBudgetVersionEvent(String, Document, String)}
@@ -54,6 +57,18 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
         logEvent();
     }
 
+    /**
+     * Instantiate the event describing that a Budget Version is to be added
+     * 
+     * @param errorPathPrefix
+     * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
+     * @param versionName or name of the {@link BudgetVersionsOverview}
+     */
+    public AddBudgetVersionEvent(String errorPathPrefix, Document document, Budget budgetVersionOverview) {
+        super("adding budget version to document " + getDocumentId(document), errorPathPrefix, document);
+        setBudget(budgetVersionOverview);
+        logEvent();
+    }
 
     /**
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
@@ -91,11 +106,27 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         try {
-            return getRuleInterfaceClass().cast(rule).processAddBudgetVersion(this);
+            return getRuleInterfaceClass().cast(rule).processAddBudgetVersionName(this);
         }
         catch (Exception cce) {
             return false;
         }
+    }
+    
+    /**
+     * Gets the budget attribute. 
+     * @return Returns the budget.
+     */
+    public Budget getBudget() {
+        return budget;
+    }
+
+    /**
+     * Sets the budget attribute value.
+     * @param budget The budget to set.
+     */
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 }
 
