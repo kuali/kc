@@ -1919,4 +1919,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return Constants.BUDGET_STATUS_INCOMPLETE_CODE;
     }
 
+    public boolean isParentInHierarchyComplete() {
+        return isParentProposalComplete();
+    }
+
 }

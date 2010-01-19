@@ -59,9 +59,11 @@
 	<param name="bus.refresh.rate">30</param>
 	<param name="threadPool.size">5</param>
 
-	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
-	<param name="datasource.username">KRADEV</param>
-	<param name="datasource.password">ask your team</param>
+	<param name="datasource.url">jdbc:oracle:thin:@192.168.1.7:1521:XE</param>
+<!--	<param name="datasource.url">jdbc:oracle:thin:@18.142.3.65:1521:XE</param>-->
+	<param name="datasource.username">KCDEV</param>
+	<param name="datasource.password">kcdev</param>
+
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
 	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>

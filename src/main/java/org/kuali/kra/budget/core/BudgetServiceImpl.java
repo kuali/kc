@@ -216,7 +216,7 @@ public class BudgetServiceImpl implements BudgetService {
         if(!new Boolean(budgetDocument.getProposalBudgetFlag()).booleanValue()){
             AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
             budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-            budgetExt.setAwardBudgetTypeCode("1");
+            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, AwardBudgetExt.AWARD_BUDGET_TYPE_NEW_PARAMETER));
         }
         
         documentService.saveDocument(budgetDocument);
