@@ -21,11 +21,19 @@ public interface ProtocolCorrespondenceTemplateService {
 
     /**
      * 
-     * This method add a ProtocolCorrespondenceTemplate.
+     * This method adds a ProtocolCorrespondenceTemplate.
      * @param correspondenceType - the protocol correspondence type to which the template is to be added.
      * @param correspondenceTemplate - the protocol correspondence template to be added.
      */
     void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate);
+    
+    /**
+     * 
+     * This method deletes a ProtocolCorrespondenceTemplate.
+     * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
+     * @param index - index of the template to be deleted.
+     */
+    void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index);
     
     /**
      * 
