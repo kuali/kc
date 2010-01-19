@@ -83,10 +83,11 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
      * 
      * This method resets the input fields for the default correspondence templates and the new committee correspondence templates.
      */
+    @SuppressWarnings("unused")
     public void resetForm() {
         this.defaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
-        for (@SuppressWarnings("unused") ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
+        for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
             this.defaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
             this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
         }
