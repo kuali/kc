@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -92,7 +93,10 @@ public class AwardBudgetVersionsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
 
-        getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+        BudgetDocument newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+        AwardBudgetExt newBudget = (AwardBudgetExt)newBudgetDoc.getBudget();
+        newBudget.setAwardBudgetStatusCode(newBudget.getBudgetStatus());
+        newBudget.setAwardBudgetTypeCode("1");
         awardForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
@@ -122,6 +126,9 @@ public class AwardBudgetVersionsAction extends AwardAction {
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         BudgetParent budgetParent = awardDocument.getBudgetParent();
+        if(budgetParent.getRequestedStartDateInitial()==null || budgetParent.getRequestedEndDateInitial()==null){
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         if (budgetService.checkActivityTypeChange(allBudgetRates, budgetParent.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);

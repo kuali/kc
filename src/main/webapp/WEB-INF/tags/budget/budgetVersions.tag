@@ -24,6 +24,7 @@
 <%@ attribute name="hierarchyParentBudgetIsComplete" required="true"%>
 
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
+<c:set var="awardBudgetAttributes" value="${DataDictionary.AwardBudgetExt.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
@@ -127,17 +128,24 @@
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
 		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
+			          		<c:choose>
+			    				<c:when test="${proposalBudgetFlag}">
+				            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
+			    				</c:when>
+			    				<c:otherwise>
+				            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
+			    				</c:otherwise>
+							</c:choose>
 		            	</div>
             		</td>
+           			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
             		<c:if test="${proposalBudgetFlag}">
-	            	<td class="tab-subhead">
-	            		<div align="center">
-	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
-	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
-	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
-	            		</div>
-	            	</td>
+		            	<td class="tab-subhead">
+		            		<div align="center">
+		            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
+		            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
+		            		</div>
+		            	</td>
 	            	</c:if>
 	            	<kra:section permission="openBudgets">
 	           			<td nowrap class="tab-subhead">

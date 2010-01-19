@@ -29,6 +29,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -95,10 +96,10 @@ public class BudgetServiceImpl implements BudgetService {
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public void addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException {
+    public BudgetDocument addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException {
         if (!isBudgetVersionNameValid(document, versionName)) {
             debug("Buffered Version not Valid");
-            return;
+            return null;
         }
 
         BudgetDocument newBudgetDoc = getNewBudgetVersion(document, versionName);
@@ -118,7 +119,7 @@ public class BudgetServiceImpl implements BudgetService {
         } catch (Exception e) {
             
         }
-
+        return newBudgetDoc;
 //        document.addNewBudgetVersion(newBudgetDoc, versionName, false);
     }
 
@@ -190,32 +191,38 @@ public class BudgetServiceImpl implements BudgetService {
         budget.setBudgetVersionNumber(budgetVersionNumber);
         budget.setBudgetDocument(budgetDocument);
         
-        budget.setStartDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
-        budget.setEndDate(parentDocument.getBudgetParent().getRequestedEndDateInitial());
+        BudgetParent budgetParent = parentDocument.getBudgetParent();
+        budget.setStartDate(budgetParent.getRequestedStartDateInitial());
+        budget.setEndDate(budgetParent.getRequestedEndDateInitial());
         budget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
         budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
-        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE));
+        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
 
         // Copy in key personnel
-        for (PersonRolodex proposalPerson: parentDocument.getBudgetParent().getPersonRolodexList()) {
+        for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
                 budgetPersonService.populateBudgetPersonData(budget, budgetPerson);
-                budgetPerson.setEffectiveDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
+                budgetPerson.setEffectiveDate(budgetParent.getRequestedStartDateInitial());
                 budget.addBudgetPerson(budgetPerson);
             }
         }
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
+        
+        if(!new Boolean(budgetDocument.getProposalBudgetFlag()).booleanValue()){
+            AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
+            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
+            budgetExt.setAwardBudgetTypeCode("1");
+        }
+        
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         parentDocument.refreshReferenceObject("budgetDocumentVersions");
-//        budgetDocument.refreshReferenceObject("budgets");
-//        budgetDocument.setParentDocument(parentDocument);
         return budgetDocument;
     }
     

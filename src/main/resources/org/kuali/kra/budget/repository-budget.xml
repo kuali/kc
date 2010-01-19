@@ -17,7 +17,7 @@
 
     <!-- Budget tables -->
     
-    <class-descriptor class="org.kuali.kra.budget.document.BudgetDocument" table="BUDGET_DOCUMENT" row-reader="org.kuali.kra.budget.core.BudgetParentRowReaderImpl">			
+    <class-descriptor class="org.kuali.kra.budget.document.BudgetDocument" table="BUDGET_DOCUMENT" row-reader="org.kuali.kra.budget.core.BudgetDocumentRowReaderImpl">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -41,7 +41,7 @@
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 	</class-descriptor>
-    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT">			
+    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT" row-reader="org.kuali.kra.budget.core.BudgetDocumentRowReaderImpl">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -65,8 +65,8 @@
 	</class-descriptor>
 <!-- Factory definitions end -->
 
-    <class-descriptor class="org.kuali.kra.budget.core.Budget" table="BUDGET">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
+    <class-descriptor class="org.kuali.kra.budget.core.Budget" table="BUDGET" >
+    	<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
@@ -131,7 +131,6 @@
         <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.budget.document.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-    	
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="ohRateClassCode"/> 
 		</reference-descriptor> 
@@ -956,6 +955,59 @@
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor> 
-	</class-descriptor> 
-
+	</class-descriptor>
+	 
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetExt" table="AWARD_BUDGET_EXT">
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
+		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.core.Budget">
+			<foreignkey field-ref="budgetId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardBudgetStatusCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardBudgetTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt" table="AWARD_BUDGET_EXT">
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
+		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview">
+			<foreignkey field-ref="budgetId"/>
+		</reference-descriptor>
+		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardBudgetStatusCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardBudgetTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetType" table="AWARD_BUDGET_TYPE">
+		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetStatus" table="AWARD_BUDGET_STATUS">
+		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+	</class-descriptor>
 </descriptor-repository>

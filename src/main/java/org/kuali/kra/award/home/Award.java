@@ -42,8 +42,16 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -2793,7 +2801,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getHierarchyStatus() {
         return "N";
     }
-
     /**
      * This method gets the obligated, distributable amount for the Award. This may be replacable with the Award TimeAndMoney obligatedAmount value, but
      * at the time of its creation, TimeAndMoney wasn't complete
@@ -2822,4 +2829,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return latestExpDate;
     }
+
+    public String getDefaultBudgetStatusParameter() {
+        return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
+    }
+
 }

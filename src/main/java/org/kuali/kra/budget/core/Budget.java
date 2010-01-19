@@ -35,6 +35,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -82,6 +83,10 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class Budget extends KraPersistableBusinessObjectBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -252470308729741085L;
     private static final String DETAIL_TYPE_CODE = "D";
     private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
     private static final String FALSE_FLAG = "N";
@@ -155,7 +160,9 @@ public class Budget extends KraPersistableBusinessObjectBase {
     private List<BudgetSubAwards> budgetSubAwards;
     private boolean rateSynced;
     private transient ParameterService parameterService;
-    
+
+    private List<AwardBudgetExt> awardBudgetExtList;
+    private AwardBudgetExt awardBudgetExt;
     public Budget(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -175,6 +182,7 @@ public class Budget extends KraPersistableBusinessObjectBase {
         budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
+        awardBudgetExtList = new ArrayList<AwardBudgetExt>();
         setOnOffCampusFlag("D");
     }
     
@@ -2062,6 +2070,39 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             return false;
         return true;
     }
+
+    /**
+     * Gets the awardBudgetExtList attribute. 
+     * @return Returns the awardBudgetExtList.
+     */
+    public List<AwardBudgetExt> getAwardBudgetExtList() {
+        return awardBudgetExtList;
+    }
+
+    /**
+     * Sets the awardBudgetExtList attribute value.
+     * @param awardBudgetExtList The awardBudgetExtList to set.
+     */
+    public void setAwardBudgetExtList(List<AwardBudgetExt> awardBudgetExtList) {
+        this.awardBudgetExtList = awardBudgetExtList;
+    }
+
+    /**
+     * Gets the awardBudgetExt attribute. 
+     * @return Returns the awardBudgetExt.
+     */
+    public AwardBudgetExt getAwardBudgetExt() {
+        return awardBudgetExtList.isEmpty()?null:awardBudgetExtList.get(0);
+    }
+
+    /**
+     * Sets the awardBudgetExt attribute value.
+     * @param awardBudgetExt The awardBudgetExt to set.
+     */
+    public void setAwardBudgetExt(AwardBudgetExt awardBudgetExt) {
+        this.awardBudgetExt = awardBudgetExt;
+    }
+
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {

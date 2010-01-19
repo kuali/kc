@@ -37,7 +37,10 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
     
-//    private String proposalNumber;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4997453399414404715L;
     private Integer budgetVersionNumber;
     private Long budgetId;
     private String documentNumber;
