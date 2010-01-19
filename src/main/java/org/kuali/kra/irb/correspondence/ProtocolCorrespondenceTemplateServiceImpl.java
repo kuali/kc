@@ -43,6 +43,14 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
     
     /**
      * 
+     * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#deleteProtocolCorrespondenceTemplate(org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType, int)
+     */
+    public void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(index);	
+    }
+    
+    /**
+     * 
      * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#saveProtocolCorrespondenceTemplates(java.util.List)
      */
     public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) {
