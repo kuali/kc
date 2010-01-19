@@ -23,7 +23,7 @@
 <div class="tab-container" align="center">
 
 <h3>
-	<span class="subhead-left">Institutional Proposal ${readOnly}</span>
+	<span class="subhead-left">Institutional Proposal</span>
 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
