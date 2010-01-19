@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,43 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.List;
+
+import org.kuali.rice.kns.service.BusinessObjectService;
+
 /**
  * 
  * This class implements the ProtocolCorrespondenceTemplateService.
  */
 public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorrespondenceTemplateService {
 
-    private static final String REFERENCE_COMMITTEE = "committee";
+    BusinessObjectService businessObjectService;
 
     /**
      * 
      * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#addProtocolCorrespondenceTemplate()
      */
     public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate) {
-        // TODO Auto-generated method stub
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
-        if (correspondenceTemplate.getCommitteeIdFk() == 1) {
+        if (correspondenceTemplate.getCommitteeId().equals("1")) {
             correspondenceTemplate.setFileName("sample1.add");
         } else {
             correspondenceTemplate.setFileName("sample2.add");
         }
-        correspondenceTemplate.refreshReferenceObject(REFERENCE_COMMITTEE);
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#saveProtocolCorrespondenceTemplates(java.util.List)
+     */
+    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) {
+        for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
+            businessObjectService.save(protocolCorrespondenceType);
+        }
+    }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
