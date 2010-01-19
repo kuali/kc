@@ -2834,4 +2834,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
     }
 
+    public boolean isParentInHierarchyComplete() {
+        return true;
+    }
+
 }

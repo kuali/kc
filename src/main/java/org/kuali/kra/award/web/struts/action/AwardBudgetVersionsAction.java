@@ -96,8 +96,8 @@ public class AwardBudgetVersionsAction extends AwardAction {
         BudgetDocument newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
         if(newBudgetDoc!=null){
             AwardBudgetExt newBudget = (AwardBudgetExt)newBudgetDoc.getBudget();
-            newBudget.setAwardBudgetStatusCode(newBudget.getBudgetStatus());
-            newBudget.setAwardBudgetTypeCode("1");
+//            newBudget.setAwardBudgetStatusCode(newBudget.getBudgetStatus());
+//            newBudget.setAwardBudgetTypeCode("1");
             awardForm.setNewBudgetVersionName("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC); 

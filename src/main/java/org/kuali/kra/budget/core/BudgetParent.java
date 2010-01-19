@@ -45,4 +45,5 @@ public interface BudgetParent {
     public Map<String, String> getNihDescription();
     public String getHierarchyStatus();
     public String getDefaultBudgetStatusParameter();
+    public boolean isParentInHierarchyComplete();
 }
