@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -31,9 +34,6 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
 
     private static final long serialVersionUID = 6043169784839779473L;
     
-    private String testName;
-    private ProtocolCorrespondenceTemplate testTemplate;
-    
     private List<ProtocolCorrespondenceType> correspondenceTypes;    
     private List<ProtocolCorrespondenceTemplate> defaultCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates;
@@ -42,22 +42,6 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         super();
         this.setCorrespondenceTypes(initCorrespondenceTypes());
         this.resetForm();
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
-    }
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public void setTestTemplate(ProtocolCorrespondenceTemplate testTemplate) {
-        this.testTemplate = testTemplate;
-    }
-
-    public ProtocolCorrespondenceTemplate getTestTemplate() {
-        return testTemplate;
     }
 
     public void setCorrespondenceTypes(List<ProtocolCorrespondenceType> correspondenceTypes) {
@@ -102,11 +86,19 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     public void resetForm() {
         this.defaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
-        for(ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
+        for (@SuppressWarnings("unused") ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
             this.defaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
             this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
         }
-        
     }
 
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        
+        // Clear values finder cache so that new committees are recognized by the committee values finder (drop-down box). 
+        if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+    }
 }

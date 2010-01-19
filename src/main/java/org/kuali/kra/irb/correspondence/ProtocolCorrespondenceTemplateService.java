@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,22 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.List;
+
 public interface ProtocolCorrespondenceTemplateService {
 
     /**
      * 
-     * This method add a ProtocolCorrespondenceTemplate
+     * This method add a ProtocolCorrespondenceTemplate.
      * @param correspondenceType - the protocol correspondence type to which the template is to be added.
-     * @param correspondenceTemplate - the protocol correspondence template to be added
+     * @param correspondenceTemplate - the protocol correspondence template to be added.
      */
     void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate);
+    
+    /**
+     * 
+     * This method saves the correspondence templates.
+     * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved.
+     */
+    void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes);
 }

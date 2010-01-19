@@ -50,7 +50,7 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
             Collections.sort((List<Committee>) committees, Collections.reverseOrder());
             for (Committee committee : committees) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
-                    keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeId()));
+                    keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
                     committeeIds.add(committee.getCommitteeId());
                 }
             }
