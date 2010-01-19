@@ -20,6 +20,7 @@
 <%@ attribute name="institutionalProposalContact" required="true" type="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" %>
 <%@ attribute name="institutionalProposalPersonIndex" required="true" %>
 
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="institutionalProposalPersonUnitAttributes" value="${DataDictionary.InstitutionalProposalPersonUnit.attributes}" />
 <c:set var="isPrincipalInvestigator" value="${institutionalProposalContact.principalInvestigator}" />
 
@@ -48,7 +49,8 @@
 				<div align="center">Actions</div>
 			</th>
 		</tr>
-		<tr>
+		<c:if test="${!readOnly}">
+		  <tr>
 			<th class="infoline" scope="row">Add:</th>
 			<c:if test="${isPrincipalInvestigator}" >
 				<th class="infoline">
@@ -106,7 +108,8 @@
                                 styleClass="tinybutton" />                    
                 </div>
 			</th>
-		</tr>
+		  </tr>
+		</c:if>
 		
 		<c:forEach var="institutionalProposalPersonUnit" items="${institutionalProposalContact.units}" varStatus="institutionalProposalPersonUnitRowStatus">
             <tr>
@@ -133,8 +136,10 @@
 				</td>
 				<td class="infoline">
 					<div align="center">
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteProjectPersonUnit.${institutionalProposalPersonIndex}.line${institutionalProposalPersonUnitRowStatus.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+				       </c:if>
 					</div>
                 </td>
             </tr>
