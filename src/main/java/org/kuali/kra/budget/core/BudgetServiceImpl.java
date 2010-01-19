@@ -103,16 +103,15 @@ public class BudgetServiceImpl implements BudgetService {
         }
 
         BudgetDocument newBudgetDoc = getNewBudgetVersion(document, versionName);
+        if(newBudgetDoc==null) return null;
         
         PessimisticLock budgetLockForProposalDoc = null;
-
         for(PessimisticLock pdLock : document.getPessimisticLocks()) {
             if(pdLock.getLockDescriptor()!=null && pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 budgetLockForProposalDoc = pdLock;
                 break;
             }
         }
-
         try {
             PessimisticLock budgetLockForBudgetDoc = getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
             newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
@@ -120,7 +119,6 @@ public class BudgetServiceImpl implements BudgetService {
             
         }
         return newBudgetDoc;
-//        document.addNewBudgetVersion(newBudgetDoc, versionName, false);
     }
 
     /**
@@ -156,18 +154,18 @@ public class BudgetServiceImpl implements BudgetService {
         this.pessimisticLockService = pessimisticLockService;
     }
     /**
-     * Retrieve injected <code>{@link BudgetVersionRule}</code> singleton
+     * Retrieve injected <code>{@link AddBudgetVersionRule}</code> singleton
      * 
-     * @return BudgetVersionRule
+     * @return AddBudgetVersionRule
      */
     public BudgetVersionRule getBudgetVersionRule() {
         return budgetVersionRule;
     }
 
     /**
-     * Inject <code>{@BudgetVersionRule}</code> singleton
+     * Inject <code>{@AddBudgetVersionRule}</code> singleton
      * 
-     * @return BudgetVersionRule
+     * @return AddBudgetVersionRule
      */
     public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
         this.budgetVersionRule = budgetVersionRule;
@@ -199,7 +197,9 @@ public class BudgetServiceImpl implements BudgetService {
         budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-
+        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
+        if(!success)
+            return null;
         // Copy in key personnel
         for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
