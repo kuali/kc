@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
@@ -27,13 +22,18 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitContactType;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * This class provides support for the Award Contacts Project Personnel panel
  */
 public class AwardUnitContactsBean extends AwardContactsBean {
     private static final long serialVersionUID = 1421235654899276682L;
     private static final int OSP_ADMINISTRATOR_TYPE_CODE = 2;
-
+    
     public AwardUnitContactsBean(AwardForm awardForm) {
         super(awardForm);
     }
@@ -140,7 +140,8 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         List<AwardUnitContact> adds = new ArrayList<AwardUnitContact>();
         for(UnitAdministrator person: allLeadUnitPersonnel) {
             if(!existingUnitContactPersonnel.contains(person.getPersonId())) {
-                adds.add(createAwardContactForPerson(person));
+                AwardUnitContact awardUnitContact = createAwardContactForPerson(person);
+                adds.add(awardUnitContact);
             }
         }
         getAward().getAwardUnitContacts().addAll(adds);
@@ -155,7 +156,10 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         awardUnitContact.setPersonId(unitAdministrator.getPerson().getPersonId());
         awardUnitContact.setFullName(unitAdministrator.getPerson().getFullName());
         awardUnitContact.setPerson(unitAdministrator.getPerson());
-        awardUnitContact.setUnitContactType(UnitContactType.CONTACT);
+        awardUnitContact.setUnitContactType(UnitContactType.ADMINISTRATOR);
+        if(AwardUnitContact.OSP_ADMINISTRATOR.equals(unitAdministrator.getUnitAdministratorType().getRoleDescription())) {
+            awardUnitContact.setRoleCode(String.valueOf(OSP_ADMINISTRATOR_TYPE_CODE));
+        }
         return awardUnitContact;
     }
 
@@ -209,7 +213,6 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         List<AwardUnitContact> existingLeadUnitContacts = findAwardUnitContactsFromLeadUnit(leadUnit);
         List<UnitAdministrator> leadUnitAdministrators = findAllLeadUnitPersons(leadUnit.getUnitNumber());
         removeUnitContactsNotInLeadUnit(leadUnit, existingLeadUnitContacts);
-        addLeadUnitContacts(getAward().getAwardUnitContacts(), leadUnitAdministrators);        
-        
+        addLeadUnitContacts(getAward().getAwardUnitContacts(), leadUnitAdministrators);
     }
 }
