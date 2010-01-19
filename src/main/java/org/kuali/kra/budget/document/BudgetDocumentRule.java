@@ -116,13 +116,14 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
         GlobalVariables.getErrorMap().addToErrorPath("document");        
-        GlobalVariables.getErrorMap().addToErrorPath("proposal");
+        GlobalVariables.getErrorMap().addToErrorPath("parentDocument");
         if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
-            budgetDocument.refreshReferenceObject("proposal");
+            budgetDocument.refreshReferenceObject("parentDocument");
         }
-        
-        valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
-        GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
+        if(Boolean.valueOf(budgetDocument.getParentDocument().getProposalBudgetFlag())){
+            valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath("parentDocument");
         
         GlobalVariables.getErrorMap().addToErrorPath("budget"); 
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);

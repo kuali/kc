@@ -122,16 +122,16 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      *
      * This method checks budget versions business rules.
      *
-     * @param proposalDevelopmentDocument the document
+     * @param budgetParentDocument the document
      * @param runDatactionaryValidation if dd validation should be run
      * @return true if valid false if not
      * @throws NullPointerException if the proposalDevelopmentDocument is null
      */
     protected boolean processBudgetVersionsBusinessRule(
-        final BudgetParentDocument proposalDevelopmentDocument,
+        final BudgetParentDocument budgetParentDocument,
         final boolean runDatactionaryValidation) {
-        if (proposalDevelopmentDocument == null) {
-            throw new NullPointerException("the proposalDevelopmentDocument is null.");
+        if (budgetParentDocument == null) {
+            throw new NullPointerException("the parentDocument is null.");
         }
 
         boolean valid = true;
@@ -142,7 +142,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
             = this.getDictionaryValidationService();
 
         int index = 0;
-        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+        for (BudgetDocumentVersion budgetDocumentVersion: budgetParentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);

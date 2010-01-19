@@ -21,11 +21,13 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.util.List;
 
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
@@ -45,7 +47,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
      * @param document is a {@link BudgetDocument} instance that the {@link BudgetVersionOverview} is getting added to
      * @returns true if it passed, false if it failed
      */
-    public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
+    public boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {
         BudgetVersionCollection versionCollection = (BudgetVersionCollection) (event.getDocument());
         boolean retval = true;
 
@@ -58,7 +60,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
         if (containsVersionOverview(versionCollection, event.getVersionName())) {
             retval = false;
             GlobalVariables.getErrorMap().putError("document.parentDocument.budgetDocumentVersion", BUDGET_VERSION_EXISTS);
-        }            
+        }
         return retval;
     }
 
@@ -92,5 +94,21 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
             }
         }
         return false;
+    }
+
+    public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
+        Budget budget = event.getBudget();
+        if(budget.getStartDate()==null){
+            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+                    KeyConstants.ERROR_BUDGET_START_DATE_MISSING, "Name");
+            return false;
+        }
+        if(budget.getEndDate()==null){
+            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+                    KeyConstants.ERROR_BUDGET_END_DATE_MISSING, "Name");
+            return false;
+        }
+        return true;
+        
     }
 }
