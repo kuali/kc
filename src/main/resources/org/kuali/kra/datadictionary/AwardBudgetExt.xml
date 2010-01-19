@@ -35,6 +35,7 @@
                 <ref bean="AwardBudgetExt-budgetId" />
                 <ref bean="AwardBudgetExt-awardBudgetStatusCode" />
                 <ref bean="AwardBudgetExt-awardBudgetTypeCode" />
+                <ref bean="AwardBudgetExt-totalCostLimit" />
                 <ref bean="AwardBudgetExt-versionNumber" />
             </list>
         </property>
@@ -64,8 +65,8 @@
     <bean id="AwardBudgetExt-awardBudgetStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="awardBudgetStatusCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Budget Status Code" />
-        <property name="shortLabel" value="Award Budget Status Code" />
+        <property name="label" value="Award Budget Status" />
+        <property name="shortLabel" value="Award Budget Status" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -87,8 +88,8 @@
     <bean id="AwardBudgetExt-awardBudgetTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="awardBudgetTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Budget Type Code" />
-        <property name="shortLabel" value="Award Budget Type Code" />
+        <property name="label" value="Award Budget Type" />
+        <property name="shortLabel" value="Award Budget Type" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -105,6 +106,14 @@
         <property name="summary" value="Award Budget Type Code" />
         <property name="description" value="Award Budget Type Code" />
     </bean>
+  <bean id="AwardBudgetExt-totalCostLimit" parent="AwardBudgetExt-totalCostLimit-parentBean"/>
+
+  <bean id="AwardBudgetExt-totalCostLimit-parentBean" abstract="true" parent="Budget-totalCostLimit">
+    <property name="label" value="Budget Amount"/>
+    <property name="shortLabel" value="Budget Amount"/>
+    <property name="summary" value="Obligated Change amount"/>
+    <property name="description" value="Obligated change amount for budgeting"/>
+  </bean>
 
     <bean id="AwardBudgetExt-versionNumber" parent="AwardBudgetExt-versionNumber-parentBean" />
     <bean id="AwardBudgetExt-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
