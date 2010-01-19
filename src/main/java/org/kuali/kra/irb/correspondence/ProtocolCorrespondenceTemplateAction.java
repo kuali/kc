@@ -48,20 +48,43 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
      */
     public ActionForward addCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        int index = getSelectedCorrespondenceType(request);
+        int typeIndex = getSelectedCorrespondenceType(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
-        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(index);
-        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getNewCorrespondenceTemplates().get(index);
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getNewCorrespondenceTemplates().get(typeIndex);
 
         // check any business rules
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddProtocolCorrespondenceTemplateRules(correspondenceType, 
-                newCorrespondenceTemplate, index);
+                newCorrespondenceTemplate, typeIndex);
         if (rulePassed) {
             getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when deleting a correspondence template
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward deleteCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int typeIndex = getSelectedCorrespondenceType(request);
+        int templateIndex = getSelectedCorrespondenceTemplate(request);
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+
+        getProtocolCorrespondenceTemplateService().deleteProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
+        correspondenceTemplateForm.resetForm();
+
+    	return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -82,6 +105,20 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             index = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceType[", "]"));
+        }
+        return index;
+    }
+
+    /**
+     * This method returns the index of the selected correspondence template.
+     * @param request
+     * @return index
+     */
+    protected int getSelectedCorrespondenceTemplate(HttpServletRequest request) {
+        int index = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            index = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceTemplate[", "]"));
         }
         return index;
     }

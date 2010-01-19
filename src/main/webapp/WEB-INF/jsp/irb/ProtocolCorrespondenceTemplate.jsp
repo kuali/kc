@@ -180,7 +180,7 @@
                                             title="Replace Correspondence Template" 
                                             alt="Replace Correspondence Template" 
                                             styleClass="tinybutton" />
-                                        <html:image property="methodToCall.deleteCorrespondenceTemplate" 
+                                        <html:image property="methodToCall.deleteCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]}" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
                                             title="Delete Correspondence Template" 
                                             alt="Delete Correspondence Template" 
