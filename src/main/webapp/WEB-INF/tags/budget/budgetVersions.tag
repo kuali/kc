@@ -58,9 +58,14 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalIndirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th>Total</th>
 				<th>Budget Status</th>
-				<c:if test="${proposalBudgetFlag}">
-				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
-				</c:if>
+          		<c:choose>
+    				<c:when test="${proposalBudgetFlag}">
+						<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
+					</c:when>
+					<c:otherwise>
+						<th><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" useShortLabel="true" noColon="true"/></th>
+					</c:otherwise>
+				</c:choose>
 				<kra:section permission="openBudgets">
 				    <th><div align="center">Actions</div></th>
 				</kra:section>
@@ -75,9 +80,7 @@
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>
-            	<c:if test="${proposalBudgetFlag}">
-	            	<td class="infoline">&nbsp;</td>
-	            </c:if>
+            	<td class="infoline">&nbsp;</td>
 	            <td class="infoline">
             		<div align=center>
             			<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
@@ -138,15 +141,20 @@
 							</c:choose>
 		            	</div>
             		</td>
-           			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
-            		<c:if test="${proposalBudgetFlag}">
 		            	<td class="tab-subhead">
 		            		<div align="center">
-		            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
-		            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
+				          		<c:choose>
+				    				<c:when test="${proposalBudgetFlag}">
+				            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
+				            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
+					           			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
+				            		</c:when>
+				            		<c:otherwise>
+				            			<kul:htmlControlAttribute property="${version}.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" disabled="${readonly}"/>
+				            		</c:otherwise>
+				            	</c:choose>
 		            		</div>
 		            	</td>
-	            	</c:if>
 	            	<kra:section permission="openBudgets">
 	           			<td nowrap class="tab-subhead">
 	           				<div align=center>
