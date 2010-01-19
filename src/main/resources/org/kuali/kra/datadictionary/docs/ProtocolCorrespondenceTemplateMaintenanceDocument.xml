@@ -62,7 +62,7 @@
                     p:name="protoCorrespTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="committeeIdFk"
+                    p:name="committeeId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="correspondenceTemplate"
