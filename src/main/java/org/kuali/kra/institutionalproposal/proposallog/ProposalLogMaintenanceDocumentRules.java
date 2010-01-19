@@ -17,23 +17,27 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase {
+public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase
+    implements MaintenanceDocumentRule {
     
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * Checks to see if document is in valid state to save.
+     * 
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(
+     * org.kuali.rice.kns.document.MaintenanceDocument)
+     
+     * @param document the MaintenanceDocument to check
+     * @return boolean
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = true;
+    protected boolean isDocumentValidForSave(MaintenanceDocument document) {
+        boolean valid = super.isDocumentValidForSave(document);
         
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
         
