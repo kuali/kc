@@ -158,7 +158,7 @@ public interface BudgetService {
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public void addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException;
+    public BudgetDocument addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException;
 
     /**
      * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid

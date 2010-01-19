@@ -17,17 +17,20 @@ package org.kuali.kra.budget.core;
 
 import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.ojb.broker.accesslayer.RowReaderDefaultImpl;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
+import org.apache.ojb.broker.metadata.CollectionDescriptor;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * This class...
  */
-public class BudgetParentRowReaderImpl extends RowReaderDefaultImpl {
+public class BudgetDocumentRowReaderImpl extends RowReaderDefaultImpl {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -35,26 +38,25 @@ public class BudgetParentRowReaderImpl extends RowReaderDefaultImpl {
     private static final long serialVersionUID = -633262608528458894L;
 
     private ClassDescriptor cld;
-    public BudgetParentRowReaderImpl(ClassDescriptor cld) {
+    public BudgetDocumentRowReaderImpl(ClassDescriptor cld) {
         super(cld);
         this.cld = cld;
     }
     @Override
-    protected ClassDescriptor selectClassDescriptor(Map row) throws PersistenceBrokerException {
-        
+    public void readObjectArrayFrom(org.apache.ojb.broker.accesslayer.ResultSetAndStatement rs_stmt, Map row){
+        super.readObjectArrayFrom(rs_stmt, row);
         String parentDocumentTypeCode = (String) row.get("PARENT_DOCUMENT_TYPE_CODE");
-        ObjectReferenceDescriptor referenceDescriptor = cld.getObjectReferenceDescriptorByName("parentDocument");
-        ClassDescriptor classDescriptor = referenceDescriptor.getClassDescriptor();
-        ClassDescriptor result = null;
+        boolean isBudgetDocument = cld.getClassNameOfObject().equals(BudgetDocument.class.getName());
+        String budgetCollectionName = isBudgetDocument?"budgets":"budgetVersionOverviews";
+        CollectionDescriptor cd = cld.getCollectionDescriptorByName(budgetCollectionName);
+        Class classDescrClazz = Budget.class;
         if(ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)){
-//            classDescriptor.setClassOfObject(ProposalDevelopmentDocument.class);
-//            result = cld.getRepository().getDescriptorFor(ProposalDevelopmentDocument.class);
+            classDescrClazz = isBudgetDocument?Budget.class:BudgetVersionOverview.class;
         }
         if(AwardDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)){
-//            classDescriptor.setClassOfObject(AwardDocument.class);
-//            result = cld.getRepository().getDescriptorFor(AwardDocument.class);
+            classDescrClazz = isBudgetDocument?AwardBudgetExt.class:AwardBudgetVersionOverviewExt.class;
         }
-//        referenceDescriptor.setClassDescriptor(result);
-        return cld;
+        cd.setItemClass(classDescrClazz);
+        
     }
 }

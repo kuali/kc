@@ -22,13 +22,17 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -40,7 +44,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
-public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
+public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -50,7 +54,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     private String parentDocumentKey;
     private String parentDocumentTypeCode;
-    private BudgetParentDocument parentDocument;
+    private BudgetParentDocument<T> parentDocument;
     private List<Budget> budgets;
     
     public BudgetDocument(){
@@ -159,7 +163,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * Gets the parentDocument attribute. 
      * @return Returns the parentDocument.
      */
-    public BudgetParentDocument getParentDocument() {
+    public BudgetParentDocument<T> getParentDocument() {
         return parentDocument;
     }
 
@@ -167,7 +171,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * Sets the parentDocument attribute value.
      * @param parentDocument The parentDocument to set.
      */
-    public void setParentDocument(BudgetParentDocument parentDocument) {
+    public void setParentDocument(BudgetParentDocument<T> parentDocument) {
         this.parentDocument = parentDocument;
     }
 
@@ -194,7 +198,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      */
     public Budget getBudget(){
         if(budgets.isEmpty()){
-            budgets.add(new Budget());
+            Budget newBudget = ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)?
+                        new Budget():new AwardBudgetExt();
+            budgets.add(newBudget);
         }
         return budgets.get(0);
     }
