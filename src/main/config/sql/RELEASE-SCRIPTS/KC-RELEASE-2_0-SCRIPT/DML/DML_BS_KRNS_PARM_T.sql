@@ -115,12 +115,6 @@ VALUES('KC-AWARD', 'D', 'scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsF
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES('KC-AWARD', 'D', 'contactTypeOther', SYS_GUID () , 1, 'CONFG', '8', 'Contact Type Code For Contact Type Other', 'A', 'WorkflowAdmin', 'Y') ;
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
-
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'proposalHierarchySubProjectIndirectCostElement', 'CONFG', 'PHTID02', 'The Cost Element to be used for the Indirect Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
-
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
@@ -141,7 +135,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.pi' 
+    PARM_NM='personrole.pi',
+    PARM_DESC_TXT = 'Description of principal investigator for Non-NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.pi';
@@ -149,7 +144,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.nih.pi' 
+    PARM_NM='personrole.nih.pi',
+    PARM_DESC_TXT = 'Description of principal investigator contact for NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.nonnih.pi';
@@ -157,7 +153,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.kp' 
+    PARM_NM='personrole.kp',
+    PARM_DESC_TXT = 'Description of key person for Non-NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.kp';
@@ -165,7 +162,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.nih.kp' 
+    PARM_NM='personrole.nih.kp',
+    PARM_DESC_TXT = 'Description of key person for NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.nonnih.kp';
@@ -173,7 +171,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.coi' 
+    PARM_NM='personrole.coi',
+    PARM_DESC_TXT = 'Description of co-investigator for Non-NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.coi';
@@ -181,7 +180,8 @@ WHERE NMSPC_CD = 'KRA-PD'
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
     PARM_DTL_TYP_CD='A', 
-    PARM_NM='personrole.nih.coi' 
+    PARM_NM='personrole.nih.coi',
+    PARM_DESC_TXT = 'Description of principal investigator multiple for NIH Proposals' 
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.personrole.nonnih.coi';
@@ -287,6 +287,27 @@ SET PARM_DTL_TYP_CD='D'
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'A'
       AND PARM_NM = 'initialUnitLoadDepth';
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'proposalHierarchySubProjectIndirectCostElement', 'CONFG', 'PHTID02', 'The Cost Element to be used for the Indirect Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'awardBudgetEbRateClassCode', 'CONFG', '5', 'The EB rate class code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'awardBudgetEbRateTypeCode', 'CONFG', '6', 'The EB rate type code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'defaultFnARateClassCode', 'CONFG', '1', 'The OH rate class code to be used for award budget if the fna rates are overridden on commitements tab', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'AWARD_BUDGET_STATUS_IN_PROGRESS_CODE', 'CONFG', '1', 'Default award budget status code', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KRA-B', 'D', 'AWARD_BUDGET_TYPE_NEW_PARAMETER', 'CONFG', '1', 'Default award budget type code', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-PD', 'D', 'proposaldevelopment.autogenerate.institutionalproposal', 'CONFG', 'Y', 'Should an Institutional Proposal be automatically generated', 'A') ;
