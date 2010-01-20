@@ -21,10 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -51,8 +48,8 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
         if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
             ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
-            if (proposalLog.getkcPerson() != null) {
-                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
+            if (proposalLog.getPerson() != null) {
+                proposalLog.setLeadUnit(proposalLog.getPerson().getContactOrganizationName());
             }
         }
     }
@@ -64,6 +61,19 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
             // New record; set default values.
             setupDefaultValues(proposalLog);
         }
+    }
+    
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters) {
+        ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
+        proposalLog.setCreateTimestamp(null);
+        proposalLog.setCreateUser(null);
+        proposalLog.setUpdateTimestamp(null);
+        proposalLog.setUpdateUser(null);
+        proposalLog.setFiscalMonth(null);
+        proposalLog.setFiscalYear(null);
+        proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
+        proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
     }
     
     /**
