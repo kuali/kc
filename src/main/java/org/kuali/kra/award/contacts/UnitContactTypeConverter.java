@@ -17,6 +17,7 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
+import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.UnitContactType;
 
 /**
@@ -33,7 +34,7 @@ public class UnitContactTypeConverter implements FieldConversion {
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
      */
     public Object javaToSql(Object source) {
-        if(!(source instanceof UnitContactType)) {
+        if(!(source instanceof UnitContactType || source instanceof UnitAdministratorType)) {
             throw new ConversionException(JAVA_TYPE_ERROR);
         }
         
