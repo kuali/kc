@@ -17,7 +17,6 @@ package org.kuali.kra.timeandmoney;
 
 import java.util.List;
 
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
@@ -25,6 +24,8 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
+import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRuleImpl;
 import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRule;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
@@ -65,8 +66,34 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
                 VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processAwardDirectFandADistributionBusinessRules(document);
+        retval &= processTimeAndMoneyAwardAmountTransactionBusinessRules(document);
+
         return retval;
     }
+    
+    /**
+    *
+    * process Direct F and A Distribution business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processTimeAndMoneyAwardAmountTransactionBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        String errorPath = "timeAndMoneyAwardAmountTransaction";
+        errorMap.addToErrorPath(errorPath);
+        TimeAndMoneyAwardAmountTransactionSaveEvent event = new TimeAndMoneyAwardAmountTransactionSaveEvent(errorPath, 
+                                                            timeAndMoneyDocument);
+        valid &= new TimeAndMoneyAwardAmountTransactionRuleImpl().processSaveAwardAmountTransactionBusinessRules(event);
+        errorMap.removeFromErrorPath(errorPath);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
     
     /**
     *
