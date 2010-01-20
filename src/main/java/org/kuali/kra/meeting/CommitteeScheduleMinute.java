@@ -79,6 +79,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @Column(name="FINAL_FLAG")
     private boolean finalFlag; 
     
+    @Column(name="REVIEWER_ID_FK")
     private Long protocolReviewerIdFk;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -88,6 +89,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="MINUTE_ENTRY_TYPE_CODE", insertable=false, updatable=false)
     private MinuteEntryType minuteEntryType;
+    
     
     private ProtocolReviewer protocolReviewer;
 
