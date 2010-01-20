@@ -18,8 +18,16 @@
 <channel:portalChannelTop channelTitle="Awards" />
 <div class="body">
 	<ul class="chan">
+	  	<li><portal:portalLink displayTitle="false" title="Create Award" url="awardHome.do?methodToCall=docHandler&command=initiate&docTypeName=AwardDocument">Create Award</portal:portalLink></li>	  	
+	  	<!--<li>Create Award</li>-->
 	    <li>Awards in Progress</li>
 	    <li>All my Awards</li>
 	</ul>
+	<strong>Lists</strong>
+	<ul class="chan">
+      	<li><portal:portalLink displayTitle="true" title="Search Awards" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+          <!--<li><portal:portalLink displayTitle="true" title="Search Institutional Proposals" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.home.InstitutionalProposal&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>-->
+        <li><portal:portalLink displayTitle="true" title="Search Proposal Logs" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.proposallog.ProposalLog&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
