@@ -26,6 +26,7 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8626352352644718112L;
+
     private Long transactionId;
     private String documentNumber;
     private String sourceAwardNumber;
@@ -34,6 +35,15 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
     private KualiDecimal anticipatedAmount;
     private String comments;
     
+    
+    
+    /**
+     * Constructs a PendingTransaction.java.
+     */
+    public PendingTransaction() {
+        setObligatedAmount(new KualiDecimal(0));
+        setAnticipatedAmount(new KualiDecimal(0));
+    }
     
     /** {@inheritDoc} */
     @Override 
