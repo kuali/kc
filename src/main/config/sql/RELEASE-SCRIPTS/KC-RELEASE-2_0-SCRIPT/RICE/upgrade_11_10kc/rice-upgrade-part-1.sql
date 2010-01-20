@@ -13,9 +13,6 @@ DROP TABLE KRNS_DOC_TYP_T CASCADE CONSTRAINTS;
 
 DROP SEQUENCE KRIM_ROLE_REL_ID_S;
 
-CREATE SEQUENCE KRIM_ROLE_PERM_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
-/
-
 INSERT INTO KRNS_PARM_T (CONS_CD, NMSPC_CD, OBJ_ID, PARM_DESC_TXT, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, VER_NBR)
 VALUES('A', 'KR-NS', SYS_GUID () , 'A semi-colon delimted list of strings representing date formats that the DateTimeService will use to parse dates when DateTimeServiceImpl.convertToSqlDate(String) or DateTimeServiceImpl.convertToDate(String) is called. Note that patterns will be applied in the order listed (and the first applicable one will be used). For a more technical description of how characters in the parameter value will be interpreted, please consult the javadocs for java.text.SimpleDateFormat. Any changes will be applied when the application is restarted.', 'All', 'STRING_TO_DATE_FORMATS', 'CONFG', 'MM/dd/yy;MM-dd-yy;MMMM dd, yyyy;MMddyy', 1) ;
 
@@ -417,8 +414,9 @@ ALTER TABLE KRNS_MAINT_LOCK_T DROP PRIMARY KEY;
 DECLARE CURSOR cursor1 IS SELECT MAINT_LOCK_REP_TXT
                           FROM   KRNS_MAINT_LOCK_T;BEGIN FOR r IN cursor1 LOOP EXECUTE IMMEDIATE 'UPDATE KRNS_MAINT_LOCK_T SET MAINT_LOCK_ID=KRNS_MAINT_LOCK_S.nextval';END LOOP;END;/ 
 
-ALTER TABLE KRNS_MAINT_LOCK_T ADD 
-        PRIMARY KEY (MAINT_LOCK_ID) ;
+ALTER TABLE KRNS_MAINT_LOCK_T
+    ADD CONSTRAINT KRNS_MAINT_LOCK_TP1
+PRIMARY KEY (MAINT_LOCK_REP_TXT);
 
 ALTER TABLE KRNS_MAINT_LOCK_T MODIFY MAINT_LOCK_REP_TXT VARCHAR2 (500) ;
 
