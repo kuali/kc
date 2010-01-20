@@ -57,8 +57,8 @@
 				</td>
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
-		        		<kul:htmlControlAttribute property="unitContactsBean.contactRoleCode" 
-	                									attributeEntry="${awardUnitContactAttributes.contactRoleCode}" />
+		        		<kul:htmlControlAttribute property="unitContactsBean.unitContact.unitAdministratorTypeCode" 
+	                									attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}" />
 					</div>
 	        	</td>
 	        	<td class="infoline">
@@ -95,8 +95,8 @@
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-	                		<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].contactRoleCode" 
-	                									attributeEntry="${awardUnitContactAttributes.contactRoleCode}" />
+	                		<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].unitAdministratorTypeCode" 
+	                									attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}" />
 	                	</div>
 					</td>
 					<td valign="middle">
@@ -124,7 +124,15 @@
 						</div>
 	                </td>
 	            </tr>
-    		</c:forEach>	    	
+    		</c:forEach>
+    		<tr>
+            	<th colspan="7" align="center" scope="row">
+            		<div align="center">
+	         			<html:image property="methodToCall.syncDefaultUnitContactsToLeadUnit.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncall.gif' styleClass="tinybutton"/>
+					</div>
+	         	</th>
+			</tr>	    	
     	</table>
 	</div>
 </kul:tab>

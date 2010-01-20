@@ -1424,6 +1424,8 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="defaultGroupFlag" column="DEFAULT_GROUP_FLAG" jdbc-type="VARCHAR"/>
+		<field-descriptor name="multiplesFlag" column="MULTIPLES_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<collection-descriptor name="unitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="unitAdministratorTypeCode"/>
 		</collection-descriptor>

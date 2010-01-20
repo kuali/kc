@@ -329,6 +329,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
         populateStaticCloseoutReports(awardForm);
+        //populateDefaultUnitContactsFromLeadUnit(awardForm);
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
             createDefaultAwardHierarchy(awardForm);            
         }
@@ -346,6 +347,10 @@ public class AwardAction extends BudgetParentActionBase {
             awardForm.getAwardHierarchyBean().setRootNode(newNode);
         }
     }
+    
+    //protected void populateDefaultUnitContactsFromLeadUnit(AwardForm awardForm) {
+        //awardForm.getUnitContactsBean().fi
+    //}
 
     /**
      * Create the original set of Award Users for a new Award Document.
@@ -473,6 +478,9 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
+        AwardForm awardForm = (AwardForm) form;
+        
+        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
 
         if(sponsorService.isSponsorNih(award)) {
             award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));

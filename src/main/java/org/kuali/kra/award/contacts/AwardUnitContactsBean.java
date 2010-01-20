@@ -15,17 +15,21 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.bo.UnitContactType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.award.home.ContactType;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.UnitContactType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitService;
 
 /**
  * This class provides support for the Award Contacts Project Personnel panel
@@ -33,17 +37,18 @@ import java.util.Map;
 public class AwardUnitContactsBean extends AwardContactsBean {
     private static final long serialVersionUID = 1421235654899276682L;
     private static final int OSP_ADMINISTRATOR_TYPE_CODE = 2;
-    
+    private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
+
     public AwardUnitContactsBean(AwardForm awardForm) {
         super(awardForm);
     }
 
     public void addUnitContact() {
-        boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getUnitContact());
-        if(success){
+        //boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getUnitContact());
+        //if(success){
             getAward().add(getUnitContact());
             init();
-        }
+        //}
     }
     
     /**
@@ -52,6 +57,31 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      */
     public void deleteUnitContact(int lineToDelete) {
         deleteUnitContact(getUnitContacts(), lineToDelete);                
+    }
+    
+    public void syncAwardUnitContactsToLeadUnitContacts() {
+        getAward().setAwardUnitContacts(new ArrayList<AwardUnitContact>()); //delete all current unit contacts
+        List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(awardForm.getAwardDocument().getAward().getUnitNumber());
+        for(UnitAdministrator unitAdministrator : unitAdministrators) {
+            if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS)) {
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
+                AwardUnitContact newAwardUnitContact = new AwardUnitContact(UnitContactType.CONTACT);
+                newAwardUnitContact.setPerson(person);
+                newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
+                newAwardUnitContact.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
+                newAwardUnitContact.setFullName(person.getFullName());
+                getAward().add(newAwardUnitContact);
+            }
+        }
+    }
+    
+    
+    public UnitService getUnitService() {
+        return (UnitService) KraServiceLocator.getService(UnitService.class);
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
     /**
@@ -66,13 +96,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      * @return The list; may be empty
      */
     public List<AwardUnitContact> getUnitContacts() {
-        List<AwardUnitContact> unitContacts = new ArrayList<AwardUnitContact>();
-        Unit unit = getAward().getLeadUnit();
-        if(unit != null) {
-            updateExistingLeadUnitContactsFromAward(unit);
-        }
-        unitContacts.addAll(findContactsForCategory(UnitContactType.CONTACT));
-        return unitContacts;
+        return awardForm.getAwardDocument().getAward().getAwardUnitContacts();
     }
     
     /**
@@ -97,22 +121,6 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     }
 
     /**
-     * Find the subset of unitContacts for a particular UnitContactType
-     * @param contactType
-     * @return
-     */
-    protected List<AwardUnitContact> findContactsForCategory(UnitContactType contactType) {
-        List<AwardUnitContact> categorizedContacts = new ArrayList<AwardUnitContact>();
-        for(AwardUnitContact contact: getAward().getAwardUnitContacts()) {
-            UnitContactType foundType = contact.getUnitContactType();
-            if(foundType == contactType) {
-                categorizedContacts.add(contact);
-            }
-        }
-        return categorizedContacts;
-    }
-
-    /**
      * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
      */
     @Override
@@ -128,24 +136,6 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         return new AwardUnitContact(UnitContactType.CONTACT);
     }
     
-    /*
-     * Add lead unit contacts
-     */
-    private void addLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<UnitAdministrator> allLeadUnitPersonnel) {
-        List<String> existingUnitContactPersonnel = new ArrayList<String>();
-        for(AwardUnitContact contact: existingUnitContacts) {
-            existingUnitContactPersonnel.add(contact.getPerson().getPersonId());
-        }
-        
-        List<AwardUnitContact> adds = new ArrayList<AwardUnitContact>();
-        for(UnitAdministrator person: allLeadUnitPersonnel) {
-            if(!existingUnitContactPersonnel.contains(person.getPersonId())) {
-                AwardUnitContact awardUnitContact = createAwardContactForPerson(person);
-                adds.add(awardUnitContact);
-            }
-        }
-        getAward().getAwardUnitContacts().addAll(adds);
-    }
     
     /*
      * create an AwardUnitContact from a person
@@ -156,63 +146,9 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         awardUnitContact.setPersonId(unitAdministrator.getPerson().getPersonId());
         awardUnitContact.setFullName(unitAdministrator.getPerson().getFullName());
         awardUnitContact.setPerson(unitAdministrator.getPerson());
-        awardUnitContact.setUnitContactType(UnitContactType.ADMINISTRATOR);
-        if(AwardUnitContact.OSP_ADMINISTRATOR.equals(unitAdministrator.getUnitAdministratorType().getRoleDescription())) {
-            awardUnitContact.setRoleCode(String.valueOf(OSP_ADMINISTRATOR_TYPE_CODE));
-        }
+        awardUnitContact.setUnitContactType(UnitContactType.CONTACT);
+        awardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
         return awardUnitContact;
     }
 
-    /*
-     * Find lead unit contacts
-     */
-    private List<AwardUnitContact> findAwardUnitContactsFromLeadUnit(Unit leadUnit) {
-        List<AwardUnitContact> allUnitContacts = findContactsForCategory(UnitContactType.CONTACT);
-        List<AwardUnitContact> existingLeadUnitContacts = new ArrayList<AwardUnitContact>(); 
-        for(AwardUnitContact unitContact: allUnitContacts) {
-            if(leadUnit.getUnitNumber().equals(unitContact.getPerson().getOrganizationIdentifier())) {
-                existingLeadUnitContacts.add(unitContact);
-            }
-        }
-        return existingLeadUnitContacts;
-    }
-
-
-    private List<UnitAdministrator> findAllLeadUnitPersons(String unitNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("unitNumber", unitNumber);
-        fieldValues.put("unitAdministratorTypeCode", OSP_ADMINISTRATOR_TYPE_CODE);
-        @SuppressWarnings("unchecked") List<UnitAdministrator> unitPeople = (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, fieldValues);
-        return unitPeople;
-    }
-
-    /*
-     * Remove lead unit contacts
-     */
-    private void removeUnitContactsNotInLeadUnit(Unit newLeadUnit, List<AwardUnitContact> existingUnitContacts) {
-        List<AwardUnitContact> removals = new ArrayList<AwardUnitContact>();
-        for(AwardUnitContact existingContact: existingUnitContacts) {
-            if(!isUnitContactInNewLeadUnit(newLeadUnit, existingContact)) {
-                removals.add(existingContact);
-            }
-            
-        }
-        if(removals.size() > 0) {
-            getAward().getAwardUnitContacts().removeAll(removals);
-        }
-    }
-
-    private boolean isUnitContactInNewLeadUnit(Unit newLeadUnit, AwardUnitContact existingContact) {
-        return existingContact.getOrganizationIdentifier().equals(newLeadUnit.getUnitNumber());
-    }
-
-    /*
-     * Finds any unit contacts from Lead Unit and removes them from Award
-     */
-    private void updateExistingLeadUnitContactsFromAward(Unit leadUnit) {
-        List<AwardUnitContact> existingLeadUnitContacts = findAwardUnitContactsFromLeadUnit(leadUnit);
-        List<UnitAdministrator> leadUnitAdministrators = findAllLeadUnitPersons(leadUnit.getUnitNumber());
-        removeUnitContactsNotInLeadUnit(leadUnit, existingLeadUnitContacts);
-        addLeadUnitContacts(getAward().getAwardUnitContacts(), leadUnitAdministrators);
-    }
 }

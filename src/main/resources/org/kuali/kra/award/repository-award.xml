@@ -626,18 +626,19 @@
 		<field-descriptor name="awardContactId" column="AWARD_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
 		
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
-		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
-		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
-		
+		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />		
 		<field-descriptor name="unitContactType" column="UNIT_CONTACT_TYPE" jdbc-type="VARCHAR" nullable="false" conversion="org.kuali.kra.award.contacts.UnitContactTypeConverter"/>
-		
+		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />		
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitAdministratorTypeCode"/> 
+		</reference-descriptor>			
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.ReportClass" table="REPORT_CLASS">
