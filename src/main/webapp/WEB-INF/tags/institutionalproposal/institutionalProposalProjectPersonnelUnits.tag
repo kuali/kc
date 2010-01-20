@@ -55,8 +55,8 @@
 			<c:if test="${isPrincipalInvestigator}" >
 				<th class="infoline">
 					<div align="center">
-					<kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].leadUnit" 
-												attributeEntry="${institutionalProposalPersonUnitAttributes.leadUnit}" />
+					   <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].leadUnit" 
+												attributeEntry="${institutionalProposalPersonUnitAttributes.leadUnit}"/>
 					</div>
 				</th>
 			</c:if>
@@ -119,7 +119,7 @@
 				<c:if test="${isPrincipalInvestigator}">
 	                <td valign="middle">
 	                	<div align="center">
-	                		<html:radio property="selectedLeadUnit" value="${institutionalProposalPersonUnit.unit.unitName}"/>               		
+	                		<html:radio property="selectedLeadUnit" value="${institutionalProposalPersonUnit.unit.unitName}" disabled="${readOnly}"/>
 						</div>
 					</td>
 				</c:if>
