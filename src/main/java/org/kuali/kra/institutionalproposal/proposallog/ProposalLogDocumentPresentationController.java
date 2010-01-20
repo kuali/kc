@@ -21,29 +21,57 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
+/**
+ * Determines read-only fields on the Proposal Log maintenance document.
+ */
 public class ProposalLogDocumentPresentationController extends MaintenanceDocumentPresentationControllerBase
-implements DocumentPresentationController {
+    implements DocumentPresentationController {
     
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(
             MaintenanceDocument document) {
         Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
-        if (document.getOldMaintainableObject() != null 
-                && document.getOldMaintainableObject().getBusinessObject() != null
-                && document.getOldMaintainableObject().getBusinessObject() instanceof ProposalLog) {
+        if (isValidDocument(document)) {
             ProposalLog proposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
-            if (ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus())
-                    || proposalLog.getProposalNumber() == null) {
-                fields.add("logStatus");
+            if (isStatusMerged(proposalLog) || isNew(proposalLog) || isCopy(document)) {
+                fields.add(ProposalLog.LOG_STATUS);
             }
-            if (proposalLog.getProposalNumber() != null
-                    || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
-                            KEWConstants.ROUTE_HEADER_SAVED_CD)) {
+            if (isEdit(document) || isSaved(document)) {
                 fields.add("proposalLogTypeCode");
             }
         }
         return fields;
+    }
+    
+    private boolean isValidDocument(MaintenanceDocument document) {
+        return document.getOldMaintainableObject() != null 
+            && document.getOldMaintainableObject().getBusinessObject() != null
+            && document.getOldMaintainableObject().getBusinessObject() instanceof ProposalLog;
+    }
+    
+    private boolean isNew(ProposalLog proposalLog) {
+        return proposalLog.getProposalNumber() == null;
+    }
+    
+    private boolean isEdit(MaintenanceDocument document) {
+        return document.getNewMaintainableObject() != null 
+            && KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
+    }
+    
+    private boolean isSaved(MaintenanceDocument document) {
+        return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
+                KEWConstants.ROUTE_HEADER_SAVED_CD);
+    }
+    
+    private boolean isCopy(MaintenanceDocument document) {
+        return document.getNewMaintainableObject() != null 
+            && KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
+    }
+    
+    private boolean isStatusMerged(ProposalLog proposalLog) {
+        return ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus());
     }
 
 }
