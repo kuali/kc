@@ -252,6 +252,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolReviewerIdFk" column="REVIEWER_ID_FK" jdbc-type="BIGINT" />
 		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.meeting.ProtocolContingency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolContingencyCode"/>
 		</reference-descriptor>
@@ -260,6 +261,9 @@
 		</reference-descriptor>
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolReviewer" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolReviewerIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
 		
