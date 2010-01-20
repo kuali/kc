@@ -78,6 +78,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
         System.out.println(awardTimeAndMoneyPage.asText());
+        setFieldValue(awardTimeAndMoneyPage, "document.newAwardAmountTransaction.transactionTypeCode", "1");
         awardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_PAGE);
         assertDoesNotContain(awardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);

@@ -93,6 +93,14 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
      */
     @Test
     public void testSaveAndOverlappingDateFields() throws Exception{
+        HtmlPage awardTimeAndMoneyPage = getAwardTimeAndMoneyPage();
+        setFieldValue(awardTimeAndMoneyPage, "document.newAwardAmountTransaction.transactionTypeCode", "1");
+        HtmlPage tempAwardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_METHOD);
+        System.out.print(tempAwardTimeAndMoneyPage.asText());
+        assertDoesNotContain(tempAwardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(tempAwardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
+        assertContains(tempAwardTimeAndMoneyPage,SAVE_SUCCESS_MESSAGE);
+        
         setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + START_DATE, START_DATE_STRING);
         setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + END_DATE, END_DATE_STRING);
         setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + DIRECT_COST, TEN_THOUSAND);
