@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
@@ -33,8 +32,14 @@ import org.kuali.kra.service.KcPersonService;
 
 public class ProposalLog extends KraPersistableBusinessObjectBase { 
     
+    /** Log Status property name. */
+    static final String LOG_STATUS = "logStatus";
+    
+    /** Proposal Log Type Code property name. */
+    static final String PROPOSAL_LOG_TYPE_CODE = "proposalLogTypeCode";
+    
     private static final long serialVersionUID = 1L;
-
+    
     private String proposalNumber; 
     private String proposalTypeCode; 
     private String title; 
@@ -181,8 +186,11 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalType = proposalType;
     }
 
-    public KcPerson getkcPerson() {
-        return this.getKcPersonService().getKcPersonByPersonId(this.personId);
+    public KcPerson getPerson() {
+        if (this.piId != null) {
+            return this.getKcPersonService().getKcPersonByPersonId(this.piId);
+        }
+        return null;
     }
 
     public Rolodex getRolodex() {
@@ -278,7 +286,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
         setSponsorName();
         mergeTemporaryLog();
@@ -288,7 +296,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
         setSponsorName();
     }
@@ -320,14 +328,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalNumber", this.getProposalNumber());
         hashMap.put("proposalTypeCode", this.getProposalTypeCode());
-        hashMap.put("proposalLogTypeCode", this.getProposalLogTypeCode());
+        hashMap.put(PROPOSAL_LOG_TYPE_CODE, this.getProposalLogTypeCode());
         hashMap.put("title", this.getTitle());
         hashMap.put("piId", this.getPiId());
         hashMap.put("piName", this.getPiName());
         hashMap.put("leadUnit", this.getLeadUnit());
         hashMap.put("sponsorCode", this.getSponsorCode());
         hashMap.put("sponsorName", this.getSponsorName());
-        hashMap.put("logStatus", this.getLogStatus());
+        hashMap.put(LOG_STATUS, this.getLogStatus());
         hashMap.put("comments", this.getComments());
         hashMap.put("deadlineDate", this.getDeadlineDate());
         return hashMap;
