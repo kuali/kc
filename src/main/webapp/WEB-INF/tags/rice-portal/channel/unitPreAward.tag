@@ -18,13 +18,6 @@
 <channel:portalChannelTop channelTitle="Pre-Award" />
 <div class="body">
   <table border="0" cellpadding="2" cellspacing="0">
-    <tr>
-      <td nowrap class="disabled-text">Negotiations</td>
-      <td>
-        <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-        <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
-      </td>
-   </tr>
    <tr>
     <td nowrap class=""> Proposal Development </td>
     <td>
@@ -49,13 +42,12 @@
   </tr>
   
   <tr>
-    <td nowrap class="">Create Institutional Proposal Document (temp)</td>
-    <td>
-   	 	<portal:portalLink displayTitle="false" title="Create Institutional Proposal Document (temp)" url="institutionalProposalHome.do?methodToCall=docHandler&command=initiate&docTypeName=InstitutionalProposalDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      	<portal:portalLink displayTitle="false" title="Create Institutional Proposal Document (temp)" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.home.InstitutionalProposal&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
-    </td>
-  </tr>
-
+      <td nowrap class="disabled-text">Negotiations</td>
+      <td>
+        <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
+        <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      </td>
+   </tr>
 </table>
 </div>
 <channel:portalChannelBottom />
