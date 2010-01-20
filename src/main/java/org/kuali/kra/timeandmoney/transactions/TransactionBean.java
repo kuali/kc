@@ -43,6 +43,7 @@ public class TransactionBean implements Serializable {
      */
     public TransactionBean(TimeAndMoneyForm form) {
         this.form = form;
+        init();
     }
     
     /**

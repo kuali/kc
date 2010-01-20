@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,6 +84,15 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         return DOCUMENT_TYPE_CODE;
     }
     
+    
+    /**
+     * This method tests if document has been previously persisted.
+     * @return
+     */
+    public boolean isInitialSave() {
+        return getObjectId() == null; 
+    }
+    
     /**
      * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
@@ -103,6 +113,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
         timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>(); 
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
+        newAwardAmountTransaction = new AwardAmountTransaction();
     }
     
     @Override
