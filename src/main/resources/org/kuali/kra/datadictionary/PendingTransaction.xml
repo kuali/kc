@@ -118,15 +118,16 @@
         <property name="shortLabel" value="Obligated" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-	      	<bean parent="FixedPointValidationPattern"
-	            p:precision="12"
-	            p:scale="2"
-	            p:allowNegative="true" />
-    	</property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
-        </property>
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
         <property name="summary" value="Obligated" />
         <property name="description" value="Obligated" />
     </bean>
@@ -139,15 +140,16 @@
         <property name="shortLabel" value="Anticipated" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-	      	<bean parent="FixedPointValidationPattern"
-	            p:precision="12"
-	            p:scale="2"
-	            p:allowNegative="true" />
-    	</property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
-        </property>
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
         <property name="summary" value="Anticipated" />
         <property name="description" value="Anticipated" />
     </bean>
@@ -160,8 +162,9 @@
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
