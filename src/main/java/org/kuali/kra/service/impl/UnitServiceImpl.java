@@ -43,6 +43,7 @@ public class UnitServiceImpl implements UnitService {
     private static final String SEPARATOR = ";1;";
     private static final String DASH = "-";
     private static final String UNIT_NUBMER = "unitNumber";
+    private static final String DEFAULT_GROUP_FLAG = "defaultGroupFlag";
     private int numberOfUnits;
 
     /**

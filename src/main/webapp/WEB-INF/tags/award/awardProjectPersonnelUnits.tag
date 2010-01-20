@@ -45,7 +45,11 @@
 				<div align="center">Unit Number</div>
 			</th>
 			<th class="infoline">
+				<div align="center">OSP Administrator</div>
+			</th>
+			<th class="infoline">
 				<div align="center">Actions</div>
+				
 			</th>
 		</tr>
 		<tr>
@@ -98,6 +102,11 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+			</th>
+			<th>
+				<div>
+					&nbsp;
+				</div>
 			</th>			
 			<th class="infoline">
 				<div align="center">
@@ -109,6 +118,8 @@
 		</tr>
 		
 		<c:forEach var="awardPersonUnit" items="${awardContact.units}" varStatus="awardPersonUnitRowStatus">
+		<c:choose>                  
+			<c:when test="${empty awardPersonUnit.ospAdministrators}">
             <tr>
 				<th class="infoline" scope="row">
 					<c:out value="${awardPersonUnitRowStatus.index + 1}" />
@@ -131,6 +142,11 @@
 						${awardPersonUnit.unit.unitNumber}&nbsp;						
 					</div>
 				</td>
+				<td valign="middle">
+                	<div align="center">
+						&nbsp;						
+					</div>
+				</td>
 				<td class="infoline">
 					<div align="center">
 						<html:image property="methodToCall.deleteProjectPersonUnit.${awardPersonIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
@@ -138,6 +154,46 @@
 					</div>
                 </td>
             </tr>
+            </c:when>
+            <c:otherwise>
+            	<c:forEach var="ospAdministrator" items="${awardPersonUnit.ospAdministrators}" varStatus="awardOspAdministratorRowStatus">
+            		<tr>
+						<th class="infoline" scope="row">
+							<c:out value="${awardPersonUnitRowStatus.index + 1}" />
+						</th>
+						<c:if test="${isPrincipalInvestigator}">
+	                	<td valign="middle">
+	                		<div align="center">
+	                			<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}"/>               		
+							</div>
+						</td>
+						</c:if>
+                		<td valign="middle">
+                			<div align="center">
+                				${awardPersonUnit.unit.unitName}&nbsp;
+                				<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardPersonUnit.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+                			</div> 
+						</td>
+						<td valign="middle">
+                			<div align="center">
+								${awardPersonUnit.unit.unitNumber}&nbsp;						
+							</div>
+						</td>
+						<td valign="middle">
+                			<div align="center">
+								${ospAdministrator.person.fullName}						
+							</div>
+						</td>
+						<td class="infoline">
+							<div align="center">
+								<html:image property="methodToCall.deleteProjectPersonUnit.${awardPersonIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</div>
+                		</td>
+            		</tr>
+            	</c:forEach>
+            </c:otherwise>
+            </c:choose>
 		</c:forEach>
 	</table>
 </kra:innerTab>

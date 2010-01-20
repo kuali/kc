@@ -15,50 +15,83 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.bo.UnitContactType;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitService;
 
 /**
  * This class provides support for the Award Contacts Project Personnel panel
  */
-public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
+public class AwardCentralAdminContactsBean implements Serializable{
     private static final long serialVersionUID = 7614119508539116964L;
-
+    protected AwardForm awardForm;
+    private List<AwardUnitContact> centralAdminContacts;
+    private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
+    
+    
     public AwardCentralAdminContactsBean(AwardForm awardForm) {
-        super(awardForm);
-    }
-
-    public void addCentralAdminContact() {
-        boolean success = new AwardCentralAdminAddRuleImpl().processAddAwardCentralAdminContactBusinessRules(getAward(), getCentralAdminContact());
-        if(success){
-            getAward().add(getUnitContact());
-            init();
-        }
-    }
-
-    /**
-     * @return
-     */
-    public AwardUnitContact getCentralAdminContact() {
-        return (AwardUnitContact) newAwardContact;
+        this.awardForm = awardForm;
     }
     
-    /**
-     * Remove a Central Admin unit contact
-     * @param lineToDelete
-     */
-    public void deleteContact(int lineToDelete) {
-        super.deleteUnitContact(getCentralAdminContacts(), lineToDelete);
+    public void initCentralAdminContacts() {
+        centralAdminContacts = new ArrayList<AwardUnitContact>();
+        List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(awardForm.getAwardDocument().getAward().getUnitNumber());
+        for(UnitAdministrator unitAdministrator : unitAdministrators) {
+            if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
+                AwardUnitContact newAwardUnitContact = new AwardUnitContact();
+                newAwardUnitContact.setPerson(person);
+                newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
+                newAwardUnitContact.setFullName(person.getFullName());
+                centralAdminContacts.add(newAwardUnitContact);
+            }
+        }
     }
+    
+    public UnitService getUnitService() {
+        return (UnitService) KraServiceLocator.getService(UnitService.class);
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+    }
+
+//    public void addCentralAdminContact() {
+//        boolean success = new AwardCentralAdminAddRuleImpl().processAddAwardCentralAdminContactBusinessRules(getAward(), getCentralAdminContact());
+//        if(success){
+//            getAward().add(getUnitContact());
+//            init();
+//        }
+//    }
+
+//    /**
+//     * @return
+//     */
+//    public AwardUnitContact getCentralAdminContact() {
+//        return (AwardUnitContact) newAwardContact;
+//    }
+    
+//    /**
+//     * Remove a Central Admin unit contact
+//     * @param lineToDelete
+//     */
+//    public void deleteContact(int lineToDelete) {
+//        super.deleteUnitContact(getCentralAdminContacts(), lineToDelete);
+//    }
 
     /**
      * This method finds the count of AwardContacts in the "Central Administrator" category
      * @return The list; may be empty
      */
     public List<AwardUnitContact> getCentralAdminContacts() {
-        return findContactsForCategory(UnitContactType.ADMINISTRATOR);
+        return centralAdminContacts;
     }
     
     /**
@@ -69,8 +102,8 @@ public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
         return getCentralAdminContacts().size();
     }
 
-    @Override
-    protected AwardContact createNewContact() {
-        return new AwardUnitContact(UnitContactType.ADMINISTRATOR);
-    }
+//    @Override
+//    protected AwardContact createNewContact() {
+//        return new AwardUnitContact(UnitContactType.ADMINISTRATOR);
+//    }
 }

@@ -31,6 +31,8 @@ public class AwardUnitContact extends AwardContact {
     private static final String CONTACT_TYPE_CODE = "CONTACT_TYPE_CODE";
     private static final long serialVersionUID = -9168956728201616266L;
     private UnitContactType unitContactType;
+    private UnitAdministratorType unitAdministratorType;
+    private String unitAdministratorTypeCode;
 
     /**
      * Constructs a AwardUnitContact.java.
@@ -74,6 +76,42 @@ public class AwardUnitContact extends AwardContact {
      */
     public UnitContactType getUnitContactType() {
         return unitContactType;
+    }
+    
+    
+
+    /**
+     * Gets the unitAdministratorType attribute. 
+     * @return Returns the unitAdministratorType.
+     */
+    public UnitAdministratorType getUnitAdministratorType() {
+        return unitAdministratorType;
+    }
+
+    /**
+     * Sets the unitAdministratorType attribute value.
+     * @param unitAdministratorType The unitAdministratorType to set.
+     */
+    public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
+        this.unitAdministratorType = unitAdministratorType;
+    }
+    
+    
+
+    /**
+     * Gets the unitAdministratorTypeCode attribute. 
+     * @return Returns the unitAdministratorTypeCode.
+     */
+    public String getUnitAdministratorTypeCode() {
+        return unitAdministratorTypeCode;
+    }
+
+    /**
+     * Sets the unitAdministratorTypeCode attribute value.
+     * @param unitAdministratorTypeCode The unitAdministratorTypeCode to set.
+     */
+    public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
+        this.unitAdministratorTypeCode = unitAdministratorTypeCode;
     }
 
     /**

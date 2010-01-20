@@ -11,14 +11,14 @@
 		<property name="titleAttribute" value="unitContact" />
 		<property name="attributes" >
 	      <list>
-	        <ref bean="AwardUnitContact-contactRoleCode" />
+	        <ref bean="AwardUnitContact-unitAdministratorTypeCode" />
 	      </list>
 	    </property>
 	</bean>
 	
-	<bean id="AwardUnitContact-contactRoleCode" parent="AwardUnitContact-contactRoleCode-parentBean" />
-	<bean id="AwardUnitContact-contactRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
-	    <property name="name" value="contactRoleCode" />
+	<bean id="AwardUnitContact-unitAdministratorTypeCode" parent="AwardUnitContact-unitAdministratorTypeCode-parentBean" />
+	<bean id="AwardUnitContact-unitAdministratorTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	    <property name="name" value="unitAdministratorTypeCode" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Project Role" />
 	    <property name="shortLabel" value="Project Role" />
@@ -28,10 +28,14 @@
 	    </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardUnitContactProjectRolesValuesFinder"
-	            p:includeKeyInLabel="false" />
-	    </property>
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.bo.UnitAdministratorType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="unitAdministratorTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
 	    <property name="summary" value="Project Role" />
 	    <property name="description" value="Project Role" />
 	</bean>
