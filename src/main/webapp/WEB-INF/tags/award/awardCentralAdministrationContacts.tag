@@ -32,46 +32,11 @@
 	    <table id="central-admin-table" cellpadding="0" cellspacing="0" summary="Central Admin Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
-				<th width="15%">Person</th>
+				<th width="20%">Person</th>
 				<th width="15%">Unit</th>
 				<th width="20%">Project Role</th>
-				<th width="15%">Office Phone</th>
-				<th width="15%">Email</th>
-				<th width="15%"><div align="center">Actions</div></th>
-			</tr>
-			
-			<tr>
-				<th class="infoline" scope="row">Add</th>
-				<td nowrap class="grid" class="infoline">
-					<kul:htmlControlAttribute property="centralAdminContactsBean.newAwardContact.fullName" 
-      							attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
-      				<label>
-      					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:centralAdminContactsBean.personId" anchor="${tabKey}" 
- 									lookupParameters="centralAdminContactsBean.personId:personId"/>
- 					</label>					
-        		</td>
-	        	<td class="infoline">
-	        		<div align="center">
-	        			<c:out value="${KualiForm.centralAdminContactsBean.newAwardContact.contactOrganizationName}" />&nbsp;
-	        		</div>
-				</td>
-	        	<td class="infoline" style="font-size: 80%">
-	        		<div align="center">
-		        		<kul:htmlControlAttribute property="centralAdminContactsBean.contactRoleCode" 
-	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}" />
-					</div>
-	        	</td>
-	        	<td class="infoline">
-	        		<c:out value="${KualiForm.centralAdminContactsBean.newAwardContact.contact.phoneNumber}" />&nbsp;
-	        	</td>
-	        	<td class="infoline">
-	        		<c:out value="${KualiForm.centralAdminContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
-	        	</td>
-	        	<td class="infoline">
-	        		<div align="center">
-	        			<html:image property="methodToCall.addCentralAdminContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
-	        		</div>	        		
-	        	</td>
+				<th width="20%">Office Phone</th>
+				<th width="20%">Email</th>
 			</tr>
 				
 			<c:forEach var="awardContact" items="${KualiForm.centralAdminContactsBean.centralAdminContacts}" varStatus="awardContactRowStatus">
@@ -95,9 +60,7 @@
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-                            <kul:htmlControlAttribute property="centralAdminContactsBean.centralAdminContacts[${awardContactRowStatus.index}].contactRoleCode"
-	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}"
-                                                        disabled="${KualiForm.centralAdminContactsBean.centralAdminContacts[awardContactRowStatus.index].contactRoleCode=='2'}"/>
+	                		${awardContact.unitAdministratorType.description}&nbsp;
 	                	</div>
 					</td>
 					<td valign="middle">
@@ -110,13 +73,6 @@
 							${awardContact.emailAddress}&nbsp;
 						</div> 
 					</td>
-	                
-					<td>
-						<div align="center">
-							<html:image property="methodToCall.deleteCentralAdminContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
-						</div>
-	                </td>
 	            </tr>
     		</c:forEach>	    	
     	</table>

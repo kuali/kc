@@ -17,8 +17,6 @@ package org.kuali.kra.award.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.service.SponsorService;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import javax.servlet.ServletRequest;
@@ -32,11 +30,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -47,7 +52,43 @@ public class AwardContactsAction extends AwardAction {
     
     private static final String DELETE_PROJECT_PERSON_UNIT_PREFIX = "deleteProjectPersonUnit.";
     private static final String LINE_SUFFIX = ".line";
+    private static final String CONFIRM_SYNC_UNIT_CONTACTS = "confirmSyncUnitContacts";
+    private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
 
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+        setLeadUnitOnAwardFromPILeadUnit(award);
+        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        ActionForward forward = super.save(mapping, form, request, response); 
+        return forward;
+    }
+    
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        ActionForward forward = super.reload(mapping, form, request, response);
+        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+
+        return forward;
+    }
+    
+    /**
+     * This method is called to reset the Lead Unit on the award if the lead unit is changed on the PI.
+     * @param award
+     */
+    private void setLeadUnitOnAwardFromPILeadUnit(Award award) {
+        for (AwardPerson person : award.getProjectPersons()) {
+            if(person.isPrincipalInvestigator()) {
+                Unit leadUnit = person.findLeadUnit();
+                award.setLeadUnit(leadUnit);
+                award.setUnitNumber(leadUnit.getUnitNumber());
+            }
+        }
+    }
+    
+    
     /**
      * @param mapping
      * @param form
@@ -91,19 +132,19 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    /**
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getCentralAdminContactsBean(form).addCentralAdminContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
+//    /**
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return
+//     * @throws Exception
+//     */
+//    public ActionForward addCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+//                                                                                                                        throws Exception {
+//        getCentralAdminContactsBean(form).addCentralAdminContact();
+//        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+//    }
     
     /**
      * @param mapping
@@ -162,20 +203,20 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    /**
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-    
-        getCentralAdminContactsBean(form).deleteContact(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
+//    /**
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return
+//     * @throws Exception
+//     */
+//    public ActionForward deleteCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+//                                                                                                                        throws Exception {
+//    
+//        getCentralAdminContactsBean(form).deleteContact(getLineToDelete(request));
+//        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+//    }
     
     /**
      * @param mapping
@@ -219,6 +260,54 @@ public class AwardContactsAction extends AwardAction {
                                                                                                                         throws Exception {
         getAwardCreditSplitBean(form).recalculateCreditSplit();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * This is action called when sync the unit contacts is called from Award Unit contacts tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncDefaultUnitContactsToLeadUnit (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                    throws Exception {
+        return confirm(buildSyncUnitContactsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_CONTACTS, "");
+    }
+    
+    /**
+     * 
+     * This method is to build the confirmation question for syncing unit contacts.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param deletePeriod
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildSyncUnitContactsConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNC_UNIT_CONTACTS_KEY,
+                KeyConstants.QUESTION_SYNC_UNIT_CONTACTS);
+    }
+    
+    /**
+     * This method is called if the user clicks 'yes' in confirmation question.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward confirmSyncUnitContacts(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        getUnitContactsBean(awardForm).syncAwardUnitContactsToLeadUnitContacts();
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

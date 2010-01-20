@@ -32,6 +32,8 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
     
     private String unitAdministratorTypeCode;
     private String description;
+    private Boolean multiplesFlag;
+    private String defaultGroupFlag;
     private List<UnitAdministrator> unitAdministrators;
 
     private UnitContactType unitContactType;
@@ -96,4 +98,39 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
     public void setUnitContactType(UnitContactType unitContactType) {
         this.unitContactType = unitContactType;
     }
+
+    /**
+     * Gets the multiplesFlag attribute. 
+     * @return Returns the multiplesFlag.
+     */
+    public Boolean getMultiplesFlag() {
+        return multiplesFlag;
+    }
+
+    /**
+     * Sets the multiplesFlag attribute value.
+     * @param multiplesFlag The multiplesFlag to set.
+     */
+    public void setMultiplesFlag(Boolean multiplesFlag) {
+        this.multiplesFlag = multiplesFlag;
+    }
+
+    /**
+     * Gets the defaultGroupFlag attribute. 
+     * @return Returns the defaultGroupFlag.
+     */
+    public String getDefaultGroupFlag() {
+        return defaultGroupFlag;
+    }
+
+    /**
+     * Sets the defaultGroupFlag attribute value.
+     * @param defaultGroupFlag The defaultGroupFlag to set.
+     */
+    public void setDefaultGroupFlag(String defaultGroupFlag) {
+        this.defaultGroupFlag = defaultGroupFlag;
+    }
+
+    
+    
 }
