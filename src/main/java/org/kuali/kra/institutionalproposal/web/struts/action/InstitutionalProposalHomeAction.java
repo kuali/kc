@@ -211,9 +211,9 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
     
     /**
-     * This method is used to handle the edit button action on an ACTIVE Award. If no Pending version exists for the same
-     * awardNumber, a new Award version is created. If a Pending version exists, the user is prompted as to whether she would
-     * like to edit the Pending version. Answering Yes results in that Pending version AwardDocument to be opened. Answering No 
+     * This method is used to handle the edit button action on an ACTIVE Institutional Proposal. If no Pending version exists for the same
+     * proposalNumber, a new IP version is created. If a Pending version exists, the user is prompted as to whether she would
+     * like to edit the Pending version. Answering Yes results in that Pending version InstitutionalProposalDocument to be opened. Answering No 
      * simply returns the user to the ACTIVE document screen 
      * 
      * @param mapping
