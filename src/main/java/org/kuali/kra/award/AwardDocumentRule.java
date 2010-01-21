@@ -43,6 +43,7 @@ import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
+import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
@@ -248,6 +249,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
     
+    /**
+     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processSaveAwardDetailsAndDates(org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent)
+     */
+    public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
+        return new AwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+    }
+    
 
     /**
      * 
@@ -287,6 +295,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
         retval &= processSpecialReviewBusinessRule(document);
+        retval &= processAwardDetailsAndDatesSaveRules(document);
 
         
         return retval;
@@ -359,6 +368,27 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process save details and dates Business Rules.
+    * @param awardDocument
+    * @return
+    */
+    @SuppressWarnings("deprecation")
+    private boolean processAwardDetailsAndDatesSaveRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        AwardDetailsAndDatesSaveEvent event = new AwardDetailsAndDatesSaveEvent(awardDocument, awardDocument.getAward());
+        
+        valid &= new AwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
@@ -809,4 +839,5 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return success;
     }
+
 }

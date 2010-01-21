@@ -32,4 +32,12 @@ public interface AwardDetailsAndDatesRule extends BusinessRule {
      */
     boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent);
 
+    
+    /**
+     * Check rules associated with Saving Award Details and Dates panel
+     * <code>{@link org.kuali.kra.award.document.AwardDocument}</code>
+     *
+     * @return boolean
+     */
+    boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent);
 }
