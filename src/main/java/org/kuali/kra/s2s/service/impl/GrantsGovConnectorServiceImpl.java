@@ -331,10 +331,10 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         if (alias != null && mulitCampusEnabled) {
             KeyStore keyStoreAlias = KeyStore.getInstance("JKS");
-            Certificate certificate = keyStore.getCertificate(alias);
+            Certificate[] certificates = keyStore.getCertificateChain(alias);
             Key key = keyStore.getKey(alias, s2SUtilService.getProperty(KEYSTORE_PASSWORD)
                     .toCharArray());
-            Certificate[] certificates = { certificate };
+//            Certificate[] certificates = { certificate };
             keyStoreAlias.load(null, null);
             keyStoreAlias.setKeyEntry(alias, key, 
                     s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
