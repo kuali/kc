@@ -17,6 +17,7 @@ package org.kuali.kra.award.detailsdates;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -30,6 +31,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase implements AwardDetailsAndDatesRule {
     
     private static final String SPONSOR_CODE_PROPERTY_NAME = "detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode";
+    private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = 
+                    "awardAmountInfos[0].anticipatedTotalAmount";
+
     
     /**
      * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
@@ -63,6 +67,16 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
             }
         }
         return false;
+    }
+
+    public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
+        boolean valid = true;
+        Award award = awardDetailsAndDatesSaveEvent.getAward();
+        if(award.getAnticipatedTotal().isLessThan(award.getObligatedTotal())) {
+            valid = false;
+            reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
+        }
+        return valid;
     }
     
 }
