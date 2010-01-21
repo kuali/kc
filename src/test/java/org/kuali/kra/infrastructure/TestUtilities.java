@@ -44,7 +44,6 @@ import junit.framework.AssertionFailedError;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.apache.ojb.broker.PBKey;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.rice.core.resourceloader.SpringLoader;
@@ -64,7 +63,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * Defines utilities for unit testing
@@ -315,15 +313,6 @@ public class TestUtilities {
         for (ActionRequestValue ar: actionRequests) {
             LOG.info(ar);
         }
-    }
-
-    public static PersistenceBrokerTemplate getPersistenceBrokerTemplate() {
-    	PersistenceBrokerTemplate pbt = new PersistenceBrokerTemplate();
-    	pbt.setPbKey(new PBKey("enWorkflowDataSource"));
-    	pbt.setDataSource(KEWServiceLocator.getDataSource());
-    	pbt.setJcdAlias("enWorkflowDataSource");
-    	pbt.afterPropertiesSet();
-    	return pbt;
     }
 
     /**
