@@ -22,7 +22,7 @@
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 
 
-<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*">
+<kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[0].anticipatedTotalAmount">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
