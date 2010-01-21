@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.award;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.dao.KraLookupDao;
-import org.kuali.kra.dao.ojb.KraLookupDaoOjb;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class AwardNumberServiceImpl implements AwardNumberService {

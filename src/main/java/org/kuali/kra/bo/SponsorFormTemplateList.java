@@ -16,11 +16,6 @@
 package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.apache.struts.upload.FormFile;
-
-import org.kuali.rice.kns.bo.PersistableAttachment;
 
 public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
     private Boolean selectToPrint = false;
