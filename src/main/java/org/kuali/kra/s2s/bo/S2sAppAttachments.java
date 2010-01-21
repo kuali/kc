@@ -20,7 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
-	private String contentId;
+    private Long s2sAppAttachmentId;
+    private String contentId;
 	private String proposalNumber;
 	private String contentType;
 	private String hashCode;
@@ -67,4 +68,20 @@ public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
 		hashMap.put("hashCode", getHashCode());
 		return hashMap;
 	}
+
+    /**
+     * Gets the s2sAppAttachmentId attribute. 
+     * @return Returns the s2sAppAttachmentId.
+     */
+    public Long getS2sAppAttachmentId() {
+        return s2sAppAttachmentId;
+    }
+
+    /**
+     * Sets the s2sAppAttachmentId attribute value.
+     * @param appAttachmentId The s2sAppAttachmentId to set.
+     */
+    public void setS2sAppAttachmentId(Long appAttachmentId) {
+        s2sAppAttachmentId = appAttachmentId;
+    }
 }
