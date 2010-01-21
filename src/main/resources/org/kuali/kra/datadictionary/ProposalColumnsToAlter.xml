@@ -18,6 +18,7 @@
     <property name="titleAttribute" value="columnName" />
     <property name="attributes" >
       <list>
+        <ref bean="ProposalColumnsToAlter-dataDictionaryAttribute" />
         <ref bean="ProposalColumnsToAlter-columnName" />
         <ref bean="ProposalColumnsToAlter-columnLabel" />
         <ref bean="ProposalColumnsToAlter-dataLength" />
@@ -32,6 +33,22 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="ProposalColumnsToAlter-dataDictionaryAttribute" parent="ProposalColumnsToAlter-dataDictionaryAttribute-parentBean" />
+  
+  <bean id="ProposalColumnsToAlter-dataDictionaryAttribute-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataDictionaryAttributeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Column" />
+    <property name="shortLabel" value="Proposal Column" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Proposal Column" />
+    <property name="description" value="Proposal Column" />
+  </bean>
+  
 
   <bean id="ProposalColumnsToAlter-columnName" parent="ProposalColumnsToAlter-columnName-parentBean" />
 
