@@ -248,7 +248,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
 
     private Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {
-        Map valueMap = new HashMap();
+        Map<String, String> valueMap = new HashMap<String, String>();
         valueMap.put("sponsorCode", sponsorCode);
         valueMap.put("hierarchyName", findSponsorHierarchyName());
         Collection<SponsorHierarchy> sponsorHierarchies = businessObjectService.findMatching(SponsorHierarchy.class, valueMap);
@@ -258,5 +258,14 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return sponsorHierarchies;
     }
 
+    public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
+        Map<String, String> valueMap = new HashMap<String, String>();
+        valueMap.put("sponsorCode", sponsorable.getSponsorCode());
+        // hard-coding the name is ugly, but there seems to be no ID field for identifying a hierarchy type
+        valueMap.put("hierarchyName", "NIH Multiple PI");
+        int matchingHierarchies = businessObjectService.countMatching(SponsorHierarchy.class, valueMap);
+        
+        return matchingHierarchies > 0;
+    }
 
 }

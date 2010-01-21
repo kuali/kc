@@ -136,9 +136,12 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
            
         SponsorService sponsorService = getSponsorService();
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        // Update the NIH related properties since the user may have changed the sponsor.
+        // (isSponsorNih sets the nih property as a side effect)
         if(sponsorService.isSponsorNih(proposal)) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
+        proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
         
         return actionForward;
     }
