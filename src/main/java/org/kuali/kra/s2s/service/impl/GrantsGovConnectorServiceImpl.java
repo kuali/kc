@@ -224,6 +224,9 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         }catch (ErrorMessage e) {
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
             throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION,e.getMessage());
+        }catch(SOAPFaultException e){
+            LOG.error("Error occured while submitting proposal to Grants Gov", e);
+            throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
         }
     }
 
