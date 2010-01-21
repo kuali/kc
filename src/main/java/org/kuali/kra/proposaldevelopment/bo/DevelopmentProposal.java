@@ -130,6 +130,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih;
     private Map<String, String> nihDescription;
+    private boolean sponsorNihMultiplePi;
 
     private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
@@ -1731,6 +1732,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     }
 
+    public boolean isSponsorNihMultiplePi() {
+        return sponsorNihMultiplePi;
+    }
+
+    public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
+        this.sponsorNihMultiplePi = sponsorNihMultiplePi;
+    }
+    
     public List<S2sAppSubmission> getS2sAppSubmission() {
         return s2sAppSubmission;
     }

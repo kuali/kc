@@ -88,7 +88,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         return keyValues;
     }
     protected String getRoleIdPrefix(DevelopmentProposal proposal) {
-        return proposal.isNih() ? "nih." : "";
+        return proposal.isSponsorNihMultiplePi() ? "nih." : "";
     }
 
     protected String findRoleDescription(ProposalPersonRole role, DevelopmentProposal proposal) {
