@@ -17,7 +17,6 @@ package org.kuali.kra.dao;
 
 import java.util.Collection;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.rice.kns.dao.LookupDao;
 
 /**
@@ -33,6 +32,6 @@ public interface KraLookupDao extends LookupDao {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Collection findCollectionUsingWildCard(Class businessObjectClass, String field, String wildCard, boolean unbounded);
+    Collection findCollectionUsingWildCard(Class businessObjectClass, String field, String wildCard, boolean unbounded);
 
 }
