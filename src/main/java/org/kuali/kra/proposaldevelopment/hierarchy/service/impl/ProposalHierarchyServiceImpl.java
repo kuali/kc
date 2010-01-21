@@ -317,8 +317,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
         else {
-            synchronizeAllChildren(hierarchyProposal);
             businessObjectService.save(childProposal);
+            synchronizeAllChildren(hierarchyProposal);
         }
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
@@ -942,9 +942,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     parentBudget.setBudgetLineItemDeleted(true);
                 }
             }
-            //if (lineItems.isEmpty()) {
-            //    periods.remove(index);
-            //}
+            if (lineItems.isEmpty()) {
+                periods.remove(period);
+            }
         }
         
         List<BudgetPerson> budgetPersons = parentBudget.getBudgetPersons();
