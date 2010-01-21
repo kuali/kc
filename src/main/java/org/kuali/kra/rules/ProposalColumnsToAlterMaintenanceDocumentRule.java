@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -40,11 +41,11 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
     
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();
     static {
-        validationClassesMap.put("org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.core.datadictionary.validation.charlevel.AlphaNumericValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.core.datadictionary.validation.charlevel.AlphaValidationPattern", "STRING"); 
-        validationClassesMap.put("org.kuali.core.datadictionary.validation.fieldlevel.DateValidationPattern", "DATE");
-        validationClassesMap.put("org.kuali.core.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
+        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern", "STRING");
+        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern", "STRING");
+        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern", "STRING"); 
+        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern", "DATE");
+        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
     }
  
     /**
@@ -113,8 +114,8 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
         
         boolean returnFlag = true;
         String editableProposalField = "";
-        int fieldMaxLength = -1;
-        int inputDataLength = -1;
+        Integer fieldMaxLength = -1;
+        Integer inputDataLength = -1;
         String proposalFieldDataType = "";
         String inputDataType = "";
         ValidationPattern validatingPattern = null;
@@ -139,7 +140,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
                 }
                 
                 inputDataLength = newEditableProposalField.getDataLength();
-                fieldMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalDevelopmentDocument.class, editableProposalField);
+                fieldMaxLength = dataDictionaryService.getAttributeMaxLength(DevelopmentProposal.class, editableProposalField);
                 if(fieldMaxLength > inputDataLength) {
                     //throw error
                     GlobalVariables.getErrorMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_DATALENGTH, KeyConstants.PROPOSAL_EDITABLECOLUMN_DATALENGTH_MISMATCH);

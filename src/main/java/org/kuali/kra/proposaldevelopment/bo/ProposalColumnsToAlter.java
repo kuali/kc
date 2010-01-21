@@ -17,10 +17,15 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.Transient;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 
+    @Transient
+    private String dataDictionaryAttributeName;
+    
 	private String columnName;
 	private String columnLabel;
 	private Integer dataLength;
@@ -33,6 +38,14 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 	public ProposalColumnsToAlter(){
 		super();
 	}
+
+    public String getDataDictionaryAttributeName() {
+        return dataDictionaryAttributeName;
+    }
+
+    public void setDataDictionaryAttributeName(String dataDictionaryAttributeName) {
+        this.dataDictionaryAttributeName = dataDictionaryAttributeName;
+    }	
 
 	public String getColumnName() {
 		return columnName;

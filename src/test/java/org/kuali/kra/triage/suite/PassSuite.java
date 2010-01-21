@@ -367,7 +367,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.questionnaire.answer.QuestionnaireAnswerRuleTest.class,
     org.kuali.kra.irb.web.ProtocolQuestionnaireWebTest.class,
     org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceTest.class,
-    org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRuleTest.class
+    org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRuleTest.class,
+    org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinderTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
