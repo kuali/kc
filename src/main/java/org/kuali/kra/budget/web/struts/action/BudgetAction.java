@@ -63,6 +63,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -73,6 +74,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -87,13 +89,11 @@ public class BudgetAction extends BudgetActionBase {
 
         ActionForward forward = super.docHandler(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
-        
         if (KEWConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
             budgetForm.getDocument().initialize();
         }else{
             budgetForm.initialize();
         }
-
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         // populate costelement and other shared field to personnel detail
@@ -112,11 +112,6 @@ public class BudgetAction extends BudgetActionBase {
         return forward;
     }
 
-
-    @Override
-    protected boolean exitingDocument() {
-        return false;
-    }
     
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
@@ -131,7 +126,11 @@ public class BudgetAction extends BudgetActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final BudgetForm budgetForm = (BudgetForm) form;
-        
+        if(budgetForm.getMethodToCall().equals("close")){
+            setupDocumentExit();
+        }else{
+            GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY,Boolean.FALSE);
+        }
         ActionForward actionForward = null;
         
 //        try {
