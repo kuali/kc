@@ -127,18 +127,18 @@ public class AwardPaymentReportsAndTermsActionTest {
 
     }
     
-    @Test
-    public void testClearRolodexIdField(){        
-        awardPaymentReportsAndTermsAction.clearRolodexIdField(awardReportTermRecipient1);
-        Assert.assertNull(awardReportTermRecipient1.getRolodexId());
-    }
-    
-    @Test
-    public void testClearRolodexRequestIsNotForAddLine(){
-        Assert.assertTrue(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(5));
-        Assert.assertFalse(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(-1));
-    }
-    
+//    @Test
+//    public void testClearRolodexIdField(){        
+//        awardPaymentReportsAndTermsAction.clearRolodexIdField(awardReportTermRecipient1);
+//        Assert.assertNull(awardReportTermRecipient1.getRolodexId());
+//    }
+//    
+//    @Test
+//    public void testClearRolodexRequestIsNotForAddLine(){
+//        Assert.assertTrue(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(5));
+//        Assert.assertFalse(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(-1));
+//    }
+//    
     /**
      * This method tests add functionality of AwardPaymentsReportsAndTerms Add AwardSponsorTerm.
      */
