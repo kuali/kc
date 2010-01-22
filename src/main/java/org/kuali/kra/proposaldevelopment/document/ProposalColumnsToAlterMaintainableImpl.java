@@ -57,7 +57,11 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
             return;
         } else {
             proposalCol.setColumnName(columnName);
-            proposalCol.setColumnLabel(attrDefinition.getLabel());
+            if (attrDefinition.getLabel().length() > 30) {
+                proposalCol.setColumnLabel(attrDefinition.getLabel().substring(0, 29));
+            } else {
+                proposalCol.setColumnLabel(attrDefinition.getLabel());
+            }
             proposalCol.setDataLength(attrDefinition.getMaxLength());
             String dataType = null;
             if (attrDefinition.getValidationPattern() != null) {
