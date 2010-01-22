@@ -42,17 +42,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
@@ -75,6 +79,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
     private static final String INV_SIZE_MSG      = "Number of investigators are ";
     private static final String EMPTY_STRING = "";
+    
+    private static final String ERROR_REMOVE_HIERARCHY_PI = "error.hierarchy.personnel.removePrincipleInvestigator";
+    private static final String ERROR_FIELD_REMOVE_HIERARCHY_PI ="document.developmentProposalList[0].proposalPersons[%s].delete";
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
@@ -360,16 +367,27 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward deletePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
-        if (document.getDevelopmentProposal().isParent()) {
+        DevelopmentProposal proposal = document.getDevelopmentProposal();
+        if (proposal.isParent()) {
             GlobalVariables.getMessageMap().putError("newProposalPerson", "error.hierarchy.unexpected", "Cannot remove Personnel from the Parent of a Hierarchy");
         }
         else {
-            for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
+            ProposalPerson parentPi = null;
+            if (proposal.isChild()) {
+                parentPi = KraServiceLocator.getService(ProposalHierarchyService.class).getParentDocument(document).getDevelopmentProposal().getPrincipalInvestigator();
+            }
+            int index = 0;
+            for (Iterator<ProposalPerson> person_it = proposal.getProposalPersons().iterator(); person_it.hasNext(); index++) {
                 ProposalPerson person = person_it.next();
                 if (person.isDelete()) {
-                    person_it.remove();
-                    document.getDevelopmentProposal().getInvestigators().remove(person);
-                    document.getDevelopmentProposal().removePersonnelAttachmentForDeletedPerson(person);
+                    if (parentPi != null && StringUtils.equalsIgnoreCase(parentPi.getPersonId(), person.getPersonId())) {
+                        GlobalVariables.getMessageMap().putError(String.format(ERROR_FIELD_REMOVE_HIERARCHY_PI, index), ERROR_REMOVE_HIERARCHY_PI, person.getFullName());                  
+                    }
+                    else {
+                        person_it.remove();
+                        proposal.getInvestigators().remove(person);
+                        proposal.removePersonnelAttachmentForDeletedPerson(person);
+                    }
                 }
             }
         }
