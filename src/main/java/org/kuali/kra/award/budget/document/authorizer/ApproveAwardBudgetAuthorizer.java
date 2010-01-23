@@ -13,34 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
+package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
- * The Budget View Authorizer checks to see if the user has 
- * the necessary permission to view a specific budget.
+ * The AwardBudget Modify Authorizer checks to see if the user has 
+ * the necessary permission to modify a specific budget.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalBudgetViewAuthorizer extends BudgetAuthorizer {
+public class ApproveAwardBudgetAuthorizer extends BudgetAuthorizer {
  
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, Task task) {
-        
         BudgetTask budgetTask = (BudgetTask) task;
         
         BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
         
-        return kraWorkflowService.hasWorkflowPermission(userId, doc) ||
-               hasProposalPermission(userId, doc, PermissionConstants.VIEW_BUDGET);
+        return kraWorkflowService.hasWorkflowPermission(userId, budgetDocument) && 
+                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.APPROVE_AWARD_BUDGET.getAwardPermission());
     }
+    
 }
