@@ -133,13 +133,26 @@
         <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetModifyAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetViewAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewBudget" />
                 </bean>
+                <!-- 
+                <bean class="org.kuali.kra.award.budget.document.authorizer.SubmitAwardBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ApproveAwardBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.award.budget.document.authorizer.PostAwardBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+                 -->
             </list>
         </property>
     </bean>
