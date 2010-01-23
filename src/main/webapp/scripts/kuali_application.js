@@ -1880,12 +1880,12 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
 	var arrLength = reviewersArr.length;
-	var numReviewers = Math.floor(reviewersArr.length / 2);
-	var numRows = Math.floor((numReviewers+1) / 2);
+	var numReviewers = Math.floor(reviewersArr.length / 3);
+	var numRows = Math.floor((numReviewers+1) / 3);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
-	setReviewers(reviewersArr, 0, 2*numRows, reviewerTypes, reviewersTableLeft);
-	setReviewers(reviewersArr, 2*numRows, 2*numReviewers, reviewerTypes, reviewersTableRight);
+	setReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft);
+	setReviewers(reviewersArr, 3*numRows, 3*numReviewers, reviewerTypes, reviewersTableRight);
 }
 
 /*
@@ -1897,8 +1897,8 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 	removeAllChildren(htmlElement);
 				
     var tbody = document.createElement('tbody');
-	for (var i = beginIndex; i < endIndex; i += 2) {
-		reviewerIndex = i/2;
+	for (var i = beginIndex; i < endIndex; i += 3) {
+		reviewerIndex = i/3;
 		
 		var row = document.createElement('tr');
 		var data = document.createElement('td');
@@ -1933,6 +1933,15 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 		hidden.setAttribute("type", "hidden");
 		hidden.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].fullName");
 		hidden.setAttribute("value", reviewers[i+1]);
+		data.appendChild(hidden);
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].nonEmployeeFlag");
+		if (reviewers[i+2] == "Y") {
+			hidden.setAttribute("checked", "checked");
+		}
+		hidden.setAttribute("value", reviewers[i+2]);
 		data.appendChild(hidden);
 		
 		row.appendChild(data);

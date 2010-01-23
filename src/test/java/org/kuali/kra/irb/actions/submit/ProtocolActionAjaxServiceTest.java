@@ -82,7 +82,7 @@ public class ProtocolActionAjaxServiceTest {
         protocolActionAjaxService.setCommitteeService(committeeService);
         
         String s = protocolActionAjaxService.getReviewers("foo", "0");
-        assertEquals("1;Don;2;Nancy", s);
+        assertEquals("1;Don;N;2;Nancy;N", s);
     }
     
     /*
