@@ -21,13 +21,12 @@
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
 <c:set var="title" value="Data Validation" />
-
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 </c:if>
 	
-<kul:tabTop tabTitle="${title}" defaultOpen="${auditActivated}" >
+<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}"  transparentBackground="${topTab}">
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>
@@ -69,4 +68,4 @@
 			</table>
 		</c:if>
 	</div>
-</kul:tabTop>
+</kul:tab>
