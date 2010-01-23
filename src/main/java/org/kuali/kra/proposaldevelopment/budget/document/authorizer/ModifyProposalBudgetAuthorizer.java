@@ -29,7 +29,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalBudgetModifyAuthorizer extends BudgetAuthorizer {
+public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
  
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
@@ -42,9 +42,9 @@ public class ProposalBudgetModifyAuthorizer extends BudgetAuthorizer {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
         
         return !kraWorkflowService.isInWorkflow(doc) &&
-               hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&
-              !doc.getDevelopmentProposal().getSubmitFlag() &&
-              !doc.getDevelopmentProposal().isParent();        
+                hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&
+                !doc.getDevelopmentProposal().getSubmitFlag() &&
+                !doc.getDevelopmentProposal().isParent();        
     }
     
     /**

@@ -1031,6 +1031,7 @@
                 <ref bean="budgetWebAuthorizer" />
                 <ref bean="budgetActionsWebAuthorizer" />
                 <ref bean="budgetVersionsWebAuthorizer" />
+                <ref bean="awardBudgetVersionsWebAuthorizer" />
             </list>
         </property>
     </bean>
