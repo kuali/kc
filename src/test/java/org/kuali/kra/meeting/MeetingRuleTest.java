@@ -33,7 +33,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_CONTINGENCY.sql", delimiter = ";")
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";")
  }))
 public class MeetingRuleTest extends KraTestBase {
     // need extends Kratestbase for businessservice called in rules.
