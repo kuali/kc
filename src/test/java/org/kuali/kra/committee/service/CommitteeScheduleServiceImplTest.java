@@ -244,8 +244,9 @@ public class CommitteeScheduleServiceImplTest  {
         scheduleData.setRecurrenceType(StyleKey.WEEKLY.toString());      
         scheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
         scheduleData.getWeeklySchedule().setScheduleEndDate(getDate(7));
-        String[] daysOfWeek = new String[1];
+        String[] daysOfWeek = new String[2];
         daysOfWeek[0] = DayOfWeek.Monday.name();
+        daysOfWeek[1] = "Hidden";
         scheduleData.getWeeklySchedule().setDaysOfWeek(daysOfWeek);
         context.checking(new Expectations() {{
             Date dt = scheduleData.getScheduleStartDate();
