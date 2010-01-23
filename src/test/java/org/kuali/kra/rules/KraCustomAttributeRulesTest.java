@@ -162,7 +162,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
+        assertEquals(RiceKeyConstants.ERROR_INVALID_FORMAT, message.getErrorKey());
     }
 
 

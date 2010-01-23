@@ -74,7 +74,8 @@ public class ScheduleServiceTest {
     public void testMonthDayExpression() throws Exception {
         ScheduleServiceImpl service = new ScheduleServiceImpl();
         Date stDate = new Date();
-        Date endDate = DateUtils.addDays(stDate, 60);
+        // change 60 to 58 for February special case
+        Date endDate = DateUtils.addDays(stDate, 58);
         Calendar cl = new GregorianCalendar();
         cl.setTime(stDate);
         int day = cl.get(Calendar.DATE);
