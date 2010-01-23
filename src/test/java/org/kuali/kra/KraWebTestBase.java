@@ -932,16 +932,9 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlElement panelDiv = getElement(page, panelId);
         assertTrue("panelDiv is null", panelDiv != null);
 
-        HtmlElement errorDiv = getElementByClass(panelDiv, "error");
-        if (errorDiv != null) {
-            Iterator iterator = errorDiv.getAllHtmlChildElements();
-            while (iterator.hasNext()) {
-                HtmlElement child = (HtmlElement) iterator.next();
-                if (child instanceof HtmlListItem) {
-                    HtmlListItem li = (HtmlListItem) child;
-                    errors.add(li.asText());
-                }
-            }
+        List<HtmlElement> errorElements = getErrorElementsByStyle(panelDiv, "display:list-item");
+        for (HtmlElement element : errorElements) {
+            errors.add(element.asText());
         }
 
         return errors;
@@ -1329,6 +1322,18 @@ public abstract class KraWebTestBase extends KraTestBase {
     }
     
     
+    protected final List<HtmlElement> getErrorElementsByStyle(HtmlElement element, String stylePrefix) {
+        Iterator iterator = element.getAllHtmlChildElements();
+        List<HtmlElement> errorElements = new ArrayList<HtmlElement>();
+        while (iterator.hasNext()) {
+            HtmlElement e = (HtmlElement) iterator.next();
+            String value = e.getAttributeValue("style");
+            if (value.startsWith(stylePrefix)) {
+                errorElements.add(e);
+            }
+        }
+        return errorElements;
+    }
 
     /**
      * Gets a Lookup HTML element.  The searching for Lookup HTML elements

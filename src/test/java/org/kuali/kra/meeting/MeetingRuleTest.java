@@ -27,9 +27,14 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_CONTINGENCY.sql", delimiter = ";")
+ }))
 public class MeetingRuleTest extends KraTestBase {
     // need extends Kratestbase for businessservice called in rules.
 
@@ -190,7 +195,7 @@ public class MeetingRuleTest extends KraTestBase {
         meetingHelper.getMemberPresentBeans().get(1).getAttendance().setAlternateFor("003");
         // both '003'
         Assert.assertFalse(rule.validateDuplicateAlternateFor(meetingHelper.getMemberPresentBeans()));
-        Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_PRESENT_MEMBER_ABSENT));       
+        Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_DUPLICATE_ALTERNATE_FOR));       
         
     }
 
