@@ -26,6 +26,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -44,7 +45,7 @@ public class ProtocolReviewerValuesFinder extends KeyValuesBase {
             if (submission != null) {
                 List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
                 for (ProtocolReviewer reviewer : reviewers) {
-                    keyValues.add(new KeyLabelPair(reviewer.getProtocolReviewerId().toString(), getPersonName(reviewer.getPersonId())));
+                    keyValues.add(new KeyLabelPair(reviewer.getProtocolReviewerId().toString(), getPersonName(reviewer)));
                 }
             }
         }
@@ -52,12 +53,20 @@ public class ProtocolReviewerValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
-    private String getPersonName(String personId) {
-        return getKcPersonService().getKcPersonByPersonId(personId).getFullName();
+    private String getPersonName(ProtocolReviewer reviewer) {
+        if (reviewer.getNonEmployeeFlag()) {
+            return getRolodexService().getRolodex(Integer.parseInt(reviewer.getPersonId())).getFullName();            
+        } else {
+           return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
+        }
     }
 
     private KcPersonService getKcPersonService() {
         return KraServiceLocator.getService(KcPersonService.class);
+    }
+    
+    private RolodexService getRolodexService() {
+        return KraServiceLocator.getService(RolodexService.class);
     }
 
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
