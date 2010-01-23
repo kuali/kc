@@ -56,9 +56,43 @@
                 
                 <!--  Task Authorizer for modifying persons and their roles on an award -->
                 <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardPermissionsAuthorizer" parent="parentAwardAuthorizer">
-                    <property name="taskName" value="modifyAwardRoles" />
+                    <property name="taskName" value="modifyAwardRoles" /> 
+                 </bean>
+                
+                <bean class="org.kuali.kra.award.document.authorizer.CreateAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="addBudget" />
                 </bean>
-            </list>
+                
+                <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="openBudgets" />
+                </bean>
+             </list>
+         </property>
+     </bean>
+     
+    <bean id="awardBudgetVersionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.award.web.struts.action.AwardBudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
         </property>
     </bean>
     
