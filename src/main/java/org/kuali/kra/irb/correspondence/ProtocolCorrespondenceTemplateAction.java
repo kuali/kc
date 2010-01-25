@@ -29,13 +29,17 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 
 /**
  * 
  * Action class for ProtocolCorrespondenceTemplate.
  */
-public class ProtocolCorrespondenceTemplateAction extends KualiAction {
+public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBase {
+
+    // signifies that a response has already be handled therefore forwarding to obtain a response is not needed. 
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+
     /**
      * 
      * This method is called when adding a correspondence template.
@@ -66,7 +70,31 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
     
     /**
      * 
-     * This method is called when deleting a correspondence template
+     * This method is called when deleting a correspondence template.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward viewCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int typeIndex = getSelectedCorrespondenceType(request);
+        int templateIndex = getSelectedCorrespondenceTemplate(request);
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        
+        this.streamToResponse(correspondenceTemplate.getCorrespondenceTemplate(), correspondenceTemplate.getFileName(), 
+        		Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE, response);
+
+    	return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method is called when deleting a correspondence template.
      * @param mapping
      * @param form
      * @param request
@@ -80,7 +108,11 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         int templateIndex = getSelectedCorrespondenceTemplate(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
-
+        
+        // Add correspondence template to database deletion list
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
+        
         getProtocolCorrespondenceTemplateService().deleteProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
         correspondenceTemplateForm.resetForm();
 
@@ -88,7 +120,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
     }
     
     /**
-     * This method is to get the protocol correspondence template service
+     * This method is to get the protocol correspondence template service.
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
@@ -140,7 +172,8 @@ public class ProtocolCorrespondenceTemplateAction extends KualiAction {
         List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = correspondenceTemplateForm.getCorrespondenceTypes();
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
         if (rulePassed) {
-            getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes);
+            getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes, 
+            		correspondenceTemplateForm.getDeletedCorrespondenceTemplates());
             //TODO: cniesen - display "RiceKeyConstants.MESSAGE_SAVED" message
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

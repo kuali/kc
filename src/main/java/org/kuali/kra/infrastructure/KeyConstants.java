@@ -637,6 +637,10 @@ public final class KeyConstants {
     // correspondence
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED = "error.correspondence.template.committee.not.specified";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE = "error.correspondence.template.committee.duplicate";
+    public static final String ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE = "error.correspondence.template.empty.file";
+    public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE = "error.correspondence.template.invalid.file.type";
+    public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
+    
     
     /**
      * private utility class ctor.

@@ -17,6 +17,10 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.List;
 
+/**
+ * The Protocol Correspondence Template Service provides a set of methods for
+ * working with protocol correspondence templates.
+ */
 public interface ProtocolCorrespondenceTemplateService {
 
     /**
@@ -24,8 +28,10 @@ public interface ProtocolCorrespondenceTemplateService {
      * This method adds a ProtocolCorrespondenceTemplate.
      * @param correspondenceType - the protocol correspondence type to which the template is to be added.
      * @param correspondenceTemplate - the protocol correspondence template to be added.
+     * @throws Exception 
      */
-    void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate);
+    void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception;
     
     /**
      * 
@@ -38,7 +44,9 @@ public interface ProtocolCorrespondenceTemplateService {
     /**
      * 
      * This method saves the correspondence templates.
-     * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved.
+     * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved to the database..
+     * @param deletedBos - the lsit of protocolCorrespondenceTemplates that are to be deleted from the database.
      */
-    void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes);
+     void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
+            List<ProtocolCorrespondenceTemplate> deletedBos);
 }

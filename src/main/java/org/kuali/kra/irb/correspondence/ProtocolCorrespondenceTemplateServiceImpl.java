@@ -17,6 +17,7 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -31,13 +32,14 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
      * 
      * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#addProtocolCorrespondenceTemplate()
      */
-    public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, ProtocolCorrespondenceTemplate correspondenceTemplate) {
+    public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+    		ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
-        if (correspondenceTemplate.getCommitteeId().equals("1")) {
-            correspondenceTemplate.setFileName("sample1.add");
-        } else {
-            correspondenceTemplate.setFileName("sample2.add");
-        }
+
+        FormFile templateFile = correspondenceTemplate.getTemplateFile();
+        correspondenceTemplate.setFileName(templateFile.getFileName());
+        correspondenceTemplate.setCorrespondenceTemplate(templateFile.getFileData());
+        
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
     
@@ -53,7 +55,12 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
      * 
      * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#saveProtocolCorrespondenceTemplates(java.util.List)
      */
-    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) {
+    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
+    		List<ProtocolCorrespondenceTemplate> deletedBos) {
+        if (!deletedBos.isEmpty()) {
+            businessObjectService.delete(deletedBos);
+        }
+
         for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
             businessObjectService.save(protocolCorrespondenceType);
         }
