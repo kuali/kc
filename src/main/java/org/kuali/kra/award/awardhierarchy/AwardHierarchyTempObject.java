@@ -17,7 +17,7 @@ package org.kuali.kra.award.awardhierarchy;
 
 import java.io.Serializable;
 
-public class AwardHierarchyTempOjbect implements Serializable{
+public class AwardHierarchyTempObject implements Serializable{
     
     private String awardNumber1;
     private String awardNumber2;
@@ -29,7 +29,7 @@ public class AwardHierarchyTempOjbect implements Serializable{
     private String copyAwardRadio;
     private String createNewChildRadio;
     
-    public AwardHierarchyTempOjbect(){
+    public AwardHierarchyTempObject(){
         awardNumber1 = "";
         awardNumber2 = "";
         selectBox1 = "";
@@ -37,8 +37,8 @@ public class AwardHierarchyTempOjbect implements Serializable{
         newChildPanelTargetAward = "";
         copyAwardPanelTargetAward = "";
     }
-    
-    
+
+
     /**
      * Gets the selectBox1 attribute. 
      * @return Returns the selectBox1.

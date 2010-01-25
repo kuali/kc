@@ -18,7 +18,7 @@
 <c:set var="awardHierarchyAttributes" value="${DataDictionary.AwardHierarchy.attributes}" />
 <c:set var="action" value="awardHierarchy" />
 
-<kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempOjbect*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left">Hierarchy</span>
@@ -127,13 +127,13 @@
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
 	
 	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].awardNumber1" name="awardHierarchyTempOjbect[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[i].awardNumber1}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].selectBox1" name="awardHierarchyTempOjbect[${i}].selectBox1" value="${KualiForm.awardHierarchyTempOjbect[i].selectBox1}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].awardNumber2" name="awardHierarchyTempOjbect[${i}].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[i].awardNumber2}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].selectBox2" name="awardHierarchyTempOjbect[${i}].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[i].selectBox2}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].copyDescendants" name="awardHierarchyTempOjbect[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[i].copyDescendants}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].createNewChildRadio" name="awardHierarchyTempOjbect[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[i].createNewChildRadio}">
-		<input type="hidden" id = "awardHierarchyTempOjbect[${i}].copyAwardRadio" name="awardHierarchyTempOjbect[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[i].copyAwardRadio}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].awardNumber1" name="awardHierarchyTempObjects[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].selectBox1" name="awardHierarchyTempObjects[${i}].selectBox1" value="${KualiForm.awardHierarchyTempObjects[i].selectBox1}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].awardNumber2" name="awardHierarchyTempObjects[${i}].awardNumber2" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber2}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].selectBox2" name="awardHierarchyTempObjects[${i}].selectBox2" value="${KualiForm.awardHierarchyTempObjects[i].selectBox2}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].copyDescendants" name="awardHierarchyTempObjects[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempObjects[i].copyDescendants}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].createNewChildRadio" name="awardHierarchyTempObjects[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempObjects[i].createNewChildRadio}">
+		<input type="hidden" id = "awardHierarchyTempObjects[${i}].copyAwardRadio" name="awardHierarchyTempObjects[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempObjects[i].copyAwardRadio}">
 	</c:forEach>
             
 </kul:tab>
