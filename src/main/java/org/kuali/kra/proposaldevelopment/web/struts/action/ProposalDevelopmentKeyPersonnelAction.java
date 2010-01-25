@@ -153,12 +153,19 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * <code>{@link ProposalPerson}</code> instances. 
      */
     private void handleRoleChangeEvents(ProposalDevelopmentDocument document) {
+        int index = 0;
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             debug(ROLE_CHANGED_MSG, person.getFullName(), person.isRoleChanged());
             
             if (person.isRoleChanged()) {
-                changeRole(person, document);
+                if (document.getDevelopmentProposal().isParent()) {
+                    GlobalVariables.getMessageMap().putError(String.format(ERROR_FIELD_REMOVE_HIERARCHY_PI, index), "error.hierarchy.unexpected", "Personnel Roles cannot be changed in a Hierarchy Parent Proposal");
+                }
+                else {
+                    changeRole(person, document);
+                }
             }
+            index++;
         }
     }
 
