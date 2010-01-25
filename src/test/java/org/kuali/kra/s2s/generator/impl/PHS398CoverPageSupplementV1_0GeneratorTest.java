@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -93,6 +94,6 @@ public class PHS398CoverPageSupplementV1_0GeneratorTest extends S2STestBase<PHS3
         List<ProposalPerson> argProposalPersons = new ArrayList<ProposalPerson>();
         argProposalPersons.add(person);
         document.getDevelopmentProposal().setProposalPersons(argProposalPersons);
-        document.getDevelopmentProposal().setPrincipalInvestigator(person);
+        person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
     }
 }

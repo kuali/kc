@@ -103,7 +103,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
     private List<S2sOppForms> s2sOppForms;
-    private ProposalPerson principalInvestigator;
     private S2sOpportunity s2sOpportunity;
     private List<S2sAppSubmission> s2sAppSubmission;
     private String newScienceKeywordCode;
@@ -1079,20 +1078,19 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
 
     /**
-     * Accessor for the principal investigator of this proposal
+     * Utility method to get person in ProposalPersons with the PI role
      * 
      * @return ProposalPerson
      */
     public ProposalPerson getPrincipalInvestigator() {
-        if (principalInvestigator == null) {
-            for (ProposalPerson person : proposalPersons) {
-                if (StringUtils.equals(person.getProposalPersonRoleId(), "PI")) {
-                    principalInvestigator = person;
-                    break;
-                }
+        ProposalPerson principalInvestigator = null;
+        for (ProposalPerson person : proposalPersons) {
+            if (StringUtils.equals(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                principalInvestigator = person;
+                break;
             }
-            
         }
+            
         return principalInvestigator;
     }
     
@@ -1100,16 +1098,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         ProposalPerson pi = getPrincipalInvestigator();
         return pi != null ? pi.getFullName() : null;
     }
-
-    /**
-     * Accessor for the principal investigator of this proposal
-     * 
-     * @param person
-     */
-    public void setPrincipalInvestigator(ProposalPerson person) {
-        principalInvestigator = person;
-    }
-
+    
     public void setNextProposalPersonNumber(Integer n) {
         nextProposalPersonNumber = n;
     }
@@ -1593,6 +1582,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public ProposalPersonRole getProposalEmployeeRole(String personId) {
+        ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
             return principalInvestigator.getRole();
         }
@@ -1610,6 +1600,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
+        ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
             return principalInvestigator.getRole();
         }
