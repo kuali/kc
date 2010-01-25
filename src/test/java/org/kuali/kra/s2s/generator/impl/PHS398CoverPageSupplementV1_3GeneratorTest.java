@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -88,7 +89,7 @@ public class PHS398CoverPageSupplementV1_3GeneratorTest extends
 		List<ProposalPerson> argProposalPersons = new ArrayList<ProposalPerson>();
 		argProposalPersons.add(person);
 		developmentProposal.setProposalPersons(argProposalPersons);
-		developmentProposal.setPrincipalInvestigator(person);
+        person.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
 		document.setDevelopmentProposal(developmentProposal);
 		// developmentProposal.setPerformingOrganization has side effect logic.
 		// It creates proposalSite object for each organization without setting

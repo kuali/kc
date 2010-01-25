@@ -128,6 +128,13 @@ public interface ProposalHierarchyService {
      */
     public String getHierarchyChildRouteCode( String oldStatus, String newStatus );
 
+    /**
+     * Get a list of DevelopmentProposals that are children of proposal number provided.
+     * @param parentProposalNumber the proposal number of the hierarchy parent.
+     * @return List of DevelopmentProposals
+     * @throws ProposalHierarchyException if the provided proposal is not a hierarchy.
+     */
+    public List<DevelopmentProposal> getHierarchyChildren( String parentProposalNumber ) throws ProposalHierarchyException;    
     
     
     /**
