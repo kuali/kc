@@ -61,18 +61,19 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
     private static final String ERROR_UNEXPECTED = "error.hierarchy.unexpected";
     private static final String ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE = "error.hierarchy.budget.childStatusesNotComplete";
+    private static final String ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.sync.noPrincipleInvestigator";
 
     ProposalHierarchyService hierarchyService;
     
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
-        // TODO rules
-        try {
-            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
-            GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
-
-        }
-        catch (Exception e) {
-            doUnexpectedError(e, FIELD_GENERIC, true);
+        if (validateHierarchyForSyncAll(hierarchyProposal)) {
+            try {
+                getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
+                GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
+            }
+            catch (Exception e) {
+                doUnexpectedError(e, FIELD_GENERIC, true);
+            }
         }
     }
     
@@ -90,14 +91,15 @@ public class ProposalHierarcyActionHelper {
     }
     
     public void syncToHierarchyParent(DevelopmentProposal childProposal) {
-        // TODO rules
-        try {
-            getProposalHierarchyService().synchronizeChild(childProposal);
-            GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
-
-        }
-        catch (Exception e) {
-            doUnexpectedError(e, FIELD_GENERIC, true);
+        if (validateChildForSync(childProposal)) {
+            try {
+                getProposalHierarchyService().synchronizeChild(childProposal);
+                GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
+    
+            }
+            catch (Exception e) {
+                doUnexpectedError(e, FIELD_GENERIC, true);
+            }
         }
     }
 
@@ -185,14 +187,7 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_NO_FINAL_BUDGET, new String[] {proposal.getProposalNumber()});
             }
         }
-        boolean principleInvestigatorPresent = false;
-        for (ProposalPerson person : proposal.getProposalPersons()) {
-           if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
-               principleInvestigatorPresent = true;
-               break;
-           }
-        }
-        if (!principleInvestigatorPresent) {
+        if (proposal.getPrincipalInvestigator() == null) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR, new String[0]);
             valid = false;
         }
@@ -294,5 +289,28 @@ public class ProposalHierarcyActionHelper {
             match = false;
         }
         return match;
+    }
+    
+    public boolean validateChildForSync (DevelopmentProposal child) {
+        boolean valid = true;
+        if (child.getPrincipalInvestigator() == null) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR, child.getProposalNumber());
+            valid = false;
+        }
+        return valid;
+    }
+    
+    public boolean validateHierarchyForSyncAll (DevelopmentProposal hierarchy) {
+        boolean valid = false;
+        try {
+            for (DevelopmentProposal child : hierarchyService.getHierarchyChildren(hierarchy.getProposalNumber())) {
+                valid &= validateChildForSync(child);
+            }
+        }
+        catch (ProposalHierarchyException e) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
+            valid = false;
+        }
+        return valid;
     }
 }

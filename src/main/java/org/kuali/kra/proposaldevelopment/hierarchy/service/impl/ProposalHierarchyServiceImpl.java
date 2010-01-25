@@ -71,7 +71,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -288,7 +287,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         String hierarchyProposalNumber = childProposal.getHierarchyParentProposalNumber();
         DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
-        BudgetDocument hierarchyBudgetDoc = getHierarchyBudget(hierarchyProposal);
+        BudgetDocument<DevelopmentProposal> hierarchyBudgetDoc = getHierarchyBudget(hierarchyProposal);
         Budget hierarchyBudget = hierarchyBudgetDoc.getBudget();
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s)", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
         
@@ -473,25 +472,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             return false;
         }
 */
-        String principleInvestigatorId = null;
-//        List<ProposalPerson> oldPersons = new ArrayList<ProposalPerson>();
-        for (ProposalPerson person : hierarchyProposal.getProposalPersons()) {
-//            if (StringUtils.equals(childProposal.getProposalNumber(), person.getHierarchyProposalNumber())) {
-//                oldPersons.add(person);
-                if (StringUtils.equals(person.getProposalPersonRoleId(), "PI")) {
-                    principleInvestigatorId = person.getPersonId();
-//                }
-            }
-        }
+        ProposalPerson pi = hierarchyProposal.getPrincipalInvestigator();
+        String principleInvestigatorId = pi != null ? pi.getPersonId() : null;
         List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>();
         for (PropScienceKeyword keyword : hierarchyProposal.getPropScienceKeywords()) {
             if (StringUtils.equals(childProposal.getProposalNumber(), keyword.getHierarchyProposalNumber())) {
                 oldKeywords.add(keyword);
             }
         }
-        BudgetDocument hierarchyBudgetDocument = getHierarchyBudget(hierarchyProposal); 
+        BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchyProposal); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
-        BudgetDocument childBudgetDocument = getFinalOrLatestChildBudget(childProposal);
+        BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal);
         Budget childBudget = childBudgetDocument.getBudget();
         ObjectUtils.materializeAllSubObjects(hierarchyBudget);
         ObjectUtils.materializeAllSubObjects(childBudget);
@@ -557,11 +548,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
 //            }
             
-            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
-                newPerson.setProposalPersonRoleId("COI");
+            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
             }
             if (newPerson.getPersonId().equals(principleInvestigatorId)) {
-                newPerson.setProposalPersonRoleId("PI");
+                newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
             }
             hierarchyProposal.addProposalPerson(newPerson);
         }
@@ -731,7 +722,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             else person.setHiddenInHierarchy(true);
         }
-        BudgetDocument hierarchyBudgetDocument = getHierarchyBudget(hierarchy); 
+        BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchy); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
         GlobalVariables.setKualiForm(null);
@@ -768,24 +759,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
-        ProposalPerson pi = null;
-        for (ProposalPerson person : child.getProposalPersons()) {
-            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
-                pi = person;
-                break;
-            }
-        }
+        ProposalPerson pi = child.getPrincipalInvestigator();
         if (pi != null) {
             int index = hierarchy.getProposalPersons().indexOf(pi);
-            if (index > -1) hierarchy.getProposalPerson(index).setProposalPersonRoleId("PI");
+            if (index > -1) hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         }
     }
     
-    private BudgetDocument getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+    private BudgetDocument<DevelopmentProposal> getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
-        BudgetDocument budgetDocument = null;
+        BudgetDocument<DevelopmentProposal> budgetDocument = null;
         try {
-            budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException(e);
@@ -793,7 +778,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return budgetDocument;//.getBudget();
     }
  
-    private BudgetDocument getFinalOrLatestChildBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
+    private BudgetDocument<DevelopmentProposal> getFinalOrLatestChildBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         String budgetDocumentNumber = null;
         for (BudgetDocumentVersion version : childProposal.getProposalDocument().getBudgetDocumentVersions()) {
             budgetDocumentNumber = version.getDocumentNumber();
@@ -801,9 +786,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 break;
             }
         }
-        BudgetDocument budgetDocument = null;
+        BudgetDocument<DevelopmentProposal> budgetDocument = null;
         try {
-            budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException(e);
@@ -812,9 +797,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        BudgetDocument parentBudgetDoc = getHierarchyBudget(hierarchyProposal);
+        BudgetDocument<DevelopmentProposal> parentBudgetDoc = getHierarchyBudget(hierarchyProposal);
         Budget parentBudget = parentBudgetDoc.getBudget();
-        BudgetDocument childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
+        BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
         Budget childBudget = childBudgetDocument.getBudget();
         BudgetPeriod parentPeriod, childPeriod;
         for (int i=0; i < childBudget.getBudgetPeriods().size(); i++) {
@@ -840,9 +825,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        BudgetDocument parentBudgetDoc = getHierarchyBudget(hierarchyProposal);
+        BudgetDocument<DevelopmentProposal> parentBudgetDoc = getHierarchyBudget(hierarchyProposal);
         Budget parentBudget = parentBudgetDoc.getBudget();
-        BudgetDocument childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
+        BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
         Budget childBudget = childBudgetDocument.getBudget();
         return validateChildBudgetPeriods(parentBudget, childBudget);
     }
@@ -1059,14 +1044,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments(String parentProposalNumber) throws ProposalHierarchyException {
        
         List<ProposalDevelopmentDocument> outList = new ArrayList<ProposalDevelopmentDocument>();
-        for( String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber)) {
-            DevelopmentProposal child = getDevelopmentProposal( childProposalNumber );
+        for( DevelopmentProposal child : getHierarchyChildren(parentProposalNumber)) {
             try {
                 outList.add( (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId( child.getProposalDocument().getDocumentNumber() ) );
             }
             catch (WorkflowException e) {
-                LOG.error( String.format( "Could not find document for child proposal number %s", parentProposalNumber, childProposalNumber ), e);
-                throw new ProposalHierarchyException( String.format( "Could not find document for child proposal number %s", parentProposalNumber, childProposalNumber ), e );
+                LOG.error( String.format( "Could not find document for child proposal number %s", parentProposalNumber, child.getProposalNumber() ), e);
+                throw new ProposalHierarchyException( String.format( "Could not find document for child proposal number %s", parentProposalNumber, child.getProposalNumber() ), e );
             }
             
         }
@@ -1075,7 +1059,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
     }
 
-    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildren(java.lang.String)
+     */
+    public List<DevelopmentProposal> getHierarchyChildren(String parentProposalNumber) {
+        List<DevelopmentProposal> children = new ArrayList<DevelopmentProposal>();
+        for( String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber)) {
+            children.add(getDevelopmentProposal(childProposalNumber));
+        }
+        return children;
+    }
     
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
