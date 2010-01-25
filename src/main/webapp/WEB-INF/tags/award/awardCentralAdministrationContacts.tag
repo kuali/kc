@@ -54,7 +54,7 @@
 	                <td valign="middle">
 	                	<div align="center">
 	                		<input type="hidden" name="admin_contact.orgNumber_${awardContactRowStatus.index}" value="${awardContact.organizationIdentifier}" />
-							${awardContact.contactOrganizationName}&nbsp;
+							${awardContact.unitAdministratorUnitNumberByPersonId}&nbsp;
 							<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="admin_contact.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
 						</div>
 					</td>

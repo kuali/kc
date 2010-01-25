@@ -15,12 +15,21 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.UnitContactType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class models a Unit Contact
@@ -33,6 +42,7 @@ public class AwardUnitContact extends AwardContact {
     private UnitContactType unitContactType;
     private UnitAdministratorType unitAdministratorType;
     private String unitAdministratorTypeCode;
+
 
     /**
      * Constructs a AwardUnitContact.java.
@@ -69,6 +79,38 @@ public class AwardUnitContact extends AwardContact {
      */
     AwardUnitContact(UnitContactType unitContactType) {
         this.unitContactType = unitContactType;
+    }
+    
+    public String getUnitAdministratorUnitNumberByPersonId() {
+//        String unitAdministratorUnitNumber = null;
+//        List<UnitAdministrator> unitAdministrators = unitAdministratorType.getUnitAdministrators();
+//        for(UnitAdministrator unitAdministrator : unitAdministrators) {
+//            if (unitAdministrator.getUnitNumber() == getAward().getLeadUnitNumber() &&
+//                    unitAdministrator.getPersonId() == getPerson().getPersonId()) {
+//                unitAdministratorUnitNumber = unitAdministrator.getUnitNumber();
+//            }
+//        }
+//        return unitAdministratorUnitNumber;    
+//    }
+//    
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("unitNumber", getAward().getLeadUnitNumber());
+            criteria.put("personId", getPerson().getPersonId());
+            List<UnitAdministrator> results = new ArrayList<UnitAdministrator>(
+                    getBusinessObjectService().findMatching(UnitAdministrator.class, criteria));
+            if (results.size() == 0) {
+                return getPerson().getUnit().getUnitNumber(); //display home unit number if they are not a default administrator.
+            } else {
+                return results.get(0).getUnitNumber(); //display Unit number of default unit administrator table.
+            }
+    }
+    
+    /**
+     * This method...
+     * @return
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
     }
     
     /**

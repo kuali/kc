@@ -67,6 +67,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
                 AwardUnitContact newAwardUnitContact = new AwardUnitContact(UnitContactType.CONTACT);
                 newAwardUnitContact.setPerson(person);
+                newAwardUnitContact.setAward(awardForm.getAwardDocument().getAward());
                 newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
                 newAwardUnitContact.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
                 newAwardUnitContact.setFullName(person.getFullName());

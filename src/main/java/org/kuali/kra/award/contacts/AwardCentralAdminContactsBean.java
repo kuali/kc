@@ -47,6 +47,7 @@ public class AwardCentralAdminContactsBean implements Serializable{
             if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
                 AwardUnitContact newAwardUnitContact = new AwardUnitContact();
+                newAwardUnitContact.setAward(awardForm.getAwardDocument().getAward());
                 newAwardUnitContact.setPerson(person);
                 newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
                 newAwardUnitContact.setFullName(person.getFullName());
@@ -63,28 +64,6 @@ public class AwardCentralAdminContactsBean implements Serializable{
         return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
-//    public void addCentralAdminContact() {
-//        boolean success = new AwardCentralAdminAddRuleImpl().processAddAwardCentralAdminContactBusinessRules(getAward(), getCentralAdminContact());
-//        if(success){
-//            getAward().add(getUnitContact());
-//            init();
-//        }
-//    }
-
-//    /**
-//     * @return
-//     */
-//    public AwardUnitContact getCentralAdminContact() {
-//        return (AwardUnitContact) newAwardContact;
-//    }
-    
-//    /**
-//     * Remove a Central Admin unit contact
-//     * @param lineToDelete
-//     */
-//    public void deleteContact(int lineToDelete) {
-//        super.deleteUnitContact(getCentralAdminContacts(), lineToDelete);
-//    }
 
     /**
      * This method finds the count of AwardContacts in the "Central Administrator" category
@@ -102,8 +81,4 @@ public class AwardCentralAdminContactsBean implements Serializable{
         return getCentralAdminContacts().size();
     }
 
-//    @Override
-//    protected AwardContact createNewContact() {
-//        return new AwardUnitContact(UnitContactType.ADMINISTRATOR);
-//    }
 }
