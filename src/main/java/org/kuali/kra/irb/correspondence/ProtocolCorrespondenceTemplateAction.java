@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,22 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     // signifies that a response has already be handled therefore forwarding to obtain a response is not needed. 
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // initialize form on initial page load to erase any old user data
+        if (StringUtils.equals(request.getParameter("init"), "true")) {
+            ProtocolCorrespondenceTemplateForm templateForm = new ProtocolCorrespondenceTemplateForm();
+            ((ProtocolCorrespondenceTemplateForm) form).setCorrespondenceTypes(templateForm.getCorrespondenceTypes());
+            ((ProtocolCorrespondenceTemplateForm) form).setDefaultCorrespondenceTemplates(templateForm.getDefaultCorrespondenceTemplates());
+            ((ProtocolCorrespondenceTemplateForm) form).setNewCorrespondenceTemplates(templateForm.getNewCorrespondenceTemplates());
+            ((ProtocolCorrespondenceTemplateForm) form).setDeletedCorrespondenceTemplates(templateForm.getDeletedCorrespondenceTemplates());
+            ((ProtocolCorrespondenceTemplateForm) form).setTabStates(new HashMap<String, String>());
+        }
+        
+        return super.execute(mapping, form, request, response);
+    }
+    
     /**
      * 
      * This method is called when adding a correspondence template.
@@ -175,6 +192,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes, 
             		correspondenceTemplateForm.getDeletedCorrespondenceTemplates());
             //TODO: cniesen - display "RiceKeyConstants.MESSAGE_SAVED" message
+            GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
