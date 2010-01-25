@@ -777,9 +777,9 @@
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.sflllV11</pkgName>
 	</Form>
-	
-	<!-- New S2S Forms  -->
-	
+
+	<!-- New S2S Forms - gg-forms2 -->
+
 	<Form
 		namespace="http://apply.grants.gov/forms/PerformanceSite_1_2-V1.2">
 		<formName>PerformanceSite_1_2-V1.2</formName>
@@ -826,12 +826,9 @@
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PersonalData-V1.2.xsl
 		</stylesheet>
-		<pkgName>
-			gov.grants.apply.forms.rrPersonalData12V12
-		</pkgName>
+		<pkgName>gov.grants.apply.forms.rrPersonalData12V12</pkgName>
 	</Form>
-	<Form
-		namespace="http://apply.grants.gov/forms/RR_SF424_1_2-V1.2">
+	<Form namespace="http://apply.grants.gov/forms/RR_SF424_1_2-V1.2">
 		<formName>RR_SF424_1_2-V1.2</formName>
 		<mainClass>
 			org.kuali.kra.s2s.generator.impl.RRSF424V1_2Generator
@@ -839,9 +836,7 @@
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SF424-V1.2.xsl
 		</stylesheet>
-		<pkgName>
-			gov.grants.apply.forms.rrSF42412V12
-		</pkgName>
+		<pkgName>gov.grants.apply.forms.rrSF42412V12</pkgName>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_Checklist_1_3-V1.3">
@@ -915,10 +910,72 @@
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.2.xsl
 		</stylesheet>
+		<pkgName>gov.grants.apply.forms.nsfCoverPage12V12</pkgName>
+	</Form>
+
+	<!-- New S2S Forms - gg-forms2 -->
+
+	<!-- New S2S Forms - gg-forms3 -->
+	<Form
+		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
+		<formName>NSF_ApplicationChecklist_1_3-V1.3</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_3Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.3.fo.xsl
+		</stylesheet>
 		<pkgName>
-			gov.grants.apply.forms.nsfCoverPage12V12
+			gov.grants.apply.forms.nsfApplicationChecklist13V13
 		</pkgName>
 	</Form>
-	
-	<!-- New S2S Forms  -->
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_1-V1.1">
+		<formName>PHS398_CareerDevelopmentAwardSup_1_1-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V1.1.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11
+		</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS_CoverLetter_1_2-V1.2">
+		<formName>PHS_CoverLetter_1_2-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHSCoverLetterV1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS_CoverLetter-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.phsCoverLetter12V12</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1">
+		<formName>PHS_Fellowship_Supplemental_1_1-V1.1</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_1Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.1.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.phsFellowshipSupplemental11V11
+		</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_3-V1.3">
+		<formName>NSF_CoverPage_1_3-V1.3</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_3Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.3.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.nsfCoverPage13V13</pkgName>
+	</Form>
+	<!-- New S2S Forms - gg-Forms3 -->
 </FormBinding>
