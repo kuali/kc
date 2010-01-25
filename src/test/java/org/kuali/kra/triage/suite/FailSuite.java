@@ -160,7 +160,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0GeneratorTest.class,
     org.kuali.kra.award.home.AwardCommentFactoryTest.class,
     org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
-//    org.kuali.kra.scheduling.service.ScheduleServiceTest.class,
+    org.kuali.kra.scheduling.service.ScheduleServiceTest.class,
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRSF424V1_1GeneratorTest.class,
