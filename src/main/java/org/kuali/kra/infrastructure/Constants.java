@@ -486,6 +486,9 @@ public interface Constants {
    
     public static final String MAPPING_CHECKLIST_ITEM_DESCRIPITION = "checkListItemDescription";
     
+    // Correspondence
+    public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE = "text/xml";
+
     // Protocol Linking  System Parameters 
     public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
     public static final String ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK = "irb.protocol.development.proposal.linking.enabled";
