@@ -49,8 +49,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	private static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "P";
-	protected static final String SEPARATER_STRING = "-";
-	protected static final String OVERHEAD_RATE_PREFIX = "OH";
+	protected static final String SEPARATER_STRING = " - ";
+	protected static final String OVERHEAD_RATE_PREFIX = "OH - ";
 	protected static final String EMPTY_STRING = "";
 	protected static final String PERIOD_COST_TOTAL = "Total";
 	protected static final String CALCULATED_AMOUNT_COST_ELEMENT_DESC = "Calculated Amount";

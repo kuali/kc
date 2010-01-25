@@ -23,56 +23,67 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
- * This abstract class has methods that are common to all the versions of NSFCoverPage form
+ * This abstract class has methods that are common to all the versions of
+ * NSFCoverPage form
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 
 public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
-    protected DateTimeService dateTimeService;
-    protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
-    protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
-    protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
-    protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "H4";
-    protected static final String QUESTION_ID_RESOLUTION_GRAPHICS = "20";
-    protected static final String PRINCIPAL_INVESTIGATOR = "PI";
-    protected static final String PI_C0_INVESTIGATOR = "COI";
-    protected static final int PERSONAL_DATA = 13;
-    protected static final int PROPRIETARY_INFORMATION = 14;
-    protected S2SUtilService s2sUtilService;
+	protected DateTimeService dateTimeService;
+	protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
+	protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
+	protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
+	protected static final String PROPOSAL_YNQ_LOBBYING_ACTIVITIES = "H4";
+	protected static final String QUESTION_ID_RESOLUTION_GRAPHICS = "20";
+	protected static final String PRINCIPAL_INVESTIGATOR = "PI";
+	protected static final String PI_C0_INVESTIGATOR = "COI";
+	protected static final int PERSONAL_DATA = 13;
+	protected static final int PROPRIETARY_INFORMATION = 14;
 
-    /**
-     * 
-     * Constructs a NSFCoverPageBaseGenerator.java.
-     */
-    public NSFCoverPageBaseGenerator() {
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-    }
+	protected static final int PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH = 40;
+	protected static final int QUESTION_CURRENT_PI = 52;
+	protected static final int QUESTION_BEGIN_INVESTIGATOR = 53;
+	protected static final int QUESTION_EARLY_CONCEPT_GRANT = 54;
+	protected static final int QUESTION_RAPIDRESPONSE_GRANT = 55;
+	protected static final int QUESTION_ACCOMPLISHMENT_RENEWAL = 56;
+	protected static final int QUESTION_RESOLUTION_GRAPHICS = 57;
+	protected static final Integer QUESTIONNAIRE_ID_2 = 2;
 
-    /**
-     * 
-     * This method Converts the String that is passed to it into a calendar object. The argument will be set as the Year in the
-     * Calendar Object.
-     * 
-     * @param year - The String value to be converted to Calendar Object
-     * @return calendar value corresponding to the year(String) passed.
-     */
-    public Calendar getYearAsCalendar(String year) {
-        Calendar calendar = dateTimeService.getCurrentCalendar();
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.DATE, 0);
-        calendar.set(Calendar.MONTH, 0);
-        try {
-            calendar.set(Calendar.YEAR, Integer.parseInt(year));
-        }
-        catch (NumberFormatException ex) {
-            calendar.set(Calendar.YEAR, 0);
-        }
-        return calendar;
-    }
+	protected S2SUtilService s2sUtilService;
+
+	/**
+	 * 
+	 * Constructs a NSFCoverPageBaseGenerator.java.
+	 */
+	public NSFCoverPageBaseGenerator() {
+		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+	}
+
+	/**
+	 * 
+	 * This method Converts the String that is passed to it into a calendar
+	 * object. The argument will be set as the Year in the Calendar Object.
+	 * 
+	 * @param year -
+	 *            The String value to be converted to Calendar Object
+	 * @return calendar value corresponding to the year(String) passed.
+	 */
+	public Calendar getYearAsCalendar(String year) {
+		Calendar calendar = dateTimeService.getCurrentCalendar();
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.DATE, 0);
+		calendar.set(Calendar.MONTH, 0);
+		try {
+			calendar.set(Calendar.YEAR, Integer.parseInt(year));
+		} catch (NumberFormatException ex) {
+			calendar.set(Calendar.YEAR, 0);
+		}
+		return calendar;
+	}
 
 }
