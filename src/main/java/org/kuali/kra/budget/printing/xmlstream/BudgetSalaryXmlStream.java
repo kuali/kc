@@ -48,7 +48,6 @@ import org.kuali.kra.service.KcPersonService;
  */
 public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
-	private static final String PERSON_ID_PARAMETER = "personId";
 	private static final String BUDGET_SALARY = "Budget Salary";
 	private transient KcPersonService kcPersonService;
 	/**
@@ -154,16 +153,21 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 	 */
 	private void setSalaryTypesForCostElement(String costElementDesc,
 			List<SalaryTypeVO> salaryTypeVoList) {
+		Map<String, String> personMap = new HashMap<String, String>();
 		SalaryTypeVO salaryTypeVO = new SalaryTypeVO();
 		salaryTypeVO.setCostElement(costElementDesc);
 		salaryTypeVoList.add(salaryTypeVO);
 		List<String> persons = getPersonsForCostElementDescription(costElementDesc);
 		for (String personName : persons) {
+			if (personMap.containsKey(personName)) {
+				continue;
+			}
 			SalaryTypeVO salaryTypeVoPerPerson = new SalaryTypeVO();
 			salaryTypeVoPerPerson.setName(personName);
 			salaryTypeVoPerPerson.setBudgetPeriodVOs(getBudgetDataPeriodVOs(
 					costElementDesc, personName));
 			salaryTypeVoList.add(salaryTypeVoPerPerson);
+			personMap.put(personName, personName);
 		}
 	}
 
@@ -186,8 +190,9 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 								costElementDesc)) {
 					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
 							.getBudgetPersonnelDetailsList()) {
-						String budgetPersonName = getPersonName(budgetPersonnelDetails
-								.getPersonId());
+						budgetPersonnelDetails.refreshNonUpdateableReferences();
+						String budgetPersonName = budgetPersonnelDetails
+								.getBudgetPerson().getPersonName();
 						BudgetDecimal salaryRequested = budgetPersonnelDetails
 								.getSalaryRequested();
 						if (personName != null
@@ -221,13 +226,10 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 										.getDescription())) {
 					for (BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem
 							.getBudgetPersonnelDetailsList()) {
-						String personName = null;
-						if (budgetPersonnelDetail.getPersonId() != null
-								&& (personName = getPersonName(budgetPersonnelDetail
-										.getPersonId())) != null
-								&& !persons.contains(personName)) {
-							persons.add(personName);
-						}
+						budgetPersonnelDetail.refreshNonUpdateableReferences();
+						String personName = budgetPersonnelDetail
+								.getBudgetPerson().getPersonName();
+						persons.add(personName);
 					}
 				}
 			}

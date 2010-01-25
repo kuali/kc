@@ -20,37 +20,40 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
 /**
- * This abstract class has methods that are common to all the versions of RROtherProjectInfo form.
+ * This abstract class has methods that are common to all the versions of
+ * RROtherProjectInfo form.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class RROtherProjectInfoBaseGenerator extends S2SBaseFormGenerator {
-    protected S2SUtilService s2sUtilService;
-    // Special Review Id's
-    public static final int HUMAN_SUBJECT_SUPPLEMENT = 1;
-    public static final int VERTEBRATE_ANIMALS_SUPPLEMENT = 2;
-    // Its an YnQ fields that are required for RROtherProjectInfo
-    public static final String PROPRIETARY_INFORMATION_INDICATOR = "G8";
-    public static final String ENVIRONMENTAL_IMPACT_YNQ = "G9";
-    public static final String ENVIRONMENTAL_EXEMPTION_YNQ = "27";
-    public static final String INTERNATIONAL_ACTIVITIES_YNQ = "H1";
-    // Attachments
-    public static final int EQUIPMENT_ATTACHMENT = 3;
-    public static final int FACILITIES_ATTACHMENT = 2;
-    public static final int NARRATIVE_ATTACHMENT = 1;
-    public static final int BIBLIOGRAPHY_ATTACHMENT = 4;
-    public static final int ABSTRACT_PROJECT_SUMMARY_ATTACHMENT = 5;
-    public static final int OTHER_ATTACHMENT = 8;
-    public static final int SUPPLIMENTARY_ATTACHMENT = 15;
-    public static final String SPECIAL_REVIEW_HUMAN_SUBJECTS = "1";
-    public static final String SPECIAL_REVIEW_ANIMAL_USAGE = "2";
-    public static final int APPROVAL_TYPE_EXCEMPT = 4;
+public abstract class RROtherProjectInfoBaseGenerator extends
+		S2SBaseFormGenerator {
+	protected S2SUtilService s2sUtilService;
+	// Special Review Id's
+	public static final int HUMAN_SUBJECT_SUPPLEMENT = 1;
+	public static final int VERTEBRATE_ANIMALS_SUPPLEMENT = 2;
+	// Its an YnQ fields that are required for RROtherProjectInfo
+	public static final String PROPRIETARY_INFORMATION_INDICATOR = "G8";
+	public static final String ENVIRONMENTAL_IMPACT_YNQ = "G9";
+	public static final String ENVIRONMENTAL_EXEMPTION_YNQ = "27";
+	public static final String INTERNATIONAL_ACTIVITIES_YNQ = "H1";
+	// Attachments
+	public static final int EQUIPMENT_ATTACHMENT = 3;
+	public static final int FACILITIES_ATTACHMENT = 2;
+	public static final int NARRATIVE_ATTACHMENT = 1;
+	public static final int BIBLIOGRAPHY_ATTACHMENT = 4;
+	public static final int ABSTRACT_PROJECT_SUMMARY_ATTACHMENT = 5;
+	public static final int OTHER_ATTACHMENT = 8;
+	public static final int SUPPLIMENTARY_ATTACHMENT = 15;
+	public static final String SPECIAL_REVIEW_HUMAN_SUBJECTS = "1";
+	public static final String SPECIAL_REVIEW_ANIMAL_USAGE = "1";
+	public static final int APPROVAL_TYPE_EXCEMPT = 4;
+	protected static final int EXPLANATION_MAX_LENGTH = 55;
 
-    /**
-     * 
-     * Constructs a RROtherProjectInfoBaseGenerator.java.
-     */
-    public RROtherProjectInfoBaseGenerator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-    }
+	/**
+	 * 
+	 * Constructs a RROtherProjectInfoBaseGenerator.java.
+	 */
+	public RROtherProjectInfoBaseGenerator() {
+		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+	}
 }

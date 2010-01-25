@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,6 +40,7 @@ import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
@@ -194,7 +196,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		setReportTypeForIndustrialBudgetSalary(reportTypeList);
-		setBudgetLASalaryForBudgetRateAndBase(reportTypeList);
+		setIndustrialBudgetLASalaryForBudgetRateAndBase(reportTypeList);
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));
 		return subReportType;
 	}
@@ -212,10 +214,12 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 					.getBudgetPersonnelDetailsList()) {
 				for (BudgetPersonnelRateAndBase budgetPersRateAndBase : budgetPersDetails
 						.getBudgetPersonnelRateAndBaseList()) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForIndustrialBudgetSalary(
-							budgetLineItem, budgetPersDetails,
-							budgetPersRateAndBase);
-					reportTypeVOList.add(reportTypeVO);
+					if (!(isRateAndBaseEBonLA(budgetPersRateAndBase) || isRateAndBaseVAonLA(budgetPersRateAndBase))) {
+						ReportTypeVO reportTypeVO = getReportTypeVOForIndustrialBudgetSalary(
+								budgetLineItem, budgetPersDetails,
+								budgetPersRateAndBase);
+						reportTypeVOList.add(reportTypeVO);
+					}
 				}
 			}
 		}
@@ -254,11 +258,60 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 						budgetPersRateAndBase, budgetPersDetails
 								.getBudgetCategoryCode()));
 		reportTypeVO
-				.setSalaryRequested(getSalaryRequestedForIndustrialBudgetSalary(budgetPersRateAndBase));
+				.setCalculatedCost(getCalculatedForIndustrialBudgetSalary(budgetPersRateAndBase));
+		reportTypeVO.setSalaryRequested(budgetPersRateAndBase
+				.getSalaryRequested());
 		reportTypeVO
 				.setInvestigatorFlag(getInvestigatorFlag(budgetPersRateAndBase));
 		reportTypeVO.setCostElementDesc(budgetPersDetails.getCostElementBO()
 				.getDescription());
+		return reportTypeVO;
+	}
+
+	/*
+	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
+	 * BudgetLineItem and iterate through BudgetRateAndBase for BudgetLASalary
+	 * based on RateClassType VACATION_ON_LA
+	 * 
+	 */
+	private void setIndustrialBudgetLASalaryForBudgetRateAndBase(
+			List<ReportType> reportTypeList) {
+		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
+		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+			Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
+			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
+					.getBudgetRateAndBaseList()) {
+				if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
+					Date startDate = budgetRateAndBase.getStartDate();
+					Date endDate = budgetRateAndBase.getEndDate();
+					String key = new StringBuilder(startDate.toString())
+							.append(endDate.toString()).toString();
+					if (laRateBaseMap.containsKey(key)) {
+						continue;
+					}
+					ReportTypeVO reportTypeVO = getReportTypeVOForIndustrialBudgetLASalaryForRateBase(
+							budgetLineItem, budgetRateAndBase);
+					reportTypeVOList.add(reportTypeVO);
+					laRateBaseMap.put(key, budgetRateAndBase);
+				}
+			}
+		}
+		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
+	}
+
+	/*
+	 * This method returns List of ReportTypeVO for BudgetLASalaryForRateAndBase
+	 * by setting data from budgetLineItem and BudgetRateAndBase
+	 * 
+	 */
+	private ReportTypeVO getReportTypeVOForIndustrialBudgetLASalaryForRateBase(
+			BudgetLineItem budgetLineItem, BudgetRateAndBase budgetRateAndBase) {
+
+		ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(
+				budgetLineItem, budgetRateAndBase);
+
+		reportTypeVO.setSalaryRequested(reportTypeVO.getSalaryRequested().add(
+				reportTypeVO.getFringe()));
 		return reportTypeVO;
 	}
 
@@ -278,7 +331,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String reportTypeTempKey = getKeyForIndustrialBudget(tempReportTypeVO);
 				if (reportTypeTempKey.equals(reportTypeKey)) {
-					salary = salary.add(tempReportTypeVO.getSalaryRequested());
+					salary = salary.add(tempReportTypeVO.getCalculatedCost());
 				}
 			}
 			ReportType reportType = getReportTypeForIndustrialBudgetSalary(
@@ -308,6 +361,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			reportType.setBudgetCategoryCode(Integer.parseInt(reportTypeVO
 					.getBudgetCategoryCode()));
 		}
+		salary = salary.add(reportTypeVO.getSalaryRequested());
 		reportType.setSalaryRequested(salary.doubleValue());
 		reportType.setInvestigatorFlag(reportTypeVO.getInvestigatorFlag());
 		reportType.setCostElementDescription(reportTypeVO.getCostElementDesc());
@@ -331,19 +385,19 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	}
 
 	/*
-	 * This method gets SalaryRequested For IndustrialBudgetSalary based on
+	 * This method gets Calculated For IndustrialBudgetSalary based on
 	 * EMPLOYEE_BENEFITS , OVERHEAD and VACATION rateClassType by
 	 * BudgetPersonnelRateAndBase
 	 */
-	private BudgetDecimal getSalaryRequestedForIndustrialBudgetSalary(
+	private BudgetDecimal getCalculatedForIndustrialBudgetSalary(
 			BudgetPersonnelRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal salary = BudgetDecimal.ZERO;
+		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
 		if (isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)
 				|| isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase)
 				|| isRateAndBaseOfRateClassTypeOverhead(budgetPersRateAndBase)) {
-			salary = budgetPersRateAndBase.getSalaryRequested();
+			calculatedCost = budgetPersRateAndBase.getCalculatedCost();
 		}
-		return salary;
+		return calculatedCost;
 	}
 
 	/*

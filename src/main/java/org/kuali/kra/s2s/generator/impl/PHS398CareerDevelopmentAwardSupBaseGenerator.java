@@ -51,6 +51,7 @@ public abstract class PHS398CareerDevelopmentAwardSupBaseGenerator extends S2SBa
 	public static final int PSH398_INSTITUTIONAL_ENVIRONMENT = 68;
 	public static final int PHS398_INSTITUTIONAL_COMMITMENT = 69;
 	public static final int PHS_CAREER_APPENDIX = 34;
+	public static final int PHS_CAREER_REASEARCH_STRATEGY = 128;
 	
 	public PHS398CareerDevelopmentAwardSupBaseGenerator(){
 		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
