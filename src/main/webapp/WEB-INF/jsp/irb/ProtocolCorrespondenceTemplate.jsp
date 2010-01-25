@@ -29,7 +29,9 @@
     
     <div id="workarea">
 
-<kul:tab tabTitle="Correspondence Templates" 
+<c:set var="parentTab" value = "Correspondence Templates" />
+
+<kul:tab tabTitle="${parentTab}"
          defaultOpen="true"
          alwaysOpen="true"
          transparentBackground="true" 
@@ -43,10 +45,15 @@
         </h3>
         
         <c:forEach items="${KualiForm.correspondenceTypes}" var="correspondenceType" varStatus="status">
+            <c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" />
+            <c:set var="isOpen" value="false"/>
+            <c:if test="${KualiForm.tabStates[tabKey] == 'OPEN'}">
+                <c:set var="isOpen" value="true"/>
+            </c:if>
+
             <kra:innerTab tabTitle="${correspondenceType.description}" 
-                          parentTab="Correspondence Templates" 
-                          defaultOpen="false"
-                          useCurrentTabIndexAsKey="true" 
+                          parentTab="${parentTab}" 
+                          defaultOpen="${isOpen}"
                           tabErrorKey="newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*">
                 <p style="text-align:left; font-weight:bold;">Default</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
