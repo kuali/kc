@@ -473,7 +473,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 */
         ProposalPerson pi = hierarchyProposal.getPrincipalInvestigator();
-        String principleInvestigatorId = pi != null ? pi.getPersonId() : null;
         List<PropScienceKeyword> oldKeywords = new ArrayList<PropScienceKeyword>();
         for (PropScienceKeyword keyword : hierarchyProposal.getPropScienceKeywords()) {
             if (StringUtils.equals(childProposal.getProposalNumber(), keyword.getHierarchyProposalNumber())) {
@@ -551,7 +550,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
             }
-            if (newPerson.getPersonId().equals(principleInvestigatorId)) {
+            if (newPerson.equals(pi)) {
                 newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
             }
             hierarchyProposal.addProposalPerson(newPerson);
