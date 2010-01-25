@@ -51,9 +51,10 @@
  					</label>
         		</td>
 	        	<td class="infoline">
-	        		<div align="center">
-	        			<c:out value="${KualiForm.unitContactsBean.newAwardContact.contactOrganizationName}" />&nbsp;
-	        		</div>
+	        		<%--<div align="center">
+	        			<c:out value="${KualiForm.unitContactsBean.newAwardContact.unitAdministratorUnitNumberByPersonId}" />&nbsp;
+	        		</div>--%>
+	        		&nbsp;
 				</td>
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
@@ -89,7 +90,7 @@
 	                <td valign="middle">
 	                	<div align="center">
 	                		<input type="hidden" name="unit_contact.orgNumber_${awardContactRowStatus.index}" value="${awardContact.organizationIdentifier}" />
-							${awardContact.contactOrganizationName}&nbsp;
+							${awardContact.unitAdministratorUnitNumberByPersonId}&nbsp;
 							<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="unit_contact.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
 						</div>
 					</td>
