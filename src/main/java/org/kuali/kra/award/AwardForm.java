@@ -15,19 +15,14 @@
  */
 package org.kuali.kra.award;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -69,6 +64,7 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -77,7 +73,13 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.core.util.KeyLabelPair;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 
@@ -89,12 +91,16 @@ public class AwardForm extends BudgetVersionFormBase
                                                     Auditable,
                                                     CustomDataForm,
                                                     PermissionsForm {
-    
+
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
+
+    private static final Log LOG = LogFactory.getLog(AwardForm.class);
+    private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObjects[";
+    private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
     
     private static final long serialVersionUID = -7633960906991275328L;
-    
+
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
     
@@ -146,12 +152,13 @@ public class AwardForm extends BudgetVersionFormBase
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
-    private List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect;
+    private List<AwardHierarchyTempObject> awardHierarchyTempObjects;
     private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
     private AwardPrintChangeReport awardPrintChangeReport;
     private List<AwardComment> awardCommentHistoryByType;
-    
+    private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
+
     /**
      *
      * Constructs a AwardForm.
@@ -215,9 +222,9 @@ public class AwardForm extends BudgetVersionFormBase
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardPrintChangeReport();
         order = new ArrayList<String>();
-        awardHierarchyTempOjbect = new ArrayList<AwardHierarchyTempOjbect>();
-        for(int i=0;i<100;i++){
-            awardHierarchyTempOjbect.add(new AwardHierarchyTempOjbect());
+        awardHierarchyTempObjects = new ArrayList<AwardHierarchyTempObject>();
+        for(int i = 0; i < MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS; i++){
+            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
         }
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean(this);
@@ -970,16 +977,16 @@ public class AwardForm extends BudgetVersionFormBase
      * Gets the hiddenObject attribute.
      * @return Returns the hiddenObject.
      */
-    public List<AwardHierarchyTempOjbect> getAwardHierarchyTempOjbect() {
-        return awardHierarchyTempOjbect;
+    public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
+        return awardHierarchyTempObjects;
     }
 
     /**
-     * Sets the hiddenObject attribute value.
-     * @param hiddenObject The hiddenObject to set.
+     * Sets the awardHierarchyTempObjects attribute value.
+     * @param awardHierarchyTempObjects The awardHierarchyTempObjects to set.
      */
-    public void setAwardHierarchyTempOjbect(List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect) {
-        this.awardHierarchyTempOjbect = awardHierarchyTempOjbect;
+    public void setAwardHierarchyTempObjects(List<AwardHierarchyTempObject> awardHierarchyTempObjects) {
+        this.awardHierarchyTempObjects = awardHierarchyTempObjects;
     }
     
     public String getValueFinderResultDoNotCache(){
@@ -1055,5 +1062,43 @@ public class AwardForm extends BudgetVersionFormBase
      */
     private MedusaService getMedusaService() {
         return KraServiceLocator.getService(MedusaService.class);
+    }
+
+    /**
+     * This is a hack to fix a problem with Award Hierarchy. The way the AH UI was implemented was in JavaScript. For some reason, the awardHierarchyTempObject
+     * form field data doesn't get set on the temp objects by Rice's property setting mechanism. Time is short, so I just do it manually here. jack frosch
+     *
+     * @param requestParameters
+     */
+    @Override
+    public void postprocessRequestParameters(Map requestParameters) {
+        super.postprocessRequestParameters(requestParameters);
+
+        @SuppressWarnings("unchecked") Map<String, Object> parms = (Map<String, Object>) requestParameters;
+        for(String parmKey: parms.keySet()) {
+            if(parmKey.startsWith(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX)) {
+                populateAwardHierarchyTempObject(parms, parmKey);
+            }
+        }
+    }
+
+    private void populateAwardHierarchyTempObject(Map<String, Object> parms, String parmKey) {
+        int indexOfClosingBracket = parmKey.indexOf("]");
+        String fieldName = parmKey.substring(indexOfClosingBracket + 2);
+        Object fieldValue = parms.get(parmKey);
+        int tempObjectIndex = Integer.valueOf(parmKey.substring(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH, indexOfClosingBracket));
+        AwardHierarchyTempObject tempObject = awardHierarchyTempObjects.get(tempObjectIndex);
+        tempObject.setCopyDescendants(false);
+        populateAwardHierarchyTempObjectFromRequestParms(tempObject, fieldName, fieldValue);
+    }
+
+    private void populateAwardHierarchyTempObjectFromRequestParms(AwardHierarchyTempObject tempObject, String fieldName, Object fieldValue) {
+       try {
+            BeanUtils.setProperty(tempObject, fieldName, fieldValue);
+        } catch(Exception e) {
+            String message = String.format("Attempt to set %s property to %s on AwardHierarchyTempObject resulted in exception", fieldName, fieldValue.toString());
+            LOG.error(message, e);
+            throw new IllegalArgumentException(message, e);
+        }
     }
 }
