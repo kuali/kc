@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.printing.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -71,7 +70,6 @@ public class PrintingUtils {
 	public static String getParameterValue(String parameter) {
 		ParameterService parameterService = KraServiceLocator
 				.getService(ParameterService.class);
-		// TODO:need to remove hardcoded value
 		return parameterService.getParameterValue(
 				ProposalDevelopmentDocument.class, parameter);
 	}
@@ -161,7 +159,8 @@ public class PrintingUtils {
 			xsl = XSL_PRINT_CERTIFICATION;
 		}
 
-        Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(XSL_CONTEXT_DIR+ "/" + xsl));
+		Source src = new StreamSource(new PrintingUtils().getClass()
+				.getResourceAsStream(XSL_CONTEXT_DIR + "/" + xsl));
 
 		ArrayList<Source> sourceList = new ArrayList<Source>();
 		sourceList.add(src);
@@ -206,7 +205,7 @@ public class PrintingUtils {
 
 	/**
 	 * 
-	 * This method wili get the comment type description for given comment type
+	 * This method will get the comment type description for given comment type
 	 * code
 	 * 
 	 * @param commentTypeCode
@@ -228,5 +227,4 @@ public class PrintingUtils {
 		}
 		return description;
 	}
-
 }

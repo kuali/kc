@@ -25,11 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.s2s.service.GrantsGovConnectorService;
+import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.MailService;
 
 /**
  * 
@@ -37,55 +35,55 @@ import org.kuali.rice.kns.service.MailService;
  * 
  */
 public class S2SPollingTaskTest extends KraTestBase {
-    private DateTimeService dateTimeService = null;
-    private BusinessObjectService businessObjectService = null;
-    private GrantsGovConnectorService grantsGovConnectorService = null;
+	private DateTimeService dateTimeService = null;
+	private BusinessObjectService businessObjectService = null;
+	private S2SService s2sService = null;
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-        grantsGovConnectorService = KraServiceLocator.getService(GrantsGovConnectorService.class);
-    }
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		businessObjectService = KraServiceLocator
+				.getService(BusinessObjectService.class);
+		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+		s2sService = KraServiceLocator.getService(S2SService.class);
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        businessObjectService = null;
-        dateTimeService = null;
-        grantsGovConnectorService = null;
-        super.tearDown();
-    }
+	@After
+	public void tearDown() throws Exception {
+		businessObjectService = null;
+		dateTimeService = null;
+		s2sService = null;
+		super.tearDown();
+	}
 
+	@Test
+	public void tests2sPolling() {
+		S2SPollingTask s2sPollingTask = new S2SPollingTask();
+		s2sPollingTask.setBusinessObjectService(businessObjectService);
+		s2sPollingTask.setDateTimeService(dateTimeService);
+		s2sPollingTask.sets2SService(s2sService);
+		s2sPollingTask.setStopPollInterval("4320");
+		s2sPollingTask.setMailInterval("20");
 
-    @Test
-    public void tests2sPolling() {
-        S2SPollingTask s2sPollingTask = new S2SPollingTask();
-        s2sPollingTask.setBusinessObjectService(businessObjectService);
-        s2sPollingTask.setDateTimeService(dateTimeService);
-        s2sPollingTask.setGrantsGovConnectorService(grantsGovConnectorService);
-        s2sPollingTask.setStopPollInterval("4320");
-        s2sPollingTask.setMailInterval("20");
+		Map<String, String> statusMap = new HashMap<String, String>();
+		statusMap.put("1", "Submitted to Grants.Gov");
+		statusMap.put("2", "Receiving");
+		statusMap.put("3", "Received");
+		statusMap.put("4", "Processing");
+		s2sPollingTask.setStatusMap(statusMap);
 
-        Map<String, String> statusMap = new HashMap<String, String>();
-        statusMap.put("1", "Submitted to Grants.Gov");
-        statusMap.put("2", "Receiving");
-        statusMap.put("3", "Received");
-        statusMap.put("4", "Processing");
-        s2sPollingTask.setStatusMap(statusMap);
+		MailInfo mailInfo = new MailInfo();
+		mailInfo.setTo("geot@mit.edu");
+		mailInfo.setBcc("");
+		mailInfo.setCc("");
+		mailInfo.setDunsNumber("");
+		mailInfo.setFooter("");
+		mailInfo.setSubject("Grants.Gov Submissions");
 
-        MailInfo mailInfo = new MailInfo();
-        mailInfo.setTo("geot@mit.edu");
-        mailInfo.setBcc("");
-        mailInfo.setCc("");
-        mailInfo.setDunsNumber("");
-        mailInfo.setFooter("");
-        mailInfo.setSubject("Grants.Gov Submissions");
-
-        List<MailInfo> mailInfoList = new ArrayList<MailInfo>();
-        mailInfoList.add(mailInfo);
-        s2sPollingTask.setMailInfoList(mailInfoList);
-        s2sPollingTask.execute();
-        assert true;
-    }
+		List<MailInfo> mailInfoList = new ArrayList<MailInfo>();
+		mailInfoList.add(mailInfo);
+		s2sPollingTask.setMailInfoList(mailInfoList);
+		s2sPollingTask.execute();
+		assert true;
+	}
 }

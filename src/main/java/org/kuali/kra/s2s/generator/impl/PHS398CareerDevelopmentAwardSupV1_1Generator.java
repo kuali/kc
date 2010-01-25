@@ -15,36 +15,34 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.CitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.CitizenshipDataType.Enum;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.ApplicationType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.ApplicationType.TypeOfApplication;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.BackgroundAndSignificance;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.CandidateBackground;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.CareerDevelopmentAndTrainingActivities;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.CareerGoalsAndObjectives;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ConsortiumContractualArrangements;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.InclusionEnrollmentReport;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.InclusionOfChildren;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.InclusionOfWomenAndMinorities;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.InsitutionalEnvironment;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.InstitutionalCommitment;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.IntroductionToApplication;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.MentoringPlan;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.PreliminaryStudiesProgressReport;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ProgressReportPublicationList;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ProtectionOfHumanSubjects;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ResearchDesignAndMethods;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ResourceSharingPlans;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.ResponsibleConductOfResearch;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.SelectAgentResearch;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.SpecificAims;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.StatementsOfSupport;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.TargetedPlannedEnrollment;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSupV10.PHS398CareerDevelopmentAwardSupDocument.PHS398CareerDevelopmentAwardSup.CareerDevelopmentAwardAttachments.VertebrateAnimals;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.ApplicationType;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.ApplicationType.TypeOfApplication;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.CandidateBackground;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.CareerDevelopmentAndTrainingActivities;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.CareerGoalsAndObjectives;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ConsortiumContractualArrangements;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.InclusionEnrollmentReport;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.InclusionOfChildren;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.InclusionOfWomenAndMinorities;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.InsitutionalEnvironment;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.InstitutionalCommitment;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.IntroductionToApplication;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.MentoringPlan;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ProgressReportPublicationList;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ProtectionOfHumanSubjects;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ResearchStrategy;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ResourceSharingPlans;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.ResponsibleConductOfResearch;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.SelectAgentResearch;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.SpecificAims;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.StatementsOfSupport;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.TargetedPlannedEnrollment;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.CareerDevelopmentAwardAttachments.VertebrateAnimals;
 import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Document;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
@@ -60,37 +58,38 @@ import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
  * Class for generating the XML object for grants.gov
- * PHS398CareerDevelopmentAwardSup V1.0 Form is generated using XMLBean classes
+ * PHS398CareerDevelopmentAwardSup V1.1 Form is generated using XMLBean classes
  * and is based on PHS398ResearchPlanV1_2 schema.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
+public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
 	private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
 	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
 
 	private XmlObject getPHS398CareerDevelopmentAwardSup() {
-		PHS398CareerDevelopmentAwardSupDocument phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSupDocument.Factory
+		PHS398CareerDevelopmentAwardSup11Document phs398CareerDevelopmentAwardSup11Document = PHS398CareerDevelopmentAwardSup11Document.Factory
 				.newInstance();
-		PHS398CareerDevelopmentAwardSup phs398CareerDevelopmentAwardSup = PHS398CareerDevelopmentAwardSup.Factory
+		PHS398CareerDevelopmentAwardSup11 phs398CareerDevelopmentAwardSup11 = PHS398CareerDevelopmentAwardSup11.Factory
 				.newInstance();
-		phs398CareerDevelopmentAwardSup
-				.setFormVersion(S2SConstants.FORMVERSION_1_0);
-		phs398CareerDevelopmentAwardSup
+		phs398CareerDevelopmentAwardSup11
+				.setFormVersion(S2SConstants.FORMVERSION_1_1);
+		phs398CareerDevelopmentAwardSup11
 				.setApplicationType(getApplicationType());
-		phs398CareerDevelopmentAwardSup
+		phs398CareerDevelopmentAwardSup11
 				.setCitizenship(getCitizenshipDataType());
-		phs398CareerDevelopmentAwardSup
+		phs398CareerDevelopmentAwardSup11
 				.setCareerDevelopmentAwardAttachments(getCareerDevelopmentAwardAttachments());
-		phs398CareerDevelopmentAwardSupDocument
-				.setPHS398CareerDevelopmentAwardSup(phs398CareerDevelopmentAwardSup);
-		return phs398CareerDevelopmentAwardSupDocument;
+		phs398CareerDevelopmentAwardSup11Document
+				.setPHS398CareerDevelopmentAwardSup11(phs398CareerDevelopmentAwardSup11);
+		return phs398CareerDevelopmentAwardSup11Document;
 	}
 
 	private Enum getCitizenshipDataType() {
 		String citizenSource = "1";
-		String piCitizenShipValue = s2sUtilService.getParameterValue(PI_CUSTOM_DATA);
+		String piCitizenShipValue = s2sUtilService
+				.getParameterValue(PI_CUSTOM_DATA);
 		if (piCitizenShipValue != null) {
 			citizenSource = piCitizenShipValue;
 		}
@@ -148,22 +147,6 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 				SpecificAims specificAims = SpecificAims.Factory.newInstance();
 				specificAims.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments.setSpecificAims(specificAims);
-				break;
-			case BACKGROUND_SIGNIFICANCE:
-				BackgroundAndSignificance backgroundAndSignificance = BackgroundAndSignificance.Factory
-						.newInstance();
-				backgroundAndSignificance
-						.setAttFile(getAttachedFileType(narrative));
-				careerDevelopmentAwardAttachments
-						.setBackgroundAndSignificance(backgroundAndSignificance);
-				break;
-			case RESEARCH_DESIGN_METHODS:
-				ResearchDesignAndMethods researchDesignAndMethods = ResearchDesignAndMethods.Factory
-						.newInstance();
-				researchDesignAndMethods
-						.setAttFile(getAttachedFileType(narrative));
-				careerDevelopmentAwardAttachments
-						.setResearchDesignAndMethods(researchDesignAndMethods);
 				break;
 			case INCLUSION_ENROLLMENT_REPORT:
 				InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
@@ -225,14 +208,6 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 				selectAgentResearch.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setSelectAgentResearch(selectAgentResearch);
-				break;
-			case PHS_CAREER_PRELIM_STUDIES_PROGREP:
-				PreliminaryStudiesProgressReport preliminaryStudiesProgressReport = PreliminaryStudiesProgressReport.Factory
-						.newInstance();
-				preliminaryStudiesProgressReport
-						.setAttFile(getAttachedFileType(narrative));
-				careerDevelopmentAwardAttachments
-						.setPreliminaryStudiesProgressReport(preliminaryStudiesProgressReport);
 				break;
 			case PHS_CAREER_CONSORTIUM_CONTRACT:
 				ConsortiumContractualArrangements consortiumContractualArrangements = ConsortiumContractualArrangements.Factory
@@ -316,6 +291,13 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 				attachedFileDataType = getAttachedFileType(narrative);
 				attachedFileList.add(attachedFileDataType);
 				break;
+			case PHS_CAREER_REASEARCH_STRATEGY:
+				ResearchStrategy researchStrategy = ResearchStrategy.Factory
+						.newInstance();
+				researchStrategy.setAttFile(getAttachedFileType(narrative));
+				careerDevelopmentAwardAttachments
+						.setResearchStrategy(researchStrategy);
+				break;
 			}
 		}
 		attachmentGroupMin0Max100DataType.setAttachedFileArray(attachedFileList
@@ -353,12 +335,12 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
 	 */
 	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CareerDevelopmentAwardSup phs398CareerDevelopmentAwardSup = PHS398CareerDevelopmentAwardSup.Factory
+		PHS398CareerDevelopmentAwardSup11 phs398CareerDevelopmentAwardSup11 = PHS398CareerDevelopmentAwardSup11.Factory
 				.newInstance();
-		PHS398CareerDevelopmentAwardSupDocument phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSupDocument.Factory
+		PHS398CareerDevelopmentAwardSup11Document phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSup11Document.Factory
 				.newInstance();
 		phs398CareerDevelopmentAwardSupDocument
-				.setPHS398CareerDevelopmentAwardSup(phs398CareerDevelopmentAwardSup);
+				.setPHS398CareerDevelopmentAwardSup11(phs398CareerDevelopmentAwardSup11);
 		return phs398CareerDevelopmentAwardSupDocument;
 	}
 

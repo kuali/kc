@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,6 +60,7 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -108,9 +109,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private static final String ROLE_GRADUATE_OTHER = "Other";
 	private static final String ROLE_GRADUATE_OTHET_PROFESSIONALS = "Other Professionals";
 	private static final String ROLE_GRADUATE_ALLOCATED_ADMIN_SUPPORT = "Allocated Admin Support";
-//	private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "AP";
-//	private static final String PERIOD_TYPE_SUMMER_MONTHS = "SP";
-//	private static final String PERIOD_TYPE_CALENDAR_MONTHS = "CC";
+	// private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "AP";
+	// private static final String PERIOD_TYPE_SUMMER_MONTHS = "SP";
+	// private static final String PERIOD_TYPE_CALENDAR_MONTHS = "CC";
 	private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "2";
 	private static final String PERIOD_TYPE_CALENDAR_MONTHS = "3";
 	private static final String PERIOD_TYPE_SUMMER_MONTHS = "4";
@@ -146,6 +147,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private BusinessObjectService businessObjectService;
 	private KcPersonService kcPersonService;
 	private S2SUtilService s2SUtilService;
+	private RolodexService rolodexService;
 
 	/**
 	 * 
@@ -408,6 +410,17 @@ public class S2SBudgetCalculatorServiceImpl implements
 					cumTotalEquipNonFund = cumTotalEquipNonFund
 							.add(equipmentInfo.getTotalNonFund());
 				}
+
+				Map<String, String> hmOthers = new HashMap<String, String>();
+				cvOtherCosts = otherDirectCostInfo.getOtherCosts();
+				for (int l = 0; l < cvOtherCosts.size(); l++) {
+					hmOthers = cvOtherCosts.get(l);
+					cumOtherType1 = cumOtherType1.add(new BudgetDecimal(
+							hmOthers.get(S2SConstants.KEY_COST)));
+					cumOtherType1CostSharing = cumOtherType1CostSharing
+							.add(new BudgetDecimal(hmOthers
+									.get(S2SConstants.KEY_COSTSHARING)));
+				}
 			}
 		}
 
@@ -420,18 +433,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 		budgetSummaryInfo.setCumForeignTravel(totalForeignTravel);
 		budgetSummaryInfo.setCumTravel(totalDomesticTravel
 				.add(totalForeignTravel));
-
-		Map<String, String> hmOthers = new HashMap<String, String>();
-		cvOtherCosts = otherDirectCostInfo.getOtherCosts();
-		for (int l = 0; l < cvOtherCosts.size(); l++) {
-			hmOthers = cvOtherCosts.get(l);
-			cumOtherType1 = cumOtherType1.add(new BudgetDecimal(hmOthers
-					.get(S2SConstants.KEY_COST)));
-			cumOtherType1CostSharing = cumOtherType1CostSharing
-					.add(new BudgetDecimal(hmOthers
-							.get(S2SConstants.KEY_COSTSHARING)));
-		}
-
 		budgetSummaryInfo.setpartOtherCost(cumPartOther);
 		budgetSummaryInfo.setpartStipendCost(cumPartStipends);
 		budgetSummaryInfo.setpartTravelCost(cumPartTravel);
@@ -1182,28 +1183,49 @@ public class S2SBudgetCalculatorServiceImpl implements
 						String key = keyBuilder.toString();
 						if (costDetailsMap.get(key) == null) {
 							indirectCostDetails = new IndirectCostDetails();
-							indirectCostDetails.setBase(rateBase.getBaseCost());
-							indirectCostDetails.setBaseCostSharing(rateBase
-									.getBaseCostSharing());
-							indirectCostDetails.setCostSharing(rateBase
-									.getCalculatedCostSharing());
+							indirectCostDetails
+									.setBase(rateBase.getBaseCost() == null ? BudgetDecimal.ZERO
+											: rateBase.getBaseCost());
+							indirectCostDetails
+									.setBaseCostSharing(rateBase
+											.getBaseCostSharing() == null ? BudgetDecimal.ZERO
+											: rateBase.getBaseCostSharing());
+							indirectCostDetails
+									.setCostSharing(rateBase
+											.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+											: rateBase
+													.getCalculatedCostSharing());
 							indirectCostDetails.setCostType(rateClass
 									.getDescription());
-							indirectCostDetails.setFunds(rateBase
-									.getCalculatedCost());
+							indirectCostDetails
+									.setFunds(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
+											: rateBase.getCalculatedCost());
 							indirectCostDetails.setRate(appliedRate);
 						} else {
 							indirectCostDetails = costDetailsMap.get(key);
-							baseCost = indirectCostDetails.getBase().add(
-									rateBase.getBaseCost());
+							baseCost = indirectCostDetails
+									.getBase()
+									.add(
+											rateBase.getBaseCost() == null ? BudgetDecimal.ZERO
+													: rateBase.getBaseCost());
 							baseCostSharing = indirectCostDetails
-									.getBaseCostSharing().add(
-											rateBase.getBaseCostSharing());
-							calculatedCost = indirectCostDetails.getFunds()
-									.add(rateBase.getCalculatedCost());
+									.getBaseCostSharing()
+									.add(
+											rateBase.getBaseCostSharing() == null ? BudgetDecimal.ZERO
+													: rateBase
+															.getBaseCostSharing());
+							calculatedCost = indirectCostDetails
+									.getFunds()
+									.add(
+											rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
+													: rateBase
+															.getCalculatedCost());
 							calculatedCostSharing = indirectCostDetails
 									.getCostSharing()
-									.add(rateBase.getCalculatedCostSharing());
+									.add(
+											rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+													: rateBase
+															.getCalculatedCostSharing());
 							indirectCostDetails.setBase(baseCost);
 							indirectCostDetails
 									.setBaseCostSharing(baseCostSharing);
@@ -1215,10 +1237,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 						indirectCostDetailList = new ArrayList<IndirectCostDetails>(
 								costDetailsMap.values());
-						totalIndirectCosts = totalIndirectCosts.add(rateBase
-								.getCalculatedCost());
+						totalIndirectCosts = totalIndirectCosts
+								.add(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
+										: rateBase.getCalculatedCost());
 						totalIndirectCostSharing = totalIndirectCostSharing
-								.add(rateBase.getCalculatedCostSharing());
+								.add(rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+										: rateBase.getCalculatedCostSharing());
 					}
 				}
 			}
@@ -1789,7 +1813,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 			keyPerson.setRole(PRINCIPAL_INVESTIGATOR_ROLE);
 			keyPerson
 					.setNonMITPersonFlag(isPersonNonMITPerson(principalInvestigator));
-
 			keyPersons.add(keyPerson);
 		}
 		for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal()
@@ -1820,105 +1843,85 @@ public class S2SBudgetCalculatorServiceImpl implements
 		categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_01);
 		categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
 		List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
-		Map<String, String> conditionMap;
+
 		for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
-					.getBudgetPersonnelDetailsList()) {
-				personAlreadyAdded = false;
-				for (ProposalPerson coInvestigator : pdDoc
-						.getDevelopmentProposal().getInvestigators()) {
-					// Ensure that coINvestigators are not added again because
-					// they are already added above
-					if (s2SUtilService.proposalPersonEqualsBudgetPerson(
-							coInvestigator, budgetPersonnelDetails)) {
-						personAlreadyAdded = true;
-						break;
-					}
+			boolean lineItemIsSeniorPersonnel = false;
+			for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+				if (categoryMapping.getBudgetCategoryCode().equals(
+						lineItem.getBudgetCategoryCode())) {
+					lineItemIsSeniorPersonnel = true;
+					break;
 				}
-				if (!personAlreadyAdded) {
-					for (ProposalPerson propPerson : pdDoc
-							.getDevelopmentProposal().getProposalPersons()) {
-						if (propPerson.getPersonId() != null
-								&& propPerson.getPersonId().equals(
-										budgetPersonnelDetails.getPersonId())) {
+			}
+			if (lineItemIsSeniorPersonnel) {
+				for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
+						.getBudgetPersonnelDetailsList()) {
+
+					personAlreadyAdded = false;
+					for (ProposalPerson coInvestigator : pdDoc
+							.getDevelopmentProposal().getInvestigators()) {
+						// Ensure that coInvestigators are not added again
+						// because
+						// they are already added above
+						if (s2SUtilService.proposalPersonEqualsBudgetPerson(
+								coInvestigator, budgetPersonnelDetails)) {
+							personAlreadyAdded = true;
+							break;
+						}
+					}
+					if (!personAlreadyAdded) {
+						Rolodex rolodexPerson = rolodexService
+								.getRolodex(Integer
+										.parseInt(budgetPersonnelDetails
+												.getPersonId()));
+						if (rolodexPerson != null) {
 							keyPerson = new KeyPersonInfo();
-							keyPerson.setPersonId(propPerson.getPersonId());
-							keyPerson.setRolodexId(propPerson.getRolodexId());
 							keyPerson
-									.setFirstName((propPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-											: propPerson.getFirstName()));
+									.setRolodexId(rolodexPerson.getRolodexId());
 							keyPerson
-									.setLastName((propPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-											: propPerson.getLastName()));
+									.setFirstName((rolodexPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+											: rolodexPerson.getFirstName()));
 							keyPerson
-									.setMiddleName((propPerson.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-											: propPerson.getMiddleName()));
-							keyPerson.setRole(propPerson.getRole()
-									.getDescription());
+									.setLastName((rolodexPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+											: rolodexPerson.getLastName()));
 							keyPerson
-									.setNonMITPersonFlag(isPersonNonMITPerson(propPerson));
+									.setMiddleName((rolodexPerson
+											.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+											: rolodexPerson.getMiddleName()));
+							keyPerson.setRole(rolodexPerson.getTitle());
+							keyPerson.setNonMITPersonFlag(true);
 							keyPersons.add(keyPerson);
 							personAlreadyAdded = true;
-						} else if (propPerson.getRolodexId() != null
-								&& propPerson.getRolodexId().toString().equals(
-										budgetPersonnelDetails.getPersonId())) {
-							conditionMap = new HashMap<String, String>();
-							conditionMap.put(KEY_ROLODEX_ID, propPerson
-									.getRolodexId().toString());
-							Rolodex rolodex = (Rolodex) businessObjectService
-									.findByPrimaryKey(Rolodex.class,
-											conditionMap);
-							if (rolodex != null) {
+						} else {
+							KcPerson kcPerson = null;
+							try {
+								kcPerson = kcPersonService
+										.getKcPersonByPersonId(budgetPersonnelDetails
+												.getPersonId());
+							} catch (Exception e) {
+								LOG.error("Person not found " + e);
+							}
+							if (kcPerson != null) {
 								keyPerson = new KeyPersonInfo();
-								keyPerson.setPersonId(propPerson.getPersonId());
-								keyPerson.setRolodexId(propPerson
-										.getRolodexId());
+								keyPerson.setPersonId(kcPerson.getPersonId());
 								keyPerson
-										.setFirstName((rolodex.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-												: rolodex.getFirstName()));
+										.setFirstName((kcPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+												: kcPerson.getFirstName()));
 								keyPerson
-										.setLastName((rolodex.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-												: rolodex.getLastName()));
+										.setLastName((kcPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+												: kcPerson.getLastName()));
 								keyPerson
-										.setMiddleName((rolodex.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-												: rolodex.getMiddleName()));
-								keyPerson.setRole(rolodex.getTitle());
-								keyPerson.setNonMITPersonFlag(true);
+										.setMiddleName((kcPerson
+												.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+												: kcPerson.getMiddleName()));
+								keyPerson.setNonMITPersonFlag(false);
 								keyPersons.add(keyPerson);
 								personAlreadyAdded = true;
 							}
 						}
 					}
 				}
-				// Get people in budget who are in person table but not in
-				// proposal, for only those who are still not added
-				if (!personAlreadyAdded) {
-					for (BudgetCategoryMapping mapping : budgetCategoryList) {
-						if (mapping.getBudgetCategoryCode().equals(
-								budgetPersonnelDetails.getBudgetCategoryCode())) {
-							conditionMap = new HashMap<String, String>();
-							KcPerson person = this.kcPersonService
-									.getKcPersonByPersonId(budgetPersonnelDetails
-											.getPersonId());
-							if (person != null) {
-								keyPerson = new KeyPersonInfo();
-								keyPerson.setPersonId(person.getPersonId());
-								keyPerson
-										.setFirstName((person.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-												: person.getFirstName()));
-								keyPerson
-										.setLastName((person.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-												: person.getLastName()));
-								keyPerson
-										.setMiddleName((person.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-												: person.getMiddleName()));
-								keyPerson.setRole(person.getPrimaryTitle());
-								keyPerson.setNonMITPersonFlag(true);
-								keyPersons.add(keyPerson);
-							}
-						}
-					}
-				}
+
 			}
 		}
 
@@ -2084,22 +2087,22 @@ public class S2SBudgetCalculatorServiceImpl implements
 											.getCalculatedCostSharing());
 						}
 					}
-				}
-
-				BudgetPerson budgetPerson = personDetails.getBudgetPerson();
-
-				if (budgetPerson != null) {
-					baseAmount = budgetPerson.getCalculationBase();
-					// baseAmount must be set to the first record value in case
-					// the execution doesnt enter the if condition below
-					String apptTypeCode = budgetPerson.getAppointmentType()
-							.getAppointmentTypeCode();
-					if (!apptTypeCode.equals(APPOINTMENT_TYPE_SUM_EMPLOYEE)
-							&& !apptTypeCode
-									.equals(APPOINTMENT_TYPE_TMP_EMPLOYEE)) {
+					BudgetPerson budgetPerson = personDetails.getBudgetPerson();
+					if (budgetPerson != null) {
 						baseAmount = budgetPerson.getCalculationBase();
+						// baseAmount must be set to the first record value in
+						// case
+						// the execution doesnt enter the if condition below
+						String apptTypeCode = budgetPerson.getAppointmentType()
+								.getAppointmentTypeCode();
+						if (!apptTypeCode.equals(APPOINTMENT_TYPE_SUM_EMPLOYEE)
+								&& !apptTypeCode
+										.equals(APPOINTMENT_TYPE_TMP_EMPLOYEE)) {
+							baseAmount = budgetPerson.getCalculationBase();
+						}
 					}
 				}
+
 			}
 		}
 		compensationInfo.setAcademicMonths(academicMonths);
@@ -2343,5 +2346,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 	public void setKcPersonService(KcPersonService kcPersonService) {
 		this.kcPersonService = kcPersonService;
 	}
-    
+
+	/**
+	 * @param rolodexService
+	 *            the rolodexService to set
+	 */
+	public void setRolodexService(RolodexService rolodexService) {
+		this.rolodexService = rolodexService;
+	}
+
 }

@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -77,7 +81,18 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final String KEY_STATE_CODE = "stateCode";
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
 	private static final Logger LOG = Logger.getLogger(S2SUtilServiceImpl.class);
-
+	
+	private static final String MODULE_ITEM_KEY = "moduleItemKey";
+	private static final String MODULE_ITEM_CODE = "moduleItemCode";
+	private static final Integer MODULE_ITEM_CODE_THREE = 3;
+	private static final String MODULE_SUB_ITEM_CODE="moduleSubItemCode";
+	private static final Integer MODULE_SUB_ITEM_CODE_ZERO= 0;
+	private static final String MODULE_SUB_ITEM_KEY= "moduleSubItemKey";
+	private static final Integer MODULE_SUB_ITEM_KEY_ZERO= 0;
+    
+	private static final String SEQUENCE_NUMBER="sequenceNumber";
+	private static final String QUESTIONNAIRE_ID="questionnaireId";
+	private static final String QUESTIONNAIRE_REF_ID_FK="questionnaireRefIdFk";
 
 	/**
 	 * This method creates and returns Map of submission details like submission
@@ -320,7 +335,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         return S2SConstants.FEDERAL_ID_NOT_FOUND;
     } 
-
 
 	/**
 	 * This method fetches system constant parameters
@@ -608,21 +622,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	}
 
 
-	/**
-	 * @see org.kuali.kra.s2s.service.S2SUtilService#convertStringArrayToString(String[])
-	 */
-	public String convertStringArrayToString(String[] stringArray) {
-		StringBuilder stringBuilder = new StringBuilder();
-		if (stringArray != null && stringArray.length > 0) {
-			for (int i = 0; i < stringArray.length; i++) {
-				if (stringBuilder.length() > 0) {
-					stringBuilder.append(", ");
-				}
-				stringBuilder.append(stringArray[i]);
-			}
-		}
-		return stringBuilder.toString();
-	}
     /**
      * This method compares a key person with budget person. It checks whether the key person is from PERSON or ROLODEX and matches
      * the respective person ID with the person in {@link BudgetPersonnelDetails}
@@ -649,4 +648,70 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
 	
+
+	/**
+	 * @see org.kuali.kra.s2s.service.S2SUtilService#convertStringArrayToString(String[])
+	 */
+	public String convertStringArrayToString(String[] stringArray) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (stringArray != null && stringArray.length > 0) {
+			for (int i = 0; i < stringArray.length; i++) {
+				if (stringBuilder.length() > 0) {
+					stringBuilder.append(", ");
+				}
+				stringBuilder.append(stringArray[i]);
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+	/**
+	 * Finds all the Questionnaire Answers associates with provided
+	 * ProposalNumber.
+	 * 
+	 * @param pdDoc
+	 * @return List of Questionnaire {@link Answer}.
+	 */
+	public List<Answer> getQuestionnaireAnswers(
+			ProposalDevelopmentDocument pdDoc,Integer questionnaireId) {
+		List<Answer> questionnaireAnswers = new ArrayList<Answer>();
+		String proposalNumber = pdDoc.getDevelopmentProposal()
+				.getProposalNumber();
+		Questionnaire questionnaire = getHighestSequenceNumberQuestionnair(questionnaireId);
+		if (questionnaire != null) {
+			Map<String, Object> fieldValues = new HashMap<String, Object>();
+			fieldValues.put(MODULE_ITEM_KEY, proposalNumber);
+			fieldValues.put(MODULE_ITEM_CODE, MODULE_ITEM_CODE_THREE);
+			fieldValues.put(MODULE_SUB_ITEM_CODE, MODULE_SUB_ITEM_CODE_ZERO);
+			fieldValues.put(MODULE_SUB_ITEM_KEY, MODULE_SUB_ITEM_KEY_ZERO);
+			fieldValues.put(QUESTIONNAIRE_REF_ID_FK, questionnaire
+					.getQuestionnaireRefId());
+			Collection<AnswerHeader> answerHeaderList = businessObjectService
+					.findMatching(AnswerHeader.class, fieldValues);
+			for (AnswerHeader answerHeader : answerHeaderList) {
+				questionnaireAnswers.addAll(answerHeader.getAnswers());
+			}
+		}
+		return questionnaireAnswers;
+	}
+
+	/*
+	 * Finds the {@link Questionnaire} with Highest Sequence Number
+	 * 
+	 */
+	private Questionnaire getHighestSequenceNumberQuestionnair(
+			Integer questionnaireId) {
+		Questionnaire highestQuestionnairSequenceNumber = null;
+		Map<String, Object> fieldValues = new HashMap<String, Object>();
+		fieldValues.put(QUESTIONNAIRE_ID, questionnaireId);
+		Collection<Questionnaire> questionnairs = businessObjectService
+				.findMatchingOrderBy(Questionnaire.class, fieldValues,
+						SEQUENCE_NUMBER, Boolean.FALSE);
+		if (questionnairs.size() > 0) {
+			List<Questionnaire> questionnairList = new ArrayList<Questionnaire>();
+			questionnairList.addAll(questionnairs);
+			highestQuestionnairSequenceNumber = questionnairList.get(0);
+		}
+		return highestQuestionnairSequenceNumber;
+	}
 }

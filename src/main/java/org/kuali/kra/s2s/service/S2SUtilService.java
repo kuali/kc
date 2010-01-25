@@ -25,6 +25,7 @@ import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 
@@ -74,7 +75,6 @@ public interface S2SUtilService {
 	 */
 	public Map<String, String> getEOStateReview(
 			ProposalDevelopmentDocument pdDoc);
-
 	/**
 	 * 
 	 * This method limits the number of key persons to n, returns list of key
@@ -92,7 +92,6 @@ public interface S2SUtilService {
 	 */
 	public List<ProposalPerson> getNKeyPersons(List<ProposalPerson> keyPersons,
 			boolean firstN, int n);
-
 	/**
 	 * 
 	 * This method returns the Federal ID for a given proposal
@@ -103,7 +102,6 @@ public interface S2SUtilService {
 	 */
 	public String getFederalId(
 			ProposalDevelopmentDocument proposalDevelopmentDocument);
-
 	/**
 	 * 
 	 * This method fetches system constant parameters
@@ -113,7 +111,6 @@ public interface S2SUtilService {
 	 * @return String System constant parameters.
 	 */
 	public String getParameterValue(String parameter);
-
 	/**
 	 * 
 	 * This method returns a {@link Calendar} whose date matches the date passed
@@ -124,7 +121,6 @@ public interface S2SUtilService {
 	 * @return Calendar calendar value corresponding to the date string.
 	 */
 	public Calendar convertDateStringToCalendar(String dateStr);
-
 	/**
 	 * 
 	 * This method is used to get current Calendar
@@ -132,7 +128,6 @@ public interface S2SUtilService {
 	 * @return {@link Calendar}
 	 */
 	public Calendar getCurrentCalendar();
-
 	/**
 	 * 
 	 * This method is used to get Calendar date
@@ -142,7 +137,6 @@ public interface S2SUtilService {
 	 * @return cal(Calendar) calendar value corresponding to the date.
 	 */
 	public Calendar convertDateToCalendar(Date date);
-
 	/**
 	 * 
 	 * This method is to get division name using the OwnedByUnit and traversing
@@ -153,7 +147,6 @@ public interface S2SUtilService {
 	 * @return divisionName based on the OwnedByUnit.
 	 */
 	public String getDivisionName(ProposalDevelopmentDocument pdDoc);
-
 	/**
 	 * 
 	 * This method is to get PrincipalInvestigator from person list
@@ -164,7 +157,6 @@ public interface S2SUtilService {
 	 */
 	public ProposalPerson getPrincipalInvestigator(
 			ProposalDevelopmentDocument pdDoc);
-
 	/**
 	 * Finds a Country object from the country code
 	 * 
@@ -173,7 +165,6 @@ public interface S2SUtilService {
 	 * @return Country object matching the code
 	 */
 	public Country getCountryFromCode(String countryCode);
-
 	/**
 	 * Finds a State object from the state name
 	 * 
@@ -182,7 +173,6 @@ public interface S2SUtilService {
 	 * @return State object matching the name.
 	 */
 	public State getStateFromName(String stateName);
-
 	/**
 	 * 
 	 * This method compares a proposal person with budget person. It checks
@@ -232,5 +222,16 @@ public interface S2SUtilService {
 	 * @return String created from StringArray
 	 */
 	public String convertStringArrayToString(String[] stringArray);
+
+	/**
+	 * Finds all the Questionnaire Answers associates with provided
+	 * ProposalNumber and questionnaireId.
+	 * 
+	 * @param pdDoc
+	 * @param questionnaireId
+	 * @return List of Questionnaire {@link Answer}.
+	 */
+	public List<Answer> getQuestionnaireAnswers(
+			ProposalDevelopmentDocument pdDoc,Integer questionnaireId);
 
 }

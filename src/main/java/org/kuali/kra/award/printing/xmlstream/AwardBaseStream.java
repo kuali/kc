@@ -526,10 +526,12 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns AODetails XmlObject
 	 */
 	protected AODetails getAODetailsType() {
+
 		KcPerson person = null;
 		if (award.getPrincipalInvestigator() != null
 				&& award.getPrincipalInvestigator().getPerson() != null) {
 			person = award.getPrincipalInvestigator().getPerson();
+
 		}
 		AODetails aODetailsType = AODetails.Factory.newInstance();
 		if (person != null) {

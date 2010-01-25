@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -82,6 +84,23 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 	protected static final int QUESTION_ID_31 = 31;
 	protected static final int QUESTION_ID_32 = 32;
 
+	protected static final int PRELIMINARY = 1110;
+	protected static final int MERIT_REVIEW = 1111;
+	protected static final int MENTORING = 1113;
+	protected static final int PRIOR_SUPPORT = 1114;
+	protected static final int HR_QUESTION = 1108;
+	protected static final int HR_REQUIRED_INFO = 1117;
+	protected static final Integer QUESTIONNAIRE_ID_1025 = 1025;
+
+	protected S2SUtilService s2sUtilService = null;
+
+	/**
+	 * Constructs a NSFApplicationChecklistBaseGenerator.java.
+	 */
+	public NSFApplicationChecklistBaseGenerator() {
+		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+	}
+
 	/**
 	 * 
 	 * This method returns the YesNoDataType answer for all the Questions based
@@ -104,7 +123,8 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			String proposaltypecode = pdDoc.getDevelopmentProposal()
 					.getProposalTypeCode();
 			if (proposaltypecode != null
-					&& (proposaltypecode.equals(PROPOSAL_TYPE_REVISION)||proposaltypecode.equals(PROPOSAL_TYPE_CODE_8))) {
+					&& (proposaltypecode.equals(PROPOSAL_TYPE_REVISION) || proposaltypecode
+							.equals(PROPOSAL_TYPE_CODE_8))) {
 				answer = ANSWER_YES;
 			} else {
 				answer = ANSWER_NA;
