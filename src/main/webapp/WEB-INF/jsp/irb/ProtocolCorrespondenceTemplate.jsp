@@ -19,7 +19,7 @@
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="readOnly" value="false"  scope="request"/>
 
-<kul:page lookup="true" 
+<kul:page lookup="false" 
           docTitle="Correspondence Template" 
           transactionalDocument="false"
           renderMultipart="true" 
