@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -35,15 +38,20 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param newCorrespondenceTemplate
      * @param index
      * @return true if the validation is successful, false otherwise
+     * @throws IOException 
+     * @throws FileNotFoundException 
      */
     public boolean processAddProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
-            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) {
+            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
         boolean valid = true;
         
-        String propertyName = "newCorrespondenceTemplates[" + index + "].committeeId";
+        String committeePropertyName = "newCorrespondenceTemplates[" + index + "].committeeId";
+        String filePropertyName = "newCorrespondenceTemplates[" + index + "].templateFile";
         
-        valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), propertyName);
-        valid &= !duplicateCommittee(correspondenceType.getProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), propertyName);
+        valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
+        valid &= !duplicateCommittee(correspondenceType.getProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), 
+                committeePropertyName);
+        valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
 
         return valid;
     }
@@ -53,8 +61,9 @@ public class ProtocolCorrespondenceTemplateRule {
      * This method verifies all protocol correspondence templates at save.
      * @param protocolCorrespondenceTypes
      * @return true if the validation is successful, false otherwise
+     * @throws IOException 
      */
-    public boolean processSaveProtocolCorrespondenceTemplateRules(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) {
+    public boolean processSaveProtocolCorrespondenceTemplateRules(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) throws IOException {
         boolean valid = true;
         for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
             int typeIndex = protocolCorrespondenceTypes.indexOf(protocolCorrespondenceType);
@@ -62,6 +71,7 @@ public class ProtocolCorrespondenceTemplateRule {
 
             valid &= !hasInvalidCommittee(protocolCorrespondenceTemplates, typeIndex);
             valid &= !hasDuplicateCommittee(protocolCorrespondenceTemplates, typeIndex);
+            valid &= validTemplates(protocolCorrespondenceTemplates, typeIndex);
         }
         return valid; 
     }
@@ -145,4 +155,66 @@ public class ProtocolCorrespondenceTemplateRule {
         }
         return duplicate;
     }
+    
+    /**
+     * 
+     * This method checks that a valid template file has been specified.
+     * @param file
+     * @param propertyName
+     * @return true if the file is valid, false otherwise
+     * @throws IOException
+     */
+    private boolean validFile(FormFile file, String propertyName) throws IOException {
+        boolean isValid = true;
+    
+        byte[] fileData = file.getFileData();
+        // Check that file is not empty
+        if ((fileData == null) || (fileData.length == 0)) {
+            // empty file
+            GlobalVariables.getMessageMap().putError(propertyName, 
+                    KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE);
+            isValid = false;
+        }
+    
+        if (isValid) {
+            // Check that file is of the correct type
+            String contentType = file.getContentType();
+            if (!contentType.equals(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE)) {
+                // wrong file type
+                GlobalVariables.getMessageMap().putError(propertyName, 
+                        KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE);
+                isValid = false;
+            }
+        }
+    
+        return isValid;
+    }
+    
+    /**
+     * 
+     * This method checks that template data of all templates are valid
+     * @param protocolCorrespondenceTemplates
+     * @param typeIndex
+     * @return true if all files are valid of the templates, false otherwise
+     * @throws IOException
+     */
+    private boolean validTemplates(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates, int typeIndex) throws IOException {
+        boolean isValid = true;
+    
+        for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
+            int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
+            String filePropertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
+                    + "].templateFile";
+            if ((protocolCorrespondenceTemplate.getCorrespondenceTemplate() == null)
+            		|| (protocolCorrespondenceTemplate.getCorrespondenceTemplate().length == 0)
+            		|| StringUtils.isBlank(protocolCorrespondenceTemplate.getFileName())) {
+                GlobalVariables.getMessageMap().putError(filePropertyName, 
+                        KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
+              isValid = false;
+            }
+
+        }
+        return isValid;
+    }
+
 }

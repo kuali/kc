@@ -97,11 +97,11 @@
                 <p style="text-align:left; font-weight:bold;">Customized per Committee</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
-                        <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="center" />
-                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" scope="col" align="center" />
+                        <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="center" width="5%" />
+                        <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" scope="col" align="center" width="25%" />
                         <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.fileName}" scope="col" align="center" />
                         <c:if test="${!readOnly}">
-                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center" />
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center" width="25%" />
                         </c:if>
                     </tr>
                     
@@ -165,16 +165,23 @@
                             <td>
                                 <div align="center">
                                     ${protocolCorrespondenceTemplate.fileName}
+                                    <c:forEach items="${ErrorPropertyList}" var="key">
+                                        <c:set var="propertyName" value="correspondenceTypes[${status.index}].protocolCorrespondenceTemplates[${status2.index}].templateFile" />
+                                        <c:if test="${key eq propertyName}">
+                                            <kul:fieldShowErrorIcon />
+                                        </c:if>
+                                    </c:forEach>            
                                 </div>
                             </td>
                             <c:if test="${!readOnly}">
                                 <td>
                                     <div align="center">
-                                        <html:image property="methodToCall.viewCorrespondenceTemplate" 
+                                        <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]}" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
                                             title="View Correspondence Template" 
                                             alt="View Correspondence Template" 
-                                            styleClass="tinybutton" />
+                                            styleClass="tinybutton" 
+                                            onclick="excludeSubmitRestriction=true" />
                                         <html:image property="methodToCall.replaceCorrespondenceTemplate" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
                                             title="Replace Correspondence Template" 

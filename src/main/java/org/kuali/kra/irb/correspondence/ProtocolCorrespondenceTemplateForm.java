@@ -37,11 +37,13 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     private List<ProtocolCorrespondenceType> correspondenceTypes;    
     private List<ProtocolCorrespondenceTemplate> defaultCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates;
+    private List<ProtocolCorrespondenceTemplate> deletedCorrespondenceTemplates;
     
     public ProtocolCorrespondenceTemplateForm() {
         super();
         this.setCorrespondenceTypes(initCorrespondenceTypes());
         this.resetForm();
+        this.deletedCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
     }
 
     public void setCorrespondenceTypes(List<ProtocolCorrespondenceType> correspondenceTypes) {
@@ -66,6 +68,14 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
 
     public List<ProtocolCorrespondenceTemplate> getNewCorrespondenceTemplates() {
         return newCorrespondenceTemplates;
+    }
+
+    public List<ProtocolCorrespondenceTemplate> getDeletedCorrespondenceTemplates() {
+        return deletedCorrespondenceTemplates;
+    }
+
+    public void setDeletedCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> deletedCorrespondenceTemplates) {
+        this.deletedCorrespondenceTemplates = deletedCorrespondenceTemplates;
     }
 
     /**
