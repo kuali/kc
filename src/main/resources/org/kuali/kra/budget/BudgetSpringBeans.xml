@@ -70,6 +70,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService"/>
+		</property>
 	</bean>
 	
 	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
