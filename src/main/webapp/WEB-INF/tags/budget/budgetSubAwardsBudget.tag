@@ -39,7 +39,6 @@
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newSubAward.organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" />
 	                	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:newSubAward.organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
-	                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="newSubAward.organizationName:organizationName" anchor="${tabKey}"/>
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
