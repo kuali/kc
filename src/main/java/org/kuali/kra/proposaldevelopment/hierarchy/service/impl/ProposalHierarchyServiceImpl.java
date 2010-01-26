@@ -828,16 +828,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget parentBudget = parentBudgetDoc.getBudget();
         BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
         Budget childBudget = childBudgetDocument.getBudget();
-        return validateChildBudgetPeriods(parentBudget, childBudget);
-    }
-    
-    private ProposalHierarchyErrorDto validateChildBudgetPeriods(Budget parentBudget,
-            Budget childBudget) throws ProposalHierarchyException {
+
         ProposalHierarchyErrorDto retval = null;
         // check that child budget starts on one of the budget period starts
         int correspondingStart = getCorrespondingParentPeriod(parentBudget, childBudget);
         if (correspondingStart == -1) {
-            retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_START_DATE_INCONSISTENT);
+            retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_START_DATE_INCONSISTENT, childProposal.getProposalNumber());
         }
         // check that child budget periods map to parent periods
         else {
