@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.printing;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -46,7 +45,7 @@ public interface Printable extends Serializable {
 	 * This method will provide the either reflected or XML-Bean based XML for
 	 * input to the Transform into XML-FO.
 	 */
-	public Map<String, InputStream> renderXML() throws PrintingException;
+	public Map<String, byte[]> renderXML() throws PrintingException;
 
 	/**
 	 * 
