@@ -84,7 +84,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
             awardHierarchyNodeItems.add(new AwardHierarchyNode());
         }
         setControlForAwardHierarchyView("0");
-        setCurrentOrPendingView("");
+        setCurrentOrPendingView("0");
     }
     
     /**
