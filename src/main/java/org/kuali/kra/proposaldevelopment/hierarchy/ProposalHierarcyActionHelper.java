@@ -71,7 +71,7 @@ public class ProposalHierarcyActionHelper {
                 getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
                 GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
             }
-            catch (Exception e) {
+            catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
@@ -84,20 +84,21 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.getMessageList().add(MESSAGE_REMOVE_SUCCESS);
     
             }
-            catch (Exception e) {
+            catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
     }
     
     public void syncToHierarchyParent(DevelopmentProposal childProposal) {
-        if (validateChildForSync(childProposal)) {
+        DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
+        if (validateChildForSync(childProposal, hierarchy)) {
             try {
                 getProposalHierarchyService().synchronizeChild(childProposal);
                 GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
     
             }
-            catch (Exception e) {
+            catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
@@ -113,7 +114,7 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.setMessageMap(messageMap);
                 GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
-            catch (Exception e) {
+            catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
             }
         }
@@ -129,7 +130,7 @@ public class ProposalHierarcyActionHelper {
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
-                catch (Exception e) {
+                catch (ProposalHierarchyException e) {
                     doUnexpectedError(e, FIELD_GENERIC, true);
                 }
             }
@@ -141,7 +142,7 @@ public class ProposalHierarcyActionHelper {
         try {
             retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
         }
-        catch (Exception e) {
+        catch (ProposalHierarchyException e) {
             doUnexpectedError(e, FIELD_GENERIC, false);
         }
         return retval;
@@ -206,7 +207,7 @@ public class ProposalHierarcyActionHelper {
                 GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
             }
         }
-        catch (Exception e) {
+        catch (ProposalHierarchyException e) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
             valid = false;            
         }
@@ -223,7 +224,7 @@ public class ProposalHierarcyActionHelper {
             }
         
         }
-        catch (Exception e) {
+        catch (ProposalHierarchyException e) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
             valid = false;
         }
@@ -259,7 +260,7 @@ public class ProposalHierarcyActionHelper {
         return retval;
     }
     
-    private void doUnexpectedError (Exception e, String field, boolean rollback) {
+    private void doUnexpectedError (ProposalHierarchyException e, String field, boolean rollback) {
         LOG.error(String.format("Unexpected error in Proposal Hierarchy handling: %s", e.toString()), e);
         if (rollback) {
             PlatformTransactionManager txMgr = KraServiceLocator.getService("transactionManager");
@@ -291,20 +292,31 @@ public class ProposalHierarcyActionHelper {
         return match;
     }
     
-    public boolean validateChildForSync (DevelopmentProposal child) {
+    public boolean validateChildForSync (DevelopmentProposal child, DevelopmentProposal hierarchy) {
         boolean valid = true;
         if (child.getPrincipalInvestigator() == null) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR, child.getProposalNumber());
             valid = false;
         }
+        try {
+            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child);
+            if (budgetError != null) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
+            }
+        }
+        catch (ProposalHierarchyException e) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
+            valid = false;            
+        }
         return valid;
     }
     
     public boolean validateHierarchyForSyncAll (DevelopmentProposal hierarchy) {
-        boolean valid = false;
+        boolean valid = true;
         try {
-            for (DevelopmentProposal child : hierarchyService.getHierarchyChildren(hierarchy.getProposalNumber())) {
-                valid &= validateChildForSync(child);
+            for (DevelopmentProposal child : getProposalHierarchyService().getHierarchyChildren(hierarchy.getProposalNumber())) {
+                valid &= validateChildForSync(child, hierarchy);
             }
         }
         catch (ProposalHierarchyException e) {
