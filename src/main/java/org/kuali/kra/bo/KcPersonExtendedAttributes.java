@@ -57,7 +57,8 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idVerified;
     private String county;
     
-    private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);;
+    private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
+    private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
     
     
     /**
@@ -517,6 +518,14 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     public void setPersonDegrees(List<PersonDegree> personDegrees) {
         this.personDegrees = personDegrees;
+    }
+
+    public List<PersonAppointment> getPersonAppointments() {
+        return personAppointments;
+    }
+
+    public void setPersonAppointments(List<PersonAppointment> personAppointments) {
+        this.personAppointments = personAppointments;
     }
 
 }
