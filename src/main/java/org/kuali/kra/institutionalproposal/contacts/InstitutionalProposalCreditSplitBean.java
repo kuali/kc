@@ -363,7 +363,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
      * @return
      */
     private String getPersonKey(InstitutionalProposalPerson projectPerson) {
-        return projectPerson.getFullName().toString();
+        return projectPerson.getFullName();
     }
 
     /*

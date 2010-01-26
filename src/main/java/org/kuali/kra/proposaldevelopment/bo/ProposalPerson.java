@@ -479,12 +479,17 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the value of person
+     * Gets the value of person, or null if no personId is defined (this is the case for non-employees).
      *
      * @return the value of person
      */
     public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(this.personId);
+        if (this.personId == null) {
+            return null;
+        }
+        else {
+            return getKcPersonService().getKcPersonByPersonId(this.personId);
+        }
     }
     
     /**
