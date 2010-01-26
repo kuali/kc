@@ -383,12 +383,39 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 -->
+    <class-descriptor class="org.kuali.kra.bo.PersonAppointment" table="PERSON_APPOINTMENT">
+        <field-descriptor name="appointmentId" column="APPOINTMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_APPOINTMENT" autoincrement="true"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="startDate" column="APPOINTMENT_START_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="endDate" column="APPOINTMENT_END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="typeCode" column="APPOINTMENT_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="jobTitle" column="JOB_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="preferedJobTitle" column="PREFERED_JOB_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="salary" column="SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+
+        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber" />
+        </reference-descriptor>
+        <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="typeCode" />
+        </reference-descriptor>
+        <reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.personnel.JobCode"  auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="jobCode" />
+        </reference-descriptor>
+        
+    </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.PersonDegree" table="PERSON_DEGREE">
         <field-descriptor name="degreeId" column="DEGREE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_DEGREE" autoincrement="true"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" primaryKey="true"/>
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR"/>
         <field-descriptor name="graduationYear" column="GRADUATION_YEAR" jdbc-type="VARCHAR" />
         <field-descriptor name="fieldOfStudy" column="FIELD_OF_STUDY" jdbc-type="VARCHAR" />
         <field-descriptor name="specialization" column="SPECIALIZATION" jdbc-type="VARCHAR" />
@@ -478,6 +505,10 @@
 		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.kra.bo.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
+		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="personId"/>
+		</collection-descriptor>
+		
         
 	</class-descriptor>
 	
