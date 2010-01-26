@@ -17,6 +17,8 @@
         <ref bean="UnitAdministratorType-unitAdministratorTypeCode"/>
         <ref bean="UnitAdministratorType-description"/>
         <ref bean="UnitAdministratorType-versionNumber"/>
+        <ref bean="UnitAdministratorType-defaultGroupFlag"/>
+        <ref bean="UnitAdministratorType-multiplesFlag"/>
       </list>
     </property>
   </bean>
@@ -62,6 +64,42 @@
 
   <bean abstract="true" id="UnitAdministratorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+  <bean id="UnitAdministratorType-defaultGroupFlag" parent="UnitAdministratorType-defaultGroupFlag-parentBean"/>
+
+  <bean abstract="true" id="UnitAdministratorType-defaultGroupFlag-parentBean" parent="AttributeDefinition">
+    <property name="name" value="defaultGroupFlag"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Default Group Flag"/>
+    <property name="shortLabel" value="Default Group Flag"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Default Group Flag"/>
+    <property name="description" value="Default Group Flag"/>
+  </bean>
+  
+  <bean id="UnitAdministratorType-multiplesFlag" parent="UnitAdministratorType-multiplesFlag-parentBean"/>
+
+  <bean abstract="true" id="UnitAdministratorType-multiplesFlag-parentBean" parent="AttributeDefinition">
+    <property name="name" value="multiplesFlag"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Multiples Flag"/>
+    <property name="shortLabel" value="Multiples Flag"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Multiples Flag"/>
+    <property name="description" value="Multiples Flag"/>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -79,6 +117,8 @@
             <list>
               <bean p:attributeName="unitAdministratorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
+              <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -103,12 +143,16 @@
       <list>
         <bean p:attributeName="unitAdministratorTypeCode" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
+        <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
+        <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean p:attributeName="unitAdministratorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
+        <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
+        <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
