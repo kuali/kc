@@ -528,13 +528,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 
         // copy ProposalPersons
+        int firstIndex, lastIndex;
+        ProposalPerson firstInstance;
         for (ProposalPerson person : childProposal.getProposalPersons()) {
-//            int index = oldPersons.indexOf(person);
-            ProposalPerson newPerson;
-//            if (index > -1) {
-//                newPerson = oldPersons.get(index);
-//            }
-//            else {
+            firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
+            lastIndex = hierarchyProposal.getProposalPersons().lastIndexOf(person);
+            firstInstance = (firstIndex == -1) ? null : hierarchyProposal.getProposalPersons().get(firstIndex);
+            if (firstIndex == -1 || (firstIndex == lastIndex && person.isInvestigator() != firstInstance.isInvestigator())) {
+                ProposalPerson newPerson;
                 newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
                 newPerson.getProposalPersonYnqs().clear();
@@ -545,15 +546,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newPerson.setProposalPersonNumber(null);
                 newPerson.setVersionNumber(null);
                 newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
-//            }
             
-            if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
-                newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
+                if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                    newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
+                }
+                if (newPerson.equals(pi) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
+                    newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                }
+                hierarchyProposal.addProposalPerson(newPerson);
             }
-            if (newPerson.equals(pi)) {
-                newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-            }
-            hierarchyProposal.addProposalPerson(newPerson);
         }
         businessObjectService.save(childProposal);
         LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
