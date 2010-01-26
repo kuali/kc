@@ -52,6 +52,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KcGroupService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -59,6 +60,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -853,7 +856,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ActionForward forward = super.reload(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return forward;
     }
@@ -873,19 +876,49 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
         String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
         
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
-        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
         printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
-        
-        if(!printFormTemplates.isEmpty()) {
-            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
-            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
-            streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
-            actionForward = null;
+        Map<String,Object> reportParameters = new HashMap<String,Object>();
+        reportParameters.put(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES, printFormTemplates);
+        AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument, 
+                ProposalDevelopmentPrintingServiceImpl.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
+        streamToResponse(dataStream, response);
+        return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+//        
+//        if(!printFormTemplates.isEmpty()) {
+//            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
+//            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
+//            streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
+//            actionForward = null;
+//        }
+//        return actionForward;
+    }
+    public void streamToResponse(AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                // LOG.warn(ioEx.getMessage(), ioEx);
+            }
         }
-        return actionForward;
     }
 
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{

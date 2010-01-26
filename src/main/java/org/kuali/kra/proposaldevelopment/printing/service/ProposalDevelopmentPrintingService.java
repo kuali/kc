@@ -15,11 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.service;
 
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.S2SException;
 
 /**
  * This class provides the means for printing reports related to Proposal Development. It has
@@ -49,4 +54,24 @@ public interface ProposalDevelopmentPrintingService {
 	public AttachmentDataSource printProposalDevelopmentReport(
 			ResearchDocumentBase document, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException;
+	
+	
+    /**
+     * 
+     * This method is to get templates for generic sponsor code.
+     * 
+     * @param sponsorFormTemplates list of SponsorFormTemplateList.
+     * @param sponsorCode code for the sponsor.
+     */
+    public void populateSponsorForms(List<SponsorFormTemplateList> sponsorFormTemplates, String sponsorCode);
+
+    /**
+     * 
+     * This method is used to get the sponsor form template form template list.
+     * 
+     * @param sponsorFormTemplateLists list of SponsorFormTemplateList.
+     * @return List<SponsorFormTemplate> list of SponsorFormTemplate corresponding to the SponsorFormTemplateList object.
+     */
+    public List<SponsorFormTemplate> getSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplateLists);
+
 }

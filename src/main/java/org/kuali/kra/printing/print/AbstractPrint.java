@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.printing.print;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 
 /**
@@ -77,5 +82,46 @@ public abstract class AbstractPrint implements Printable {
 	public void setReportParameters(Map<String, Object> reportParameters) {
 		this.reportParameters = reportParameters;
 	}
+    protected byte[] getBytes(XmlObject xmlObject) {
+//        InputStream xmlStream = null;
+        byte[] xmlBytes = null;
+//        try {
+            String xmlString = xmlObject.xmlText();
+            xmlBytes = xmlString.getBytes();
+//            xmlStream = xmlObject.newInputStream();
+//            if(xmlStream!=null){
+//                xmlBytes = new byte[xmlStream.available()];
+//                xmlStream.read(xmlBytes);
+//            }
+//        }catch (IOException e) {
+//            
+//        }finally{
+//            try {
+//                if(xmlStream!=null){
+//                    xmlStream.close();
+//                }
+//            }catch (IOException e) {
+//                //do nothing
+//            }
+//        }
+        return xmlBytes;
+    }
+    /**
+     * This method generates the XML that conforms to Delta Report XSD returns
+     * it as {@link InputStream}
+     * 
+     * @return {@link InputStream} of generated XML
+     * @throws PrintingException
+     *             in case of any errors occur during XML generation
+     */
+    public Map<String, byte[]> renderXML() throws PrintingException {
+        Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
+        Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
+                getDocument(), getReportParameters());
+        for (String xmlObjectKey : xmlObjectMap.keySet()) {
+            xmlStreamMap.put(xmlObjectKey, getBytes(xmlObjectMap.get(xmlObjectKey)));
+        }
+        return xmlStreamMap;
+    }
 
 }
