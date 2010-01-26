@@ -16,6 +16,7 @@
 package org.kuali.kra.printing.service.impl;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,7 +92,7 @@ public class PrintingServiceImpl implements PrintingService {
 
 		try {
 			ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
-			Map<String, InputStream> streamMap = printableArtifact.renderXML();
+			Map<String, byte[]> streamMap = printableArtifact.renderXML();
 			String[] bookmarks = new String[streamMap.size()];
 			int i = 0;
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -99,11 +100,11 @@ public class PrintingServiceImpl implements PrintingService {
 			for (Source source : printableArtifact.getXSLT()) {
                 StreamSource xslt = (StreamSource) source;
                 Transformer transformer = factory.newTransformer(xslt);
-				for (Map.Entry<String, InputStream> xml : streamMap.entrySet()) {
+				for (Map.Entry<String, byte[]> xml : streamMap.entrySet()) {
 					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
-							outputStream);
-					Source src = new StreamSource(xml.getValue());
+					ByteArrayInputStream inputStream = new ByteArrayInputStream(xml.getValue());
+					Source src = new StreamSource(inputStream);
+                    Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,outputStream);
 					Result res = new SAXResult(fop.getDefaultHandler());
 					transformer.transform(src, res);
 					pdfBaosList.add(outputStream);
@@ -229,11 +230,7 @@ public class PrintingServiceImpl implements PrintingService {
 				document.close();
 				return mergedPdfReport.toByteArray();
 			} catch (Exception e) {
-				// IO Exception occurs when PDF has no pages
-				LOG
-						.error(
-								"Exception occured because the generated PDF document has no pages",
-								e);
+				LOG.error("Exception occured because the generated PDF document has no pages",e);
 			}
 		}
 		return null;

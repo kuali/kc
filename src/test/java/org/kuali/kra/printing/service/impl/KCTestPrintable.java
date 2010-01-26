@@ -50,19 +50,21 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 
 	}
 
-	public Map<String, InputStream> renderXML() {
-		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
+	public Map<String, byte[]> renderXML() {
+		Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
 
 		FileInputStream ret = null;
 		File xmlfile = new File(
 				"src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
 		try {
 			ret = new FileInputStream(xmlfile);
-		} catch (FileNotFoundException e) {
+			byte[] bytes= new byte[ret.available()];
+			ret.read(bytes);
+	        xmlStreamMap.put("Bookmark", bytes);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		xmlStreamMap.put("Bookmark", ret);
 		return xmlStreamMap;
 
 	}
