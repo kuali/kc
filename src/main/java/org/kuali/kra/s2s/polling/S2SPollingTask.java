@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -247,6 +248,9 @@ public class S2SPollingTask {
 												.value());
 						s2SService.populateAppSubmission(appSubmission,
 								ggApplication);
+						if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
+						    pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+						}
 					}
 				}
 			} catch (S2SException e) {

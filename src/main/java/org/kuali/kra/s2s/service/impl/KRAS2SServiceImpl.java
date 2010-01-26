@@ -40,6 +40,7 @@ import java.util.Map;
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlError;
@@ -226,6 +227,9 @@ public class KRAS2SServiceImpl implements S2SService {
 											.getGrantsGovApplicationStatus()
 											.value());
 					populateAppSubmission(appSubmission, ggApplication);
+                    if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
+                        pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+                    }					
 				}
 			}
 			if (statusChanged) {
