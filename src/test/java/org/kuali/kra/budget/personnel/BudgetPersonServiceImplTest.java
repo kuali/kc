@@ -26,15 +26,21 @@ import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.*;
 import org.kuali.kra.budget.document.*;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.service.*;
+import org.kuali.kra.service.impl.KcPersonServiceImpl;
 import org.kuali.kra.budget.*;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
+import org.kuali.rice.kns.service.impl.ParameterServiceProxyImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -49,7 +55,8 @@ import org.junit.Test;
 @PerSuiteUnitTestData(
         @UnitTestData(
                 sqlFiles = {
-                        @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.SQL", delimiter = ";")
+                        @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.SQL", delimiter = ";"),
+                        @UnitTestFile(filename = "classpath:sql/dml/load_person_appointments.sql", delimiter = ";")
                     }))
 public class BudgetPersonServiceImplTest extends KcraNoDataTestBase {
     
@@ -100,21 +107,42 @@ public class BudgetPersonServiceImplTest extends KcraNoDataTestBase {
         assertTrue("no errors should happen, so I got here", true);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testSynchBudgetPersonsToProposal() {
+        BudgetPersonServiceImpl budgetPersonService = new BudgetPersonServiceImpl();
+        KcPersonServiceMockImpl personServMock = new KcPersonServiceMockImpl();
+        personServMock.setIdentityService(KraServiceLocator.getService(IdentityService.class));        
+        budgetPersonService.setKcPersonService(personServMock);
+        budgetPersonService.setParameterService(new ParameterServiceMockImpl());
+        budgetPersonService.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
         Budget myBudget = new Budget();
         BudgetDocument myDocument = new BudgetDocument();
-        BudgetParentDocument myParent = new ProposalDevelopmentDocument();
+        Calendar oneYear = Calendar.getInstance();
+        oneYear.add(Calendar.YEAR, 1);
+        myBudget.setStartDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+        myBudget.setEndDate(new java.sql.Date(oneYear.getTime().getTime()));
+        ProposalDevelopmentDocument myParent = new ProposalDevelopmentDocument();
         myDocument.setParentDocument(myParent);
         myBudget.setBudgetDocument(myDocument);
         myBudget.setBudgetId(new Long(101));
-        BudgetPerson budgetPerson = new BudgetPerson();
-        budgetPerson.setPersonId("-666");
-        budgetPerson.setCalculationBase(new BudgetDecimal(100));
-        budgetPerson.setAppointmentTypeCode("tst");
-        budgetPerson.setPersonName("Jay Hulslander");
-        budgetPersonService.synchBudgetPersonsToProposal(myBudget);
-        assertTrue("no errors should happen, so I got here", true);
+        ProposalPerson person = new ProposalPerson();
+        person.setPersonId("1301");
+        person.setProposalPersonRoleId("PI");
+        myParent.getBudgetParent().getProposalPersons().add(person);
+        ProposalPerson person2 = new ProposalPerson();
+        person2.setPersonId("1302");
+        person2.setProposalPersonRoleId("KP");
+        myParent.getBudgetParent().getProposalPersons().add(person2);
+
+        budgetPersonService.synchBudgetPersonsToProposal(myBudget);        
+        assertTrue("Could not find expected persons in budget.", myBudget.getBudgetPersons().size()==2);
+        for (BudgetPerson budgetPerson : myBudget.getBudgetPersons()) {
+            if (budgetPerson.getPersonId().equals("1301")) {
+                assertTrue("Appointment was not assigned as expected.",
+                        budgetPerson.getJobCode().equals("AA0024"));
+            }
+        }        
     }
 
     @Test
@@ -138,5 +166,26 @@ public class BudgetPersonServiceImplTest extends KcraNoDataTestBase {
         budgetPersonService2.setBusinessObjectService(BOservice);
         assertTrue("Should be equal, but got:" + budgetPersonService2.getBusinessObjectService().getClass(), 
                 budgetPersonService2.getBusinessObjectService().getClass().equals(BOservice.getClass()));
+    }
+ 
+    class KcPersonServiceMockImpl extends KcPersonServiceImpl {
+        public KcPerson getKcPersonByPersonId(String personId) {
+            KcPerson testPerson = new KcPerson();
+            testPerson.setPersonId(personId);
+            PersonAppointment personAppointment = new PersonAppointment();
+            personAppointment.setAppointmentId(1);
+            personAppointment.setJobCode("AA0024");
+            personAppointment.setSalary(new BudgetDecimal(1000000.00));
+            personAppointment.setUnitNumber("0000001");
+            testPerson.getExtendedAttributes().getPersonAppointments().add(personAppointment);
+            return testPerson;
+        }
+    }
+    
+    class ParameterServiceMockImpl extends ParameterServiceProxyImpl {
+        public String getParameterValue(Class<? extends Object> componentClass,
+            String parameterName) {
+            return "0000";
+        }
     }
 }

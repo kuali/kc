@@ -16,17 +16,23 @@
 package org.kuali.kra.budget.personnel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
@@ -37,6 +43,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
+    private KcPersonService kcPersonService;
     
     /**
      * @see org.kuali.kra.budget.personnel.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
@@ -79,11 +86,74 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                     }
                 }
                 if (!present) {
-                    BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
-                    populateBudgetPersonData(budget, newBudgetPerson);
-                    budget.addBudgetPerson(newBudgetPerson);
+                    if (proposalPerson.getPersonId() != null) {
+                        //if its a person, get all available appointments
+                        //and add each appointment as a separate BudgetPerson
+                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(proposalPerson.getPersonId());
+                        List<PersonAppointment> appointments = kcPerson.getExtendedAttributes().getPersonAppointments();
+                        boolean added = false;
+                        for (PersonAppointment appointment : appointments) {
+                            if (isAppointmentApplicableToBudget(budget, appointment)) {
+                                BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
+                                newBudgetPerson.setJobCode(appointment.getJobCode());
+                                newBudgetPerson.setJobTitle(appointment.getJobTitle());
+                                newBudgetPerson.setCalculationBase(appointment.getSalary());
+                                newBudgetPerson.setEffectiveDate(appointment.getStartDate());
+                                newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
+                                newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
+                                populateBudgetPersonData(budget, newBudgetPerson);
+                                budget.addBudgetPerson(newBudgetPerson);
+                                added = true;
+                            }
+                        }
+                        //if we didn't find an appointment that was applicable, add
+                        //person without appointment information
+                        if (!added) {
+                            BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
+                            populateBudgetPersonData(budget, newBudgetPerson);
+                            budget.addBudgetPerson(newBudgetPerson);
+                        }
+                    } else {
+                        BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
+                        populateBudgetPersonData(budget, newBudgetPerson);
+                        budget.addBudgetPerson(newBudgetPerson);                        
+                    }
+                    //
                 }
             }
+        }
+    }
+    
+    /**
+     * 
+     * Determines if an appointment is applicable to the current budget, currently
+     * based soley on whether the budget period matches some part of the appointment
+     * period
+     * @param budget
+     * @param appointment
+     * @return true if the appointment start or end date is inside the budget period
+     */
+    private boolean isAppointmentApplicableToBudget(Budget budget, PersonAppointment appointment) {
+        Calendar budgetStart = Calendar.getInstance();
+        Calendar budgetEnd = Calendar.getInstance();
+        Calendar apptStart = Calendar.getInstance();
+        Calendar apptEnd = Calendar.getInstance();
+        budgetStart.setTime(budget.getStartDate());
+        budgetEnd.setTime(budget.getEndDate());
+        if (appointment.getStartDate() != null) {
+            apptStart.setTime(appointment.getStartDate());
+        } else {
+            apptStart.setTime(budget.getStartDate());
+        }
+        if (appointment.getEndDate() != null) {
+            apptEnd.setTime(appointment.getEndDate());
+        } else {
+            apptEnd.setTime(budget.getEndDate());
+        }
+        if (budgetStart.before(apptEnd) && budgetEnd.after(apptStart)) {
+            return true;
+        } else {
+            return false;
         }
     }
     
@@ -97,6 +167,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
             budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValue(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
+        
+        
         
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
             budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValue(
@@ -136,6 +208,14 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    private KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
     
 }
