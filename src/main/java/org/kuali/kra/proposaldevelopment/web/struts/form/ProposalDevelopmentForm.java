@@ -78,7 +78,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -170,7 +169,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String institutionalProposalToVersion;
     
     private MedusaBean medusaBean;
-
+    
     private ReportHelperBean reportHelperBean;
 
     public ProposalDevelopmentForm() {
@@ -178,8 +177,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.setDocument(new ProposalDevelopmentDocument());
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
-        setFormatterType("document.developmentProposalList.s2sOpportunity.openingDate", TimestampAMPMFormatter.class);
-        setFormatterType("document.developmentProposalList.s2sOpportunity.closingDate", TimestampAMPMFormatter.class);
     }
     
     /**
@@ -1583,8 +1580,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
-    }
-
+    }    
+    
     /**
      *
      * @return
