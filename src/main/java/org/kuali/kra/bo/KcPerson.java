@@ -940,7 +940,7 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     private String getExternalId(String type) {
         final KimEntityExternalIdentifier extId = this.entity.getEntityExternalIdentifier(type);
-        return extId.getExternalId(); 
+        return (extId == null) ? null : extId.getExternalId(); 
     }
     
     /** 
