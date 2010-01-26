@@ -94,6 +94,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private static final String ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT = "error.hierarchy.budget.periodDurationInconsistent";
     private static final String PARAMETER_NAME_DIRECT_COST_ELEMENT = "proposalHierarchySubProjectDirectCostElement";
     private static final String PARAMETER_NAME_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
+    private static final String PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP = "instituteNarrativeTypeGroup";
     
     private static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
     private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
@@ -467,6 +468,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private boolean synchronizeChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal)
             throws ProposalHierarchyException {
         
+        String instituteNarrativeTypeGroup = parameterService.getParameterValue(ProposalDevelopmentDocument.class, PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
+        
 /*  TODO restore code below after testing
         if (isSynchronized(childProposal.getProposalNumber())) {
             return false;
@@ -512,7 +515,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         // copy Narratives
         for (Narrative narrative : childProposal.getNarratives()) {
-            if (!StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "N")) {
+            if (!StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "N")
+                    && !StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getNarrativeTypeGroup(), instituteNarrativeTypeGroup)) {
                 Map<String,String> primaryKey = new HashMap<String,String>();            
                 primaryKey.put("proposalNumber", narrative.getProposalNumber());
                 primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
