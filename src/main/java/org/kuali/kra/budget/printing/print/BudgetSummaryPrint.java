@@ -60,21 +60,21 @@ public class BudgetSummaryPrint extends AbstractPrint {
 		return sourceList;
 	}
 
-	/**
-	 * This method generates the XML that conforms to summary Report XSD returns
-	 * it as {@link InputStream}
-	 * 
-	 * @return {@link InputStream} of generated XML
-	 * @throws PrintingException
-	 *             in case of any errors occur during XML generation
-	 */
-	public Map<String, InputStream> renderXML() throws PrintingException {
-		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
-		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-				getDocument(), getReportParameters());
-		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey).newInputStream());
-		}
-		return xmlStreamMap;
-	}
+//	/**
+//	 * This method generates the XML that conforms to summary Report XSD returns
+//	 * it as {@link InputStream}
+//	 * 
+//	 * @return {@link InputStream} of generated XML
+//	 * @throws PrintingException
+//	 *             in case of any errors occur during XML generation
+//	 */
+//	public Map<String, byte[]> renderXML() throws PrintingException {
+//		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
+//		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
+//				getDocument(), getReportParameters());
+//		for (String xmlObjectKey : xmlObjectMap.keySet()) {
+//			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey).newInputStream());
+//		}
+//		return xmlStreamMap;
+//	}
 }

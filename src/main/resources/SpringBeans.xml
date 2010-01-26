@@ -1732,14 +1732,21 @@
 			</property>
 		</bean>
 		<bean id="printCertificationPrint"
-			class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint">
+			class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint" scope="prototype">
 			<property name="xmlStream" ref="printCertificationXmlStream" />
+		</bean>
+		<bean id="printProposalSponsorForms"
+			class="org.kuali.kra.proposaldevelopment.printing.print.PrintProposalSponsorForms" scope="prototype">
+			<property name="xmlStream" ref="researchAndRelatedXmlStream" />
+			<property name="businessObjectService" ref="businessObjectService" />
 		</bean>
 		<bean id="proposalDevelopmentPrintingService"
 			class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
-			<property name="printCertificationPrint"
-				ref="printCertificationPrint" />
+			<property name="printCertificationPrint" ref="printCertificationPrint" />
+			<property name="printProposalSponsorForms" ref="printProposalSponsorForms" />
 			<property name="printingService" ref="printingService" />
+			<property name="s2SUtilService" ref="s2SUtilService" />
+			<property name="businessObjectService" ref="businessObjectService" />
 		</bean>
 	
 		<bean id="proposalSubmissionXmlStream"

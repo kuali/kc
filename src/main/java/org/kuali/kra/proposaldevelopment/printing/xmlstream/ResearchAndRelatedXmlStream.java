@@ -1400,7 +1400,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	private KeyPersonFlag getKeyPersonFlag(ProposalPerson proposalPerson) {
 		KeyPersonFlag keyPersonFlag = KeyPersonFlag.Factory.newInstance();
-		if (proposalPerson.getPercentageEffort().intValue() != 999) {
+		if (proposalPerson.getPercentageEffort()!=null && proposalPerson.getPercentageEffort().intValue() != 999) {
 			keyPersonFlag
 					.setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
 			keyPersonFlag
