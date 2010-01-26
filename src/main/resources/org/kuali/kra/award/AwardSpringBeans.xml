@@ -57,7 +57,7 @@
                 <!--  Task Authorizer for modifying persons and their roles on an award -->
                 <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardPermissionsAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="modifyAwardRoles" /> 
-                 </bean>
+                </bean>
                 
                 <bean class="org.kuali.kra.award.document.authorizer.CreateAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="addBudget" />
@@ -66,7 +66,7 @@
                 <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="openBudgets" />
                 </bean>
-             </list>
+            </list>
          </property>
      </bean>
      
@@ -175,6 +175,7 @@
         <property name="awardDao">
             <ref bean="awardDao" />
         </property>
+        <property name="kcPersonService" ref="kcPersonService" /> 
   	</bean>
 
 	<bean id="awardPersonLookupableHelperService" class="org.kuali.kra.award.lookup.AwardPersonLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
