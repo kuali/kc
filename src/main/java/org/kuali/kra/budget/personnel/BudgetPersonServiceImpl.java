@@ -31,8 +31,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import com.ibm.icu.util.Calendar;
+import java.util.Calendar;
 
 /**
  * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
