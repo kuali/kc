@@ -63,6 +63,7 @@
 				</th>
              </tr>
              
+                <c:if test="${!readOnly}">
 	             <tr>
 	                <td align="center" valign="middle" class="infoline">
 	                	<div align="center">
@@ -110,6 +111,8 @@
 						</div>
 					</td>
 				</tr>
+			 </c:if>
+				
 			<c:forEach var="attachment" items="${attachments}" varStatus="itrStatus">
 				<tr>
 	         		<td>
@@ -147,9 +150,11 @@
 							<html:image property="methodToCall.viewAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
-								<html:image property="methodToCall.deleteAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-									alt="Delete Attachment"/>
+								<c:if test="${!readOnly}">
+								    <html:image property="methodToCall.deleteAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
+									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+									   alt="Delete Attachment"/>
+							    </c:if>
 						</div>
 					</td>
 	         	</tr>

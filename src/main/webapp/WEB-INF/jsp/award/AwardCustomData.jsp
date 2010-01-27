@@ -30,6 +30,8 @@
   	headerTabActive="customData"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
+  	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+  	
   	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
 
 	<kra-a:awardCustomDataTab name="${KualiForm.actionName}" />

@@ -35,6 +35,7 @@
           	<th width="5%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${sponsorTermAttributes.sponsorTermCode}" noColon="true" /></div></th>
           	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
         </tr>
+        <c:if test="${!readOnly}">
         <tr>
         	<th width="6%" class="infoline">
 			    <c:out value="Add:" />
@@ -56,6 +57,7 @@
 			</div>
             </td>
         </tr>
+        </c:if>
         <c:set var="termIndex" value="1" />   <%-- index of the term within the subpanel --%>
         <c:forEach var="awardSponsorTerm" items="${KualiForm.document.awardList[0].awardSponsorTerms}" varStatus="status">              	
 	        <c:choose>                    	
@@ -70,8 +72,10 @@
 					</td>
 					<td width="10%">
 					<div align="center">&nbsp;
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteAwardSponsorTerm.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	                </td>
 	          	  </tr>

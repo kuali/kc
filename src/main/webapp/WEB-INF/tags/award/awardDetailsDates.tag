@@ -21,7 +21,6 @@
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 
-
 <kul:tab tabTitle="Details & Dates" defaultOpen="true" tabErrorKey="document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[0].anticipatedTotalAmount">
 
 <!-- Institution -->
@@ -67,9 +66,11 @@
         <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.unitNumber}" skipHelpUrl="true"/></div></th>
     	<td align="left" valign="middle">
             <c:if test="${!docInSavedState}">
-                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="false" /> <%-- need AJAX lookup of unit name onblur --%>
-                <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
+                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" /> <%-- need AJAX lookup of unit name onblur --%>
+                <c:if test="${!readOnly}">
+                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
   			                anchor="${tabKey}" lookupParameters="document.awardList[0].unitNumber:unitNumber"/>
+  			    </c:if>
             </c:if>
             <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
             <c:if test="${docInSavedState}">
@@ -151,7 +152,9 @@
         </th>
         <td>
         	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');"/>
-        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
+        	<c:if test="${!readOnly}">
+        	   <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
+            </c:if>
             <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="sponsorName.div" >
             	<c:if test="${!empty KualiForm.document.awardList[0].sponsorCode}">
@@ -171,7 +174,9 @@
         </th>
         <td>
         	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" />
-        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
+        	<c:if test="${!readOnly}">
+        	   <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
+            </c:if>
             <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="primeSponsorName.div">
             	<c:if test="${!empty KualiForm.document.awardList[0].primeSponsorCode}">
@@ -231,6 +236,7 @@
             <b>Action</b>
         </th>
     </tr>
+    <c:if test="${!readOnly}">
     <tr>
         <th>
             <div align="right">
@@ -261,6 +267,7 @@
 			</div>
         </td>
     </tr>
+    </c:if>
     <c:forEach var="awardTransferringSponsor" items="${KualiForm.document.awardList[0].awardTransferringSponsors}" varStatus="status">
 		<tr>
 			<th width="5%">
@@ -271,8 +278,10 @@
 			</td>
 			<td width="10%">
 				<div align="center">&nbsp;
+				    <c:if test="${!readOnly}">
 					<html:image property="methodToCall.deleteAwardTransferringSponsor.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+			         </c:if>
 				</div>
 	    	</td>
 		</tr>

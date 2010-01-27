@@ -32,7 +32,7 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${awardApprovedSubawardAttributes.amount}" useShortLabel="true" noColon="true" /></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
-			
+			<c:if test="${!readOnly}">
 			<tr>
             	<th width="50" align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
@@ -55,6 +55,7 @@
 					</div>
 	            </td>
           	</tr>
+          	</c:if>
           	<c:forEach var="awardApprovedSubawards" items="${KualiForm.document.awardList[0].awardApprovedSubawards}" varStatus="status">
 	             <tr>
 					<th width="5%" class="infoline">
@@ -72,8 +73,10 @@
 	                </td>
 					<td width="10%">
 					<div align="center">&nbsp;
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteApprovedSubaward.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	                </td>
 	            </tr>

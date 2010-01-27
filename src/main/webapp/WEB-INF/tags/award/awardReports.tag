@@ -38,8 +38,10 @@
 		
 		</br>
 		
-		<html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}" 
+		<c:if test="${!readOnly}">
+		  <html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}" 
 			src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton" />
+	    </c:if>
 		</div>	
     </div>    
     
