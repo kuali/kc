@@ -21,8 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
-public class BudgetSubAwards extends BudgetAssociate {
+public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable {
 	/**
      * Comment for <code>serialVersionUID</code>
      */
@@ -43,6 +44,9 @@ public class BudgetSubAwards extends BudgetAssociate {
 	private String xmlUpdateUser;
 	private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
+    
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
 	
     
     public BudgetSubAwards(){
@@ -262,6 +266,34 @@ public class BudgetSubAwards extends BudgetAssociate {
      */
     public void setBudgetSubAwardFiles(List<BudgetSubAwardFiles> budgetSubAwardFiles) {
         this.budgetSubAwardFiles = budgetSubAwardFiles;
+    }
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
     }
     
 }

@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -51,6 +52,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -590,6 +594,39 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 parentBudget.addBudgetPerson(newPerson);
                 personMap.put(person.getPersonSequenceNumber(), newPerson);
             }
+            
+            BudgetSubAwards newSubAwards;
+            for (BudgetSubAwards childSubAwards : childBudget.getBudgetSubAwards()) {
+                childSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
+                childSubAwards.refreshReferenceObject("budgetSubAwardFiles");
+                newSubAwards = (BudgetSubAwards) ObjectUtils.deepCopy(childSubAwards);
+                newSubAwards.setBudgetId(parentBudget.getBudgetId());
+                newSubAwards.setBudget(parentBudget);
+                newSubAwards.setBudgetVersionNumber(parentBudget.getBudgetVersionNumber());
+                newSubAwards.setSubAwardNumber(parentBudget.getBudgetDocument().getHackedDocumentNextValue("subAwardNumber") != null ? parentBudget.getBudgetDocument().getHackedDocumentNextValue("subAwardNumber") : 1);
+                newSubAwards.setVersionNumber(null);
+                newSubAwards.setHierarchyProposalNumber(childProposalNumber);
+                for (BudgetSubAwardAttachment attachment : newSubAwards.getBudgetSubAwardAttachments()) {
+                    attachment.setSubAwardNumber(newSubAwards.getSubAwardNumber());
+                    attachment.setBudget(parentBudget);
+                    attachment.setBudgetId(parentBudget.getBudgetId());
+                    attachment.setBudgetSubawardAttachmentId(null);
+                    attachment.setVersionNumber(null);
+                }
+                for (BudgetSubAwardFiles files : newSubAwards.getBudgetSubAwardFiles()) {
+                    files.setSubAwardNumber(newSubAwards.getSubAwardNumber());
+                    files.setBudget(parentBudget);
+                    files.setBudgetId(parentBudget.getBudgetId());
+                    files.setVersionNumber(null);
+                }
+                List<BudgetAssociate> listToBeSaved = new ArrayList<BudgetAssociate>();
+                listToBeSaved.add(newSubAwards);
+                listToBeSaved.addAll(newSubAwards.getBudgetSubAwardFiles());
+                listToBeSaved.addAll(newSubAwards.getBudgetSubAwardAttachments());
+                businessObjectService.save(listToBeSaved);
+                parentBudget.getBudgetSubAwards().add(newSubAwards);
+            }
+            
             int parentStartPeriod = getCorrespondingParentPeriod(parentBudget, childBudget);
             if (parentStartPeriod == -1) {
                 throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
@@ -678,7 +715,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setApplyInRateFlag(true);
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
-                    if (childPeriod.getTotalIndirectCost().isNonZero()) {
+                    if (childPeriod.getTotalDirectCost().isNonZero()) {
                         primaryKeys = new HashMap<String, String>();
                         primaryKeys.put("costElement", directCostElement);
                         costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
