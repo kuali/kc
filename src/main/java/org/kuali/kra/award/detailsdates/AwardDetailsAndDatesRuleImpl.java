@@ -22,6 +22,7 @@ import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Default implementation of AwardDetailsAndDatesRule
@@ -31,8 +32,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase implements AwardDetailsAndDatesRule {
     
     private static final String SPONSOR_CODE_PROPERTY_NAME = "detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode";
-    private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = 
-                    "awardAmountInfos[0].anticipatedTotalAmount";
+    private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].anticipatedTotalAmount";
+    private static final String AWARD_EFFECTIVE_DATE_PROPERTY_NAME = "awardEffectiveDate";
+    private static final String OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME = "obligationExpirationDate";
+    
 
     
     /**
@@ -76,6 +79,18 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
             valid = false;
             reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
         }
+        if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
+                award.getAwardEffectiveDate() == null) {
+            valid = false;
+            reportError(AWARD_EFFECTIVE_DATE_PROPERTY_NAME, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
+        }
+        if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
+                award.getObligationExpirationDate() == null) {
+            valid = false;
+            reportError(OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
+        }
+
+
         return valid;
     }
     

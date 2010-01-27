@@ -339,6 +339,8 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.invalid";
     public static final String ERROR_ANTICIPATED_AMOUNT = "error.anticipated.amount";
     public static final String ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.duplicate";
+    public static final String ERROR_AWARD_EFFECTIVE_DATE = "error.award.effective.date";
+    public static final String ERROR_OBLIGATION_EXPIRATION_DATE = "error.obligation.expiration.date";
     
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
