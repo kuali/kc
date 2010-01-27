@@ -35,7 +35,7 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     private static final long serialVersionUID = 6043169784839779473L;
     
     private List<ProtocolCorrespondenceType> correspondenceTypes;    
-    private List<ProtocolCorrespondenceTemplate> defaultCorrespondenceTemplates;
+    private List<ProtocolCorrespondenceTemplate> newDefaultCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> deletedCorrespondenceTemplates;
     
@@ -54,12 +54,12 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         return correspondenceTypes;
     }
 
-    public void setDefaultCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> defaultCorrespondenceTemplates) {
-        this.defaultCorrespondenceTemplates = defaultCorrespondenceTemplates;
+    public void setNewDefaultCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> newDefaultCorrespondenceTemplates) {
+        this.newDefaultCorrespondenceTemplates = newDefaultCorrespondenceTemplates;
     }
 
-    public List<ProtocolCorrespondenceTemplate> getDefaultCorrespondenceTemplates() {
-        return defaultCorrespondenceTemplates;
+    public List<ProtocolCorrespondenceTemplate> getNewDefaultCorrespondenceTemplates() {
+        return newDefaultCorrespondenceTemplates;
     }
 
     public void setNewCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates) {
@@ -95,10 +95,10 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
      */
     @SuppressWarnings("unused")
     public void resetForm() {
-        this.defaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        this.newDefaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
-            this.defaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
+            this.newDefaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
             this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
         }
     }

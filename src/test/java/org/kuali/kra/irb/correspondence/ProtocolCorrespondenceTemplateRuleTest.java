@@ -274,6 +274,152 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     
     /**
      * 
+     * This test simulates a default correspondence template being added with a missing file. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testAddDefaultCorrespondenceTemplateMissingFile() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(null));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int index = 2;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newDefaultCorrespondenceTemplates[2].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newDefaultCorrespondenceTemplates[2].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a default correspondence template being added with an empty file. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testAddDefaultCorrespondenceTemplateEmptyFile() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(new byte[] {}));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int index = 2;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newDefaultCorrespondenceTemplates[2].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newDefaultCorrespondenceTemplates[2].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a default correspondence template being added with the incorrect file type. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testAddDefaultCorrespondenceTemplateInvalidFileType() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue("bad/content-type"));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(new byte[] { (byte) 1, (byte) 2, (byte) 3 }));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int index = 2;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newDefaultCorrespondenceTemplates[2].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newDefaultCorrespondenceTemplates[2].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a default correspondence template successfully being added. 
+     * @throws Exception
+     */
+    @Test
+    public void testAddDefaultCorrespondenceTemplate() throws Exception {
+    	simulateValidMockedFileBehavior();
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int index = 2;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index);
+        assertTrue(rulePassed);
+
+        /*
+         * There should be no errors.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(0, messageMap.getErrorCount());
+   }
+    
+    /**
+     * 
      * This test simulates the correspondence templates being unsuccessfully saved because a committee has not been specified.
      * @throws Exception
      */
@@ -449,6 +595,84 @@ public class ProtocolCorrespondenceTemplateRuleTest {
          * Verify that the correct error message is in the MessageMap.
          */
         List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("correspondenceTypes[1].protocolCorrespondenceTemplates[1].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE, errorMessages.get(0).getErrorKey());
+    }
+    
+    /**
+     * 
+     * This test simulates the correspondence templates being unsuccessfully being saved because of a missing file name.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testSaveCorrespondenceTemplateMissingDefaultFileName() throws Exception {
+        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
+
+        // create and add faulty data
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"1"});
+        ProtocolCorrespondenceTemplate errorTemplate = getCorrespondenceTemplate(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
+        errorTemplate.setFileName("");
+        correspondenceType.getProtocolCorrespondenceTemplates().add(errorTemplate);
+        protocolCorrespondenceTypes.add(correspondenceType);
+
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
+        assertFalse(rulePassed);
+        
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the file field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newDefaultCorrespondenceTemplates[1].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newDefaultCorrespondenceTemplates[1].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE, errorMessages.get(0).getErrorKey());
+    }
+    
+    /**
+     * 
+     * This test simulates the correspondence templates being unsuccessfully being saved because of an invalid file.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testSaveCorrespondenceTemplateInvalidDefaultFile() throws Exception {
+        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
+
+        // create and add faulty data
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"1"});
+        ProtocolCorrespondenceTemplate errorTemplate = getCorrespondenceTemplate(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
+        errorTemplate.setCorrespondenceTemplate(new byte[] {} );
+        correspondenceType.getProtocolCorrespondenceTemplates().add(errorTemplate);
+        protocolCorrespondenceTypes.add(correspondenceType);
+
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
+        assertFalse(rulePassed);
+        
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the file field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newDefaultCorrespondenceTemplates[1].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newDefaultCorrespondenceTemplates[1].templateFile");
         assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE, errorMessages.get(0).getErrorKey());
     }
     

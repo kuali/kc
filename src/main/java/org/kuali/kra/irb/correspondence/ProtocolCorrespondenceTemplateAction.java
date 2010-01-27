@@ -48,7 +48,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         if (StringUtils.equals(request.getParameter("init"), "true")) {
             ProtocolCorrespondenceTemplateForm templateForm = new ProtocolCorrespondenceTemplateForm();
             ((ProtocolCorrespondenceTemplateForm) form).setCorrespondenceTypes(templateForm.getCorrespondenceTypes());
-            ((ProtocolCorrespondenceTemplateForm) form).setDefaultCorrespondenceTemplates(templateForm.getDefaultCorrespondenceTemplates());
+            ((ProtocolCorrespondenceTemplateForm) form).setNewDefaultCorrespondenceTemplates(templateForm.getNewDefaultCorrespondenceTemplates());
             ((ProtocolCorrespondenceTemplateForm) form).setNewCorrespondenceTemplates(templateForm.getNewCorrespondenceTemplates());
             ((ProtocolCorrespondenceTemplateForm) form).setDeletedCorrespondenceTemplates(templateForm.getDeletedCorrespondenceTemplates());
             ((ProtocolCorrespondenceTemplateForm) form).setTabStates(new HashMap<String, String>());
@@ -59,7 +59,35 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     
     /**
      * 
-     * This method is called when adding a correspondence template.
+     * This method is called when adding a default correspondence template.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward addDefaultCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int typeIndex = getSelectedCorrespondenceType(request);
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getNewDefaultCorrespondenceTemplates().get(typeIndex);
+
+        // check any business rules
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, 
+                newCorrespondenceTemplate, typeIndex);
+        if (rulePassed) {
+            getProtocolCorrespondenceTemplateService().addDefaultProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
+            correspondenceTemplateForm.resetForm();
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when adding a committee specific correspondence template.
      * @param mapping
      * @param form
      * @param request
@@ -87,7 +115,30 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     
     /**
      * 
-     * This method is called when deleting a correspondence template.
+     * This method is called when viewing a default correspondence template.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward viewDefaultCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int typeIndex = getSelectedCorrespondenceType(request);
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
+        
+        this.streamToResponse(correspondenceTemplate.getCorrespondenceTemplate(), correspondenceTemplate.getFileName(), 
+        		Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE, response);
+
+    	return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method is called when viewing a committee specific correspondence template.
      * @param mapping
      * @param form
      * @param request
@@ -101,7 +152,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         int templateIndex = getSelectedCorrespondenceTemplate(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
-        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         
         this.streamToResponse(correspondenceTemplate.getCorrespondenceTemplate(), correspondenceTemplate.getFileName(), 
         		Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE, response);
@@ -111,7 +162,33 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     
     /**
      * 
-     * This method is called when deleting a correspondence template.
+     * This method is called when deleting a default correspondence template.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward deleteDefaultCorrespondenceTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int typeIndex = getSelectedCorrespondenceType(request);
+        ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+        ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        
+        // Add correspondence template to database deletion list
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
+        correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
+        
+        getProtocolCorrespondenceTemplateService().deleteDefaultProtocolCorrespondenceTemplate(correspondenceType);
+        correspondenceTemplateForm.resetForm();
+
+    	return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is called when deleting a committee specific correspondence template.
      * @param mapping
      * @param form
      * @param request

@@ -24,7 +24,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 
 @Entity 
 @Table(name="PROTO_CORRESP_TYPE")
@@ -75,7 +77,36 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
     public List<ProtocolCorrespondenceTemplate> getProtocolCorrespondenceTemplates() {
         return protocolCorrespondenceTemplates;
     }
+    
+    /**
+     * 
+     * This method returns the default correspondence template.
+     * @return default protocol correspondence template
+     */
+    public ProtocolCorrespondenceTemplate getDefaultProtocolCorrespondenceTemplate() {
+        for (ProtocolCorrespondenceTemplate template : this.protocolCorrespondenceTemplates) {
+            if (StringUtils.equals(template.getCommitteeId(), Constants.DEFAULT_CORRESPONDENCE_TEMPLATE)) {
+                return template;
+            }
+        }
+        return null;
+    }
 
+    /**
+     * 
+     * This method returns the correspondence templates which are specific to a committee.
+     * @return list of protocol correspondence templates
+     */
+    public List<ProtocolCorrespondenceTemplate> getCommitteeProtocolCorrespondenceTemplates() {
+        List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        for (ProtocolCorrespondenceTemplate template : this.protocolCorrespondenceTemplates) {
+            if (!StringUtils.equals(template.getCommitteeId(), Constants.DEFAULT_CORRESPONDENCE_TEMPLATE)) {
+                templates.add(template);
+            }
+        }
+        return templates;
+    }
+    
     public void setProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates) {
         this.protocolCorrespondenceTemplates = protocolCorrespondenceTemplates;
     }

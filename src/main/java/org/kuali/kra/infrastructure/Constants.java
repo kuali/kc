@@ -487,6 +487,7 @@ public interface Constants {
     public static final String MAPPING_CHECKLIST_ITEM_DESCRIPITION = "checkListItemDescription";
     
     // Correspondence
+    public static final String DEFAULT_CORRESPONDENCE_TEMPLATE = "DEFAULT";
     public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE = "text/xml";
 
     // Protocol Linking  System Parameters 
