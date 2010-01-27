@@ -42,8 +42,7 @@
     <property name="title" value="Edit ProposalColumnsToAlter"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="dataDictionaryAttributeName" p:required="true" p:readOnlyAfterAdd="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="columnName" p:required="true" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="columnName" p:required="true" p:readOnlyAfterAdd="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="columnLabel" p:required="true" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="dataLength" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="dataType" p:required="true" p:unconditionallyReadOnly="true"/>

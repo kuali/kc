@@ -44,19 +44,17 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
         
         KraPersistenceStructureService persistenceStructureService = 
             KraServiceLocator.getService(KraPersistenceStructureService.class);
-        Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(DevelopmentProposal.class);
+        Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         AttributeDefinition attrDefinition = dataDictionaryService.getDataDictionary().
             getBusinessObjectEntry(DevelopmentProposal.class.getName()).
-            getAttributeDefinition(proposalCol.getDataDictionaryAttributeName());
+            getAttributeDefinition(columnToAttrMap.get(proposalCol.getColumnName()));
         
-        String columnName = attrToColumnMap.get(proposalCol.getDataDictionaryAttributeName());
-        if (columnName == null || attrDefinition == null) {
-            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.dataDictionaryAttributeName", "error.proposalcolumnstoalter.attributeNotFound");
+        if (attrDefinition == null) {
+            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.columnName", "error.proposalcolumnstoalter.attributeNotFound");
             return;
         } else {
-            proposalCol.setColumnName(columnName);
             if (attrDefinition.getLabel().length() > 30) {
                 proposalCol.setColumnLabel(attrDefinition.getLabel().substring(0, 29));
             } else {

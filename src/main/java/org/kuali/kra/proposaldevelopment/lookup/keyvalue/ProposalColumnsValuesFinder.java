@@ -45,7 +45,7 @@ public class ProposalColumnsValuesFinder extends KeyValuesBase {
                 continue;
             }
             KeyLabelPair keyPair = new KeyLabelPair();
-            keyPair.setKey(entry.getName());
+            keyPair.setKey(attrToColumnMap.get(entry.getName()));
             keyPair.setLabel(entry.getShortLabel());
             keyValues.add(keyPair);
         }
