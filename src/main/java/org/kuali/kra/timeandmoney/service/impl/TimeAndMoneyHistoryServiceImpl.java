@@ -47,7 +47,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<TimeAndMoneyDocument> docs = null;
         int key = 150;
         
-        for(Award award : awards){
+        for(Award award : awards){//this is all versions of the selected Award in the hierarchy.
             award.refreshReferenceObject("awardDocument");
             timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), "url for award document");
             fieldValues1.put("rootAwardNumber", award.getAwardNumber());
