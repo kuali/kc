@@ -76,13 +76,6 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardPermissionsHelp" p:parameterDetailType="D"/>
-          </property>
-          <property name="headerTabDisplayName" value="Permissions"/>
-          <property name="headerTabNavigateTo" value="permissions"/>
-        </bean>
-        <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
