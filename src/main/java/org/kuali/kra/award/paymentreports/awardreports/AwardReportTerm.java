@@ -24,8 +24,10 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.AwardSyncableList;
+import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
@@ -46,26 +48,23 @@ public class AwardReportTerm extends AwardAssociate  {
      */
     private static final long serialVersionUID = -3117988810554700250L;
     private Long awardReportTermId;
-    //private String awardNumber; 
-    //private Integer sequenceNumber; 
-    //private Award award; 
     private List<AwardReporting> awardReportings;
     
     
-    @AwardSyncable private String reportClassCode; 
-    @AwardSyncable private String reportCode; 
-    @AwardSyncable private String frequencyCode; 
-    @AwardSyncable private String frequencyBaseCode; 
-    @AwardSyncable private String ospDistributionCode;
-    @AwardSyncable private Date dueDate;
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String reportClassCode; 
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String reportCode; 
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String frequencyCode; 
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String frequencyBaseCode; 
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private String ospDistributionCode;
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) private Date dueDate;
 
     private Distribution distribution; 
-    private Frequency frequency; 
-    private FrequencyBase frequencyBase; 
-    private Report report; 
-    private ReportClass reportClass;
+    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Frequency frequency; 
+    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) FrequencyBase frequencyBase; 
+    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Report report; 
+    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) ReportClass reportClass;
 
-    @AwardSyncableList(parentPropertyName="awardReportTerm",syncClass=AwardReportTermRecipient.class) 
+    @AwardSyncableList(parentPropertyName="awardReportTerm",syncClass=AwardReportTermRecipient.class,syncSourceClass=AwardTemplateReportTermRecipient.class,scopes={AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT}) 
     private List<AwardReportTermRecipient> awardReportTermRecipients;
     
     /**
@@ -92,63 +91,6 @@ public class AwardReportTerm extends AwardAssociate  {
     public void setAwardReportTermId(Long awardReportTermId) {
         this.awardReportTermId = awardReportTermId;
     }
-
-    /**
-     * 
-     * @return
-     */
-    //public String getAwardNumber() {
-    //    return awardNumber;
-    //}
-
-    /**
-     * 
-     * @param awardNumber
-     */
-    //public void setAwardNumber(String awardNumber) {
-        // do nothing
-    //}
-
-    /**
-     * 
-     * @return
-     */
-    //public Integer getSequenceNumber() {
-     //   return sequenceNumber;
-    //}
-
-    /**
-     * 
-     * @param sequenceNumber
-     */
-    //public void setSequenceNumber(Integer sequenceNumber) {
-       // this.sequenceNumber = sequenceNumber;
-    //}
-
-    /**
-     *
-     * @return
-     */
-    //public Award getAward() {
-       // return award;
-    //}
-
-    /**
-     *
-     * @param award
-     */
-   // public void setAward(Award award) {
-       // this.award = award;
-       // if(award == null) {
-         //   sequenceNumber = null;
-          //  awardNumber = null;
-       // } else {
-          //  sequenceNumber = award.getSequenceNumber();
-           // awardNumber = award.getAwardNumber();
-       // }
-   // }    
-
-
     
     /**
      * 
@@ -193,8 +135,6 @@ public class AwardReportTerm extends AwardAssociate  {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-       // result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
-        //result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 

@@ -19,16 +19,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
+import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is for adding validation rules to maintain Award Template
@@ -38,7 +46,28 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3368480537790330757L;
+    
+    private static final String PERSON_OBJECT_REFERENCE = "person";
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardTemplateMaintainableImpl.class); 
 
+    
+    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
+        Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
+        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        
+        
+        if( StringUtils.equals( collectionName, "templateTerms") ) {
+            for (PersistableBusinessObject nextBo : rawValues) {
+                SponsorTerm aTerm = (SponsorTerm)nextBo;
+                aTerm.refreshNonUpdateableReferences();
+            }
+        }
+        super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
+        
+    }
+    
     /**
      * This method is for performing any new validations while adding new items to the list.
      */
@@ -117,4 +146,25 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         
         return !coll.isEmpty() && !validFrequencyBases.isEmpty();
     }
+    
+    /**
+     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+//        LOG.warn("refresh called.");
+//        // If a person has been selected, lead unit should default to the person's home unit.
+//        String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
+//        
+//        if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
+//            LOG.info( "*********" + referencesToRefresh );
+//            ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
+//            if (proposalLog.getkcPerson() != null) {
+//                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
+//            }
+//        }
+    }
+   
 }

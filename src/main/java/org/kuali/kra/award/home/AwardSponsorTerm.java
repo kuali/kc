@@ -18,6 +18,7 @@ package org.kuali.kra.award.home;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -33,9 +34,9 @@ public class AwardSponsorTerm extends AwardAssociate {
     private static final long serialVersionUID = -7613461089397009434L;
     
     private transient BusinessObjectService businessObjectService;
-   
     private Long awardSponsorTermId;
-    @AwardSyncable private Long sponsorTermId;
+    //@AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    private Long sponsorTermId;
     private SponsorTerm sponsorTerm;
     
     /**
@@ -126,17 +127,17 @@ public class AwardSponsorTerm extends AwardAssociate {
         return sponsorTerm.getDescription();
     }
     
-    /**
-     * This method returns the Kra business object service.
-     * @return
-     */
-    BusinessObjectService getKraBusinessObjectService() {
-        if(businessObjectService == null){
-            businessObjectService = 
-                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
-        }
-        return businessObjectService;
-    }
+//    /**
+//     * This method returns the Kra business object service.
+//     * @return
+//     */
+//    BusinessObjectService getKraBusinessObjectService() {
+//        if(businessObjectService == null){
+//            businessObjectService = 
+//                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+//        }
+//        return businessObjectService;
+//    }
 
     /**
      * Gets the sponsorTerm attribute. 

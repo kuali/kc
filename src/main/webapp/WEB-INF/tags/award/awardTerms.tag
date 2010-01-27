@@ -24,11 +24,10 @@
 		</c:forEach>
 		
 		<br/>
-		<c:if test="${!readOnly}">
-		  <html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
-		  src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
-		</c:if>
 		
+		<c:if test="${!readOnly}">
+		<kra-a:awardSyncButton propertyName = "" scopeNames="TERMS_TAB" tabKey="${tabKey}"/>
+		</c:if>
 	</div>
 </kul:tab>
 

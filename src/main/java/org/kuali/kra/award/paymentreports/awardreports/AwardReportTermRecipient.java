@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -38,9 +39,9 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     private Long awardReportTermId;
     private Long contactId;
     
-    @AwardSyncable private String contactTypeCode; 
-    @AwardSyncable private Integer rolodexId;
-    @AwardSyncable private Integer numberOfCopies; 
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private String contactTypeCode; 
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private Integer rolodexId;
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) private Integer numberOfCopies; 
     
     private ContactType contactType;
     private Rolodex rolodex; 

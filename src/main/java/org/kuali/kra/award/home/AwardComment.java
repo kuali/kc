@@ -19,24 +19,36 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class is business object representation of an Award Comment
  */
+
 public class AwardComment extends AwardAssociate {
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3611932717292205490L;
+    
     private Long awardCommentId;
 
-    @AwardSyncable private String commentTypeCode; 
-    @AwardSyncable private Boolean checklistPrintFlag; 
-    @AwardSyncable private String comments; 
+    /*
+     * These fields will sync when the containing class syncs.
+     */
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } )  
+    private String commentTypeCode; 
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } ) 
+    private Boolean checklistPrintFlag; 
+    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } ) 
+    private String comments; 
     
+   
     private CommentType commentType; 
     
     private String updateTimestampDateString;
@@ -198,4 +210,6 @@ public class AwardComment extends AwardAssociate {
         awardCommentId = null;
         versionNumber = null;
     }
+
+
 }

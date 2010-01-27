@@ -34,14 +34,23 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     private String description;
     private AwardStatus awardTemplateStatus; 
 
+    //sync to templateCode
     private Integer templateCode; 
+    //sync to primeSponsorCode
     private String primeSponsorCode; 
+    //
     private String nonCompetingContPrpslDueCode; 
+    //
     private String competingRenewalPrpslDueCode; 
+    //
     private String basisOfPaymentCode; 
+    //
     private String methodOfPaymentCode; 
+    //
     private String paymentInvoiceFreqCode; 
+    //
     private Integer invoiceNumberOfCopies; 
+    //
     private Integer finalInvoiceDue;
     
     private Sponsor primeSponsor;
