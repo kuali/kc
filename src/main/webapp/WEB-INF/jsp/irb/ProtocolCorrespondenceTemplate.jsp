@@ -54,7 +54,7 @@
             <kra:innerTab tabTitle="${correspondenceType.description}" 
                           parentTab="${parentTab}" 
                           defaultOpen="${isOpen}"
-                          tabErrorKey="newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*">
+                          tabErrorKey="newDefaultCorrespondenceTemplates[${status.index}].*,newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*">
                 <p style="text-align:left; font-weight:bold;">Default</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
@@ -66,37 +66,62 @@
                     <tr>
                         <td>
                             <div align="center">
-                                <c:set var="property" value="defaultCorrespondenceTemplates[${status.index}].templateFile" />
+                                <c:choose>
+                                    <c:when test="${empty correspondenceType.defaultProtocolCorrespondenceTemplate}">
+                                        <c:set var="property" value="newDefaultCorrespondenceTemplates[${status.index}].templateFile" />
                         
-                                <%-- attachment file error handling logic start--%>
-                                    <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-                                    <%-- highlighting does not work in firefox but does in ie... --%>
-                                    <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
-                                <%-- attachment file error handling logic end--%>
+                                        <%-- attachment file error handling logic start--%>
+                                            <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+                                            <%-- highlighting does not work in firefox but does in ie... --%>
+                                            <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+                                        <%-- attachment file error handling logic end--%>
                         
-                                <html:file property="${property}" style="${textStyle}" />
+                                        <html:file property="${property}" style="${textStyle}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${correspondenceType.defaultProtocolCorrespondenceTemplate.fileName}
+                                        <c:forEach items="${ErrorPropertyList}" var="key">
+                                            <c:set var="propertyName" value="correspondenceTypes[${status.index}].defaultProtocolCorrespondenceTemplate.templateFile" />
+                                            <c:if test="${key eq propertyName}">
+                                                <kul:fieldShowErrorIcon />
+                                            </c:if>
+                                        </c:forEach>            
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </td>
                         <td>
                             <div align="center">
-                                <html:image property="methodToCall.viewCorrespondenceTemplate" 
-                                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
-                                    title="View Correspondence Template" 
-                                    alt="View Correspondence Template" 
-                                    styleClass="tinybutton" />
-                                <html:image property="methodToCall.replaceCorrespondenceTemplate" 
-                                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
-                                    title="Replace Correspondence Template" 
-                                    alt="Replace Correspondence Template" 
-                                    styleClass="tinybutton" />
-                                <html:image property="methodToCall.deleteCorrespondenceTemplate" 
-                                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
-                                    title="Delete Correspondence Template" 
-                                    alt="Delete Correspondence Template" 
-                                    styleClass="tinybutton" />
-                             </div>
-                         </td>
-                     </tr>
+                                <c:choose>
+                                    <c:when test="${empty correspondenceType.defaultProtocolCorrespondenceTemplate}">
+                                        <html:image property="methodToCall.addDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
+                                            title="Add Default Correspondence Template" 
+                                            alt="Add Default Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <html:image property="methodToCall.viewDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
+                                            title="View Default Correspondence Template" 
+                                            alt="View Default Correspondence Template" 
+                                            styleClass="tinybutton"
+                                            onclick="excludeSubmitRestriction=true" />
+                                        <html:image property="methodToCall.replaceDefaultCorrespondenceTemplate" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
+                                            title="Replace Default Correspondence Template" 
+                                            alt="Replace Default Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                        <html:image property="methodToCall.deleteDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
+                                            title="Delete Default Correspondence Template" 
+                                            alt="Delete Default Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </td>
+                    </tr>
                     <%-- Default Template --%>
                      
                 </table>
@@ -151,7 +176,7 @@
                     <%-- New Template --%>
                     
                     <%-- Existing Templates --%>
-                    <c:forEach items="${correspondenceType.protocolCorrespondenceTemplates}" var="protocolCorrespondenceTemplate" varStatus="status2">
+                    <c:forEach items="${correspondenceType.committeeProtocolCorrespondenceTemplates}" var="protocolCorrespondenceTemplate" varStatus="status2">
                         <tr>
                             <td>
                                 <div align="center" style="font-weight:bold;">
