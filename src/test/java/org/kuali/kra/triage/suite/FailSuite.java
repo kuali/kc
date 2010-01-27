@@ -226,7 +226,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.SFLLLV1_1GeneratorTest.class,
 //    org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardPreawardAuthorizationsWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardPermissionsWebTest.class,
     org.kuali.kra.budget.rules.BudgetValidationCostShareRuleTest.class,
     org.kuali.kra.budget.web.BudgetPersonnelExpenseWebTest.class,
     org.kuali.kra.s2s.generator.impl.EDCertificationDebarmentV1_1GeneratorTest.class,
