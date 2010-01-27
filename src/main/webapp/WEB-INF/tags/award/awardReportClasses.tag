@@ -66,6 +66,7 @@
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.dueDate}" noColon="true" /></div></th>
           	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
         </tr>
+        <c:if test="${!readOnly}">
         <tr>        	
 		    <th width="6%" class="infoline">
 			    <c:out value="Add:" />
@@ -158,7 +159,8 @@
 			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 			</div>
             </td>
-        </tr>        
+        </tr>  
+        </c:if>      
         	                                            
         <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTermItems}" varStatus="status">
 	        <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
@@ -174,7 +176,7 @@
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].reportCode" tabindex="0" style="${textStyle}" 
-                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTermItems[${status.index}].reportCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyCode');return false" >                                             
+                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTermItems[${status.index}].reportCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyCode');return false" disabled="${readOnly}">                                             
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode == option.key}">
@@ -200,7 +202,7 @@
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if> 
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyCode" tabindex="0" style="${textStyle}" 
-                	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTermItems[${status.index}].frequencyCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode');return false" >                
+                	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTermItems[${status.index}].frequencyCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode');return false" disabled="${readOnly}">                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode == option.key}">
@@ -225,7 +227,7 @@
 				<c:if test="${hasErrors==true}" >
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                 
-                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" >                
+                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" disabled="${readOnly}">                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyBaseCode == option.key}">
@@ -254,8 +256,11 @@
 			</td>
 			<td valign="middle">
 			<div align="center">
+			 <c:if test="${!readOnly}">
 			    <html:image property="methodToCall.deleteAwardReportTerm.line${status.index}.anchor${currentTabIndex}"
 			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+			 </c:if>
+			 <c:if test="${readOnly}">&nbsp;</c:if>
 			</div>            
 			</td>
 	    </tr>

@@ -26,6 +26,7 @@
   	headerTabActive="contacts"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Contacts" /></div>

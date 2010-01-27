@@ -39,6 +39,7 @@
 				<th width="15%"><div align="center">Actions</div></th>
 			</tr>
 			
+			<c:if test="${!readOnly}">
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
@@ -72,6 +73,7 @@
 			        </div>
 	        	</td>
 			</tr>
+			</c:if>
 				
 			<c:forEach var="awardContact" items="${KualiForm.sponsorContactsBean.sponsorContacts}" varStatus="awardContactRowStatus">
 				<tr>
@@ -110,8 +112,11 @@
 	                
 					<td>
 						<div align="center">
+						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+						  </c:if>
+						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 	                </td>
 	            </tr>
@@ -120,8 +125,10 @@
     	<br/>
     	<div align="center">
     		<c:set var="syncPropertyName" value="sponsorContacts" />
+    		<c:if test="${!readOnly}">
 			<html:image	property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
 		    	        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+		    </c:if>
 		</div>
 	</div>
 </kul:tab>

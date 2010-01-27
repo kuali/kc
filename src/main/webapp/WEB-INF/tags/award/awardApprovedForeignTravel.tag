@@ -33,6 +33,7 @@
 			<th><div align="center">Actions</div></th>
 		</tr>
 		
+		<c:if test="${!readOnly}">
 		<tr>
         	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
         	<td class="infoline">
@@ -93,6 +94,7 @@
 				</div>
             </td>
       	</tr>
+      	</c:if>
 
         <c:forEach var="approvedForeignTravelTrip" items="${formAward.approvedForeignTravelTrips}" varStatus="status">
              <tr>
@@ -139,8 +141,11 @@
                 
 				<td width="15%" class="infoline">
 					<div align="center">
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteApprovedForeignTravelTrip.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
+					   <c:if test="${readOnly}">&nbsp;</c:if>
 					</div>
                 </td>
             </tr>
@@ -155,8 +160,11 @@
          	</th>
          	<th scope="row">
          		<div align="center">
+         		 <c:if test="${!readOnly}">
 					<html:image property="methodToCall.recalculateSpecialApprovalTotals.anchor${tabKey}" 
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton" />
+				    </c:if>
+				    <c:if test="${!readOnly}">&nbsp;</c:if>
 				</div>
 			</th>
 		</tr>

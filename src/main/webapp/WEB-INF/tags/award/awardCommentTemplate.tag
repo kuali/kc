@@ -20,7 +20,9 @@
 
 <kul:tab tabTitle="Comment Template" defaultOpen="false" tabErrorKey="document.award.awardTemplate*">
 	<div class="tab-container" align="center">
+	   <c:if test="${!readOnly}">
 	    <html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+	   </c:if>
 	</div>
 </kul:tab>
