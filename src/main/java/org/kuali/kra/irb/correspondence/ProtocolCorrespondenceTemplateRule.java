@@ -33,6 +33,27 @@ public class ProtocolCorrespondenceTemplateRule {
 
     /**
      * 
+     * This method verifies the default protocol correspondence template on add.
+     * @param correspondenceType
+     * @param newCorrespondenceTemplate
+     * @param index
+     * @return true if the validation is successful, false otherwise
+     * @throws IOException 
+     * @throws FileNotFoundException 
+     */
+    public boolean processAddDefaultProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
+            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
+        boolean valid = true;
+        
+        String filePropertyName = "newDefaultCorrespondenceTemplates[" + index + "].templateFile";
+        
+        valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
+
+        return valid;
+    }
+
+    /**
+     * 
      * This method verifies the protocol correspondence template on add.
      * @param correspondenceType
      * @param newCorrespondenceTemplate
@@ -49,7 +70,7 @@ public class ProtocolCorrespondenceTemplateRule {
         String filePropertyName = "newCorrespondenceTemplates[" + index + "].templateFile";
         
         valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
-        valid &= !duplicateCommittee(correspondenceType.getProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), 
+        valid &= !duplicateCommittee(correspondenceType.getCommitteeProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), 
                 committeePropertyName);
         valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
 
@@ -67,11 +88,11 @@ public class ProtocolCorrespondenceTemplateRule {
         boolean valid = true;
         for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
             int typeIndex = protocolCorrespondenceTypes.indexOf(protocolCorrespondenceType);
-            List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates = protocolCorrespondenceType.getProtocolCorrespondenceTemplates();
+            List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();
 
             valid &= !hasInvalidCommittee(protocolCorrespondenceTemplates, typeIndex);
             valid &= !hasDuplicateCommittee(protocolCorrespondenceTemplates, typeIndex);
-            valid &= validTemplates(protocolCorrespondenceTemplates, typeIndex);
+            valid &= validTemplates(protocolCorrespondenceType, typeIndex);
         }
         return valid; 
     }
@@ -158,7 +179,7 @@ public class ProtocolCorrespondenceTemplateRule {
     
     /**
      * 
-     * This method checks that a valid template file has been specified.
+     * This method checks that a valid template file has been specified on adds.
      * @param file
      * @param propertyName
      * @return true if the file is valid, false otherwise
@@ -198,19 +219,30 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if all files are valid of the templates, false otherwise
      * @throws IOException
      */
-    private boolean validTemplates(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates, int typeIndex) throws IOException {
+    private boolean validTemplates(ProtocolCorrespondenceType protocolCorrespondenceType, int typeIndex) throws IOException {
         boolean isValid = true;
-    
+        
+        ProtocolCorrespondenceTemplate defaultTemplate = protocolCorrespondenceType.getDefaultProtocolCorrespondenceTemplate();
+        if (defaultTemplate != null) {
+        	if ((defaultTemplate.getCorrespondenceTemplate().length == 0) 
+        			|| StringUtils.isBlank(defaultTemplate.getFileName())) { 
+                String filePropertyName = "newDefaultCorrespondenceTemplates[" + typeIndex + "].templateFile";
+                GlobalVariables.getMessageMap().putError(filePropertyName, KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
+                isValid = false;
+        	}
+        }
+      
+
+        List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();  
         for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
-            int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
-            String filePropertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
-                    + "].templateFile";
             if ((protocolCorrespondenceTemplate.getCorrespondenceTemplate() == null)
-            		|| (protocolCorrespondenceTemplate.getCorrespondenceTemplate().length == 0)
-            		|| StringUtils.isBlank(protocolCorrespondenceTemplate.getFileName())) {
-                GlobalVariables.getMessageMap().putError(filePropertyName, 
-                        KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
-              isValid = false;
+                    || (protocolCorrespondenceTemplate.getCorrespondenceTemplate().length == 0)
+                    || StringUtils.isBlank(protocolCorrespondenceTemplate.getFileName())) {
+                int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
+                String filePropertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
+                        + "].templateFile";
+                GlobalVariables.getMessageMap().putError(filePropertyName, KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
+                isValid = false;
             }
 
         }

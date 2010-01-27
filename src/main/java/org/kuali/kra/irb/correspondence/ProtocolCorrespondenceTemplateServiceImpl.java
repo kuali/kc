@@ -18,6 +18,7 @@ package org.kuali.kra.irb.correspondence;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -28,12 +29,14 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
 
     BusinessObjectService businessObjectService;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#addProtocolCorrespondenceTemplate()
-     */
+    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+        ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+        correspondenceTemplate.setCommitteeId(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
+        addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
+    }
+    
     public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-    		ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
 
         FormFile templateFile = correspondenceTemplate.getTemplateFile();
@@ -43,20 +46,16 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#deleteProtocolCorrespondenceTemplate(org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType, int)
-     */
-    public void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
-        correspondenceType.getProtocolCorrespondenceTemplates().remove(index);	
+    public void deleteDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType) {
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService#saveProtocolCorrespondenceTemplates(java.util.List)
-     */
+    public void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(index);
+    }
+    
     public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
-    		List<ProtocolCorrespondenceTemplate> deletedBos) {
+            List<ProtocolCorrespondenceTemplate> deletedBos) {
         if (!deletedBos.isEmpty()) {
             businessObjectService.delete(deletedBos);
         }

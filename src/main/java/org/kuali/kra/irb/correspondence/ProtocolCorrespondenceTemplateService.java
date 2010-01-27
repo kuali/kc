@@ -25,7 +25,17 @@ public interface ProtocolCorrespondenceTemplateService {
 
     /**
      * 
-     * This method adds a ProtocolCorrespondenceTemplate.
+     * This method adds a default ProtocolCorrespondenceTemplate.
+     * @param correspondenceType - the protocol correspondence type to which the template is to be added.
+     * @param correspondenceTemplate - the protocol correspondence template to be added.
+     * @throws Exception 
+     */
+    void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception;
+    
+    /**
+     * 
+     * This method adds a committee specific ProtocolCorrespondenceTemplate.
      * @param correspondenceType - the protocol correspondence type to which the template is to be added.
      * @param correspondenceTemplate - the protocol correspondence template to be added.
      * @throws Exception 
@@ -35,7 +45,15 @@ public interface ProtocolCorrespondenceTemplateService {
     
     /**
      * 
-     * This method deletes a ProtocolCorrespondenceTemplate.
+     * This method deletes a default ProtocolCorrespondenceTemplate.
+     * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
+     * @param index - index of the template to be deleted.
+     */
+    void deleteDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType);
+    
+    /**
+     * 
+     * This method deletes a committee specific ProtocolCorrespondenceTemplate.
      * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
      * @param index - index of the template to be deleted.
      */
@@ -45,8 +63,8 @@ public interface ProtocolCorrespondenceTemplateService {
      * 
      * This method saves the correspondence templates.
      * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved to the database..
-     * @param deletedBos - the lsit of protocolCorrespondenceTemplates that are to be deleted from the database.
+     * @param deletedBos - the list of protocolCorrespondenceTemplates that are to be deleted from the database.
      */
-     void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
+    void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
             List<ProtocolCorrespondenceTemplate> deletedBos);
 }
