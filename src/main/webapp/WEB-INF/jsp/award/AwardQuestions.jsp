@@ -25,7 +25,7 @@
   	headerTabActive="questions"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
-
+    <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 

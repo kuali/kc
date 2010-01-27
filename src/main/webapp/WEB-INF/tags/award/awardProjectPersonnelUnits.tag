@@ -52,6 +52,7 @@
 				
 			</th>
 		</tr>
+		<c:if test="${!readOnly}">
 		<tr>
 			<th class="infoline" scope="row">Add:</th>
 			<c:if test="${isPrincipalInvestigator}" >
@@ -116,6 +117,7 @@
                 </div>
 			</th>
 		</tr>
+		</c:if>
 		
 		<c:forEach var="awardPersonUnit" items="${awardContact.units}" varStatus="awardPersonUnitRowStatus">
 		<c:choose>                  
@@ -127,7 +129,7 @@
 				<c:if test="${isPrincipalInvestigator}">
 	                <td valign="middle">
 	                	<div align="center">
-	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}"/>               		
+	                		<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
 						</div>
 					</td>
 				</c:if>
@@ -149,8 +151,11 @@
 				</td>
 				<td class="infoline">
 					<div align="center">
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteProjectPersonUnit.${awardPersonIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
+					   <c:if test="${readOnly}">&nbsp;</c:if>
 					</div>
                 </td>
             </tr>
@@ -164,7 +169,7 @@
 						<c:if test="${isPrincipalInvestigator}">
 	                	<td valign="middle">
 	                		<div align="center">
-	                			<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}"/>               		
+	                			<html:radio property="selectedLeadUnit" value="${awardPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
 							</div>
 						</td>
 						</c:if>
@@ -186,8 +191,11 @@
 						</td>
 						<td class="infoline">
 							<div align="center">
+							 <c:if test="${!readOnly}">
 								<html:image property="methodToCall.deleteProjectPersonUnit.${awardPersonIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							 </c:if>
+							 <c:if test="${readOnly}">&nbsp;</c:if>
 							</div>
                 		</td>
             		</tr>

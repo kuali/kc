@@ -41,6 +41,7 @@
           	<%-- Header --%>
           	
              <%-- New data --%>
+             <c:if test="${!readOnly}">
              <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -87,6 +88,7 @@
 					</div>
                 </td>
             </tr>
+            </c:if>
             <%-- New data --%>
             
             <%-- Existing data --%>
@@ -133,8 +135,11 @@
 				  
 				  <td class="infoline">
 					<div align="center">
-						<html:image property="methodToCall.deletePaymentScheduleItem.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   <c:if test="${!readOnly}">
+						  <html:image property="methodToCall.deletePaymentScheduleItem.line${status.index}.anchor${currentTabIndex}"
+						  src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
+					   <c:if test="${readOnly}">&nbsp;</c:if>
 					</div>
                   </td>
 

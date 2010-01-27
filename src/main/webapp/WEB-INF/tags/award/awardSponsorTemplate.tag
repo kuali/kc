@@ -30,8 +30,10 @@
             		<div align="left">
             		<kul:htmlControlAttribute property="document.award.templateCode" attributeEntry="${awardAttributes.templateCode}" />
                     <c:out value="${KualiForm.document.award.awardTemplate.description}"/>
-                    <kul:lookup boClassName="org.kuali.kra.award.home.AwardTemplate" 
-                    fieldConversions="templateCode:document.award.templateCode,description:document.award.awardTemplate.description" anchor="${currentTabIndex}"/> 
+                    <c:if test="${!readOnly}">
+                        <kul:lookup boClassName="org.kuali.kra.award.home.AwardTemplate" 
+                        fieldConversions="templateCode:document.award.templateCode,description:document.award.awardTemplate.description" anchor="${currentTabIndex}"/>
+                    </c:if> 
 					<span class="fineprint">Note: Award data may have changed since Sponsor Template was applied </span>
 					</div>
             	</td>
@@ -39,8 +41,10 @@
             <tr>
             	<th colspan="2" align="center" scope="row">
             		<div align="center">
+            		  <c:if test="${!readOnly}">
 	         			<html:image property="methodToCall.syncAwardTemplate.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	         	</th>
 			</tr>

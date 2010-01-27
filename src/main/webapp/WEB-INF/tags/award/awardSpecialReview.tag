@@ -18,6 +18,8 @@
 <c:set var="awardSpecialReviewAttributes" value="${DataDictionary.AwardSpecialReview.attributes}" />
 <c:set var="awardSpecialReviewExemptionAttributes" value="${DataDictionary.AwardSpecialReviewExemption.attributes}" />
 <c:set var="action" value="awardSpecialReview" />
+<c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
+
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.award.specialReview*,newSpecialReview*,documentExemptNumber*,awardSpecialReview*,document.awardList[0].specialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.award.specialReview*" useRiceAuditMode="false">
 	<div class="tab-container" align="center">
@@ -42,6 +44,7 @@
           	</tr>     
           	
           	<%-- <kra:section permission="modifyAward"> --%>   
+          	<c:if test="${!readOnly}">
              <tr>
                 <c:set var="textAreaFieldName" value="newSpecialReview.comments" />
 				<th class="infoline">
@@ -82,7 +85,6 @@
                </div>
                 </td>
                 
-                 <c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
 	               		 <html:select property="newExemptionTypeCodes" multiple="true" size="4">
@@ -104,6 +106,7 @@
 					</div>
                 </td>
             </tr>
+            </c:if>
             <%--</kra:section>--%>
             
         	<c:forEach var="specialReview" items="${KualiForm.document.award.specialReviews}" varStatus="status">
@@ -136,6 +139,8 @@
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
+	               		  <c:choose>
+                              <c:when test="${!readOnly}">
 	               		 	<c:set var="selected" value="" />
 	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.award.specialReviews[status.index].exemptionTypeCodes}"/>
 	               		 	<c:forEach var="key" items="${sltdExemptionTypeCodes}">
@@ -148,6 +153,17 @@
 									</c:if>
 								</c:forEach>
 							 </html:select>
+							 </c:when>
+                             <c:otherwise>
+                                <c:forEach var="exemptionCode" items="${KualiForm.document.award.specialReviews[status.index].exemptionTypeCodes}">
+                                     <c:forEach var="keyLabel" items="${exemptionTypes}">
+                                         <c:if test="${keyLabel.exemptionTypeCode == exemptionCode}">
+                                             <c:out value="${keyLabel.description}" /><br/>
+                                         </c:if>
+                                     </c:forEach>
+                                 </c:forEach>
+                             </c:otherwise>
+                            </c:choose>
 						 </div>	  			
 	                </td>
 	                <td align="left" valign="middle">
@@ -160,8 +176,10 @@
 					<td>
 					<div align=center>&nbsp;
 					<%--<kra:section permission="modifyAward">--%>  
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
 					<%--</kra:section>--%>  
 					</div>
 	                </td>

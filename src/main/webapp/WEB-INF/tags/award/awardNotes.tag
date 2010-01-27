@@ -39,6 +39,7 @@
 				<th><div align="center">Actions</div></th>
 			</tr>
 			
+			<c:if test="${!readOnly}">
 			<tr>
             	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
             	<td width="80" class="infoline">
@@ -71,6 +72,8 @@
 					</div>
 	            </td>
           	</tr>
+          	</c:if>
+          	
          <c:forEach var="awardNotepad" items="${KualiForm.document.award.awardNotepads}" varStatus="status">
 	             <tr>
 					<th class="infoline">
@@ -99,8 +102,10 @@
 	                </td>
 					<td>
 					<div align="center">&nbsp;
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	                </td>
 	            </tr>

@@ -27,6 +27,7 @@
 		<h3><span class="subhead-left">Add Funding Proposals</span></h3>
 	
 		<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
+		  <c:if test="${!readOnly}">
 			<tr>
 		    	<th width="25%" align="center" scope="row">
 		    		<div align="right">Add:</div>
@@ -51,6 +52,7 @@
 					</div>
 		        </td>
 		  	</tr>
+		  </c:if>
 	  	</table>
 	  	
 		<h3><span class="subhead-left">Current Funding Proposals</span></h3>
@@ -141,11 +143,11 @@
 				        <td class="infoline">
 				        	<div align="center">
 				        		<c:set var="deleteEnabled" value ="${isLastAward && KualiForm.document.editable}" />
-				        		<c:if test="${ deleteEnabled }">
+				        		<c:if test="${ deleteEnabled && !readOnly}">
 									<html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</c:if>
-								<c:if test="${ !deleteEnabled }">
+								<c:if test="${ !deleteEnabled || readOnly}">
 									&nbsp;
 								</c:if>
 							</div>

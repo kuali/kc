@@ -25,6 +25,7 @@
   	headerTabActive="paymentReportsAndTerms"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
  	
+ 	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Payment%2C%20Reports%20%26%20Terms" /></div>
 
