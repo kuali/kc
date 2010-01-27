@@ -21,7 +21,7 @@
 <c:set var="action" value="awardPaymentReportsAndTerms" />
 
 <kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
-	<div class="tab-container" align="right">
+	<div class="tab-container" align="center">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
 		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" reportCodeLabel="Payment Type"
 			reportClassLabel="Payment & Invoice Requirements" defaultOpenForTab="true" noShowHideButton="true" />
@@ -36,6 +36,16 @@
            		</td>            
        		</tr>
        	</table>
+       	
+       	
+       
+		<div align="center">
+		</br>
+		<kra-a:awardSyncButton propertyName = "" scopeNames="PAYMENTS_AND_INVOICES_TAB" tabKey="${tabKey}"/>
+		</div>	
+       	
+       	<br/>
+       	
        	<kra-a:awardPaymentSchedule />
 	</div>
 </kul:tabTop>

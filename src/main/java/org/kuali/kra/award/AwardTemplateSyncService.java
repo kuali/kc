@@ -21,13 +21,16 @@ import org.kuali.kra.award.document.AwardDocument;
  * This class is used for sync AwardSponsorTemplate details to different Award Details Objects.
  */
 public interface AwardTemplateSyncService {
+    
+    public static final String SYNC_PROPERTY = ".syncPropertyName";
+    
     /**
      * 
      * This method is to sync entire AwardTemplate details to Award object. 
      * @param award
      * @return true if successful
      */
-    public boolean syncToAward(AwardDocument awardDocument);
+    public boolean syncToAward(AwardDocument awardDocument );
     /**
      * 
      * This method is to sync a particular syncable list from award template
@@ -35,5 +38,27 @@ public interface AwardTemplateSyncService {
      * @param syncPropertyName is the name of member variable to represent syncable list
      * @return true if successful
      */
-    public boolean syncToAward(AwardDocument awardDocument,String syncPropertyName);
+    public boolean syncToAward(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes);
+    
+    /**
+     * 
+     * This method is to sync a particular syncable list from award template
+     * @param award
+     * @param syncPropertyName is the name of member variable to represent syncable list
+     * @return true if successful
+     */
+    public boolean syncToAward(AwardDocument awardDocument,String syncPropertyName, AwardTemplateSyncScope[] scopes);
+    
+    
+    /**
+     * Method checks if a scope sync will clobber existing data within the award.
+     * 
+     * @param awardDocument The award document to check.
+     * @param scope The scope to check.
+     * @return true if existing data will be lost, false otherwise.
+     * 
+     */
+    public boolean syncWillClobberData( AwardDocument awardDocument, AwardTemplateSyncScope scope );
+ 
+    
 }

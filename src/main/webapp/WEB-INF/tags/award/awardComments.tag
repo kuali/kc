@@ -24,5 +24,10 @@
          <c:forEach var="commentType" items="${KualiForm.awardCommentBean.awardCommentScreenDisplayTypes}" varStatus="commentTypeIndex">        	        	
 			<kra-a:awardCommentsTypes index="${commentTypeIndex.index}" commentTypeDescription="${commentType.description}" commentTypeCode="${commentType.commentTypeCode}" awardId="${KualiForm.document.award.awardId}"/>
 		</c:forEach>
+		
+		<br/>
+		
+		<kra-a:awardSyncButton propertyName = "" scopeNames="COMMENTS_TAB" tabKey="${tabKey}"/>		
+		
  	</div>
 </kul:tabTop>
