@@ -17,6 +17,7 @@
 
 <c:set var="awardHierarchyAttributes" value="${DataDictionary.AwardHierarchy.attributes}" />
 <c:set var="action" value="awardHierarchy" />
+<input type="hidden" property="viewOnly" value="${readOnly}" />
 
 <kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
@@ -47,10 +48,12 @@
        
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
+    	<c:if test="${!readOnly}">
     	<tr>
     	<th align="right" colspan="4" >Enter the Award Number That Should Be Used For Copy</th>
     	<td><input type="text" name="awardNumberInputTemp" value="${KualiForm.awardNumberInputTemp}"></td>
     	</tr>
+    	</c:if>
     	</br>
     		<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
@@ -81,6 +84,7 @@
 			</div>
 		  </td>
 		  <td class="infoline">
+		    <c:if test="${!readOnly}">
 			<div align="center">
 				<html:image property="methodToCall.createANewChildAward.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award" />
@@ -117,6 +121,7 @@
 				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy with all its descendants" />	
 			</div>
+			</c:if>
           </td>
            </tr>
       	</c:forEach>    

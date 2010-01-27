@@ -28,6 +28,8 @@
 			<th width="19%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermRecipientAttributes.numberOfCopies}" noColon="true" /></div></th>
 	       	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col" />
 	    </tr>
+	    
+	    <c:if test="${!readOnly}">
 	    <tr>
 		    <th width="5%" class="infoline">
 			    <c:out value="Add:" />
@@ -60,7 +62,8 @@
 	        </div>
 	        </td>
 	    </tr>               
-						            
+	    </c:if>
+	    		            
 	    <c:forEach var="awardReportTermRecipient" items="${KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients}" varStatus="status">					            
 	    <tr>
 	        <th width="5%" class="infoline" >
@@ -84,9 +87,12 @@
 	        </div>
 	        </td>
 	        <td valign="middle" >
-	        <div align="center">        	 
+	        <div align="center">        
+	           <c:if test="${!readOnly}">	 
 	       	    <html:image property="methodToCall.deleteRecipient.line${status.index}.awardReportTerm${index}.anchor${currentTabIndex}"
 	                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+	           </c:if>
+	           <c:if test="${readOnly}">&nbsp;</c:if>
 	        </div>
 	        </td>
 	    </tr>

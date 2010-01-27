@@ -55,6 +55,7 @@
           	<%-- Header --%>
           	
              <%-- New data --%>
+             <c:if test="${!readOnly}">
              <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -81,6 +82,7 @@
 					</div>
                 </td>
             </tr>
+            </c:if>
             <%-- New data --%>
             
             <%-- Existing data --%>
@@ -120,7 +122,7 @@
 				  </td>                  
 				  <td class="infoline">
 					<div align="center">
-						<c:if test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
+						<c:if test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode && !readOnly}" >
 							<html:image property="methodToCall.deleteAwardCloseout.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						</c:if>

@@ -40,6 +40,7 @@
 				<th width="15%"><div align="center">Actions</div></th>
 			</tr>
 			
+			<c:if test="${!readOnly}">
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
@@ -74,6 +75,7 @@
 	        		</div>
 	        	</td>
 			</tr>
+			</c:if>
 				
 			<c:forEach var="awardContact" items="${KualiForm.unitContactsBean.unitContacts}" varStatus="awardContactRowStatus">
 				<tr>
@@ -120,8 +122,11 @@
 							<c:set var="deleteButton" value="tinybutton-delete2.gif" />
 						</c:if>
 						<div align="center">
+						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteUnitContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}${deleteButton}' styleClass="tinybutton" disabled="${isLeadUnit}"/>
+						  </c:if>
+						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 	                </td>
 	            </tr>
@@ -129,8 +134,11 @@
     		<tr>
             	<th colspan="7" align="center" scope="row">
             		<div align="center">
+            		  <c:if test="${!readOnly}">
 	         			<html:image property="methodToCall.syncDefaultUnitContactsToLeadUnit.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncall.gif' styleClass="tinybutton"/>
+					   </c:if>
+					   <c:if test="${readOnly}">&nbsp;</c:if>
 					</div>
 	         	</th>
 			</tr>	    	

@@ -25,6 +25,8 @@
   	headerTabActive="commitments"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
+  	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+  	
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Commitments" /></div>
 
 <kra-a:awardCostShare />

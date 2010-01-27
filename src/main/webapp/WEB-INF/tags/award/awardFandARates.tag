@@ -49,6 +49,8 @@
 	          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.destinationAccount}" noColon="true" /></div></th>          		
 	          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
 	          	</tr>
+	          	
+	          	<c:if test="${!readOnly}">
 	             <tr>
 					<th width="5%" class="infoline">
 						<c:out value="Add:" />
@@ -106,6 +108,7 @@
 						</div>					
 	                </td>
 	            </tr>
+	            </c:if>
 	            <c:set var="total" value="0" />
 	        	<c:forEach var="awardFandaRate" items="${KualiForm.document.awardList[0].awardFandaRate}" varStatus="status">
 		             <tr>
@@ -159,8 +162,11 @@
 						</td>
 						<td width="10%" valign="middle">
 						<div align="center">
+						  <c:if test="${!readOnly}">
 	                		<html:image property="methodToCall.deleteFandaRate.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						  </c:if>
+						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 						</td>
 						<c:set var="total" value="${total + KualiForm.document.awardList[0].awardFandaRate[status.index].underrecoveryOfIndirectCost}" />
@@ -189,9 +195,12 @@
 						</td>
 						<td valign="middle" class="infoline">
 						<div align="center">
+						<c:if test="${!readOnly}">
 	             		<html:image property="methodToCall.recalculateFandARate" 
 	             					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' 
 	             					styleClass="tinybutton"/>
+	             		</c:if>
+	             		<c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 						</td>
 	        		</tr>        		

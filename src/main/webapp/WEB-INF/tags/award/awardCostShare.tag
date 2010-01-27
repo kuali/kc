@@ -40,6 +40,7 @@
 				<th><div align="center">Actions</div></th>
 			</tr>
 			
+			<c:if test="${!readOnly}">
 			<tr>
             	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline">
@@ -89,6 +90,7 @@
 					</div>
 	            </td>
           	</tr>
+          	</c:if>
           	
          <c:forEach var="awardCostShares" items="${KualiForm.document.awardList[0].awardCostShares}" varStatus="status">
 	             <tr>
@@ -137,8 +139,10 @@
 	                </td>
 					<td width="10%">
 					<div align="center">&nbsp;
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteCostShare.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	                </td>
 	            </tr>
@@ -161,10 +165,12 @@
           	
         </table>
    </div>
+   <c:if test="${!readOnly}">
    <div class="tab-container" align="center">
 		<html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>           
+   </c:if>
    <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Comments</span>

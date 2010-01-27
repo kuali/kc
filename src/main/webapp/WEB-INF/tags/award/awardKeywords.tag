@@ -30,6 +30,7 @@
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
+             <c:if test="${!readOnly}">
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">(select)
@@ -42,6 +43,7 @@
               &nbsp;
               </div></td>
             </tr>
+            </c:if>
 			<c:forEach var="awardKeywords" items="${KualiForm.document.award.keywords}" varStatus="status">		
               <tr>
                 <td class="infoline"><div align="center">
@@ -49,9 +51,11 @@
                 </div></td>
                 <td>
                 	 ${KualiForm.document.award.keywords[status.index].scienceKeyword.description}
+                	 <c:if test="${!readOnly}">
 					<kul:lookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
 						fieldConversions="scienceKeywordCode:document.award.keyword[${status.index}].scienceKeywordCode,description:document.award.keyword[${status.index}].scienceKeyword.description"
 						lookupParameters="" hideReturnLink="false" />
+					</c:if>
                 </td>
                 <td><div align="center">
                   <kul:htmlControlAttribute property="document.award.keyword[${status.index}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
@@ -64,8 +68,10 @@
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
                 <%--<c:if test="${fn:length(KualiForm.document.award.keywords) > 0}">--%>
+                <c:if test="${!readOnly}">
 	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllAwardKeywords(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
+	            </c:if>
 	            <%--</c:if>--%>
                 </div></td>
               </tr>
