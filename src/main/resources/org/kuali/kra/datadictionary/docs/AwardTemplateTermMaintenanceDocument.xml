@@ -75,20 +75,17 @@
 					<property name="summaryTitle" value="Sponsor Template Terms"/>
 					<property name="summaryFields">
 					<list>
-					    <bean parent="MaintainableFieldDefinition" p:name="sponsorTerm.sponsorTermType.description"/>
 			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
                    </list>
 					</property>
 					<property name="attributeToHighlightOnDuplicateKey" value="sponsorTermId"/>
 					<property name="duplicateIdentificationFields">
 						<list>
-							
 							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
-					    	<bean parent="MaintainableFieldDefinition" p:name="sponsorTerm.sponsorTermType.description" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:template = "sponsorTermId" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>

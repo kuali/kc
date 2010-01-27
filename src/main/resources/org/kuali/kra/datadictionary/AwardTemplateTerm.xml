@@ -33,11 +33,11 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="AwardTemplateTerm-awardTemplateTermId" />
-				<!--<ref bean="AwardTemplateTerm-awardTemplateCode" />-->
-				<ref bean="AwardTemplateTerm-sponsorTermTypeCode" />
+				<ref bean="AwardTemplateTerm-awardTemplateCode" />
+				<!--   <ref bean="AwardTemplateTerm-sponsorTermTypeCode" /> -->
 				<ref bean="AwardTemplateTerm-sponsorTermId" />
 				<ref bean="AwardTemplateTerm-versionNumber" />
-				<ref bean="AwardTemplateTerm-SponsorTerm"/>
+				<!--  <ref bean="AwardTemplateTerm-SponsorTerm"/> -->
 			</list>
 		</property>
 	</bean>
@@ -62,9 +62,9 @@
 		<property name="description" value="Award Template Terms Id" />
 	</bean>
 
-	<!--<bean id="AwardTemplateTerm-awardTemplateCode" parent="AwardTemplateTerm-awardTemplateCode-parentBean" />
+	<bean id="AwardTemplateTerm-awardTemplateCode" parent="AwardTemplateTerm-awardTemplateCode-parentBean" />
 	<bean id="AwardTemplateTerm-awardTemplateCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardTemplateCode" />
+		<property name="name" value="templateCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Template Code" />
 		<property name="shortLabel" value="Award Template Code" />
@@ -78,29 +78,35 @@
 		</property>
 		<property name="summary" value="Award Template Code" />
 		<property name="description" value="Award Template Code" />
-	</bean>-->
+	</bean>
 	
-	<bean id="AwardTemplateTerm-SponsorTerm" parent="AwardTemplateTerm-SponsorTerm-parentBean" />
-  	<bean id="AwardTemplateTerm-SponsorTerm-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="sponsorTerm.sponsorTermType.description" />
+	<bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
+  	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="sponsorTermId" />
     	<property name="forceUppercase" value="false" />
-    	<property name="label" value="Sponsor Term Type" />
-    	<property name="shortLabel" value="Sponsor Term Type" />
+    	<property name="label" value="Sponsor Term" />
+    	<property name="shortLabel" value="Sponsor Term" />
     	
-    	<!--  <property name="validationPattern" >
+    	<property name="validationPattern" >
       		<bean parent="AlphaNumericValidationPattern" />
-    	</property> -->
-    	<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="40" />
-		</property>
-		<property name="summary" value="Sponsor Term Type" />
-    	<property name="description" value="Sponsor Term Type" />
+    	</property>
+      <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="sponsorTermCode"
+	            p:labelAttribute="description" />
+	    </property>
+		
+		<property name="summary" value="Sponsor Term" />
+    	<property name="description" value="Sponsor Term" />
   </bean>
 	
 	
 	
-	<bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
+	<!--   <bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sponsorTermTypeCode" />
 		<property name="forceUppercase" value="false" />
@@ -122,8 +128,9 @@
 		<property name="summary" value="Sponsor Terms Type Code" />
 		<property name="description" value="Sponsor Terms Type Code" />
 	</bean>
-
-	<bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
+	-->
+	
+	<!--  <bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sponsorTermId" />
 		<property name="forceUppercase" value="false" />
@@ -145,7 +152,7 @@
 		<property name="summary" value="Award Sponsor Terms Id" />
 		<property name="description" value="Award Sponsor Terms Id" />
 	</bean>
-
+	-->
 	<bean id="AwardTemplateTerm-versionNumber" parent="AwardTemplateTerm-versionNumber-parentBean" />
 	<bean id="AwardTemplateTerm-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -164,10 +171,8 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="awardTemplateTermId" 
 								p:forceInquiry="true" />
-							<!--<bean parent="FieldDefinition"
-								p:attributeName="awardTemplateCode" />-->
 							<bean parent="FieldDefinition"
-								p:attributeName="sponsorTermTypeCode" />
+								p:attributeName="templateCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sponsorTermId" />
 						</list>
@@ -192,10 +197,8 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="awardTemplateTermId" 
 					p:forceInquiry="true" />
-				<!--<bean parent="FieldDefinition"
-					p:attributeName="awardTemplateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="sponsorTermTypeCode" />
+					p:attributeName="templateCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sponsorTermId" />
 			</list>
@@ -205,10 +208,8 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="awardTemplateTermId" 
 					p:forceInquiry="true" />
-				<!--<bean parent="FieldDefinition"
-					p:attributeName="awardTemplateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="sponsorTermTypeCode" />
+					p:attributeName="templateCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sponsorTermId" />
 			</list>

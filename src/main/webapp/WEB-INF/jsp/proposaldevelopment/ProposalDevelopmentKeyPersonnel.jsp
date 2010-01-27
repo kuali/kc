@@ -125,7 +125,7 @@
 	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="true"
-		suppressCancelButton="true"
+		suppressCancel Button="true"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"

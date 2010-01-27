@@ -28,10 +28,8 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
      */
     private static final long serialVersionUID = 737831469929642714L;
     private Integer awardTemplateTermId; 
-	private String sponsorTermTypeCode;
+	private String templateCode;
 	private AwardTemplate awardTemplate; 
-    private SponsorTermType sponsorTermType; 
-    
     @AwardSyncable private Long sponsorTermId; 
     private SponsorTerm sponsorTerm;
 
@@ -67,37 +65,37 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
 	}
 
 
-    /**
-     * Gets the sponsorTermsTypeCode attribute. 
-     * @return Returns the sponsorTermsTypeCode.
-     */
-    public String getSponsorTermTypeCode() {
-        return sponsorTermTypeCode;
-    }
+//    /**
+//     * Gets the sponsorTermsTypeCode attribute. 
+//     * @return Returns the sponsorTermsTypeCode.
+//     */
+//    public String getSponsorTermTypeCode() {
+//        return sponsorTerm.getSponsorTermType().getSponsorTermTypeCode();
+//    }
 
-    /**
-     * Sets the sponsorTermsTypeCode attribute value.
-     * @param sponsorTermsTypeCode The sponsorTermsTypeCode to set.
-     */
-    public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
-        this.sponsorTermTypeCode = sponsorTermTypeCode;
-    }
+//    /**
+//     * Sets the sponsorTermsTypeCode attribute value.
+//     * @param sponsorTermsTypeCode The sponsorTermsTypeCode to set.
+//     */
+//    public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
+//        this.sponsorTermTypeCode = sponsorTermTypeCode;
+//    }
 
-    /**
-     * Gets the sponsorTermsType attribute. 
-     * @return Returns the sponsorTermsType.
-     */
-    public SponsorTermType getSponsorTermType() {
-        return sponsorTermType;
-    }
-
-    /**
-     * Sets the sponsorTermsType attribute value.
-     * @param sponsorTermsType The sponsorTermsType to set.
-     */
-    public void setSponsorTermType(SponsorTermType sponsorTermType) {
-        this.sponsorTermType = sponsorTermType;
-    }
+//    /**
+//     * Gets the sponsorTermsType attribute. 
+//     * @return Returns the sponsorTermsType.
+//     */
+//    public SponsorTermType getSponsorTermType() {
+//        return sponsorTermType;
+//    }
+//
+//    /**
+//     * Sets the sponsorTermsType attribute value.
+//     * @param sponsorTermsType The sponsorTermsType to set.
+//     */
+//    public void setSponsorTermType(SponsorTermType sponsorTermType) {
+//        this.sponsorTermType = sponsorTermType;
+//    }
 
     /**
      * Gets the sponsorTermId attribute. 
@@ -129,6 +127,14 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
      */
     public void setSponsorTerm(SponsorTerm sponsorTerm) {
         this.sponsorTerm = sponsorTerm;
+    }
+
+    public String getTemplateCode() {
+        return templateCode;
+    }
+
+    public void setTemplateCode(String templateCode) {
+        this.templateCode = templateCode;
     }
 	
 }

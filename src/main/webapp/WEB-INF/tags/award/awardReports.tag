@@ -32,16 +32,11 @@
 		</br>
 		</br>
 		<kra-a:awardReportsMiscellaneousProcurementPurchasing />
-				
-	    <c:set var="syncPropertyName" value="awardReportTermItems" />
 		<div align="center">
 		
 		</br>
 		
-		<c:if test="${!readOnly}">
-		  <html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}" 
-			src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton" />
-	    </c:if>
+		<kra-a:awardSyncButton propertyName = "" scopeNames="REPORTS_TAB" tabKey="${tabKey}"/>
 		</div>	
     </div>    
     

@@ -21,14 +21,12 @@ import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class Creates comment type based on the create comment method called.
  */
 public class AwardCommentFactory {
-    
-    private static final boolean INCLUDE_IN_CHECKLIST = true;
-    private static final boolean EXCLUDE_FROM_CHECKLIST = false;
     
     /**
      * This method creates a Cost Share Comment
@@ -36,7 +34,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createCostShareComment() {
-        return createAwardComment(Constants.COST_SHARE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.COST_SHARE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -45,7 +43,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createFandaRateComment() {
-        return createAwardComment(Constants.FANDA_RATE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.FANDA_RATE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -54,7 +52,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPaymentAndInvoiceComment() {
-        return createAwardComment(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -63,7 +61,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createBenefitsRateComment() {
-        return createAwardComment(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -72,7 +70,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPreAwardSponsorAuthorizationComment() {
-        return createAwardComment(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -81,7 +79,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPreAwardInstitutionalAuthorizationComment() {
-        return createAwardComment(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -90,7 +88,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createGeneralComment() {
-        return createAwardComment(Constants.GENERAL_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.GENERAL_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -99,7 +97,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createFiscalReportComment() {
-        return createAwardComment(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -108,7 +106,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createIntellecutalPropertyComment() {
-        return createAwardComment(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -117,7 +115,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createProcurementComment() {
-        return createAwardComment(Constants.PROCUREMENT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.PROCUREMENT_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -126,7 +124,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPropertyComment() {
-        return createAwardComment(Constants.PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+        return createAwardComment(Constants.PROPERTY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -135,7 +133,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createSpecialRateComment() {
-        return createAwardComment(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -144,7 +142,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createCurrentActionComment() {
-        return createAwardComment(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -153,7 +151,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createSpecialReviewComment() {
-        return createAwardComment(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -162,7 +160,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createProposalSummaryComment() {
-        return createAwardComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -171,7 +169,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createProposalComment() {
-        return createAwardComment(Constants.PROPOSAL_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.PROPOSAL_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -180,7 +178,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createProposalIPReviewComment() {
-        return createAwardComment(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+        return createAwardComment(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     
