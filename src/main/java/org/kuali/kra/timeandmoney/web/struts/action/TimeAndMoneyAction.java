@@ -84,6 +84,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
         
         updateDocumentFromSession(timeAndMoneyDocument);
+        updateAwardAmountTransactions(timeAndMoneyDocument);
         
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
             Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());            
@@ -110,8 +111,25 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
         getBusinessObjectService().save(timeAndMoneyDocument.getAward());
         getBusinessObjectService().save(awardAmountInfoObjects);
+        getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
         
         return forward;
+    }
+    
+    private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
+        AwardAmountTransaction aat = timeAndMoneyDocument.getNewAwardAmountTransaction();
+        if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0) {
+            aat.setAwardNumber(timeAndMoneyDocument.getAwardNumber());
+            aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+            timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
+        }else {
+            AwardAmountTransaction firstAatInList = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
+            for(AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
+                awardAmountTransaction.setTransactionTypeCode(firstAatInList.getTransactionTypeCode());
+                awardAmountTransaction.setNoticeDate(firstAatInList.getNoticeDate());
+                awardAmountTransaction.setComments(firstAatInList.getComments());
+            }
+        }
     }
 
     /*
