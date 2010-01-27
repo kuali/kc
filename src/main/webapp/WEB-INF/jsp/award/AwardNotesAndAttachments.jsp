@@ -28,7 +28,6 @@
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
   	
 <kra-a:awardComments/>
-<kra-a:awardCommentTemplate/>
 <kra-a:awardNotes/>
 <kra-a:awardAttachments/>
 <kul:panelFooter />

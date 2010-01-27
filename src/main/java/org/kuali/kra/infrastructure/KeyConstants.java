@@ -370,8 +370,10 @@ public final class KeyConstants {
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
-  //Award Cost Share Confirmation Questions
+    //Award Cost Share Confirmation Questions
     public static final String QUESTION_SYNC_UNIT_CONTACTS = "document.question.syncUnitContacts.text";
+    
+    public static final String QUESTION_SYNC_PANEL = "document.question.syncPanel.text";
     
     //Award Attachment Confirmation Question
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";

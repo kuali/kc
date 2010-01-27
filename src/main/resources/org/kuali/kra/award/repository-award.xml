@@ -1092,6 +1092,22 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.home.ValidAwardBasisPayment" table="VALID_AWARD_BASIS_PAYMENT">
+		<field-descriptor name="validAwardBasisPaymentId" column="VALID_AWARD_BASIS_PAYMENT_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="basisOfPayment" class-ref="org.kuali.kra.award.home.AwardBasisOfPayment" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="basisOfPaymentCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="awardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>	
 
 	<class-descriptor class="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" table="AWARD_AMT_FNA_DISTRIBUTION">
 		<field-descriptor name="awardDirectFandADistributionId" column="AWARD_AMT_FNA_DISTRIBUTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_AMT_FNA_DSTRBTN_ID" />

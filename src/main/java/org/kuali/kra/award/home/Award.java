@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -136,15 +137,24 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Date noticeDate;
     private String currentActionComments;
     
-    @AwardSyncable private Integer templateCode; 
-    @AwardSyncable private String primeSponsorCode; 
-    @AwardSyncable private String nonCompetingContPrpslDueCode; 
-    @AwardSyncable private String competingRenewalPrpslDueCode; 
-    @AwardSyncable private String basisOfPaymentCode; 
-    @AwardSyncable private String methodOfPaymentCode; 
-    @AwardSyncable private String paymentInvoiceFreqCode; 
-    @AwardSyncable private Integer invoiceNumberOfCopies; 
-    @AwardSyncable private Integer finalInvoiceDue;
+    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} )
+    private Integer templateCode; 
+    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
+    private String primeSponsorCode; 
+    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
+    private String nonCompetingContPrpslDueCode; 
+    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
+    private String competingRenewalPrpslDueCode; 
+    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
+    private String basisOfPaymentCode; 
+    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
+    private String methodOfPaymentCode; 
+    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
+    private String paymentInvoiceFreqCode; 
+    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB})
+    private Integer invoiceNumberOfCopies; 
+    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB})
+    private Integer finalInvoiceDue;
     
     private AwardTemplate awardTemplate;
     private Frequency nonCompetingContPrpslDue;
@@ -159,13 +169,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
-    @AwardSyncableList(syncClass = AwardComment.class,syncMethodName="syncAwardComments")
-    public List<AwardComment> awardComments;
-    @AwardSyncableList(syncClass = AwardReportTerm.class)
+    @AwardSyncableList(syncClass = AwardComment.class, syncSourceClass = AwardTemplateComment.class, scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.COMMENTS_TAB})
+    private List<AwardComment> awardComments;
+    @AwardSyncableList(syncClass = AwardReportTerm.class, syncSourceClass = AwardTemplateReportTerm.class, scopes = {AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.REPORTS_TAB})
     private List<AwardReportTerm> awardReportTermItems;
-    @AwardSyncableList(syncClass = AwardSponsorTerm.class,syncMethodName="syncAwardSponsorTerms")
+    @AwardSyncableList(syncClass = AwardSponsorTerm.class, syncSourceClass = AwardTemplateTerm.class, scopes = {AwardTemplateSyncScope.TERMS_TAB} )
     private List<AwardSponsorTerm> awardSponsorTerms;
-    @AwardSyncableList(syncClass = AwardSponsorContact.class)
+    @AwardSyncableList(syncClass = AwardSponsorContact.class, syncSourceClass = AwardTemplateContact.class, scopes = {AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB})
     private List<AwardSponsorContact> sponsorContacts;
 
     private List<AwardCustomData> awardCustomDataList;
@@ -1265,14 +1275,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Cost Share Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardCostShareComment(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.COST_SHARE_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createCostShareComment();  //if null initialize in factory class
-            add(awardComment);  //add the new CostShareComment to the awardComments list.
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.COST_SHARE_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1280,14 +1283,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award PreAward Sponsor Authorizations comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getawardPreAwardSponsorAuthorizationComment(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment();  
-            add(awardComment);  
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1295,14 +1291,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award PreAward Institutional Authorizations comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getawardPreAwardInstitutionalAuthorizationComment(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment();  //if null initialize in factory class
-            add(awardComment);  //add the new CostShareComment to the awardComments list.
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1310,14 +1299,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award F & A Rates Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardFandaRateComment(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.FANDA_RATE_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createFandaRateComment();  //if null initialize in factory class
-            add(awardComment);  //add the new CostShareComment to the awardComments list.
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.FANDA_RATE_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1325,14 +1307,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award AwardPaymentAndInvoiceRequirementsComments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardPaymentAndInvoiceRequirementsComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createPaymentAndInvoiceComment();  //if null initialize in factory class
-            add(awardComment);  //add the new Payment And Invoice to the awardComments list.
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1340,14 +1315,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Benefits Rate comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardBenefitsRateComment(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createBenefitsRateComment();  //if null initialize in factory class
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.BENEFITS_RATES_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1355,14 +1323,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award General Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardGeneralComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.GENERAL_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createGeneralComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.GENERAL_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1370,14 +1331,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award fiscal report comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardFiscalReportComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createFiscalReportComment();  
-            add(awardComment);  
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.FISCAL_REPORT_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1385,14 +1339,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award current action comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardCurrentActionComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createCurrentActionComment();  
-            add(awardComment);  
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.CURRENT_ACTION_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1400,14 +1347,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Intellectual Property comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardIntellectualPropertyComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createIntellecutalPropertyComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1415,14 +1355,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Procurement Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardProcurementComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.PROCUREMENT_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createProcurementComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PROCUREMENT_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST,true );
     }
     
     /**
@@ -1430,14 +1363,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Award Property Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardPropertyComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.PROPERTY_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createPropertyComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PROPERTY_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true );
     }
     
     /**
@@ -1445,14 +1371,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Special Rate comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardSpecialRate(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createSpecialRateComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.SPECIAL_RATE_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1460,14 +1379,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Special Review Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardSpecialReviewComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
-        AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createSpecialReviewComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1475,14 +1387,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Proposal Summary comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getawardProposalSummary(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalSummaryComment();  
-            add(awardComment);  
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1490,14 +1395,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Proposal comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getawardProposalComments(){
-        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
-        }
-        return awardComment;
+        return getAwardCommentByType( Constants.PROPOSAL_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
     
     /**
@@ -1505,16 +1403,54 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     * Get the award Proposal IP Review Comments.  If the comment has not been set...... initialize and return new Comment.
     */
     public AwardComment getAwardProposalIPReviewComment(){
+        return getAwardCommentByType( Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
+    }
+    
+    /*
+     * Get a comment by type. If it does not exist, then create it.
+     */
+    
+    public AwardComment getAwardCommentByType( String awardTypeCode, boolean checklistPrintFlag, boolean createNew ) {
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE);
-        if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalIPReviewComment();
-            add(awardComment);
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        AwardComment awardComment = getCommentMap().get( awardTypeCode );
+        if( awardComment == null && createNew ) {
+            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, checklistPrintFlag);
+            add( awardComment );
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment );
         }
         return awardComment;
     }
     
+    
+    /*
+     * Get a sponsor term by sponsor term id.
+     */
+    
+    public AwardSponsorTerm getAwardSponsorTermByTemplateTerm( AwardTemplateTerm templateTerm, boolean createNew ) {
+        AwardSponsorTerm result = null;
+        for( AwardSponsorTerm term : this.getAwardSponsorTerms() ) {
+            if( term.getSponsorTermId().equals(templateTerm.getSponsorTermId() )) {
+                result = term;
+                break;
+            }
+        }
+        if( result == null && createNew ) {
+            result = new AwardSponsorTerm();
+            result.setSponsorTermId(templateTerm.getSponsorTermId());
+            result.setSponsorTerm(templateTerm.getSponsorTerm());
+        }
+        return result;
+    }  
+     
+//    public AwardReportTerm getAwardReportTermByTemplateReportTerm( AwardTemplateReportTerm term, boolean createNew ) {
+//        AwardReportTerm result = null;
+//        for( AwardReportTerm arTerm : this.getAwardReportTermItems()  ) {
+//            if( StringUtils.equals(term.getReportCode(), arTerm.getReportCode())
+//        }
+//        
+//        
+//    }
+//     
     
     /**
      * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
@@ -2830,12 +2766,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return latestExpDate;
     }
 
-    public String getDefaultBudgetStatusParameter() {
-        return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
-    }
-
     public boolean isParentInHierarchyComplete() {
         return true;
     }
 
+    public String getDefaultBudgetStatusParameter() {
+        return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
+    }
+
+    
+    
+     
+    
+    
 }

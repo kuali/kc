@@ -159,6 +159,15 @@ public class AwardForm extends BudgetVersionFormBase
     private List<AwardComment> awardCommentHistoryByType;
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
 
+    
+    private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
+    private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationAnswerMap;
+    private AwardTemplateSyncScope[] currentSyncScopes;
+    private String currentSyncFieldName;
+    
+    
+    
+    
     /**
      *
      * Constructs a AwardForm.
@@ -228,6 +237,11 @@ public class AwardForm extends BudgetVersionFormBase
         }
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean(this);
+        //sync
+        syncRequiresConfirmationMap = null;
+        syncRequiresConfirmationAnswerMap = null;
+        currentSyncScopes = null;
+        currentSyncFieldName = null;
     }
 
     /**
@@ -1100,5 +1114,37 @@ public class AwardForm extends BudgetVersionFormBase
             LOG.error(message, e);
             throw new IllegalArgumentException(message, e);
         }
+    }
+
+    public Map<AwardTemplateSyncScope, Boolean> getSyncRequiresConfirmationMap() {
+        return syncRequiresConfirmationMap;
+    }
+
+    public void setSyncRequiresConfirmationMap(Map<AwardTemplateSyncScope, Boolean> syncRequiresConfirmationMap) {
+        this.syncRequiresConfirmationMap = syncRequiresConfirmationMap;
+    }
+
+    public Map<AwardTemplateSyncScope, Boolean> getSyncRequiresConfirmationAnswerMap() {
+        return syncRequiresConfirmationAnswerMap;
+    }
+
+    public void setSyncRequiresConfirmationAnswerMap(Map<AwardTemplateSyncScope, Boolean> syncRequiresConfirmationAnswerMap) {
+        this.syncRequiresConfirmationAnswerMap = syncRequiresConfirmationAnswerMap;
+    }
+
+    public AwardTemplateSyncScope[] getCurrentSyncScopes() {
+        return currentSyncScopes;
+    }
+
+    public void setCurrentSyncScopes(AwardTemplateSyncScope[] currentSyncOperations) {
+        this.currentSyncScopes = currentSyncOperations;
+    }
+
+    public String getCurrentSyncFieldName() {
+        return currentSyncFieldName;
+    }
+
+    public void setCurrentSyncFieldName(String syncFieldName) {
+        this.currentSyncFieldName = syncFieldName;
     }
 }
