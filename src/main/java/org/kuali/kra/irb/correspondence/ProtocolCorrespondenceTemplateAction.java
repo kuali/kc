@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -268,7 +269,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         if (rulePassed) {
             getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes, 
             		correspondenceTemplateForm.getDeletedCorrespondenceTemplates());
-            //TODO: cniesen - display "RiceKeyConstants.MESSAGE_SAVED" message
+            correspondenceTemplateForm.setDeletedCorrespondenceTemplates(new ArrayList<ProtocolCorrespondenceTemplate>());
             GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
