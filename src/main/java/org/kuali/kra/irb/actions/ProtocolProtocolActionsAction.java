@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.HeaderTokenizer;
@@ -33,6 +34,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -70,6 +72,7 @@ import org.kuali.kra.irb.actions.reopen.ProtocolReopenService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -79,10 +82,14 @@ import org.kuali.kra.irb.actions.terminate.ProtocolTerminateService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -1677,6 +1684,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         getCommitteeDecisionService().setCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
                                                            protocolForm.getActionHelper().getCommitteeDecision());
+        
+        getReviewerCommentsService().persistReviewerComments(
+                protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
+                protocolForm.getProtocolDocument().getProtocol());
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1684,44 +1696,32 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
+    private ReviewerCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewerCommentsService.class);
+    }
+    
     public ActionForward addCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        actionBean.getReviewComments().addNewComment();
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return addReviewComment(mapping, protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), protocolForm.getProtocolDocument());
     }
     
     public ActionForward deleteCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        actionBean.getReviewComments().deleteComment(getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;        
+        return deleteReviewComment(mapping, protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), request);
     }
     
     public ActionForward moveUpCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        actionBean.getReviewComments().moveUp(getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return moveUpReviewComment(mapping, protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), request);
     }
     
     public ActionForward moveDownCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-        actionBean.getReviewComments().moveDown(getLineToDelete(request));
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;        
+        return moveDownReviewComment(mapping, protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), request);
     }
     
     public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -1763,6 +1763,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
         decision.getRecused().remove(getLineToDelete(request));
         
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ActionForward addReviewComment(ActionMapping mapping, ReviewComments comments, ProtocolDocument protocolDocument) throws Exception {
+        comments.addNewComment();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ActionForward deleteReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
+        comments.deleteComment(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ActionForward moveUpReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
+        comments.moveUp(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ActionForward moveDownReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
+        comments.moveDown(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
