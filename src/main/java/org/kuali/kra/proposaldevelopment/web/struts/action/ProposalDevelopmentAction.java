@@ -45,6 +45,7 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -71,6 +72,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -593,46 +595,30 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-//        proposalDevelopmentForm.setAuditActivated(true);
         super.save(mapping, form, request, response);
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        new AuditActionHelper().auditUnconditionally(proposalDevelopmentDocument);
-        boolean errorExists = false;
-        boolean warningExists = false;
         boolean grantsGovErrorExists = false;
-        for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                errorExists=true;
-                break;
-            }
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                warningExists = true;
-            }
-            if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                grantsGovErrorExists = true;
-                break;
-            }
 
-        }
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
+            //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
+            //the GrantsGov forms tab so we don't need to turn on auditing
             Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();
-//            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){
             while (iter.hasNext()) {
                String errorKey = (String) iter.next();
                 AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(errorKey);
                 if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
                     grantsGovErrorExists = true;
-                    break;
+                    for (Object error : auditCluster.getAuditErrorList()) {
+                        AuditError auditError = (AuditError)error;
+                        GlobalVariables.getErrorMap().putError("grantsGovFormValidationErrors", auditError.getMessageKey(), auditError.getParams());
+                    }
                 }
             }
         }
-        if(grantsGovErrorExists || errorExists){
-//            ActionForward actionForward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
-            proposalDevelopmentForm.setAuditActivated(true);
-//            GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-            return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+        if(grantsGovErrorExists){
+            GlobalVariables.getErrorMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            return mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
             return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
