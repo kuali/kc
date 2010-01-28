@@ -411,11 +411,15 @@
         <property name="committeeService" ref="committeeService" />
     </bean>
     
+    <bean id="reviewerCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>   
+    
     <bean id="protocolAssignToAgendaService" class="org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
-    </bean>    
+    </bean> 
     
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

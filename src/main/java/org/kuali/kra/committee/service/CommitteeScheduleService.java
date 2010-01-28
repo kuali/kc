@@ -19,7 +19,10 @@ import java.text.ParseException;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+
+import java.util.List;
 
 
 public interface CommitteeScheduleService {
@@ -44,5 +47,30 @@ public interface CommitteeScheduleService {
      * @throws ParseException
      */
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
+    
+    /**
+     * 
+     * This method returns a list of minutes based on a protocol ID
+     * @param protocolId
+     * @return
+     */
+    public List<CommitteeScheduleMinute> getMinutesByProtocol(Long protocolId);
+    
+    /**
+     * 
+     * This method returns a list of minutes based on a schedule ID
+     * @param scheduleId
+     * @return
+     */
+    public List<CommitteeScheduleMinute> getMinutesBySchedule(Long scheduleId);
+    
+    /**
+     * 
+     * This method returns a specific schedule minute based on a committee id
+     * NOTE: a null is returned if the ID doesn't exist in the DB.
+     * @param committeeId
+     * @return
+     */
+    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeId);
     
 }
