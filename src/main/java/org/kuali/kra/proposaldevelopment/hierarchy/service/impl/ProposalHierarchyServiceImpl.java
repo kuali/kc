@@ -943,6 +943,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 persons.remove(i);
             }
         }
+        
+        List<BudgetSubAwards> subAwards = parentBudget.getBudgetSubAwards();
+        for (int i=subAwards.size()-1; i>=0; i--) {
+            if (StringUtils.equals(childProposalNumber, subAwards.get(i).getHierarchyProposalNumber())) {
+                subAwards.remove(i);
+            }
+        }
 
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
         List<BudgetPeriod> periods = parentBudget.getBudgetPeriods();
@@ -988,6 +995,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
         
     private void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
+        String instituteNarrativeTypeGroup = parameterService.getParameterValue(ProposalDevelopmentDocument.class, PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
         
         ProposalPersonBiography destPropPersonBio;
         for (ProposalPersonBiography srcPropPersonBio : srcProposal.getPropPersonBios()) {
@@ -999,7 +1007,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Narrative destNarrative;
         for (Narrative srcNarrative : srcProposal.getNarratives()) {
             if (StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getAllowMultiple(), "N") 
-                    && !srcProposal.getInstituteAttachments().contains(srcNarrative)) {
+                    && !srcProposal.getInstituteAttachments().contains(srcNarrative)
+                    && !StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getNarrativeTypeGroup(), instituteNarrativeTypeGroup)) {
                 loadAttachmentContent(srcNarrative);
                 destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
                 destNarrative.setModuleStatusCode("I");
