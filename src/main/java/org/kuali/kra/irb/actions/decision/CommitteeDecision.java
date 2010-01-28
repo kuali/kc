@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.irb.actions.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
 
 @SuppressWarnings("serial")
-public class CommitteeDecision implements Serializable {
+public class CommitteeDecision implements Serializable, ReviewerCommentsContainer {
 
     private String motion;
     private Integer noCount;
@@ -76,11 +77,19 @@ public class CommitteeDecision implements Serializable {
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer#getReviewComments()
+     */
     public ReviewComments getReviewComments() {
         return reviewComments;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer#setReviewComments(org.kuali.kra.irb.actions.ReviewComments)
+     */
     public void setReviewComments(ReviewComments reviewComments) {
         this.reviewComments = reviewComments;
     }

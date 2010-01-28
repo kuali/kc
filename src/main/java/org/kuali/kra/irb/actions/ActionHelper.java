@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -44,11 +45,13 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.service.ParameterService;
@@ -173,19 +176,55 @@ public class ActionHelper implements Serializable {
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
-        protocolExpediteApprovalBean = new ProtocolGenericActionBean();
-        protocolApproveBean = new ProtocolGenericActionBean();
-        protocolReopenBean = new ProtocolGenericActionBean();
-        protocolCloseEnrollmentBean = new ProtocolGenericActionBean();
-        protocolSuspendBean = new ProtocolGenericActionBean();
-        protocolSuspendByDmsbBean = new ProtocolGenericActionBean();
-        protocolCloseBean = new ProtocolGenericActionBean();
-        protocolExpireBean = new ProtocolGenericActionBean();
-        protocolTerminateBean = new ProtocolGenericActionBean();
-        protocolPermitDataAnalysisBean = new ProtocolGenericActionBean();
+        addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
+        protocolExpediteApprovalBean = buildProtocolGenericActionBean();
+        protocolApproveBean = buildProtocolGenericActionBean();
+        protocolReopenBean = buildProtocolGenericActionBean();
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean();
+        protocolSuspendBean = buildProtocolGenericActionBean();
+        protocolSuspendByDmsbBean = buildProtocolGenericActionBean();
+        protocolCloseBean = buildProtocolGenericActionBean();
+        protocolExpireBean = buildProtocolGenericActionBean();
+        protocolTerminateBean = buildProtocolGenericActionBean();
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean();
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = new AdminCorrectionBean();
         committeeDecision = new CommitteeDecision();
+        addReviewerCommentsToBean(committeeDecision, this.form);
+    }
+    
+    /**
+     *     
+     * This method builds a ProtocolGenericActionBean.  A number of different beans
+     * in this object are of type ProtocolGenericActionBean, and all need to add
+     * reviewer comments.  This encapsulates that.
+     * @return
+     */
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(){
+        ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
+        addReviewerCommentsToBean(bean, this.form);
+        return bean;
+    }
+    
+    /**
+     * 
+     * This method takes in a bean that implements ReviewerCommentsContainer and adds a
+     * reviewer comments object to it, pulled from the DB via services.
+     * @param commentContainer
+     * @param form
+     */
+    private void addReviewerCommentsToBean(ReviewerCommentsContainer commentContainer, 
+            ProtocolForm form){
+        try{
+            CommitteeScheduleService scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
+            List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocol(form.getProtocolDocument().getProtocol().getProtocolId());
+            ReviewComments comments = commentContainer.getReviewComments();
+            comments.setComments(minutes);
+            commentContainer.setReviewComments(comments);
+        }catch(Exception e){
+            //this will happen if the form isn't ready yet, like when the form is first opened, 
+            //this is OK
+        }
     }
     
     /**
