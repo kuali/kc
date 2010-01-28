@@ -37,9 +37,8 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
 
     public void persistReviewerComments(ReviewComments reviewComments, Protocol protocol) {
         int nextEntryNumber = 0;
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
         for (CommitteeScheduleMinute minuteToDelete : reviewComments.getCommentsToDelete()) {
-            bos.delete(minuteToDelete);
+            this.businessObjectService.delete(minuteToDelete);
         }
         reviewComments.resetComentsToDelete();
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
@@ -57,7 +56,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
                 minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
-                bos.save(minute);
+                this.businessObjectService.save(minute);
             }
             nextEntryNumber++;
         }
