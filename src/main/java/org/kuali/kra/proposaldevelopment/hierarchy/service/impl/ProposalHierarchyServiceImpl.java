@@ -542,7 +542,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
             lastIndex = hierarchyProposal.getProposalPersons().lastIndexOf(person);
             firstInstance = (firstIndex == -1) ? null : hierarchyProposal.getProposalPersons().get(firstIndex);
-            if (firstIndex == -1 || (firstIndex == lastIndex && person.isInvestigator() != firstInstance.isInvestigator())) {
+            if (firstIndex == -1 || (firstIndex == lastIndex && !rolesAreSimilar(person, firstInstance))) {
                 ProposalPerson newPerson;
                 newPerson = (ProposalPerson)ObjectUtils.deepCopy(person);
                 newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
@@ -751,8 +751,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
         LOG.info(String.format("***Aggregating Proposal Hierarchy #%s", hierarchy.getProposalNumber()));
-        ArrayList<ProposalPerson> persons = new ArrayList<ProposalPerson>();
-        
+/*
+        ArrayList<ProposalPerson> persons = new ArrayList<ProposalPerson>();      
         for (ProposalPerson person : hierarchy.getProposalPersons()) {
             if (!persons.contains(person)) {
                 persons.add(person);
@@ -763,6 +763,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             else person.setHiddenInHierarchy(true);
         }
+*/
         BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchy); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
@@ -1355,4 +1356,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return retval;
     }
     
+    private boolean rolesAreSimilar(ProposalPerson person1, ProposalPerson person2) {
+        boolean isInvestigator1 = StringUtils.equals(person1.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || StringUtils.equals(person1.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
+        boolean isInvestigator2 = StringUtils.equals(person2.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || StringUtils.equals(person2.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
+        return isInvestigator1 == isInvestigator2;
+    }
 }
