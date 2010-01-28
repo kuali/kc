@@ -180,6 +180,22 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     public void setMinuteEntry(String minuteEntry) {
         this.minuteEntry = minuteEntry;
     }
+    
+    @Override
+    public String toString(){
+        StringBuffer retVal = new StringBuffer(50);
+        LinkedHashMap hm = toStringMapper();
+        for(Object key : hm.keySet()){
+            retVal.append(key.toString()).append(" : ");
+            try{
+                retVal.append(hm.get(key).toString());
+            }catch(Exception e){
+                retVal.append("NPE problem");
+            }
+            retVal.append("\n");
+        }
+        return retVal.toString();
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -275,5 +291,20 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
         this.protocolReviewer = protocolReviewer;
+    }
+    
+    /**
+     * Equality is based on minute id, minute entry value, entry number(order position)
+     * and whether or not it is private.
+     * This function is used to determine if a minute needs to be updated on the DB.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o){
+        CommitteeScheduleMinute csm = (CommitteeScheduleMinute)o;
+        return this.commScheduleMinutesId.equals(csm.getCommScheduleMinutesId()) &&
+            this.getMinuteEntry().equals(csm.getMinuteEntry()) && 
+            this.getEntryNumber().equals(csm.getEntryNumber()) &&
+            this.getPrivateCommentFlag() == csm.getPrivateCommentFlag();
     }
 }

@@ -33,7 +33,6 @@
                     <th><div align="left">&nbsp</div></th> 
                     <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
-                    <kul:htmlAttributeHeaderCell literalLabel="Reviewers" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
@@ -67,11 +66,6 @@
                                 ${bean.newComment.minuteEntry}
                             </c:otherwise>
                         </c:choose>
-                    </td>
-                                            
-                    <td>
-                        <kul:htmlControlAttribute property="${property}.newComment.protocolReviewerIdFk" 
-                                                  attributeEntry="${minutesAttributes.protocolReviewerIdFk}" />
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
@@ -115,11 +109,6 @@
                                 </td>
                             </c:otherwise>
                         </c:choose>
-                                                
-                        <td>
-                            <kul:htmlControlAttribute property="${property}.comments[${status.index}].protocolReviewerIdFk" 
-                                                      attributeEntry="${minutesAttributes.protocolReviewerIdFk}" />
-                        </td>
                                                 
                         <td style="text-align:center; vertical-align:middle">
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 

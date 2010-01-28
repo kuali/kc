@@ -26,9 +26,18 @@ public class ReviewComments implements Serializable {
     private CommitteeScheduleMinute newComment = new CommitteeScheduleMinute();
     
     private List<CommitteeScheduleMinute> comments = new ArrayList<CommitteeScheduleMinute>();
+    private List<CommitteeScheduleMinute> commentsToDelete = new ArrayList<CommitteeScheduleMinute>();
     
     public List<CommitteeScheduleMinute> getComments() {
         return comments;
+    }
+    
+    public List<CommitteeScheduleMinute> getCommentsToDelete() {
+        return commentsToDelete;
+    }
+    
+    public void resetComentsToDelete(){
+        commentsToDelete = new ArrayList<CommitteeScheduleMinute>();
     }
 
     public void setComments(List<CommitteeScheduleMinute> comments) {
@@ -50,6 +59,7 @@ public class ReviewComments implements Serializable {
 
     public void deleteComment(int index) {
         if (index >= 0 && index < comments.size()) {
+            commentsToDelete.add(comments.get(index));
             comments.remove(index);
         }
     }
