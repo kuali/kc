@@ -135,7 +135,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="General Comments" />
         <property name="shortLabel" value="General Comments" />
-        <property name="maxLength" value="20" />
+        <property name="maxLength" value="4000" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern"
                 p:allowWhitespace="true" />
@@ -154,7 +154,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Reviewer Comments" />
         <property name="shortLabel" value="Reviewer Comments" />
-        <property name="maxLength" value="20" />
+        <property name="maxLength" value="4000" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern"
                 p:allowWhitespace="true" />
