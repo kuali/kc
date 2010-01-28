@@ -167,6 +167,9 @@ public class AwardReportTerm extends AwardAssociate  {
         if (otherReportTerm == null) {
             isEqual = false;
         }
+        else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
+            isEqual = false;
+        } 
         else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
                 isEqual = false;
         }
