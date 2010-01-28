@@ -79,13 +79,26 @@
                                         <html:file property="${property}" style="${textStyle}" />
                                     </c:when>
                                     <c:otherwise>
-                                        ${correspondenceType.defaultProtocolCorrespondenceTemplate.fileName}
-                                        <c:forEach items="${ErrorPropertyList}" var="key">
-                                            <c:set var="propertyName" value="correspondenceTypes[${status.index}].defaultProtocolCorrespondenceTemplate.templateFile" />
-                                            <c:if test="${key eq propertyName}">
-                                                <kul:fieldShowErrorIcon />
-                                            </c:if>
-                                        </c:forEach>            
+                                        <div id="filename1-${status.index}" style="display:block;" align="center">
+                                            ${correspondenceType.defaultProtocolCorrespondenceTemplate.fileName}
+                                            <c:forEach items="${ErrorPropertyList}" var="key">
+                                                <c:set var="propertyName" value="correspondenceTypes[${status.index}].defaultProtocolCorrespondenceTemplate.templateFile" />
+                                                <c:if test="${key eq propertyName}">
+                                                    <kul:fieldShowErrorIcon />
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        <div id="browse1-${status.index}" style="display:none;" align="center">
+                                            <c:set var="property" value="newDefaultCorrespondenceTemplates[${status.index}].templateFile" />
+                        
+                                            <%-- attachment file error handling logic start--%>
+                                                <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+                                                <%-- highlighting does not work in firefox but does in ie... --%>
+                                                <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+                                            <%-- attachment file error handling logic end--%>
+                        
+                                            <html:file property="${property}" style="${textStyle}" />
+                                        </div>            
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -101,22 +114,36 @@
                                             styleClass="tinybutton" />
                                     </c:when>
                                     <c:otherwise>
-                                        <html:image property="methodToCall.viewDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
-                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
-                                            title="View Default Correspondence Template" 
-                                            alt="View Default Correspondence Template" 
-                                            styleClass="tinybutton"
-                                            onclick="excludeSubmitRestriction=true" />
-                                        <html:image property="methodToCall.replaceDefaultCorrespondenceTemplate" 
-                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
-                                            title="Replace Default Correspondence Template" 
-                                            alt="Replace Default Correspondence Template" 
-                                            styleClass="tinybutton" />
-                                        <html:image property="methodToCall.deleteDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
-                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
-                                            title="Delete Default Correspondence Template" 
-                                            alt="Delete Default Correspondence Template" 
-                                            styleClass="tinybutton" />
+                                        <div id="filename2-${status.index}" style="display:block;" align="center">
+                                            <html:image property="methodToCall.viewDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                                src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
+                                                title="View Default Correspondence Template" 
+                                                alt="View Default Correspondence Template" 
+                                                styleClass="tinybutton"
+                                                onclick="excludeSubmitRestriction=true" />
+                                            <html:image onclick="javascript: showHide('browse1-${status.index}','filename1-${status.index}'); showHide('browse2-${status.index}','filename2-${status.index}'); return false"
+                                                src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
+                                                title="Replace Default Correspondence Template" 
+                                                alt="Replace Default Correspondence Template" 
+                                                styleClass="tinybutton" />
+                                            <html:image property="methodToCall.deleteDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                                src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
+                                                title="Delete Default Correspondence Template" 
+                                                alt="Delete Default Correspondence Template" 
+                                                styleClass="tinybutton" />
+                                        </div>
+                                        <div id="browse2-${status.index}" style="display:none;" align="center">
+                                            <html:image property="methodToCall.replaceDefaultCorrespondenceTemplate.correspondenceType[${status.index}]" 
+                                                src="${ConfigProperties.kra.externalizable.images.url}tinybutton-upload.gif" 
+                                                title="Upload Default Correspondence Template" 
+                                                alt="Upload Default Correspondence Template" 
+                                                styleClass="tinybutton" />
+                                            <html:image onclick="javascript: showHide('filename1-${status.index}','browse1-${status.index}'); showHide('filename2-${status.index}','browse2-${status.index}'); return false"
+                                                src="${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif" 
+                                                title="Cancel Default Correspondence Template Upload" 
+                                                alt="Cancel Default Correspondence Template Upload" 
+                                                styleClass="tinybutton" />
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -195,7 +222,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div align="center">
+                                <div id="filename1-${status.index}-${status2.index}" style="display:block;" align="center">
                                     ${protocolCorrespondenceTemplate.fileName}
                                     <c:forEach items="${ErrorPropertyList}" var="key">
                                         <c:set var="propertyName" value="correspondenceTypes[${status.index}].protocolCorrespondenceTemplates[${status2.index}].templateFile" />
@@ -204,17 +231,28 @@
                                         </c:if>
                                     </c:forEach>            
                                 </div>
+                                <div id="browse1-${status.index}-${status2.index}" style="display:none;" align="center">
+                                    <c:set var="property" value="replaceCorrespondenceTemplates[${status.index}][${status2.index}][templateFile]" />
+                        
+                                    <%-- attachment file error handling logic start--%>
+                                        <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+                                        <%-- highlighting does not work in firefox but does in ie... --%>
+                                        <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+                                    <%-- attachment file error handling logic end--%>
+                        
+                                    <html:file property="${property}" style="${textStyle}" />
+                                </div>                      
                             </td>
                             <c:if test="${!readOnly}">
                                 <td>
-                                    <div align="center">
+                                    <div id="filename2-${status.index}-${status2.index}" style="display:block;" align="center">
                                         <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]}" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
                                             title="View Correspondence Template" 
                                             alt="View Correspondence Template" 
                                             styleClass="tinybutton" 
                                             onclick="excludeSubmitRestriction=true" />
-                                        <html:image property="methodToCall.replaceCorrespondenceTemplate" 
+                                        <html:image onclick="javascript: showHide('browse1-${status.index}-${status2.index}','filename1-${status.index}-${status2.index}'); javascript: showHide('browse2-${status.index}-${status2.index}','filename2-${status.index}-${status2.index}'); return false"
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
                                             title="Replace Correspondence Template" 
                                             alt="Replace Correspondence Template" 
@@ -223,6 +261,18 @@
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
                                             title="Delete Correspondence Template" 
                                             alt="Delete Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                    </div>
+                                    <div id="browse2-${status.index}-${status2.index}" style="display:none;" align="center">
+                                        <html:image property="methodToCall.replaceCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]" 
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-upload.gif" 
+                                            title="Upload Correspondence Template" 
+                                            alt="Upload Correspondence Template" 
+                                            styleClass="tinybutton" />
+                                        <html:image onclick="javascript: showHide('filename1-${status.index}-${status2.index}','browse1-${status.index}-${status2.index}'); showHide('filename2-${status.index}-${status2.index}','browse2-${status.index}-${status2.index}'); return false"
+                                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif" 
+                                            title="Cancel Correspondence Template Upload" 
+                                            alt="Cancel Correspondence Template Upload" 
                                             styleClass="tinybutton" />
                                     </div>
                                 </td>
