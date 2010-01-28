@@ -570,11 +570,11 @@ public class AwardAction extends BudgetParentActionBase {
             timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setAward(award);
+            documentService.saveDocument(timeAndMoneyDocument);
         }
         
         addDocumentToSession(awardForm.getAwardDocument());
 
-        documentService.saveDocument(timeAndMoneyDocument);
 
         Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
 
