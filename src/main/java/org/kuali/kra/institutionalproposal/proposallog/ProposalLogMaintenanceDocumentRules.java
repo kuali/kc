@@ -66,6 +66,21 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         return valid;
     }
     
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+        
+        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        
+        if (ObjectUtils.isNull(proposalLog.getPiId()) && ObjectUtils.isNull(proposalLog.getRolodexId())) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.piId", 
+                    KeyConstants.ERROR_MISSING_PRINCIPAL_INVESTIGATOR, "");
+            valid = false;
+        }
+        
+        return valid;
+    }
+    
     private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
         
         ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
