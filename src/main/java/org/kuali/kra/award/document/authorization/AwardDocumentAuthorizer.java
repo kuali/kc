@@ -23,9 +23,12 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class is the Award Document Authorizer.  It determines the edit modes and
@@ -34,7 +37,8 @@ import org.kuali.rice.kns.document.Document;
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
+     * org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -126,6 +130,65 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     @Override
     protected boolean canCopy(Document document, Person user) {
         return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * Can the user approve the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can approve the document; otherwise false
+     */
+    @Override
+    protected boolean canApprove(Document document, Person user) {
+        return isEnroute(document) && isAuthorizedByTemplate(
+                 document,
+                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                 KimConstants.PermissionTemplateNames.APPROVE_DOCUMENT,
+                 user.getPrincipalId());
+    }
+    
+    /**
+     * Can the user disapprove the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can disapprove the document; otherwise false
+     */
+    @Override
+    protected boolean canDisapprove(Document document, Person user) {
+        return canApprove(document, user);
+    }
+    
+    /**
+     * Can the user blanket approve the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can blanket approve the document; otherwise false
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document, Person user) {
+        return !isFinal(document) && isAuthorizedByTemplate(
+                document,
+                KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
+                user.getPrincipalId());
+    }
+    
+    private boolean isEnroute(Document document) {
+        return KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+    }
+    
+    private boolean isFinal(Document document) {
+        return KEWConstants.ROUTE_HEADER_FINAL_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
     }
     
     /**
