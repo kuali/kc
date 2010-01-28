@@ -29,6 +29,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
@@ -63,7 +64,8 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE = "error.hierarchy.budget.childStatusesNotComplete";
     private static final String ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.sync.noPrincipleInvestigator";
 
-    ProposalHierarchyService hierarchyService;
+    private ProposalHierarchyService hierarchyService;
+    private ProposalStatusService proposalStatusService;
     
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
         if (validateHierarchyForSyncAll(hierarchyProposal)) {
@@ -243,21 +245,9 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        return hasCompleteBudget(proposal.getProposalDocument());
-    }
-    
-    private boolean hasCompleteBudget(ProposalDevelopmentDocument document) {
-        boolean retval = false;
         String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (BudgetDocumentVersion version : document.getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                if (StringUtils.equalsIgnoreCase(completeCode, version.getBudgetVersionOverview().getBudgetStatus())) {
-                    retval = true;
-                }
-                break;
-            }
-        }
-        return retval;
+        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+        return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
     
     private void doUnexpectedError (ProposalHierarchyException e, String field, boolean rollback) {
