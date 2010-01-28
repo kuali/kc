@@ -37,6 +37,7 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     private List<ProtocolCorrespondenceType> correspondenceTypes;    
     private List<ProtocolCorrespondenceTemplate> newDefaultCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates;
+    private List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> deletedCorrespondenceTemplates;
     
     public ProtocolCorrespondenceTemplateForm() {
@@ -70,7 +71,16 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         return newCorrespondenceTemplates;
     }
 
-    public List<ProtocolCorrespondenceTemplate> getDeletedCorrespondenceTemplates() {
+    public List<List<ProtocolCorrespondenceTemplate>> getReplaceCorrespondenceTemplates() {
+		return replaceCorrespondenceTemplates;
+	}
+
+	public void setReplaceCorrespondenceTemplates(
+			List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates) {
+		this.replaceCorrespondenceTemplates = replaceCorrespondenceTemplates;
+	}
+
+	public List<ProtocolCorrespondenceTemplate> getDeletedCorrespondenceTemplates() {
         return deletedCorrespondenceTemplates;
     }
 
@@ -97,9 +107,15 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     public void resetForm() {
         this.newDefaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        this.replaceCorrespondenceTemplates = new ArrayList<List<ProtocolCorrespondenceTemplate>>();
         for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
             this.newDefaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
             this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
+            this.replaceCorrespondenceTemplates.add(new ArrayList<ProtocolCorrespondenceTemplate>());
+            int typeIndex = correspondenceTypes.indexOf(correspondenceType);
+            for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceType.getProtocolCorrespondenceTemplates()) {
+            	this.replaceCorrespondenceTemplates.get(typeIndex).add(new ProtocolCorrespondenceTemplate());
+            }
         }
     }
 
