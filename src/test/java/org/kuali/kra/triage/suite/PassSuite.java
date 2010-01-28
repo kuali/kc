@@ -369,6 +369,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceTest.class,
     org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRuleTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinderTest.class,
+    org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImplTest.class,
     
     org.kuali.kra.committee.service.CommitteeScheduleServiceImplTest.class,
     org.kuali.kra.meeting.MeetingRuleTest.class,
