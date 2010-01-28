@@ -88,7 +88,7 @@ public class ProtocolAssignToAgendaBean implements Serializable{
         }
         catch(Exception e){
             //errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         //the else condition means we can't create this bean
     }
