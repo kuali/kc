@@ -129,6 +129,7 @@
 
   <bean id="UnitAdministrator-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Unit Administrator Lookup" />
+    <property name="lookupableID" value="unitAdministratorLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
