@@ -27,13 +27,11 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportuni
 import gov.grants.apply.webservices.applicantintegrationservices_v1.OpportunityInformationType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,10 +41,8 @@ import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlValidationError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -72,15 +68,12 @@ import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
-import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.w3c.dom.Node;
 
 /**
  * 
@@ -447,14 +440,23 @@ public class KRAS2SServiceImpl implements S2SService {
 		grantSubmissionHeader.setSchemaVersion(S2SConstants.FORMVERSION_1_0);
 		grantSubmissionHeader.setSubmissionTitle(s2sOpportunity
 				.getProposalNumber());
-		Calendar calClosingDate = Calendar.getInstance();
-		calClosingDate.setTimeInMillis(s2sOpportunity.getClosingDate()
-				.getTime());
-		grantSubmissionHeader.setClosingDate(calClosingDate);
-		Calendar calOpeningDate = Calendar.getInstance();
-		calOpeningDate.setTimeInMillis(s2sOpportunity.getOpeningDate()
-				.getTime());
-		grantSubmissionHeader.setOpeningDate(calOpeningDate);
+		
+        // set closing date unless null
+        Date closingDate = s2sOpportunity.getClosingDate();
+        if (closingDate != null) {
+            Calendar calClosingDate = Calendar.getInstance();
+            calClosingDate.setTime(closingDate);
+            grantSubmissionHeader.setClosingDate(calClosingDate);
+        }
+        
+		// set opening date unless null
+		Date openingDate = s2sOpportunity.getOpeningDate();
+		if (openingDate != null) {
+	        Calendar calOpeningDate = Calendar.getInstance();
+		    calOpeningDate.setTime(openingDate);
+	        grantSubmissionHeader.setOpeningDate(calOpeningDate);
+		}
+		
 		String hashVal = GrantApplicationHash
 				.computeGrantFormsHash(grantApplication.xmlText());
 		HashValue hashValue = HashValue.Factory.newInstance();
