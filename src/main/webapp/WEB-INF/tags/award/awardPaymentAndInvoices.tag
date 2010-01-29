@@ -41,7 +41,9 @@
        
 		<div align="center">
 		</br>
-		<kra-a:awardSyncButton propertyName = "" scopeNames="PAYMENTS_AND_INVOICES_TAB" tabKey="${tabKey}"/>
+		<c:if test = "${(!readOnly)}">
+			<kra-a:awardSyncButton propertyName = "" scopeNames="PAYMENTS_AND_INVOICES_TAB" tabKey="${tabKey}"/>
+		</c:if>
 		</div>	
        	
        	<br/>

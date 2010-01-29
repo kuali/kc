@@ -161,9 +161,7 @@ public class AwardForm extends BudgetVersionFormBase
 
     
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
-    private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationAnswerMap;
     private AwardTemplateSyncScope[] currentSyncScopes;
-    private String currentSyncFieldName;
     
     
     
@@ -239,9 +237,7 @@ public class AwardForm extends BudgetVersionFormBase
         medusaBean = new MedusaBean(this);
         //sync
         syncRequiresConfirmationMap = null;
-        syncRequiresConfirmationAnswerMap = null;
         currentSyncScopes = null;
-        currentSyncFieldName = null;
     }
 
     /**
@@ -1124,27 +1120,12 @@ public class AwardForm extends BudgetVersionFormBase
         this.syncRequiresConfirmationMap = syncRequiresConfirmationMap;
     }
 
-    public Map<AwardTemplateSyncScope, Boolean> getSyncRequiresConfirmationAnswerMap() {
-        return syncRequiresConfirmationAnswerMap;
-    }
-
-    public void setSyncRequiresConfirmationAnswerMap(Map<AwardTemplateSyncScope, Boolean> syncRequiresConfirmationAnswerMap) {
-        this.syncRequiresConfirmationAnswerMap = syncRequiresConfirmationAnswerMap;
-    }
-
+    
     public AwardTemplateSyncScope[] getCurrentSyncScopes() {
         return currentSyncScopes;
     }
 
     public void setCurrentSyncScopes(AwardTemplateSyncScope[] currentSyncOperations) {
         this.currentSyncScopes = currentSyncOperations;
-    }
-
-    public String getCurrentSyncFieldName() {
-        return currentSyncFieldName;
-    }
-
-    public void setCurrentSyncFieldName(String syncFieldName) {
-        this.currentSyncFieldName = syncFieldName;
     }
 }

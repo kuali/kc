@@ -27,7 +27,8 @@
 		
 		<br/>
 		
-		<kra-a:awardSyncButton propertyName = "" scopeNames="COMMENTS_TAB" tabKey="${tabKey}"/>		
-		
+		 <c:if test="${(!readOnly) and ( !(empty KualiForm.document.award.awardTemplate.templateCode) )}">
+			<kra-a:awardSyncButton propertyName = "" scopeNames="COMMENTS_TAB" tabKey="${tabKey}"/>		
+		 </c:if>
  	</div>
 </kul:tabTop>

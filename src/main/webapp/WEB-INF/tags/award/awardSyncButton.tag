@@ -18,7 +18,6 @@
 <%@ attribute name="scopeNames" description="Named scope the sync should apply to. leave empty if you want to apply the global scope." required="false" %>
 <%@ attribute name="tabKey" description="tab key for the button" required="false" %>
 
-<c:if test = "${empty scopeNames}"><c:set var = "scopeNames" value = "GLOBAL"/></c:if>
 
 <html:image property="methodToCall.syncAwardTemplate.syncPropertyName${propertyName}:${scopeNames}.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
