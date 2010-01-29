@@ -232,8 +232,8 @@
                                     </c:forEach>            
                                 </div>
                                 <div id="browse1-${status.index}-${status2.index}" style="display:none;" align="center">
-                                    <c:set var="property" value="replaceCorrespondenceTemplates[${status.index}][${status2.index}][templateFile]" />
-                        
+                                    <c:set var="property" value="replaceCorrespondenceTemplates[${status.index}].list[${status2.index}].templateFile" />
+
                                     <%-- attachment file error handling logic start--%>
                                         <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
                                         <%-- highlighting does not work in firefox but does in ie... --%>
