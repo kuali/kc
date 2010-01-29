@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
@@ -35,15 +36,12 @@ import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.AwardSyncableList;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateComment;
-import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.AwardTemplateTerm;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import java.util.Stack;
 
 /**
  * This class is the implementation of AwardTemplateSyncService.
@@ -174,13 +172,13 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
                 }
             }
             else if(field.isAnnotationPresent(AwardSyncableList.class)){
-                effectiveScopes = scopes;
+                effectiveScopes = field.getAnnotation(AwardSyncableList.class).scopes();
                 if( AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT.isInScope(field))
                     effectiveScopes = scopeStack.peek();
                 if( AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
                     if( LOG.isDebugEnabled() )
                         LOG.debug(String.format( "Sync list:%s.%s", awardObject.getClass().toString(),field.getName() ));
-                    if( checkList(awardTemplateObject, awardObject, field, effectiveScopes, scopeStack, award, awardTemplate) ) return true;
+                    if( checkList(awardTemplateObject, awardObject, field, scopes, scopeStack, award, awardTemplate) ) return true;
                 } else {
                     if( LOG.isDebugEnabled() )
                         LOG.debug(String.format( "Skipped (not in scope(s) %s) list:%s.%s", ArrayUtils.toString(scopes),awardObject.getClass().toString(),field.getName() ));
@@ -397,9 +395,19 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     @SuppressWarnings("unchecked")
     private boolean checkList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
         field.setAccessible(true);
+        boolean result = false;
         List<Object> awardObjectList = (List)ObjectUtils.getPropertyValue(awardObject, field.getName());
-        if( awardObjectList == null || awardObjectList.size() > 0 ) return false;
-        return true;
+        if( !( awardObjectList == null || awardObjectList.size() == 0) ) { 
+            //need to check each object for in scope because of shared Lists.
+            Method templateIsInScopeMethod = findIsInScopeMethodForClass( field.getAnnotation(AwardSyncableList.class).syncClass() );
+            for( Object awardListObject : awardObjectList ) {
+                if( (Boolean)templateIsInScopeMethod.invoke(null,awardListObject, scopes)){ 
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     
@@ -510,20 +518,13 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         newRecipient.setRolodex(recipient.getRolodex());
         newRecipient.setRolodexId(recipient.getRolodexId());
         newRecipient.setContactTypeCode(recipient.getContactTypeCode());
+        
+        
+        
         return newRecipient;
     }
     
-//    @SuppressWarnings({ "unused", "unchecked" })
-//    private AwardReportTerm getOrCreateNewListElementObject( AwardTemplateReportTerm reportTerm, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
-//        AwardReportTerm term = null;
-//        
-//        term.setReportClass(reportTerm.getReportClass() );
-//        term.setReport(reportTerm.getReport());
-//        term.setFrequency(reportTerm.getFrequency());
-//        term.setFrequencyBase(reportTerm.getFrequencyBase());
-//        return term;
-//    }
-    
+
     private Method findIsInScopeMethodForClass( Class clazz ) {
         Class klass = AwardTemplateSyncScope.class;
         Method result = null;
@@ -575,49 +576,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-       
-    
-//    /**
-//     * This method...
-//     * @param awardDocument
-//     * @param methodUiIdentifier
-//     * @param scopes
-//     * @return
-//     */
-//    private boolean syncToAwardByMethod( AwardDocument awardDocument, String methodUiIdentifier, AwardTemplateSyncScope[] scopes ) {
-//        boolean success = false;
-//        Award award = awardDocument.getAward();
-//        AwardTemplateSyncEvent awardTemplateSyncEvent = 
-//            new AwardTemplateSyncEvent("Award Sync","document.award.awardTemplate",awardDocument);
-//        try {
-//            //locate the method to call
-//            
-//            Method[] methods = awardDocument.getAward().getClass().getDeclaredMethods();
-//            List<Method> methodsToCall = new ArrayList<Method>();
-//            for( Method method : methods ) {
-//                AwardSyncableMethod mt = method.getAnnotation(AwardSyncableMethod.class);
-//                if( mt != null && mt.uiIdentifier().equals(methodUiIdentifier)  ) {
-//                    for( AwardTemplateSyncScope scope: scopes ) {
-//                        if( scope.isInScope(method) ) { 
-//                            methodsToCall.add(method);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            
-//            for( Method method : methodsToCall ) {
-//                method.invoke(award,fetchAwardTemplate(award));
-//            }
-//            success = true;
-//        } catch ( Exception e ) {
-//            LOG.error( "Exception running method", e );
-//        }
-//            
-//        return success;
-//    }
-
     
     /**
      * 
