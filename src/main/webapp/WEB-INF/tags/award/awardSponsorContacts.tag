@@ -126,8 +126,7 @@
     	<div align="center">
     		<c:set var="syncPropertyName" value="sponsorContacts" />
     		<c:if test="${!readOnly}">
-			<html:image	property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
-		    	        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+				<kra-a:awardSyncButton propertyName = "" scopeNames="SPONSOR_CONTACTS_TAB" tabKey="${tabKey}"/>
 		    </c:if>
 		</div>
 	</div>

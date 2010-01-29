@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
@@ -44,8 +45,8 @@ public abstract class AwardContact extends AwardAssociate {
      */
     protected String personId;
     
-    @AwardSyncable  protected Integer rolodexId;
-    @AwardSyncable protected String roleCode;
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) protected Integer rolodexId;
+    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) protected String roleCode;
     
     private Long awardContactId;    
     private ContactRole contactRole;
