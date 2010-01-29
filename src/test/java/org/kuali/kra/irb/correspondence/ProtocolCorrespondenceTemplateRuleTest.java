@@ -274,6 +274,155 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     
     /**
      * 
+     * This test simulates a correspondence template being added with a missing file. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReplaceCorrespondenceTemplateMissingFile() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(null));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int typeIndex = 2;
+        int templateIndex = 3;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processReplaceProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, typeIndex, templateIndex);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a correspondence template being added with an empty file. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReplaceCorrespondenceTemplateEmptyFile() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(new byte[] {}));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("13");
+        int typeIndex = 2;
+        int templateIndex = 3;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processReplaceProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, typeIndex, templateIndex);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a correspondence template being replaced with the incorrect file type. 
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReplaceCorrespondenceTemplateInvalidFileType() throws Exception {
+    	this.context.checking(new Expectations() {{
+    		allowing(mockedFile).getContentType();
+    		will(returnValue("bad/content-type"));
+    		
+    		allowing(mockedFile).getFileData();
+			will(returnValue(new byte[] { (byte) 1, (byte) 2, (byte) 3 }));
+    	}});
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("12");
+        int typeIndex = 2;
+        int templateIndex = 3;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processReplaceProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, typeIndex, templateIndex);
+        assertFalse(rulePassed);
+    	
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the templateFile field is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile"));
+
+        /*
+         * Verify that the correct error message is in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile");
+        assertEquals(KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE, errorMessages.get(0).getErrorKey());
+    }
+
+    /**
+     * 
+     * This test simulates a correspondence template successfully being replaced. 
+     * @throws Exception
+     */
+    @Test
+    public void testReplaceCorrespondenceTemplate() throws Exception {
+    	simulateValidMockedFileBehavior();
+    	
+        ProtocolCorrespondenceType correspondenceType = getCorrespondenceType(new String[] {"12"}); 
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = getCorrespondenceTemplate("12");
+        int index = 2;
+        
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processReplaceProtocolCorrespondenceTemplateRules(correspondenceType, newCorrespondenceTemplate, index, index);
+        assertTrue(rulePassed);
+
+        /*
+         * There should be no errors.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(0, messageMap.getErrorCount());
+   }
+    
+    /**
+     * 
      * This test simulates a default correspondence template being added with a missing file. 
      * @throws Exception
      */

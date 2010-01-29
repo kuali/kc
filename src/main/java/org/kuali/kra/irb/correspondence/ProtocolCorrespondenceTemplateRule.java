@@ -54,7 +54,7 @@ public class ProtocolCorrespondenceTemplateRule {
 
     /**
      * 
-     * This method verifies the protocol correspondence template on add.
+     * This method verifies the protocol correspondence template on add/replace.
      * @param correspondenceType
      * @param newCorrespondenceTemplate
      * @param index
@@ -72,6 +72,29 @@ public class ProtocolCorrespondenceTemplateRule {
         valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
         valid &= !duplicateCommittee(correspondenceType.getCommitteeProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), 
                 committeePropertyName);
+        valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
+
+        return valid;
+    }
+
+    /**
+     * 
+     * This method verifies the protocol correspondence template on replace.
+     * @param correspondenceType
+     * @param newCorrespondenceTemplate
+     * @param index
+     * @return true if the validation is successful, false otherwise
+     * @throws IOException 
+     * @throws FileNotFoundException 
+     */
+    public boolean processReplaceProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
+            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int typeIndex, int templateIndex) throws IOException {
+        boolean valid = true;
+
+        String committeePropertyName = "correspondenceTypes[" + typeIndex + "]protocolCorrespondenceTemplates[" + templateIndex + "].committeeId";
+        String filePropertyName = "replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile";
+        
+        valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
         valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
 
         return valid;
