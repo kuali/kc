@@ -154,7 +154,8 @@ public class AwardReportsBean implements Serializable {
     
     public AwardReportTermRecipient getNewAwardReportTermRecipient(int index) {
         if(getNewAwardReportTermRecipients().size() <= index) {
-            initRecipient(index); 
+            //initRecipient(index);
+            init(index);
         }
         return getNewAwardReportTermRecipients().get(index);
     }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +69,7 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -84,8 +83,6 @@ import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 
@@ -99,6 +96,7 @@ public class AwardAction extends BudgetParentActionBase {
     
     //question constants
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
+   
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
      * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
@@ -832,35 +830,7 @@ public class AwardAction extends BudgetParentActionBase {
     protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
-
     
-    private String generateSyncMethodToCallExtension( String propertyName, AwardTemplateSyncScope[] scopes ) {
-        String result = "";
-        if( !StringUtils.isEmpty(propertyName) || ( !( scopes == null || scopes.length == 0  ) ) ) result = result + ".syncPropertyName";
-        if( !StringUtils.isEmpty(propertyName) ) result = result + propertyName;
-        for( AwardTemplateSyncScope scope :  scopes ) {
-            result = result + ":" + scope;
-        }
-        return result;
-    }
-    
-    
-    
-    
-    
-    public ActionForward syncAwardTemplateConfirm(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return syncAwardTemplate( mapping, form, request, response );
-    
-    }
-    
-    
-    public ActionForward syncAwardTemplateDecline(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return syncAwardTemplate( mapping, form, request, response );
-    
-    
-    }
     
     public ActionForward syncAwardTemplate(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -871,11 +841,21 @@ public class AwardAction extends BudgetParentActionBase {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         
         
-        if( question != null ) return this.processSyncAward(mapping, awardForm, request, response);
-        //clear the sync maps from the form.
+        //if the question is not null we are in the middle of processing synchronizations.
+        if( question != null ) return processSyncAward(mapping, awardForm, request, response);
+        
+        //This is a new sync request, clear the tracking scopes and confirmation map.
         awardForm.setCurrentSyncScopes(null);
-        awardForm.setSyncRequiresConfirmationAnswerMap(null);
-        awardForm.setSyncRequiresConfirmationAnswerMap(null);
+        awardForm.setSyncRequiresConfirmationMap(null);
+        
+        //see if the scope has been specified.  If no scope is specified then the scope is global.
+        //holds the scope string names passed in.
+        String[] scopeStrings = {};
+        //the name of the property to be sync'd
+        String syncName = getSyncPropertyName( request );
+        //will hold the scopes that are to be syncd
+        AwardTemplateSyncScope[] scopes;
+
         /*
          * The format for the action string is:
          * methodToCall.syncAwardTemplate.sync[PropertyName|MethodName]X[:SCOPE1:...:SCOPEN].anchor...
@@ -886,33 +866,24 @@ public class AwardAction extends BudgetParentActionBase {
          * 
          */
         
-        String syncName = null;
-        //see if the scope has been specified.  If no scope is specified then the scope is global.
-        String[] scopeStrings = {};
        
-        syncName = getSyncPropertyName( request );
-        
-        if (StringUtils.isNotBlank(syncName) && syncName.indexOf(":")!=-1) {
+        if (StringUtils.isNotBlank(syncName) && syncName.length() > 1 && syncName.indexOf(":")>-1) {
             String scopesString = StringUtils.substringAfter(syncName, ":");
             scopeStrings = StringUtils.split(scopesString,":");
             syncName = StringUtils.substringBefore(syncName, ":");
-        }
-        
-        AwardTemplateSyncScope[] scopes = new AwardTemplateSyncScope[5];
-        scopes[0] = AwardTemplateSyncScope.AWARD_PAGE;
-        scopes[1] = AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB;
-        scopes[2] = AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB;
-        scopes[3] = AwardTemplateSyncScope.REPORTS_TAB;
-        scopes[4] = AwardTemplateSyncScope.COMMENTS_TAB;
-        
-        
-        if( scopeStrings.length > 0 ) {
             scopes = new AwardTemplateSyncScope[scopeStrings.length];
             for( int i = 0; i < scopeStrings.length; i++ ) {
                 scopes[i] = Enum.valueOf(AwardTemplateSyncScope.class, scopeStrings[i]);
             }
+        } else {
+            //default scopes if none is provided in the call ( on the awardTemplate panel )
+            scopes = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
+                AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
+                AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
+                AwardTemplateSyncScope.REPORTS_TAB,
+                AwardTemplateSyncScope.COMMENTS_TAB };
         }
-  
+        
         //generate map of the scopes that need user to verify they want to sync.
         Map< AwardTemplateSyncScope,Boolean> requiresQuestionMap = new HashMap<AwardTemplateSyncScope,Boolean>();
         for( AwardTemplateSyncScope scope : scopes ) {
@@ -926,8 +897,7 @@ public class AwardAction extends BudgetParentActionBase {
         }
 
         awardForm.setCurrentSyncScopes(scopes);
-        awardForm.setSyncRequiresConfirmationAnswerMap(requiresQuestionMap);
-        awardForm.setSyncRequiresConfirmationAnswerMap(new HashMap<AwardTemplateSyncScope,Boolean>());
+        awardForm.setSyncRequiresConfirmationMap(requiresQuestionMap);
         
         return processSyncAward(mapping,form,request,response); 
     }
@@ -946,62 +916,39 @@ public class AwardAction extends BudgetParentActionBase {
         
         //see if the scope has been specified.  If no scope is specified then the scope is global.
         AwardTemplateSyncScope[] scopes = awardForm.getCurrentSyncScopes();
-        
-        if( question == null || !(QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) ) {
+        //Loop over the scopes, if they require confirmation then ask for it - if not do the sync.
+        for( AwardTemplateSyncScope currentScope : scopes ) {
+            if( (question == null  || !(QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) ) && awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {
+                //in this case we have a requirement to check to see if it is ok to sync, but the question is null or does not match the scope. 
+                //so forward to a confirmation question.
+                StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , KeyConstants.QUESTION_SYNC_PANEL,
+                    currentScope.getDisplayTabName(), awardDocument.getAward().getAwardTemplate().getDescription()); 
+                confirmationQuestion.setCaller("processSyncAward");
             
-            StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+scopes[0])  , KeyConstants.QUESTION_SYNC_PANEL,
-                    scopes[0].getDisplayTabName(), awardDocument.getAward().getAwardTemplate().getDescription()); 
-            confirmationQuestion.setCaller("processSyncAward");
-           
-            
-            return  performQuestionWithoutInput( confirmationQuestion,""  );
-        } else if ( (QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {                               
+                return  performQuestionWithoutInput( confirmationQuestion,""  );
+            } else if ( ((QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) && ConfirmationQuestion.YES.equals(buttonClicked))||!awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {                               
                     //sync then go on to the next one.
-             if( LOG.isDebugEnabled() ) 
-                 LOG.debug( "USER ACCEPTED SYNC FOR:"+scopes[0]+" CALLING SYNC SERVICE." );
-             AwardTemplateSyncScope[] s = { scopes[0] };
-             awardTemplateSyncService.syncToAward(awardDocument, s);
-             awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
-             scopes = awardForm.getCurrentSyncScopes();
-        } else if ( (QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-            //just remove the sync from the working set
-            if( LOG.isDebugEnabled() ) 
-                LOG.debug( "USER DECLINED "+scopes[0] +", SKIPPING." );
-            awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
-            scopes = awardForm.getCurrentSyncScopes();
-        } else {
-            throw new RuntimeException( "Do not know what to do in this case!" );
-        }
+                if( LOG.isDebugEnabled() ) 
+                    LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+scopes[0]+" CALLING SYNC SERVICE." );
+                AwardTemplateSyncScope[] s = { currentScope };
+                awardTemplateSyncService.syncToAward(awardDocument, s);
+                //remove the scope from the awardForm tracking array.  
+                awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
+                
+            } else if ( (QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                //just remove the sync from the working set
+                if( LOG.isDebugEnabled() ) 
+                    LOG.debug( "USER DECLINED "+scopes[0] +", SKIPPING." );
+                //remove the scope from the award form tracking array.
+                awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
+                
+            } else {
+                throw new RuntimeException( "Do not know what to do in this case!" );
+            }
+        }   
         
-        if( awardForm.getCurrentSyncScopes().length > 0 ) {
-        
-            StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+awardForm.getCurrentSyncScopes()[0])  , KeyConstants.QUESTION_SYNC_PANEL,
-                     awardForm.getCurrentSyncScopes()[0].getDisplayTabName(),awardDocument.getAward().getAwardTemplate().getDescription()); 
-            confirmationQuestion.setCaller("processSyncAward");
-            
-            
-            return  performQuestionWithoutInput( confirmationQuestion,""  );
-        } else {
-                return mapping.findForward(Constants.MAPPING_AWARD_BASIC);  
-        }
-    
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
-    
-//    /**
-//     * Parses the method to call attribute to pick off the sync command ( syncPropertyName or syncMethodName ).
-//     * 
-//     *  syncPropertyName : Perform the sync against a specific property of the award as defined by the AwardSyncable and AwardSyncableList annotations.
-//     *  syncMethodName : Invoke the method that is annotated with the AwardSyncableMethod annotation. 
-//     *
-//     * @param request
-//     * @return
-//     */
-//    protected String getSyncCommand(HttpServletRequest request) {
-//        String syncPropertyCommand = null;
-//        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-//        syncPropertyCommand = (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(AwardTemplateSyncService.SYNC_PROPERTY)!=-1) ? AwardTemplateSyncService.SYNC_PROPERTY:(StringUtils.isNotBlank(parameterName) && parameterName.indexOf(AwardTemplateSyncService.SYNC_METHOD)!=-1) ? AwardTemplateSyncService.SYNC_METHOD:null;
-//        return syncPropertyCommand;
-//    }
     
     
     /**
@@ -1019,25 +966,6 @@ public class AwardAction extends BudgetParentActionBase {
         }
         return syncPropertyName;
     }
-    
-//    /**
-//     * Parses the method to call attribute to pick off the method name of award object
-//     * which should be called to perform sync actions not associated with a specific property, or 
-//     * custom syncs within a list property.
-//     *
-//     * @param request
-//     * @return
-//     */
-//    protected String getSyncMethodName(HttpServletRequest request) {
-//        String syncMethodName = null;
-//        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-//        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".syncMethodName")!=-1) {
-//            syncMethodName = StringUtils.substringBetween(parameterName, ".syncMethodName", ".anchor");
-//        }
-//        return syncMethodName;
-//    }
-
-    
     
     
     protected KeyPersonnelService getKeyPersonnelService() {

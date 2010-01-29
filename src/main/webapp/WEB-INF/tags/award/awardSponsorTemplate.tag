@@ -41,10 +41,9 @@
             <tr>
             	<th colspan="2" align="center" scope="row">
             		<div align="center">
-            		  <c:if test="${!readOnly}">
-	         			<html:image property="methodToCall.syncAwardTemplate.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
-					   </c:if>
+            		  <c:if test="${(!readOnly)}">
+	         			<kra-a:awardSyncButton propertyName = "" scopeNames="" tabKey="${tabKey}"/>
+	        		   </c:if>
 					</div>
 	         	</th>
 			</tr>
