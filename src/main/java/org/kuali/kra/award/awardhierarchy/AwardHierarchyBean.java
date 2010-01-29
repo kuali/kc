@@ -91,16 +91,16 @@ public class AwardHierarchyBean implements Serializable {
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy targetParentNode = getRootNode().findNodeInHierarchy(targetParentAwardNumber);
-        AwardHierarchy newNode = awardHierarchyService.copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
+        AwardHierarchy newNode = getAwardHierarchyService().copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
         return newNode;
     }
 
     //TODO: Make it protected once the old table UI is removed 
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
-        AwardHierarchy foreignRoot = awardHierarchyService.loadFullHierarchyFromAnyNode(targetParentAwardNumber);
+        AwardHierarchy foreignRoot = getAwardHierarchyService().loadFullHierarchyFromAnyNode(targetParentAwardNumber);
         AwardHierarchy targetParentNode = foreignRoot.findNodeInHierarchy(targetParentAwardNumber);
-        AwardHierarchy newBranchNode = awardHierarchyService.copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
+        AwardHierarchy newBranchNode = getAwardHierarchyService().copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
         rootNodes.put(foreignRoot.getAwardNumber(), foreignRoot);
         saveHierarchyChanges();
         return newBranchNode;
@@ -116,22 +116,22 @@ public class AwardHierarchyBean implements Serializable {
     public AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
         AwardHierarchy targetParentNode = sourceNode.findNodeInHierarchy(targetParentAwardNumber);
-        return awardHierarchyService.copyAwardAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
+        return getAwardHierarchyService().copyAwardAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
     }
 
     //TODO: Make it protected once the old table UI is removed
     public AwardHierarchy copyAwardAsChildOfAnAwardInAnotherHierarchy(String sourceAwardNumber, String targetParentAwardNumber) {
         AwardHierarchy sourceNode = getRootNode().findNodeInHierarchy(sourceAwardNumber);
-        AwardHierarchy foreignRoot = awardHierarchyService.loadFullHierarchyFromAnyNode(targetParentAwardNumber);
+        AwardHierarchy foreignRoot = getAwardHierarchyService().loadFullHierarchyFromAnyNode(targetParentAwardNumber);
         AwardHierarchy targetParentNode = foreignRoot.findNodeInHierarchy(targetParentAwardNumber);
-        AwardHierarchy newNode = awardHierarchyService.copyAwardAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
+        AwardHierarchy newNode = getAwardHierarchyService().copyAwardAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
         rootNodes.put(foreignRoot.getAwardNumber(), foreignRoot);
         saveHierarchyChanges();
         return newNode;
     }
 
     public AwardHierarchy copyAwardAndAllDescendantsAsNewHierarchy(String awardNumber) {
-        AwardHierarchy newRoot = awardHierarchyService.copyAwardAndAllDescendantsAsNewHierarchy(getRootNode().findNodeInHierarchy(awardNumber));
+        AwardHierarchy newRoot = getAwardHierarchyService().copyAwardAndAllDescendantsAsNewHierarchy(getRootNode().findNodeInHierarchy(awardNumber));
         rootNodes.put(newRoot.getAwardNumber(), newRoot);
         return newRoot;
     }
@@ -141,7 +141,7 @@ public class AwardHierarchyBean implements Serializable {
      * @return
      */
     public AwardHierarchy copyAwardAsNewHierarchy(String awardNumber) {
-        AwardHierarchy newRoot = awardHierarchyService.copyAwardAsNewHierarchy(getRootNode().findNodeInHierarchy(awardNumber));
+        AwardHierarchy newRoot = getAwardHierarchyService().copyAwardAsNewHierarchy(getRootNode().findNodeInHierarchy(awardNumber));
         rootNodes.put(newRoot.getAwardNumber(), newRoot);
         return newRoot;
     }
@@ -152,7 +152,7 @@ public class AwardHierarchyBean implements Serializable {
      */
     public AwardHierarchy createNewChildAward(String awardNumber) {
         AwardHierarchy targetNode = getRootNode().findNodeInHierarchy(awardNumber);
-        return awardHierarchyService.createNewChildAward(targetNode);
+        return getAwardHierarchyService().createNewChildAward(targetNode);
     }
 
     public AwardHierarchy createNewChildAwardBasedOnAnotherAwardInHierarchy(String nodeToCopyFromAwardNumber, String targetParentNodeAwardNumber) {
@@ -164,7 +164,7 @@ public class AwardHierarchyBean implements Serializable {
         if(targetParentNode == null) {
             throw new MissingHierarchyException(targetParentNodeAwardNumber);
         } 
-        return awardHierarchyService.createNewAwardBasedOnAnotherAwardInHierarchy(nodeToCopyFrom, targetParentNode);
+        return getAwardHierarchyService().createNewAwardBasedOnAnotherAwardInHierarchy(nodeToCopyFrom, targetParentNode);
     }
 
     public AwardHierarchy createNewAwardBasedOnParent(String awardNumber) {
@@ -172,16 +172,16 @@ public class AwardHierarchyBean implements Serializable {
         if(targetNode.isRootNode()) {
             return null;
         }
-        AwardHierarchy newNode =  awardHierarchyService.createNewAwardBasedOnParent(targetNode);
+        AwardHierarchy newNode =  getAwardHierarchyService().createNewAwardBasedOnParent(targetNode);
         return newNode;
     }
 
     public Map<String, AwardHierarchy> getAwardHierarchy(AwardHierarchy rootNode, List<String> order) {
-        return awardHierarchyService.getAwardHierarchy(rootNode, order);
+        return getAwardHierarchyService().getAwardHierarchy(rootNode, order);
     }
 
     public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order) {
-        return awardHierarchyService.getAwardHierarchy(awardNumber, order);
+        return getAwardHierarchyService().getAwardHierarchy(awardNumber, order);
     }
 
     /**
@@ -202,7 +202,7 @@ public class AwardHierarchyBean implements Serializable {
         }
         boolean result;
         try {
-            awardHierarchyService.persistAwardHierarchies(rootNodes.values());
+            getAwardHierarchyService().persistAwardHierarchies(rootNodes.values());
             refreshCurrentHierarchy();
             LOG.info("Hierarchy changes saved");
             result = true;
@@ -226,7 +226,7 @@ public class AwardHierarchyBean implements Serializable {
 
     public void refreshCurrentHierarchy() {
         rootNodes.clear();
-        setRootNode(awardHierarchyService.loadFullHierarchyFromAnyNode(getAward().getAwardNumber()));
+        setRootNode(getAwardHierarchyService().loadFullHierarchyFromAnyNode(getAward().getAwardNumber()));
     }
 
     /**
@@ -257,7 +257,7 @@ public class AwardHierarchyBean implements Serializable {
         }
 
         if(awardNumber != null) {
-            rootNodes.put(awardNumber, awardHierarchyService.loadFullHierarchyFromAnyNode(awardNumber));
+            rootNodes.put(awardNumber, getAwardHierarchyService().loadFullHierarchyFromAnyNode(awardNumber));
         }
     }
 
@@ -308,7 +308,7 @@ public class AwardHierarchyBean implements Serializable {
 
     private AwardHierarchy loadRootNodeForAwardNumber(String currentAwardNumber) {
         AwardHierarchy thisRootNode;
-        thisRootNode = awardHierarchyService.loadFullHierarchyFromAnyNode(currentAwardNumber);
+        thisRootNode = getAwardHierarchyService().loadFullHierarchyFromAnyNode(currentAwardNumber);
         if(thisRootNode != null) {
             rootNodes.put(thisRootNode.getAwardNumber(), thisRootNode);
         } else {
