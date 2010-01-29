@@ -264,18 +264,17 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         int templateIndex = getSelectedCorrespondenceTemplate(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
-        List<ProtocolCorrespondenceTemplate> blah = correspondenceTemplateForm.getReplaceCorrespondenceTemplates().get(typeIndex);
-        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = blah.get(templateIndex); 
-//        ProtocolCorrespondenceTemplate newCorrespondenceTemplate 
-//            = correspondenceTemplateForm.getReplaceCorrespondenceTemplates().get(typeIndex).get(templateIndex);
+        ProtocolCorrespondenceTemplate oldCorrespondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getReplaceCorrespondenceTemplates().get(typeIndex).getList().get(templateIndex);
 
+        newCorrespondenceTemplate.setCommitteeId(oldCorrespondenceTemplate.getCommitteeId());
+        
         // check any business rules
-        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddProtocolCorrespondenceTemplateRules(correspondenceType, 
-                newCorrespondenceTemplate, typeIndex);
+        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processReplaceProtocolCorrespondenceTemplateRules(correspondenceType, 
+                newCorrespondenceTemplate, typeIndex, templateIndex);
         if (rulePassed) {
             // Add correspondence template to database deletion list
-            ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
-            correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
+            correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(oldCorrespondenceTemplate);
         
             getProtocolCorrespondenceTemplateService().deleteProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
             getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);

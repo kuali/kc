@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -37,7 +39,8 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     private List<ProtocolCorrespondenceType> correspondenceTypes;    
     private List<ProtocolCorrespondenceTemplate> newDefaultCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> newCorrespondenceTemplates;
-    private List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates;
+//    private List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates;
+    private List<ProtocolCorrespondenceTemplateList> replaceCorrespondenceTemplates;
     private List<ProtocolCorrespondenceTemplate> deletedCorrespondenceTemplates;
     
     public ProtocolCorrespondenceTemplateForm() {
@@ -71,12 +74,21 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         return newCorrespondenceTemplates;
     }
 
-    public List<List<ProtocolCorrespondenceTemplate>> getReplaceCorrespondenceTemplates() {
+//    public List<List<ProtocolCorrespondenceTemplate>> getReplaceCorrespondenceTemplates() {
+//		return replaceCorrespondenceTemplates;
+//	}
+//
+//    public void setReplaceCorrespondenceTemplates(
+//			List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates) {
+//		this.replaceCorrespondenceTemplates = replaceCorrespondenceTemplates;
+//	}
+
+	public List<ProtocolCorrespondenceTemplateList> getReplaceCorrespondenceTemplates() {
 		return replaceCorrespondenceTemplates;
 	}
 
 	public void setReplaceCorrespondenceTemplates(
-			List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates) {
+			List<ProtocolCorrespondenceTemplateList> replaceCorrespondenceTemplates) {
 		this.replaceCorrespondenceTemplates = replaceCorrespondenceTemplates;
 	}
 
@@ -107,14 +119,17 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     public void resetForm() {
         this.newDefaultCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
-        this.replaceCorrespondenceTemplates = new ArrayList<List<ProtocolCorrespondenceTemplate>>();
+//        this.replaceCorrespondenceTemplates = new ArrayList<List<ProtocolCorrespondenceTemplate>>();
+        this.replaceCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplateList>();
         for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
             this.newDefaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
             this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
-            this.replaceCorrespondenceTemplates.add(new ArrayList<ProtocolCorrespondenceTemplate>());
+//            this.replaceCorrespondenceTemplates.add(new ArrayList<ProtocolCorrespondenceTemplate>());
+            this.replaceCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplateList());
             int typeIndex = correspondenceTypes.indexOf(correspondenceType);
             for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceType.getProtocolCorrespondenceTemplates()) {
-            	this.replaceCorrespondenceTemplates.get(typeIndex).add(new ProtocolCorrespondenceTemplate());
+//            	this.replaceCorrespondenceTemplates.get(typeIndex).add(new ProtocolCorrespondenceTemplate());
+            	this.replaceCorrespondenceTemplates.get(typeIndex).getList().add(new ProtocolCorrespondenceTemplate());
             }
         }
     }
