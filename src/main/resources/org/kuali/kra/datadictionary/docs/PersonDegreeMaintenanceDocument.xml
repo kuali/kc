@@ -69,15 +69,8 @@
 		             <bean parent="MaintainableFieldDefinition" p:name="graduationYear"/>
                    </list>
 					</property>
-					<property name="attributeToHighlightOnDuplicateKey" value="personId"/>
-					<property name="duplicateIdentificationFields">
-						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="degreeId"/>
-						</list>
-					</property>
 					<property name="maintainableFields">
 						<list>
-					        <!--<bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>-->
 					        <bean parent="MaintainableFieldDefinition" p:name="degree" p:required="true"/>
 					        <bean parent="MaintainableFieldDefinition" p:name="degreeCode" p:required="true"/>
 					        <bean parent="MaintainableFieldDefinition" p:name="graduationYear" p:required="true"/>

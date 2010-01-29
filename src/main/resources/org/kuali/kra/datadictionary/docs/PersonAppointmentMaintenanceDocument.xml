@@ -69,12 +69,6 @@
 		             <bean parent="MaintainableFieldDefinition" p:name="jobCode"/>
                    </list>
 					</property>
-					<!-- <property name="attributeToHighlightOnDuplicateKey" value="personId"/>
-					<property name="duplicateIdentificationFields">
-						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="appointmentId"/>
-						</list>
-					</property>-->
 					<property name="maintainableFields">
 						<list>
 					        <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
