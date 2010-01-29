@@ -200,15 +200,6 @@ public class BudgetServiceImpl implements BudgetService {
         boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
         if(!success)
             return null;
-        // Copy in key personnel
-        for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
-            if (!proposalPerson.isOtherSignificantContributorFlag()) {
-                BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
-                budgetPersonService.populateBudgetPersonData(budget, budgetPerson);
-                budgetPerson.setEffectiveDate(budgetParent.getRequestedStartDateInitial());
-                budget.addBudgetPerson(budgetPerson);
-            }
-        }
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
