@@ -1140,7 +1140,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
         getHierarchyHelper().syncAllHierarchy(hierarchyProposal);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        //return mapping.findForward(Constants.MAPPING_BASIC);
+        return reload(mapping, form, request, response);
     }
     
     public ActionForward removeFromHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
