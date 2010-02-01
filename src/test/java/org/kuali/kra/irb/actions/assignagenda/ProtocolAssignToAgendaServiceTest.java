@@ -92,13 +92,6 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         GlobalVariables.setUserSession(null);
         super.tearDown();
     }
-
-    @Test
-    public void testSetBusinessObjectService() {
-        protocolAssignToAgendaServiceImpl.setBusinessObjectService(businessObjectService);
-        assertTrue(true);
-    }
-
     @Test
     public void testSetDocumentService() {
         protocolAssignToAgendaServiceImpl.setDocumentService(documentService);
