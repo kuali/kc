@@ -82,17 +82,19 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award);
             instituteRatesForAward.add(awardRate);
         }
-        QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);
-        qlInstituteRates.sort("startDate");
-        InstituteRate firstRate = qlInstituteRates.get(0);
-        if(firstRate.getStartDate().after(award.getRequestedStartDateInitial())){
-            firstRate.setStartDate(award.getRequestedStartDateInitial());
+        if(!instituteRatesForAward.isEmpty()){
+            QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);
+            qlInstituteRates.sort("startDate");
+            InstituteRate firstRate = qlInstituteRates.get(0);
+            if(firstRate.getStartDate().after(award.getRequestedStartDateInitial())){
+                firstRate.setStartDate(award.getRequestedStartDateInitial());
+            }
         }
         for (InstituteRate awardEBRate : awardEbRates) {
             instituteRatesForAward.add(awardEBRate);
         }
         for (InstituteRate instituteRate : instituteRates) {
-            if(instituteRate.getRateClassType().equals(OVERHEAD.getRateClassType()) ||
+            if((!awardFnARates.isEmpty() && instituteRate.getRateClassType().equals(OVERHEAD.getRateClassType())) ||
                     (!awardEbRates.isEmpty() & instituteRate.getRateClassType().equals(EMPLOYEE_BENEFITS.getRateClassType()))){
                 continue;
             }
