@@ -1,7 +1,7 @@
 		$(document).ready(function(){
 			
 			// More/Less Information...
-				$(".Qmoreinfocontrol").parent().next().hide(0);
+				$(".Qmoreinfocontrol").parent().next().hide();
 				$(".Qmoreinfocontrol").toggle(
 					function()
 					{
@@ -243,11 +243,11 @@
 	 */
 	function isDateMatched(parentAnswer, conditionValue, condition)
 	 {
-	     var dt1  = parentAnswer.substring(0,2);
-	     var mon1 = parentAnswer.substring(3,5)-1;
+	     var mon1  = parentAnswer.substring(0,2)-1;
+	     var dt1 = parentAnswer.substring(3,5);
 	     var yr1  = parentAnswer.substring(6,10);
-	     var dt2  = conditionValue.substring(0,2);
-	     var mon2 = conditionValue.substring(3,5)-1;
+	     var mon2  = conditionValue.substring(0,2)-1;
+	     var dt2 = conditionValue.substring(3,5);
 	     var yr2  = conditionValue.substring(6,10);
 	     var date1 = new Date(yr1, mon1, dt1);
 	     var date2 = new Date(yr2, mon2, dt2);
