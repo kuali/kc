@@ -95,10 +95,6 @@ public abstract class AbstractBudgetCalculator {
      * @return
      */
     public QueryList filterRates(List rates) {
-//        if(rates.isEmpty()){
-//            BudgetRatesService budgetRateService = KraServiceLocator.getService(BudgetRatesService.class);
-//            budgetRateService.resetAllBudgetRates(budget);
-//        }
         String activityTypeCode = budget.getBudgetDocument().getParentDocument().getBudgetParent().getActivityTypeCode();
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetRate) {
             QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), activityTypeCode);
@@ -106,7 +102,6 @@ public abstract class AbstractBudgetCalculator {
                 qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budget.getActivityTypeCode());                
             }
             return qList;
-            //return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budget.getActivityTypeCode());
         }
         else {
             return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), null);
@@ -412,17 +407,9 @@ public abstract class AbstractBudgetCalculator {
                 breakUpInterval.setApplicableAmtCostSharing(boundary.getApplicableCostSharing());
                 // Loop and add all data required in breakup interval
                 
-                //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
                 List<AbstractBudgetCalculatedAmount> qlLineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
-//                if(budgetLineItem instanceof BudgetLineItem){
-//                    qlLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-//                }else{
-//                    qlLineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-//                }
                 
                 List<String> warningMessages = new ArrayList<String>();
-//                for(int i=0;i<qlLineItemCalcAmts.size();i++){
-//                      BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount)qlLineItemCalcAmts.get(i);
 
                 for (AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
                     budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
@@ -733,6 +720,24 @@ public abstract class AbstractBudgetCalculator {
             qValidCeRateTypes = qValidCeRateTypes.filter(notEqualsLabAllocationRateClassType());
         }
 
+//        QueryList<BudgetRate> budgetRates = new QueryList(budget.getBudgetRates());
+//        List<ValidCeRateType> amountsToBeRemoved = new ArrayList<ValidCeRateType>();
+//        for (ValidCeRateType validCeRateType : qValidCeRateTypes) {
+//            Equals eqValidRateClassCode = new Equals("rateClassCode",validCeRateType.getRateClassCode());
+//            Equals eqValidRateTypeCode = new Equals("rateTypeCode",validCeRateType.getRateTypeCode());
+//            And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
+//            QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList(budgetLaRates);
+//            List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
+//            List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
+//            
+//            if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()){
+//                amountsToBeRemoved.add(validCeRateType);
+//            }
+//        }
+//        for (ValidCeRateType validCeRateType : amountsToBeRemoved) {
+//            qValidCeRateTypes.remove(validCeRateType);
+//        }
+        
         addBudgetLineItemCalculatedAmountsForRateTypes(qValidCeRateTypes);
     }
 
@@ -807,9 +812,36 @@ public abstract class AbstractBudgetCalculator {
     protected void setInfltionValidCalcCeRates(QueryList<ValidCeRateType> infltionValidCalcCeRates) {
         this.infltionValidCalcCeRates = infltionValidCalcCeRates;
     }
+    
+    private void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType){
+        
+        QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
+        QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<BudgetLaRate>(budget.getBudgetLaRates());
+        Equals eqValidRateClassCode = new Equals("rateClassCode",rateClassCode);
+        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
+        And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
+        List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
+        List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
+        
+        if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()) return;
 
-    protected abstract void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType);
+        AbstractBudgetCalculatedAmount budgetCalculatedAmount = getNewCalculatedAmountInstance();
+        budgetCalculatedAmount.setBudgetId(budgetLineItem.getBudgetId());
+        budgetCalculatedAmount.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+        budgetCalculatedAmount.setBudgetPeriodId(budgetLineItem.getBudgetPeriodId());
+        budgetCalculatedAmount.setLineItemNumber(budgetLineItem.getLineItemNumber());
+        budgetCalculatedAmount.setRateClassType(rateClassType);
+        budgetCalculatedAmount.setRateClassCode(rateClassCode);
+        budgetCalculatedAmount.setRateTypeCode(rateTypeCode);
+        budgetCalculatedAmount.setApplyRateFlag(true);
+        budgetCalculatedAmount.refreshReferenceObject("rateType");
+        budgetCalculatedAmount.refreshReferenceObject("rateClass");
+        addCalculatedAmount(budgetCalculatedAmount);
+    }
 
+    protected abstract AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance();
+    
+    protected abstract void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount);
     /**
      * Gets the businessObjectService attribute.
      * 

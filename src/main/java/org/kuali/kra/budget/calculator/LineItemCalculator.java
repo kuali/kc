@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -133,23 +134,8 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
     }
     @Override
-    protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType) {
-        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = new BudgetLineItemCalculatedAmount();
-//        budgetLineItemCalculatedAmt.setProposalNumber(bli.getProposalNumber());
-//        budgetLineItemCalculatedAmt.setBudgetVersionNumber(bli.getBudgetVersionNumber());
-        budgetLineItemCalculatedAmt.setBudgetId(bli.getBudgetId());
-        budgetLineItemCalculatedAmt.setBudgetPeriod(bli.getBudgetPeriod());
-        budgetLineItemCalculatedAmt.setBudgetPeriodId(bli.getBudgetPeriodId());
-        budgetLineItemCalculatedAmt.setLineItemNumber(bli.getLineItemNumber());
-        budgetLineItemCalculatedAmt.setRateClassType(rateClassType);
-        budgetLineItemCalculatedAmt.setRateClassCode(rateClassCode);
-        budgetLineItemCalculatedAmt.setRateTypeCode(rateTypeCode);
-        // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
-        // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
-        budgetLineItemCalculatedAmt.setApplyRateFlag(true);
-        budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
-        budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
-        bli.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
+    protected void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount) {
+        bli.getBudgetLineItemCalculatedAmounts().add((BudgetLineItemCalculatedAmount)budgetCalculatedAmount);
     }
     @Override
     protected void populateBudgetRateBaseList() {
@@ -200,5 +186,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }
+    }
+
+    @Override
+    protected AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance() {
+        return new BudgetLineItemCalculatedAmount();
     }
 }

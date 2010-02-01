@@ -27,7 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
@@ -127,26 +129,17 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         budgetPersonnelLineItem.setLineItemCost(budgetPersonnelLineItem.getSalaryRequested());
         super.updateBudgetLineItemCalculatedAmounts();
     }
+    
     @Override
-    protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode,
-            String rateClassType) {
-        BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = new BudgetPersonnelCalculatedAmount();
-//            budgetPersonnelCalculatedAmt.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
-//            budgetPersonnelCalculatedAmt.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
-            budgetPersonnelCalculatedAmt.setBudgetId(budgetPersonnelLineItem.getBudgetId());
-            budgetPersonnelCalculatedAmt.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
-            budgetPersonnelCalculatedAmt.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
-            budgetPersonnelCalculatedAmt.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
-            budgetPersonnelCalculatedAmt.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
-            budgetPersonnelCalculatedAmt.setRateClassType(rateClassType);
-            budgetPersonnelCalculatedAmt.setRateClassCode(rateClassCode);
-            budgetPersonnelCalculatedAmt.setRateTypeCode(rateTypeCode);
-            // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
-            // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
-            budgetPersonnelCalculatedAmt.setApplyRateFlag(true);
-            budgetPersonnelCalculatedAmt.refreshReferenceObject("rateType");
-            budgetPersonnelCalculatedAmt.refreshReferenceObject("rateClass");
-            budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().add(budgetPersonnelCalculatedAmt);
+    protected void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount) {
+        BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = (BudgetPersonnelCalculatedAmount)budgetCalculatedAmount;
+        budgetPersonnelCalculatedAmt.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
+        budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().add(budgetPersonnelCalculatedAmt);
+    }
+
+    @Override
+    protected AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance() {
+        return new BudgetPersonnelCalculatedAmount();
     }
 
     @Override
