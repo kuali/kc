@@ -17,10 +17,12 @@ package org.kuali.kra.award.budget;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 
 public class AwardBudgetExt extends Budget { 
     
+
     private static final long serialVersionUID = 1L;
 
     public static final String AWARD_BUDGET_TYPE_NEW_PARAMETER = "AWARD_BUDGET_TYPE_NEW_PARAMETER";
@@ -75,6 +77,25 @@ public class AwardBudgetExt extends Budget {
         hashMap.put("awardBudgetStatusCode", this.getAwardBudgetStatusCode());
         hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
         return hashMap;
+    }
+
+    /**
+     * Gets the ohRatesNonEditable attribute. 
+     * @return Returns the ohRatesNonEditable.
+     */
+    public boolean getOhRatesNonEditable() {
+        Award award = (Award)getBudgetDocument().getParentDocument().getBudgetParent();
+        return award.getAwardFandaRate().isEmpty()?false:true;
+    }
+
+    /**
+     * Gets the ebRatesNonEditable attribute. 
+     * @return Returns the ebRatesNonEditable.
+     */
+    public boolean getEbRatesNonEditable() {
+        Award award = (Award)getBudgetDocument().getParentDocument().getBudgetParent();
+        return ((award.getSpecialEbRateOffCampus()!=null && award.getSpecialEbRateOffCampus().isPositive())||
+                 (award.getSpecialEbRateOnCampus()!=null && award.getSpecialEbRateOnCampus().isPositive()))?true:false;
     }
     
 }

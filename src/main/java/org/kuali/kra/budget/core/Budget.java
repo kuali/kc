@@ -36,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -161,8 +162,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
     private boolean rateSynced;
     private transient ParameterService parameterService;
 
-    private List<AwardBudgetExt> awardBudgetExtList;
-    private AwardBudgetExt awardBudgetExt;
+//    private List<AwardBudgetExt> awardBudgetExtList;
+//    private AwardBudgetExt awardBudgetExt;
     public Budget(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -182,7 +183,7 @@ public class Budget extends KraPersistableBusinessObjectBase {
         budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
-        awardBudgetExtList = new ArrayList<AwardBudgetExt>();
+//        awardBudgetExtList = new ArrayList<AwardBudgetExt>();
         setOnOffCampusFlag("D");
     }
     
@@ -2071,38 +2072,55 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         return true;
     }
 
+//    /**
+//     * Gets the awardBudgetExtList attribute. 
+//     * @return Returns the awardBudgetExtList.
+//     */
+//    public List<AwardBudgetExt> getAwardBudgetExtList() {
+//        return awardBudgetExtList;
+//    }
+//
+//    /**
+//     * Sets the awardBudgetExtList attribute value.
+//     * @param awardBudgetExtList The awardBudgetExtList to set.
+//     */
+//    public void setAwardBudgetExtList(List<AwardBudgetExt> awardBudgetExtList) {
+//        this.awardBudgetExtList = awardBudgetExtList;
+//    }
+//
+//    /**
+//     * Gets the awardBudgetExt attribute. 
+//     * @return Returns the awardBudgetExt.
+//     */
+//    public AwardBudgetExt getAwardBudgetExt() {
+//        return awardBudgetExtList.isEmpty()?null:awardBudgetExtList.get(0);
+//    }
+//
+//    /**
+//     * Sets the awardBudgetExt attribute value.
+//     * @param awardBudgetExt The awardBudgetExt to set.
+//     */
+//    public void setAwardBudgetExt(AwardBudgetExt awardBudgetExt) {
+//        this.awardBudgetExt = awardBudgetExt;
+//    }
+
     /**
-     * Gets the awardBudgetExtList attribute. 
-     * @return Returns the awardBudgetExtList.
+     * Gets the ohRatesNonEditable attribute. 
+     * @return Returns the ohRatesNonEditable.
      */
-    public List<AwardBudgetExt> getAwardBudgetExtList() {
-        return awardBudgetExtList;
+    public boolean getOhRatesNonEditable() {
+        return false;
     }
 
     /**
-     * Sets the awardBudgetExtList attribute value.
-     * @param awardBudgetExtList The awardBudgetExtList to set.
+     * Gets the ebRatesNonEditable attribute. 
+     * @return Returns the ebRatesNonEditable.
      */
-    public void setAwardBudgetExtList(List<AwardBudgetExt> awardBudgetExtList) {
-        this.awardBudgetExtList = awardBudgetExtList;
+    public boolean getEbRatesNonEditable() {
+        return false;
     }
-
-    /**
-     * Gets the awardBudgetExt attribute. 
-     * @return Returns the awardBudgetExt.
-     */
-    public AwardBudgetExt getAwardBudgetExt() {
-        return awardBudgetExtList.isEmpty()?null:awardBudgetExtList.get(0);
-    }
-
-    /**
-     * Sets the awardBudgetExt attribute value.
-     * @param awardBudgetExt The awardBudgetExt to set.
-     */
-    public void setAwardBudgetExt(AwardBudgetExt awardBudgetExt) {
-        this.awardBudgetExt = awardBudgetExt;
-    }
-
+    
+    
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {
