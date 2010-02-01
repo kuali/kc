@@ -18,6 +18,7 @@ package org.kuali.kra.award.home;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -43,16 +44,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.calculator.RateClassType;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.Or;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -91,7 +84,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private static final String YES_FLAG = "Y";
     private static final int TOTAL_STATIC_REPORTS = 4;
-    
+    private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
+
     private static final long serialVersionUID = 3797220122448310165L;
     private Long awardId;
     private AwardDocument awardDocument;
@@ -216,6 +210,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private transient boolean sponsorIsNih;
     private transient Map<String, String> nihDescriptions;
+
+    private transient List<AwardHierarchyTempObject> awardHierarchyTempObjects;
 
     /**
      * 
@@ -1767,6 +1763,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardAmountInfos.add(awardAmountInfo);
 
         fundingProposals = new ArrayList<AwardFundingProposal>();
+
+        awardHierarchyTempObjects = new ArrayList<AwardHierarchyTempObject>();
+        for(int i = 0; i < MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS; i++){
+            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
+        }
     }
 
     /**
@@ -2774,9 +2775,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
     }
 
-    
-    
-     
-    
-    
+    /**
+     *
+     * @return awardHierarchyTempObjects
+     */
+    public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
+        return awardHierarchyTempObjects;
+    }
 }
