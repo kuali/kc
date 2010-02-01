@@ -152,20 +152,15 @@ public class AwardForm extends BudgetVersionFormBase
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
-    private List<AwardHierarchyTempObject> awardHierarchyTempObjects;
+    
     private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
     private AwardPrintChangeReport awardPrintChangeReport;
     private List<AwardComment> awardCommentHistoryByType;
-    private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
-
     
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
     private AwardTemplateSyncScope[] currentSyncScopes;
-    
-    
-    
-    
+
     /**
      *
      * Constructs a AwardForm.
@@ -229,10 +224,7 @@ public class AwardForm extends BudgetVersionFormBase
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardPrintChangeReport();
         order = new ArrayList<String>();
-        awardHierarchyTempObjects = new ArrayList<AwardHierarchyTempObject>();
-        for(int i = 0; i < MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS; i++){
-            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
-        }
+        
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean(this);
         //sync
@@ -988,15 +980,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the hiddenObject.
      */
     public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
-        return awardHierarchyTempObjects;
-    }
-
-    /**
-     * Sets the awardHierarchyTempObjects attribute value.
-     * @param awardHierarchyTempObjects The awardHierarchyTempObjects to set.
-     */
-    public void setAwardHierarchyTempObjects(List<AwardHierarchyTempObject> awardHierarchyTempObjects) {
-        this.awardHierarchyTempObjects = awardHierarchyTempObjects;
+        return getAwardDocument().getAward().getAwardHierarchyTempObjects();
     }
     
     public String getValueFinderResultDoNotCache(){
@@ -1097,7 +1081,7 @@ public class AwardForm extends BudgetVersionFormBase
         String fieldName = parmKey.substring(indexOfClosingBracket + 2);
         Object fieldValue = parms.get(parmKey);
         int tempObjectIndex = Integer.valueOf(parmKey.substring(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH, indexOfClosingBracket));
-        AwardHierarchyTempObject tempObject = awardHierarchyTempObjects.get(tempObjectIndex);
+        AwardHierarchyTempObject tempObject = getAwardHierarchyTempObjects().get(tempObjectIndex);
         tempObject.setCopyDescendants(false);
         populateAwardHierarchyTempObjectFromRequestParms(tempObject, fieldName, fieldValue);
     }
