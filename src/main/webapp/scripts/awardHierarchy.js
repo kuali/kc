@@ -290,7 +290,7 @@
 	    subTdTag2.html('child of');
 	    radio2.appendTo(subTdTag2);
 	    
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber2))).((#awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber2:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber2,awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber2:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
 	    var selectBoxText = $("#awardHierarchyTempObjects\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
 	    var selectTag = $('<select />').attr("name","awardHierarchyTempObjects["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempObjects["+indexForHiddenField+"].copyAwardPanelTargetAward");   
 	    var optionTag = $("<option> select: </option>").attr("value","");
@@ -389,7 +389,7 @@
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber1))).((#awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber1:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber1,awardHierarchyTempObjects["+indexForHiddenField+"].awardNumber1:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
 	    var selectBoxText = $("#awardHierarchyTempObjects\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
 	    var selectTag = $('<select />').attr("name","awardHierarchyTempObjects["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObjects["+indexForHiddenField+"].newChildPanelTargetAward");   
 	    var optionTag = $("<option> select: </option>").attr("value","");
