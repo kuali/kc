@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociateInterface;
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements BudgetAssociateInterface {
@@ -60,7 +61,17 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         setOldApplicableRate(abstractInstituteRate.getInstituteRate());
         setNonEditableRateFlag(abstractInstituteRate.getNonEditableRateFlag());
     }
-    
+
+    @Override
+    public boolean getNonEditableRateFlag() {
+        boolean nonEditableRate = false;
+        if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
+            nonEditableRate = getBudget().getEbRatesNonEditable();
+        }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
+            nonEditableRate = getBudget().getOhRatesNonEditable();
+        }
+        return nonEditableRate;
+    }
 	public BudgetDecimal getApplicableRate() {
 		return BudgetDecimal.returnZeroIfNull(applicableRate);
 	}
