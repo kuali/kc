@@ -17,34 +17,36 @@ package org.kuali.kra.irb.actions.assignagenda;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.assigncmtsched.*;
 
 /**
- * This class is really just a "form" for assigning a protocol
- * to a committee and schedule.
+ * This class is really just a "form" for assigning a protocol to an agenda.
  */
 @SuppressWarnings("serial")
-public class ProtocolAssignToAgendaBean implements Serializable{
-    
+public class ProtocolAssignToAgendaBean implements Serializable {
+
     private ActionHelper actionHelper;
-    
+
     private String committeeId = "";
     private String committeName = "";
     private Date scheduleDate = null;
     private boolean protocolAssigned = false;
     private String comments = "";
-    
+
+    /**
+     * 
+     * Constructs a ProtocolAssignToAgendaBean.java.
+     * 
+     * @param actionHelper an ActionHelper object
+     */
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;
-        
+
     }
-    
-    
+
+
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
@@ -69,31 +71,33 @@ public class ProtocolAssignToAgendaBean implements Serializable{
         this.comments = comments;
     }
 
-
+    /**
+     * 
+     * This method initializes the values of the bean.
+     */
     public void init() {
-        try{
-        if(getProtocol() != null && getProtocol().getProtocolNumber() != null){
-            String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
-            if (committeeId != null) {
-                this.committeeId = committeeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
-                
-                this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
-                
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
-                
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+        try {
+            if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
+                String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+                if (committeeId != null) {
+                    this.committeeId = committeeId;
+                    this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
+
+                    this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
+
+                    this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+
+                    this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+                }
             }
+        } catch (Exception e) {
+            // errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
+            // e.printStackTrace();
         }
-        }
-        catch(Exception e){
-            //errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
-            //e.printStackTrace();
-        }
-        //the else condition means we can't create this bean
+        // the else condition means we can't create this bean
     }
-    
-    
+
+
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
         return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
     }
@@ -110,56 +114,53 @@ public class ProtocolAssignToAgendaBean implements Serializable{
 
     public String getCommitteeId() {
         return committeeId;
-        //return "12345";
+        // return "12345";
     }
 
 
     public String getCommitteName() {
         return committeName;
-        //return "really awesome committee";
+        // return "really awesome committee";
     }
 
 
     public Date getScheduleDate() {
         return scheduleDate;
-        //return new Date();
+        // return new Date();
     }
 
 
     public boolean isProtocolAssigned() {
         return protocolAssigned;
-        //return true;
+        // return true;
     }
 
 
     public String getComments() {
         return comments;
-        //return "Comments can be cool \n \n \n \n and so are text boxes";
+        // return "Comments can be cool \n \n \n \n and so are text boxes";
     }
-    
+
     /**
      * Prepare the Assign to Committee and Schedule for rendering with JSP.
      */
     public void prepareView() {
         /*
-         * The Assign to Agenda has to work with and without JavaScript.
-         * When JavaScript is enabled, the newly selected committee and schedule
-         * are what we want to continue to display.  When JavaScript is disabled,
-         * we have to change the schedule dates that we display if the committee
-         * has changed.
+         * The Assign to Agenda has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
+         * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates
+         * that we display if the committee has changed.
          */
         if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
-           // committeeId = newCommitteeId;
-            //scheduleId = newScheduleId;
-        } 
-        else {
-          //  if (!StringUtils.equals(committeeId, newCommitteeId)) {
-              //  committeeId = newCommitteeId;
-                //scheduleId = "";
-            //}
-            //else if (!StringUtils.equals(scheduleId, newScheduleId)) {
-                //scheduleId = newScheduleId;
-            //}
+            // committeeId = newCommitteeId;
+            // scheduleId = newScheduleId;
+        } else {
+            // if (!StringUtils.equals(committeeId, newCommitteeId)) {
+            // committeeId = newCommitteeId;
+            // scheduleId = "";
+            // }
+            // else if (!StringUtils.equals(scheduleId, newScheduleId)) {
+            // scheduleId = newScheduleId;
+            // }
         }
     }
 }
