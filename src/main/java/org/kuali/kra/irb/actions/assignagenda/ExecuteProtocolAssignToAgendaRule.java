@@ -16,17 +16,20 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.rice.kns.rule.BusinessRule;
 
+/**
+ * 
+ * This interface describes the public methods needed for validating an assignment and agenda.
+ */
 public interface ExecuteProtocolAssignToAgendaRule extends BusinessRule {
 
     /**
-     * Process the business validation when a protocol is assigned
-     * to a committee/schedule.
+     * Process the business validation when a protocol is assigned to a committee/schedule.
+     * 
      * @param document the protocol document
      * @param actionBean contains the committee/schedule to assign to
      * @return true if valid; otherwise false
      */
-    public boolean processAssignToAgendaRule(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean);
+    boolean processAssignToAgendaRule(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean);
 }
