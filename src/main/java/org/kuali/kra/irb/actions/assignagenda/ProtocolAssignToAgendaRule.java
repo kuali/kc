@@ -19,8 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
-import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -29,10 +27,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignToAgendaRule {
    
-    /**
-     * Verify that a committee has been selected.
-     * @see org.kuali.kra.irb.actions.assignagenda.ExecuteProtocolAssignToAgendaRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean)
-     */
+    /** {@inheritDoc} */
     @SuppressWarnings("deprecation")    
     public boolean processAssignToAgendaRule(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
         boolean valid = true;

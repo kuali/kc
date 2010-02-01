@@ -416,7 +416,6 @@
     </bean>   
     
     <bean id="protocolAssignToAgendaService" class="org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
     </bean> 

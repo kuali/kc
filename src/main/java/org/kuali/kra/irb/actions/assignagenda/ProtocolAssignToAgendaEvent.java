@@ -21,15 +21,21 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * The event that occurs when the IRB Administrator assigns a protocol
- * to a committee/schedule.
+ * The event that occurs when the IRB Administrator assigns a protocol to an agenda.
  */
 public class ProtocolAssignToAgendaEvent extends KraDocumentEventBase {
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolAssignToAgendaEvent.class);
-    
+
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+            .getLog(ProtocolAssignToAgendaEvent.class);
+
     private ProtocolAssignToAgendaBean actionBean;
     
+    /**
+     * 
+     * Constructs a ProtocolAssignToAgendaEvent.java.
+     * @param document a ProtocolDocument object
+     * @param actionBean a ProtocolAssignToAgendaBean object
+     */
     public ProtocolAssignToAgendaEvent(ProtocolDocument document, ProtocolAssignToAgendaBean actionBean) {
         super("Submitting to agenda document " + getDocumentId(document), "", document);
         this.actionBean = actionBean;
@@ -44,8 +50,7 @@ public class ProtocolAssignToAgendaEvent extends KraDocumentEventBase {
         // vary logging detail as needed
         if (this.actionBean == null) {
             logMessage.append("null actionBean");
-        }
-        else {
+        } else {
             logMessage.append(actionBean.toString());
         }
 
@@ -55,8 +60,10 @@ public class ProtocolAssignToAgendaEvent extends KraDocumentEventBase {
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolAssignToAgendaRule.class;
     }
-
+    
+    /** {@inheritDoc} */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolAssignToAgendaRule) rule).processAssignToAgendaRule((ProtocolDocument)this.getDocument(), this.actionBean);
+        return ((ExecuteProtocolAssignToAgendaRule) rule).processAssignToAgendaRule((ProtocolDocument) this.getDocument(),
+                this.actionBean);
     }
 }
