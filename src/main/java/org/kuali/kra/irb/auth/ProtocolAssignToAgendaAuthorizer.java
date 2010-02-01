@@ -20,53 +20,47 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-
-import java.util.*;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
  */
 public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    /** {@inheritDoc} */
+    @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
-               isAssignedToCommittee(protocol) &&
-               hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) && isAssignedToCommittee(protocol)
+                && hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
     /**
      * Is the protocol's submission in a pending or submitted to committee status?
+     * 
      * @param protocol
      * @return
      */
     private boolean isAssignedToCommittee(Protocol protocol) {
         ProtocolSubmission ps = findSubmission(protocol);
-        return ps != null && 
-        ps.getCommitteeSchedule() != null && 
-        ps.getCommitteeSchedule().getScheduledDate() != null;
+        return ps != null && ps.getCommitteeSchedule() != null && ps.getCommitteeSchedule().getScheduledDate() != null;
     }
-    
+
     /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
+     * Find the submission. It is the submission that is either currently pending or already submitted to a committee.
+     * 
      * @param protocol
      * @return
      */
     private ProtocolSubmission findSubmission(Protocol protocol) {
 
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
+                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;
             }
         }
         return null;
     }
-    
-    
+
+
 }
