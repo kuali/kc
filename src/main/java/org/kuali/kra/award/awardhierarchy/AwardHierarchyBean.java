@@ -51,6 +51,7 @@ import java.util.*;
  *    a) All hierarchy roots will be recursed to produce a flattened list of new hierarchy nodes. These will be saved with the BOS
  *    b) No deletes? No updates? (i.e. no move hierarchy?)
  *
+ *  Bean has been updated to null check the transient awardHierarchyService field before use.
  */
 public class AwardHierarchyBean implements Serializable {
     private static final Log LOG = LogFactory.getLog(AwardHierarchyBean.class);
