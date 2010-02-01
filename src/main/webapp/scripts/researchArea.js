@@ -275,11 +275,11 @@ function loadFirstLevel() {
  */
 function tableTag(name, id) {
 
-	var link = $('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
+//	var link = $('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
 	var tag = $(
 			'<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>')
 			.attr("id", "raHeader" + id.substring(4)).html(name);
-	link.prependTo(tag);
+//	link.prependTo(tag);
 	tag = $('<tr></tr>').html(tag);
 	tag = $('<thead></thead>').html(tag);
 	tag = $(
@@ -934,12 +934,18 @@ function okToSave() {
 
 }
 
-// <!-- initial state -->
-$(".hierarchydetail").hide();
-// <!-- hidedetail -->
-$(".hidedetail").toggle(function() {
-	$(".hierarchydetail").slideUp(300);
-});
+//// <!-- initial state -->
+//$(".hierarchydetail").hide();
+//// <!-- hidedetail -->
+//$(".hidedetail").toggle(function() {
+//	//$(".hierarchydetail").slideUp(300);
+//		$(this).parents('thead:eq(1)').next().slideDown(400);
+//        $(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//	}, function() {
+//		$(this).parents('thead:eq(1)').next().slideUp(400);
+//        $(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//	});
+
 // <!-- listcontent00 -->
 $("#listcontrol00").click(function() {
 	$(".hierarchydetail:not(#listcontent00)").slideUp(300);
