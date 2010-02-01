@@ -60,12 +60,8 @@ public class BreakUpInterval{
      * Calculate all the rates for the breakup interval
      */
     public void calculateBreakupInterval() {
-//        this.budgetDocument = budgetDocument;
-        //initialize formula maker & Under Recovery
         this.formulaMaker = new FormulaMaker();
         this.underRecovery = new BudgetDecimal(0);
-//        this.budgetProposalRates = new QueryList<BudgetRate>();
-//        this.budgetProposalLaRates = new QueryList<BudgetLaRate>();
         calculate();
     }
    
@@ -120,10 +116,7 @@ public class BreakUpInterval{
                Equals equalsRC;
                Equals equalsRT;
                And RCandRT;
-//               QueryList<ValidCalcType> tempRates;
-//               BudgetLaRate proposalLaRate;
-               
-               //get the Rate Class Type
+
                rateClassType = validCalcType.getRateClassType();
                
                //If this Rate Class Type is already calculated then skip
