@@ -39,6 +39,7 @@
           	<%-- Header --%>
           	
              <%-- New data --%>
+             <c:if test="${!readOnly}">
              <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -81,6 +82,7 @@
 					</div>
                 </td>
             </tr>
+            </c:if>
             <%-- New data --%>
             
             <%-- Existing data --%>
@@ -130,8 +132,13 @@
 				  <td class="infoline">
 				  	<c:if test="${status.index == fn:length(KualiForm.document.pendingTransactions)-1}" >
 						<div align="center">
+						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteTransaction.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						  </c:if>
+						  <c:if test="${readOnly}">
+						      &nbsp;
+						  </c:if>
 						</div>
 					</c:if>
                   </td>

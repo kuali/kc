@@ -23,7 +23,6 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -179,16 +178,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                 KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
                 user.getPrincipalId());
-    }
-    
-    private boolean isEnroute(Document document) {
-        return KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
-    }
-    
-    private boolean isFinal(Document document) {
-        return KEWConstants.ROUTE_HEADER_FINAL_CD.equals(
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
     }
     
     /**
