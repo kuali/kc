@@ -79,6 +79,9 @@
                     p:name="piId"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="person.userName"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="rolodexId"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
