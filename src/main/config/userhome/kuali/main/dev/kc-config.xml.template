@@ -1,4 +1,15 @@
 <config>
+	<!-- For Embedded Mode
+	<param name="rice.app.url">http://127.0.0.1:8081/kr-dev</param>
+
+	<param name="kim.runmode">embedded</param>
+	<param name="kcb.runmode">embedded</param>
+	<param name="kew.runmode">embedded</param>
+	<param name="ken.runmode">embedded</param>
+	
+	<param name="dev.mode">false</param>
+	-->
+
 	<!-- App specific parameters -->
 	<param name="app.code">kc</param>
 	<param name="kc.port">8080</param>
@@ -6,7 +17,7 @@
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 	
-	<!-- Database parameters -->
+	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
@@ -81,4 +92,21 @@
 	
 	<!-- Grab internal parameters that are dependent on parameters in this file -->
 	<param name="config.location">classpath:META-INF/kc-config-dependents.xml</param>
+	
+	<!-- Rice Server DB -->
+	<!-- Will be the same as KC Client DB when running embedded mode -->
+	<!-- For Embedded Mode
+	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+	<param name="server.datasource.username">RICEDEV</param>
+	<param name="server.datasource.password">ask your team</param>
+	<param name="server.datasource.ojb.platform">Oracle9i</param>
+	<param name="server.datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
+	<param name="server.datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="server.datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="server.datasource.pool.maxWait">30000</param>
+	<param name="server.datasource.pool.minSize">0</param>
+	<param name="server.datasource.pool.maxSize">50</param>
+	<param name="server.datasource.pool.size">5</param>
+	<param name="server.datasource.connectionTimeout">30000</param>
+	-->
 </config>

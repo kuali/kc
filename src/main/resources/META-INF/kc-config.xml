@@ -20,6 +20,7 @@
 
 	<param name="module.name">kc</param>
 	<param name="service.namespace">kc</param>
+	<param name="app.namespace">kc</param>
 <!--KC Modification End-->
 
 	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
@@ -33,7 +34,6 @@
 	<param name="config.location">${user.home}/kuali/main/${environment}/kc-config.xml</param>
 	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kc-config.xml</param>
 	
-	<param name="kns.editable.properties.history.size">20</param>
 <!--KC Modification End-->
 	<param name="config.location">${alt.config.location}</param>
 
