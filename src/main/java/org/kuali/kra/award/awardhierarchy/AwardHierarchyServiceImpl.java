@@ -114,12 +114,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @return
      */
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
-        if(targetNode.isRootNode()) {
-            return null;
-        }
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
-        Award newAward = copyAward(targetNode.getParent().getAward(), nextAwardNumber);
-        AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, nextAwardNumber, targetNode.getParent().getAward().getAwardNumber());
+        Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
+        AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, nextAwardNumber, targetNode.getAward().getAwardNumber());
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
         return newNode;
