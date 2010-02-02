@@ -6,7 +6,7 @@
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 
-	<!-- Database parameters -->
+	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:XE</param>
 	<param name="datasource.username">KRAUNT</param>
 	<param name="datasource.password">untpass</param>
