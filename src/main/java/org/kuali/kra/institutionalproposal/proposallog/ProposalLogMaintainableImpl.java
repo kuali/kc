@@ -22,19 +22,22 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
     private static final long serialVersionUID = 4690638717398206040L;
-    private static final String PERSON_OBJECT_REFERENCE = "person";
+    private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
+    
     private static final int FISCAL_YEAR_OFFSET = 6;
     
     private transient DateTimeService dateTimeService;
+    private transient KcPersonService kcPersonService;
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
@@ -45,11 +48,12 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.refresh(refreshCaller, fieldValues, document);
         
         // If a person has been selected, lead unit should default to the person's home unit.
-        String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
-        if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
+        if (KIM_PERSON_LOOKUPABLE_REFRESH_CALLER.equals(refreshCaller)) {
             ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
+            String principalId = (String) fieldValues.get(KimConstants.PrimaryKeyConstants.PRINCIPAL_ID);
+            proposalLog.setPiId(principalId);
             if (proposalLog.getPerson() != null) {
-                proposalLog.setLeadUnit(proposalLog.getPerson().getContactOrganizationName());
+                proposalLog.setLeadUnit(proposalLog.getPerson().getOrganizationIdentifier());
             }
         }
     }
@@ -104,6 +108,13 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         if (StringUtils.isBlank(proposalLog.getProposalLogTypeCode())) {
             proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
         }
+    }
+    
+    private KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
     
     private DateTimeService getDateTimeService() {
