@@ -175,7 +175,7 @@ class AwardHierarchyTestHelper {
         Assert.assertEquals(expectedAwardNumber, newNode.getAwardNumber());
         Award newAward = newNode.getAward();
         Assert.assertEquals(1, newAward.getSequenceNumber().intValue());
-        Assert.assertEquals(targetNode.getParent().getAward().getTitle(), newAward.getTitle());
+        Assert.assertEquals(targetNode.getAward().getTitle(), newAward.getTitle());
     }
 
     void testCreatingRootNode_NullAwardNumber() {
