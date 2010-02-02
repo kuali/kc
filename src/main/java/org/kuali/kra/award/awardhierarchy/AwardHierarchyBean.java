@@ -170,9 +170,6 @@ public class AwardHierarchyBean implements Serializable {
 
     public AwardHierarchy createNewAwardBasedOnParent(String awardNumber) {
         AwardHierarchy targetNode = getRootNode().findNodeInHierarchy(awardNumber);
-        if(targetNode.isRootNode()) {
-            return null;
-        }
         AwardHierarchy newNode =  getAwardHierarchyService().createNewAwardBasedOnParent(targetNode);
         return newNode;
     }

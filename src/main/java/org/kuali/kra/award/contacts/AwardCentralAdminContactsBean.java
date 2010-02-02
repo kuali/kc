@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -78,6 +79,8 @@ public class AwardCentralAdminContactsBean implements Serializable{
      * @return The count; may be 0
      */
     public int getCentralAdminContactsCount() {
+        if(CollectionUtils.isEmpty(getCentralAdminContacts()))
+            return 0;
         return getCentralAdminContacts().size();
     }
 
