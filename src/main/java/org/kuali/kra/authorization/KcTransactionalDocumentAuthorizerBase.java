@@ -588,4 +588,14 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     public boolean canSendAdHocRequests(Document arg0, String arg1, Person arg2) {
         return true;
     }
+    
+    protected boolean isEnroute(Document document) {
+        return KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+    }
+    
+    protected boolean isFinal(Document document) {
+        return KEWConstants.ROUTE_HEADER_FINAL_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+    }
 }
