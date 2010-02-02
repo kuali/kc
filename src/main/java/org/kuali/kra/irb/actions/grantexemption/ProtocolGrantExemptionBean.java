@@ -57,18 +57,12 @@ public class ProtocolGrantExemptionBean implements Serializable, ReviewerComment
         this.actionDate = actionDate;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer#getReviewComments()
-     */
+    /** {@inheritDoc} */
     public ReviewComments getReviewComments() {
         return reviewComments;
     } 
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer#setReviewComments(org.kuali.kra.irb.actions.ReviewComments)
-     */
+    /** {@inheritDoc} */
     public void setReviewComments(ReviewComments reviewComments) {
         this.reviewComments = reviewComments;
     }

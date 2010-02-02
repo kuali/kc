@@ -53,7 +53,6 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -198,7 +197,7 @@ public class ActionHelper implements Serializable {
      * This method builds a ProtocolGenericActionBean.  A number of different beans
      * in this object are of type ProtocolGenericActionBean, and all need to add
      * reviewer comments.  This encapsulates that.
-     * @return
+     * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
     private ProtocolGenericActionBean buildProtocolGenericActionBean(){
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
@@ -210,18 +209,18 @@ public class ActionHelper implements Serializable {
      * 
      * This method takes in a bean that implements ReviewerCommentsContainer and adds a
      * reviewer comments object to it, pulled from the DB via services.
-     * @param commentContainer
-     * @param form
+     * @param commentContainer a bean that implements ReviewerCommentsContainer
+     * @param form ProtocolForm object, only to pull out the protocolID, passing in form so 
+     * this function can catch the NPE if the form doesn't have the protocolID yet.
      */
-    private void addReviewerCommentsToBean(ReviewerCommentsContainer commentContainer, 
-            ProtocolForm form){
-        try{
+    private void addReviewerCommentsToBean(ReviewerCommentsContainer commentContainer, ProtocolForm form) {
+        try {
             CommitteeScheduleService scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
             List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocol(form.getProtocolDocument().getProtocol().getProtocolId());
             ReviewComments comments = commentContainer.getReviewComments();
             comments.setComments(minutes);
             commentContainer.setReviewComments(comments);
-        }catch(Exception e){
+        } catch (Exception e) {
             //this will happen if the form isn't ready yet, like when the form is first opened, 
             //this is OK
         }
