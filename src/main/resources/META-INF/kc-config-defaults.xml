@@ -1,13 +1,26 @@
 <config>
+	<!-- run modes -->
+	<!-- when changing runmodes to embedded/remote make sure to update rice server DB & turn dev.mode to false -->
+	<param name="kim.runmode">local</param>
+	<param name="kcb.runmode">local</param>
+	<param name="kew.runmode">local</param>
+	<param name="ken.runmode">local</param>
+	
+	<param name="dev.mode">true</param>
+	
 	<!-- App specific parameters -->
-	<param name="app.code">kc</param>
+	<param name="app.code">${module.name}</param>
 	<param name="kc.port">8080</param>
 	<param name="app.host">http://127.0.0.1:${kc.port}</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="application.url">${app.host}/${app.context.name}</param>
+	
+	<!-- for local (bundled mode) this defaults to the kc client url -->
+	<param name="rice.app.url">${application.url}</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
-	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
 	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/ArgValueLookupService.js</param>
@@ -22,18 +35,18 @@
 
 	<param name="title.inquiry.url.value.prependtext"></param>
 
-	<param name="application.url">${app.host}/${app.context.name}</param>
-	<param name="kr.url">${application.url}/kr</param>
-	<param name="appserver.url">http://127.0.0.1:8080</param>
-	<param name="ken.url">${application.url}/ken</param>
-	<param name="kew.url">${application.url}/kew</param>
-	<param name="kim.url">${application.url}/kim</param>
-	<param name="ksb.url">${application.url}/ksb</param>
-	<param name="rice.url">${application.url}/kr</param>
-	<param name="workflow.url">${application.url}/kew</param>
-	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	<param name="appserver.url">${app.host}</param>
+
+	<param name="kr.url">${rice.app.url}/kr</param>
+	<param name="ken.url">${rice.app.url}/ken</param>
+	<param name="kew.url">${rice.app.url}/kew</param>
+	<param name="kim.url">${rice.app.url}/kim</param>
+	<param name="ksb.url">${rice.app.url}/ksb</param>
+	<param name="rice.url">${rice.app.url}/kr</param>
+	<param name="workflow.url">${kew.url}</param>
+	<param name="workflow.documentsearch.base.url">${workflow.url}/DocumentSearch.do?backLocation=${application.url}</param>
 	
-	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${application.url}</param>
+	<param name="serviceServletUrl">${application.url}/remoting/</param>
 
 	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
 	<param name="attachments.directory">${java.io.tmpdir}</param>
@@ -59,6 +72,7 @@
 	<param name="bus.refresh.rate">30</param>
 	<param name="threadPool.size">5</param>
 
+	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
@@ -76,7 +90,6 @@
 	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
 	<param name="keystore.password">s1t0spss!xX-tst</param>
 
-	<param name="dev.mode">true</param>
 	<param name="message.persistence">true</param>
 	<param name="message.delivery">synchronous</param>
 
@@ -130,7 +143,7 @@
 	<param name="notification.quartz.autostartup">true</param>
 	<param name="notification.concurrent.jobs">true</param>
 
-	<param name="notification.basewebappurl">${app.host}/${app.context.name}/ken</param>
+	<param name="notification.basewebappurl">${ken.url}</param>
 
 	<param name="notification.ojb.platform">Oracle</param>
 

@@ -10,6 +10,7 @@
 			<label>Copy Action List Attribute</label>
 			<description>Copy Action List Attribute</description>
 			<type>ActionListAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 		</ruleAttribute>
 
 		<ruleAttribute>
@@ -18,16 +19,15 @@
 			<label>AggregatorSearchAttribute</label>
 			<description>AggregatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="aggregator" title="Aggregator">
 					<display>
 						<type>text</type>
 					</display>
-					<!-- This will probably use kimpersonservice ? -->
-					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
-					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+					<lookup businessObjectClass="org.kuali.rice.kim.bo.Person">
 				      <fieldConversions>
-				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="aggregator"/>
 				      </fieldConversions>
 				    </lookup>
 					
@@ -56,15 +56,15 @@
 			<label>BudgetCreatorSearchAttribute</label>
 			<description>BudgetCreatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="budgetCreator" title="Budget Creator">
 					<display>
 						<type>text</type>
 					</display>
-				    <!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
-					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+					<lookup businessObjectClass="org.kuali.rice.kim.bo.Person">
 				      <fieldConversions>
-				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="budgetCreator"/>
 				      </fieldConversions>
 				    </lookup>
 					
@@ -89,16 +89,16 @@
 			<label>NarrativeWriterSearchAttribute</label>
 			<description>NarrativeWriterSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="narrativeWriter"
 					title="Narrative Writer">
 					<display>
 						<type>text</type>
 					</display>
-					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
-					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+					<lookup businessObjectClass="org.kuali.rice.kim.bo.Person">
 				      <fieldConversions>
-				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="narrativeWriter"/>
 				      </fieldConversions>
 				    </lookup>
 					
@@ -123,15 +123,15 @@
 			<label>ViewerSearchAttribute</label>
 			<description>ViewerSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="viewer" title="Viewer">
 					<display>
 						<type>text</type>
 					</display>
-					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
-					<lookup businessObjectClass="org.kuali.rice.kim.lookup.PersonLookupableImpl">
+					<lookup businessObjectClass="org.kuali.rice.kim.bo.Person">
 				      <fieldConversions>
-				        <fieldConversion lookupFieldName="principalName" localFieldName="initiator"/>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="viewer"/>
 				      </fieldConversions>
 				    </lookup>
 					
@@ -157,6 +157,7 @@
 			<label>ProposalNumberSearchAttribute</label>
 			<description>ProposalNumberSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="proposalNumber" title="Proposal ID">
 					<display>
@@ -187,6 +188,7 @@
 			<label>DepartmentalApprovalAttribute</label>
 			<description>DepartmentalApprovalAttribute</description>
 			<type>RuleXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<routingConfig>
 				<fieldDef name="ownedByUnitNumber" title="Lead Unit"
 					workflowType="RULE">
@@ -213,6 +215,7 @@
 				DepartmentalBudgetApprovalAttribute
 			</description>
 			<type>RuleXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<routingConfig>
 				<fieldDef name="totalCost" title="Total"
 					workflowType="RULE">
@@ -236,6 +239,7 @@
             <label>CustomDataAttribute</label>
             <description>CustomDataAttribute</description>
             <type>RuleXmlAttribute</type>
+			<serviceNamespace>kc</serviceNamespace>
             <routingConfig>
                 <!-- work in progress -->
                 <fieldDef name="billingElement" title="Billing Element" workflowType="RULE">
@@ -327,6 +331,7 @@
 			<label>ProposalPersons-XPathQualifierResolver</label>
 			<description>ProposalPersons-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<resolverConfig>
 				<qualifier name="proposal">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
@@ -341,6 +346,7 @@
 			<label>DepartmentRouting-XPathQualifierResolver</label>
 			<description>DepartmentRouting-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
+			<serviceNamespace>kc</serviceNamespace>
 			<resolverConfig>
 				<qualifier name="unitNumber">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
@@ -360,7 +366,6 @@
 			<parent>KC</parent>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>KC-WKFLW:OSP Superuser</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
@@ -372,6 +377,10 @@
 				<policy>
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
+                </policy>
+                <policy>
+                	<name>DOCUMENT_STATUS_POLICY</name>
+                	<stringValue>app</stringValue>
                 </policy>
 			</policies>
 			<attributes>
@@ -501,8 +510,8 @@
 		<rule>
       		<documentType>ProposalDevelopmentDocument</documentType>
       		<ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
-      		<description>Approval Routing for System User Approval.  Used for routing of hierarchy child documents.</description>
-      		
+      		<description>System User Approval for Hierarchy children.</description>
+			<forceAction>true</forceAction>
       		<responsibilities>
         		<responsibility>
           			<principalName>kr</principalName>

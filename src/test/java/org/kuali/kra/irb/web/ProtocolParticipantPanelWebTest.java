@@ -18,6 +18,7 @@ package org.kuali.kra.irb.web;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -67,7 +68,7 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
      * This will also test the help links on other panels on the page, but no big deal.
      * @throws Exception
      */
-    // @Test -- KRACOEUS-1419 - Add this test back when urls are added.
+    @Test @Ignore("-- KRACOEUS-1419 - Add this test back when urls are added.")
     public void testHelpLinks() throws Exception {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
         this.checkHelpLinks(protocolPage);
