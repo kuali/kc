@@ -20,6 +20,7 @@ import java.util.Date;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolAction;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
@@ -76,6 +77,17 @@ public class ProtocolAssignToAgendaBean implements Serializable {
      * This method initializes the values of the bean.
      */
     public void init() {
+        if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
+            ProtocolAction pa = getProtocolAssigntoAgendaService().getAssignedToAgendaProtocolAction(getProtocol());
+            if ( pa != null){
+                this.committeeId = pa.getProtocolSubmission().getCommitteeId();
+                this.committeName = pa.getProtocolSubmission().getCommittee().getCommitteeName();
+                this.scheduleDate = pa.getProtocolSubmission().getCommitteeSchedule().getScheduledDate();
+                this.protocolAssigned = true;
+                this.comments = pa.getComments();
+            }
+        }
+        /*
         try {
             if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
                 String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
@@ -94,8 +106,10 @@ public class ProtocolAssignToAgendaBean implements Serializable {
             // errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
             // e.printStackTrace();
         }
-        // the else condition means we can't create this bean
+        // the else condition means we can't create this bean    
+         */
     }
+    
 
 
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {

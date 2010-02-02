@@ -19,10 +19,22 @@ import org.kuali.kra.irb.actions.ReviewComments;
 
 /**
  * 
- * This class defines functions that need to be implemented in a "bean" that needs to 
- * provide support for reviewer comments.
+ * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.
  */
 public interface ReviewerCommentsContainer {
-    public ReviewComments getReviewComments();
-    public void setReviewComments(ReviewComments reviewComments);
+    /**
+     * 
+     * This method needs to return the reviewer comments object held by the bean. Maintained by data entry by the remote user
+     * 
+     * @return ReviewComments object
+     */
+    ReviewComments getReviewComments();
+
+    /**
+     * 
+     * This method sets the reviewer comments object of the bean, pulled from the database or by user input.
+     * 
+     * @param reviewComments ReviewComments object
+     */
+    void setReviewComments(ReviewComments reviewComments);
 }
