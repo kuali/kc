@@ -60,9 +60,10 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     /** {@inheritDoc} */
     public void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
         
-        ProtocolSubmission submission = findSubmission(protocol);        
+        ProtocolSubmission submission = findSubmission(protocol);
+        ProtocolAction protocolActionFound = getAssignedToAgendaProtocolAction(protocol);
         if (actionBean.isProtocolAssigned()) {
-            if (!isAssignedToAgenda(protocol)) {
+            if (protocolActionFound != null) {
                 //add a new protocol action
                 ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
                 protocolAction.setComments(actionBean.getComments());
@@ -77,7 +78,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
                 return;
             }            
             documentService.saveDocument(protocol.getProtocolDocument());
-        }else if(!actionBean.isProtocolAssigned() && isAssignedToAgenda(protocol)) {
+        }else if(!actionBean.isProtocolAssigned() && protocolActionFound != null) {
             //un assign the protocol            
             ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
             pa.setProtocolActionTypeCode(ProtocolActionType.DISAPPROVED);
@@ -87,65 +88,16 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         }
         
     }
-    /** {@inheritDoc} */
-    public boolean isAssignedToAgenda(Protocol protocol) {
-        /*
-        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
-        while(i.hasNext()){
-            ProtocolAction pa = i.next();
-            if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)){
-                return true;
-            }
-        }
-        return false;*/
-        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-        //if there is a protocol action return true, otherwise return false
-        return pa != null;
-    }
-    /** {@inheritDoc} */
-    public String getAssignToAgendaComments(Protocol protocol) {
-        /*
-        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
-        while(i.hasNext()){
-            ProtocolAction pa = i.next();
-            if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)){
-                return pa.getComments();
-            }
-        } 
-        //no proper protocol action found, return empty string
-        return "";*/
-        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-        if (pa == null) {
-            return "";
-        } else {
-            return pa.getComments();
-        }
-    }
     
-    private ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
+    /** {@inheritDoc} */
+    public ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
         Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
         while (i.hasNext()) {
             ProtocolAction pa = i.next();
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)) {
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)) {                
                 return pa;
             }
         } 
-        //no proper protocol action found, return null
         return null;
-    }
-    /** {@inheritDoc} */
-    public String getAssignedCommitteeId(Protocol protocol) {
-        ProtocolSubmission ps = findSubmission(protocol);
-        return ps.getCommitteeId();
-    }
-    /** {@inheritDoc} */
-    public String getAssignedCommitteeName(Protocol protocol) {
-        ProtocolSubmission ps = findSubmission(protocol);
-        return ps.getCommittee().getCommitteeName();
-    }
-    /** {@inheritDoc} */
-    public Date getAssignedScheduleDate(Protocol protocol) {
-        ProtocolSubmission ps = findSubmission(protocol);
-        return ps.getCommitteeSchedule().getScheduledDate();
     }
 }

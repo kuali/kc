@@ -19,7 +19,6 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.HeaderTokenizer;
@@ -34,12 +33,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -82,14 +79,9 @@ import org.kuali.kra.irb.actions.terminate.ProtocolTerminateService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -112,13 +104,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     
-    /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    /** {@inheritDoc} */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         ((ProtocolForm) form).getActionHelper().prepareView();
@@ -162,14 +150,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
 
     /** {@inheritDoc} */
-    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
     }
 
     /** {@inheritDoc} */
-    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
     }
 
@@ -184,7 +172,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the name of the HTML page to display
-     * @throws Exception
+     * @throws Exception doesn't ever really happen
      */
     public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -1140,6 +1128,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     
+    @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -1366,6 +1355,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(ProtocolSuspendService.class);
     }
     
+    @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
