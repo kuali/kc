@@ -27,7 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
     private static final long serialVersionUID = -8385115657304261423L;
     private static final Integer INITIAL_VERSION = Integer.valueOf(0);
-    
+
     //the pk of the BO - this can always be moved to a subclass if it conflict with a BOs PK requirements
     private Long id;
     
