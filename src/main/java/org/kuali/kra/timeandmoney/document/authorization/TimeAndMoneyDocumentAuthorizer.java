@@ -23,8 +23,10 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class is the Time and Money Document Authorizer.  It determines the edit modes and
@@ -110,6 +112,47 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
     @Override
     protected boolean canCopy(Document document, Person user) {
         return false;
+    }
+    
+    /**
+     * Can the user approve the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can approve the document; otherwise false
+     */
+    @Override
+    protected boolean canApprove(Document document, Person user) {
+        return isEnroute(document) && isAuthorizedByTemplate(
+                 document,
+                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                 KimConstants.PermissionTemplateNames.APPROVE_DOCUMENT,
+                 user.getPrincipalId());
+    }
+    
+    /**
+     * Can the user disapprove the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can disapprove the document; otherwise false
+     */
+    @Override
+    protected boolean canDisapprove(Document document, Person user) {
+        return canApprove(document, user);
+    }
+    
+    /**
+     * Can the user blanket approve the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can blanket approve the document; otherwise false
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document, Person user) {
+        return !isFinal(document) && isAuthorizedByTemplate(
+                document,
+                KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
+                user.getPrincipalId());
     }
     
     /**

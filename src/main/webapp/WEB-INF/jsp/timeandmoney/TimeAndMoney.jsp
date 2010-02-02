@@ -25,6 +25,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="timeAndMoney"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
+  	
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 	
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time And Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />

@@ -171,15 +171,6 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     }
     
     /**
-     * Is the document in the final route state?
-     * @param document
-     * @return true if in the final state; otherwise false
-     */
-    private boolean isFinal(Document document) {
-        return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD);
-    }
-    
-    /**
      * Does the user have permission to create a committee?
      * @param user the user
      * @return true if the user can create a committee; otherwise false
