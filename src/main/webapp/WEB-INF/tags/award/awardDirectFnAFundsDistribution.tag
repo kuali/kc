@@ -58,6 +58,7 @@
 				<th width="20%"><kul:htmlAttributeLabel attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th width="20%"><div align="center">Actions</div></th>
 			</tr>
+			<c:if test="${!readOnly}">
 			<tr>
             	<th align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
@@ -87,6 +88,7 @@
 					</div>
 	            </td>
 	         </tr>
+	         </c:if>
 	          <c:forEach var="awardDirectFandADistribution" items="${KualiForm.document.award.awardDirectFandADistributions}" varStatus="status">
 	             <tr>
 					<th width="6%" class="infoline">
@@ -114,8 +116,10 @@
 					</td>
 					<td width="10%">
 					<div align="center">&nbsp;
+					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteAwardDirectFandADistribution.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					   </c:if>
 					</div>
 	                </td>
 	             </tr>
@@ -133,8 +137,13 @@
 	                </div>
 	         	</th>
 	         	<th align="center" rowspan="2">
+	         	 <c:if test="${!readOnly}">
 					<html:image property="methodToCall.recalculateDirectFandADistributionTotals.anchor${tabKey}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/> 
+				 </c:if>
+				 <c:if test="${readOnly}">
+				    &nbsp;
+				 </c:if>
    				</th>  
           	   </tr>
           	   <tr>
