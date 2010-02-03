@@ -1145,9 +1145,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     public ActionForward removeFromHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, "removeFromHierarchy", ProposalHierarcyActionHelper.QUESTION_REMOVE_CONFIRM);
+        return confirm(question, "removeFromHierarchyConfirmed", "removeFromHierarchyCanceled");
+    }
+        
+    public ActionForward removeFromHierarchyConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal childProposal = pdForm.getDocument().getDevelopmentProposal();
         getHierarchyHelper().removeFromHierarchy(childProposal);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward removeFromHierarchyCanceled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlobalVariables.getMessageList().add(ProposalHierarcyActionHelper.MESSAGE_REMOVE_CANCEL);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
