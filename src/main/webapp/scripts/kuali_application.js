@@ -1090,8 +1090,8 @@ var changedValue;
 var comments;
 var lookupReturn;
 
-function updateOtherFields(editableColumnNameField, callbackFunction ) {
-	var proposalNumber = DWRUtil.getValue( 'document.proposalNumber' );
+function updateOtherFields(editableColumnNameField, proposalNumberFieldId, callbackFunction ) {
+	var proposalNumber = DWRUtil.getValue( proposalNumberFieldId );
 
 	fieldPrefix = findElPrefix( editableColumnNameField.name );
 	oldDisplayValue =  fieldPrefix + ".oldDisplayValue" ;
@@ -1195,7 +1195,6 @@ function dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, c
 	var tabIndex = document.getElementById("tabIndex").value;
     var myDiv = document.getElementById('changedValueExtraBody');
 	var innerDivContent = "";
-	
 	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
 		innerDivContent = "<input type='image' tabindex='' ";
 		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupPkReturnValue + ":" + changedValueFieldName + "," + lookupReturnValue + ":" + displayValueField + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";

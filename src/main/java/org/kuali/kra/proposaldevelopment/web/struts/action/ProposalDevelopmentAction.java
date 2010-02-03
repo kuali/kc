@@ -50,12 +50,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -140,6 +142,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             
             if( GlobalVariables.getAuditErrorMap().isEmpty())
                 new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
+            proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalNumber()));
 //            if (proposalDevelopmentForm.isAuditActivated()) {
 //                if (document != null && 
 //                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
@@ -639,6 +642,35 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }        
         return null;
+    }
+    
+    
+    /**
+     * This method produces a list of strings containg the methodToCall to be registered for each of the 
+     * ProposalColumnsToAlter lookup buttons that can be rendered on the Proposal Data Override tab. The execute method in this class
+     * puts this list into the form.  The Proposal Data Override tag file then calls registerEditableProperty on each when rendering the tab.
+     * 
+     * @param proposalNumber The proposal number for which we are generating the list for.
+     * @return Possible editable properties that can be called from the page.
+     */
+    public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
+        Map<String,Object> filterMap = new HashMap<String,Object>();
+        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection = (KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProposalColumnsToAlter.class, filterMap));
+        
+        List<String> mtcReturn = new ArrayList<String>();
+        
+        for( ProposalColumnsToAlter pcta : proposalColumnsToAlterCollection ) {
+            if( pcta.getHasLookup() ) {
+                Map<String, Object> primaryKeys = new HashMap<String, Object>();
+                primaryKeys.put("columnName", pcta.getColumnName());
+                Object fieldValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalNumber, pcta.getColumnName());
+                String displayAttributeName = pcta.getLookupReturn();
+                String displayLookupReturnValue = proposalDevelopmentService.getDataOverrideLookupDisplayReturnValue(pcta.getLookupClass());
+                mtcReturn.add("methodToCall.performLookup.(!!"+pcta.getLookupClass()+"!!).((("+displayLookupReturnValue+":newProposalChangedData.changedValue,"+displayAttributeName+":newProposalChangedData.displayValue))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride");
+            }
+        }
+        return mtcReturn;
     }
 }
 
