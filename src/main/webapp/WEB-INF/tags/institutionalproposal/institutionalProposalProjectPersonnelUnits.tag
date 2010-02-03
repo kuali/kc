@@ -20,7 +20,6 @@
 <%@ attribute name="institutionalProposalContact" required="true" type="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" %>
 <%@ attribute name="institutionalProposalPersonIndex" required="true" %>
 
-<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="institutionalProposalPersonUnitAttributes" value="${DataDictionary.InstitutionalProposalPersonUnit.attributes}" />
 <c:set var="isPrincipalInvestigator" value="${institutionalProposalContact.principalInvestigator}" />
 
@@ -46,17 +45,21 @@
 				<div align="center">Unit Number</div>
 			</th>
 			<th class="infoline">
+				<div align="center">OSP Administrator</div>
+			</th>
+			<th class="infoline">
 				<div align="center">Actions</div>
+				
 			</th>
 		</tr>
 		<c:if test="${!readOnly}">
-		  <tr>
+		<tr>
 			<th class="infoline" scope="row">Add:</th>
 			<c:if test="${isPrincipalInvestigator}" >
 				<th class="infoline">
 					<div align="center">
-					   <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].leadUnit" 
-												attributeEntry="${institutionalProposalPersonUnitAttributes.leadUnit}"/>
+					<kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].leadUnit" 
+												attributeEntry="${institutionalProposalPersonUnitAttributes.leadUnit}" />
 					</div>
 				</th>
 			</c:if>
@@ -100,6 +103,11 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+			</th>
+			<th>
+				<div>
+					&nbsp;
+				</div>
 			</th>			
 			<th class="infoline">
 				<div align="center">
@@ -108,18 +116,20 @@
                                 styleClass="tinybutton" />                    
                 </div>
 			</th>
-		  </tr>
+		</tr>
 		</c:if>
 		
 		<c:forEach var="institutionalProposalPersonUnit" items="${institutionalProposalContact.units}" varStatus="institutionalProposalPersonUnitRowStatus">
+		<c:choose>                  
+			<c:when test="${empty institutionalProposalPersonUnit.ospAdministrators}">
             <tr>
 				<th class="infoline" scope="row">
 					<c:out value="${institutionalProposalPersonUnitRowStatus.index + 1}" />
-				</th> 
+				</th>
 				<c:if test="${isPrincipalInvestigator}">
 	                <td valign="middle">
 	                	<div align="center">
-	                		<html:radio property="selectedLeadUnit" value="${institutionalProposalPersonUnit.unit.unitName}" disabled="${readOnly}"/>
+	                		<html:radio property="selectedLeadUnit" value="${institutionalProposalPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
 						</div>
 					</td>
 				</c:if>
@@ -134,15 +144,64 @@
 						${institutionalProposalPersonUnit.unit.unitNumber}&nbsp;						
 					</div>
 				</td>
+				<td valign="middle">
+                	<div align="center">
+						&nbsp;						
+					</div>
+				</td>
 				<td class="infoline">
 					<div align="center">
 					   <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteProjectPersonUnit.${institutionalProposalPersonIndex}.line${institutionalProposalPersonUnitRowStatus.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-				       </c:if>
+					   </c:if>
+					   <c:if test="${readOnly}">&nbsp;</c:if>
 					</div>
                 </td>
             </tr>
+            </c:when>
+            <c:otherwise>
+            	<c:forEach var="ospAdministrator" items="${institutionalProposalPersonUnit.ospAdministrators}" varStatus="institutionalProposalOspAdministratorRowStatus">
+            		<tr>
+						<th class="infoline" scope="row">
+							<c:out value="${institutionalProposalPersonUnitRowStatus.index + 1}" />
+						</th>
+						<c:if test="${isPrincipalInvestigator}">
+	                	<td valign="middle">
+	                		<div align="center">
+	                			<html:radio property="selectedLeadUnit" value="${institutionalProposalPersonUnit.unit.unitName}" disabled="${readOnly}"/>               		
+							</div>
+						</td>
+						</c:if>
+                		<td valign="middle">
+                			<div align="center">
+                				${institutionalProposalPersonUnit.unit.unitName}&nbsp;
+                				<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${institutionalProposalPersonUnit.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+                			</div> 
+						</td>
+						<td valign="middle">
+                			<div align="center">
+								${institutionalProposalPersonUnit.unit.unitNumber}&nbsp;						
+							</div>
+						</td>
+						<td valign="middle">
+                			<div align="center">
+								${ospAdministrator.person.fullName}						
+							</div>
+						</td>
+						<td class="infoline">
+							<div align="center">
+							 <c:if test="${!readOnly}">
+								<html:image property="methodToCall.deleteProjectPersonUnit.${institutionalProposalPersonIndex}.line${institutionalProposalPersonUnitRowStatus.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							 </c:if>
+							 <c:if test="${readOnly}">&nbsp;</c:if>
+							</div>
+                		</td>
+            		</tr>
+            	</c:forEach>
+            </c:otherwise>
+            </c:choose>
 		</c:forEach>
 	</table>
 </kra:innerTab>

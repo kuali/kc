@@ -19,13 +19,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -68,11 +68,11 @@ public class InstitutionalProposalVersioningTest {
         institutionalProposal.getKeywords().get(0).setProposalScienceKeywordId(new Long(1));
         Assert.assertTrue(institutionalProposal.getInstitutionalProposalScienceKeywords().get(0).getSequenceNumber().equals(1));
         
-        InstitutionalProposalUnitAdministrator ipUnitAdministrator = new InstitutionalProposalUnitAdministrator();
-        ipUnitAdministrator.setProposalUnitAdministratorsId(new Long(1));
-        ipUnitAdministrator.setInstitutionalProposal(institutionalProposal);
-        institutionalProposal.getInstitutionalProposalUnitAdministrators().add(ipUnitAdministrator);
-        Assert.assertTrue(institutionalProposal.getInstitutionalProposalUnitAdministrators().get(0).getSequenceNumber().equals(1));
+        InstitutionalProposalUnitContact ipUnitContact = new InstitutionalProposalUnitContact();
+        ipUnitContact.setInstitutionalProposalContactId(new Long(1));
+        ipUnitContact.setInstitutionalProposal(institutionalProposal);
+        institutionalProposal.getInstitutionalProposalUnitContacts().add(ipUnitContact);
+        Assert.assertTrue(institutionalProposal.getInstitutionalProposalUnitContacts().get(0).getSequenceNumber().equals(1));
         
         InstitutionalProposalSpecialReview ipSpecialReview = new InstitutionalProposalSpecialReview();
         ipSpecialReview.setProposalSpecialReviewId(new Long(1));

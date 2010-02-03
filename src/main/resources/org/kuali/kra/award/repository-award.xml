@@ -638,6 +638,9 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitAdministratorTypeCode"/> 
+		</reference-descriptor>
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>			
 	</class-descriptor>
 	

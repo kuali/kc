@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator;
 import org.kuali.kra.service.UnitService;
 
 /**

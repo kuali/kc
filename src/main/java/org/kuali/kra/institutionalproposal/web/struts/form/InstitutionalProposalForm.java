@@ -15,7 +15,15 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
+import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -23,8 +31,10 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCentralAdminContactsBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContactsBean;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
@@ -42,11 +52,6 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class...
@@ -75,6 +80,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     private InstitutionalProposalProjectPersonnelBean projectPersonnelBean;
     private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
+    private InstitutionalProposalUnitContactsBean unitContactsBean;
+    private InstitutionalProposalCentralAdminContactsBean centralAdminContactsBean;
     
     private MedusaBean medusaBean;
     private ReportHelperBean reportHelperBean;
@@ -109,6 +116,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean(this);
         reportHelperBean = new ReportHelperBean(this);
+        unitContactsBean = new InstitutionalProposalUnitContactsBean(this);
+        centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -208,6 +217,16 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         this.projectPersonnelBean = projectPersonnelBean;
     }
     
+    public InstitutionalProposalUnitContactsBean getUnitContactsBean() {
+        return unitContactsBean;
+    }
+    
+    /**
+     * @return
+     */
+    public InstitutionalProposalCentralAdminContactsBean getCentralAdminContactsBean() {
+        return centralAdminContactsBean;
+    }
     
 
     /**
@@ -300,6 +319,13 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      */
     public String getSelectedLeadUnit() {
         return projectPersonnelBean.getSelectedLeadUnit();
+    }
+    
+    /**
+     * @param unitName
+     */
+    public void setSelectedLeadUnit(String unitName) {
+        projectPersonnelBean.setSelectedLeadUnit(unitName);
     }
 
     /**

@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -39,7 +39,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -47,6 +46,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
@@ -131,22 +131,23 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private ActivityType activityType; 
     private AwardType awardType; 
     private Unit leadUnit;
+    private KcPerson ospAdministrator;
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
     private InstitutionalProposalCostShare proposalCostSharing; 
     //private AwardFundingProposals awardFundingProposals; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
-    private InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator; 
     private InstitutionalProposalComments proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
     private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
     
     private List<InstitutionalProposalPerson> projectPersons;
+    private List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts;
+
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
     private List<InstitutionalProposalSpecialReview> specialReviews;
-    private List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators;
     private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
     private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
@@ -365,24 +366,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
     
     
-
-    /**
-     * Gets the institutionalProposalUnitAdministrators attribute. 
-     * @return Returns the institutionalProposalUnitAdministrators.
-     */
-    public List<InstitutionalProposalUnitAdministrator> getInstitutionalProposalUnitAdministrators() {
-        return institutionalProposalUnitAdministrators;
-    }
-
-    /**
-     * Sets the institutionalProposalUnitAdministrators attribute value.
-     * @param institutionalProposalUnitAdministrators The institutionalProposalUnitAdministrators to set.
-     */
-    public void setInstitutionalProposalUnitAdministrators(
-            List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators) {
-        this.institutionalProposalUnitAdministrators = institutionalProposalUnitAdministrators;
-    }
-
     /**
      * Sets the institutionalProposalCustomDataList attribute value.
      * @param institutionalProposalCustomDataList The institutionalProposalCustomDataList to set.
@@ -413,13 +396,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
         specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
-        institutionalProposalUnitAdministrators = new ArrayList<InstitutionalProposalUnitAdministrator>();
         institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
         institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
         institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
         proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
         proposalIpReviewJoins.add(new ProposalIpReviewJoin());
         awardFundingProposals = new ArrayList<AwardFundingProposal>();
+        institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
     }
     
     /**
@@ -429,6 +412,49 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void add(InstitutionalProposalPerson projectPerson) {
         projectPersons.add(projectPerson);
         projectPerson.setInstitutionalProposal(this);
+    }
+    
+    /**
+     * Add an Institutional Proposal Unit or Central Administration contact
+     * @param awardUnitContact
+     */
+    public void add(InstitutionalProposalUnitContact institutionalProposalUnitContact) {
+        institutionalProposalUnitContacts.add(institutionalProposalUnitContact);
+        institutionalProposalUnitContact.setInstitutionalProposal(this);
+    }
+    
+    /**
+     * @return
+     */
+    public KcPerson getOspAdministrator() {
+        for(InstitutionalProposalUnitContact contact: getInstitutionalProposalUnitContacts()) {
+            if(contact.isOspAdministrator()) {
+                ospAdministrator = contact.getPerson();
+                break;
+            }
+        }
+        return ospAdministrator;
+    }
+    
+    /**
+     * @param institutionalProposalUnitContacts
+     */
+    public void setInstitutionalProposalUnitContacts(List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts) {
+        this.institutionalProposalUnitContacts = institutionalProposalUnitContacts;
+    }
+    
+    /**
+     * @return
+     */
+    public List<InstitutionalProposalUnitContact> getInstitutionalProposalUnitContacts() {
+        return institutionalProposalUnitContacts;
+    }
+    
+    /**
+     * @return
+     */
+    public int getInstitutionalProposalContactsCount() {
+        return institutionalProposalUnitContacts.size();
     }
     
     public Long getProposalId() {
@@ -1031,14 +1057,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.proposalUnitCreditSplit = proposalUnitCreditSplit;
     }
 
-    public InstitutionalProposalUnitAdministrator getInstitutionalProposalUnitAdministrator() {
-        return institutionalProposalUnitAdministrator;
-    }
-
-    public void setInstitutionalProposalUnitAdministrator(InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator) {
-        this.institutionalProposalUnitAdministrator = institutionalProposalUnitAdministrator;
-    }
-
     public InstitutionalProposalComments getProposalComments() {
         return proposalComments;
     }
@@ -1386,22 +1404,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setTitle(proposalLog.getTitle());
         this.setLeadUnit(getUnitService().getUnit(proposalLog.getLeadUnit()));
         this.setLeadUnitNumber(proposalLog.getLeadUnit());
-        populateInstitutionalProposalUnitAdministrators(getUnitService().retrieveUnitAdministratorsByUnitNumber(proposalLog.getLeadUnit()));
     }
     
-    /**
-     * This method...
-     * @param unitAdministrators
-     */
-    public void populateInstitutionalProposalUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
-        for (UnitAdministrator unitAdministrator : unitAdministrators) {
-            InstitutionalProposalUnitAdministrator newAdministrator = new InstitutionalProposalUnitAdministrator();
-            newAdministrator.setInstitutionalProposal(this);
-            newAdministrator.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
-            newAdministrator.setAdministrator(unitAdministrator.getPersonId());
-            institutionalProposalUnitAdministrators.add(newAdministrator);
-        }
-    }
     public UnitService getUnitService() {
         return (UnitService) KraServiceLocator.getService(UnitService.class);
     }

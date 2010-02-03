@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -92,6 +93,16 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
             }
         }
         return foundLeadUnit;
+    }
+    
+    public List<UnitAdministrator> getOspAdministrators() {
+        List<UnitAdministrator> ospAdministrators = new ArrayList<UnitAdministrator>();
+        for(UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+            if(unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
+                ospAdministrators.add(unitAdministrator);
+            }
+        }
+        return ospAdministrators;
     }
     
     /**
