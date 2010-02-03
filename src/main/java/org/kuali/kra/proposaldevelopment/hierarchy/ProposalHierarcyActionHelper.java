@@ -50,6 +50,8 @@ public class ProposalHierarcyActionHelper {
     private static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";
     private static final String MESSAGE_SYNC_SUCCESS = "message.hierarchy.sync.success";
     private static final String MESSAGE_REMOVE_SUCCESS = "message.hierarchy.remove.success";
+    public static final String MESSAGE_REMOVE_CANCEL = "message.hierarchy.remove.cancel";
+    public static final String QUESTION_REMOVE_CONFIRM = "question.hierarchy.remove.confirm";
 
     private static final String WARNING_LINK_NO_FINAL_BUDGET = "warning.hierarchy.link.noFinalBudget";
     private static final String WARNING_LINK_DIFFERENT_SPONSOR = "warning.hierarchy.link.differentSponsor";
@@ -65,8 +67,7 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.sync.noPrincipleInvestigator";
 
     private ProposalHierarchyService hierarchyService;
-    private ProposalStatusService proposalStatusService;
-    
+
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
         if (validateHierarchyForSyncAll(hierarchyProposal)) {
             try {
