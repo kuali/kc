@@ -131,20 +131,6 @@ public class AwardContactsAction extends AwardAction {
         getSponsorContactsBean(form).addSponsorContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-
-//    /**
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//                                                                                                                        throws Exception {
-//        getCentralAdminContactsBean(form).addCentralAdminContact();
-//        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-//    }
     
     /**
      * @param mapping
@@ -203,20 +189,6 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-//    /**
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//                                                                                                                        throws Exception {
-//    
-//        getCentralAdminContactsBean(form).deleteContact(getLineToDelete(request));
-//        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-//    }
     
     /**
      * @param mapping

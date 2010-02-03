@@ -44,11 +44,11 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     }
 
     public void addUnitContact() {
-        //boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getUnitContact());
-        //if(success){
+        boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getUnitContact());
+        if(success){
             getAward().add(getUnitContact());
             init();
-        //}
+        }
     }
     
     /**
