@@ -171,7 +171,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private MedusaBean medusaBean;
     
     private ReportHelperBean reportHelperBean;
-
+    private List<String> proposalDataOverrideMethodToCalls;
+    
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -1589,4 +1590,16 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }
+
+    public List<String> getProposalDataOverrideMethodToCalls() {
+        return proposalDataOverrideMethodToCalls;
+    }
+
+    public void setProposalDataOverrideMethodToCalls(List<String> proposalDataOverrideMethodToCalls) {
+        this.proposalDataOverrideMethodToCalls = proposalDataOverrideMethodToCalls;
+    }
+    
+    
+    
+    
 }

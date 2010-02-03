@@ -15,25 +15,23 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -52,15 +50,13 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDataOverrideRule.class);
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
-
+    private static final String DATE="DATE";
     static {
         validationClasses.put("STRING", "org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
-        validationClasses.put("DATE", "org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern");
         validationClasses.put("NUMBER", "org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern");
     }
 
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) proposalDataOverrideEvent.getDocument();
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
@@ -68,8 +64,8 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         String overriddenValue = proposalOverriddenData.getChangedValue();
         KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
         Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
-        String overriddenName = dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
-        Boolean isRequiredField = dataDictionaryService.isAttributeRequired(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
+        String overriddenName = dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
+        Boolean isRequiredField = dataDictionaryService.isAttributeRequired(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         
         if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
             valid = false;
@@ -122,29 +118,42 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         }
         
         ValidationPattern validationPattern = null;
-        String validationClassName = validationClasses.get(dataType);
-        if(StringUtils.isNotEmpty(validationClassName)) {
+
+        
+        if( DATE.equalsIgnoreCase(dataType) ) {
             try {
-                validationPattern = (ValidationPattern) Class.forName(validationClasses.get(dataType)).newInstance();
-                if (dataType.equalsIgnoreCase("STRING")) {
-                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
-                            .setAllowWhitespace(true);
-                }
+                dateTimeService.convertToDate(overriddenValue);
             }
-            catch (Exception e) {  
-                throw new RuntimeException("Error in instantiating a ValidationPatternClass for Proposal Data Overriding", e);
+            catch (ParseException e) {
+                GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        new String[] { changedValueLabel, overriddenValue });
+                return false;
             }
         } else {
-            //throw error
-        }
+            String validationClassName = validationClasses.get(dataType);
+            if(StringUtils.isNotEmpty(validationClassName)) {
+                try {
+                    validationPattern = (ValidationPattern) Class.forName(validationClasses.get(dataType)).newInstance();
+                    if (dataType.equalsIgnoreCase("STRING")) {
+                        ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
+                        .setAllowWhitespace(true);
+                    }
+                }
+                catch (Exception e) {  
+                    throw new RuntimeException("Error in instantiating a ValidationPatternClass for Proposal Data Overriding", e);
+                }
+            } else {
+                //throw error
+            }
 
-        if(validationPattern != null) {
-            Pattern validationExpression = validationPattern.getRegexPattern();
-            if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
-                if (!validationExpression.matcher(overriddenValue).matches()) {
-                    GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
-                            new String[] { changedValueLabel, overriddenValue });
-                    return false;
+            if(validationPattern != null) {
+                Pattern validationExpression = validationPattern.getRegexPattern();
+                if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
+                    if (!validationExpression.matcher(overriddenValue).matches()) {
+                        GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                                new String[] { changedValueLabel, overriddenValue });
+                        return false;
+                    }
                 }
             }
         }
@@ -157,7 +166,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
 
         Object currentValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalOverriddenData.getProposalNumber(), proposalOverriddenData.getColumnName());
         String currentValueStr = (currentValue != null) ? currentValue.toString() : "";
-        if(proposalOverriddenData.getEditableColumn().getDataType().equalsIgnoreCase("DATE")) {
+        if(DATE.equalsIgnoreCase( proposalOverriddenData.getEditableColumn().getDataType())) {
             currentValueStr = dateTimeService.toString((Date) currentValue, "MM/dd/yyyy");
         }
         

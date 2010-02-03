@@ -302,7 +302,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
             String proposalAttributeToPersist = columnToAttributesMap.get(newProposalChangedData.getColumnName());
             ObjectUtils.setObjectProperty(proposalWrapper, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
-            ObjectUtils.setObjectProperty(pdDocument, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
+            ObjectUtils.setObjectProperty(pdDocument.getDevelopmentProposal(), proposalAttributeToPersist, newProposalChangedData.getChangedValue());
             
             boService.save(proposalWrapper);
             pdForm.getDocument().setVersionNumber(proposalWrapper.getVersionNumber());
@@ -327,10 +327,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalOverview proposalWrapper = new ProposalOverview();
         PersistenceStructureService persistentStructureService = KraServiceLocator.getService(PersistenceStructureService.class);
         List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(ProposalOverview.class);
-        Object tempVal;
         for(String field: fieldsToUpdate) {
-            tempVal = ObjectUtils.getPropertyValue(pdDocument, field);
-            ObjectUtils.setObjectProperty(proposalWrapper, field, (tempVal != null) ? tempVal.toString() : null);
+            boolean noSuchFieldPD = false;
+            boolean noSuchFieldBO = false;
+            Object tempVal = null;
+            
+            try {
+                tempVal = ObjectUtils.getPropertyValue(pdDocument, field);
+            } catch ( Exception e ) {
+                noSuchFieldPD = true;
+            }
+            
+            try {
+                tempVal = ObjectUtils.getPropertyValue(pdDocument.getDevelopmentProposal(), field);
+            } catch ( Exception e ) {
+                noSuchFieldBO = true;
+            }
+            System.out.println();
+            if( tempVal == null && noSuchFieldPD && noSuchFieldBO ) {
+                LOG.warn("Could not find property " + field + " in ProposalDevelopmentDocument or DevelopmnentProposal bo.");
+            }
+            
+            ObjectUtils.setObjectProperty(proposalWrapper, field, (tempVal != null) ? tempVal : null);
         }
         return proposalWrapper;
     } 
