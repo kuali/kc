@@ -40,6 +40,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -49,6 +50,8 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -214,6 +217,62 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return returnValue + "," + displayAttributeName + "," + displayValue;
     }
     
+    
+    public String getDataOverrideLookupDisplayReturnValue( String lookupClassName ) {
+        List<String> lookupClassPkFields = null;
+        String returnValue = "";
+        Class lookupClass = null;
+        
+        if(StringUtils.isNotEmpty(lookupClassName)) {
+            try {
+                lookupClass = Class.forName(lookupClassName);
+                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
+            }
+            catch (ClassNotFoundException e) {}
+      
+            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
+                returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
+      
+            }
+        
+        }
+        return returnValue;
+    }
+    
+    public String getDataOverrideLookupDisplayDisplayValue( String lookupClassName, String value, String displayAttributeName ) {
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        List<String> lookupClassPkFields = null;
+        Class lookupClass = null;
+        String displayValue = "";
+        PersistableBusinessObject businessObject = null;
+        
+        if(StringUtils.isNotEmpty(lookupClassName)) {
+            try {
+                lookupClass = Class.forName(lookupClassName);
+                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
+            }
+            catch (ClassNotFoundException e) {}
+            
+            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
+                
+                if(StringUtils.isNotEmpty(value)) {
+                    primaryKeys.put(lookupClassPkFields.get(0), value);
+                    businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
+                    if(businessObject != null) {
+                        displayValue = getPropertyValue(businessObject, displayAttributeName);
+                        displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
+                    }
+                } 
+            }
+        } 
+        
+        return displayValue;
+    }
+
+
+    
+    
+    
     private String getPropertyValue(BusinessObject businessObject, String fieldName) {
         String displayValue = "";
         try {
@@ -249,7 +308,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
         
         if(editableColumn.getHasLookup()) {
-             returnValue = getLookupDisplayValue(editableColumn.getLookupClass(), (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
+            returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass()) + "," + editableColumn.getLookupReturn() + "," + getDataOverrideLookupDisplayDisplayValue( editableColumn.getLookupClass(), (fieldValue != null ? fieldValue.toString() : ""),editableColumn.getLookupReturn() );
         } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
             returnValue = ",," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
         } else if (fieldValue != null) {

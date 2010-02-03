@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface ProposalDevelopmentService {
     
@@ -46,5 +51,10 @@ public interface ProposalDevelopmentService {
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal);
     
     public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal);
+    
+    public String getDataOverrideLookupDisplayReturnValue( String lookupClassName );
+    
+    public String getDataOverrideLookupDisplayDisplayValue( String lookupClassName, String value, String displayAttributeName );
+
 
 }
