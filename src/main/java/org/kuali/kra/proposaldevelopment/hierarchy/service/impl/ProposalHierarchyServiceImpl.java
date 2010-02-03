@@ -751,19 +751,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
         LOG.info(String.format("***Aggregating Proposal Hierarchy #%s", hierarchy.getProposalNumber()));
-/*
-        ArrayList<ProposalPerson> persons = new ArrayList<ProposalPerson>();      
-        for (ProposalPerson person : hierarchy.getProposalPersons()) {
-            if (!persons.contains(person)) {
-                persons.add(person);
+        List<ProposalPerson> propPersons = hierarchy.getProposalPersons();
+        List<ProposalPersonBiography> biosToRemove = new ArrayList<ProposalPersonBiography>();
+        for (ProposalPersonBiography bio : hierarchy.getPropPersonBios()) {
+            if (!propPersons.contains(bio.getPersonId()) && !propPersons.contains(bio.getRolodexId())) {
+                biosToRemove.add(bio);      
             }
-            else if ((person.isInvestigator() != persons.get(persons.indexOf(person)).isInvestigator()) 
-                    && (person.isInvestigator() != persons.get(persons.lastIndexOf(person)).isInvestigator())) {
-                persons.add(person);
-            }
-            else person.setHiddenInHierarchy(true);
         }
-*/
+        if (!biosToRemove.isEmpty()) {
+            hierarchy.getPropPersonBios().removeAll(biosToRemove);
+        }
+        
         BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchy); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
