@@ -26,12 +26,10 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="contacts">
-  	
-This is the  Institutional Proposal Contacts - Under Construction
 
 <kra-ip:institutionalProposalProjectPersonnel />
-<kra-ip:institutionalProposalUnitAdministrators />
-<kra-ip:institutionalProposalProposalAdministrators />
+<kra-ip:institutionalProposalUnitContacts />
+<kra-ip:institutionalProposalCentralAdministrationContacts />
 
 <kul:panelFooter />	
  
