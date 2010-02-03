@@ -25,10 +25,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContactsBean;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
  * This class...
@@ -37,7 +44,43 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
 
     private static final String DELETE_PROJECT_PERSON_UNIT_PREFIX = "deleteProjectPersonUnit.";
     private static final String LINE_SUFFIX = ".line";
+    private static final String CONFIRM_SYNC_UNIT_CONTACTS = "confirmSyncUnitContacts";
+    private static final String CONFIRM_SYNC_UNIT_CONTACTS_KEY = "confirmSyncUnitContactsKey";
 
+    
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        setLeadUnitOnInstitutionalProposalFromPILeadUnit(institutionalProposal);
+        institutionalProposalForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        ActionForward forward = super.save(mapping, form, request, response); 
+        return forward;
+    }
+    
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        ActionForward forward = super.reload(mapping, form, request, response);
+        institutionalProposalForm.getCentralAdminContactsBean().initCentralAdminContacts();
+
+        return forward;
+    }
+    
+    /**
+     * This method is called to reset the Lead Unit on the InstitutionalProposal if the lead unit is changed on the PI.
+     * @param institutionalProposal
+     */
+    private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal) {
+        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
+            if(person.isPrincipalInvestigator()) {
+                Unit leadUnit = person.findLeadUnit();
+                institutionalProposal.setLeadUnit(leadUnit);
+                institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
+            }
+        }
+    }
+    
     
     /**
      * @param mapping
@@ -79,6 +122,35 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     public ActionForward deleteProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getProjectPersonnelBean(form).deleteProjectPerson(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                        throws Exception {
+        getUnitContactsBean(form).addUnitContact();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                        throws Exception {
+    
+        getUnitContactsBean(form).deleteUnitContact(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
@@ -125,8 +197,61 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * This is action called when sync the unit contacts is called from Award Unit contacts tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward syncDefaultUnitContactsToLeadUnit (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                    throws Exception {
+        return confirm(buildSyncUnitContactsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_CONTACTS, "");
+    }
+    
+    /**
+     * 
+     * This method is to build the confirmation question for syncing unit contacts.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param deletePeriod
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildSyncUnitContactsConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNC_UNIT_CONTACTS_KEY,
+                KeyConstants.QUESTION_SYNC_UNIT_CONTACTS);
+    }
+    
+    /**
+     * This method is called if the user clicks 'yes' in confirmation question.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward confirmSyncUnitContacts(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        getUnitContactsBean(institutionalProposalForm).syncInstitutionalProposalUnitContactsToLeadUnitContacts();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
     private InstitutionalProposalCreditSplitBean getInstitutionalProposalCreditSplitBean(ActionForm form) {
         return ((InstitutionalProposalForm) form).getInstitutionalProposalCreditSplitBean();
+    }
+    
+    private InstitutionalProposalUnitContactsBean getUnitContactsBean(ActionForm form) {
+        return ((InstitutionalProposalForm) form).getUnitContactsBean();
     }
     
     

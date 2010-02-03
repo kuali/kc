@@ -154,8 +154,8 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
      */
     public ActionForward contacts(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        // Temp.
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
+        ipForm.getCentralAdminContactsBean().initCentralAdminContacts();
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE);
     }
     
