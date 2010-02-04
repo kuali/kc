@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -33,7 +36,9 @@ import org.kuali.rice.kns.service.DocumentService;
  * 
  * This class implements ProtocolAssignToAgendaService.
  */
-public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgendaService {
+public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgendaService, Serializable {
+    
+    private static final long serialVersionUID = 986748376;
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -147,7 +152,10 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         if (pa != null) {
             ProtocolSubmission ps = pa.getProtocolSubmission();
             if (ps != null) {
-                return ps.getCommittee().getCommitteeName();
+                Committee com = ps.getCommittee();
+                if (com != null){
+                    return com.getCommitteeName();
+                }
             }
         }
         return null;
@@ -159,7 +167,10 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         if (pa != null) {
             ProtocolSubmission ps = pa.getProtocolSubmission();
             if (ps != null) {
-                return ps.getCommitteeSchedule().getScheduledDate();
+                CommitteeSchedule schedDate = ps.getCommitteeSchedule();
+                if (schedDate != null){
+                    return schedDate.getScheduledDate();
+                }
             }
         }
         return null;
