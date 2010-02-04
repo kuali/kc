@@ -41,9 +41,8 @@ public class RateTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase
         super.tearDown();
     }
 
-    @Test
-    public void testDocumentCreation() throws Exception {
-        testDocumentCreation(DOCTYPE);
+    public String getDocTypeName() {
+        return DOCTYPE;
     }
 
     @Test

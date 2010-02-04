@@ -17,28 +17,28 @@ package org.kuali.kra.maintenance;
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Test;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
 
+    public abstract String getDocTypeName();
+    
     /**
      * 
      * This method to test the document is set up properly
      * @param docType
      * @throws Exception
      */
-    protected void testDocumentCreation(String docType) throws Exception {
-        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(docType);
+    @Test
+    public void testDocumentCreation() throws Exception {
+        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(getDocTypeName());
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertNotNull(document.getDocumentHeader().getDocumentNumber());
