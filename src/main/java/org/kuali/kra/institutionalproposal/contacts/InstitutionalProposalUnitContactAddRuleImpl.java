@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -34,15 +35,18 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
      */
     public boolean processAddInstitutionalProposalUnitContactBusinessRules(InstitutionalProposal institutionalProposal, 
                                                                                 InstitutionalProposalUnitContact newUnitContact) {
-        return checkForSelectedContactAndRole(newUnitContact) && checkForDuplicatePerson(institutionalProposal, newUnitContact);
+        return checkForSelectedContactAdministratorTypeCode(newUnitContact) && checkForDuplicatePerson(institutionalProposal, newUnitContact);
     }
 
-    /**
-     * @param newContact
-     * @return
-     */
-    boolean checkForSelectedContactAndRole(InstitutionalProposalContact newContact) {
-        return checkForSelectedContactAndRole(newContact, INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_LIST_ERROR_KEY);
+    public boolean checkForSelectedContactAdministratorTypeCode(InstitutionalProposalUnitContact newContact) {
+        InstitutionalProposalUnitContact institutionalProposalUnitContact = (InstitutionalProposalUnitContact) newContact;
+        boolean valid = institutionalProposalUnitContact.getUnitAdministratorTypeCode() != null;
+
+        if(!valid) {
+            GlobalVariables.getMessageMap().putError(INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_LIST_ERROR_KEY, ERROR_INSTITUTIONAL_PROPOSAL_CONTACT_ROLE_REQUIRED);
+        }
+
+        return valid;
     }
     
     boolean checkForDuplicatePerson(InstitutionalProposal institutionalProposal, InstitutionalProposalUnitContact newUnitContact) {
