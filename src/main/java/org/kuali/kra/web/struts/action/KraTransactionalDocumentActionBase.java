@@ -120,22 +120,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
         
-        // TODO This section was added to make Rice 1.1 work.  It should happen in KualiRequestProcessor.process but that code doesn't work.
-        KualiDocumentFormBase formBase = (KualiDocumentFormBase) form;
-        Document document = formBase.getDocument();
-        UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
-        if (document instanceof SessionDocument) {
-            String formKey = formBase.getFormKey();
-            if (StringUtils.isBlank(formBase.getFormKey()) || userSession.retrieveObject(formBase.getFormKey()) == null) {
-        // generate doc form key here if it does not exist
-                formKey = GlobalVariables.getUserSession().addObject(form);
-                formBase.setFormKey(formKey);
-        //}  else {
-           // GlobalVariables.getUserSession().addObject(formBase.getFormKey(),form);                    
-            }
-        }
-        // End Rice 1.1 hack
-        
         return returnForward;
     }
 
