@@ -44,9 +44,8 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
 
     private static final String DOCTYPE = "CustomAttributeDocumentMaintenanceDocument";
 
-    @Test
-    public void testDocumentCreation() throws Exception {
-        testDocumentCreation(DOCTYPE);
+    public String getDocTypeName() {
+        return DOCTYPE;
     }
 
     @Test
