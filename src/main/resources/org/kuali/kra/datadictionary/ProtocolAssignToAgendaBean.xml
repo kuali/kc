@@ -38,53 +38,13 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ProtocolAssignToAgendaBean-committeeId" parent="ProtocolAssignToAgendaBean-committeeId-parentBean" />
-	<bean id="ProtocolAssignToAgendaBean-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolAssignToAgendaBean-committeeId" parent="CommitteeAttribute-CommitteeId" >
 		<property name="name" value="committeeId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Committee ID" />
-		<property name="shortLabel" value="Committee ID" />
-		<property name="maxLength" value="15" />
-		<property name="required" value="false" />
-		<property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="52" />
-        </property>
-		<property name="summary" value="Committee ID" />
-		<property name="description" value="Committee ID" />
 	</bean>
 	
-	<bean id="ProtocolAssignToAgendaBean-committeeName" parent="ProtocolAssignToAgendaBean-committeeName-parentBean" />
-	<bean id="ProtocolAssignToAgendaBean-committeeName-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolAssignToAgendaBean-committeeName" parent="CommitteeAttribute-CommitteeName" >
 		<property name="name" value="committeName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Committee Name" />
-		<property name="shortLabel" value="Committee Name" />
-		<property name="maxLength" value="15" />
-		<property name="required" value="false" />
-		<property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="52" />
-        </property>
-		<property name="summary" value="Committee Name" />
-		<property name="description" value="Committee Name" />
 	</bean>
-	<!-- 
-	<bean id="ProtocolAssignToAgendaBean-scheduleId" parent="ProtocolAssignToAgendaBean-scheduleId-parentBean" />
-	<bean id="ProtocolAssignToAgendaBean-scheduleId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="scheduleId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Schedule Date" />
-		<property name="shortLabel" value="Schedule Date" />
-		<property name="maxLength" value="10" />
-		<property name="required" value="false" />
-		<property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="52" />
-        </property>
-		<property name="summary" value="Schedule Date" />
-		<property name="description" value="Schedule Date" />
-	</bean> -->
 	
 	<bean id="ProtocolAssignToAgendaBean-scheduleDate" parent="ProtocolAssignToAgendaBean-scheduleDate-parentBean" />
 	<bean id="ProtocolAssignToAgendaBean-scheduleDate-parentBean" abstract="true" parent="AttributeDefinition" >
