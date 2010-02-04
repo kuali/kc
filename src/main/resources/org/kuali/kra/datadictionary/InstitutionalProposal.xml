@@ -83,6 +83,14 @@
                 <ref bean="InstitutionalProposal-createTimeStamp" />
                 <ref bean="InstitutionalProposal-updateUser" />
 				<ref bean="InstitutionalProposal-updateTimestamp" />
+				<ref bean="InstitutionalProposal-leadUnit.unitNumber" />
+				<ref bean="InstitutionalProposal-leadUnit.unitName" />
+				<ref bean="InstitutionalProposal-principalInvestigator.fullName" />
+				<ref bean="InstitutionalProposal-sponsor.sponsorName" />
+				<ref bean="InstitutionalProposal-primeSponsor.sponsorName" />
+				<ref bean="InstitutionalProposal-proposalType.description" />
+				<ref bean="InstitutionalProposal-activityType.description" />
+				<ref bean="InstitutionalProposal-proposalStatus.description" />
             </list>
         </property>
     </bean>
@@ -866,6 +874,145 @@
 		<property name="name" value="updateTimestamp" />
 		<property name="label" value="Last Update" />
 	</bean>
+	
+	<!-- Lookup Fields -->
+	<bean id="InstitutionalProposal-leadUnit.unitNumber" parent="InstitutionalProposal-leadUnit.unitNumber-parentBean" />
+    <bean id="InstitutionalProposal-leadUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+        <property name="name" value="leadUnit.unitNumber" />
+        <property name="label" value="Unit Number" />
+        <property name="shortLabel" value="Unit Number" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-leadUnit.unitName" parent="InstitutionalProposal-leadUnit.unitName-parentBean" />
+    <bean id="InstitutionalProposal-leadUnit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+        <property name="name" value="leadUnit.unitName" />
+        <property name="label" value="Unit Name" />
+        <property name="shortLabel" value="Unit Name" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-principalInvestigator.fullName" parent="InstitutionalProposal-principalInvestigator.fullName-parentBean" />
+    <bean id="InstitutionalProposal-principalInvestigator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="principalInvestigator.fullName" />
+        <property name="label" value="Principal Investigator Name" />
+        <property name="shortLabel" value="PI Name" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-sponsor.sponsorName" parent="InstitutionalProposal-sponsor.sponsorName-parentBean" />
+    <bean id="InstitutionalProposal-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
+        <property name="name" value="sponsor.sponsorName" />
+        <property name="label" value="Sponsor Name" />
+        <property name="shortLabel" value="Sponsor Name" />
+    </bean>
+    
+    <!-- Result Fields -->
+    <bean id="InstitutionalProposal-proposalType.description" parent="InstitutionalProposal-proposalType.description-parentBean" />
+    <bean id="InstitutionalProposal-proposalType.description-parentBean" abstract="true" parent="ProposalType-description">
+        <property name="name" value="proposalType.description" />
+        <property name="label" value="Proposal Type" />
+        <property name="shortLabel" value="Proposal Type" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-activityType.description" parent="InstitutionalProposal-activityType.description-parentBean" />
+    <bean id="InstitutionalProposal-activityType.description-parentBean" abstract="true" parent="ActivityType-description">
+        <property name="name" value="activityType.description" />
+        <property name="label" value="Activity" />
+        <property name="shortLabel" value="Activity" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-proposalStatus.description" parent="InstitutionalProposal-proposalStatus.description-parentBean" />
+    <bean id="InstitutionalProposal-proposalStatus.description-parentBean" abstract="true" parent="ProposalStatus-description">
+        <property name="name" value="proposalStatus.description" />
+        <property name="label" value="Status" />
+        <property name="shortLabel" value="Status" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-primeSponsor.sponsorName" parent="InstitutionalProposal-primeSponsor.sponsorName-parentBean" />
+    <bean id="InstitutionalProposal-primeSponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
+        <property name="name" value="primeSponsor.sponsorName" />
+        <property name="label" value="Prime Sponsor" />
+        <property name="shortLabel" value="Prime Sponsor" />
+    </bean>
+    
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposal-lookupDefinition" parent="InstitutionalProposal-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Lookup" />
+        <property name="lookupableID" value="institutionalProposalLookupable" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="proposalTypeCode" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="statusCode" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="currentAccountNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="title" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="leadUnit.unitNumber" />
+                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true"
+                    p:attributeName="leadUnit.unitName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="principalInvestigator.fullName" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="sponsorCode" />
+                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true"
+                    p:attributeName="sponsor.sponsorName" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" 
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="proposalType.description" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="activityType.description" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="proposalStatus.description" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="leadUnit.unitNumber" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="leadUnit.unitName" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="currentAccountNumber" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="title" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="sponsorCode" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="sponsor.sponsorName" />
+                <bean parent="FieldDefinition" p:forceInquiry="true" 
+                    p:attributeName="primeSponsor.sponsorName" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="principalInvestigator.fullName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="requestedStartDateInitial" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="requestedStartDateTotal" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="requestedEndDateInitial" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="requestedEndDateTotal" />
+                    <bean parent="FieldDefinition"
+                    p:attributeName="totalDirectCostInitial" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="totalDirectCostTotal" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="totalIndirectCostInitial" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="totalIndirectCostTotal" />
+            </list>
+        </property>
+    </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="InstitutionalProposal-inquiryDefinition" parent="InstitutionalProposal-inquiryDefinition-parentBean" />
@@ -982,76 +1129,4 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
-    <bean id="InstitutionalProposal-lookupDefinition" parent="InstitutionalProposal-lookupDefinition-parentBean" />
-    <bean id="InstitutionalProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Lookup" />
-        <property name="lookupableID" value="institutionalProposalLookupable" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
-        <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
-        </property>
-        <property name="lookupFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="statusCode" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="currentAccountNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <!-- Department Number -->
-                <!-- Unit Name -->
-                <!-- Investigator -->
-                <bean parent="FieldDefinition" 
-                    p:attributeName="sponsorCode" />
-                <!-- Sponsor Name -->
-            </list>
-        </property>
-        <property name="resultFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="activityTypeCode" />
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="statusCode" />
-                <!-- Lead Unit -->
-                <!-- Lead Unit Name -->
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="currentAccountNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="sponsorCode" />
-                <!-- Sponsor Name -->
-                <bean parent="FieldDefinition" p:forceInquiry="true"
-                    p:attributeName="primeSponsorCode" />
-                <!-- PI -->
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateTotal" />
-                    <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostTotal" />
-            </list>
-        </property>
-    </bean>
 </beans>
