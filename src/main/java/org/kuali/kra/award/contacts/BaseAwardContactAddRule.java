@@ -54,8 +54,7 @@ public class BaseAwardContactAddRule {
      * @return
      */
     boolean checkForSelectedContactRole(AwardContact newContact, String errorPath) {
-        AwardUnitContact awardUnitContact = (AwardUnitContact) newContact;
-        boolean valid = awardUnitContact.getUnitAdministratorTypeCode() != null;
+        boolean valid = newContact.getContactRole() != null;
 
         if(!valid) {
             GlobalVariables.getMessageMap().putError(errorPath, ERROR_AWARD_CONTACT_ROLE_REQUIRED);

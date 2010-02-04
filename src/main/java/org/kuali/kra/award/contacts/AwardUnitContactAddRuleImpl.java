@@ -30,15 +30,18 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
      * @return
      */
     public boolean processAddAwardUnitContactBusinessRules(Award award, AwardUnitContact newUnitContact) {
-        return checkForSelectedContactAndRole(newUnitContact) && checkForDuplicatePerson(award, newUnitContact);
+        return checkForSelectedContactAdministratorTypeCode(newUnitContact) && checkForDuplicatePerson(award, newUnitContact);
     }
 
-    /**
-     * @param newContact
-     * @return
-     */
-    boolean checkForSelectedContactAndRole(AwardContact newContact) {
-        return super.checkForSelectedContactAndRole(newContact, AWARD_UNIT_CONTACT_LIST_ERROR_KEY);
+    public boolean checkForSelectedContactAdministratorTypeCode(AwardUnitContact newContact) {
+        AwardUnitContact awardUnitContact = (AwardUnitContact) newContact;
+        boolean valid = awardUnitContact.getUnitAdministratorTypeCode() != null;
+
+        if(!valid) {
+            GlobalVariables.getMessageMap().putError(AWARD_UNIT_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_CONTACT_ROLE_REQUIRED);
+        }
+
+        return valid;
     }
     
     boolean checkForDuplicatePerson(Award award, AwardUnitContact newUnitContact) {
