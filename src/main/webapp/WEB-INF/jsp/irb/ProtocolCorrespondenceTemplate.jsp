@@ -54,7 +54,7 @@
             <kra:innerTab tabTitle="${correspondenceType.description}" 
                           parentTab="${parentTab}" 
                           defaultOpen="${isOpen}"
-                          tabErrorKey="newDefaultCorrespondenceTemplates[${status.index}].*,newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*">
+                          tabErrorKey="newDefaultCorrespondenceTemplates[${status.index}].*,newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*,replaceCorrespondenceTemplates[${status.index}].*">
                 <p style="text-align:left; font-weight:bold;">Default</p>
                 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
                     <tr>
@@ -204,6 +204,16 @@
                     
                     <%-- Existing Templates --%>
                     <c:forEach items="${correspondenceType.committeeProtocolCorrespondenceTemplates}" var="protocolCorrespondenceTemplate" varStatus="status2">
+                        <c:set var="filenameStyle" value="display:block;" />
+                        <c:set var="browseStyle" value="display:none;" />
+                        <c:forEach items="${ErrorPropertyList}" var="key">
+                            <c:set var="propertyName" value="replaceCorrespondenceTemplates[${status.index}].list[${status2.index}].templateFile" />
+                            <c:if test="${key eq propertyName}">
+                                <c:set var="filenameStyle" value="display:none;" />
+                                <c:set var="browseStyle" value="display:block;" />
+                            </c:if>
+                        </c:forEach>            
+                        
                         <tr>
                             <td>
                                 <div align="center" style="font-weight:bold;">
@@ -222,7 +232,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div id="filename1-${status.index}-${status2.index}" style="display:block;" align="center">
+                                <div id="filename1-${status.index}-${status2.index}" style="${filenameStyle}" align="center">
                                     ${protocolCorrespondenceTemplate.fileName}
                                     <c:forEach items="${ErrorPropertyList}" var="key">
                                         <c:set var="propertyName" value="correspondenceTypes[${status.index}].protocolCorrespondenceTemplates[${status2.index}].templateFile" />
@@ -231,7 +241,7 @@
                                         </c:if>
                                     </c:forEach>            
                                 </div>
-                                <div id="browse1-${status.index}-${status2.index}" style="display:none;" align="center">
+                                <div id="browse1-${status.index}-${status2.index}" style="${browseStyle}" align="center">
                                     <c:set var="property" value="replaceCorrespondenceTemplates[${status.index}].list[${status2.index}].templateFile" />
 
                                     <%-- attachment file error handling logic start--%>
@@ -245,7 +255,7 @@
                             </td>
                             <c:if test="${!readOnly}">
                                 <td>
-                                    <div id="filename2-${status.index}-${status2.index}" style="display:block;" align="center">
+                                    <div id="filename2-${status.index}-${status2.index}" style="${filenameStyle}" align="center">
                                         <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]}" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
                                             title="View Correspondence Template" 
@@ -263,7 +273,7 @@
                                             alt="Delete Correspondence Template" 
                                             styleClass="tinybutton" />
                                     </div>
-                                    <div id="browse2-${status.index}-${status2.index}" style="display:none;" align="center">
+                                    <div id="browse2-${status.index}-${status2.index}" style="${browseStyle}" align="center">
                                         <html:image property="methodToCall.replaceCorrespondenceTemplate.correspondenceType[${status.index}].correspondenceTemplate[${status2.index}]" 
                                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-upload.gif" 
                                             title="Upload Correspondence Template" 
