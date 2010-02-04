@@ -20,7 +20,6 @@ import java.util.Date;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolAction;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
@@ -35,6 +34,8 @@ public class ProtocolAssignToAgendaBean implements Serializable {
     private Date scheduleDate = null;
     private boolean protocolAssigned = false;
     private String comments = "";
+    
+    private ProtocolAssignToAgendaService agendaService;
 
     /**
      * 
@@ -77,18 +78,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
      * This method initializes the values of the bean.
      */
     public void init() {
-        if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-            ProtocolAction pa = getProtocolAssigntoAgendaService().getAssignedToAgendaProtocolAction(getProtocol());
-            if ( pa != null){
-                this.committeeId = pa.getProtocolSubmission().getCommitteeId();
-                this.committeName = pa.getProtocolSubmission().getCommittee().getCommitteeName();
-                this.scheduleDate = pa.getProtocolSubmission().getCommitteeSchedule().getScheduledDate();
-                this.protocolAssigned = true;
-                this.comments = pa.getComments();
-            }
-        }
-        /*
-        try {
+        //try {
             if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
                 String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
                 if (committeeId != null) {
@@ -102,18 +92,20 @@ public class ProtocolAssignToAgendaBean implements Serializable {
                     this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
                 }
             }
-        } catch (Exception e) {
+        //} catch (Exception e) {
+            //e.printStackTrace();
             // errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
             // e.printStackTrace();
-        }
-        // the else condition means we can't create this bean    
-         */
+        //}
+        // the else condition means we can't create this bean
     }
-    
 
 
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
-        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        if (this.agendaService == null){
+            this.agendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        }
+        return this.agendaService;
     }
 
     private Protocol getProtocol() {

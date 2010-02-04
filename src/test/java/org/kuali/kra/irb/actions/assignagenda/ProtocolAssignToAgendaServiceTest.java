@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +71,6 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolAssignToAgendaServiceImpl protocolAssignToAgendaServiceImpl;
 
-    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -82,7 +82,6 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         protocolAssignToAgendaServiceImpl = (ProtocolAssignToAgendaServiceImpl)KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         businessObjectService = null;
@@ -120,8 +119,7 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        ProtocolAction pa = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(protocolDocument.getProtocol());
-        boolean result = pa != null;
+        boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertFalse(result);
     }
     
@@ -133,8 +131,7 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         List<ProtocolAction> actions = new ArrayList();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA));
         protocolDocument.getProtocol().setProtocolActions(actions);
-        ProtocolAction pa = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(protocolDocument.getProtocol());
-        boolean result = pa != null;
+        boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertTrue(result);
     }
 
@@ -149,52 +146,73 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         pa.setComments(comments);
         actions.add(pa);
         protocolDocument.getProtocol().setProtocolActions(actions);
-        ProtocolAction pa2 = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(protocolDocument.getProtocol());
-        String result = pa2.getComments();
+        String result = protocolAssignToAgendaService.getAssignToAgendaComments(protocolDocument.getProtocol());
         assertEquals(comments, result);
     }
 
     @Test
     public void testGetAssignedCommitteeId() throws Exception {
-
-        
-        String committeeId = "1";
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionTypeCode(ProtocolActionType.SUBMIT_TO_IRB);
+        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
+        
+        
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        submission.setCommitteeId(committeeId);
-        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList();
-        ProtocolAction pa = new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA);
+        submission.setCommitteeId("1");
+        
         pa.setProtocolSubmission(submission);
-        actions.add(pa);
-        protocolDocument.getProtocol().setProtocolActions(actions);
-        ProtocolAction pa2 = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(protocolDocument.getProtocol());
-        String result = pa2.getProtocolSubmission().getCommitteeId();
-        assertEquals(committeeId, result);        
+        
+        protocolActions.add(pa);
+        protocolDocument.getProtocol().setProtocolActions(protocolActions);
+        
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        String committeeId = protocolAssignToAgendaService.getAssignedCommitteeId(protocolDocument.getProtocol());
+        assertEquals("1", committeeId);
     }
 
     @Test
-    public void testGetAssignedCommitteeName() throws Exception {        
-        String committeeId = "1";
+    public void testGetAssignedCommitteeName() throws Exception {
+        
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionTypeCode(ProtocolActionType.SUBMIT_TO_IRB);
+        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
+        
+        
+        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        submission.setCommitteeId("1");
+        
         Committee com = new Committee();
         com.setCommitteeId("1");
         String passedInCommitteeName = "testCommitteeName";
         com.setCommitteeName(passedInCommitteeName);
+        submission.setCommittee(com);
         
+        pa.setProtocolSubmission(submission);
+        
+        protocolActions.add(pa);
+        protocolDocument.getProtocol().setProtocolActions(protocolActions);
+        
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        String committeeName = protocolAssignToAgendaService.getAssignedCommitteeName(protocolDocument.getProtocol());
+        assertEquals(passedInCommitteeName, committeeName);
+        
+        
+        /**
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        submission.setCommitteeId(committeeId);
+        Committee com = new Committee();
+        com.setCommitteeId("1");
+        String passedInCommitteeName = "testCommitteeName";
+        com.setCommitteeName(passedInCommitteeName);
         submission.setCommittee(com);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList();
-        ProtocolAction pa = new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA);
-        pa.setProtocolSubmission(submission);
-        actions.add(pa);
-        protocolDocument.getProtocol().setProtocolActions(actions);
-        ProtocolAction pa2 = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(protocolDocument.getProtocol());
-        String committeeName = pa2.getProtocolSubmission().getCommittee().getCommitteeName();
-        assertEquals(passedInCommitteeName, committeeName);; 
-        
+        String committeeName = protocolAssignToAgendaService.getAssignedCommitteeName(protocolDocument.getProtocol());
+        //assertEquals(passedInCommitteeName, committeeName, "The committee name was: '" + committeeName + "'");
+        assertEquals(passedInCommitteeName, committeeName);**/
     }
 
     /* @Test
@@ -231,9 +249,9 @@ public class ProtocolAssignToAgendaServiceTest extends KraTestBase{
         submission.setSubmissionStatusCode(statusCode);
         submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
         submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
-        //if (StringUtils.equals(statusCode, ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+        if (StringUtils.equals(statusCode, ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
             submission.setCommitteeId("1");
-        //}
+        }
         return submission;
     }
 
