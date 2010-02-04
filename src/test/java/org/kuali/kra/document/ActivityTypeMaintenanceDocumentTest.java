@@ -43,9 +43,8 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
 
     private static final String DOCTYPE = "ActivityTypeMaintenanceDocument";
 
-    @Test
-    public void testDocumentCreation() throws Exception {
-        testDocumentCreation(DOCTYPE);
+    public String getDocTypeName() {
+        return DOCTYPE;
     }
 
     @Test

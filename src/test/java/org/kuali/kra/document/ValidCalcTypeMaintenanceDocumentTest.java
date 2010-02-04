@@ -41,9 +41,8 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         super.tearDown();
     }
 
-    @Test
-    public void testDocumentCreation() throws Exception {
-        testDocumentCreation(DOCTYPE);
+    public String getDocTypeName() {
+        return DOCTYPE;
     }
 
     @Test

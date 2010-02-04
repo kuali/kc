@@ -17,6 +17,7 @@
 package org.kuali.kra;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.After;
@@ -208,5 +209,16 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     @Override
     protected void configureLogging() throws IOException {
         //do nothing let log4j pick up the default config
+    }
+    
+    /**
+     * Gets the path of a given class file.
+     * @param clazz the class
+     * @return the path
+     */
+    protected String getFilePath(Class<?> clazz) {
+        URL fileUrl = getClass().getResource("/" + clazz.getCanonicalName().replaceAll("\\.", "/") + ".class");
+        assertNotNull(fileUrl);
+        return fileUrl.getPath();
     }
 }
