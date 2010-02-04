@@ -27,11 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -44,6 +43,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
@@ -122,6 +122,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private Integer awardTypeCode; 
     private String newDescription;
     private String proposalSequenceStatus;
+    
     private NoticeOfOpportunity noticeOfOpportunity; 
     private ProposalType proposalType; 
     private Rolodex rolodex; 
@@ -130,6 +131,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String sponsorName;
     private ActivityType activityType; 
     private AwardType awardType; 
+    private ProposalStatus proposalStatus;
     private Unit leadUnit;
     private KcPerson ospAdministrator;
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
@@ -139,12 +141,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
     private InstitutionalProposalComments proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
-    private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
     
+    private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
     private List<InstitutionalProposalPerson> projectPersons;
     private List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts;
-
-    
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
     private List<InstitutionalProposalSpecialReview> specialReviews;
@@ -822,6 +822,17 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setAwardTypeCode(Integer awardTypeCode) {
         this.awardTypeCode = awardTypeCode;
     }
+    
+    public ProposalStatus getProposalStatus() {
+        if (proposalStatus == null && statusCode != null) {
+            this.refreshReferenceObject("proposalStatus");
+        }
+        return proposalStatus;
+    }
+
+    public void setProposalStatus(ProposalStatus proposalStatus) {
+        this.proposalStatus = proposalStatus;
+    }
 
     public NoticeOfOpportunity getNoticeOfOpportunity() {
         return noticeOfOpportunity;
@@ -832,6 +843,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public ProposalType getProposalType() {
+        if (proposalType == null && proposalTypeCode != null) {
+            this.refreshReferenceObject("proposalType");
+        }
         return proposalType;
     }
 
@@ -857,9 +871,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * 
      * @return
      */
-    
     public Sponsor getSponsor() {
-        if(sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
+        if (sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
@@ -873,7 +886,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
-      if(primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
+      if (primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
             this.refreshReferenceObject("primeSponsor");
         }
         return primeSponsor;
@@ -883,15 +896,18 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.primeSponsor = primeSponsor;
     }
 
-    // Temporary implementation until IP contacts are completed
-    public Contactable getPrincipalInvestigator() {
-        return new KcPerson() {
-            @Override
-            public String getFullName() {
-                return "Jane Doe";
+    public InstitutionalProposalPerson getPrincipalInvestigator() {
+        for (InstitutionalProposalPerson proposalPerson: this.getProjectPersons()) {
+            if (proposalPerson.isPrincipalInvestigator()) {
+                return proposalPerson;
             }
-            
-        };
+        }
+        return null;
+    }
+    
+    public void setPrincipalInvestigator(InstitutionalProposalPerson proposalPerson) {
+        proposalPerson.setRoleCode(ContactRole.PI_CODE);
+        this.getProjectPersons().add(proposalPerson);
     }
     
     public String getSponsorName() {
@@ -900,9 +916,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return sponsorName;
     }
     
-    
-
     public ActivityType getActivityType() {
+        if (activityType == null && activityTypeCode != null) {
+            this.refreshReferenceObject("activityType");
+        }
         return activityType;
     }
 
