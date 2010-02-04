@@ -35,7 +35,8 @@ import org.junit.runners.Suite.SuiteClasses;
     RateTypeMaintenanceDocumentTest.class,
     ResearchDocumentBaseTest.class,
     ValidCalcTypeMaintenanceDocumentTest.class,
-    ValidCeRateTypeMaintenanceDocumentTest.class})
+    ValidCeRateTypeMaintenanceDocumentTest.class,
+    SponsorFormTemplateMaintenanceDocumentTest.class})
 @RunWith(Suite.class)
 public class AllUnitTestsSuite {
 //suite for all doc tests

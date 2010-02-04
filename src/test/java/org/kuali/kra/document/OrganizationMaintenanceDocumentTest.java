@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.document;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationAudit;
@@ -55,10 +53,8 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
 
     private static final String DOCTYPE = "OrganizationMaintenanceDocument";
 
-
-    @Test
-    public void testDocumentCreation() throws Exception {
-        testDocumentCreation(DOCTYPE);
+    public String getDocTypeName() {
+        return DOCTYPE;
     }
 
     @Test
@@ -89,9 +85,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),"00999");
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(13469));
-        assertEquals(((OrganizationType)((ArrayList)organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)((ArrayList)organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)((ArrayList)organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
+        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
 
                 
 
@@ -125,9 +121,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),"000425");
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(13469));
-        assertEquals(((OrganizationType)((ArrayList)organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)((ArrayList)organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)((ArrayList)organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
+        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
 
 
     }
@@ -164,9 +160,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),"00999");
         assertEquals(organization.getOrganizationName(),"test organization");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
-        assertEquals(((OrganizationType)((ArrayList)organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)((ArrayList)organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)((ArrayList)organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
+        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
    
     }
 

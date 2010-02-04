@@ -125,15 +125,4 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
         Assert.assertThat(afterDeletePage.asText(), containsString(NO_ATTACHMENTS));
         Assert.assertThat(afterDeletePage.asText(), not(containsString(FILE_1)));
     }
-    
-    /**
-     * Gets the path of a given class file.
-     * @param clazz the class
-     * @return the path
-     */
-    private String getFilePath(Class<?> clazz) {
-        URL fileUrl = getClass().getResource("/" + clazz.getCanonicalName().replaceAll("\\.", "/") + ".class");
-        assertNotNull(fileUrl);
-        return fileUrl.getPath();
-    }
 }
