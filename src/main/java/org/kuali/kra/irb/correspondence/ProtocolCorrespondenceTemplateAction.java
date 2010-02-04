@@ -28,6 +28,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -45,8 +47,10 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // initialize form on initial page load to erase any old user data
-        if (StringUtils.equals(request.getParameter("init"), "true")) {
+        // initialize form on initial page load and on page reload to erase any old user data
+    	 Object attr = request.getAttribute("methodToCallAttribute");
+        if (StringUtils.equals(request.getParameter("init"), "true")
+        		|| StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload.y")) {
             ProtocolCorrespondenceTemplateForm templateForm = new ProtocolCorrespondenceTemplateForm();
             ((ProtocolCorrespondenceTemplateForm) form).setCorrespondenceTypes(templateForm.getCorrespondenceTypes());
             ((ProtocolCorrespondenceTemplateForm) form).setNewDefaultCorrespondenceTemplates(templateForm.getNewDefaultCorrespondenceTemplates());
@@ -357,7 +361,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
      */
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageMap().putInfo("generic.message", RiceKeyConstants.MESSAGE_RELOADED);
+        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_RELOADED);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -371,9 +375,34 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
      * @return action forward
      * @throws Exception
      */
+    @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME), KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
+        	if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
+        	    // Validate document
+                ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
+                List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = correspondenceTemplateForm.getCorrespondenceTypes();
+                boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
+                if (!rulePassed) {
+            		// Reload document if errors exist 
+            		return mapping.findForward(RiceConstants.MAPPING_BASIC);                	
+                }
+
+                // Save document
+                getProtocolCorrespondenceTemplateService().saveProtocolCorrespondenceTemplates(protocolCorrespondenceTypes, 
+                    correspondenceTemplateForm.getDeletedCorrespondenceTemplates());
+                correspondenceTemplateForm.setDeletedCorrespondenceTemplates(new ArrayList<ProtocolCorrespondenceTemplate>());
+        	}
+
+            // Return to portal
+       	    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        }
+        
+        // Ask question whether to save before close
+    	return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
+    			getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), 
+    			KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
     }
     
     /**
@@ -386,9 +415,22 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
      * @return action forward
      * @throws Exception
      */
+    @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        //return mapping.findForward(Constants.MAPPING_BASIC);
-        return super.cancelled(mapping, form, request, response);
+        if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME), KNSConstants.DOCUMENT_CANCEL_QUESTION)) {
+        	if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
+        		// Cancel document and return to portal if cancel has been confirmed
+        		return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        	} else {
+        		// Reload document if cancel has been aborted 
+        		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        	}
+        }
+
+        // Ask question to confirm cancel
+        return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, 
+        		getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, 
+        		KNSConstants.MAPPING_CANCEL, "");
     }
 }
