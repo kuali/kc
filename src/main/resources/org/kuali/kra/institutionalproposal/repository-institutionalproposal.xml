@@ -160,11 +160,9 @@
 			<foreignkey field-ref="noticeOfOpportunityCode"/>
 		</reference-descriptor>
 		-->
-		<!--
-		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalTypeCode"/>
 		</reference-descriptor>
-		-->
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
@@ -177,10 +175,13 @@
         <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
-		<!--
-		<reference-descriptor name="activityType" class-ref="org.kuali.kra.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
+		<reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="statusCode"/>
+        </reference-descriptor>
+		<!-- 
 		<reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardTypeCode"/>
 		</reference-descriptor>
