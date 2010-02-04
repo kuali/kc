@@ -387,7 +387,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             for (Iterator<ProposalPerson> person_it = proposal.getProposalPersons().iterator(); person_it.hasNext(); index++) {
                 ProposalPerson person = person_it.next();
                 if (person.isDelete()) {
-                    if (parentPi != null && StringUtils.equalsIgnoreCase(parentPi.getPersonId(), person.getPersonId())) {
+                    if (parentPi != null && parentPi.equals(person)) {
                         GlobalVariables.getMessageMap().putError(String.format(ERROR_FIELD_REMOVE_HIERARCHY_PI, index), ERROR_REMOVE_HIERARCHY_PI, person.getFullName());                  
                     }
                     else {
