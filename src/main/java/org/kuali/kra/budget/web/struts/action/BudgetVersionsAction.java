@@ -127,8 +127,8 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument pdDoc = budgetDocument.getParentDocument();
-        getBudgetService().addBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetDocument newBudgetDoc = getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
         
         return mapping.findForward(Constants.MAPPING_BASIC);

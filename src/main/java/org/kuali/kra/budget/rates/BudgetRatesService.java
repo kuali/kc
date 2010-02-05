@@ -20,12 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public interface BudgetRatesService <T>{
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
+public interface BudgetRatesService <T extends BudgetParent>{
+    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);
 
     /**
      * Searches for persisted {@link RateClass} instances based on the given <code>rateClassType</code>
@@ -45,10 +46,10 @@ public interface BudgetRatesService <T>{
     public Map<String, RateClass> getBudgetRateClassMap(String rateClassType);
 
     public void resetBudgetRatesForRateClassType(String rateClassType, Budget budget);
-    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
+    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument);
     
-    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
-    public void syncAllBudgetRates(BudgetDocument budgetDocument);
+    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);
+    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument);
     public void resetAllBudgetRates(Budget budget);
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget);
     public List<BudgetPeriod> getBudgetPeriods();
@@ -56,8 +57,8 @@ public interface BudgetRatesService <T>{
     public void setBusinessObjectService(BusinessObjectService businessObjectService);
     
     public BusinessObjectService getBusinessObjectService();
-    public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument);
-    public void populateBudgetRatesForNewVersion(BudgetDocument budgetDocument);
-    public boolean performSyncFlag(BudgetDocument budgetDocument);
+    public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument);
+    public void populateBudgetRatesForNewVersion(BudgetDocument<T> budgetDocument);
+    public boolean performSyncFlag(BudgetDocument<T> budgetDocument);
 
 }

@@ -17,6 +17,7 @@
 		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
+		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
 		<form-bean name="MedusaForm" type="org.kuali.kra.medusa.MedusaForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
@@ -159,7 +160,7 @@
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
-          <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+          <forward name="versionsOpen" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
           <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
           <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
@@ -173,7 +174,15 @@
           <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
       </action>
-      
+      <!--
+      <action path="/awardBudgetParameters" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/AwardBudgetParameters.jsp" type="org.kuali.kra.budget.web.struts.action.BudgetParametersAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/budget/AwardBudgetParameters.jsp" />
+      </action>
+      <action path="/awardBudgetVersionsOpen" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/BudgetVersions.jsp" type="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+      </action>
+	-->
+
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
         type="org.kuali.kra.web.struts.action.CustomDocHandlerRedirectAction" >
         <forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" />
@@ -185,7 +194,7 @@
       <action path="/award*" name="AwardForm" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/award/Award{1}.jsp" />
           <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
-          <forward name="budgetVersions" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="budgets" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
           <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
           <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />
@@ -202,7 +211,6 @@
           <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
           <!--<forward name="commentViewHistory" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />-->                                  
       </action>
-      
       <action path="/awardCommentViewHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardNotesAndAttachmentsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />
      </action>
@@ -232,7 +240,28 @@
       </action>
       
       <!-- Time And Money -->
+      <!-- Award Budget -->
+      <action path="/awardBudget*" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
+          <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+          <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
+          <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
+          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
+          <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
+          <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
+          <forward name="summaryTotals" path="/WEB-INF/jsp/budget/BudgetSummaryTotals.jsp" />
+          <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
+          <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
+          <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
+          <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
+      </action>
+      <action path="/awardBudgets" name="AwardForm" input="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" type="org.kuali.kra.award.web.struts.action.AwardBudgetsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      	<forward name="basic" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+      </action>
       
+      <!-- Award Budget-->
        <!--  Institutional Proposal -->      
       <action path="/institutionalProposal*" name="InstitutionalProposalForm" input="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposal{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" />

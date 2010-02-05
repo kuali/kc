@@ -22,26 +22,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import com.sun.org.apache.bcel.internal.generic.FNEG;
-
-public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
+public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
     private static final String AWARD_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";
     private static final String AWARD_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
@@ -49,7 +45,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
     private ParameterService parameterService;
 
     @Override
-    protected Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument){
+    protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument){
         Collection<InstituteRate> institueRates = super.getInstituteRates(budgetDocument);
         if(isAwardBudget(budgetDocument)){
             return syncRatesIfAward(budgetDocument,institueRates);
@@ -63,11 +59,11 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
      * @param budgetDocument
      * @return
      */
-    private boolean isAwardBudget(BudgetDocument budgetDocument) {
+    private boolean isAwardBudget(BudgetDocument<T> budgetDocument) {
         return budgetDocument.getParentDocument().getClass().equals(AwardDocument.class);
     }
     
-    private Collection<InstituteRate> syncRatesIfAward(BudgetDocument budgetDocument, Collection<InstituteRate> institueRates) {
+    private Collection<InstituteRate> syncRatesIfAward(BudgetDocument<T> budgetDocument, Collection<InstituteRate> institueRates) {
         Award award = (Award)budgetDocument.getParentDocument().getBudgetParent();
         return filterInstituteRatesForAward(award,institueRates);
     }
@@ -185,7 +181,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
         return rateType;
     }
 
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument){
+    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument){
       super.getBudgetRates(rateClassTypes, budgetDocument);
       if(isAwardBudget(budgetDocument) && isOutOfSyncAwardRates(budgetDocument.getBudget())){
           syncAllBudgetRates(budgetDocument);
@@ -252,7 +248,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
     }
 
     @Override
-    public boolean performSyncFlag(BudgetDocument budgetDocument) {
+    public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
         return isAwardBudget(budgetDocument);
     }
     /**

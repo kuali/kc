@@ -2,6 +2,7 @@
 <c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="methodName" required="true" %>
+<%@ attribute name="printPdfMethodName" required="true" %>
 <%@ attribute name="requestUri" required="true" %>
 <c:if test="${!KualiForm.reportHelperBean.instituteProposalAvailable}">
     <tr>
@@ -44,6 +45,8 @@
                     <c:if test="${KualiForm.reportHelperBean.personId != null}">
                         <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-initiatereport.gif" styleClass="globalbuttons"
                                     property="methodToCall.${methodName}" alt="${methodName}" />
+                        <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="globalbuttons"
+                                    property="methodToCall.${printPdfMethodName}" alt="${printPdfMethodName}" />
                     </c:if>
                 </c:if>
                 <c:if test="${!KualiForm.reportHelperBean.instituteProposalAvailable}">
