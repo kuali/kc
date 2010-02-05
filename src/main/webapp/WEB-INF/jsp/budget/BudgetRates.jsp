@@ -24,7 +24,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetRates"
+	htmlFormAction="${KualiForm.actionPrefix}Rates"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="rates"

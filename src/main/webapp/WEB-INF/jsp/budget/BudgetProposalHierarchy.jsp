@@ -17,7 +17,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetProposalHierarchy"
+	htmlFormAction="${KualiForm.actionPrefix}ProposalHierarchy"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="proposalHierarchy">

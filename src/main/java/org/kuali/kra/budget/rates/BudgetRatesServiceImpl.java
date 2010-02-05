@@ -54,7 +54,7 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelopmentDocument> {
+public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
@@ -89,7 +89,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     /**
      * @see org.kuali.kra.budget.rates.BudgetRatesService#syncAllBudgetRates(org.kuali.kra.budget.core.Budget)
      */
-    public void syncAllBudgetRates(BudgetDocument budgetDocument) {
+    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteRate> allInstituteRates = new ArrayList<InstituteRate>(getInstituteRates(budgetDocument));
         List<InstituteLaRate> allInstituteLaRates = new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument));
@@ -138,7 +138,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     /* sync budget rates for a panel
      * each panel is based on rate class type 
      * */
-    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
+    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
 
         if(isOutOfSync(budget)) {
@@ -163,14 +163,14 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * 
      * @see org.kuali.kra.budget.rates.BudgetRatesService#getBudgetRates(java.util.List, org.kuali.kra.budget.core.Budget)
      */
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         getBudgetRates(rateClassTypes, budgetDocument, getInstituteRates(budgetDocument));
     }
 
     /* verify and add activity type prefix if required for rate class type description
      * 
      * */
-    private void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+    private void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         //String activityTypeDescription = budget.getProposal().getActivityType().getDescription().concat(SPACE);
         Budget budget = budgetDocument.getBudget();
         String activityTypeDescription = getActivityTypeDescription(budgetDocument);
@@ -199,7 +199,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         }
     }
     
-    private String getActivityTypeDescription(BudgetDocument budgetDocument) {
+    @SuppressWarnings("unchecked")
+    private String getActivityTypeDescription(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         
@@ -236,9 +237,10 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     /**
      * @see org.kuali.kra.budget.rates.BudgetRatesService#getBudgetPeriods()
      */
+    @SuppressWarnings("unchecked")
     public List<BudgetPeriod> getBudgetPeriods(){
         BudgetForm budgetForm = (BudgetForm) GlobalVariables.getKualiForm();
-        BudgetDocument budgetDocument  = budgetForm.getBudgetDocument();
+        BudgetDocument<T> budgetDocument  = budgetForm.getBudgetDocument();
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         return budgetPeriods;
     }
@@ -317,7 +319,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    protected Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument) {
+    protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument) {
         //get first unit number in hierarchy with rates then select appropriate rates
         Unit firstUnit = findFirstUnitWithRates(budgetDocument.getParentDocument().getBudgetParent().getUnit(), InstituteRate.class);
         if (firstUnit == null) {
@@ -355,7 +357,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
+    private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument<T> budgetDocument) {
 //        Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         String unitNumber = budgetParent.getUnitNumber();                               
@@ -369,8 +371,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @param budget
      * @return
      */
-    private BudgetParentDocument getBudgetParentDocument(Budget budget) {
-        BudgetDocument budgetDocument = budget.getBudgetDocument();
+    @SuppressWarnings("unchecked")
+    private BudgetParentDocument<T> getBudgetParentDocument(Budget budget) {
+        BudgetDocument<T> budgetDocument = budget.getBudgetDocument();
         if(budgetDocument==null){
             budget.refreshReferenceObject("budgetDocument");
             budgetDocument = budget.getBudgetDocument();
@@ -379,7 +382,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         return budgetDocument.getParentDocument();
     }
 
-    private Map<String, String> getRateFilterMap(BudgetDocument budgetDocument) {        
+    private Map<String, String> getRateFilterMap(BudgetDocument<T> budgetDocument) {        
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         Map<String, String> rateFilterMap = new HashMap<String, String>();
         rateFilterMap.put(UNIT_NUMBER_KEY, budgetParent.getUnitNumber());
@@ -665,7 +668,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         return existingRateClassTypeMap;
     }
     
-    private void getBudgetRates(BudgetDocument budgetDocument, Collection<InstituteRate> allInstituteRates) {
+    private void getBudgetRates(BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
         Budget budget = budgetDocument.getBudget();
         getBudgetRates(budget.getRateClassTypes(), budgetDocument, allInstituteRates);
     }
@@ -673,7 +676,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     /* get budget rates applicable for the proposal - based on activity type
      * and unit number 
      * */
-    private void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument, Collection<InstituteRate> allInstituteRates) {
+    private void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteRate> instituteRates = budget.getInstituteRates();        
         filterRates(budget, allInstituteRates, instituteRates);        
@@ -685,12 +688,12 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
     }
     
-    private void getBudgetLaRates(BudgetDocument budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
+    private void getBudgetLaRates(BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
         Budget budget = budgetDocument.getBudget();
         getBudgetLaRates(budget.getRateClassTypes(), budgetDocument, allInstituteLaRates);
     }
 
-    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         getBudgetLaRates(rateClassTypes, budgetDocument, new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument)));
     }
     
@@ -700,7 +703,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @param budget
      * @param allInstituteLaRates
      */
-    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
+    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteLaRate> instituteLaRates = budget.getInstituteLaRates();        
         filterRates(budget, allInstituteLaRates, instituteLaRates);        
@@ -714,7 +717,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
     
     @SuppressWarnings("unchecked")
-    private void syncBudgetRateCollections(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument,
+    private void syncBudgetRateCollections(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument,
                                                 List abstractInstituteRates, List budgetRates) {
 
         Budget budget = budgetDocument.getBudget();
@@ -729,7 +732,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
     
   @SuppressWarnings("unchecked")
-  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
       Budget budget = budgetDocument.getBudget();
 
       syncAllRateClasses(budget, (List) budget.getBudgetRates());
@@ -741,8 +744,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
       checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
   }
 
-    @SuppressWarnings("unchecked")
-    private void syncAllBudgetRatesForInstituteRateType(BudgetDocument budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
+    private void syncAllBudgetRatesForInstituteRateType(BudgetDocument<T> budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateClass() != null) {
                 budgetRates.add(generateBudgetRate(budgetDocument, abstractInstituteRate));
@@ -787,7 +789,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
     
     @SuppressWarnings("unchecked")
-    private void replaceBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument, List existingBudgetRates, List rates) {
+    private void replaceBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument, List existingBudgetRates, List rates) {
         List<AbstractInstituteRate> instituteRates = (List<AbstractInstituteRate>) rates; 
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) existingBudgetRates;
         
@@ -806,7 +808,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         abstractBudgetRates.addAll(newBudgetRateMap.values());
     }
 
-    private Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, BudgetDocument budgetDocument, 
+    private Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, BudgetDocument<T> budgetDocument, 
                                                                              List<AbstractInstituteRate> instituteRates,
                                                                              Map<String, AbstractBudgetRate> existingBudgetRateMap) {
         Map<String, AbstractBudgetRate> newBudgetRateMap = new HashMap<String, AbstractBudgetRate>(); 
@@ -877,17 +879,17 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         rateClassTypes.addAll(rateClassTypeMap.values());
     }
 
-    private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument budgetDocument, InstituteRate instituteRate) {
+    private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument<T> budgetDocument, InstituteRate instituteRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         return new BudgetRate(budgetParent.getUnitNumber(), instituteRate);
     }
     
-    private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument budgetDocument, InstituteLaRate instituteLaRate) {
+    private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument<T> budgetDocument, InstituteLaRate instituteLaRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         return new BudgetLaRate(budgetParent.getUnitNumber(), instituteLaRate);
     }
 
-    private AbstractBudgetRate generateBudgetRate(BudgetDocument budgetDocument, AbstractInstituteRate abstractInstituteRate) {
+    private AbstractBudgetRate generateBudgetRate(BudgetDocument<T> budgetDocument, AbstractInstituteRate abstractInstituteRate) {
         Budget budget = budgetDocument.getBudget();
         AbstractBudgetRate abstractBudgetRate = (abstractInstituteRate instanceof InstituteRate) ?
                         generateBudgetProposalRate(budgetDocument, (InstituteRate) abstractInstituteRate) :
@@ -904,6 +906,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @param rateClassType to use for retrieving {@link RateClass} instances
      * @returns a List of {@link RateClass} instances
      */
+    @SuppressWarnings("unchecked")
     public Collection<RateClass> getBudgetRateClasses(String rateClassType) {
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", rateClassType);
@@ -928,7 +931,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         return retval;
     }
     
-    private void populateInstituteRates(BudgetDocument budgetDocument) {
+    @SuppressWarnings("unchecked")
+    private void populateInstituteRates(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List instituteRates = (List) getInstituteRates(budgetDocument);
         filterRates(budget, instituteRates, budget.getInstituteRates()); 
@@ -936,7 +940,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         filterRates(budget, instituteLaRates, budget.getInstituteLaRates()); 
     }
     
-    public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument) {
+    public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument) {
         populateInstituteRates(budgetDocument);
         Budget budget = budgetDocument.getBudget();
         return isOutOfSyncForRateAudit(budget.getInstituteRates(), budget.getBudgetRates()) || 
@@ -1001,6 +1005,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
 
     }
     
+    @SuppressWarnings("unchecked")
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
@@ -1040,7 +1045,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         return keys;
     }
 
-    public void populateBudgetRatesForNewVersion(BudgetDocument budgetDocument) {
+    public void populateBudgetRatesForNewVersion(BudgetDocument<T> budgetDocument) {
         getBudgetRates(new ArrayList<RateClassType>(), budgetDocument);
     }
 
@@ -1048,7 +1053,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * By default it does not have to perform sync
      * @see org.kuali.kra.budget.rates.BudgetRatesService#performSyncFlag()
      */
-    public boolean performSyncFlag(BudgetDocument budgetDocument) {
+    public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
         return false;
     }
 

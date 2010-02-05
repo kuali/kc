@@ -22,10 +22,10 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardBudgetVersions"
+	htmlFormAction="awardBudgets"
 	documentTypeName="AwardDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="budgetVersions"
+  	headerTabActive="budgets"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Budget Versions" /></div>
