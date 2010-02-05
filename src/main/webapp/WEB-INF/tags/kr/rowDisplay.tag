@@ -582,6 +582,7 @@
                         <c:if test="${!hasErrors}">
                             <kul:checkErrors keyMatch="${field.universalIdAttributeName}" />
                         </c:if>
+<%-- KC Modification Start (include renderOtherFields) --%>
                         <kul:user userIdFieldName="${field.propertyName}"
                                   universalIdFieldName="${field.universalIdAttributeName}"
                                   userNameFieldName="${field.personNameAttributeName}"
@@ -590,12 +591,13 @@
                                   userName="${field.personNameValue}"
                                   label="${field.fieldLabel}"
                                   referencesToRefresh="${field.referencesToRefresh}"
+                                  renderOtherFields="true"
                                   fieldConversions="${field.fieldConversions}"
                                   lookupParameters="${field.lookupParameters}"
                                   hasErrors="${hasErrors}"
                                   readOnly="${field.keyField || isFieldReadOnly}"
                                   onblur="${onblur}"
-                                  highlight="${addHighlighting && field.highlightField}">
+                                  highlight="${addHighlighting && field.highlightField}">                               
                             <jsp:attribute name="helpLink" trim="true">
                                 <c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
                                 <kul:help
@@ -605,6 +607,7 @@
                                 </c:if>
                             </jsp:attribute>
                         </kul:user>
+<%-- KC Modification End --%>
                     </td>
 
                 </c:when>
