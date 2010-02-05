@@ -389,7 +389,7 @@
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
             p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
-            p:validationErrorMessageKey="FIXME"/>
+            p:validationErrorMessageKey="error.invalid.awardId"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -632,7 +632,7 @@
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
       		p:pattern="[0-9]{2}.[0-9]{3}[A-Za-z]"
-      		p:validationErrorMessageKey="FIXME"/>
+      		p:validationErrorMessageKey="error.s2sopportunity.cfdaNumberInvalid"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
