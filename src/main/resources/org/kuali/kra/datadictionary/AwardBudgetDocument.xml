@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardBudgetDocument" parent="AwardBudgetDocument-parentBean"/>
+
+  <bean id="AwardBudgetDocument-parentBean" abstract="true" parent="BudgetDocument-parentBean">
+    
+    <property name="useWorkflowPessimisticLocking" value="true"/>
+    
+    <property name="documentTypeName" value="AwardBudgetDocument"/>
+    <property name="documentClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.document.BudgetDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer"/>
+    
+    <property name="attributes">
+      <list>
+        <ref bean="AwardBudgetDocument-versionNumber"/>
+      </list>
+    </property>
+    
+    <property name="workflowAttributes">
+    	<ref bean="AwardBudgetDocument-workflowAttributes"/>
+    </property>
+    
+  </bean>
+
+  <bean id="AwardBudgetDocument-versionNumber" parent="BudgetDocument-versionNumber-parentBean"/>
+
+  <bean id="AwardBudgetDocument-workflowAttributes" parent="BudgetDocument-workflowAttributes-parentBean"/>
+</beans>

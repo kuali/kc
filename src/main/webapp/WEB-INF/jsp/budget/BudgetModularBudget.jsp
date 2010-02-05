@@ -18,7 +18,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetModularBudget"
+	htmlFormAction="${KualiForm.actionPrefix}ModularBudget"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	showTabButtons="true"

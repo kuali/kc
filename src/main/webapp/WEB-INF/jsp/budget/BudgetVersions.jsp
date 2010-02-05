@@ -20,7 +20,7 @@
 </c:if> 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetVersions"
+	htmlFormAction="${KualiForm.actionPrefix}Versions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="versions"

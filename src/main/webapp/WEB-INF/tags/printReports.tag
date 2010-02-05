@@ -29,8 +29,8 @@
                         <table align="right" cellpadding="0" cellspacing="0" summary="">
                             <tbody>
                                 <c:if test="${KualiForm.reportHelperBean.instituteProposalAvailable}">
-                                    <kra:currentOrPendingReport title="Current Report" methodName="prepareCurrentReport" requestUri="${requestUri}" />
-                                    <kra:currentOrPendingReport title="Pending Report" methodName="preparePendingReport" requestUri="${requestUri}" />
+                                    <kra:currentOrPendingReport title="Current Report" methodName="prepareCurrentReport" printPdfMethodName="printCurrentReportPdf" requestUri="${requestUri}" />
+                                    <kra:currentOrPendingReport title="Pending Report" methodName="preparePendingReport" printPdfMethodName="printPendingReportPdf" requestUri="${requestUri}" />
 
                                     <c:set var="showCurrentReport" value='${currentReportBeans != null && !empty currentReportBeans}' />
                                     <c:set var="showPendingReport" value='${pendingReportBeans != null && !empty pendingReportBeans}' />

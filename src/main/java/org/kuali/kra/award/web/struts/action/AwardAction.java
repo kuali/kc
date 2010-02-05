@@ -83,6 +83,7 @@ import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 
@@ -780,7 +781,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @param response
      * @return
      */
-    public ActionForward budgetVersions(ActionMapping mapping, ActionForm form
+    public ActionForward budgets(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
     }

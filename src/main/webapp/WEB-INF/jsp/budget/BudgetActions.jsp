@@ -19,7 +19,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetActions"
+	htmlFormAction="${KualiForm.actionPrefix}Actions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	renderMultipart="true"
@@ -48,7 +48,7 @@
 
 	<kul:documentControls 
 		transactionalDocument="false"
-		suppressRoutingControls="true"
+		suppressRoutingControls="${proposalBudgetFlag}"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
