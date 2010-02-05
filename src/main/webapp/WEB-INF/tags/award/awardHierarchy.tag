@@ -39,106 +39,25 @@
 		</td>
 	</tr>
 	</tbody></table>	     
-     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
-  <ul id="awardhierarchy" class="filetree stripeli treeview"  >
+    <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
+  		<ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
-    </ul>
-   </div>
-       
-	<table cellpadding="0" cellspacing="0" summary="">
-    	<%-- Header --%>
-    	<c:if test="${!readOnly}">
-    	<tr>
-    	<th align="right" colspan="4" >Enter the Award Number That Should Be Used For Copy</th>
-    	<td><input type="text" name="awardNumberInputTemp" value="${KualiForm.awardNumberInputTemp}"></td>
-    	</tr>
-    	</c:if>
-    	</br>
-    		<tr>
-          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
-          		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyAttributes.rootAwardNumber}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyAttributes.awardNumber}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyAttributes.parentAwardNumber}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
-          	</tr>
-        
-		<c:forEach var="order" items="${KualiForm.order}" varStatus="status">
-          <tr>
-			<th class="infoline">
-				<c:out value="${status.index+1}" />
-			</th>
-                <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.awardHierarchyNodes[order].rootAwardNumber}" />
-			</div>
-  			</td>
-                <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.awardHierarchyNodes[order].awardNumber}" />
-			</div>
-		  </td>
-          <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.awardHierarchyNodes[order].parentAwardNumber}" />
-			</div>
-		  </td>
-		  <td class="infoline">
-		    <c:if test="${!readOnly}">
-			<div align="center">
-				<html:image property="methodToCall.createANewChildAward.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award" />
-			</div>
-			<div align="center">					
-				<html:image property="methodToCall.createANewChildAwardBasedOnParent.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Parent Award" />					
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.createANewChildAwardBasedOnAnotherAwardInHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Another Award in Hierarchy" />
-			</div>
-			<div align="center">	
-				<html:image property="methodToCall.copyAwardAsANewHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy" />
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.copyAwardAsANewHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy with all its descendants" />
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy" />
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy with all its descendants" />
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy" />
-			</div>
-			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy with all its descendants" />	
-			</div>
-			</c:if>
-          </td>
-           </tr>
-      	</c:forEach>    
-      </table>	
+    	</ul>
+    </div>
     
     </div>
     
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
 	
 	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].awardNumber1" name="awardHierarchyTempObjects[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].selectBox1" name="awardHierarchyTempObjects[${i}].selectBox1" value="${KualiForm.awardHierarchyTempObjects[i].selectBox1}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].awardNumber2" name="awardHierarchyTempObjects[${i}].awardNumber2" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber2}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].selectBox2" name="awardHierarchyTempObjects[${i}].selectBox2" value="${KualiForm.awardHierarchyTempObjects[i].selectBox2}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].copyDescendants" name="awardHierarchyTempObjects[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempObjects[i].copyDescendants}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].createNewChildRadio" name="awardHierarchyTempObjects[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempObjects[i].createNewChildRadio}">
-		<input type="hidden" id = "awardHierarchyTempObjects[${i}].copyAwardRadio" name="awardHierarchyTempObjects[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempObjects[i].copyAwardRadio}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].awardNumber1" name="awardHierarchyTempObject[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].selectBox1" name="awardHierarchyTempObject[${i}].selectBox1" value="${KualiForm.awardHierarchyTempObjects[i].selectBox1}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].awardNumber2" name="awardHierarchyTempObject[${i}].awardNumber2" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber2}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].selectBox2" name="awardHierarchyTempObject[${i}].selectBox2" value="${KualiForm.awardHierarchyTempObjects[i].selectBox2}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].copyDescendants" name="awardHierarchyTempObject[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempObjects[i].copyDescendants}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].createNewChildRadio" name="awardHierarchyTempObject[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempObjects[i].createNewChildRadio}">
+		<input type="hidden" id = "awardHierarchyTempObject[${i}].copyAwardRadio" name="awardHierarchyTempObject[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempObjects[i].copyAwardRadio}">
 	</c:forEach>
             
 </kul:tab>
