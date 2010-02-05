@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.award;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -74,13 +82,6 @@ import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 /**
  * 
  * This class represents the Award Form Struts class.
@@ -96,7 +97,7 @@ public class AwardForm extends BudgetVersionFormBase
     public static final String RELOAD = "reload";
 
     private static final Log LOG = LogFactory.getLog(AwardForm.class);
-    private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObjects[";
+    private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObject[";
     private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
     
     private static final long serialVersionUID = -7633960906991275328L;
@@ -983,6 +984,17 @@ public class AwardForm extends BudgetVersionFormBase
         return getAwardDocument().getAward().getAwardHierarchyTempObjects();
     }
     
+    public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
+        if(getAwardDocument().getAward().getAwardHierarchyTempObjects() == null) {
+            getAwardDocument().getAward().initializeAwardHierarchyTempObjects();
+        }
+        
+        while(getAwardDocument().getAward().getAwardHierarchyTempObjects().size() <= index) {
+            getAwardDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
+        }
+        return getAwardDocument().getAward().getAwardHierarchyTempObjects().get(index);
+    }
+    
     public String getValueFinderResultDoNotCache(){
         if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(false);
@@ -1081,7 +1093,7 @@ public class AwardForm extends BudgetVersionFormBase
         String fieldName = parmKey.substring(indexOfClosingBracket + 2);
         Object fieldValue = parms.get(parmKey);
         int tempObjectIndex = Integer.valueOf(parmKey.substring(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH, indexOfClosingBracket));
-        AwardHierarchyTempObject tempObject = getAwardHierarchyTempObjects().get(tempObjectIndex);
+        AwardHierarchyTempObject tempObject = getAwardHierarchyTempObject(tempObjectIndex);
         tempObject.setCopyDescendants(false);
         populateAwardHierarchyTempObjectFromRequestParms(tempObject, fieldName, fieldValue);
     }

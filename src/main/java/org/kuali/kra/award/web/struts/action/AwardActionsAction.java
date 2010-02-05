@@ -64,7 +64,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     @Override
     protected void validateLookupInquiryFullParameter(HttpServletRequest request, ActionForm form, String fullParameter) {
-        if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObjects")) {
+        if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
             return;
         } else {
             super.validateLookupInquiryFullParameter(request,form,fullParameter);
@@ -137,12 +137,12 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                         forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                     }    
                 }else{
-                    GlobalVariables.getMessageMap().putError("awardHierarchyTempObjects[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
+                    GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
                 }
             }
         }else{
-            GlobalVariables.getMessageMap().putError("awardHierarchyTempObjects[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_NO_OPTION_SELECTED, awardNumber);
+            GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_NO_OPTION_SELECTED, awardNumber);
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
@@ -179,7 +179,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             }else if(StringUtils.equalsIgnoreCase(radio, NEW_CHILD_SELECTED_AWARD_OPTION)){
                 String awardNumberOfNodeToCopyFrom = awardForm.getAwardHierarchyTempObjects().get(index).getNewChildPanelTargetAward();
                 if(StringUtils.isEmpty(awardNumberOfNodeToCopyFrom)) {
-                    GlobalVariables.getMessageMap().putError("awardHierarchyTempObjects[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED, awardNumber);
+                    GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                 }else{
                     AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(
@@ -188,7 +188,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 }               
             }
         }else{
-            GlobalVariables.getMessageMap().putError("awardHierarchyTempObjects[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED, awardNumber);
+            GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED, awardNumber);
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;

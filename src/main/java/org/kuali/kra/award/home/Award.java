@@ -1763,7 +1763,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardAmountInfos.add(awardAmountInfo);
 
         fundingProposals = new ArrayList<AwardFundingProposal>();
-
+        initializeAwardHierarchyTempObjects();
+    }
+    
+    public void initializeAwardHierarchyTempObjects() {
         awardHierarchyTempObjects = new ArrayList<AwardHierarchyTempObject>();
         for(int i = 0; i < MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS; i++){
             awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
