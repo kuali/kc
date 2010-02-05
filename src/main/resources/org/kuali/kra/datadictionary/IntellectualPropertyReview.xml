@@ -141,8 +141,9 @@
                 p:allowWhitespace="true" />
         </property>
         <property name="control">
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="40" />
         </property>
         <property name="summary" value="General Comments" />
         <property name="description" value="General Comments" />
@@ -160,8 +161,9 @@
                 p:allowWhitespace="true" />
         </property>
         <property name="control">
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="40" />
         </property>
         <property name="summary" value="Reviewer Comments" />
         <property name="description" value="Reviewer Comments" />
