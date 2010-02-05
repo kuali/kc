@@ -107,7 +107,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.protocol.location.ProtocolLocationRuleTest.class,
     org.kuali.kra.s2s.service.TestSearchOpportunity.class,
     org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
-    org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImplTest.class,
     org.kuali.kra.meeting.MeetingWebTest.class,
     org.kuali.kra.s2s.generator.impl.EDGEPA427V1_1GeneratorTest.class,
     org.kuali.kra.budget.rules.AddBudgetCostShareRuleTest.class,
