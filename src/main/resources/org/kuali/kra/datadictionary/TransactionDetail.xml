@@ -78,7 +78,7 @@
         <property name="validationPattern" >
       		<bean parent="RegexValidationPattern"
             	p:pattern="\d\d\d\d\d\d-\d\d\d"
-            	p:validationErrorMessageKey="FIXME"/>
+            	p:validationErrorMessageKey="error.invalid.awardId"/>
     	</property>
         <property name="required" value="true" />
         <property name="control" >
@@ -159,7 +159,7 @@
         <property name="validationPattern" >
       		<bean parent="RegexValidationPattern"
             	p:pattern="\d\d\d\d\d\d-\d\d\d"
-            	p:validationErrorMessageKey="FIXME"/>
+            	p:validationErrorMessageKey="error.invalid.awardId"/>
     	</property>
         <property name="summary" value="Source" />
         <property name="description" value="Source" />
@@ -180,7 +180,7 @@
         <property name="validationPattern" >
       		<bean parent="RegexValidationPattern"
             	p:pattern="\d\d\d\d\d\d-\d\d\d"
-            	p:validationErrorMessageKey="FIXME"/>
+            	p:validationErrorMessageKey="error.invalid.awardId"/>
     	</property>
         <property name="summary" value="Destination" />
         <property name="description" value="Destination" />
