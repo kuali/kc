@@ -58,7 +58,7 @@
         <property name="validationPattern" >
       		<bean parent="RegexValidationPattern"
             	p:pattern="\d\d\d\d\d\d-\d\d\d\d\d"
-            	p:validationErrorMessageKey="FIXME" />
+            	p:validationErrorMessageKey="error.invalid.awardId" />
 	    </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
@@ -82,7 +82,7 @@
         <property name="validationPattern" >
       		<bean parent="RegexValidationPattern"
             	p:pattern="\d\d\d\d\d\d-\d\d\d\d\d"
-            	p:validationErrorMessageKey="FIXME"/>
+            	p:validationErrorMessageKey="error.invalid.awardId"/>
 	    </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
