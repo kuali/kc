@@ -44,7 +44,7 @@
             <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Budget Versions"/>
-          <property name="headerTabNavigateTo" value="budgetVersions"/>
+          <property name="headerTabNavigateTo" value="budgets"/>
         </bean>        
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">

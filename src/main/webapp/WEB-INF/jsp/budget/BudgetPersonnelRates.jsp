@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:page lookup="true" docTitle="Rates" transactionalDocument="true" htmlFormAction="budgetPersonnel">
+<kul:page lookup="true" docTitle="Rates" transactionalDocument="true" htmlFormAction="${KualiForm.actionPrefix}Personnel">
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <kra-b:budgetPersonnelRates />  
 <kul:panelFooter />

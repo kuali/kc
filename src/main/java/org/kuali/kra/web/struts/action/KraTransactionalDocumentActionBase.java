@@ -95,8 +95,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
     
-    private static final String DEFAULT_TAB = "budgetVersions";
-    private static final String ALTERNATE_OPEN_TAB = "budgetParameters";
+    private static final String DEFAULT_TAB = "Versions";
+    private static final String ALTERNATE_OPEN_TAB = "Parameters";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

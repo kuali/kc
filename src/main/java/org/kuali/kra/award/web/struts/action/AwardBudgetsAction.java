@@ -57,7 +57,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
  */
-public class AwardBudgetVersionsAction extends AwardAction {
+public class AwardBudgetsAction extends AwardAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
@@ -145,10 +145,10 @@ public class AwardBudgetVersionsAction extends AwardAction {
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
-                forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
+                forward = forward.replace("budgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
             }
             if (awardForm.isAuditActivated()) {
-                forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
+                forward = StringUtils.replace(forward, "budgetParameters.do?", "awardBudgetParameters.do?auditActivated=true&");
             }
             return new ActionForward(forward, true);
         }

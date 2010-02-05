@@ -795,6 +795,9 @@ public class BudgetForm extends BudgetVersionFormBase {
         this.newGroupName = newGroupName;
     }
     
+    public String getActionPrefix(){
+        return "budget";
+    }
     /**
      * {@inheritDocs}
      */

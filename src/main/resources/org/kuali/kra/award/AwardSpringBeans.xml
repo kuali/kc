@@ -74,7 +74,7 @@
           class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
 
         <property name="classname"
-                  value="org.kuali.kra.award.web.struts.action.AwardBudgetVersionsAction" />
+                  value="org.kuali.kra.award.web.struts.action.AwardBudgetsAction" />
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">

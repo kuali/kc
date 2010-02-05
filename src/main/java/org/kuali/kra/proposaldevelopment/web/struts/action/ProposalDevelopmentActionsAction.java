@@ -49,6 +49,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KcGroupService;
@@ -1245,7 +1247,45 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     throws Exception {
         return super.acknowledge(mapping, form, request, response);
     }
+    /**
+     * 
+     * This method is to print current report of person 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                      throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        String personId = helper.getPersonId(); 
+        InstitutionalProposalPrintingService printService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
 
+        //throw new RuntimeException("Functionality not supported");
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is to print pending report of person 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                      throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+        String personId = helper.getPersonId(); 
+        InstitutionalProposalPrintingService printService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
+
+        //throw new RuntimeException("Functionality not supported");
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     /**
      * Prepare current report (i.e. Awards that selected person is on)
      * {@inheritDoc}
