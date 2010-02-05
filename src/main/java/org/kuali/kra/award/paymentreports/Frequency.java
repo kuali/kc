@@ -77,7 +77,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         this.numberOfMonths = numberOfMonths;
     }
 
-    public boolean getRepeatFlag() {
+    public Boolean getRepeatFlag() {
         return repeatFlag;
     }
 
@@ -85,7 +85,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         this.repeatFlag = repeatFlag;
     }
 
-    public boolean getProposalDueFlag() {
+    public Boolean getProposalDueFlag() {
         return proposalDueFlag;
     }
 
@@ -93,7 +93,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         this.proposalDueFlag = proposalDueFlag;
     }
 
-    public boolean getInvoiceFlag() {
+    public Boolean getInvoiceFlag() {
         return invoiceFlag;
     }
 
