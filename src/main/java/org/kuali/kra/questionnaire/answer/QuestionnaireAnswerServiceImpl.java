@@ -43,6 +43,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
+    private static final String YES = "Y";
+    private static final String NO = "N";
     private BusinessObjectService businessObjectService;
     private DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
@@ -87,8 +89,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())) {
                     answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setNewerVersionPublished(true);
                 }
-            }
-            else {
+            } else {
                 answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
             }
         }
@@ -103,11 +104,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode());
-        // TODO : seems already sorted in getPublishedQuestionnaire
-//        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
-//            Collections.sort((List<QuestionnaireUsage>) usages);
-//            Collections.reverse((List<QuestionnaireUsage>) usages);
-//        }
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
@@ -181,12 +177,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                             && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0
                             && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())) {
                         newAnswer.setAnswer(oldAnswer.getAnswer());
-                        newAnswer.setMatchedChild("Y");
+                        newAnswer.setMatchedChild(YES);
                         break;
                     }
                 }
-            }
-            else if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
+            } else if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                     && StringUtils.isNotBlank(oldAnswer.getAnswer())) {
                 copyChildAnswer(oldAnswer, oldParentAnswers, newAnswerHeader, newParentAnswers);
             }
@@ -194,7 +189,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         // set up indicator then to empty answer that should not be copied
         setupChildAnswerIndicator(newAnswerHeader.getAnswers());
         for (Answer answer : newAnswerHeader.getAnswers()) {
-            if (StringUtils.isNotBlank(answer.getAnswer()) && ("N").equals(answer.getMatchedChild())) {
+            if (StringUtils.isNotBlank(answer.getAnswer()) && NO.equals(answer.getMatchedChild())) {
                 answer.setAnswer("");
             }
         }
@@ -246,17 +241,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private void copyChildAnswer(Answer oldAnswer, List<List<Answer>> oldParentAnswers, AnswerHeader newAnswerHeader,
             List<List<Answer>> newParentAnswers) {
         for (Answer newAnswer : newAnswerHeader.getAnswers()) {
-            // TODO : the condition is too complicated
             if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
                     && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
-                    // && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())
-                    // &&
-                    // oldParentAnswers.get(oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0).getQuestion().getQuestionRefId()
-                    // .equals(newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0).getQuestion().getQuestionRefId())
-                    && newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0)
-                            .getMatchedChild().equals("Y") && isSameLevel(oldAnswer, oldParentAnswers, newAnswer, newParentAnswers)) {
+                    && YES.equals(newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0)
+                            .getMatchedChild()) && isSameLevel(oldAnswer, oldParentAnswers, newAnswer, newParentAnswers)) {
                 newAnswer.setAnswer(oldAnswer.getAnswer());
-                newAnswer.setMatchedChild("Y");
+                newAnswer.setMatchedChild(YES);
                 break;
             }
         }
@@ -383,38 +373,29 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public void setupChildAnswerIndicator(List<Answer> answers) {
         // TODO : what if question maxanswer > 1
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
-        // for (Answer answer : answers) {
-        // parentAnswers.get(answer.getQuestionNumber()).add(answer);
-        // }
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
             }
         }
-        // for (AnswerHeader answerHeader : answers) {
         Collections.sort(answers);
-        // }
 
         for (Answer answer : answers) {
             // parentAnswers.get(answer.getQuestionNumber()).add(answer);
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
-                answer.setMatchedChild("Y");
-            }
-            else {
+                answer.setMatchedChild(YES);
+            } else {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
                 if (StringUtils.isBlank(answer.getQuestionnaireQuestion().getCondition())) {
-                    answer.setMatchedChild("Y");
-                }
-                else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
-                    answer.setMatchedChild("N");
-                }
-                else if (isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
+                    answer.setMatchedChild(YES);
+                } else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
+                    answer.setMatchedChild(NO);
+                } else if (isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
                         .getQuestionnaireQuestion().getParentQuestionNumber()), answer.getQuestionnaireQuestion()
                         .getConditionValue())) {
-                    answer.setMatchedChild("Y");
-                }
-                else {
-                    answer.setMatchedChild("N");
+                    answer.setMatchedChild(YES);
+                } else {
+                    answer.setMatchedChild(NO);
                 }
             }
         }
@@ -428,7 +409,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         boolean isComplete = true;
         for (Answer answer : answers) {
-            if (("Y").equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
+            if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
                 isComplete = false;
                 break;
             }
@@ -443,7 +424,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         boolean valid = true;
         for (Answer answer : parentAnswers) {
             // parent is not displayed
-            if (("N").equals(answer.getMatchedChild())) {
+            if (NO.equals(answer.getMatchedChild())) {
                 valid = true;
                 break;
             }
@@ -505,8 +486,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
                 valid = (ConditionType.BEFORE_DATE.getCondition().equals(condition) && (date1.before(date2)))
                         || (ConditionType.AFTER_DATE.getCondition().equals(condition) && (date1.after(date2)));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
 
             }
 

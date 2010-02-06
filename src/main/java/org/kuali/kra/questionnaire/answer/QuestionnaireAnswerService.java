@@ -19,6 +19,11 @@ import java.util.List;
 
 import org.kuali.kra.questionnaire.Questionnaire;
 
+/**
+ * 
+ * This class defines the methods for questionnaire answer page.  These methods should
+ * be module independent.
+ */
 public interface QuestionnaireAnswerService {
 
 
@@ -73,7 +78,7 @@ public interface QuestionnaireAnswerService {
     /**
      * 
      * This method update whether a child question is going to be displayed or hidden based on parent's answer and condision. This
-     * method is pulic is purely for 'lookup' question because js 'onchange' is not working when 'lookup' is used.
+     * method is public is purely for 'lookup' question because js 'onchange' is not working when 'lookup' is used.
      * 
      * @param answers
      */
