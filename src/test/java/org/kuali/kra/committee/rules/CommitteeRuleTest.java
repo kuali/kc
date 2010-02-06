@@ -93,9 +93,11 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         CommitteeDocument document = getNewCommitteeDocument();
         setCommitteeProperties(document);
         documentService.saveDocument(document);
+        String committeeId = document.getCommittee().getCommitteeId();
        
         document = getNewCommitteeDocument();
         setCommitteeProperties(document);
+        document.getCommittee().setCommitteeId(committeeId);
         
         /*
          * Verify that we can't save a committee with a duplicate Committee ID.

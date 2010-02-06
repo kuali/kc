@@ -63,7 +63,7 @@ public class ProtocolPermissionsRuleTest extends ProtocolRuleTestBase {
     public void testAddOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUser permissionsUser = createPermissionsUser("tdurkin");
+        PermissionsUser permissionsUser = createPermissionsUser("user4");
         assertTrue(rule.processAddPermissionsUserBusinessRules(document, users, permissionsUser));
     }
     
@@ -138,7 +138,7 @@ public class ProtocolPermissionsRuleTest extends ProtocolRuleTestBase {
     public void testEditAggregatorOnly() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
+        PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("jtester");
         editRoles.setRoleState(RoleConstants.PROTOCOL_AGGREGATOR, Boolean.TRUE);
         editRoles.setRoleState(RoleConstants.PROTOCOL_VIEWER, Boolean.TRUE);
         assertFalse(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
@@ -186,14 +186,16 @@ public class ProtocolPermissionsRuleTest extends ProtocolRuleTestBase {
         List<User> users = new ArrayList<User>();
         
         KcPerson person = new KcPerson();
-        //person.setUserName("quickstart");
+        //quickstart
+        person.setPersonId("10000000000");
         User user = new User(person);
         Role role = new Role(RoleConstants.PROTOCOL_AGGREGATOR, "Aggregator");
         user.addRole(role);
         users.add(user);
         
         person = new KcPerson();
-        //person.setUserName("aslusar");
+        //jtester
+        person.setPersonId("10000000001");
         user = new User(person);
         role = new Role(RoleConstants.PROTOCOL_VIEWER, "Viewer");
         user.addRole(role);
