@@ -53,11 +53,16 @@ public class KcCronTriggerBeanTest {
          * The configuration service will be invoked once to get the Cron Expression.
          */
         final ParameterService parameterService = context.mock(ParameterService.class);
-        context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(ProposalDevelopmentDocument.class, 
-                                                        KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION); 
-            will(returnValue(CRON_EXPRESSION));
-        }});
+        context.checking(new Expectations() {
+            {
+                one(parameterService).parameterExists(ProposalDevelopmentDocument.class,
+                        KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
+                will(returnValue(true));
+                one(parameterService).getParameterValue(ProposalDevelopmentDocument.class,
+                        KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
+                will(returnValue(CRON_EXPRESSION));
+            }
+        });
         cronTrigger.setParameterService(parameterService);
 
         JobDetail jobDetail = new JobDetail();
