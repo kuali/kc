@@ -58,7 +58,9 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws ParseException {
-        setCronExpression(DEFAULT_CRON_EXPRESSION);
+        // according to java doc, it should call getSystemCronExpression().  not sure why it changed to default ?
+        //setCronExpression(DEFAULT_CRON_EXPRESSION);
+        setCronExpression(getSystemCronExpression());
         super.afterPropertiesSet();
     }
     

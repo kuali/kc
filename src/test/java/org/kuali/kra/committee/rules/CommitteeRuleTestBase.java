@@ -76,7 +76,7 @@ public abstract class CommitteeRuleTestBase extends KraTestBase {
     protected void setCommitteeProperties(CommitteeDocument document) {
         Committee committee = document.getCommittee();
         document.getDocumentHeader().setDocumentDescription("test");
-        committee.setCommitteeId("888");
+        committee.setCommitteeId((new Long(new java.util.Date().getTime())).toString());
         committee.setCommitteeName("test");
         committee.setCommitteeTypeCode("1");
         committee.setHomeUnitNumber("000001");
