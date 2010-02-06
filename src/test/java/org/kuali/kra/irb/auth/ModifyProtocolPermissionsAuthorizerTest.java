@@ -17,10 +17,12 @@ package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -34,6 +36,7 @@ public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
     @Test
     public void testModifyPermission() throws WorkflowException {
         ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
+        authorizer.setKraWorkflowService(KraServiceLocator.getService(KraWorkflowService.class));
         
         final Protocol protocol = createProtocol(1L, false);
         
@@ -47,7 +50,7 @@ public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
     @Test
     public void testNotModifyPermission() throws WorkflowException {
         ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
-        
+        authorizer.setKraWorkflowService(KraServiceLocator.getService(KraWorkflowService.class));
         final Protocol protocol = createProtocol(1L, false);
         
         final KraAuthorizationService protocolAuthorizationService = new KraAuthorizationServiceMock(false);

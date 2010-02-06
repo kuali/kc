@@ -379,7 +379,13 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.rules.KraCustomAttributeRulesTest.class,
     org.kuali.kra.committee.rules.CommitteeMembershipSaveRuleTest.class,
     org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class,
-    org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImplTest.class
+    org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImplTest.class,
+    org.kuali.kra.committee.rules.CommitteeMembershipSaveRuleTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizerTest.class,
+    org.kuali.kra.irb.permission.ProtocolPermissionsRuleTest.class,
+    org.kuali.kra.committee.web.CommitteeAuthorizationTest.class,
+    org.kuali.kra.committee.rules.CommitteeRuleTest.class,
+    org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
