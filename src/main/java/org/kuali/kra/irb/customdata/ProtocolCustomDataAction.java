@@ -28,6 +28,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -74,5 +76,10 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.postDocumentSave(form);
         CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
+        // a hook to display "successfully saved" message
+        ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setErrorKey("message.saved");
+        GlobalVariables.getMessageList().add(errorMessage);
+
     }
 }
