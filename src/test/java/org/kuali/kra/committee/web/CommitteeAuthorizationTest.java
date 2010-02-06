@@ -69,11 +69,11 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testCreateAuthorizationFailure() throws Exception {
-        backdoorLogin(USERNAME);
+        backdoorLogin("majors");
         HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
         HtmlPage page = clickOn(centralAdminPage, "Create Committee", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-        this.assertContains(page, "DocumentInitiationAuthorizationException");
+        this.assertContains(page, "DocumentAuthorizationException");
     }
     
     /**
@@ -95,13 +95,13 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testNoAccessAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee("888");
+        HtmlPage page = createAndSaveCommittee((new Long(new java.util.Date().getTime())).toString());
         String docNbr = this.getDocNbr(page);
         this.closeDoc(page);
         
-        backdoorLogin(USERNAME);
+        backdoorLogin("majors");
         page = this.docSearch(docNbr);
-        this.assertContains(page, "is not authorized to view document");
+        this.assertContains(page, "is not authorized to open document");
     }
     
     /**
