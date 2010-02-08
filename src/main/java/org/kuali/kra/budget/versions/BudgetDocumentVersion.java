@@ -25,12 +25,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>{
 
-    private static final String BUDGET_COMPLETE = "2";
+    private static final String BUDGET_COMPLETE = "1";
     /**
      * Comment for <code>serialVersionUID</code>
      */
