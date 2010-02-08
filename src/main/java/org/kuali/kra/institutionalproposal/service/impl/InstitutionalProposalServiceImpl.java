@@ -59,8 +59,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class InstitutionalProposalServiceImpl implements InstitutionalProposalService {
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InstitutionalProposalServiceImpl.class);
-    
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private VersioningService versioningService;
@@ -197,6 +195,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setCurrentAwardNumber(developmentProposal.getCurrentAwardNumber());
         institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());
         institutionalProposal.setNewDescription(developmentProposal.getNewDescription());
+        institutionalProposal.setNoticeOfOpportunityCode(developmentProposal.getNoticeOfOpportunityCode());
+        institutionalProposal.setNsfCode(developmentProposal.getNsfCode());
+        institutionalProposal.setSponsorProposalNumber(developmentProposal.getSponsorProposalNumber());
+        institutionalProposal.setOpportunity(developmentProposal.getProgramAnnouncementNumber());
+        institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());
+        institutionalProposal.setLeadUnitNumber(developmentProposal.getUnitNumber());
         if (developmentProposal.getRolodex() != null) {
             institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
         }
@@ -290,14 +294,14 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
             
             // Cost Shares (from Budget)
-            for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
-                InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
-                ipCostShare.setAmount(new KualiDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
-                ipCostShare.setCostSharePercentage(new KualiDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
-                ipCostShare.setFiscalYear(budgetCostShare.getFiscalYear().toString());
-                ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
-                institutionalProposal.add(ipCostShare);
-            }
+//            for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+//                InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
+//                ipCostShare.setAmount(new KualiDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
+//                ipCostShare.setCostSharePercentage(new KualiDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
+//                ipCostShare.setFiscalYear(budgetCostShare.getFiscalYear().toString());
+//                ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
+//                institutionalProposal.add(ipCostShare);
+//            }
             
             // Unrecovered F and As (from Budget)
             for (BudgetUnrecoveredFandA budgetUfa : budget.getBudgetUnrecoveredFandAs()) {
@@ -306,6 +310,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 ipUfa.setFiscalYear(budgetUfa.getFiscalYear().toString());
                 ipUfa.setOnCampusFlag(Boolean.parseBoolean(budgetUfa.getOnCampusFlag()));
                 ipUfa.setSourceAccount(budgetUfa.getSourceAccount());
+                ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getUrRateClassCode()));
+                ipUfa.setUnderrecoveryOfIndirectcost(new KualiDecimal(budgetUfa.getAmount().bigDecimalValue()));
                 institutionalProposal.add(ipUfa);
             }
         }
