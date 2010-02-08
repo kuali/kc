@@ -385,7 +385,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.permission.ProtocolPermissionsRuleTest.class,
     org.kuali.kra.committee.web.CommitteeAuthorizationTest.class,
     org.kuali.kra.committee.rules.CommitteeRuleTest.class,
-    org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class
+    org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class,
+    org.kuali.kra.budget.document.BudgetDocumentRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
