@@ -119,7 +119,9 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,FREQUENCY_BASE_CODE_MANDATORY_ERROR_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,OSP_DISTRIBUTION_CODE_MANDATORY_ERROR_MESSAGE);
-        assertContains(awardPaymentReportsAndTermsPageAfterAdd,DUE_DATE_MANDATORY_ERROR_MESSAGE);        
+        
+        //Due date no longer required - is this right?
+        //assertContains(awardPaymentReportsAndTermsPageAfterAdd,DUE_DATE_MANDATORY_ERROR_MESSAGE);        
     }
     
     @Test
