@@ -207,7 +207,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
-        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse("Audit Rule should produce audit errors: " + GlobalVariables.getAuditErrorMap(), auditRule.processRunAuditBusinessRules(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 }
