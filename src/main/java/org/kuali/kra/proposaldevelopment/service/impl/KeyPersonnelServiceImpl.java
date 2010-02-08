@@ -21,15 +21,14 @@ import static org.kuali.kra.logging.FormattedLogger.info;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -55,6 +54,7 @@ import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -81,19 +81,19 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param document
      */
     public void populateDocument(ProposalDevelopmentDocument document) {
-        if(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("R")){
-            Collection<InvestigatorCreditType> invcrdttype=getAllInvestigatorCreditTypes();
-            List<InvestigatorCreditType> inv=new ArrayList<InvestigatorCreditType>();
+        if(hasBeenRoutedOrCanceled(document)){
+            Collection<InvestigatorCreditType> availableCreditTypes=getAllInvestigatorCreditTypes();
+            Set<InvestigatorCreditType> usedCreditTypes = new HashSet<InvestigatorCreditType>();
             for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
-                for(ProposalPersonCreditSplit proposalpersoncrdt:person.getCreditSplits()){
-                    for(InvestigatorCreditType invcredtype:invcrdttype){
-                        if(invcredtype.getInvCreditTypeCode().equals(proposalpersoncrdt.getInvCreditTypeCode())){
-                            inv.add(invcredtype);
+                for(ProposalPersonCreditSplit creditSplit : person.getCreditSplits()){
+                    for(InvestigatorCreditType currentCreditType : availableCreditTypes){
+                        if(currentCreditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())){
+                            usedCreditTypes.add(currentCreditType);
                         }
                     }
                 }
             }
-            document.getDevelopmentProposal().setInvestigatorCreditTypes(inv);          
+            document.getDevelopmentProposal().setInvestigatorCreditTypes(usedCreditTypes);          
         }else
         {
             document.getDevelopmentProposal().setInvestigatorCreditTypes(getInvestigatorCreditTypes());
@@ -758,5 +758,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     private String createRoleDescriptionParameterName(ProposalPersonRole role, String nihToken) {
         return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getProposalPersonRoleId().toLowerCase());
+    }
+    
+    private boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        return !workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved();
     }
 }
