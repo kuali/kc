@@ -18,14 +18,13 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KeyValuesService;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * This class is the base class for special review BO.

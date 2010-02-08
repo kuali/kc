@@ -170,7 +170,7 @@ public class SpecialReviewServiceTest {
         srs.deleteExemptions(srh, "specialReviewId", SpecialReviewExemption.class);
     }
 
-    class SpecialReview extends AbstractSpecialReview<SpecialReviewExemption>{
+    private static class SpecialReview extends AbstractSpecialReview<SpecialReviewExemption>{
         @Override
         public SpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
             SpecialReviewExemption specialReviewExemption = new SpecialReviewExemption();
@@ -183,10 +183,10 @@ public class SpecialReviewServiceTest {
             return 1L;
         }
     }
-    class SpecialReviewExemption extends AbstractSpecialReviewExemption{
+    private static class SpecialReviewExemption extends AbstractSpecialReviewExemption{
         
     }
-    class SpecialReviewMockHandler implements SpecialReviewHandler<SpecialReview>{
+    private static class SpecialReviewMockHandler implements SpecialReviewHandler<SpecialReview>{
         List<SpecialReview> l = new ArrayList<SpecialReview>();
         public void addSpecialReview(SpecialReview specialReview) {
             l.add(specialReview);
