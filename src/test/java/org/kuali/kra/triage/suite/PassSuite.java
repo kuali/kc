@@ -386,6 +386,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.web.CommitteeAuthorizationTest.class,
     org.kuali.kra.committee.rules.CommitteeRuleTest.class,
     org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class,
+    org.kuali.kra.award.home.AwardTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
+    org.kuali.kra.scheduling.service.ScheduleServiceTest.class,
+    org.kuali.kra.service.SpecialReviewServiceTest.class,
     org.kuali.kra.budget.document.BudgetDocumentRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */

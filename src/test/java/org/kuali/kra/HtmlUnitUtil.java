@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Assert;
-
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.BaseFrame;
@@ -37,7 +35,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-public class HtmlUnitUtil extends Assert {
+public class HtmlUnitUtil {
     private static final String DEFAULT_USERID = "quickstart";
     
     public static HtmlAnchor getAnchorByTitle(HtmlPage page, String anchorTitle) {
