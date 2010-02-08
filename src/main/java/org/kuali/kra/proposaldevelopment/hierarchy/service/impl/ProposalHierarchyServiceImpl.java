@@ -855,6 +855,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         parentBudget.setTotalDirectCost(new BudgetDecimal(0));
         parentBudget.setTotalIndirectCost(new BudgetDecimal(0));
         parentBudget.setUnderrecoveryAmount(new BudgetDecimal(0));
+        
+        parentBudget.setOhRateClassCode(childBudget.getOhRateClassCode());
+        parentBudget.setOhRateTypeCode(childBudget.getOhRateTypeCode());
+        parentBudget.setUrRateClassCode(childBudget.getUrRateClassCode());
         try {
             documentService.saveDocument(parentBudgetDoc);
         }
