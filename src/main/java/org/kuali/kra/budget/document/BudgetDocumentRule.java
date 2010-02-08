@@ -166,10 +166,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             if (i < budgetDocument.getBudget().getBudgetCostShareCount()) {
                 for (int j = i+1; j < budgetDocument.getBudget().getBudgetCostShareCount(); j++) {
                     BudgetCostShare tmpCostShare = budgetDocument.getBudget().getBudgetCostShare(j);
-                    if (budgetCostShare.getFiscalYear().intValue() == tmpCostShare.getFiscalYear().intValue()
+                    int thisFiscalYear = budgetCostShare.getFiscalYear() == null ? Integer.MIN_VALUE : budgetCostShare.getFiscalYear();
+                    int otherFiscalYear = tmpCostShare.getFiscalYear() == null ? Integer.MIN_VALUE : tmpCostShare.getFiscalYear();
+                    if (thisFiscalYear == otherFiscalYear
                             && StringUtils.equalsIgnoreCase(budgetCostShare.getSourceAccount(), tmpCostShare.getSourceAccount())) {
                         errorMap.putError("fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE, 
-                                budgetCostShare.getFiscalYear().toString(), 
+                                thisFiscalYear == Integer.MIN_VALUE ? "" : thisFiscalYear+"", 
                                 budgetCostShare.getSourceAccount()==null?"\"\"":budgetCostShare.getSourceAccount());
                         valid = false;
                     }
