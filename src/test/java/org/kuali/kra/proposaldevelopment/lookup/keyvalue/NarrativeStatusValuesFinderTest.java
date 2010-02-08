@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -26,28 +26,19 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class NarrativeStatusValuesFinderTest extends ValuesFinderTestBase {
 
-    public NarrativeStatusValuesFinderTest() {
-        setTestClass(NarrativeStatusValuesFinder.class);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
+    @Override
+    protected Class<NarrativeStatusValuesFinder> getTestClass() {
+        return NarrativeStatusValuesFinder.class;
     }
 
     @Override
-    protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("I","Incomplete"));
-        testKeyValues.add(new KeyLabelPair("C","Complete"));
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(new KeyLabelPair("I","Incomplete"));
+        keylabel.add(new KeyLabelPair("C","Complete"));
+        
+        return keylabel;
     }
 
 }

@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
@@ -28,33 +26,22 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class LeadUnitValuesFinderTest extends ValuesFinderTestBase {
 
-    public LeadUnitValuesFinderTest() {
-        setTestClass(LeadUnitValuesFinder.class);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-        GlobalVariables.setUserSession(null);
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
+    @Override
+    protected Class<LeadUnitValuesFinder> getTestClass() {
+        return LeadUnitValuesFinder.class;
     }
 
     @Override
-    protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select"));
-        testKeyValues.add(new KeyLabelPair("000001", "000001 - University"));
-        testKeyValues.add(new KeyLabelPair("IN-CARD", "IN-CARD - CARDIOLOGY"));
-        testKeyValues.add(new KeyLabelPair("IN-CARR", "IN-CARR - CARDIOLOGY RECHARGE CTR"));
-        testKeyValues.add(new KeyLabelPair("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(new KeyLabelPair("", "select"));
+        keylabel.add(new KeyLabelPair("000001", "000001 - University"));
+        keylabel.add(new KeyLabelPair("IN-CARD", "IN-CARD - CARDIOLOGY"));
+        keylabel.add(new KeyLabelPair("IN-CARR", "IN-CARR - CARDIOLOGY RECHARGE CTR"));
+        keylabel.add(new KeyLabelPair("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
+        
+        return keylabel;
     }
 
 }

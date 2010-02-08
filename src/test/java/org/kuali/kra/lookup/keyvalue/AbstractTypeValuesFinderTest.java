@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Test the Abstract Type Values Finder.
@@ -25,40 +28,35 @@ import org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinde
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AbstractTypeValuesFinderTest extends ValuesFinderTestBase {
-
-    /**
-     * Constructs an AbstractTypeValuesFinderTest.
-     */
-    public AbstractTypeValuesFinderTest() {
-        setTestClass(AbstractTypeValuesFinder.class);
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
-    }
-
-    /**
-     * @see org.kuali.kra.keyvalue.ValuesFinderTestBase#addKeyValues()
-     */
+   
     @Override
-    protected void addKeyValues() {
-        this.addKeyValue("", "select");
-        this.addKeyValue("1", "Project Summary");
-        this.addKeyValue("2", "Technical Abstract");
-        this.addKeyValue("3", "Layman Abstract");
-        this.addKeyValue("4", "Labs");
-        this.addKeyValue("5", "Clinical");
-        this.addKeyValue("6", "Animal");
-        this.addKeyValue("7", "Computer");
-        this.addKeyValue("8", "Office");
-        this.addKeyValue("9", "Other Facilities");
-        this.addKeyValue("10", "Equipment");
-        this.addKeyValue("11", "Other Resources");
-        this.addKeyValue("12", "Suggested Reviewers");
-        this.addKeyValue("13", "Publications");
-        this.addKeyValue("14", "Reviewers Not to Include");
-        this.addKeyValue("15", "Deviation Authorization");
-        this.addKeyValue("16", "Areas Affected");
-        this.addKeyValue("17", "Relevance");
+    protected Class<AbstractTypeValuesFinder> getTestClass() {
+        return AbstractTypeValuesFinder.class;
+    }
+
+    @Override
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(createKeyValue("", "select"));
+        keylabel.add(createKeyValue("1", "Project Summary"));
+        keylabel.add(createKeyValue("2", "Technical Abstract"));
+        keylabel.add(createKeyValue("3", "Layman Abstract"));
+        keylabel.add(createKeyValue("4", "Labs"));
+        keylabel.add(createKeyValue("5", "Clinical"));
+        keylabel.add(createKeyValue("6", "Animal"));
+        keylabel.add(createKeyValue("7", "Computer"));
+        keylabel.add(createKeyValue("8", "Office"));
+        keylabel.add(createKeyValue("9", "Other Facilities"));
+        keylabel.add(createKeyValue("10", "Equipment"));
+        keylabel.add(createKeyValue("11", "Other Resources"));
+        keylabel.add(createKeyValue("12", "Suggested Reviewers"));
+        keylabel.add(createKeyValue("13", "Publications"));
+        keylabel.add(createKeyValue("14", "Reviewers Not to Include"));
+        keylabel.add(createKeyValue("15", "Deviation Authorization"));
+        keylabel.add(createKeyValue("16", "Areas Affected"));
+        keylabel.add(createKeyValue("17", "Relevance"));
+        
+        return keylabel;
     }
 }
