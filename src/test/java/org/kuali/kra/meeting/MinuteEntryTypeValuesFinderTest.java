@@ -15,36 +15,33 @@
  */
 package org.kuali.kra.meeting;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.kra.questionnaire.CoeusModuleValuesFinder;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public class MinuteEntryTypeValuesFinderTest extends ValuesFinderTestBase {
 
-        /**
-         * Constructs an CoeusModueValuesFinderTest.
-         */
-        public MinuteEntryTypeValuesFinderTest() {
-            setTestClass(MinuteEntryTypeValuesFinder.class);
-        }
-
-        @Test public void testGetKeyValues() throws Exception {
-            super.testGetKeyValues();
-        }
-
-        /**
-         * @see org.kuali.kra.keyvalue.ValuesFinderTestBase#addKeyValues()
-         */
-        @Override
-        protected void addKeyValues() {
-            // if permission changed, this needs to be adjusted too.
-            this.addKeyValue("", "select");
-            this.addKeyValue("1", "General Comments");
-            this.addKeyValue("2", "Attendance");
-            this.addKeyValue("3", "Protocol");
-            this.addKeyValue("4", "Other Business");
-            this.addKeyValue("5", "Adverse Events");
-        }
+    @Override
+    protected Class<MinuteEntryTypeValuesFinder> getTestClass() {
+        return MinuteEntryTypeValuesFinder.class;
     }
+
+    @Override
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        // if permission changed, this needs to be adjusted too.
+        keylabel.add(new KeyLabelPair("", "select"));
+        keylabel.add(new KeyLabelPair("1", "General Comments"));
+        keylabel.add(new KeyLabelPair("2", "Attendance"));
+        keylabel.add(new KeyLabelPair("3", "Protocol"));
+        keylabel.add(new KeyLabelPair("4", "Other Business"));
+        keylabel.add(new KeyLabelPair("5", "Adverse Events"));
+        
+        return keylabel;
+    }
+}
 
 

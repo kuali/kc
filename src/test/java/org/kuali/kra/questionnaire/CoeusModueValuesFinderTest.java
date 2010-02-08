@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -29,26 +32,26 @@ import org.kuali.rice.test.data.UnitTestFile;
 )
 
 public class CoeusModueValuesFinderTest extends ValuesFinderTestBase {
-
-    /**
-     * Constructs an CoeusModueValuesFinderTest.
-     */
-    public CoeusModueValuesFinderTest() {
-        setTestClass(CoeusModuleValuesFinder.class);
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
-    }
-
-    /**
-     * @see org.kuali.kra.keyvalue.ValuesFinderTestBase#addKeyValues()
-     */
+    
     @Override
-    protected void addKeyValues() {
+    protected Class<CoeusModuleValuesFinder> getTestClass() {
+        return CoeusModuleValuesFinder.class;
+    }
+
+    @Override
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
         // if permission changed, this needs to be adjusted too.
-        this.addKeyValue("", "select");
-        this.addKeyValue("3", "Development Proposal");
-     //   this.addKeyValue("7", "IRB");
+        keylabel.add(createKeyValue("", "select"));
+        keylabel.add(createKeyValue("1", "Award")); 
+        keylabel.add(createKeyValue("2", "Institute Proposal")); 
+        keylabel.add(createKeyValue("3", "Development Proposal")); 
+        keylabel.add(createKeyValue("4", "Subcontracts")); 
+        keylabel.add(createKeyValue("5", "Negotiations")); 
+        keylabel.add(createKeyValue("6", "Person")); 
+        keylabel.add(createKeyValue("7", "IRB")); 
+        keylabel.add(createKeyValue("8", "Annual Coi Disclosure")); 
+        
+        return keylabel;
     }
 }

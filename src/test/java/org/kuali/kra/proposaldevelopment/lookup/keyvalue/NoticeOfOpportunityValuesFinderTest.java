@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -26,35 +26,25 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class NoticeOfOpportunityValuesFinderTest extends ValuesFinderTestBase {
 
-    public NoticeOfOpportunityValuesFinderTest() {
-        setTestClass(NoticeOfOpportunityValuesFinder.class);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
+    @Override
+    protected Class<NoticeOfOpportunityValuesFinder> getTestClass() {
+        return NoticeOfOpportunityValuesFinder.class;
     }
 
     @Override
-    protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select"));
-        testKeyValues.add(new KeyLabelPair("1", "Federal Solicitation"));
-        testKeyValues.add(new KeyLabelPair("2", "Unsolicited"));
-        testKeyValues.add(new KeyLabelPair("3", "Verbal Request for Proposal"));
-        testKeyValues.add(new KeyLabelPair("4", "SBIR Solicitation"));
-        testKeyValues.add(new KeyLabelPair("5", "STTR Solicitation"));
-        testKeyValues.add(new KeyLabelPair("6", "Non-Federal Solicitation"));
-        testKeyValues.add(new KeyLabelPair("7", "MIT Alliance/Internal"));
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(new KeyLabelPair("", "select"));
+        keylabel.add(new KeyLabelPair("1", "Federal Solicitation"));
+        keylabel.add(new KeyLabelPair("2", "Unsolicited"));
+        keylabel.add(new KeyLabelPair("3", "Verbal Request for Proposal"));
+        keylabel.add(new KeyLabelPair("4", "SBIR Solicitation"));
+        keylabel.add(new KeyLabelPair("5", "STTR Solicitation"));
+        keylabel.add(new KeyLabelPair("6", "Non-Federal Solicitation"));
+        keylabel.add(new KeyLabelPair("7", "MIT Alliance/Internal"));
 
+        return keylabel;
     }
 
 }

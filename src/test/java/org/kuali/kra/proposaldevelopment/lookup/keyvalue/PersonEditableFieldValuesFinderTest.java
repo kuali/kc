@@ -15,46 +15,32 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Unit test of the {@link PersonEditableFieldValuesFinder} 
  * 
  */
 public class PersonEditableFieldValuesFinderTest extends ValuesFinderTestBase {
+    
     @Override
-    @Before
-    public void setUp() throws Exception {
-        setTestClass(PersonEditableFieldValuesFinder.class);
-        super.setUp();
-    }
-
-    @Override
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
+    protected Class<PersonEditableFieldValuesFinder> getTestClass() {
+        return PersonEditableFieldValuesFinder.class;
     }
     
     @Override
-    protected void addKeyValues() {
-        /*
-        testKeyValues.add(new KeyLabelPair("", "select"));
-        testKeyValues.add(new KeyLabelPair("PI", "Proposal Investigator Contact"));
-        testKeyValues.add(new KeyLabelPair("COI", "Proposal Investigator Multiple"));
-        testKeyValues.add(new KeyLabelPair("KP", "Key Person"));
-        */
-    }
-
-    /**
-     * Basic success case
-     * 
-     * @see org.kuali.kra.keyvalue.ValuesFinderTestBase#testGetKeyValues()
-     */
-    @Test 
-    public void testGetKeyValues() throws Exception {
-        // super.testGetKeyValues();
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(new KeyLabelPair("", "select"));
+        keylabel.add(new KeyLabelPair("PI", "Proposal Investigator Contact"));
+        keylabel.add(new KeyLabelPair("COI", "Proposal Investigator Multiple"));
+        keylabel.add(new KeyLabelPair("KP", "Key Person"));
+        
+        return keylabel;
     }
 }
