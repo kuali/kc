@@ -392,6 +392,14 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     }
 
     /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        return true;
+    }
+
+    /**
      * Sets the currentOrPendingView attribute value.
      * @param currentOrPendingView The currentOrPendingView to set.
      */
