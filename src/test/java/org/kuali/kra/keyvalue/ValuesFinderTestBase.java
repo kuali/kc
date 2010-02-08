@@ -15,79 +15,50 @@
  */
 package org.kuali.kra.keyvalue;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
 /**
  * This is a base class for ValuesFinder tests.
  *
  * To create a new ValuesFinder test class:
  * 1) extend this class
- * 2) override addKeyValues() to build the test set of key/value pairs
- * 3) add a call to setTestClass() in the constructor of the new class
- * 4) create a test method corresponding to every test method in this class
- *    (ex: testGetKeyValues()) that calls into this class to perform the
- *    actual test.
+ * 2) override getKeyValues() to build the test set of key/value pairs
+ * 3) override getTestClass() to set the value finder class to test
+ * 
+ * Note: If the concrete test class needs to be ignored then override testGetKeyValues
+ * and add the @Ignore annotation
  */
 public abstract class ValuesFinderTestBase extends KraTestBase {
-
-    protected List<KeyLabelPair> testKeyValues;
-    private Class testClass;
-
-    public ValuesFinderTestBase() {
-        testKeyValues = new ArrayList<KeyLabelPair>();
-        addKeyValues();
-    }
     
-    protected void addKeyValue(String typeCode, String typeValue) {
-        testKeyValues.add(new KeyLabelPair(typeCode, typeValue));
+    protected static KeyLabelPair createKeyValue(String typeCode, String typeValue) {
+        return new KeyLabelPair(typeCode, typeValue);
     }
 
     /**
      * This method should be overridden by subclasses
      * to add the specific key/value pairs to test against.
      */
-    protected abstract void addKeyValues();
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    @Test public void testGetKeyValues() throws Exception {
-        KeyValuesBase keyValuesBase = (KeyValuesBase) getTestClass().newInstance();
-        assertEquals(testKeyValues.size(), keyValuesBase.getKeyValues().size());
-        for (int i=0; i<testKeyValues.size(); i++) {
-            assertEquals(testKeyValues.get(i).getLabel(), keyValuesBase.getKeyLabel(testKeyValues.get(i).getKey().toString()));
-        }
-    }
-
-    /**
-     * Sets the testClass attribute value.
-     * @param testClass The testClass to set.
-     */
-    public void setTestClass(Class testClass) {
-        this.testClass = testClass;
-    }
+    protected abstract List<KeyLabelPair> getKeyValues();
 
     /**
      * Gets the testClass attribute.
      * @return Returns the testClass.
      */
-    public Class getTestClass() {
-        return testClass;
-    }
+    protected abstract Class<? extends KeyValuesFinder> getTestClass();
 
+    @Test
+    public void testGetKeyValues() throws Exception {
+        final KeyValuesFinder keyValuesFinder = getTestClass().newInstance();
+        final List<KeyLabelPair> keyValues = this.getKeyValues();
+        
+        assertEquals(keyValues.size(), keyValuesFinder.getKeyValues().size());
+        for (int i=0; i<keyValues.size(); i++) {
+            assertEquals(keyValues.get(i).getLabel(), keyValuesFinder.getKeyLabel(keyValues.get(i).getKey().toString()));
+        }
+    }
 }
