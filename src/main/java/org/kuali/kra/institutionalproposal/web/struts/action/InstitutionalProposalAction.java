@@ -63,7 +63,7 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
      */
     @SuppressWarnings("unchecked")
     @Override
-    // TODO I'm overriding this because KraTransactionalDocumentActionBase assumes the authorizer is of type KcDocumentAuthorizerBase
+    // I'm overriding this because KraTransactionalDocumentActionBase assumes the authorizer is of type KcDocumentAuthorizerBase
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
         if (formBase.isFormDocumentInitialized()) {
             Document document = formBase.getDocument();
