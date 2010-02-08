@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Test the Proposal Role Values Finder.
@@ -26,27 +29,24 @@ import org.kuali.kra.keyvalue.ValuesFinderTestBase;
  */
 public class ProposalRoleValuesFinderTest extends ValuesFinderTestBase {
 
-    /**
-     * Constructs a ProposalRoleValuesFinderTest.
-     */
-    public ProposalRoleValuesFinderTest() {
-        setTestClass(ProposalRoleValuesFinder.class);
+    @Override
+    protected Class<ProposalRoleValuesFinder> getTestClass() {
+        return ProposalRoleValuesFinder.class;
     }
-
-    @Test
-    public void testGetKeyValues() throws Exception {
-        super.testGetKeyValues();
-    }
-
+    
     /**
      * @see org.kuali.kra.keyvalue.ValuesFinderTestBase#addKeyValues()
      */
     @Override
-    protected void addKeyValues() {
-        addKeyValue(RoleConstants.UNASSIGNED, RoleConstants.UNASSIGNED);
-        addKeyValue(RoleConstants.AGGREGATOR, RoleConstants.AGGREGATOR);
-        addKeyValue(RoleConstants.NARRATIVE_WRITER, RoleConstants.NARRATIVE_WRITER);
-        addKeyValue(RoleConstants.BUDGET_CREATOR, RoleConstants.BUDGET_CREATOR);
-        addKeyValue(RoleConstants.VIEWER, RoleConstants.VIEWER);
+    protected List<KeyLabelPair> getKeyValues() {
+        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+        
+        keylabel.add(createKeyValue(RoleConstants.UNASSIGNED, RoleConstants.UNASSIGNED));
+        keylabel.add(createKeyValue(RoleConstants.AGGREGATOR, RoleConstants.AGGREGATOR));
+        keylabel.add(createKeyValue(RoleConstants.NARRATIVE_WRITER, RoleConstants.NARRATIVE_WRITER));
+        keylabel.add(createKeyValue(RoleConstants.BUDGET_CREATOR, RoleConstants.BUDGET_CREATOR));
+        keylabel.add(createKeyValue(RoleConstants.VIEWER, RoleConstants.VIEWER));
+        
+        return keylabel;
     }
 }
