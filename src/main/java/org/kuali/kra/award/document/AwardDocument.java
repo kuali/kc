@@ -49,6 +49,8 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -83,8 +85,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     public static final String DOCUMENT_TYPE_CODE = "AWRD";
     
+    private boolean canEdit;
+    
     private List<Award> awardList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
+    
     private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
     private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
@@ -167,7 +172,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         Award award = getAward();
         
         addAwardPersonUnitsCollection(managedLists, award);
-        managedLists.add(award.getProjectPersons());                
+        managedLists.add(award.getProjectPersons());
         managedLists.add(award.getAwardUnitContacts());
         managedLists.add(award.getSponsorContacts());
         managedLists.add(award.getAwardCostShares());
@@ -450,5 +455,24 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public String getProposalBudgetFlag() {
         return "false";
     } 
+    
+    public boolean getCanModify() {
+        IdentityManagementService idmService = getIdentityManagementService();
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put("sectionName", "award");
+        permissionDetails.put("documentTypeName", "AwardDocument");
+        AttributeSet qualifications = new AttributeSet();
+        qualifications.put(KraAuthorizationConstants.QUALIFICATION_UNIT_NUMBER, this.getLeadUnitNumber());
+        return idmService.isAuthorized(
+                GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_AWARD_NAMESPACE, 
+                KraAuthorizationConstants.PERMISSION_MODIFY_AWARD, 
+                permissionDetails, 
+                qualifications);
+    }
+    
+    protected IdentityManagementService getIdentityManagementService() {
+        return KraServiceLocator.getService(IdentityManagementService.class);
+    }
     
 }
