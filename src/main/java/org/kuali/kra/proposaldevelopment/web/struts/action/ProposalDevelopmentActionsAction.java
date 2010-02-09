@@ -865,7 +865,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
         InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
-        String versionNumber = institutionalProposalService.createActiveInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
+        String versionNumber = institutionalProposalService.createInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
         return versionNumber;
     }
     
