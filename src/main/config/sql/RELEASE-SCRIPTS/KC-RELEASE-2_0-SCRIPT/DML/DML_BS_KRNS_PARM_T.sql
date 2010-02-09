@@ -23,9 +23,6 @@ INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 VALUES('KC-AWARD', 'D', 'awardQuestionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Questions Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardPermissionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Permissions Help', 'A') ;
-
-INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'awardNoteAndAttachmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Note and Attachments Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
@@ -114,6 +111,29 @@ VALUES('KC-AWARD', 'D', 'scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsF
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES('KC-AWARD', 'D', 'contactTypeOther', SYS_GUID () , 1, 'CONFG', '8', 'Contact Type Code For Contact Type Other', 'A', 'WorkflowAdmin', 'Y') ;
+
+--comment types  
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode', 'CONFG', '1', 'Comma delimited list of comment type codes to sync on the Payments and Invoices Tab.', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.COMMENTS_TAB.AwardComment.commentTypeCode', 'CONFG', '2,3,4,5,6', 'Comma delimited list of comment type codes to sync on the Comments Tab.', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.COST_SHARE.AwardComment.commentTypeCode', 'CONFG', '9', 'Comma delimited list of comment type codes to sync on the Cost Share Tab.', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.PREAWARD_AUTHORIZATIONS_TAB.AwardComment.commentTypeCode', 'CONFG', '18,19', 'Comma delimited list of comment type codes to sync on the PreAward Authorizations Tab.', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.RATES_TAB.AwardComment.commentTypeCode', 'CONFG', '20', 'Comma delimited list of comment type codes to sync on the Rates Tab.', 'A') ;
+
+--Report TermS  
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardReportTerm.reportClassCode', 'CONFG', '1,2,3,4,5,7', 'Comma delimited list of reportClassCodes for reports to sync on the Reports tab.', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'scope.sync.REPORTS_TAB.AwardReportTerm.reportClassCode', 'CONFG', '6', 'Comma delimited list of reportClassCodes for reports to sync on the Payments and Invoices tab.', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;

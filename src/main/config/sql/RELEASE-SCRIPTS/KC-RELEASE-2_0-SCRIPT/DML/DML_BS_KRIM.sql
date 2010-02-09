@@ -24,6 +24,8 @@
     l_doc_type_id VARCHAR2(40); 
     l_doc_type_rte_node_id VARCHAR2(40); 
     l_doc_type_note_id VARCHAR2(40); 
+    l_unit_hier_type_id VARCHAR2(40);
+    l_unit_type_id VARCHAR2(40);
     l_adhoc_review_type_id VARCHAR2(40);
     l_role_type_id VARCHAR2(40);
     l_perm_type_id VARCHAR2(40);
@@ -61,6 +63,8 @@
     SELECT KIM_TYP_ID INTO l_doc_type_rte_node_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type & Routing Node or State';
     SELECT KIM_TYP_ID INTO l_doc_type_note_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Document Type & Relationship to Note Author';
     SELECT KIM_TYP_ID INTO l_adhoc_review_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review';
+    SELECT KIM_TYP_ID INTO l_unit_hier_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'UnitHierarchy';
+    SELECT KIM_TYP_ID INTO l_unit_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Unit';
     SELECT KIM_ATTR_DEFN_ID INTO l_doc_type_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName';
     SELECT KIM_ATTR_DEFN_ID INTO l_created_by_self_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'createdBySelfOnly';
     SELECT KIM_ATTR_DEFN_ID INTO l_action_request_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionRequestCd';
