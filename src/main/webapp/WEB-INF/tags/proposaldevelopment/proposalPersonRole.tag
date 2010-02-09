@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
-<c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" /> 
 
 <c:choose>
     <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].role.readOnly or readOnly or isParent}">

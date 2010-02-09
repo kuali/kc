@@ -21,4 +21,5 @@
 
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+<c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" /> 
 
