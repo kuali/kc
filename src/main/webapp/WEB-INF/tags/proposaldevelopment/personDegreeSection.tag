@@ -26,7 +26,9 @@
                     <th><div align="center">Actions</div></th>
                     
                   <kra:section permission="modifyProposal">
+                  <c:if test="${ not isParent }">
                   	<kra-pd:personDegreeLine proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+                  </c:if>
                   </kra:section>
 
     			  <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.proposalPersonDegrees"/>

@@ -27,7 +27,7 @@
 <div class="tab-container" align="center">
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />  
 		
-		  <c:if test="${readOnly}">
+		  <c:if test="${readOnly or isParent}">
 		  	<c:set var="personEditableFields" value="${newMap}" />
 		  </c:if>
 

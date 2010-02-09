@@ -55,7 +55,9 @@
                     <td class="${tdClass}">
                     <div align=center>&nbsp;
                     <kra:section permission="modifyProposal">
+                    <c:if test="${ not isParent }">
                     	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/>
+                    </c:if>
                     </kra:section>
                     </div>
                     </td>

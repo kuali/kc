@@ -29,6 +29,7 @@
                     <th><div align="center">Actions</div></th>
                   </tr>
                   <kra:section permission="modifyProposal">
+                  <c:if test="${ not isParent }">
                   <tr>
                     <th scope="row" align="center">Add:</th>
                     <td class="infoline">
@@ -54,6 +55,7 @@
                         <span class="fineprint"></span> </td>
                     <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
                   </tr>
+                  </c:if>
                   </kra:section>
                   
   				<c:forEach var="aUnit" items="${currentPerson.units}" varStatus="status">
@@ -67,7 +69,7 @@
 	                    	<div align=center>
 		                    	<kra:section permission="modifyProposal">
 			                    	<c:choose>
-			                    		<c:when test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.developmentProposalList[0].ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
+			                    		<c:when test="${ !isParent && ((currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.developmentProposalList[0].ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole))}">
 			                    			<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
 			                    		</c:when>
 			                    		<c:otherwise>
