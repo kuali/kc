@@ -253,11 +253,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         initializeBudget(hierarchy, initialChild);
 
         prepareHierarchySync(hierarchy);
-        copyInitialAttachments(initialChild, hierarchy);
 
         // link the child to the parent
         linkChild(hierarchy, initialChild, HierarchyBudgetTypeConstants.SubBudget.code());
         setInitialPi(hierarchy, initialChild);
+        copyInitialAttachments(initialChild, hierarchy);
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
         finalizeHierarchySync(hierarchy);
@@ -668,6 +668,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        //parentLineItem.setUnderrecoveryAmount(childLineItem.getUnderrecoveryAmount());
                         BudgetPerson budgetPerson;
                         for (BudgetPersonnelDetails details : parentLineItem.getBudgetPersonnelDetailsList()) {
                             budgetPerson = personMap.get(details.getPersonSequenceNumber());
@@ -1001,9 +1002,26 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         String instituteNarrativeTypeGroup = parameterService.getParameterValue(ProposalDevelopmentDocument.class, PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
         
         ProposalPersonBiography destPropPersonBio;
+        ProposalPerson srcPerson = null;
+        ProposalPerson destPerson = null;
         for (ProposalPersonBiography srcPropPersonBio : srcProposal.getPropPersonBios()) {
+            for (ProposalPerson person : srcProposal.getProposalPersons()) {
+                if (person.getProposalPersonNumber().equals(srcPropPersonBio.getProposalPersonNumber())) {
+                    srcPerson = person;
+                    break;
+                }
+            }
+            for (ProposalPerson person : destProposal.getProposalPersons()) {
+                if (person.equals(srcPerson)) {
+                    destPerson = person;
+                    break;
+                }
+            }
             loadBioContent(srcPropPersonBio);
             destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
+            destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
+            destPropPersonBio.setPersonId(destPerson.getPersonId());
+            destPropPersonBio.setRolodexId(destPerson.getRolodexId());
             propPersonBioService.addProposalPersonBiography(destProposal.getProposalDocument(), destPropPersonBio);
         }
 

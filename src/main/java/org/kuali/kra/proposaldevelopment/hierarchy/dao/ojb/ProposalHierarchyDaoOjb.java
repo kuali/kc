@@ -305,8 +305,9 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private ReportQueryByCriteria createHierarchyChildProposalNumberQuery(String proposalNumber) {
         Criteria crit = new Criteria();
         crit.addEqualTo("hierarchyParentProposalNumber", proposalNumber);
-        
+                
         ReportQueryByCriteria query = new ReportQueryByCriteria(DevelopmentProposal.class, crit);
+        query.addOrderByAscending("proposalNumber");
         query.setAttributes(new String[]{ "proposalNumber" });
         return query;
     }
