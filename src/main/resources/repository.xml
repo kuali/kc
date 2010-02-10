@@ -1883,7 +1883,7 @@
 	</class-descriptor>
  
 	<class-descriptor class="org.kuali.kra.bo.SponsorFormTemplate" table="SPONSOR_FORM_TEMPLATES">
-		<field-descriptor name="attachmentContent" column="FORM_TEMPLATE" jdbc-type="LONGVARBINARY"/>
+		<field-descriptor name="attachmentContent" column="FORM_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
 		<field-descriptor name="packageNumber" column="PACKAGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="pageDescription" column="PAGE_DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="pageNumber" column="PAGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>

@@ -734,6 +734,7 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 			throws ParseException {
 		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory
 				.newInstance();
+		developmentProposal.refreshNonUpdateableReferences();
 		researchCoverPage
 				.setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
 						developmentProposal.getActivityType().getDescription(),
@@ -871,12 +872,14 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 		ProposalPerson principalInvestigator = PrintingUtils
 				.getPrincipalInvestigator(developmentProposal
 						.getProposalPersons());
-		principalInvestigatorType
-				.setContactInformation(getPersonContactInformation(principalInvestigator));
-		principalInvestigatorType
-				.setName(getContactPersonFullName(principalInvestigator
-						.getLastName(), principalInvestigator.getFirstName(),
-						principalInvestigator.getMiddleName()));
+		if(principalInvestigator!=null){
+    		principalInvestigatorType
+    				.setContactInformation(getPersonContactInformation(principalInvestigator));
+    		principalInvestigatorType
+    				.setName(getContactPersonFullName(principalInvestigator
+    						.getLastName(), principalInvestigator.getFirstName(),
+    						principalInvestigator.getMiddleName()));
+	    }
 		return principalInvestigatorType;
 	}
 
