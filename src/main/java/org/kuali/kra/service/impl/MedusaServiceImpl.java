@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,38 +46,33 @@ public class MedusaServiceImpl implements MedusaService {
     public String getMedusaByProposal(String moduleName, Long moduleIdentifier) {
         StringBuilder sb = new StringBuilder();
         
-        
-        Collection<AwardFundingProposal> awardFundingProposals1 = getAwardFundingProposals(moduleName, moduleIdentifier);
-        if(awardFundingProposals1!=null){
-            if(awardFundingProposals1.size()>0){
+        Collection<InstitutionalProposal> proposals = getProposals(moduleName, moduleIdentifier);
+        if (proposals != null) {
+            if (proposals.size() > 0) {
                 sb.append("<h3>");
                 sb.append("P %2A ");
             }
-            for(AwardFundingProposal awardFundingProposal : awardFundingProposals1){
-                awardFundingProposal.refreshReferenceObject("proposal");
-                sb.append("Institutional Proposal ").append(awardFundingProposal.getProposal().getProposalNumber()).append("%3A");
+            for (InstitutionalProposal proposal : proposals) {
+                sb.append("Institutional Proposal ").append(proposal.getProposalNumber()).append("%3A");
                 sb.append(" %31 ");
-                    appendInstitutionalProposalDetails(sb,awardFundingProposal.getProposal());
+                    appendInstitutionalProposalDetails(sb, proposal);
                 sb.append(" %32 ");
                 sb.append("%5A");
-                Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", awardFundingProposal.getProposalId()));
-                for(ProposalAdminDetails proposalAdminDetail : proposalAdminDetails){
-                    proposalAdminDetail.refreshReferenceObject("developmentProposal");
+                Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(proposal);
+                for (DevelopmentProposal devProposal : devProposals) {
                     sb.append("%5C1 ");
-                    sb.append("Development Proposal  ").append(proposalAdminDetail.getDevelopmentProposal().getProposalNumber()).append("%3A");
+                    sb.append("Development Proposal  ").append(devProposal.getProposalNumber()).append("%3A");
                     sb.append(" %31 ");
-                        appendDevelopmentProposalDetails(sb,proposalAdminDetail.getDevelopmentProposal());
+                        appendDevelopmentProposalDetails(sb, devProposal);
                     sb.append(" %32 ");
                     sb.append(" %5C2");
                 }   
                 
-                Collection<AwardFundingProposal> awardFundingProposals2 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", awardFundingProposal.getProposalId()));
-                for(AwardFundingProposal awardFundingPropsal : awardFundingProposals2){
-                    awardFundingPropsal.refreshReferenceObject("award");
-                    Award award = awardFundingPropsal.getAward();
+                Collection<Award> awards = getAwards(proposal);
+                for (Award award : awards) {
                     AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
                     sb.append("%5C1 ");
-                    sb.append("Award ").append(awardFundingPropsal.getAward().getAwardNumber()).append("%3A");
+                    sb.append("Award ").append(award.getAwardNumber()).append("%3A");
                     sb.append(" %31 ");
                     appendAwardDetails(sb, award, awardAmountInfo);
                     sb.append(" %32 ");
@@ -84,7 +80,7 @@ public class MedusaServiceImpl implements MedusaService {
                 }   
                 sb.append("%5B");
             }
-            if(awardFundingProposals1.size()>0){
+            if (proposals.size() > 0) {
                 sb.append("</h3>");
             }
         }
@@ -96,40 +92,36 @@ public class MedusaServiceImpl implements MedusaService {
     public String getMedusaByAward(String moduleName, Long moduleIdentifier) {
         StringBuilder sb = new StringBuilder();
         
-        Collection<AwardFundingProposal> awardFundingProposals1 = getAwardFundingProposals(moduleName, moduleIdentifier);
+        Collection<Award> awards = getAwards(moduleName, moduleIdentifier);
         
-        if(awardFundingProposals1!=null){
-            if(awardFundingProposals1.size()>0){
+        if (awards != null) {
+            if (awards.size() > 0) {
                 sb.append("<h3>");
                 sb.append("A %2A ");
             }
             
-            for(AwardFundingProposal awradFundingProposal1 : awardFundingProposals1){
-                awradFundingProposal1.refreshReferenceObject("award");
-                Award award = awradFundingProposal1.getAward();
+            for(Award award : awards){
                 AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
                 sb.append("Award " + award.getAwardNumber() + "%3A" );
                 sb.append(" %31 ");
                     appendAwardDetails(sb, award, awardAmountInfo);
                 sb.append(" %32 ");
                 sb.append("%5A");
-                Collection<AwardFundingProposal> awardFundingProposals2 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", awradFundingProposal1.getProposalId()));
-                for(AwardFundingProposal awardFundingProposal2 : awardFundingProposals2){
-                    awradFundingProposal1.refreshReferenceObject("proposal");
+                Collection<InstitutionalProposal> proposals = getProposals(award);
+                for (InstitutionalProposal proposal : proposals) {
                     sb.append("%5C1 ");
-                    sb.append("Institutional Proposal ").append(awardFundingProposal2.getProposal().getProposalNumber()).append("%3A");
+                    sb.append("Institutional Proposal ").append(proposal.getProposalNumber()).append("%3A");
                     sb.append(" %31 ");
-                        appendInstitutionalProposalDetails(sb,awradFundingProposal1.getProposal());
+                        appendInstitutionalProposalDetails(sb, proposal);
                     sb.append(" %32 ");
                     sb.append(" %5C2");
-                    Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", awardFundingProposal2.getProposalId()));
+                    Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(proposal);
                     sb.append(" %6A ");
-                    for(ProposalAdminDetails proposalAdminDetail: proposalAdminDetails){
-                        proposalAdminDetail.refreshReferenceObject("developmentProposal");
+                    for (DevelopmentProposal devProposal : devProposals) {
                         sb.append(" %6C1 ");
-                        sb.append("Development Proposal  ").append(proposalAdminDetail.getDevelopmentProposal().getProposalNumber()).append("%3A");
+                        sb.append("Development Proposal  ").append(devProposal.getProposalNumber()).append("%3A");
                         sb.append(" %31 ");
-                            appendDevelopmentProposalDetails(sb,proposalAdminDetail.getDevelopmentProposal());
+                            appendDevelopmentProposalDetails(sb, devProposal);
                         sb.append(" %32 ");
                         sb.append(" %6C2");
                     }
@@ -137,7 +129,7 @@ public class MedusaServiceImpl implements MedusaService {
                 }
                 sb.append("%5B");
             }
-            if(awardFundingProposals1.size()>0){
+            if (awards.size() > 0) {
                 sb.append("</h3>");
             }
         }    
@@ -228,24 +220,84 @@ public class MedusaServiceImpl implements MedusaService {
         }
         
     }
-
-    private Collection<AwardFundingProposal> getAwardFundingProposals(String moduleName, Long moduleIdentifier) {
-        
-        Collection<AwardFundingProposal> awardFundingProposals1 = null;
-        
-        if(StringUtils.equalsIgnoreCase("award", moduleName)){
-            awardFundingProposals1 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("awardId", moduleIdentifier));    
-        }else if(StringUtils.equalsIgnoreCase("IP", moduleName)){
-            awardFundingProposals1 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", moduleIdentifier));
+    
+    private Collection<InstitutionalProposal> getProposals(String moduleName, Long moduleId) {
+        Collection<InstitutionalProposal> proposals = null;
+        if (StringUtils.equalsIgnoreCase("award", moduleName)) {
+            proposals = getProposals((Award)businessObjectService.findByPrimaryKey(Award.class, getFieldValues("awardId", moduleId)));
+        } else if (StringUtils.equalsIgnoreCase("IP", moduleName)) {
+            proposals = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalId", moduleId));
         }else if(StringUtils.equalsIgnoreCase("DP", moduleName)){
-            Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("devProposalNumber", moduleIdentifier));
-            for(ProposalAdminDetails proposalAdminDetail: proposalAdminDetails){
-                awardFundingProposals1 = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", proposalAdminDetail.getInstProposalId()));    
-                break;
+            proposals = getProposals((DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, getFieldValues("proposalNumber", moduleId)));
+        }
+        
+        return proposals;
+    }
+    
+    private Collection<Award> getAwards(String moduleName, Long moduleId) {
+        Collection<Award> awards = null;
+        if (StringUtils.equalsIgnoreCase("award", moduleName)) {
+            awards = businessObjectService.findMatching(Award.class, getFieldValues("awardId", moduleId));
+        } else if (StringUtils.equalsIgnoreCase("IP", moduleName)) {
+            awards = getAwards((InstitutionalProposal)businessObjectService.findByPrimaryKey(InstitutionalProposal.class, getFieldValues("proposalId", moduleId)));
+        }else if(StringUtils.equalsIgnoreCase("DP", moduleName)){
+            awards = getAwards((DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, getFieldValues("proposalNumber", moduleId)));
+        }
+        
+        return awards;
+    }
+    
+    private Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal ip) {
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
+        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+            proposalAdminDetail.refreshReferenceObject("developmentProposal");
+            devProposals.add(proposalAdminDetail.getDevelopmentProposal());
+        }
+        return devProposals;
+    }
+    
+    private Collection<Award> getAwards(InstitutionalProposal ip) {
+        Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", ip.getProposalId()));
+        Collection<Award> awards = new ArrayList<Award>();
+        for (AwardFundingProposal awardFunding : awardFundingProposals) {
+            awardFunding.refreshReferenceObject("award");
+            awards.add(awardFunding.getAward());
+        }
+        return awards;
+    }
+    
+    private Collection<Award> getAwards(DevelopmentProposal devProposal) {
+        //must have an inst proposal to have any awards
+        Collection<Award> awards = new ArrayList<Award>();
+        Collection <InstitutionalProposal> proposals = getProposals(devProposal);
+        if (proposals != null && !proposals.isEmpty()) {
+            for (InstitutionalProposal proposal : proposals) {
+                awards.addAll(getAwards(proposal));
             }
         }
-        return awardFundingProposals1;
+        return awards;
     }
+    
+    private Collection<InstitutionalProposal> getProposals(Award award) {
+        Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("awardId", award.getAwardId()));
+        Collection<InstitutionalProposal> ips = new ArrayList<InstitutionalProposal>();
+        for (AwardFundingProposal awardFunding : awardFundingProposals) {
+            awardFunding.refreshReferenceObject("proposal");
+            ips.add(awardFunding.getProposal());
+        }
+        return ips;    
+    }
+    
+    private Collection<InstitutionalProposal> getProposals(DevelopmentProposal devProposal) {
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("devProposalNumber", devProposal.getProposalNumber()));
+        Collection<InstitutionalProposal> instProposals = new ArrayList<InstitutionalProposal>();
+        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+            proposalAdminDetail.refreshReferenceObject("institutionalProposal");
+            instProposals.add(proposalAdminDetail.getInstitutionalProposal());
+        }
+        return instProposals;        
+    }    
 
     /**
      * Gets the businessObjectService attribute. 
