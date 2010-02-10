@@ -1094,8 +1094,10 @@ public class AwardForm extends BudgetVersionFormBase
         Object fieldValue = parms.get(parmKey);
         int tempObjectIndex = Integer.valueOf(parmKey.substring(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH, indexOfClosingBracket));
         AwardHierarchyTempObject tempObject = getAwardHierarchyTempObject(tempObjectIndex);
-        tempObject.setCopyDescendants(false);
         populateAwardHierarchyTempObjectFromRequestParms(tempObject, fieldName, fieldValue);
+        if(tempObject.getCopyDescendants() == null) {
+            tempObject.setCopyDescendants(false);
+        }
     }
 
     private void populateAwardHierarchyTempObjectFromRequestParms(AwardHierarchyTempObject tempObject, String fieldName, Object fieldValue) {
