@@ -45,6 +45,8 @@ import org.kuali.rice.test.web.HtmlUnitUtil;
  */
 public abstract class KcraNoDataTestBase extends RiceTestCase {
 
+    private static final String DEFAULT_USER = "quickstart";
+    private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
     private static final String CONTEXT_NAME = "/kc-dev";
     private static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
     private static final String SQL_FILE_NAME = "classpath:DefaultTestData.sql";
@@ -61,7 +63,7 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
         super.setUp();
         documentService = getService(DocumentService.class);
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
         transactionalLifecycle = new TransactionalLifecycle();
         transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
         transactionalLifecycle.start();
@@ -95,7 +97,7 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     
     @Override
     protected String getModuleTestConfigLocation() {
-        return "classpath:META-INF/kc-test-config.xml";
+        return TEST_CONFIG_XML;
     }
     
     @Override
@@ -121,7 +123,7 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     
     @Override
     public List<Lifecycle> getSuiteLifecycles() {
-        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kc-test-config.xml";
+        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
         List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
         lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
         return lifeCycles;
