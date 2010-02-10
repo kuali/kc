@@ -121,7 +121,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_TRANSACTION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_LOCATION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_ATTACHMENT_TYPE.sql", delimiter = ";")
-                ,@UnitTestFile(filename = "classpath:sql/dml/kim_test_data.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_kim.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/kc_maint_bootstrap.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_MINUTE_ENTRY_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_QUESTION.sql", delimiter = ";")
