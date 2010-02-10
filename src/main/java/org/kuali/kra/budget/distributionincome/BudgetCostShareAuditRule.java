@@ -35,22 +35,22 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
 
     public boolean processRunAuditBusinessRules(Document document) {
-        Budget budgetDocument = ((BudgetDocument)document).getBudget();
+        Budget budget = ((BudgetDocument)document).getBudget();
 
         // Returns if cost sharing is not applicable
-        if (!budgetDocument.isCostSharingApplicable()) {
+        if (!budget.isCostSharingApplicable()) {
             return true;
         }
 
-        List<BudgetCostShare> costShares = budgetDocument.getBudgetCostShares();
+        List<BudgetCostShare> costShares = budget.getBudgetCostShares();
         boolean retval = true;
         String[] params = { "Cost Sharing" };
 
         // Forces full allocation of cost sharing
-        if (budgetDocument.getUnallocatedCostSharing().isNonZero() && budgetDocument.isCostSharingEnforced()) {
+        if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
             retval = false;
             for (int i=0;i<costShares.size();i++) {
-                getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].shareAmount",
+                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].shareAmount",
                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
                         Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                         params));
@@ -59,6 +59,11 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
         String source = null;
         Integer fiscalYear = null;
         
+        List<Integer> validFiscalYears = new ArrayList<Integer>();
+        for (FiscalYearSummary fys : budget.getFiscalYearCostShareTotals()) {
+            validFiscalYears.add(fys.getFiscalYear());
+        }
+        
         int i=0;
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
@@ -66,24 +71,21 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
             fiscalYear = costShare.getFiscalYear();
             if (null == source || source.length() == 0) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].sourceAccount",
+                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].sourceAccount",
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
                                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                                     params));
             }
             if (null == fiscalYear || fiscalYear.intValue() <= 0) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].fiscalYear",
+                getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING,
                                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                                     params));
             }
+            
             //ensure fiscal year is within the project period
-            List<Integer> validFiscalYears = new ArrayList<Integer>();
-            for (FiscalYearSummary fys : budgetDocument.getFiscalYearCostShareTotals()) {
-                validFiscalYears.add(fys.getFiscalYear());
-            }
-            if (!validFiscalYears.contains(fiscalYear)) {
+            if (fiscalYear != null && !validFiscalYears.contains(fiscalYear)) {
                 retval = false;
                 getAuditWarnings().add(new AuditError("document.budget.budgetCostShare["+i+"].fiscalYear",
                                      KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_INVALID,
