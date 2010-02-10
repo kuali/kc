@@ -87,8 +87,8 @@ values ('SYSTEM', '5B97C50B03896110E0404F8189D85213', 1, 'System', '02', 'Y');
 --***************************************** ENTITY (AND PRINCIPAL) DATA *******************************************************************************
 --**************************************************************************************************************************************************
 
---insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
---values ('1', '5B1B6B919CC96496E0404F8189D822F2', 1, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
+values ('1', '5B1B6B919CC96496E0404F8189D822F2', 1, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1200', '595B0FE2D14D476AA6A5EE6108C1EC1C', 1, 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
@@ -112,8 +112,8 @@ values ('1301', SYS_GUID(), 1, 'Y', SYSDATE);
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1302', SYS_GUID(), 1, 'Y', SYSDATE);
 
---insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
---values ('Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '5B1B6B919CCB6496E0404F8189D822F2', 1, 'SYSTEM', '1');
+insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
+values ('Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '5B1B6B919CCB6496E0404F8189D822F2', 1, 'SYSTEM', '1');
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
 values ('Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'), '640775B8AF1C402DB5FEF7C9E080FE12', 1, 'PERSON', '1200');
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
@@ -138,7 +138,7 @@ INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENTITY_ID, ENT_TYP_CD, LAST_UPDT_DT, ACTV_IND
 VALUES ('1302', 'PERSON', SYSDATE, 'Y', SYS_GUID(), 1);
 
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
-values ('1300', '71203B869EE8494DBFF91B98BEC397F5', 1, (SELECT ENTITY_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'), 'PRFR', 'Geoff', null, 'McGregor', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'));
+values ('1300', '71203B869EE8494DBFF91B98BEC397F5', 1, '1200', 'PRFR', 'Geoff', null, 'McGregor', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1301', 'A7208FDDBEA24EC59937F42EB8A204C0', 1, '1201', 'PRFR', 'Joe', null, 'Tester', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
@@ -154,10 +154,10 @@ values ('1306', 'A1D73162454A4F889483BA434CB42848', 1, '1206', 'PRFR', 'Opal', n
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1358', 'E2ED08D2CCBD46918A01C92A1ED662E9', 1, '1258', 'PRFR', 'Roger', null, 'Rabbit', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 
---insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
---values ('5B1B6B919CCA6496E0404F8189D822F2', 1, 'kr', '1', null, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '1');
---insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
---values ('8B8C898C872B44859522FE27B6E4B53F', 1, 'quickstart', '1200', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'), '10000000000');
+insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
+values ('5B1B6B919CCA6496E0404F8189D822F2', 1, 'kr', '1', null, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '1');
+insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
+values ('8B8C898C872B44859522FE27B6E4B53F', 1, 'quickstart', '1200', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'), '10000000000');
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('8A69C8405F8B410C9EACB52956E85AA6', 1, 'jtester', '1201', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000001');
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
@@ -481,14 +481,14 @@ values ('97', '5C997D14EAC5FE40E0404F8189D87DC5', 1, 'c', '52', '6', 'Y');
 --*************************************************** KIM GROUPS ***********************************************************************************
 --**************************************************************************************************************************************************
 
---insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
---values ('1000004', 'CB110D669DA84DC8B2EA302A71DBAB51', 1, 'KcAdmin', 'KC-WKFLW', 'Kuali Coeus Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
---insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
---values ('1000005', 'CE16790479764170964F4AECDE20E7F1', 1, 'OSP Superuser', 'KC-WKFLW', 'Kuali Coeus Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
---insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
---values ('1000006', '4870FB5A03D34006B82890E3F55B4E07', 1, 'Proposal Admin', 'KC-WKFLW', 'Proposal Workflow Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
---insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
---values ('1000007', '4A19232D0D044FD394DD383798B5DDD8', 1, 'IRBAdmin', 'KC-WKFLW', 'IRB Administrator', '1', 'Y', to_date('07-10-2009 15:26:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+values ('1000004', 'CB110D669DA84DC8B2EA302A71DBAB51', 1, 'KcAdmin', 'KC-WKFLW', 'Kuali Coeus Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+values ('1000005', 'CE16790479764170964F4AECDE20E7F1', 1, 'OSP Superuser', 'KC-WKFLW', 'Kuali Coeus Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+values ('1000006', '4870FB5A03D34006B82890E3F55B4E07', 1, 'ProposalAdmin', 'KC-WKFLW', 'Proposal Workflow Administrator', '1', 'Y', to_date('07-10-2009 15:26:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+values ('1000007', '4A19232D0D044FD394DD383798B5DDD8', 1, 'IRBAdmin', 'KC-WKFLW', 'IRB Administrator', '1', 'Y', to_date('07-10-2009 15:26:10', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
 values ('1', '5B97C50B04A16110E0404F8189D85213', 1, 'WorkflowAdmin', 'KR-WKFLW', 'WorkflowAdmin', null, 'Y', to_date('13-11-2008', 'dd-mm-yyyy'));
 insert into KRIM_GRP_T (GRP_ID, OBJ_ID, VER_NBR, GRP_NM, NMSPC_CD, GRP_DESC, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
