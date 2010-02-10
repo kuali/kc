@@ -12,6 +12,12 @@
             <lastName>quickstart</lastName>
         </user>
         <user>
+            <principalId>1</principalId>
+            <principalName>kr</principalName>		
+			<type>SYSTEM</type>
+		</user>
+        <!--
+        <user>
             <principalId>10000000060</principalId>
             <principalName>admin</principalName>
             <givenName>admin</givenName>
@@ -22,52 +28,48 @@
             <principalName>superuser</principalName>
             <givenName>superuser</givenName>
             <lastName>superuser</lastName>
-        </user>        
-		<user>
-            <principalId>1</principalId>
-            <principalName>kr</principalName>		
-			<type>SYSTEM</type>
-		</user>
+        </user>
+		-->
 	</users>
 	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
 		<group>
-		    <id>3</id>
+		    <id>1000004</id>
 			<name>KcAdmin</name>
 			<namespace>KC-WKFLW</namespace>
 			<description>KC Administrators</description>
 			<members>
 				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
+				<!-- <principalName>superuser</principalName>-->
 			</members>
 		</group>
 		<group>
-		    <id>4</id>
+		    <id>1000005</id>
 			<name>OSP Superuser</name>
 			<namespace>KC-WKFLW</namespace>
 			<description>OSP Superuser</description>
 			<members>
 				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
+				<!-- <principalName>superuser</principalName>-->
 			</members>
 		</group>
 		<group>
-		    <id>5</id>
+		    <id>1000006</id>
 			<name>ProposalAdmin</name>
 			<namespace>KC-WKFLW</namespace>
 			<description>Proposal Admin</description>
 			<members>
 				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
+				<!-- <principalName>superuser</principalName>-->
 			</members>
 		</group>
 		<group>
-		    <id>6</id>
+		    <id>1000007</id>
 			<name>IRBAdmin</name>
 			<namespace>KC-WKFLW</namespace>
 			<description>IRB Admin</description>
 			<members>
 				<principalName>quickstart</principalName>
-				<principalName>superuser</principalName>
+				<!-- <principalName>superuser</principalName>-->
 			</members>
 		</group>
 	</groups>
