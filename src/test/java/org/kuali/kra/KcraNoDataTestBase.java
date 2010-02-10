@@ -40,6 +40,8 @@ import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 
+import java.util.Collections;
+
 /**
  * This class is the base class for all KCRA Tests requiring a Spring context with persistence, but no preloaded test data
  */
@@ -52,6 +54,8 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     private static final String SQL_FILE_NAME = "classpath:DefaultTestData.sql";
     private static final String XML_FILE_NAME = "classpath:DefaultTestData.xml";
     private static final String SQL_DELIMETER = ";";
+    
+    protected static boolean KC_SUITE_LIFE_CYCLES_RAN = false;
     
     protected TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService;
@@ -81,11 +85,6 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
         documentService = null;
     }
     
-    @Override
-    protected void loadSuiteTestData() throws Exception {
-        new SQLDataLoaderLifecycle(getSqlFilename(), getSqlDelimiter()).start();
-    }
-    
     protected int getPort() {
         return HtmlUnitUtil.getPort();
     }
@@ -101,8 +100,12 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     }
     
     @Override
-    protected Lifecycle getLoadApplicationLifecycle() {
-        return new BaseLifecycle() {
+    public List<Lifecycle> getSuiteLifecycles() {
+        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
+        final List<Lifecycle> lifecycles = super.getSuiteLifecycles();
+        
+        lifecycles.add(new SQLDataLoaderLifecycle(getSqlFilename(), getSqlDelimiter()));
+        lifecycles.add(new BaseLifecycle() {
             private Lifecycle jetty;
             @Override
             public void start() throws Exception {
@@ -118,15 +121,23 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
                 }
                 super.stop();
             }
-        };  
+        });
+        
+        return lifecycles;
     }
     
     @Override
-    public List<Lifecycle> getSuiteLifecycles() {
-        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
-        List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
-        lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
-        return lifeCycles;
+    protected final void setUpInternal() throws Exception {
+        super.setUpInternal();
+        try {
+            if (!KC_SUITE_LIFE_CYCLES_RAN) {
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle()));
+                KC_SUITE_LIFE_CYCLES_RAN = true;
+            }
+        } catch (Throwable t) {
+            KC_SUITE_LIFE_CYCLES_RAN = false;
+            SUITE_LIFE_CYCLES_FAILED = true;
+        }
     }
 
     /**
