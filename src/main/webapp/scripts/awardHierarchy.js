@@ -273,7 +273,7 @@
 	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;">');
 	    	    
 	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
-=	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
+	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
 	    }else{
 	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a");
 	    }
