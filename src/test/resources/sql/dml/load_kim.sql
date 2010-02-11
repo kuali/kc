@@ -1,8 +1,3 @@
-DROP SEQUENCE KRIM_ATTR_DATA_ID_S;
-create SEQUENCE KRIM_ATTR_DATA_ID_S increment by 1 start with 10000; 
-
-                  
-
 --**************************************************************************************************************************************************
 --***************************************** TYPES, CODE TABLES, ETC. *******************************************************************************
 --**************************************************************************************************************************************************
@@ -94,8 +89,6 @@ values ('1200', '595B0FE2D14D476AA6A5EE6108C1EC1C', 1, 'Y', to_date('07-10-2009 
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1201', '59A1A220774D4F77BC87E735E2C1A2DD', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('1202', '2E101CB3BED84A689A0F91BD57BB5105', 1, 'N', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
-insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1203', 'B93ED87101F042DB9B742E48F387483F', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1204', '1CBEAD437CE143F3B870A61F2D056C15', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
@@ -103,8 +96,6 @@ insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1205', '40DEE21D0E49421993031B88EB758727', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1206', '63D867005FBE444F80DE5FDEBAC52210', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
-insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('1258', '5C7A9B2787244F6684A78446688C46A0', 1, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
 values ('1300', SYS_GUID(), 1, 'Y', SYSDATE);
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
@@ -119,8 +110,6 @@ values ('Y', to_date('07-10-2009 13:23:52', 'dd-mm-yyyy hh24:mi:ss'), '640775B8A
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
 values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '5B6D4119F923441986149F4C70AAE795', 1, 'PERSON', '1201');
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
-values ('N', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '042166910E4F4F82B4A11251420DA8B7', 1, 'PERSON', '1202');
-insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
 values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '8D4D06BC01E24ADCB750FAFA4E2F2389', 1, 'PERSON', '1203');
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
 values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '69EAC444CCD7409F8AEB7AD819D21A1F', 1, 'PERSON', '1204');
@@ -128,8 +117,6 @@ insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_
 values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '0F044460E35547FCBEECF07A350BF2E4', 1, 'PERSON', '1205');
 insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
 values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '9B34A926A1824081881B1B0B0A20B1A9', 1, 'PERSON', '1206');
-insert into KRIM_ENTITY_ENT_TYP_T (ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR, ENT_TYP_CD, ENTITY_ID)
-values ('Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '8684F527DD7146A4BCC7B39F340A9FE9', 1, 'PERSON', '1258');
 INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENTITY_ID, ENT_TYP_CD, LAST_UPDT_DT, ACTV_IND, OBJ_ID, VER_NBR) 
 VALUES ('1300', 'PERSON', SYSDATE, 'Y', SYS_GUID(), 1);
 INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENTITY_ID, ENT_TYP_CD, LAST_UPDT_DT, ACTV_IND, OBJ_ID, VER_NBR) 
@@ -142,8 +129,6 @@ values ('1300', '71203B869EE8494DBFF91B98BEC397F5', 1, '1200', 'PRFR', 'Geoff', 
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1301', 'A7208FDDBEA24EC59937F42EB8A204C0', 1, '1201', 'PRFR', 'Joe', null, 'Tester', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
-values ('1302', '463B3A369A9F4959A2BEE2D0BE5CE0A1', 1, '1202', 'PRFR', 'KULUSER', null, 'KULUSER', null, null, 'Y', 'N', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
-insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1303', '1BBEFC8EB2AA4B4FA4B40257A03DDDBB', 1, '1203', 'PRFR', 'Nicholas', null, 'Majors', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1304', '26AABC4CEE054809ADFC0C77125DB5E7', 1, '1204', 'PRFR', 'Inez', null, 'Chew', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
@@ -151,8 +136,6 @@ insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_C
 values ('1305', '0D97FB11A5D444EC80AA3492EBB5F0E1', 1, '1205', 'PRFR', 'Della', null, 'Woods', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
 values ('1306', 'A1D73162454A4F889483BA434CB42848', 1, '1206', 'PRFR', 'Opal', null, 'Blood', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
-insert into KRIM_ENTITY_NM_T (ENTITY_NM_ID, OBJ_ID, VER_NBR, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND, LAST_UPDT_DT)
-values ('1358', 'E2ED08D2CCBD46918A01C92A1ED662E9', 1, '1258', 'PRFR', 'Roger', null, 'Rabbit', null, null, 'Y', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('5B1B6B919CCA6496E0404F8189D822F2', 1, 'kr', '1', null, 'Y', to_date('07-11-2008 09:49:02', 'dd-mm-yyyy hh24:mi:ss'), '1');
@@ -161,8 +144,6 @@ values ('8B8C898C872B44859522FE27B6E4B53F', 1, 'quickstart', '1200', 'fK69ATFsAy
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('8A69C8405F8B410C9EACB52956E85AA6', 1, 'jtester', '1201', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000001');
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
-values ('6CBE066CC28044A0A0866DD14E4D7624', 1, 'KULUSER', '1202', 'fK69ATFsAydwQuteang+xMva+Tc=', 'N', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000002');
-insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('37229022CA404E80BC8F373203F10B8D', 1, 'majors', '1203', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000003');
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('15F6FAF1323E412983314D4A79CB9918', 1, 'chew', '1204', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000004');
@@ -170,8 +151,6 @@ insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, A
 values ('A209EF698E81442FAF48D097FC62B952', 1, 'woods', '1205', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000005');
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('F3BCF1D661E149CBB2D2C8AABAD38908', 1, 'oblood', '1206', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000006');
-insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
-values ('71EE6B88A0EE422CACEA18481C88CF04', 1, 'rrabbit', '1258', null, 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000058');
 INSERT INTO KRIM_PRNCPL_T (PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID, VER_NBR) 
 VALUES ('admin', '1300', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', SYSDATE, '10000000060', SYS_GUID(), 1);
 INSERT INTO KRIM_PRNCPL_T (PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID, VER_NBR) 
@@ -2269,11 +2248,3 @@ insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, a
    (select role_id from krim_role_t t where t.role_nm = 'User' and t.nmspc_cd = 'KUALI'),
    (select perm_id from krim_perm_t u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'),
    'Y');
-
-
-
-DROP SEQUENCE KRIM_ROLE_MBR_ID_S;
-create SEQUENCE KRIM_ROLE_MBR_ID_S increment by 1 start with 2000; 
-
-DROP SEQUENCE KRIM_ATTR_DATA_ID_S;
-create SEQUENCE KRIM_ATTR_DATA_ID_S increment by 1 start with 10000; 
