@@ -41,16 +41,6 @@ public interface AwardTemplateSyncService {
     public boolean syncToAward(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes);
     
     /**
-     * 
-     * This method is to sync a particular syncable list from award template
-     * @param award
-     * @param syncPropertyName is the name of member variable to represent syncable list
-     * @return true if successful
-     */
-    public boolean syncToAward(AwardDocument awardDocument,String syncPropertyName, AwardTemplateSyncScope[] scopes);
-    
-    
-    /**
      * Method checks if a scope sync will clobber existing data within the award.
      * 
      * @param awardDocument The award document to check.
