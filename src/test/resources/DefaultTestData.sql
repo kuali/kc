@@ -161,6 +161,3 @@ SYS_GUID(),
 'MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss',
 1
 );
-
-drop sequence krim_entity_id_s;
-create SEQUENCE krim_entity_id_s increment by 1 start with 1500; 
