@@ -101,10 +101,19 @@
 	</bean>
 
 	<bean id="ValidRates-rateClassType" parent="ValidRates-rateClassType-parentBean" />
-	<bean id="ValidRates-rateClassType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+	<bean id="ValidRates-rateClassType-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rateClassType" />
 		<property name="label" value="Rate Class Type" />
 		<property name="shortLabel" value="Rate Class Type" />
+        <property name="control" >
+			<bean parent="SelectControlDefinition"
+			      p:businessObjectClass="org.kuali.kra.budget.rates.RateClassType"
+			      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+			      p:includeKeyInLabel="true"
+			      p:includeBlankRow="false"
+			      p:keyAttribute="rateClassType"
+			      p:labelAttribute="description" />
+        </property>
 		<property name="summary" value="Rate Class Type" />
 		<property name="description" value="Rate Class Type" />
 	</bean>
