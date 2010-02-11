@@ -91,16 +91,23 @@ public class ScheduleServiceTest {
     public void testMonthlyWeekDayExpression() throws Exception {
         ScheduleServiceImpl service = new ScheduleServiceImpl();
         Date stDate = new Date();
-        Date endDate = DateUtils.addDays(stDate, 60);        
+        //originally the date addition was set to 60 days, but the further calculations fails for short months like February
+        // note it's not a full year, because we don't want to potential get to the same date in the next year.
+        Date endDate = DateUtils.addDays(stDate, 360);        
         
         CronSpecialChars dayOfWeek = findDayOfWeek(stDate);
         CronSpecialChars weekOfMonth = findWeekOfMonth(stDate);
         
+        System.err.println(" dayOfWeek:" + dayOfWeek.toString() + " weekOfMonth:" + weekOfMonth.toString());
+        
         List<Date> list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), dayOfWeek, weekOfMonth, 1, null);
-        assertEquals(2, list.size());
+        
+        
+        
+        assertEquals(12, list.size());
         
         list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), dayOfWeek, weekOfMonth, 2, null);
-        assertEquals(1, list.size());
+        assertEquals(6, list.size());
     }
     
     @Test
