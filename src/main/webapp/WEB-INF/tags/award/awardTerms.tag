@@ -26,7 +26,7 @@
 		<br/>
 		
 		<c:if test="${!readOnly}">
-		<kra-a:awardSyncButton propertyName = "" scopeNames="TERMS_TAB" tabKey="${tabKey}"/>
+		<kra-a:awardSyncButton scopeNames="TERMS_TAB" tabKey="${tabKey}"/>
 		</c:if>
 	</div>
 </kul:tab>

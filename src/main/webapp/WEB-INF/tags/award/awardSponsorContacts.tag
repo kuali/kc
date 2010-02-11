@@ -126,7 +126,7 @@
     	<div align="center">
     		<c:set var="syncPropertyName" value="sponsorContacts" />
     		<c:if test="${!readOnly}">
-				<kra-a:awardSyncButton propertyName = "" scopeNames="SPONSOR_CONTACTS_TAB" tabKey="${tabKey}"/>
+				<kra-a:awardSyncButton scopeNames="SPONSOR_CONTACTS_TAB" tabKey="${tabKey}"/>
 		    </c:if>
 		</div>
 	</div>
