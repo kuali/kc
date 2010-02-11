@@ -27,14 +27,27 @@ public class OjbBlobClobFieldConersion implements FieldConversion {
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
      */
     public Object javaToSql(Object source) throws ConversionException {
-        return source==null?null:source.toString().toCharArray();
+        byte[] sourceBytes = (byte[])source;
+        return sourceBytes==null?null:new String(sourceBytes);
     }
 
     /**
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
      */
     public Object sqlToJava(Object source) throws ConversionException {
-        return source==null?null:source.toString().getBytes();
+        if(source==null) return null;
+        String sourceChars = null;
+        if(source instanceof String){
+            sourceChars = source.toString();
+        }else if(source instanceof char[]){
+            sourceChars = new String((char[])source);
+        }
+        return sourceChars;
     }
 
+    public static void main(String str[]){
+        OjbBlobClobFieldConersion t = new OjbBlobClobFieldConersion();
+        char[] bytes = "Geo".toCharArray();
+        System.out.println(new String((char[])t.javaToSql("Geo".getBytes())));
+    }
 }

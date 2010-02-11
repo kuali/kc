@@ -243,9 +243,7 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
-    //This test is moved to fail suite till CLOB issue gets solved
-    org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class
     
 })
 /**
