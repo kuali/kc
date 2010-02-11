@@ -167,6 +167,8 @@ public class AwardForm extends BudgetVersionFormBase
     private Integer oldTemplateCode;
     private boolean templateLookup = false;
     
+   
+    
     /**
      *
      * Constructs a AwardForm.
