@@ -1653,6 +1653,11 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 	
+    <bean id="protocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
 	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
