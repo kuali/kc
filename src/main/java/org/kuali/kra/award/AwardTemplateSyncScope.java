@@ -36,40 +36,42 @@ import org.kuali.rice.kns.service.ParameterService;
 public enum AwardTemplateSyncScope {
     
     //match any scope
-    ANY (""),
+    ANY (null),
+    //sync everything.
+    FULL (null),
     //The Award Page sync
-    AWARD_PAGE ( "Award" ),
+    AWARD_PAGE ( "document.question.syncPanel.panelName.AWARD_PAGE" ),
     //for sync of sponsor contacts
-    SPONSOR_CONTACTS_TAB ( "Sponsor Contacts" ),
+    SPONSOR_CONTACTS_TAB ( "document.question.syncPanel.panelName.SPONSOR_CONTACTS_TAB" ),
     //for sync or Payments and Invoices section. 
-    PAYMENTS_AND_INVOICES_TAB ( "Payments and Invoices" ),
+    PAYMENTS_AND_INVOICES_TAB ( "document.question.syncPanel.panelName.PAYMENTS_AND_INVOICES_TAB" ),
     //sync the reports
-    REPORTS_TAB ( "Reports" ),
+    REPORTS_TAB ( "document.question.syncPanel.panelName.REPORTS_TAB" ),
     //sync the sponsor terms
-    TERMS_TAB ( "Sponsor Terms" ),
+    TERMS_TAB ( "document.question.syncPanel.panelName.TERMS_TAB" ),
     //sync the notes and attachements
-    COMMENTS_TAB ( "Comments" ),
+    COMMENTS_TAB ( "document.question.syncPanel.panelName.COMMENTS_TAB" ),
     //sync the cost share
-    COST_SHARE ( "Cost Share" ),
+    COST_SHARE ( "document.question.syncPanel.panelName.COST_SHARE" ),
     //sync the pre award authorizations
-    PREAWARD_AUTHORIZATIONS_TAB ( "Preaward Authorizations" ),
+    PREAWARD_AUTHORIZATIONS_TAB ( "document.question.syncPanel.panelName.PREAWARD_AUTHORIZATIONS_TAB" ),
     //sync the rates
-    RATES_TAB ( "Rates" ),
+    RATES_TAB ( "document.question.syncPanel.panelName.RATES_TAB" ),
     //inherit the containing classes scope - this means that the field will sync when the class containing it syncs.
-    CONTAINING_CLASS_INHERIT ( "" ) ;
+    CONTAINING_CLASS_INHERIT (null) ;
     
     
     
     private static final Log LOG = LogFactory.getLog(AwardTemplateSyncScope.class);
-    private String displayTabName;
+    private String displayPropertyName;
     
     
-    AwardTemplateSyncScope(  String displayTabName ) {
-        this.displayTabName = displayTabName;
+    AwardTemplateSyncScope(  String displayPropertyName ) {
+        this.displayPropertyName = displayPropertyName;
     }
     
-    public String getDisplayTabName() {
-        return this.displayTabName;
+    public String getDisplayPropertyName() {
+        return this.displayPropertyName;
     }
     
     public boolean isInScope( Field field ) {

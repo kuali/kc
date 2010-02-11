@@ -374,6 +374,9 @@ public final class KeyConstants {
     public static final String QUESTION_SYNC_UNIT_CONTACTS = "document.question.syncUnitContacts.text";
     
     public static final String QUESTION_SYNC_PANEL = "document.question.syncPanel.text";
+    public static final String QUESTION_SYNC_FULL = "document.question.syncAll.text";
+    
+    
     
     //Award Attachment Confirmation Question
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
