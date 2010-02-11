@@ -875,7 +875,7 @@ values ('144', '5B4F09744948EF33E0404F8189D84F24', 1, '29', 'KR-BUS', 'Use Scree
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('145', '5B4F09744949EF33E0404F8189D84F24', 1, '29', 'KR-BUS', 'Use Screen', 'Allows users to access the Quartz Queue screen.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('146', '5B4F0974494AEF33E0404F8189D84F24', 1, '9', 'KR-SYS', 'Ad Hoc Review Document', 'Allows a user to receive ad hoc requests for RICE Documents.', 'Y');
+values ('146', '5B4F0974494AEF33E0404F8189D84F24', 1, '9', 'KUALI', 'Ad Hoc Review Document', 'Authorizes users to take Approve, Acknowledge or FYI action on KUALI documents Ad Hoc routed to them.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('147', '5B4F0974494BEF33E0404F8189D84F24', 1, '3', 'KR-SYS', 'Administer Routing for Document', 'Allows users to open RICE Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
@@ -895,7 +895,7 @@ values ('154', '5B4F09744952EF33E0404F8189D84F24', 1, '39', 'KR-SYS', 'Modify En
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('155', '5B4F09744953EF33E0404F8189D84F24', 1, '38', 'KR-SYS', 'Populate Group', 'Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KR.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('156', '5B4F09744954EF33E0404F8189D84F24', 1, '2', 'KR-SYS', 'Copy Document', 'Authorizes users to copy RICE Documents.', 'Y');
+values ('156', '5B4F09744954EF33E0404F8189D84F24', 1, '2', 'KUALI', 'Copy Document', 'Allows access to the Copy button on KC Documents.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('161', '5B4F09744959EF33E0404F8189D84F24', 1, '24', 'KR-SYS', 'Inquire Into Records', 'Allows users to access Kuali RICE inquiries.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
@@ -923,7 +923,7 @@ values ('180', '5B4F0974496CEF33E0404F8189D84F24', 1, '16', 'KUALI', 'Edit Docum
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('181', '5B4F0974496DEF33E0404F8189D84F24', 1, '16', 'KUALI', 'Edit Document', 'Allows users to edit Kuali documents that are in ENROUTE status.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('183', '5B4F0974496FEF33E0404F8189D84F24', 1, '27', 'KR-SYS', 'Full Unmask Field', 'Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.', 'Y');
+values ('183', '5B4F0974496FEF33E0404F8189D84F24', 1, '27', 'KR-SYS', 'Full Unmask Field', 'Authorizes users to view the password field on the Person document and inquriy.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('259', '606763510FC396D3E0404F8189D857A2', 1, '45', 'KUALI', 'Add Note / Attachment', 'Users who can add notes and attachments to any document answering to the Kuali Document parent document type.', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
@@ -1232,8 +1232,6 @@ values ('189', '5B4F09744A2DEF33E0404F8189D84F24', 1, '144', '12', '2', 'org.kua
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('191', '5B4F09744A2FEF33E0404F8189D84F24', 1, '145', '12', '2', 'org.kuali.rice.ksb.messaging.web.QuartzQueueAction');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('192', '5B4F09744A30EF33E0404F8189D84F24', 1, '146', '5', '13', 'RiceDocument');
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('193', '5B4F09744A31EF33E0404F8189D84F24', 1, '147', '3', '13', 'RiceDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('194', '5B4F09744A32EF33E0404F8189D84F24', 1, '148', '3', '13', 'RiceDocument');
@@ -1251,8 +1249,6 @@ insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_T
 values ('200', '5B4F09744A38EF33E0404F8189D84F24', 1, '154', '22', '17', 'System');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('201', '5B4F09744A39EF33E0404F8189D84F24', 1, '155', '21', '4', 'KR*');
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('202', '5B4F09744A3AEF33E0404F8189D84F24', 1, '156', '3', '13', 'RiceDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('211', '5B4F09744A43EF33E0404F8189D84F24', 1, '161', '10', '4', 'KR*');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
