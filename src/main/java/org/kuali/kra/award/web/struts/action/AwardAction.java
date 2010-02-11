@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,6 +81,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -165,10 +169,15 @@ public class AwardAction extends BudgetParentActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-                
-        new AuditActionHelper().auditConditionally((AwardForm)form);
+        AwardForm awardForm = (AwardForm)form;
+        //KCAWD-494: If the user just performed a sponsor template lookup and the code has changed, then forward on to the
+        //full synchronization of the template to the award.
+        if( !ObjectUtils.equals(awardForm.getOldTemplateCode(), awardForm.getAwardDocument().getAward().getTemplateCode() ) && awardForm.isTemplateLookup()) {
+            return this.fullSyncToAwardTemplate(mapping, form, request, response);
+        }
         
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        new AuditActionHelper().auditConditionally((AwardForm)form);
         return actionForward;
     }
 
@@ -833,6 +842,31 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     
+    /**
+     * This method sets up a sponsor template synchronization loop.
+     * It is called by the ui when a specific set of scopes need to by synchronized.
+     * If no scopes are in the request, then a full synchronization to the scopes:
+     * 
+     * AWARD_PAGE
+     * SPONSOR_CONTACTS_TAB
+     * PAYMENTS_AND_INVOICES_TAB
+     * REPORTS_TAB
+     * COMMENTS_TAB
+     * 
+     * is performed. This method generates and stores the list of scopes to sync
+     * and the map to indicate if confirmation is necessary from the user before
+     * a particular scope is synchronized and then forwards to the method the handles
+     * the request loop.
+     * 
+     * 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward syncAwardTemplate(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
@@ -840,44 +874,31 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        
-        
-        //if the question is not null we are in the middle of processing synchronizations.
         if( question != null ) return processSyncAward(mapping, awardForm, request, response);
-        
-        //This is a new sync request, clear the tracking scopes and confirmation map.
+
         awardForm.setCurrentSyncScopes(null);
         awardForm.setSyncRequiresConfirmationMap(null);
         
-        //see if the scope has been specified.  If no scope is specified then the scope is global.
-        //holds the scope string names passed in.
-        String[] scopeStrings = {};
-        //the name of the property to be sync'd
-        String syncName = getSyncPropertyName( request );
-        //will hold the scopes that are to be syncd
-        AwardTemplateSyncScope[] scopes;
-
         /*
          * The format for the action string is:
-         * methodToCall.syncAwardTemplate.sync[PropertyName|MethodName]X[:SCOPE1:...:SCOPEN].anchor...
+         * methodToCall.syncAwardTemplate:SCOPE1:...:SCOPEN].anchor...
          * Where:
          * [PropertyName|MethodName] means to sync by a property name or a method name.
-         * X = The property or method name.  If empty, then all fields will be synced within the named scopes ( or globally if no scopes are specified. )
          * SCOPE1...SCOPEN : A ':' delimited list of scope names that should be synced. If none are specified then the sync is done for every field and method.
          * 
          */
         
+        AwardTemplateSyncScope[] scopes;
+        String syncScopes = getSyncScopesString( request );
+
        
-        if (StringUtils.isNotBlank(syncName) && syncName.length() > 1 && syncName.indexOf(":")>-1) {
-            String scopesString = StringUtils.substringAfter(syncName, ":");
-            scopeStrings = StringUtils.split(scopesString,":");
-            syncName = StringUtils.substringBefore(syncName, ":");
+        if (StringUtils.isNotBlank(syncScopes) && syncScopes.length() > 1 && syncScopes.indexOf(":")>-1) {
+            String[] scopeStrings = StringUtils.split(StringUtils.substringAfter(syncScopes, ":"));
             scopes = new AwardTemplateSyncScope[scopeStrings.length];
             for( int i = 0; i < scopeStrings.length; i++ ) {
                 scopes[i] = Enum.valueOf(AwardTemplateSyncScope.class, scopeStrings[i]);
             }
         } else {
-            //default scopes if none is provided in the call ( on the awardTemplate panel )
             scopes = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
                 AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
                 AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
@@ -885,7 +906,6 @@ public class AwardAction extends BudgetParentActionBase {
                 AwardTemplateSyncScope.COMMENTS_TAB };
         }
         
-        //generate map of the scopes that need user to verify they want to sync.
         Map< AwardTemplateSyncScope,Boolean> requiresQuestionMap = new HashMap<AwardTemplateSyncScope,Boolean>();
         for( AwardTemplateSyncScope scope : scopes ) {
             if( awardTemplateSyncService.syncWillClobberData(awardDocument, scope) ) {
@@ -899,50 +919,64 @@ public class AwardAction extends BudgetParentActionBase {
 
         awardForm.setCurrentSyncScopes(scopes);
         awardForm.setSyncRequiresConfirmationMap(requiresQuestionMap);
-        
         return processSyncAward(mapping,form,request,response); 
     }
 
+    
+    public ActionForward fullSyncToAwardTemplate(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if( question == null ) {
+            //setup before forwarding to the processor.
+            AwardTemplateSyncScope[] scopes;
+            scopes = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.FULL };
+            HashMap<AwardTemplateSyncScope,Boolean> confirmMap = new HashMap<AwardTemplateSyncScope,Boolean>();
+            confirmMap.put(AwardTemplateSyncScope.FULL, true);
+            awardForm.setCurrentSyncScopes(scopes);
+            awardForm.setSyncRequiresConfirmationMap(confirmMap);
+        } else {
+            //we are going to process ( it is either confirmed or not )
+            //unset the flag.
+            awardForm.setOldTemplateCode(null);
+            awardForm.setTemplateLookup(false);
+        }
+        return processSyncAward(mapping,form,request,response);
+    }
+    
+    
     public ActionForward processSyncAward(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         
         AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        
-        //get the top scope.
-        
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        
-        //see if the scope has been specified.  If no scope is specified then the scope is global.
         AwardTemplateSyncScope[] scopes = awardForm.getCurrentSyncScopes();
-        //Loop over the scopes, if they require confirmation then ask for it - if not do the sync.
+
         for( AwardTemplateSyncScope currentScope : scopes ) {
             if( (question == null  || !(QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) ) && awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {
-                //in this case we have a requirement to check to see if it is ok to sync, but the question is null or does not match the scope. 
-                //so forward to a confirmation question.
-                StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , KeyConstants.QUESTION_SYNC_PANEL,
-                    currentScope.getDisplayTabName(), awardDocument.getAward().getAwardTemplate().getDescription()); 
+                
+                //get the text label for the sync scope to be used in the question
+                KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
+                String scopeSyncLabel = "";
+                if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName()))
+                    scopeSyncLabel = kualiConfiguration.getPropertyString(currentScope.getDisplayPropertyName());
+                StrutsConfirmation confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC+":"+currentScope)  , currentScope.equals(AwardTemplateSyncScope.FULL)?KeyConstants.QUESTION_SYNC_FULL:KeyConstants.QUESTION_SYNC_PANEL,
+                    scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription()); 
                 confirmationQuestion.setCaller("processSyncAward");
-            
                 return  performQuestionWithoutInput( confirmationQuestion,""  );
             } else if ( ((QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) && ConfirmationQuestion.YES.equals(buttonClicked))||!awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {                               
-                    //sync then go on to the next one.
                 if( LOG.isDebugEnabled() ) 
                     LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+scopes[0]+" CALLING SYNC SERVICE." );
                 AwardTemplateSyncScope[] s = { currentScope };
                 awardTemplateSyncService.syncToAward(awardDocument, s);
-                //remove the scope from the awardForm tracking array.  
                 awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
-                
             } else if ( (QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                //just remove the sync from the working set
                 if( LOG.isDebugEnabled() ) 
                     LOG.debug( "USER DECLINED "+scopes[0] +", SKIPPING." );
-                //remove the scope from the award form tracking array.
                 awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
-                
             } else {
                 throw new RuntimeException( "Do not know what to do in this case!" );
             }
@@ -953,19 +987,18 @@ public class AwardAction extends BudgetParentActionBase {
     
     
     /**
-     * Parses the method to call attribute to pick off the property name of award object
-     * which should have a sync action performed on it.
+     * Parses the method to call attribute to pick off the scopes to sync.
      *
      * @param request
-     * @return
+     * @return returns the colon delimited list of scopes.  
      */
-    protected String getSyncPropertyName(HttpServletRequest request) {
-        String syncPropertyName = null;
+    protected String getSyncScopesString(HttpServletRequest request) {
+        String syncScopesList = null;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".syncPropertyName")!=-1) {
-            syncPropertyName = StringUtils.substringBetween(parameterName, ".syncPropertyName", ".anchor");
+        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".scopes")!=-1) {
+            syncScopesList = StringUtils.substringBetween(parameterName, ".scopes", ".anchor");
         }
-        return syncPropertyName;
+        return syncScopesList;
     }
     
     
@@ -1017,6 +1050,26 @@ public class AwardAction extends BudgetParentActionBase {
         }
 
         return documentType;
+    }
+
+   
+    /**
+     * KCAWD-494:If the user selects a sponsor template lookup, set a flag and store the current sponsor template code in the form.  The flag and the 
+     * current value will be used on the return to check if the template has changed.
+     * 
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if( (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".performLookup")!=-1 && parameterName.contains("templateCode:document.award.templateCode"))) {
+            AwardForm awardForm = (AwardForm)form;
+            awardForm.setTemplateLookup(true);
+            ((AwardForm)form).setOldTemplateCode(((AwardForm)form).getAwardDocument().getAward().getTemplateCode() );
+        }
+        return super.performLookup(mapping, form, request, response);
     }
     
 }

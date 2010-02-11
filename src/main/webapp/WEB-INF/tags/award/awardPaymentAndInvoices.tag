@@ -20,7 +20,7 @@
 <c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardPaymentReportsAndTerms" />
 
-<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
+<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments.*,document.awardList[0].paymentsAndInvoices.*" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
 	<div class="tab-container" align="center">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
 		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" reportCodeLabel="Payment Type"
@@ -42,7 +42,7 @@
 		<div align="center">
 		</br>
 		<c:if test = "${(!readOnly)}">
-			<kra-a:awardSyncButton propertyName = "" scopeNames="PAYMENTS_AND_INVOICES_TAB" tabKey="${tabKey}"/>
+			<kra-a:awardSyncButton  scopeNames="PAYMENTS_AND_INVOICES_TAB" tabKey="${tabKey}"/>
 		</c:if>
 		</div>	
        	

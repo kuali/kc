@@ -162,6 +162,11 @@ public class AwardForm extends BudgetVersionFormBase
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
     private AwardTemplateSyncScope[] currentSyncScopes;
 
+    
+    //KCAWD-494:  Added to track a template code lookup.
+    private Integer oldTemplateCode;
+    private boolean templateLookup = false;
+    
     /**
      *
      * Constructs a AwardForm.
@@ -231,6 +236,7 @@ public class AwardForm extends BudgetVersionFormBase
         //sync
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;
+        
     }
 
     /**
@@ -1110,6 +1116,15 @@ public class AwardForm extends BudgetVersionFormBase
         }
     }
 
+
+    /**
+     * This map is generated in the action and stored in the form as synchronizations to the template can
+     * span one or more requests.  Each entry indicates if the user must confirm the synchronization request
+     * for a particular scope being synchronized.
+     * 
+     * @return The current scopes remaining to be synchronized.  The action is responsible for maintaining this field.
+     */
+    
     public Map<AwardTemplateSyncScope, Boolean> getSyncRequiresConfirmationMap() {
         return syncRequiresConfirmationMap;
     }
@@ -1117,13 +1132,51 @@ public class AwardForm extends BudgetVersionFormBase
     public void setSyncRequiresConfirmationMap(Map<AwardTemplateSyncScope, Boolean> syncRequiresConfirmationMap) {
         this.syncRequiresConfirmationMap = syncRequiresConfirmationMap;
     }
-
     
+    /**
+     * The currentSyncScopes array holds the array of scopes that are currently being synchronized 
+     * with the award template.  It is set by the form when a sync is initiated by the user.  Since the
+     * ui may request confirmations to sync each scope, this is done in a loop spanning one or more requests 
+     * by the action, which removes the scopes as the synchronizations are confirmed and performed 
+     * or are declined by the user.
+     * 
+     * @return The current scopes remaining to be synchronized.  The action is responsible for maintaining this field.
+     */
     public AwardTemplateSyncScope[] getCurrentSyncScopes() {
         return currentSyncScopes;
     }
 
     public void setCurrentSyncScopes(AwardTemplateSyncScope[] currentSyncOperations) {
         this.currentSyncScopes = currentSyncOperations;
+    }
+
+    /**
+     * Returns the value of oldTemplateCode.  This is set by the award action
+     * when the user starts a template code lookup.
+     * 
+     * @return The template code of the award before the template lookup was done.
+     */
+    public Integer getOldTemplateCode() {
+        return oldTemplateCode;
+    }
+
+    
+    public void setOldTemplateCode(Integer oldTemplateCode) {
+        this.oldTemplateCode = oldTemplateCode;
+    }
+
+    
+    /**
+     * Boolean flag to indicate that the user is in a template code lookup loop.
+     * Set by the action when a template code lookup is initiated by the user.
+     * 
+     * @return templateLookup
+     */
+    public boolean isTemplateLookup() {
+        return templateLookup;
+    }
+
+    public void setTemplateLookup(boolean templateCodeChange) {
+        this.templateLookup = templateCodeChange;
     }
 }
