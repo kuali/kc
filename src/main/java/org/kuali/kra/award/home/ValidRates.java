@@ -34,7 +34,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     private Integer validRatesId;
     private KualiDecimal onCampusRate;
     private KualiDecimal offCampusRate;
-    private boolean rateClassType;
+    private String rateClassType;
     private String adjustmentKey;
 
 
@@ -105,7 +105,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
      * This method...
      * @return
      */
-    public boolean getRateClassType() {
+    public String getRateClassType() {
         return rateClassType;
     }
 
@@ -114,7 +114,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
      * This method...
      * @param rateClassType
      */
-    public void setRateClassType(boolean rateClassType) {
+    public void setRateClassType(String rateClassType) {
         this.rateClassType = rateClassType;
     }
 
@@ -161,7 +161,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
         result = prime * result + ((adjustmentKey == null) ? 0 : adjustmentKey.hashCode());
         result = prime * result + ((offCampusRate == null) ? 0 : offCampusRate.hashCode());
         result = prime * result + ((onCampusRate == null) ? 0 : onCampusRate.hashCode());
-        result = prime * result + (rateClassType ? 1231 : 1237);
+        result = prime * result + ((rateClassType == null) ? 0 : rateClassType.hashCode());
         result = prime * result + ((validRatesId == null) ? 0 : validRatesId.hashCode());
         return result;
     }
