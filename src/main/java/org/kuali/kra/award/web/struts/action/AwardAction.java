@@ -101,6 +101,15 @@ public class AwardAction extends BudgetParentActionBase {
     
     //question constants
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
+    
+    private static final AwardTemplateSyncScope[] DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
+        AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
+        AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
+        AwardTemplateSyncScope.TERMS_TAB,
+        AwardTemplateSyncScope.REPORTS_TAB,
+        AwardTemplateSyncScope.COMMENTS_TAB
+        };
+
    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
@@ -850,6 +859,7 @@ public class AwardAction extends BudgetParentActionBase {
      * AWARD_PAGE
      * SPONSOR_CONTACTS_TAB
      * PAYMENTS_AND_INVOICES_TAB
+     * TERMS_TAB
      * REPORTS_TAB
      * COMMENTS_TAB
      * 
@@ -857,8 +867,6 @@ public class AwardAction extends BudgetParentActionBase {
      * and the map to indicate if confirmation is necessary from the user before
      * a particular scope is synchronized and then forwards to the method the handles
      * the request loop.
-     * 
-     * 
      * 
      * @param mapping
      * @param form
@@ -898,35 +906,58 @@ public class AwardAction extends BudgetParentActionBase {
             for( int i = 0; i < scopeStrings.length; i++ ) {
                 scopes[i] = Enum.valueOf(AwardTemplateSyncScope.class, scopeStrings[i]);
             }
+            awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( scopes, awardDocument, false, false ));
+            awardForm.setCurrentSyncScopes(scopes);
         } else {
-            scopes = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
-                AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
-                AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
-                AwardTemplateSyncScope.REPORTS_TAB,
-                AwardTemplateSyncScope.COMMENTS_TAB };
-        }
-        
-        Map< AwardTemplateSyncScope,Boolean> requiresQuestionMap = new HashMap<AwardTemplateSyncScope,Boolean>();
-        for( AwardTemplateSyncScope scope : scopes ) {
-            if( awardTemplateSyncService.syncWillClobberData(awardDocument, scope) ) {
-              LOG.warn(String.format( "%s:%s", scope, true ));
-              requiresQuestionMap.put(scope, true);  
-            } else {
-                LOG.warn(String.format( "%s:%s", scope, false ));
-                requiresQuestionMap.put(scope, false);
-            }
+            awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, false, false ));
+            awardForm.setCurrentSyncScopes(DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES);
         }
 
-        awardForm.setCurrentSyncScopes(scopes);
-        awardForm.setSyncRequiresConfirmationMap(requiresQuestionMap);
         return processSyncAward(mapping,form,request,response); 
     }
 
+    private Map<AwardTemplateSyncScope, Boolean> generateScopeRequiresConfirmationMap( AwardTemplateSyncScope[] scopes, AwardDocument awardDocument,boolean skipCheck,boolean defaultValue ) {
+        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        Map< AwardTemplateSyncScope,Boolean> requiresQuestionMap = new HashMap<AwardTemplateSyncScope,Boolean>();
+        for( AwardTemplateSyncScope scope: scopes ) {
+            if( skipCheck ) {
+                requiresQuestionMap.put(scope, defaultValue);
+            } else {
+                if( awardTemplateSyncService.syncWillClobberData(awardDocument, scope) ) {
+                    if( LOG.isDebugEnabled() )
+                        LOG.debug(String.format( "%s:%s", scope, true ));
+                    requiresQuestionMap.put(scope, true);  
+                } else {
+                    if( LOG.isDebugEnabled() )
+                        LOG.warn(String.format( "%s:%s", scope, false ));
+                    requiresQuestionMap.put(scope, false);
+                }
+            }
+        }
+        return requiresQuestionMap;
+    }
     
+    
+    
+    /**
+     * This method sets up a full template sync.  This is called on return from a Sponsor Template Lookup.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward fullSyncToAwardTemplate(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        boolean proceedToProcessSyncAward = true;
+        
         if( question == null ) {
             //setup before forwarding to the processor.
             AwardTemplateSyncScope[] scopes;
@@ -935,13 +966,21 @@ public class AwardAction extends BudgetParentActionBase {
             confirmMap.put(AwardTemplateSyncScope.FULL, true);
             awardForm.setCurrentSyncScopes(scopes);
             awardForm.setSyncRequiresConfirmationMap(confirmMap);
-        } else {
-            //we are going to process ( it is either confirmed or not )
-            //unset the flag.
-            awardForm.setOldTemplateCode(null);
-            awardForm.setTemplateLookup(false);
+        } else if( question!=null && (QUESTION_VERIFY_SYNC+":"+AwardTemplateSyncScope.FULL).equals(question) ) {
+            
+            if( ConfirmationQuestion.YES.equals(buttonClicked) ) {
+                awardForm.setCurrentSyncScopes(DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES);
+                awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, awardForm.getOldTemplateCode() == null,false ));
+            } else {
+                proceedToProcessSyncAward = false;
+                awardForm.setOldTemplateCode(null);
+                awardForm.setTemplateLookup(false);
+            }
+            
+            
         }
-        return processSyncAward(mapping,form,request,response);
+     
+        return proceedToProcessSyncAward?processSyncAward(mapping,form,request,response):mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     
@@ -957,8 +996,6 @@ public class AwardAction extends BudgetParentActionBase {
 
         for( AwardTemplateSyncScope currentScope : scopes ) {
             if( (question == null  || !(QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) ) && awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {
-                
-                //get the text label for the sync scope to be used in the question
                 KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
                 String scopeSyncLabel = "";
                 if( StringUtils.isNotEmpty(currentScope.getDisplayPropertyName()))
@@ -981,7 +1018,8 @@ public class AwardAction extends BudgetParentActionBase {
                 throw new RuntimeException( "Do not know what to do in this case!" );
             }
         }   
-        
+        awardForm.setOldTemplateCode(null);
+        awardForm.setTemplateLookup(false);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
     
