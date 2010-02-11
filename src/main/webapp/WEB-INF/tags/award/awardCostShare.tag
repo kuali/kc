@@ -21,7 +21,8 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tabTop tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,costShareFormHelper.newAwardCostShare.*,document.awardList[0].awardCostShare*">
+<kul:tabTop tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,costShareFormHelper.newAwardCostShare.*,document.awardList[0].awardCostShare*"
+			auditCluster="costShareAuditErrors" tabAuditKey="document.awardList[0].awardCostShares*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>

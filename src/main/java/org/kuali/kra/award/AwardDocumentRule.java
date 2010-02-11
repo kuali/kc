@@ -23,6 +23,7 @@ import org.kuali.kra.award.commitments.AddFandaRateRule;
 import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleImpl;
 import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardCostShareAuditRule;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
@@ -530,6 +531,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardCostShareAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardFandARateAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardProjectPersonsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSubawardAuditRule().processRunAuditBusinessRules(document);
