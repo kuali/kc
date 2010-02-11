@@ -386,7 +386,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.home.AwardTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
     org.kuali.kra.service.SpecialReviewServiceTest.class,
-    org.kuali.kra.budget.document.BudgetDocumentRuleTest.class
+    org.kuali.kra.budget.document.BudgetDocumentRuleTest.class,
+    org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class
+
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
