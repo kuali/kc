@@ -1,3 +1,5 @@
+--This file should not be used by our unit tests.
+
 insert into KRIM_PRNCPL_T (OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID)
 values ('89C22897E8B64882A68276D5F7D6B00A', 1, 'mwmartin', '1257', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', to_date('07-10-2009 13:23:53', 'dd-mm-yyyy hh24:mi:ss'), '10000000057');
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)

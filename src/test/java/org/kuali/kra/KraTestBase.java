@@ -21,7 +21,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 /**
- * This class is the base class for all KCRA Tests requiring a Spring context with persistence, and preloaded test data
+ * This class is the base class for all KC Tests requiring a Spring context with persistence, and preloaded test data
  */
 
 @PerSuiteUnitTestData(
@@ -122,7 +122,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_LOCATION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_ATTACHMENT_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_kim.sql", delimiter = ";")
-                ,@UnitTestFile(filename = "classpath:sql/dml/kc_maint_bootstrap.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_kim_maintenance.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_MINUTE_ENTRY_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_QUESTION.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
