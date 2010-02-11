@@ -1030,6 +1030,10 @@ insert into KRIM_PERM_T values ('1219', sys_guid(), 1, '40', 'KC-IP', 'Open Inte
 insert into KRIM_PERM_T values ('1220', sys_guid(), 1, '14', 'KC-IP', 'Cancel Intellectual Property Review', 'Cancel a Intellectual Property Review', 'Y');
 INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
 VALUES ('1221', '1030', 'Answer Protocol Questionnaire', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
+values ('1222', '95F7D32053EF4F868C1612FA94FFF635', 1, '16', 'KC-PROTOCOL', 'Modify Correspondence Template', 'Modify Correspondence Template', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND)
+values ('1223', 'F35D259D139C401EB7F74E94A8DFA3B7', 1, '40', 'KC-PROTOCOL', 'View Correspondence Template', 'View Correspondence Template', 'Y');
 
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('1000', '66AC72A924E64E31977BECE28F7CB6A1', 1, '1000', '3', '13', 'ProposalDevelopmentDocument');
@@ -1423,6 +1427,10 @@ insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(
 insert into KRIM_PERM_ATTR_DATA_T values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), '3', '13', 'IntellectualPropertyReviewMaintenanceDocument');
 INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 VALUES('1162', SYS_GUID(), '1', '1221', '3', '13', 'ProtocolDocument') ;
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1163', '1222', 1, '1222', '1013', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+values ('1164', '1223', 1, '1223', '1013', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument');
 
 
 --**************************************************************************************************************************************************
@@ -2226,6 +2234,11 @@ insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 values ('10109', '77BC20590A53319DE0404F8189D10108', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('10110', '77BC20590A53319DE0404F8189D10109', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10137', 'C1FB853F1FF0435DB3D1DAA0D161C920', 1, '1125', '1222', 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values ('10138', '16061ABBF4C94191B4A10C0F178E0E56', 1, '1126', '1223', 'Y');
+
 insert into KRIM_ROLE_PERM_T values ('10125', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
 insert into KRIM_ROLE_PERM_T values ('10126', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), 'Y');
 insert into KRIM_ROLE_PERM_T values ('10127', sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), 'Y');
