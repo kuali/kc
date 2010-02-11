@@ -385,7 +385,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class,
     org.kuali.kra.award.home.AwardTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
-    org.kuali.kra.scheduling.service.ScheduleServiceTest.class,
     org.kuali.kra.service.SpecialReviewServiceTest.class,
     org.kuali.kra.budget.document.BudgetDocumentRuleTest.class
 })
