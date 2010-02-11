@@ -973,6 +973,7 @@ public class AwardAction extends BudgetParentActionBase {
                 awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, awardForm.getOldTemplateCode() == null,false ));
             } else {
                 proceedToProcessSyncAward = false;
+                awardDocument.getAward().setTemplateCode(awardForm.getOldTemplateCode());
                 awardForm.setOldTemplateCode(null);
                 awardForm.setTemplateLookup(false);
             }
