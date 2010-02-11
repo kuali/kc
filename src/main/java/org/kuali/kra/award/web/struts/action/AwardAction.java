@@ -970,10 +970,11 @@ public class AwardAction extends BudgetParentActionBase {
             
             if( ConfirmationQuestion.YES.equals(buttonClicked) ) {
                 awardForm.setCurrentSyncScopes(DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES);
-                awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, awardForm.getOldTemplateCode() == null,false ));
+                awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, false,false ));
             } else {
                 proceedToProcessSyncAward = false;
                 awardDocument.getAward().setTemplateCode(awardForm.getOldTemplateCode());
+                awardDocument.getAward().refreshReferenceObject("awardTemplate");
                 awardForm.setOldTemplateCode(null);
                 awardForm.setTemplateLookup(false);
             }
