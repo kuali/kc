@@ -36,13 +36,13 @@ public class OjbBlobClobFieldConersion implements FieldConversion {
      */
     public Object sqlToJava(Object source) throws ConversionException {
         if(source==null) return null;
-        String sourceChars = null;
+        byte[] sourceBytes = null;
         if(source instanceof String){
-            sourceChars = source.toString();
+            sourceBytes = source.toString().getBytes();
         }else if(source instanceof char[]){
-            sourceChars = new String((char[])source);
+            sourceBytes = new String((char[])source).getBytes();
         }
-        return sourceChars;
+        return sourceBytes;
     }
 
     public static void main(String str[]){
