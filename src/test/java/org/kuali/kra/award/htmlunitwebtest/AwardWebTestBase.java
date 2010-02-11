@@ -109,7 +109,8 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage buildAwardDocumentPage() throws Exception {
-        HtmlPage createAwardPage = clickOn(getPortalPage(), "Create Award", "Kuali Portal Index");
+        HtmlPage unitPage = clickOn(getPortalPage(), "Unit");
+        HtmlPage createAwardPage = clickOn(unitPage, "Award");
         createAwardPage = getInnerPages(createAwardPage).get(0);
         assertTrue("Kuali :: KC Award".equals(createAwardPage.getTitleText()));
         setDefaultRequiredFields(createAwardPage);
