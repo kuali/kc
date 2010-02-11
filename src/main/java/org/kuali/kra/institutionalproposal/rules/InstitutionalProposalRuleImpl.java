@@ -43,7 +43,7 @@ public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase impl
         boolean valid = true;
         if(!(currentAwardNumber == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("awardId", currentAwardNumber);
+            fieldValues.put("awardNumber", currentAwardNumber);
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
             List<Award> sponsors = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
             if(sponsors.size() == 0) {
