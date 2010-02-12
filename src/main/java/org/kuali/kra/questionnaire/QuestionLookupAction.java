@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -50,9 +51,11 @@ public class QuestionLookupAction extends KualiAction {
         String questions = Constants.EMPTY_STRING;
         if (questionLookupForm.getLookupResultsBOClassName() != null && questionLookupForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = questionLookupForm.getLookupResultsSequenceNumber();
-            Class<?> lookupResultsBOClass = Class.forName(questionLookupForm.getLookupResultsBOClassName());
+            
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(questionLookupForm.getLookupResultsBOClassName());
 
-            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                     .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                             GlobalVariables.getUserSession().getPerson().getPrincipalId());
             int idx = 0;

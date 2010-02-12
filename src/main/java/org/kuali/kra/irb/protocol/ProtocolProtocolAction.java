@@ -53,6 +53,7 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -147,20 +148,26 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return super.headerTab(mapping, form, request, response);
     }
 
-
+    @Override
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+            Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
+        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
+                    .getService("protocolResearchAreaService");
+            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
+        }
+    }
+    
+    
     /**
      * @see org.kuali.kra.irb.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.ProtocolDocument, java.lang.Class,
      *      java.util.Collection)
      */
-    @Override
-    protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class<?> lookupResultsBOClass,
-            Collection<PersistableBusinessObject> selectedBOs) {
-        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
-                    .getService("protocolResearchAreaService");
-            service.addProtocolResearchArea(protocolDocument.getProtocol(), selectedBOs);
-        }
-    }
+/*    @Override
+    protected <T extends ResearchArea> void processMultipleLookupResults(ProtocolDocument protocolDocument, Class<T> lookupResultsBOClass,
+            Collection<T> selectedBOs) {
+
+    }*/
 
     /**
      * 

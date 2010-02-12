@@ -92,7 +92,7 @@
 			<div style="float:left; width:226px; position: relative; top: -.5em;">
 	            <html-el:select property="delegationId" onchange="document.forms[0].methodToCall.value='start';if(document.forms[0].primaryDelegateId){document.forms[0].primaryDelegateId.value='${Constants.PRIMARY_DELEGATION_DEFAULT}';}document.forms[0].submit();">
 	              <html-el:option value="${Constants.DELEGATION_DEFAULT}"><c:out value="${Constants.DELEGATION_DEFAULT}" /></html-el:option>
-	              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+	              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_SECONDARY_DELEGATIONS}" /></html-el:option>
 				  <c:forEach var="delegator" items="${ActionListForm.delegators}">
 					<html-el:option value="${delegator.recipientId}"><c:out value="${delegator.displayName}" /></html-el:option>
 				  </c:forEach>
@@ -106,7 +106,7 @@
 			<div style="float:left; width:226px; position: relative; top: -.5em;">
 				<html-el:select property="primaryDelegateId" onchange="document.forms[0].methodToCall.value='start';if(document.forms[0].delegationId){document.forms[0].delegationId.value='${Constants.DELEGATION_DEFAULT}';}document.forms[0].submit();">
 					<html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
-					<html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+					<html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_PRIMARY_DELEGATES}" /></html-el:option>
 					<c:forEach var="primaryDelegate" items="${ActionListForm.primaryDelegates}">
 						<html-el:option value="${primaryDelegate.recipientId}"><c:out value="${primaryDelegate.displayName}" /></html-el:option>
 					</c:forEach>
@@ -359,7 +359,7 @@
 							title="${workgroupRequestLabel}" sortProperty="group.groupName"
 							class="infocell">
 							<c:choose>
-								<c:when test="${result.groupId != null && result.groupId != 0}">
+								<c:when test="${!empty result.groupId}">
                                     <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${result.group.groupId}" render="true">
                                         <c:out value="${result.group.groupName}" />
                                     </kul:inquiry>
