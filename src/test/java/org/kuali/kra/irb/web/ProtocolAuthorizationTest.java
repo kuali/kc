@@ -72,6 +72,12 @@ public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
         this.assertContains(page, "DocumentAuthorizationException");
     }
     
+    public String getNewTestingProtocolId() throws Exception {
+        HtmlPage page = createAndSaveProtocol();
+        page = this.saveDoc(page);
+        return this.getDocNbr(page);
+    }
+    
     /**
      * Verify that a user who has permission to create/modify a proposal 
      * can do so.  The save is done twice: once for create and once for
