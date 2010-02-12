@@ -86,7 +86,7 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
     }
     
     protected int getPort() {
-        return HtmlUnitUtil.getPort();
+        return HtmlUnitUtil.getPort().intValue();
     }
 
     @Override

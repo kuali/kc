@@ -40,7 +40,6 @@ import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -117,14 +116,14 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         transactionalLifecycle.start();
         setProposalDevelopmentPage(buildProposalDevelopmentPage());
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KNSServiceLocator.getDocumentService();
+        
     }  
 
     @After
     public void tearDown() throws Exception {
         
         GlobalVariables.setUserSession(null);
-        documentService = null;
+
         customKEWLifecycle.stop();
         customKEWLifecycle = null;
         
@@ -238,7 +237,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         assertNotNull(backToActionList);
         assertTrue(backToActionList.asText().contains("Action List"));
 
-        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) getDocumentService()
                 .getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(savedDocument);
         KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
