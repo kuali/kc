@@ -44,6 +44,7 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
@@ -439,6 +440,8 @@ public class NarrativeServiceImpl implements NarrativeService {
                 Object[] item = (Object[])personBioAtt.next();
                 narrative.setTimestampDisplay((Timestamp)item[0]);
                 narrative.setUploadUserDisplay((String)item[1]);
+                KcPerson person = kcPersonService.getKcPersonByUserName(narrative.getUploadUserDisplay());
+                narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getFullName());
             }
 
             }

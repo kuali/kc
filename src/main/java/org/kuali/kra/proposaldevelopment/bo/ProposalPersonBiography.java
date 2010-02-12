@@ -44,6 +44,7 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
     private PropPerDocType propPerDocType;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
+    private String uploadUserFullName;
 
 	public ProposalPersonBiography(){
 		super();
@@ -165,6 +166,14 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
     public void setUploadUserDisplay(String uploadUserDisplay) {
         this.uploadUserDisplay = uploadUserDisplay;
+    }
+
+    public String getUploadUserFullName() {
+        return uploadUserFullName;
+    }
+
+    public void setUploadUserFullName(String uploadUserFullName) {
+        this.uploadUserFullName = uploadUserFullName;
     }
 
 }
