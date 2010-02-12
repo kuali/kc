@@ -539,6 +539,13 @@
         <ref bean="kcPersonService" />
       </property>
 	</bean>
+	
+	<bean id="proposalAbstractsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAbstractsServiceImpl">
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+ 	</bean>
+	
  	
  	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
  		<property name="businessObjectService">

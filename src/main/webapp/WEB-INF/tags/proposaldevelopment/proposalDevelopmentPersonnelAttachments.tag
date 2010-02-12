@@ -103,7 +103,7 @@
                 	   <kul:htmlControlAttribute property="document.developmentProposalList[0].propPersonBio[${status.index}].timestampDisplay" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" /> 
 					</td>
 	                <td>
-                	    ${propPersonBio.uploadUserDisplay}
+                	    ${propPersonBio.uploadUserFullName}
 	                </td>
 	                <td>
         			    <%-- <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> --%> 

@@ -34,6 +34,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
@@ -178,11 +179,12 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                 Object[] item = (Object[])personBioAtt.next();
                 proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
                 KcPerson person = kcPersonService.getKcPersonByUserName((String)item[1]);
-                proposalPersonBiography.setUploadUserDisplay(person.getFullName());
+                proposalPersonBiography.setUploadUserDisplay((String)item[1]);
+                proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getFullName());                
             }
 
-            }
-        }   
+        }
+    }   
     
 
     public AttachmentDao getAttachmentDao() {

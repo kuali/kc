@@ -166,7 +166,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].uploadUserDisplay" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].uploadUserFullName" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" /></div></th>
 			                <td align="left" valign="middle">

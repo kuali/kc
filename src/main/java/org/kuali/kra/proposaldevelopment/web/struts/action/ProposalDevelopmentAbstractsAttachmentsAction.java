@@ -65,6 +65,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEven
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -150,6 +151,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         narratives.addAll(doc.getDevelopmentProposal().getNarratives());
         narratives.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narratives);
+        KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
         return actionForward;
     }    
 
@@ -503,7 +505,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (bo instanceof ProposalAbstract) {
             ProposalAbstract abstractBo = (ProposalAbstract)bo;
             abstractBo.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
-            abstractBo.setUserDisplay(updateUser);
+            abstractBo.setUploadUserDisplay(updateUser);
         }
     }
     
@@ -533,7 +535,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (rulePassed) {
             updateUserTimestamp(proposalAbstract);
             proposalAbstract.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
-            proposalAbstract.setUserDisplay(GlobalVariables.getUserSession().getPrincipalName());
+            proposalAbstract.setUploadUserDisplay(GlobalVariables.getUserSession().getPrincipalName());
             proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalAbstracts().add(proposalAbstract);
             proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
         }

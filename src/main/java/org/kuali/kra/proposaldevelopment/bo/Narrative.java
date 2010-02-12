@@ -62,6 +62,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     private String institutionalAttachmentTypeCode;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
+    private String uploadUserFullName;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -546,6 +547,15 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     public void setUploadUserDisplay(String uploadUserDisplay) {
         this.uploadUserDisplay = uploadUserDisplay;
     }
+    
+    public String getUploadUserFullName() {
+        return uploadUserFullName;
+    }
+    
+    public void setUploadUserFullName(String uploadUserFullName) {
+        this.uploadUserFullName = uploadUserFullName;
+    }
+    
 
     /**
      * Gets the hierarchyProposalNumber attribute. 

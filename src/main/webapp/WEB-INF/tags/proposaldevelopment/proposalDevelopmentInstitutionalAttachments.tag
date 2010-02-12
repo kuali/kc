@@ -97,7 +97,7 @@
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].timestampDisplay" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
                 <td >
-                	<kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].uploadUserDisplay" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].uploadUserFullName" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class=>      
                     ${instituteAttachment.narrativeType.description} 
