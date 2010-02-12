@@ -59,16 +59,15 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private Timestamp createTimestamp;
     
     private ProposalType proposalType;
-    private String personId;
-    private KcPerson person;
     private Rolodex rolodex;
     private Sponsor sponsor;
     private ProposalLogStatus proposalLogStatus;
     private Unit unit;
     private ProposalLogType proposalLogType;
-    private transient KcPersonService kcPersonService;
     
     private String proposalLogToMerge;
+    
+    private transient KcPersonService kcPersonService;
     
     public ProposalLog() { 
 
@@ -192,7 +191,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         }
         return null;
     }
-
+    
     public Rolodex getRolodex() {
         return rolodex;
     }
@@ -281,7 +280,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     }
     
     /* These methods are for manipulating data before object persistence. */
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */

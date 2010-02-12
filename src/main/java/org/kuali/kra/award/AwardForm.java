@@ -43,6 +43,7 @@ import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
@@ -79,6 +80,7 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -1181,4 +1183,15 @@ public class AwardForm extends BudgetVersionFormBase
     public void setTemplateLookup(boolean templateCodeChange) {
         this.templateLookup = templateCodeChange;
     }
+    
+    public List<Long> getLinkedProposals() {
+        List<Long> linkedProposals = new ArrayList<Long>();
+        if (this.getAwardDocument() != null && this.getAwardDocument().getAward() != null) {
+            for (AwardFundingProposal fundingProposal : this.getAwardDocument().getAward().getFundingProposals()) {
+                linkedProposals.add(fundingProposal.getProposalId());
+            }
+        }
+        return linkedProposals;
+    }
+    
 }
