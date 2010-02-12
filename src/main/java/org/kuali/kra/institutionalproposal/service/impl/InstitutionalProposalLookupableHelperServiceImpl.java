@@ -26,12 +26,23 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.springframework.util.StringUtils;
 
+/**
+ * This class is used to control behavior of Institutional Proposal lookups. Depending
+ * on where the lookup is coming from, we may need to add custom action links and/or
+ * filter the lookup results.
+ */
 public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
+    private static final String AWARD_HOME_ACTION = "awardHome.do";
+    private static final String LINKED_PROPOSALS_KEY = "linkedProposals";
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -47,20 +58,24 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         
         fieldValues.remove(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING);
         fieldValues.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
-        return super.getSearchResults(fieldValues);
+        
+        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        
+        if (lookupIsFromAward(fieldValues)) {
+            filterAlreadyLinkedProposals(searchResults, fieldValues);
+        }
+        
+        return searchResults;
     }
 
-    /**
-     * add 'copy' link to actions list
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (includeMainSearchCustomActionUrls) {
             htmlDataList.add(getViewLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
-        } if (includeMergeCustomActionUrls) {
+        } 
+        if (includeMergeCustomActionUrls) {
             htmlDataList.add(getSelectLink((InstitutionalProposal) businessObject));
         }
         return htmlDataList;
@@ -81,33 +96,60 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         return InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING;
     }
     
-    // Determine whether lookup is being called from a location that shouldn't include the custom action links
-    protected void configureCustomActions(Map<String, String> fieldValues) {
-        String returnLocation = fieldValues.get("backLocation");
-        if(returnLocation != null) {
-            if (returnLocation.contains("awardHome.do")) {
+    private boolean lookupIsFromAward(Map<String, String> fieldValues) {
+        String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
+        return returnLocation.contains(AWARD_HOME_ACTION);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
+        List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(LINKED_PROPOSALS_KEY);
+        int indexToRemove = -1;
+        for (Long linkedProposalId : linkedProposals) {
+            for (int j = 0; j < searchResults.size(); j++) {
+                InstitutionalProposal institutionalProposal = (InstitutionalProposal) searchResults.get(j);
+                if (linkedProposalId.equals(institutionalProposal.getProposalId())) {
+                    indexToRemove = j;
+                    break;
+                }
+            }
+            if (indexToRemove != -1) {
+                searchResults.remove(indexToRemove);
+                indexToRemove = -1;
+            }
+        }
+        GlobalVariables.getUserSession().removeObject(LINKED_PROPOSALS_KEY);
+    }
+    
+    /* 
+     * Determine whether lookup is being called from a location that shouldn't include the custom action links
+     */
+    private void configureCustomActions(Map<String, String> fieldValues) {
+        String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
+        if (returnLocation != null) {
+            if (returnLocation.contains(AWARD_HOME_ACTION)) {
                 includeMainSearchCustomActionUrls = false;
                 includeMergeCustomActionUrls = false;
-            } else if (returnLocation.contains("mergeProposalLog.do")) {
+            } else if (returnLocation.contains(MERGE_PROPOSAL_LOG_ACTION)) {
                 includeMainSearchCustomActionUrls = false;
                 includeMergeCustomActionUrls = true;
             } else {
                 includeMainSearchCustomActionUrls = true;
                 includeMergeCustomActionUrls = false;
             }
-        } else {    // if service is not being called from UI, returnLocation will be null and no custom actions apply
+        } else {
             includeMainSearchCustomActionUrls = false;
             includeMergeCustomActionUrls = false;
         }
     }
     
-    protected AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
+    private AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("select");
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
         parameters.put("institutionalProposalNumber", institutionalProposal.getProposalNumber());
-        String href  = UrlFactory.parameterizeUrl("../" + "mergeProposalLog.do", parameters);
+        String href  = UrlFactory.parameterizeUrl("../" + MERGE_PROPOSAL_LOG_ACTION, parameters);
         htmlData.setHref(href);
         return htmlData;
     }

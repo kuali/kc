@@ -236,6 +236,27 @@ public class AwardHomeAction extends AwardAction {
 
         return forward;
     }
+    
+    /**
+     * Override to add lookup helper params to global variables
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".performLookup") != -1 && parameterName.contains("InstitutionalProposal")) {
+            GlobalVariables.getUserSession().addObject("linkedProposals", ((AwardForm) form).getLinkedProposals());
+        }
+
+        return super.performLookup(mapping, form, request, response);
+    }
+    
+    
 
     /**
      * 
