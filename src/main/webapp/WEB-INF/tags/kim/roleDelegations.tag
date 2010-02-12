@@ -182,7 +182,7 @@
 					<c:set var="fieldName" value="${qualifier.attributeName}" />
         			<c:set var="attrEntry" value="${KualiForm.document.attributeEntry[fieldName]}" />
         			<c:set var="attrDefinition" value="${KualiForm.document.definitionsKeyedByAttributeName[fieldName]}"/>
-        			<c:set var="attrReadOnly" value="${(!canModifyAssignees || attrDefinition.unique)}"/>
+        			<c:set var="attrReadOnly" value="${!canModifyAssignees}"/>
 		            <td align="left" valign="middle">
 		               	<div align="center"> <kul:htmlControlAttribute kimTypeId="${KualiForm.document.kimType.kimTypeId}" property="document.delegationMembers[${statusMember.index}].qualifier(${qualifier.kimAttributeId}).attrVal"  attributeEntry="${attrEntry}" readOnly="${attrReadOnly}"  />
 		               	<c:if test="${attrDefinition.hasLookupBoDefinition}"> 

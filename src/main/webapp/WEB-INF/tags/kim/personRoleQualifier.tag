@@ -91,7 +91,7 @@
 					        		<c:set var="fieldName" value="${attr.name}" />
 					        		<c:set var="attrEntry" value="${role.attributeEntry[fieldName]}" />
                     				<c:set var="attrDefinition" value="${role.definitionsKeyedByAttributeName[fieldName]}"/>
-									<c:set var="attrReadOnly" value="${(readOnlyRole || attrDefinition.unique)}"/>
+									<c:set var="attrReadOnly" value="${readOnlyRole}"/>
 				            <td align="left" valign="middle">
 				                <div align="center"> 
 				                	<kul:htmlControlAttribute kimTypeId="${role.kimTypeId}" property="document.roles[${roleIdx}].rolePrncpls[${status1.index}].qualifiers[${status.index}].attrVal"  attributeEntry="${attrEntry}" readOnly="${attrReadOnly}" />
