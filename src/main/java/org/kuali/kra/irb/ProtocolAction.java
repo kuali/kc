@@ -38,6 +38,7 @@ import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -241,10 +242,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
-                Class<?> lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
+                @SuppressWarnings("unchecked")
+                Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(protocolForm.getLookupResultsBOClassName());
                 String userName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
-                Collection<PersistableBusinessObject> selectedBOs
+                Collection<BusinessObject> selectedBOs
                     = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
                 
                 processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);
@@ -269,8 +271,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
      * @param selectedBOs the selected BOs
      */
-    protected void processMultipleLookupResults(ProtocolDocument protocolDocument,
-        Class<?> lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+        Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         // do nothing
     }
 

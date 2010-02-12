@@ -36,7 +36,7 @@ public class ProtocolResearchAreaServiceTest {
     private ResearchArea bo1;
     private ResearchArea bo2;
     private ResearchArea bo3;
-    private List<PersistableBusinessObject> listOfResearchArea;
+    private List<ResearchArea> listOfResearchArea;
     private Protocol protocol;
     private ProtocolResearchAreaService service;
     
@@ -50,7 +50,7 @@ public class ProtocolResearchAreaServiceTest {
         bo2.setResearchAreaCode("2");
         bo2.setDescription("Test2");
      
-        listOfResearchArea = new ArrayList<PersistableBusinessObject>();
+        listOfResearchArea = new ArrayList<ResearchArea>();
         listOfResearchArea.add(bo1);
         listOfResearchArea.add(bo2);
         

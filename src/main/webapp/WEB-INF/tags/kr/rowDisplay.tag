@@ -597,7 +597,7 @@
                                   hasErrors="${hasErrors}"
                                   readOnly="${field.keyField || isFieldReadOnly}"
                                   onblur="${onblur}"
-                                  highlight="${addHighlighting && field.highlightField}">                               
+                                  highlight="${addHighlighting && field.highlightField}">
                             <jsp:attribute name="helpLink" trim="true">
                                 <c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
                                 <kul:help
