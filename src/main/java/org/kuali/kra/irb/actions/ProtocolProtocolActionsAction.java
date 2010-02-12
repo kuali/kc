@@ -1405,9 +1405,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
         getProtocolExpireService().expire(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        
+        getReviewerCommentsService().persistReviewerComments(
+                actionBean.getReviewComments(), 
+                protocolForm.getProtocolDocument().getProtocol());
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

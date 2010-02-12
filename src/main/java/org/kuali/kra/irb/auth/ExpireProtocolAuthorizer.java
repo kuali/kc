@@ -23,11 +23,9 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class ExpireProtocolAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    /** {@inheritDoc} */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.EXPIRED) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        return canExecuteAction(task.getProtocol(), ProtocolActionType.EXPIRED) 
+            && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
 }
