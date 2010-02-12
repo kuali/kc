@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.document;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -22,6 +24,7 @@ import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
 
+import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /** 
@@ -51,6 +54,12 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         setFieldValue(maintenancePage, "document.newMaintainableObject.pageNumber", "111");
         setFieldValue(maintenancePage, "document.newMaintainableObject.sponsorCode", "005626");
         setFieldValue(maintenancePage, "document.newMaintainableObject.templateFile", getFilePath(SponsorFormTemplateMaintenanceDocumentTest.class));
+        
+        Iterator<DomNode> i = maintenancePage.getAllHtmlChildElements();
+        while(i.hasNext()){
+            DomNode dn = i.next();
+            System.err.println(dn.getNodeName());
+        }
         
         HtmlPage routedPage = clickOn(maintenancePage, "methodToCall.route", "Kuali :: Sponsor Form Template");
         

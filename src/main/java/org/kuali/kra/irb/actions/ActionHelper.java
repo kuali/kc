@@ -130,6 +130,20 @@ public class ActionHelper implements Serializable {
     private CommitteeDecision committeeDecision;
     private transient ParameterService parameterService;
     
+    /**
+     * These private integers will be used in a switch statement when building ProtocolGenericActionBean to pull existing data
+     */
+    private static final int expediteApprovalGenericActionBeanType = 1;
+    private static final int approveGenericActionBeanType = 10;
+    private static final int reopenGenericActionBeanType = 2;
+    private static final int closeEnrollmentGenericActionBeanType = 3;
+    private static final int suspendGenericActionBeanType = 4;
+    private static final int suspendByDmsGenericActionBeanType = 5;
+    private static final int closeGenericActionBeanType = 6;
+    private static final int expireGenericActionBeanType = 7;
+    private static final int terminateGenericActionBeanType = 8;
+    private static final int permitDataAnalysisGenericActionBeanType = 9;
+    
     /*
      * Identifies the protocol "document" to print.
      */
@@ -153,6 +167,12 @@ public class ActionHelper implements Serializable {
      */
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
+        List<ProtocolAction> protocolActions = null;
+        try{
+            protocolActions = this.form.getProtocolDocument().getProtocol().getProtocolActions();
+        } catch (Exception e) {
+            
+        }
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
         protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
@@ -176,16 +196,16 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
-        protocolExpediteApprovalBean = buildProtocolGenericActionBean();
-        protocolApproveBean = buildProtocolGenericActionBean();
-        protocolReopenBean = buildProtocolGenericActionBean();
-        protocolCloseEnrollmentBean = buildProtocolGenericActionBean();
-        protocolSuspendBean = buildProtocolGenericActionBean();
-        protocolSuspendByDmsbBean = buildProtocolGenericActionBean();
-        protocolCloseBean = buildProtocolGenericActionBean();
-        protocolExpireBean = buildProtocolGenericActionBean();
-        protocolTerminateBean = buildProtocolGenericActionBean();
-        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean();
+        protocolExpediteApprovalBean = buildProtocolGenericActionBean(expediteApprovalGenericActionBeanType, protocolActions);
+        protocolApproveBean = buildProtocolGenericActionBean(approveGenericActionBeanType, protocolActions);
+        protocolReopenBean = buildProtocolGenericActionBean(reopenGenericActionBeanType, protocolActions);
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(closeEnrollmentGenericActionBeanType, protocolActions);
+        protocolSuspendBean = buildProtocolGenericActionBean(suspendGenericActionBeanType, protocolActions);
+        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(suspendByDmsGenericActionBeanType, protocolActions);
+        protocolCloseBean = buildProtocolGenericActionBean(closeGenericActionBeanType, protocolActions);
+        protocolExpireBean = buildProtocolGenericActionBean(expireGenericActionBeanType, protocolActions);
+        protocolTerminateBean = buildProtocolGenericActionBean(terminateGenericActionBeanType, protocolActions);
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(permitDataAnalysisGenericActionBeanType, protocolActions);
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = new AdminCorrectionBean();
         committeeDecision = new CommitteeDecision();
@@ -199,10 +219,62 @@ public class ActionHelper implements Serializable {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(){
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
+        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions);
+        if (protocolAction != null) {
+            bean.setComments(protocolAction.getComments());
+            java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
+                    protocolAction.getActionDate().getDay());
+            bean.setActionDate(actionDate);
+        }
         addReviewerCommentsToBean(bean, this.form);
         return bean;
+    }
+
+    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions) throws Exception {
+        String actionTypeCode;
+        switch(beanType) {
+            case expediteApprovalGenericActionBeanType:
+                actionTypeCode = ProtocolActionType.EXPEDITE_APPROVAL;
+                break;
+            case approveGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.APPROVED;
+                break;
+            case reopenGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.REOPEN_ENROLLMENT;
+                break;
+            case closeEnrollmentGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.CLOSED_FOR_ENROLLMENT;
+                break;
+            case suspendGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.SUSPENDED;
+                break;
+            case suspendByDmsGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.SUSPENDED_BY_DSMB;
+                break;
+            case closeGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED;
+                break;
+            case expireGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.EXPIRED;
+                break;
+            case terminateGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.TERMINATED;
+                break;
+            case permitDataAnalysisGenericActionBeanType:
+                actionTypeCode =  ProtocolActionType.DATA_ANALYSIS_ONLY;
+                break;
+            default:
+                //should never get here
+                throw new Exception("Invalid bean type provided");
+        }
+        for (ProtocolAction pa : protocolActions) {
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)) {
+                return pa;
+            }
+        }
+        return null;
     }
     
     /**

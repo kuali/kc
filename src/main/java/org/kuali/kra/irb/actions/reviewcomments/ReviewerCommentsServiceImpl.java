@@ -27,6 +27,8 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     
     private BusinessObjectService businessObjectService;
     
+    private CommitteeScheduleService scheduleService;
+    
     /**
      * Set the Business Object Service.
      * @param businessObjectService
@@ -34,7 +36,8 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
+    /** {@inheritDoc} */
     public void persistReviewerComments(ReviewComments reviewComments, Protocol protocol) {
         int nextEntryNumber = 0;
         for (CommitteeScheduleMinute minuteToDelete : reviewComments.getCommentsToDelete()) {
@@ -44,11 +47,10 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
             minute.setEntryNumber(nextEntryNumber);
             boolean doUpdate = false;
-            if(minute.getCommScheduleMinutesId() != null){
-                CommitteeScheduleService css = KraServiceLocator.getService(CommitteeScheduleService.class);
-                CommitteeScheduleMinute existing = css.getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
+            if (minute.getCommScheduleMinutesId() != null) {
+                CommitteeScheduleMinute existing = getCommitteeScheduleService().getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
                 doUpdate = !minute.equals(existing);
-            }else{
+            } else {
                 doUpdate = true;
             }
             if(doUpdate){
@@ -60,6 +62,13 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
             }
             nextEntryNumber++;
         }
+    }
+    
+    private CommitteeScheduleService getCommitteeScheduleService() {
+        if (scheduleService == null) {
+            scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
+        }
+        return scheduleService;
     }
 
 }
