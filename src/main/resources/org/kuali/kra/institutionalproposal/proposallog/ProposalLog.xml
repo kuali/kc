@@ -375,6 +375,7 @@
         <property name="name" value="createTimestamp" />
         <property name="label" value="Log Create Date" />
         <property name="shortLabel" value="Create Timestamp" />
+        <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
         <property name="summary" value="Create Timestamp" />
         <property name="description" value="The creation timestamp." />
     </bean>
@@ -387,6 +388,7 @@
     <bean id="ProposalLog-updateTimestamp" parent="ProposalLog-updateTimestamp-parentBean" />
     <bean id="ProposalLog-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
         <property name="label" value="Last Update Date" />
+        <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
     </bean>
     
     <bean id="ProposalLog-versionNumber" parent="ProposalLog-versionNumber-parentBean" />
