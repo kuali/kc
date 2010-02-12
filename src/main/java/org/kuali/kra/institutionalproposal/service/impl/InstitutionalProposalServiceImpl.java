@@ -258,7 +258,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipPerson.setFullName(pdPerson.getFullName());
         ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
         ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
-        ipPerson.setPerson(pdPerson.getPerson());
+        //ipPerson.setPerson(pdPerson.getPerson());
         ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
         ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
