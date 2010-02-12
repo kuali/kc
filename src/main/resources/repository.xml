@@ -1379,7 +1379,7 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="abstractDetails" column="ABSTRACT_DETAILS" jdbc-type="CLOB"/>
 		<field-descriptor name="timestampDisplay" column="TIMESTAMP_DISPLAY" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="userDisplay" column="USER_DISPLAY" jdbc-type="VARCHAR"/>		
+		<field-descriptor name="uploadUserDisplay" column="USER_DISPLAY" jdbc-type="VARCHAR"/>		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 	
