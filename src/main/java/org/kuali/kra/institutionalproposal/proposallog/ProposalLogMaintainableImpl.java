@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -37,7 +36,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     private static final int FISCAL_YEAR_OFFSET = 6;
     
     private transient DateTimeService dateTimeService;
-    private transient KcPersonService kcPersonService;
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
@@ -88,14 +86,8 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.prepareForSave();
         // If this is the initial save, we need to set the fiscal year and month.
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
-        Timestamp currentTimestamp = getDateTimeService().getCurrentTimestamp();
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
-            proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
-            proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
-            proposalLog.setCreateTimestamp(currentTimestamp);
-            proposalLog.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+            populateAuditProperties(proposalLog);
         }
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
@@ -110,11 +102,14 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         }
     }
     
-    private KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        return this.kcPersonService;
+    private void populateAuditProperties(ProposalLog proposalLog) {
+        Timestamp currentTimestamp = getDateTimeService().getCurrentTimestamp();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
+        proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
+        proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
+        proposalLog.setCreateTimestamp(currentTimestamp);
+        proposalLog.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
     }
     
     private DateTimeService getDateTimeService() {
