@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
     
-    edu.mit.coeus.utils.documenttype.DocumentTypeCheckerTest.class,
     org.kuali.kra.HtmlUnitUtilTest.class,
     org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
     org.kuali.kra.award.commitments.AwardCostShareTest.class,
@@ -31,7 +30,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.contacts.AwardContactsUnitContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardSponsorContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardUnitContactsBeanTest.class,
-    org.kuali.kra.award.home.AwardCommentFactoryTest.class,
     org.kuali.kra.award.home.AwardCommentTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardApprovedSubawardWebTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardBenefitsRateWebTest.class,
