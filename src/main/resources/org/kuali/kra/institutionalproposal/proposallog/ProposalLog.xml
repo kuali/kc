@@ -53,6 +53,11 @@
                 <ref bean="ProposalLog-createUser" />
                 <ref bean="ProposalLog-createTimestamp" />
                 <ref bean="ProposalLog-versionNumber" />
+                <ref bean="ProposalLog-proposalLogType.description" />
+                <ref bean="ProposalLog-proposalLogStatus.description" />
+                <ref bean="ProposalLog-proposalType.description" />
+                <ref bean="ProposalLog-person.fullName" />
+                <ref bean="ProposalLog-rolodex.fullName" />
             </list>
         </property>
     </bean>
@@ -394,6 +399,42 @@
     <bean id="ProposalLog-versionNumber" parent="ProposalLog-versionNumber-parentBean" />
     <bean id="ProposalLog-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
+    
+    <!-- Lookup Result Fields -->
+    <bean id="ProposalLog-proposalLogType.description" parent="ProposalLog-proposalLogType.description-parentBean" />
+    <bean id="ProposalLog-proposalLogType.description-parentBean" abstract="true" parent="ProposalLogType-description">
+        <property name="name" value="proposalLogType.description" />
+        <property name="label" value="Proposal Log Type" />
+        <property name="shortLabel" value="Log Type" />
+    </bean>
+    
+    <bean id="ProposalLog-proposalLogStatus.description" parent="ProposalLog-proposalLogStatus.description-parentBean" />
+    <bean id="ProposalLog-proposalLogStatus.description-parentBean" abstract="true" parent="ProposalLogStatus-description">
+        <property name="name" value="proposalLogStatus.description" />
+        <property name="label" value="Proposal Log Status" />
+        <property name="shortLabel" value="Log Status" />
+    </bean>
+    
+    <bean id="ProposalLog-proposalType.description" parent="ProposalLog-proposalType.description-parentBean" />
+    <bean id="ProposalLog-proposalType.description-parentBean" abstract="true" parent="ProposalType-description">
+        <property name="name" value="proposalType.description" />
+        <property name="label" value="Proposal Type" />
+        <property name="shortLabel" value="Proposal Type" />
+    </bean>
+    
+    <bean id="ProposalLog-person.fullName" parent="ProposalLog-person.fullName-parentBean" />
+    <bean id="ProposalLog-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="Principal Investigator (Employee)" />
+        <property name="shortLabel" value="PI (Employee)" />
+    </bean>
+    
+    <bean id="ProposalLog-rolodex.fullName" parent="ProposalLog-rolodex.fullName-parentBean" />
+    <bean id="ProposalLog-rolodex.fullName-parentBean" abstract="true" parent="Rolodex-fullName">
+        <property name="name" value="rolodex.fullName" />
+        <property name="label" value="Principal Investigator (Non-Employee)" />
+        <property name="shortLabel" value="PI (Non-Employee)" />
+    </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="ProposalLog-inquiryDefinition" parent="ProposalLog-inquiryDefinition-parentBean" />
@@ -484,17 +525,17 @@
                     p:attributeName="proposalNumber" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalLogTypeCode" />
+                    p:attributeName="proposalLogType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="logStatus" />
+                    p:attributeName="proposalLogStatus.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalTypeCode" />
+                    p:attributeName="proposalType.description" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="piId" />
+                    p:attributeName="person.fullName" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="rolodexId" />
+                    p:attributeName="rolodex.fullName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="leadUnit" />
                 <bean parent="FieldDefinition"
