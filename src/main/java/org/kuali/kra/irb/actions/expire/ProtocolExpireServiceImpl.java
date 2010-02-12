@@ -40,9 +40,7 @@ public class ProtocolExpireServiceImpl implements ProtocolExpireService {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.expire.ProtocolExpireService#expire(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
-     */
+    /** {@inheritDoc} */
     public void expire(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         addAction(protocol, ProtocolActionType.EXPIRED, actionBean.getComments(), actionBean.getActionDate());
         protocol.setProtocolStatusCode(ProtocolStatus.EXPIRED);
@@ -51,7 +49,7 @@ public class ProtocolExpireServiceImpl implements ProtocolExpireService {
     }
     
     private void addAction(Protocol protocol, String actionTypeCode, String comments, Date actionDate) {
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, actionTypeCode);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, protocol.getProtocolSubmission(), actionTypeCode);
         protocolAction.setComments(comments);
         protocolAction.setActionDate(new Timestamp(actionDate.getTime()));
         protocol.getProtocolActions().add(protocolAction);
