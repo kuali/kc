@@ -135,4 +135,5 @@ import org.kuali.rice.test.data.UnitTestFile;
         )
     )
 public abstract class KraTestBase extends KcraNoDataTestBase  {
+    //just defining data dependencies
 }

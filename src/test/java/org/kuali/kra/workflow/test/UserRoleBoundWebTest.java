@@ -24,7 +24,6 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -43,7 +42,7 @@ public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
    public void setUp() throws Exception {
        super.setUp();
        GlobalVariables.setUserSession(new UserSession("quickstart"));
-       documentService = KNSServiceLocator.getDocumentService();
+       
    }  
 
    @After
@@ -66,7 +65,7 @@ public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
        permissionsPage=addUser(permissionsPage, "aslusar", "Budget Creator");
        permissionsPage=addUser(permissionsPage, "bhutchin", "Narrative Writer");
        HtmlPage keyPersonnelPage = clickOnTab(permissionsPage, KEY_PERSONNEL_LINK_NAME);
-       ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
+       ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) getDocumentService()
        .getByDocumentHeaderId(documentNumber.getDefaultValue());
        assertNotNull(savedDocument);
        DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(savedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
