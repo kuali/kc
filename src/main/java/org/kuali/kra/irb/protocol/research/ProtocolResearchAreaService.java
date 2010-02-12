@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.research;
 
 import java.util.Collection;
 
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
@@ -30,6 +31,6 @@ public interface ProtocolResearchAreaService {
      * @param protocolDocument the Protocol Document
      * @param selectedBOs the selected BOs (Research Areas)
      */
-    public abstract void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs);
+    public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs);
     
 }

@@ -29,10 +29,9 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
     /**
      * @see org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.irb.Protocol, org.kuali.kra.bo.ResearchArea)
      */
-    public void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs) {
-        for (PersistableBusinessObject bo : selectedBOs) {
+    public void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs) {
+        for (ResearchArea newResearchAreas : selectedBOs) {
             //New ResearchAreas added by user selection
-            ResearchArea newResearchAreas = (ResearchArea) bo;
             // ignore / drop duplicates
             if (!isDuplicateResearchAreas(newResearchAreas, protocol.getProtocolResearchAreas())) {
                 //Add new ProtocolResearchAreas to list

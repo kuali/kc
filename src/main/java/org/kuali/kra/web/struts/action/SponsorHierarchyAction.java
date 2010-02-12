@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.SponsorHierarchyRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -183,11 +184,13 @@ public class SponsorHierarchyAction extends KualiAction {
         String sponsors = Constants.EMPTY_STRING; // return to treeview - still a test
         if (sponsorHierarchyForm.getLookupResultsBOClassName() != null && sponsorHierarchyForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = sponsorHierarchyForm.getLookupResultsSequenceNumber();
-            Class<?> lookupResultsBOClass = Class.forName(sponsorHierarchyForm.getLookupResultsBOClassName());
+            
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(sponsorHierarchyForm.getLookupResultsBOClassName());
             
             LookupResultsService lookupService = KraServiceLocator.getService(LookupResultsService.class);
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();   // LookupService.retrieveSelectedResultBOs checks that this is the user that persisted the BO
-            Collection<PersistableBusinessObject> rawValues = lookupService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, principalId);
+            Collection<BusinessObject> rawValues = lookupService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, principalId);
             int idx = 0;
             String idxString = StringUtils.substringBetween(sponsorHierarchyForm.getLookedUpCollectionName(),"[","]");
             if (StringUtils.isNotBlank(idxString)) {

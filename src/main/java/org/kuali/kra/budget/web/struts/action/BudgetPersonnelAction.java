@@ -62,6 +62,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -515,9 +516,11 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         // Process return from person/rolodex multi-value lookup
         if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
-            Class<?> lookupResultsBOClass = Class.forName(budgetForm.getLookupResultsBOClassName());
             
-            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
+            
+            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getPerson().getPrincipalId());
             

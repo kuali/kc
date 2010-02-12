@@ -20,6 +20,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
@@ -28,7 +29,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class InstitutionalProposalProjectPersonsAuditRuleTest {
+public class InstitutionalProposalProjectPersonsAuditRuleTest extends KraTestBase {
     
     private static final String MISSING_UNIT_DETAILS_NOT_IDENTIFIED = "Missing unit Details not identified";
     private static final int ROLODEX_ID = 1002;
@@ -40,7 +41,9 @@ public class InstitutionalProposalProjectPersonsAuditRuleTest {
     private Unit unitB;
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
+        
         rule = new InstitutionalProposalPersonAuditRule();
         institutionalProposal = new InstitutionalProposal();
         
@@ -65,7 +68,8 @@ public class InstitutionalProposalProjectPersonsAuditRuleTest {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        super.tearDown();
         rule = null;
         institutionalProposal = null;
     }
