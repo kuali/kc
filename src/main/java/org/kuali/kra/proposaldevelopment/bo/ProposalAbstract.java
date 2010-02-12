@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalAbstract extends KraPersistableBusinessObjectBase {
+public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
     
     /**
      * Each Abstract is associated with one and only one proposal
@@ -62,8 +62,9 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	
 	
     private Timestamp timestampDisplay;
-    private String userDisplay;
-	
+    private String uploadUserDisplay;
+	private String uploadUserFullName;   
+    
 	/**
 	 * Constructs a ProposalAbstract.
 	 */
@@ -137,7 +138,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	public void setAbstractDetails(String abstractDetails) {
 	    if ( !StringUtils.equals(this.abstractDetails, abstractDetails)) {
 	        this.timestampDisplay = null;
-	        this.userDisplay = null;
+	        this.uploadUserDisplay = null;
 	    }
 	    if (abstractDetails == null) {
 	        this.abstractDetails = "";
@@ -181,13 +182,6 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
         this.timestampDisplay = timestampDisplay;
     }
 
-    public String getUserDisplay() {
-        return userDisplay;
-    }
-
-    public void setUserDisplay(String userDisplay) {
-        this.userDisplay = userDisplay;
-    }
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
@@ -210,7 +204,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
      * Set timestampDisplay and userDisplay prior to persistence
      */
     private void setUpdateDisplayFields() {
-        if ( userDisplay == null || timestampDisplay == null ) {
+        if ( uploadUserDisplay == null || timestampDisplay == null ) {
             String updateUser = GlobalVariables.getUserSession().getPrincipalName();
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
@@ -218,8 +212,24 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
                 updateUser = updateUser.substring(0, 60);
             }
 
-            setUserDisplay(updateUser);
+            setUploadUserDisplay(updateUser);
             setTimestampDisplay(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
-    }    
+    }
+
+    public String getUploadUserDisplay() {
+        return uploadUserDisplay;
+    }
+
+    public void setUploadUserDisplay(String uploadUserDisplay) {
+        this.uploadUserDisplay = uploadUserDisplay;
+    }
+
+    public String getUploadUserFullName() {
+        return uploadUserFullName;
+    }
+
+    public void setUploadUserFullName(String uploadUserFullName) {
+        this.uploadUserFullName = uploadUserFullName;
+    }
 }

@@ -87,7 +87,7 @@
 					</td>
 					
 	             	<td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].userDisplay" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
+                	    <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].uploadUserFullName" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
 					</td>
 					
 	             	<td>${abstract.abstractType.description}</td>
