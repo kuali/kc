@@ -63,7 +63,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         assertDoesNotContain(savedProposalPage, ERRORS_FOUND_ON_PAGE);
 
         // make sure the document saved correctly
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(doc);
 
         verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
@@ -134,7 +134,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         assertDoesNotContain(savedProposalPage, ERRORS_FOUND_ON_PAGE);
 
         // make sure the document saved correctly
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(doc);
 
         verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);

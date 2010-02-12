@@ -36,7 +36,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.KraUnitTestClassRunner;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -83,14 +82,14 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         budgetPersonnelPage = clickOn(budgetPersonnelPage, "methodToCall.save");
         assignPersonnelExpenses(budgetPersonnelPage);
         
-        ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+        ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(proposalDoc);
         List<BudgetDocumentVersion> budgetVersions = proposalDoc.getBudgetDocumentVersions();
         assertNotNull(budgetVersions);
         assertEquals(1, budgetVersions.size());
         BudgetDocumentVersion firstVersion = budgetVersions.get(0);
         assertNotNull(firstVersion);
-        BudgetDocument budgetDoc = (BudgetDocument) documentService.getByDocumentHeaderId(firstVersion.getBudgetVersionOverview().getDocumentNumber());
+        BudgetDocument budgetDoc = (BudgetDocument) getDocumentService().getByDocumentHeaderId(firstVersion.getBudgetVersionOverview().getDocumentNumber());
         assertNotNull(budgetDoc);
         
         List<BudgetPeriod> periods = budgetDoc.getBudget().getBudgetPeriods();
