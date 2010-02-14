@@ -43,7 +43,7 @@ public class ProtocolLocationServiceTest {
         
         service.addProtocolLocation(protocol, getNewProtocolLocation() );
 
-        assertEquals(2, protocol.getProtocolLocations().size());
+        assertEquals(1, protocol.getProtocolLocations().size());
         
     }
 
