@@ -388,6 +388,22 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * either mandatory or optional.
      */
     private void setParameter(String value) {
-        this.parameterService.setParameterForTesting(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
+        // the tranaction handling is not really saved to db.
+        // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
+        // so have to try this to force it to save to db.
+        try {
+            super.transactionalLifecycle.stop();
+        }
+        catch (Exception e) {
+
+        }
+        this.parameterService.setParameterForTesting(ProtocolDocument.class,
+                Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
+        try {
+            super.transactionalLifecycle.start();
+        }
+        catch (Exception e) {
+
+        }
     }
 }
