@@ -41,7 +41,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";")}))
 public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
 
-    private static final String NEW_PROTOCOL_LOCATION = "newProtocolLocation";
+    private static final String NEW_PROTOCOL_LOCATION = "protocolHelper.newProtocolLocation";
     private ProtocolLocationRule rule = null;
     private List<ProtocolOrganizationType> protocolOrganizationTypeList;
     private BusinessObjectService bos;
