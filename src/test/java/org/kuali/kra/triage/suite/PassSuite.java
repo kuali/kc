@@ -389,7 +389,12 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.document.BudgetDocumentRuleTest.class,
     org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class,
     org.kuali.kra.award.commitments.AwardCostShareAuditRuleTest.class,
-    org.kuali.kra.award.home.AwardCommentFactoryTest.class
+    org.kuali.kra.award.home.AwardCommentFactoryTest.class,
+    org.kuali.kra.irb.actions.request.ProtocolRequestRuleTest.class,
+    org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRuleTest.class,
+    org.kuali.kra.irb.protocol.location.ProtocolLocationServiceTest.class,
+    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */
