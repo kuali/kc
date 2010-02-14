@@ -141,7 +141,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         if(protocolUnit.getLeadUnitFlag()) {
             selectedPerson.setSelectedUnit(RESET_SELECTED_UNIT_FOR_PERSON);
         }
-        selectedPerson.getProtocolUnits().remove(protocolUnit);
+//        selectedPerson.getProtocolUnits().remove(protocolUnit);
+        selectedPerson.getProtocolUnits().remove(lineNumber);
     }
     
     /**

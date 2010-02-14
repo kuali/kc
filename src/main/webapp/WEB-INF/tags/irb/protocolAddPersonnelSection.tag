@@ -37,7 +37,7 @@
             </table>
             <br>
             <html:image property="methodToCall.clearProtocolPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
-            <html:image property="methodToCall.addProtocolPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Protocol Person" alt="Add Protocol Person" styleClass="tinybutton"/>
+            <html:image property="methodToCall.addProtocolPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addpers.gif" title="Add Protocol Person" alt="Add Protocol Person" styleClass="tinybutton"/>
           </div>
     	</kra:uncollapsable>
 	</kra:permission>
