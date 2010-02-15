@@ -66,6 +66,7 @@ public class AwardAmountInfo extends AwardAssociate {
         setObligatedTotalIndirect(new KualiDecimal(0.00));
         setAnticipatedTotalAmount(new KualiDecimal(0.00));
         setAmountObligatedToDate(new KualiDecimal(0.00));
+        setObliDistributableAmount(new KualiDecimal(0.00));
         
 
     } 
@@ -84,6 +85,11 @@ public class AwardAmountInfo extends AwardAssociate {
 
     public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
         this.anticipatedTotalAmount = anticipatedTotalAmount;
+        if (!(getAward() == null)) {
+            if (getAward().getAwardAmountInfos().size() == 1) {
+                setAntDistributableAmount(anticipatedTotalAmount);
+            }
+        }
     }
 
     public KualiDecimal getAntDistributableAmount() {
@@ -116,6 +122,11 @@ public class AwardAmountInfo extends AwardAssociate {
 
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
+        if (!(getAward() == null)) {
+            if (getAward().getAwardAmountInfos().size() == 1) {
+                setObliDistributableAmount(amountObligatedToDate);
+            }
+        }
     }
 
     public KualiDecimal getObliDistributableAmount() {
