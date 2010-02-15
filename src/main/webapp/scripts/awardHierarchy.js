@@ -129,7 +129,12 @@
                       if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
                     	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
                           tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                          
+                          var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
+                          if(docStatus == 'F') { 
+                        	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                          }
+                          
                           if ($("#"+divId).is(":hidden")) {
                               // alert(divId + " hidden0");
                                $("#listcontent"+idx).show();

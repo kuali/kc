@@ -45,6 +45,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     private static final String TAG_H3_START = "<h3>";
     private static final String LAST_5_CHARS_OF_ROOT = "00001";
     private static final String COLUMN_CODE = "%3A";
+    private static final String DOC_FINAL_STATUS_CODE = "F";
+    private static final String DOC_NON_FINAL_STATUS_CODE = "N"; 
     
     private BusinessObjectService businessObjectService;    
     private ActivePendingTransactionsService activePendingTransactionsService;
@@ -90,7 +92,12 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getProjectStartDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getTitle());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardId());
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);    
+            if(aNode.isAwardDocumentFinalStatus()) {
+                sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(DOC_FINAL_STATUS_CODE);
+            } else {
+                sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(DOC_NON_FINAL_STATUS_CODE);
+            }
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);
         }
         return sb.toString();
     }

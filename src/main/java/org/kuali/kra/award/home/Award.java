@@ -1753,17 +1753,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardCustomDataList = new ArrayList<AwardCustomData>();
         awardCloseoutItems = new ArrayList<AwardCloseout>();
         awardNotepads = new ArrayList<AwardNotepad>();
-        
+        initializeAwardAmountInfoObjects();
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
         sponsorContacts = new ArrayList<AwardSponsorContact>();
+
+        fundingProposals = new ArrayList<AwardFundingProposal>();
+        initializeAwardHierarchyTempObjects();
+    }
+    
+    public void initializeAwardAmountInfoObjects() {
         awardAmountInfos = new ArrayList<AwardAmountInfo>();
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         awardAmountInfo.setAward(this);        
         awardAmountInfos.add(awardAmountInfo);
-
-        fundingProposals = new ArrayList<AwardFundingProposal>();
-        initializeAwardHierarchyTempObjects();
     }
     
     public void initializeAwardHierarchyTempObjects() {
