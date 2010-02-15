@@ -311,12 +311,4 @@ public class SponsorHierarchyForm extends KualiForm {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-
 }
