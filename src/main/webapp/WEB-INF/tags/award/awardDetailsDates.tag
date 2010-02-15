@@ -216,7 +216,7 @@
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.nsfCode}" />
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].nsfCode" attributeEntry="${awardAttributes.nsfCode}" />
+        	<kul:htmlControlAttribute property="document.awardList[0].nsfCode" attributeEntry="${awardAttributes.nsfCode}" styleClass="fixed-size-200-select" />
         </td>
     </tr>
 </table>
