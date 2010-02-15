@@ -38,8 +38,10 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -116,6 +118,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
+        for(AwardAmountInfo awardAmount : newAward.getAwardAmountInfos()) {
+            awardAmount.setAnticipatedTotalAmount(KualiDecimal.ZERO);
+            awardAmount.setAmountObligatedToDate(KualiDecimal.ZERO);
+        }
+        
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, nextAwardNumber, targetNode.getAward().getAwardNumber());
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
@@ -525,6 +532,15 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setTitle(award.getTitle());
             awardHierarchyNode.setAwardId(award.getAwardId());
             
+            String documentNumber = award.getAwardDocument().getDocumentNumber();
+            boolean awardDocumentFinalStatus = false;
+            try {
+                Document awardDocument = documentService.getByDocumentHeaderId(documentNumber);
+                awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() : false;
+            } catch(WorkflowException e) {
+                throw uncheckedException(e);
+            }
+            awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
     }
