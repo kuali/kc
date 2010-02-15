@@ -148,7 +148,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
         
         this.streamToResponse(correspondenceTemplate.getCorrespondenceTemplate(), correspondenceTemplate.getFileName(), 
-                Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE, response);
+                Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1, response);
 
         return RESPONSE_ALREADY_HANDLED;
     }
@@ -172,7 +172,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         
         this.streamToResponse(correspondenceTemplate.getCorrespondenceTemplate(), correspondenceTemplate.getFileName(), 
-                Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE, response);
+                Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1, response);
 
         return RESPONSE_ALREADY_HANDLED;
     }

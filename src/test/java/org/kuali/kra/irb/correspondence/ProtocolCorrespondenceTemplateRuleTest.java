@@ -136,7 +136,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testAddCorrespondenceTemplateMissingFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(null));
@@ -177,7 +177,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testAddCorrespondenceTemplateEmptyFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(new byte[] {}));
@@ -282,7 +282,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testReplaceCorrespondenceTemplateMissingFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(null));
@@ -324,7 +324,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testReplaceCorrespondenceTemplateEmptyFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(new byte[] {}));
@@ -431,7 +431,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testAddDefaultCorrespondenceTemplateMissingFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(null));
@@ -472,7 +472,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testAddDefaultCorrespondenceTemplateEmptyFile() throws Exception {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(new byte[] {}));
@@ -886,7 +886,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     private void simulateValidMockedFileBehavior() throws IOException {
     	this.context.checking(new Expectations() {{
     		allowing(mockedFile).getContentType();
-    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE));
+    		will(returnValue(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1));
     		
     		allowing(mockedFile).getFileData();
 			will(returnValue(new byte[] { (byte) 1, (byte) 2, (byte) 3 }));
