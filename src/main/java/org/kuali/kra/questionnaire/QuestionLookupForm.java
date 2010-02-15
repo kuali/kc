@@ -160,9 +160,4 @@ public class QuestionLookupForm extends KualiForm {
     public void setNewQuestionSequence(Integer newQuestionSequence) {
         this.newQuestionSequence = newQuestionSequence;
     }
-
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-
 }
