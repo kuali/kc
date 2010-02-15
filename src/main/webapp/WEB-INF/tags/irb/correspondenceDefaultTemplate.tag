@@ -81,11 +81,12 @@
                                     alt="View Default Correspondence Template" 
                                     styleClass="tinybutton"
                                     onclick="excludeSubmitRestriction=true" />
-                                <html:image onclick="javascript: showHide('browse1-${index}','filename1-${index}'); showHide('browse2-${index}','filename2-${index}'); return false"
+                                <html:image property="methodToCall.replaceDefaultCorrespondenceTemplate.correspondenceType[${index}]" 
                                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
                                     title="Replace Default Correspondence Template" 
                                     alt="Replace Default Correspondence Template" 
-                                    styleClass="tinybutton" />
+                                    styleClass="tinybutton"
+                                    onclick="javascript: showHide('browse1-${index}','filename1-${index}'); showHide('browse2-${index}','filename2-${index}'); return false" />
                                 <html:image property="methodToCall.deleteDefaultCorrespondenceTemplate.correspondenceType[${index}]" 
                                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
                                     title="Delete Default Correspondence Template" 

@@ -223,7 +223,8 @@ public class ProtocolCorrespondenceTemplateRule {
         if (isValid) {
             // Check that file is of the correct type
             String contentType = file.getContentType();
-            if (!contentType.equals(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE)) {
+            if (!contentType.equals(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1) 
+            		&& !contentType.equals(Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_2)) {
                 // wrong file type
                 GlobalVariables.getMessageMap().putError(propertyName, 
                         KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE);

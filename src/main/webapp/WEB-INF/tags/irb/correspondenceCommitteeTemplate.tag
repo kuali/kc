@@ -61,11 +61,11 @@
     <%-- New Template --%>
     
     <%-- Existing Templates --%>
-    <c:forEach items="${KualiForm.correspondenceTypes[index].committeeProtocolCorrespondenceTemplates}" var="protocolCorrespondenceTemplate" varStatus="status2">
+    <c:forEach items="${KualiForm.correspondenceTypes[index].committeeProtocolCorrespondenceTemplates}" var="protocolCorrespondenceTemplate" varStatus="status">
         <c:set var="filenameStyle" value="display:block;" />
         <c:set var="browseStyle" value="display:none;" />
         <c:forEach items="${ErrorPropertyList}" var="key">
-            <c:set var="propertyName" value="replaceCorrespondenceTemplates[${index}].list[${status2.index}].templateFile" />
+            <c:set var="propertyName" value="replaceCorrespondenceTemplates[${index}].list[${status.index}].templateFile" />
             <c:if test="${key eq propertyName}">
                 <c:set var="filenameStyle" value="display:none;" />
                 <c:set var="browseStyle" value="display:block;" />
@@ -75,14 +75,14 @@
         <tr>
             <td>
                 <div align="center" style="font-weight:bold;">
-                   ${status2.index + 1}
+                   ${status.index + 1}
                 </div>
             </td>
             <td>
                 <div align="left">
                     ${protocolCorrespondenceTemplate.committee.committeeName}
                     <c:forEach items="${ErrorPropertyList}" var="key">
-                        <c:set var="propertyName" value="correspondenceTypes[${index}].protocolCorrespondenceTemplates[${status2.index}].committeeId" />
+                        <c:set var="propertyName" value="correspondenceTypes[${index}].protocolCorrespondenceTemplates[${status.index}].committeeId" />
                         <c:if test="${key eq propertyName}">
                             <kul:fieldShowErrorIcon />
                         </c:if>
@@ -90,48 +90,49 @@
                 </div>
             </td>
             <td>
-                <div id="filename1-${index}-${status2.index}" style="${filenameStyle}" align="center">
+                <div id="filename1-${index}-${status.index}" style="${filenameStyle}" align="center">
                     ${protocolCorrespondenceTemplate.fileName}
                     <c:forEach items="${ErrorPropertyList}" var="key">
-                        <c:set var="propertyName" value="correspondenceTypes[${index}].protocolCorrespondenceTemplates[${status2.index}].templateFile" />
+                        <c:set var="propertyName" value="correspondenceTypes[${index}].protocolCorrespondenceTemplates[${status.index}].templateFile" />
                         <c:if test="${key eq propertyName}">
                             <kul:fieldShowErrorIcon />
                         </c:if>
                     </c:forEach>            
                 </div>
-                <div id="browse1-${index}-${status2.index}" style="${browseStyle}" align="center">
-                    <kra:file property="replaceCorrespondenceTemplates[${index}].list[${status2.index}].templateFile" />
+                <div id="browse1-${index}-${status.index}" style="${browseStyle}" align="center">
+                    <kra:file property="replaceCorrespondenceTemplates[${index}].list[${status.index}].templateFile" />
                 </div>                      
             </td>
 
            <c:choose>
             <c:when test="${!readOnly}">
                 <td>
-                    <div id="filename2-${index}-${status2.index}" style="${filenameStyle}" align="center">
-                        <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status2.index}]}" 
+                    <div id="filename2-${index}-${status.index}" style="${filenameStyle}" align="center">
+                        <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status.index}]}" 
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
                             title="View Correspondence Template" 
                             alt="View Correspondence Template" 
                             styleClass="tinybutton" 
                             onclick="excludeSubmitRestriction=true" />
-                        <html:image onclick="javascript: showHide('browse1-${index}-${status2.index}','filename1-${index}-${status2.index}'); javascript: showHide('browse2-${index}-${status2.index}','filename2-${index}-${status2.index}'); return false"
+                        <html:image property="methodToCall.replaceCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status.index}]}"
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
                             title="Replace Correspondence Template" 
                             alt="Replace Correspondence Template" 
-                            styleClass="tinybutton" />
-                        <html:image property="methodToCall.deleteCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status2.index}]}" 
+                            styleClass="tinybutton" 
+                            onclick="javascript: showHide('browse1-${index}-${status.index}','filename1-${index}-${status.index}'); javascript: showHide('browse2-${index}-${status.index}','filename2-${index}-${status.index}'); return false" />
+                        <html:image property="methodToCall.deleteCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status.index}]}" 
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
                             title="Delete Correspondence Template" 
                             alt="Delete Correspondence Template" 
                             styleClass="tinybutton" />
                     </div>
-                    <div id="browse2-${index}-${status2.index}" style="${browseStyle}" align="center">
-                        <html:image property="methodToCall.replaceCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status2.index}]" 
+                    <div id="browse2-${index}-${status.index}" style="${browseStyle}" align="center">
+                        <html:image property="methodToCall.replaceCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status.index}]" 
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-upload.gif" 
                             title="Upload Correspondence Template" 
                             alt="Upload Correspondence Template" 
                             styleClass="tinybutton" />
-                        <html:image onclick="javascript: showHide('filename1-${index}-${status2.index}','browse1-${index}-${status2.index}'); showHide('filename2-${index}-${status2.index}','browse2-${index}-${status2.index}'); return false"
+                        <html:image onclick="javascript: showHide('filename1-${index}-${status.index}','browse1-${index}-${status.index}'); showHide('filename2-${index}-${status.index}','browse2-${index}-${status.index}'); return false"
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif" 
                             title="Cancel Correspondence Template Upload" 
                             alt="Cancel Correspondence Template Upload" 
@@ -142,7 +143,7 @@
             <c:otherwise>
                 <td>
                     <div align="center">
-                        <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status2.index}]}" 
+                        <html:image property="methodToCall.viewCorrespondenceTemplate.correspondenceType[${index}].correspondenceTemplate[${status.index}]}" 
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" 
                             title="View Correspondence Template" 
                             alt="View Correspondence Template" 
