@@ -872,7 +872,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return
      */
     public Sponsor getSponsor() {
-        if (sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
+        if (outOfSync(sponsorCode, sponsor)) {
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
@@ -886,14 +886,26 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
-      if (primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
+        if (outOfSync(primeSponsorCode, primeSponsor)) {
             this.refreshReferenceObject("primeSponsor");
         }
         return primeSponsor;
     }
+    
+    /**
+     * checks if a sponsor code needs refreshing.
+     * @param code the code
+     * @param spon the sponsor to refresh
+     * @return true if needs refreshing
+     */
+    private static boolean outOfSync(String code, Sponsor spon) {
+        return spon == null && !StringUtils.isEmpty(code)
+            || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code)) && !StringUtils.isEmpty(code);
+    }
 
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
+        this.primeSponsorCode = primeSponsor != null ? primeSponsor.getSponsorCode() : null;
     }
 
     public InstitutionalProposalPerson getPrincipalInvestigator() {
