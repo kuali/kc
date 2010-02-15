@@ -83,4 +83,4 @@
  </c:when>
  </c:choose>
  
- <kul:htmlControlAttribute property="${property}" readOnly="${readOnly}" readOnlyAlternateDisplay="${readOnlyAlternateDisplay}" attributeEntry="${attributeEntry}" /> 
+ <kul:htmlControlAttribute property="${property}" readOnly="${readOnly}" readOnlyAlternateDisplay="${readOnlyAlternateDisplay}" attributeEntry="${attributeEntry}" styleClass="${styleClass}" /> 
