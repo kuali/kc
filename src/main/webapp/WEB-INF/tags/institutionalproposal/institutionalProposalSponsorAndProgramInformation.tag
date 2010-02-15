@@ -60,7 +60,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.nsfCode" attributeEntry="${institutionalProposalAttributes.nsfCode}" />
+           			<kra:kraControlAttribute property="document.institutionalProposal.nsfCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfCode}" styleClass="fixed-size-200-select" />
            		</td>
         	</tr>
         	<tr>
