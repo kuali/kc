@@ -18,20 +18,14 @@ package org.kuali.kra.service;
 import java.text.ParseException;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 
 /**
  * 
  * This interface declares services that would populate the Award Hierarchy in UI.
  */
 public interface AwardHierarchyUIService {
-    /**
-     * 
-     * This service is used to populate the all the non-root nodes of award hierarchy UI.
-     * 
-     * @param researchAreaCode
-     * @return
-     */
-    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException;
+   
     
     /**
      * 
@@ -42,6 +36,16 @@ public interface AwardHierarchyUIService {
      * @throws ParseException
      */
     public String getRootAwardNode(String awardNumber) throws ParseException;
+    
+    /**
+     * 
+     * This service is used to populate the all the non-root nodes of award hierarchy UI.
+     * 
+     * @param researchAreaCode
+     * @return
+     */
+    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException;
+    
     
     /**
      * 
