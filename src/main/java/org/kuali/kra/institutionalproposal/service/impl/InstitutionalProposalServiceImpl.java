@@ -210,8 +210,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setSponsorCode(developmentProposal.getSponsorCode());
         institutionalProposal.setTitle(developmentProposal.getTitle());
         institutionalProposal.setSubcontractFlag(developmentProposal.getSubcontracts());
-        institutionalProposal.setRequestedStartDateInitial(developmentProposal.getRequestedStartDateInitial());
-        institutionalProposal.setRequestedEndDateInitial(developmentProposal.getRequestedEndDateInitial());
+        institutionalProposal.setRequestedStartDateTotal(developmentProposal.getRequestedStartDateInitial());
+        institutionalProposal.setRequestedEndDateTotal(developmentProposal.getRequestedEndDateInitial());
         institutionalProposal.setDeadlineDate(developmentProposal.getDeadlineDate());
         institutionalProposal.setNoticeOfOpportunityCode(developmentProposal.getNoticeOfOpportunityCode());
         institutionalProposal.setNumberOfCopies(developmentProposal.getNumberOfCopies());
@@ -305,8 +305,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     
     private void doBudgetDataFeed(InstitutionalProposal institutionalProposal, Budget budget) {
      // Base fields from Budget
-        institutionalProposal.setRequestedStartDateTotal(budget.getSummaryPeriodStartDate());
-        institutionalProposal.setRequestedEndDateTotal(budget.getSummaryPeriodEndDate());
+        institutionalProposal.setRequestedStartDateInitial(budget.getBudgetPeriods().get(0).getStartDate());
+        institutionalProposal.setRequestedEndDateInitial(budget.getBudgetPeriods().get(0).getEndDate());
         institutionalProposal.setTotalDirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalDirectCost().bigDecimalValue()));
         institutionalProposal.setTotalIndirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalIndirectCost().bigDecimalValue()));
         institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(budget.getTotalDirectCost().bigDecimalValue()));
