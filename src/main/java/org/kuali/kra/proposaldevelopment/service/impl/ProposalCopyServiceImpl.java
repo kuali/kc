@@ -41,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -66,6 +67,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -160,6 +162,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
     private ParameterService parameterService;
+    private DateTimeService dateTimeService;
     
     /**
      * Sets the ParameterService.
@@ -764,6 +767,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         setProposalAttachmentsToIncomplete(dest);
+        
+        //update timestamp on abstracts to match doc creation time
+        for (ProposalAbstract curAbstract : dest.getDevelopmentProposal().getProposalAbstracts()) {
+            curAbstract.setTimestampDisplay(dateTimeService.getCurrentTimestamp());
+        }
     }
     
     /**
@@ -1014,5 +1022,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
                 proposalTypeCode.equals(proposalTypeCodeRevision) ||
                 proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
+
+    private DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

@@ -483,6 +483,9 @@
 		<property name="parameterService">
 		    <ref bean="parameterService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>		
 	</bean>
 
 	<bean id="proposalPersonService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImpl">
