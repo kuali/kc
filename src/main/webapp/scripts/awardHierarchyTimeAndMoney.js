@@ -160,7 +160,7 @@
         	text3 = "";
         }
         
-        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//final expiration date
         var text4 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         if(text4.length == 1){
         	text4 = "";
@@ -172,16 +172,16 @@
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
-        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//Obligated Distributable
         var text7 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
-        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//Anticipated Distributable
         var text8 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
-        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//Obligated Distributed
         var text9 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
-        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();//Anticipated Distributed
         var text10 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();

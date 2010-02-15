@@ -122,7 +122,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
             this.setAwardHierarchyNodes(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                     GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes());
-            getActivePendingTransactionsService().approveTransactions(this, newAwardAmountTransaction);
+            getActivePendingTransactionsService().approveTransactions(this, awardAmountTransactions.get(0));
         }
     }
     

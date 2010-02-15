@@ -55,7 +55,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
     }
     
-    /**
+     /**
      * 
      * @see org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
      */
@@ -82,7 +82,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getFinalExpirationDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount());            
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getObliDistributableAmount());
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getObliDistributableAmount());//Distributable amount needs to be updated
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAntDistributableAmount());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount()));
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount()));
@@ -128,8 +128,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             sb.append("&nbsp;");
         }
     }
-
-    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException {
+    
+     public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException {
         String awardHierarchy = TAG_H3_START;        
         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
             AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
@@ -152,7 +152,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
     private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
         if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase(LAST_5_CHARS_OF_ROOT, awardNumber.substring(8))){            
-            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId())!=null){
+            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
                 awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                         GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes();            
             }else{                
