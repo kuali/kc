@@ -38,15 +38,4 @@ public class KraMaintenanceForm extends KualiMaintenanceForm {
             ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
         }       
     }
-    
-   /**
-    * Rice does additional checks that are not compatible with the use of expanded text area.  These checks are disabled here.
-    * 
-    * @see org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
-    */
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-
 }
