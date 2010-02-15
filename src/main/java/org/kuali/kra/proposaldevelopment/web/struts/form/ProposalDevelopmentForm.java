@@ -1432,19 +1432,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return (ProposalDevelopmentDocument) super.getDocument();
     }
     
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        // TODO rice upgrade temp hack - to populate customdata
-        // use expandedtextarea will cause issues with editableproperties in formdata.
-        // the sessiondocument is not working well with this.  not sure if this should be a rice issue.
-//        if (requestParameterName.startsWith("customAttributeValue")) {
-//            return true;
-//        } else {
-//            return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
-//        }
-        return true;
-    }
-    
     /**
      * Gets the newHierarchyProposalNumber attribute. 
      * @return Returns the newHierarchyProposalNumber.

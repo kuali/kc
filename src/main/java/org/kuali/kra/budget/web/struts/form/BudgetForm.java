@@ -200,11 +200,6 @@ public class BudgetForm extends BudgetVersionFormBase {
         return true;
     }
     
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-    
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();
     }

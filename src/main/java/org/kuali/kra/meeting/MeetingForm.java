@@ -46,13 +46,6 @@ public class MeetingForm extends KualiForm {
        setMeetingHelper(new MeetingHelper(this));
     }
 
-
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-
-
     public MeetingHelper getMeetingHelper() {
         return meetingHelper;
     }

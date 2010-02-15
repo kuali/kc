@@ -142,11 +142,4 @@ public class ResearchAreasForm extends KualiForm {
     public void setDeletedRas(String deletedRas) {
         this.deletedRas = deletedRas;
     }
-
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-
-
 }

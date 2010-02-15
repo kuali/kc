@@ -110,11 +110,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.editData = editData;
     }
 
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
-
     public String getDocStatus() {
         return docStatus;
     }
