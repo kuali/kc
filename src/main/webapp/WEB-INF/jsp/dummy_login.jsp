@@ -18,7 +18,13 @@
 <html>
   <head>
     <title>Login</title>
-    <link href="${ConfigProperties.application.url}/${ConfigProperties.portal.css.files}" rel="stylesheet" type="text/css" />
+<%-- KC Modification Start --%>
+<c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
+	<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+        <link href="${pageContext.request.contextPath}/${fn:trim(cssFile)}" rel="stylesheet" type="text/css" />
+	</c:if>
+</c:forEach>
+<%-- KC Modification End --%>
 
     <style type="text/css">
         div.body {
