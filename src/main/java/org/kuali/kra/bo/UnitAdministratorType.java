@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
 
@@ -34,14 +32,11 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
     private String description;
     private Boolean multiplesFlag;
     private String defaultGroupFlag;
-    private List<UnitAdministrator> unitAdministrators;
 
     private UnitContactType unitContactType;
 
     public UnitAdministratorType(){
         super();
-        unitAdministrators = new ArrayList<UnitAdministrator>();
-
     }
 
     public String getUnitAdministratorTypeCode() {
@@ -67,14 +62,6 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
         hashMap.put("unitAdministratorTypeCode", getUnitAdministratorTypeCode());
         hashMap.put("description", getDescription());
         return hashMap;
-    }
-
-    public List<UnitAdministrator> getUnitAdministrators() {
-        return unitAdministrators;
-    }
-
-    public void setUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
-        this.unitAdministrators = unitAdministrators;
     }
 
     public String getRoleCode() {

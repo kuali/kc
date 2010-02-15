@@ -37,7 +37,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private Integer awardStatusCode;
     private String title;
     private Long awardId;
+    private Boolean awardDocumentFinalStatus;
     
+
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
         antDistributableAmount = new KualiDecimal("0");
@@ -296,4 +298,14 @@ public class AwardHierarchyNode extends AwardHierarchy {
         this.awardId = awardId;
     }
     
+    public Boolean isAwardDocumentFinalStatus() {
+        if(awardDocumentFinalStatus == null){
+            setAwardDocumentFinalStatus(new Boolean(false)); 
+        }
+        return awardDocumentFinalStatus;
+    }
+    
+    public void setAwardDocumentFinalStatus(Boolean awardDocumentStatus) {
+        this.awardDocumentFinalStatus = awardDocumentStatus;
+    }
 }
