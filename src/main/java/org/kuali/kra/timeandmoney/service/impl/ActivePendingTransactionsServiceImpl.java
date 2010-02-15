@@ -107,6 +107,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
                     awardHierarchyNode.getValue().setFinalExpirationDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate());
                     awardHierarchyNode.getValue().setAnticipatedTotalAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAnticipatedTotalAmount());
                     awardHierarchyNode.getValue().setAmountObligatedToDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAmountObligatedToDate());
+                    awardHierarchyNode.getValue().setObliDistributableAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getObliDistributableAmount());
+                    awardHierarchyNode.getValue().setAntDistributableAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAntDistributableAmount());
+
                 }
             }
         }

@@ -173,6 +173,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
             setObliDistributableAmount(new KualiDecimal(0));
         }
         return obliDistributableAmount;
+        //return getAward().calculateObligatedDistributedAmountTotal();
     }
 
     /**

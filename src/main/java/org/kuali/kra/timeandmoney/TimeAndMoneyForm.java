@@ -366,6 +366,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     }
     
     public String getAwardHierarchy() throws ParseException {
+        TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
             awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
