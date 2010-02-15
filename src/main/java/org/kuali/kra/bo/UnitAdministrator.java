@@ -26,7 +26,6 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 	private String unitAdministratorTypeCode;
 	private String unitNumber;
     private UnitAdministratorType unitAdministratorType;
-    private Unit unit;
     
     private transient KcPersonService kcPersonService;
 
@@ -92,11 +91,4 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
         this.unitAdministratorType = unitAdministratorType;
     }
 
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
 }

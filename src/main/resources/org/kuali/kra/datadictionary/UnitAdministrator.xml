@@ -22,7 +22,6 @@
         <ref bean="UnitAdministrator-unitNumber" />
         <ref bean="UnitAdministrator-person.fullName" />
         <ref bean="UnitAdministrator-unitAdministratorType.description" />
-        <ref bean="UnitAdministrator-unit.unitName" />
         <ref bean="UnitAdministrator-versionNumber" />
       </list>
     </property>
@@ -82,11 +81,6 @@
   <bean id="UnitAdministrator-unitAdministratorType.description-parentBean" abstract="true" parent="UnitAdministratorType-description">
     <property name="name" value="unitAdministratorType.description" />
   </bean>
-  <bean id="UnitAdministrator-unit.unitName" parent="UnitAdministrator-unit.unitName-parentBean" />
-
-  <bean id="UnitAdministrator-unit.unitName-parentBean" abstract="true" parent="Unit-unitName">
-    <property name="name" value="unit.unitName" />
-  </bean>
   <bean id="UnitAdministrator-versionNumber" parent="UnitAdministrator-versionNumber-parentBean" />
 
   <bean id="UnitAdministrator-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -113,7 +107,7 @@
                     p:attributeName="unitAdministratorType.description"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
-                    p:attributeName="unit.unitName"
+                    p:attributeName="unitNumber"
                     p:forceInquiry="true" />
             </list>
           </property>
@@ -155,7 +149,7 @@
               p:attributeName="unitAdministratorType.description"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="unit.unitName"
+              p:attributeName="unitNumber"
               p:forceInquiry="true" />
       </list>
     </property>
