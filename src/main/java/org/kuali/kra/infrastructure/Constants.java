@@ -493,7 +493,8 @@ public interface Constants {
     
     // Correspondence
     public static final String DEFAULT_CORRESPONDENCE_TEMPLATE = "DEFAULT";
-    public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE = "text/xml";
+    public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1 = "text/xml";
+    public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_2 = "application/xml";
 
     // Protocol Linking  System Parameters 
     public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
