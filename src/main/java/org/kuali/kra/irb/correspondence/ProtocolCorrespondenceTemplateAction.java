@@ -123,7 +123,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddProtocolCorrespondenceTemplateRules(correspondenceType, 
                 newCorrespondenceTemplate, typeIndex);
         if (rulePassed) {
-            getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
+            getProtocolCorrespondenceTemplateService().addCommitteeProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
         }
         
@@ -221,10 +221,10 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
         
         // Add correspondence template to database deletion list
-        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
         
-        getProtocolCorrespondenceTemplateService().deleteProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
+        getProtocolCorrespondenceTemplateService().deleteCommitteeProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
         correspondenceTemplateForm.resetForm();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -280,7 +280,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         int templateIndex = getSelectedCorrespondenceTemplate(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
-        ProtocolCorrespondenceTemplate oldCorrespondenceTemplate = correspondenceType.getProtocolCorrespondenceTemplates().get(templateIndex);
+        ProtocolCorrespondenceTemplate oldCorrespondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         ProtocolCorrespondenceTemplate newCorrespondenceTemplate = correspondenceTemplateForm.getReplaceCorrespondenceTemplates()
                 .get(typeIndex).getList().get(templateIndex);
 
@@ -293,8 +293,8 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             // Add correspondence template to database deletion list
             correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(oldCorrespondenceTemplate);
         
-            getProtocolCorrespondenceTemplateService().deleteProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
-            getProtocolCorrespondenceTemplateService().addProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
+            getProtocolCorrespondenceTemplateService().deleteCommitteeProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
+            getProtocolCorrespondenceTemplateService().addCommitteeProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
         }
 
