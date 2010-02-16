@@ -247,5 +247,11 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setDocument(Document document) {
         super.setDocument(document);
         ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
-    }  
+    }
+    
+    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public final boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
 }

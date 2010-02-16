@@ -188,12 +188,6 @@ public class AwardForm extends BudgetVersionFormBase
         this.setDocument(document);
         initialize();
     }
-
-    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return true;
-    }
     
     /**
      * 
