@@ -35,7 +35,12 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
     
-    public void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+        addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
+    }
+
+    private void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
             ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
 
@@ -50,8 +55,8 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
     }
     
-    public void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
-        correspondenceType.getProtocolCorrespondenceTemplates().remove(index);
+    public void deleteCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(index));
     }
     
     public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 

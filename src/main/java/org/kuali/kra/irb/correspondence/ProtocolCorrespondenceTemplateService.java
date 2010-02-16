@@ -40,7 +40,7 @@ public interface ProtocolCorrespondenceTemplateService {
      * @param correspondenceTemplate - the protocol correspondence template to be added.
      * @throws Exception 
      */
-    void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+    void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
             ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception;
     
     /**
@@ -57,7 +57,7 @@ public interface ProtocolCorrespondenceTemplateService {
      * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
      * @param index - index of the template to be deleted.
      */
-    void deleteProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index);
+    void deleteCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index);
     
     /**
      * 
