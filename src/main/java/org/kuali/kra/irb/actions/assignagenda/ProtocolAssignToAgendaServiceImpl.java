@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.DocumentService;
  * 
  * This class implements ProtocolAssignToAgendaService.
  */
-public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgendaService, Serializable {
+public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgendaService {
     
     private static final long serialVersionUID = 986748376;
 
