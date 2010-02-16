@@ -4,7 +4,9 @@
 <%@ attribute name="answer" required="true" type="org.kuali.kra.questionnaire.answer.Answer" %>
 <%@ attribute name="questionIndex" required="true" %>
 
-<c:set var="questionFieldName" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />                        
+<c:set var="questionFieldName" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />
+${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
+                      
 <div class="${responseDivClass}">
     <span class="Qresponse">
         <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">

@@ -6,11 +6,15 @@
                         
 <div class="${responseDivClass}">
     <span class="Qresponse">
+    	
+    	<c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
+        ${kfunc:registerEditableProperty(KualiForm, prop)}
+    
         <c:choose>
             <c:when test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
                 <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="Y" />Yes
             </c:when>
-            <c:otherwise >
+            <c:otherwise>
                 <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this)" style="border:none;" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" value="Y" />Yes
             </c:otherwise>
         </c:choose>  

@@ -41,13 +41,32 @@
 </c:choose>
 <c:set var="questionNumber" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionNumber}" />
 <%-- TODO : following id is not appropriate because different questionnaire may have the same id --%>
+
+<c:set var="prop" value="parent-${questionNumber}-${answerHeaderIndex}"/>
+${kfunc:registerEditableProperty(KualiForm, prop)}
 <input type="hidden" id="parent-${questionNumber}-${answerHeaderIndex}" name="parent-${questionNumber}-${answerHeaderIndex}" value="${fieldName}" />
+
+<c:set var="prop" value="childDisplay-${answerHeaderIndex}-${questionNumber}"/>
+${kfunc:registerEditableProperty(KualiForm, prop)}
 <input type="hidden" id="childDisplay-${answerHeaderIndex}-${questionNumber}" name="childDisplay-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
+
+<c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild"/>
+${kfunc:registerEditableProperty(KualiForm, prop)}
 <input type="hidden" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild"  value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
+
 <c:if test="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber != 0}">
     <div class = "condition">
+        
+        <c:set var="prop" value="conditionFlag-${answerHeaderIndex}-${questionNumber}"/>
+        ${kfunc:registerEditableProperty(KualiForm, prop)}
         <input type="hidden" id="conditionFlag-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionFlag}" />
+        
+        <c:set var="prop" value="condition-${answerHeaderIndex}-${questionNumber}"/>
+        ${kfunc:registerEditableProperty(KualiForm, prop)}
         <input type="hidden" id="condition-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.condition}" />
+        
+        <c:set var="prop" value="conditionValue-${answerHeaderIndex}-${questionNumber}"/>
+        ${kfunc:registerEditableProperty(KualiForm, prop)}
         <input type="hidden" id="conditionValue-${answerHeaderIndex}-${questionNumber}" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionValue}" />
     </div>
 </c:if>
