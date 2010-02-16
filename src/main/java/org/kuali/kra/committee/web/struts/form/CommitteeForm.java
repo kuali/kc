@@ -184,12 +184,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     public void setCommitteeHelper(CommitteeHelper committeeHelper) {
         this.committeeHelper = committeeHelper;
-    }  
-    
-    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return true;
     }
 }
 
