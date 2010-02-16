@@ -32,6 +32,8 @@ import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -39,15 +41,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
     private AttachmentDao attachmentDao;
-    private KcPersonService kcPersonService;
+    private PersonService<Person> personService;
 
-    /**
-     * Sets the KC Person Service.
-     * @param kcPersonService the kc person service
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
     
     /**
      * 
@@ -178,10 +173,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             if (personBioAtt.hasNext()) {
                 Object[] item = (Object[])personBioAtt.next();
                 proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
-                KcPerson person = kcPersonService.getKcPersonByUserName((String)item[1]);
                 proposalPersonBiography.setUploadUserDisplay((String)item[1]);
-                proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getFullName());                
-            }
+                //using PersonService as it will display the user's name the same as the notes panel does
+                Person person = personService.getPersonByPrincipalName(proposalPersonBiography.getUploadUserDisplay());
+                proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getName());
+             }
 
         }
     }   
@@ -193,6 +189,14 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     public void setAttachmentDao(AttachmentDao attachmentDao) {
         this.attachmentDao = attachmentDao;
+    }
+
+    public PersonService<Person> getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
     }
 
 }

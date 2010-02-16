@@ -40,7 +40,9 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -58,6 +60,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     private SystemAuthorizationService systemAuthorizationService;
     private DateTimeService dateTimeService;
     private KcPersonService kcPersonService;
+    private PersonService<Person> personService;
     private AttachmentDao attachmentDao;
 
     /**
@@ -440,8 +443,9 @@ public class NarrativeServiceImpl implements NarrativeService {
                 Object[] item = (Object[])personBioAtt.next();
                 narrative.setTimestampDisplay((Timestamp)item[0]);
                 narrative.setUploadUserDisplay((String)item[1]);
-                KcPerson person = kcPersonService.getKcPersonByUserName(narrative.getUploadUserDisplay());
-                narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getFullName());
+                //using PersonService as it will display the user's name the same as the notes panel does
+                Person person = personService.getPersonByPrincipalName(narrative.getUploadUserDisplay());
+                narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getName());
             }
 
             }
@@ -458,6 +462,14 @@ public class NarrativeServiceImpl implements NarrativeService {
 
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
         this.systemAuthorizationService = systemAuthorizationService;
+    }
+
+    private PersonService<Person> getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
     }
 
 }
