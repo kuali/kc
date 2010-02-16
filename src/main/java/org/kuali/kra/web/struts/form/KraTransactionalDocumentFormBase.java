@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ojb.broker.util.logging.Logger;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -253,5 +254,20 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public final boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         
         return true;
+    }
+    /**
+     * This method is here to help us troubleshoot editable property issues.  Currently, this method is logging at an error level but
+     * will be decrease once KC security features are stabilized.
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        
+        final boolean populate = super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+        if (!populate) {
+            LOG.error("property not registered as editable [" + requestParameterName + "]");
+        }
+        return populate;
     }
 }
