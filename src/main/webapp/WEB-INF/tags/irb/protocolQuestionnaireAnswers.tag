@@ -20,7 +20,10 @@
 <div id="workarea">
 <c:forEach items="${KualiForm.questionnaireHelper.answerHeaders}" var="answerHeader" varStatus="status">
 	<c:set var="answerHeaderIndex" value="${status.index}" scope="request"/>
-	<input type="hidden" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions" id ="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions" 
+	
+	<c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].showQuestions"/>
+	${kfunc:registerEditableProperty(KualiForm, prop)}
+	<input type="hidden" name="${prop}" id ="${prop}" 
            value = "${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].showQuestions}" />
 		
      <kra-questionnaire:questionnaireAnswers/>
@@ -29,6 +32,8 @@
 </c:forEach>
 
 <c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) > 0}">
+
+	${kfunc:registerEditableProperty(KualiForm, "numberOfQuestionaires")}
     <input type="hidden" name="numberOfQuestionaires" id ="numberOfQuestionaires" 
        value = "${fn:length(KualiForm.questionnaireHelper.answerHeaders)}" />
     <kul:panelFooter />
