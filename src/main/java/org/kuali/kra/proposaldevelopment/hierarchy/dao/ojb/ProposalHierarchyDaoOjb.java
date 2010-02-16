@@ -296,10 +296,10 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
     
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber) {
         Criteria crit = new Criteria();
-        crit.addIn("proposalNumber", createHierarchyChildProposalNumberQuery(proposalNumber));
+        crit.addIn("proposalNumber", getHierarchyChildProposalNumbers(proposalNumber));
         QueryByCriteria statusQuery = new QueryByCriteria(ProposalBudgetStatus.class, crit);
         
-        return new ArrayList((Collection<ProposalBudgetStatus>)getPersistenceBrokerTemplate().getCollectionByQuery(statusQuery));
+        return new ArrayList<ProposalBudgetStatus>((Collection<ProposalBudgetStatus>)getPersistenceBrokerTemplate().getCollectionByQuery(statusQuery));
     }
     
     private ReportQueryByCriteria createHierarchyChildProposalNumberQuery(String proposalNumber) {
