@@ -256,8 +256,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         return true;
     }
     /**
-     * This method is here to help us troubleshoot editable property issues.  Currently, this method is logging at an error level but
-     * will be decrease once KC security features are stabilized.
+     * This method is here to help us troubleshoot editable property issues.
      * 
      * {@inheritDoc}
      */
