@@ -279,6 +279,10 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         super.registerEditableProperty(editablePropertyName);
     }
     
+    /**
+     * logs a warning if the passed in property string is not an accessible property on "this" form.
+     * @param property the property (ie. obj.prop)
+     */
     private void logPropertyValidationFailures(String property) {
         if (LOG.isWarnEnabled()) {
             try {
