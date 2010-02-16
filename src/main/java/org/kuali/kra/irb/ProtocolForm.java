@@ -304,12 +304,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public String[] getNewExemptionTypeCodes() {
         return specialReviewHelper.getNewExemptionTypeCodes();
     }
-    
-    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return true;
-    }
 
     /**
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReview()
