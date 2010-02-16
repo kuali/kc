@@ -227,12 +227,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         medusaBean = new MedusaBean(this);
         reportHelperBean = new ReportHelperBean(this);
     }
-    
-    //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return true;
-    }
 
     /**
      * This creates a new Narrative. Protected to allow mocks and stubs to provide their own Narrative that doesn't do a user id lookup

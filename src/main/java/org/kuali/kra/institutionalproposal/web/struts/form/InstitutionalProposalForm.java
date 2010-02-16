@@ -120,12 +120,6 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
     }
     
-    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return true;
-    }
-    
     /**
      * 
      * This method returns the AwardDocument object.
