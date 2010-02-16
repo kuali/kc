@@ -270,7 +270,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     }
     
     /**
-     * 
+     * This method is here to help us troubleshoot editable property issues.
      * {@inheritDoc}
      */
     @Override
