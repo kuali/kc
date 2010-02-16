@@ -26,17 +26,31 @@
                 <td align="left" valign="top">
                 <div id="principalInvestigator.div" property="principalInvestigator" >
                         <c:if test="${empty KualiForm.protocolHelper.principalInvestigatorName}">                                                 
-                            <input type="hidden" name="protocolHelper.principalInvestigatorName" value="">              
+                            
+                            ${kfunc:registerEditableProperty(KualiForm, "protocolHelper.principalInvestigatorName")}
+                            <input type="hidden" name="protocolHelper.principalInvestigatorName" value=""/>
+                                          
                         </c:if>
-                        <c:if test="${empty KualiForm.protocolHelper.personId}">          					                	
-                	    	<input type="hidden" name="protocolHelper.personId" value="">              
+                        <c:if test="${empty KualiForm.protocolHelper.personId}">
+                        
+                        	${kfunc:registerEditableProperty(KualiForm, "protocolHelper.personId")}       					                	
+                	    	<input type="hidden" name="protocolHelper.personId" value=""/>
+                	    	
                 	    </c:if>       
-                	    <c:if test="${empty KualiForm.protocolHelper.rolodexId}">          					                	
-                            <input type="hidden" name="protocolHelper.rolodexId" value="">              
+                	    <c:if test="${empty KualiForm.protocolHelper.rolodexId}">
+                	    	
+                	    	${kfunc:registerEditableProperty(KualiForm, "protocolHelper.rolodexId")}  				                	
+                            <input type="hidden" name="protocolHelper.rolodexId" value=""/>
+                                
                 	    </c:if>   	
-                	    <c:if test="${empty KualiForm.protocolHelper.principalInvestigatorId}">          					                	
-                            <input type="hidden" name="protocolHelper.principalInvestigatorId" value="">              
-                            <input type="hidden" name="document.protocolList[0].principalInvestigatorId" value="">              
+                	    <c:if test="${empty KualiForm.protocolHelper.principalInvestigatorId}">
+                	    
+                	    	${kfunc:registerEditableProperty(KualiForm, "protocolHelper.principalInvestigatorId")}     					                	
+                            <input type="hidden" name="protocolHelper.principalInvestigatorId" value=""/>
+                            
+                            ${kfunc:registerEditableProperty(KualiForm, "document.protocolList[0].principalInvestigatorId")}               
+                            <input type="hidden" name="document.protocolList[0].principalInvestigatorId" value=""/>
+                                          
                 	    </c:if>   	
                 	    <table width="100%" border="0" style="border: medium none ;">
                 	    <tbody>
@@ -71,7 +85,10 @@
                     <td style="border: medium none ;">  		
 					<div id="principalInvestigatorName.div" >
                         <c:if test="${!empty KualiForm.protocolHelper.principalInvestigatorId}">
-                        <input type="hidden" name="document.protocolList[0].principalInvestigatorId" value="${KualiForm.protocolHelper.principalInvestigatorId}">              
+                        
+                        ${kfunc:registerEditableProperty(KualiForm, "document.protocolList[0].principalInvestigatorId")}
+                        <input type="hidden" name="document.protocolList[0].principalInvestigatorId" value="${KualiForm.protocolHelper.principalInvestigatorId}"/>
+                                      
             				<c:choose>
 							    <c:when test="${empty KualiForm.protocolHelper.principalInvestigatorName}">
 	                    			<span style='color: red;'>not found</span><br>
@@ -139,7 +156,10 @@
 	                    		<span style='color: red;'>not found</span><br>
 	               			</c:when>
 	                  		<c:otherwise>
-	                  		    <input type="hidden" name="protocolHelper.leadUnitName" value="${KualiForm.protocolHelper.leadUnitName}">              
+	                  		
+	                  			${kfunc:registerEditableProperty(KualiForm, "protocolHelper.leadUnitName")}
+	                  		    <input type="hidden" name="protocolHelper.leadUnitName" value="${KualiForm.protocolHelper.leadUnitName}"/>
+	                  		                  
                          	</c:otherwise>  
 							</c:choose>                        
                         </c:if>

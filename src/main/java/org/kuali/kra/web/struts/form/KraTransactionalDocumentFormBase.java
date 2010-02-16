@@ -20,10 +20,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.util.logging.Logger;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -262,12 +262,32 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * {@inheritDoc}
      */
     @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        
+    public final boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
         final boolean populate = super.shouldPropertyBePopulatedInForm(requestParameterName, request);
         if (!populate) {
-            LOG.error("property not registered as editable [" + requestParameterName + "]");
+            LOG.warn(String.format("property not registered as editable [%s]", requestParameterName));
         }
         return populate;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public final void registerEditableProperty(String editablePropertyName) {
+        logPropertyValidationFailures(editablePropertyName);
+        super.registerEditableProperty(editablePropertyName);
+    }
+    
+    private void logPropertyValidationFailures(String property) {
+        if (LOG.isWarnEnabled()) {
+            try {
+                PropertyUtils.getProperty(this, property);
+            } catch (Exception e) {
+                //basic logging w/o including the stack...simple attempt at getting the "cause"
+                LOG.warn(String.format("property[%s] not accessable (%s)", property, (e.getCause() != null) ? e.getCause().getClass().getName() : e.getClass().getName()));
+            }
+        }
     }
 }

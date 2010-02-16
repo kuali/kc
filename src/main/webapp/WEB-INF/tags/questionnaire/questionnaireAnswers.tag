@@ -76,6 +76,9 @@
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
                     <c:when test = "${readOnly}" >
+                        
+                        <c:set var="prop" value="childDisplay-${answerHeaderIndex}-${answer.questionNumber}"/>
+                        ${kfunc:registerEditableProperty(KualiForm, prop)}
                         <input type="hidden" id="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" name="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" value="${answer.matchedChild}" />                
                         <c:choose>
                             <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
