@@ -18,33 +18,35 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 import java.util.List;
 
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
     
-    private KcPersonService kcPersonService;
+    private PersonService<Person> personService;
 
     public void loadAbstractsUploadUserFullName(List<ProposalAbstract> abstracts) {
         for (ProposalAbstract curAbstract : abstracts) {
-            KcPerson person = getKcPersonService().getKcPersonByUserName(curAbstract.getUploadUserDisplay());
+            Person person = getPersonService().getPersonByPrincipalName(curAbstract.getUploadUserDisplay());
             if (person != null) {
-                curAbstract.setUploadUserFullName(person.getFullName());
+                curAbstract.setUploadUserFullName(person.getName());
             } else {
                 curAbstract.setUploadUserFullName(curAbstract.getUploadUserDisplay() + "(not found)");
             }
         }
     }
 
-    private KcPersonService getKcPersonService() {
-        return kcPersonService;
+    private PersonService<Person> getPersonService() {
+        return personService;
     }
 
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
     }
-    
     
 
 }
