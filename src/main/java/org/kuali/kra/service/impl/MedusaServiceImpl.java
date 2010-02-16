@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.MedusaService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class MedusaServiceImpl implements MedusaService {
     
@@ -178,7 +179,7 @@ public class MedusaServiceImpl implements MedusaService {
         sb.append(":").append(proposal.getTotalDirectCostInitial()).append(":").append(proposal.getTotalDirectCostTotal()).append(":").append(proposal.getTotalIndirectCostInitial());
         sb.append(":").append(proposal.getTotalIndirectCostTotal()).append(":").append(proposal.getTotalInitialCost()).append(":");
         sb.append(proposal.getTotalCost()).append(":");
-        sb.append(proposal.getPrincipalInvestigator().getFullName()).append(":");
+        sb.append(ObjectUtils.isNull(proposal.getPrincipalInvestigator()) ? " " : proposal.getPrincipalInvestigator().getFullName()).append(":");
         sb.append(proposal.getLeadUnit().getUnitNumber()).append(" ; ").append(proposal.getLeadUnit().getUnitName()).append(":");
     }
 
