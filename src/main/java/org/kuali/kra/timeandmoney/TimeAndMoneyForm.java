@@ -37,6 +37,7 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
@@ -62,7 +63,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String currentOrPendingView;
     
     public TimeAndMoneyForm() {
-        super();        
+        super(); 
         this.setDocument(new TimeAndMoneyDocument());
         initialize();        
     }
@@ -100,6 +101,18 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     }
     
     /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * Overriding populate method so that we can register editable properties in form base.  htmlControlAttribute registers
+     * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&M, and
+     * we need to register these properties explicitly before we call populate.
+     */
+    public void populate(HttpServletRequest request) {
+        this.registerEditableProperty("controlForAwardHierarchyView");
+        this.registerEditableProperty("currentOrPendingView");
+        super.populate(request);
+    }
+    
+    /**
      * 
      * This method returns the TimeAndMoneyDocument object.
      * @return
@@ -118,6 +131,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         // TODO Auto-generated method stub
         
     }
+    
     
     /**
      * 
@@ -361,6 +375,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     
     public String getAwardHierarchy() throws ParseException {
         TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
+
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
             awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
