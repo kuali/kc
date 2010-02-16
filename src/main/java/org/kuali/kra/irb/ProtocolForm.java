@@ -345,14 +345,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) getDocument();
     }
-    
-    /** TODO : rice upgrade hack.  multiple lookup has problem because lookupsequencenumber will not be populated
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
-     */
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        return true;
-    }
 
     public QuestionnaireHelper getQuestionnaireHelper() {
         return questionnaireHelper;
@@ -361,5 +353,4 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
     }
-    
 }

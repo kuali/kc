@@ -4,7 +4,11 @@
 <%@ attribute name="questionIndex" required="true" %>
 <div class="${responseDivClass}">
     <span class="Qresponse">
-        <input type="text" class="Qanswer" id="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
+        
+        <c:set var="prop" value="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
+        ${kfunc:registerEditableProperty(KualiForm, prop)}
+        
+        <input type="text" class="Qanswer" id="${prop}" name="${prop}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
                value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
         <c:if test="${answerValidationError}">
 	 		<kul:fieldShowErrorIcon />
