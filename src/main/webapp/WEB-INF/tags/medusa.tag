@@ -27,6 +27,7 @@
 	<tr>
     	<th style="width: 60px; text-align: right;">View:</th>
         <th style="text-align: center;">
+            ${kfunc:registerEditableProperty(KualiForm, "medusaBean.medusaViewRadio")}
         	<c:choose>
         		<c:when test="${KualiForm.medusaBean.medusaViewRadio == 0}">        			
         			<input class="nobord" type="radio" value="0" name="medusaBean.medusaViewRadio" checked="true"/>
@@ -65,8 +66,11 @@
 </div>
 </c:if>
 
+${kfunc:registerEditableProperty(KualiForm, "medusaBean.medusaViewRadio")}
 <input type="hidden" id = "medusaBean.medusaViewRadio" name="medusaBean.medusaViewRadio" value="${KualiForm.medusaBean.medusaViewRadio}">
+${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleName")}
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
+${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
 
 	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
