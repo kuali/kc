@@ -35,7 +35,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
     private boolean protocolAssigned = false;
     private String comments = "";
     
-    private ProtocolAssignToAgendaService agendaService;
+    private transient ProtocolAssignToAgendaService agendaService;
 
     /**
      * 
