@@ -19,8 +19,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRule;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;

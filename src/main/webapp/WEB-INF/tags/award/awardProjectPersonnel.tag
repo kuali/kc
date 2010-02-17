@@ -23,7 +23,7 @@
 <kul:tab tabTitle="Project Personnel" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
 			 tabErrorKey="document.awardList[0].projectPerson*,projectPersonnelBean.newAwardContact*,"
 			 auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*"
-			 transparentBackground="true">
+			 transparentBackground="true" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
