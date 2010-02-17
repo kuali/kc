@@ -105,9 +105,10 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
     
     
-    private static final AwardTemplateSyncScope[] DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
-        AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
+    private static final AwardTemplateSyncScope[] DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES = new AwardTemplateSyncScope[] { 
+        AwardTemplateSyncScope.AWARD_PAGE,
         AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
+        AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
         AwardTemplateSyncScope.TERMS_TAB,
         AwardTemplateSyncScope.REPORTS_TAB,
         AwardTemplateSyncScope.COMMENTS_TAB
@@ -933,8 +934,23 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
+        AwardTemplateSyncScope[] scopes;
+        String syncScopes = getSyncScopesString( request );
+        
+        
+        if( awardDocument.getAward().getTemplateCode() == null ) {
+            //return now since there is no template code.
+            GlobalVariables.getErrorMap().clear(); 
+            GlobalVariables.getErrorMap().putError( StringUtils.isBlank(syncScopes)?"document.award.awardTemplate":String.format( "document.award.awardTemplate.%s",StringUtils.substring(syncScopes,1 )),KeyConstants.ERROR_NO_TEMPLATE_CODE,  new String[] {});
+            awardForm.setOldTemplateCode(null);
+            awardForm.setTemplateLookup(false);
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
+        
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if( question != null ) return processSyncAward(mapping, awardForm, request, response);
+            
 
         awardForm.setCurrentSyncScopes(null);
         awardForm.setSyncRequiresConfirmationMap(null);
@@ -948,10 +964,7 @@ public class AwardAction extends BudgetParentActionBase {
          * 
          */
         
-        AwardTemplateSyncScope[] scopes;
-        String syncScopes = getSyncScopesString( request );
-
-       
+               
         if (StringUtils.isNotBlank(syncScopes) && syncScopes.length() > 1 && syncScopes.indexOf(":")>-1) {
             String[] scopeStrings = StringUtils.split(StringUtils.substringAfter(syncScopes, ":"));
             scopes = new AwardTemplateSyncScope[scopeStrings.length];
@@ -1006,6 +1019,15 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
 
+        if( awardDocument.getAward().getTemplateCode() == null ) {
+            //return now since there is no template code.
+            GlobalVariables.getErrorMap().clear(); 
+            GlobalVariables.getErrorMap().putError("document.award.awardTemplate",KeyConstants.ERROR_NO_TEMPLATE_CODE,  new String[] {});
+            awardForm.setOldTemplateCode(null);
+            awardForm.setTemplateLookup(false);
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         boolean proceedToProcessSyncAward = true;
@@ -1048,7 +1070,8 @@ public class AwardAction extends BudgetParentActionBase {
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         AwardTemplateSyncScope[] scopes = awardForm.getCurrentSyncScopes();
 
-        for( AwardTemplateSyncScope currentScope : scopes ) {
+        for( int i = 0; i < scopes.length; i++ ) {
+            AwardTemplateSyncScope currentScope = scopes[i];
             if( (question == null  || !(QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) ) && awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {
                 KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
                 String scopeSyncLabel = "";
@@ -1060,14 +1083,14 @@ public class AwardAction extends BudgetParentActionBase {
                 return  performQuestionWithoutInput( confirmationQuestion,""  );
             } else if ( ((QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) && ConfirmationQuestion.YES.equals(buttonClicked))||!awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {                               
                 if( LOG.isDebugEnabled() ) 
-                    LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+scopes[0]+" CALLING SYNC SERVICE." );
+                    LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+currentScope+" CALLING SYNC SERVICE." );
                 AwardTemplateSyncScope[] s = { currentScope };
                 awardTemplateSyncService.syncToAward(awardDocument, s);
                 awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
-            } else if ( (QUESTION_VERIFY_SYNC+":"+scopes[0]).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            } else if ( (QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 if( LOG.isDebugEnabled() ) 
-                    LOG.debug( "USER DECLINED "+scopes[0] +", SKIPPING." );
-                awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
+                    LOG.debug( "USER DECLINED "+currentScope +", SKIPPING." );
+                awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0 ));
             } else {
                 throw new RuntimeException( "Do not know what to do in this case!" );
             }
