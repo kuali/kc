@@ -250,10 +250,16 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
     }
     
-    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    /**
+     * fixing bug in TextArea popup related to editable properties...  This rice hack should go away once rice fixes this.
+     * 
+     * {@inheritDoc}
+     */
+    @Override
     public final boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         
-        return true;
+        return methodToCallParameterName.startsWith("methodToCall.postTextAreaToParent.anchortopOfForm")
+            || super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
     /**
      * This method is here to help us troubleshoot editable property issues.
@@ -287,6 +293,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         if (LOG.isWarnEnabled()) {
             try {
                 PropertyUtils.getProperty(this, property);
+            //catching exception here b/c various exceptions can occur when accessing
+            //properties that do not exist or are malformed besides the exceptions that are documented
             } catch (Exception e) {
                 //basic logging w/o including the stack...simple attempt at getting the "cause"
                 LOG.warn(String.format("property[%s] not accessable (%s)", property, (e.getCause() != null) ? e.getCause().getClass().getName() : e.getClass().getName()));
