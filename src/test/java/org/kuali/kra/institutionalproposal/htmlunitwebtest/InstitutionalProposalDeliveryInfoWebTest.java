@@ -32,7 +32,7 @@ public class InstitutionalProposalDeliveryInfoWebTest extends InstitutionalPropo
      */
     @Test
     public void mailingInfoValidation() throws Exception {
-        HtmlPage institutionalProposalPage = lookup(proposalHomePage, "mailingAddressId", "rolodexId", "1741");
+        HtmlPage institutionalProposalPage = lookup(proposalHomePage, "rolodexId", "rolodexId", "1741");
         
         HtmlElement firstName = getElementById(institutionalProposalPage, "mailingFirstName");
         HtmlElement middleName = getElementById(institutionalProposalPage, "mailingMiddleName");
