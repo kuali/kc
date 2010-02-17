@@ -18,10 +18,9 @@ package org.kuali.kra.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
 
@@ -48,7 +47,24 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkYNQ(document);
     }
+    
+   
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        return checkYNQ(document);
+    }
 
+
+    public boolean isDocumentValidForSave( MaintenanceDocument document ) {
+        boolean result = super.isDocumentValidForSave(document);
+        result &= checkYNQ(document);
+        return result;
+    }
+    
+    
     /**
      * 
      * This method to check Ynq's explanation and review date is required field based on answer.
@@ -56,7 +72,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
      * @return
      */
     private boolean checkYNQ(MaintenanceDocument maintenanceDocument) {
-
+        ErrorReporter errorReporter = new ErrorReporter();
         boolean valid = true;
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
@@ -66,19 +82,34 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
         int i = 0;
         for (OrganizationYnq organizationYnq : newOrganization.getOrganizationYnqs()) {
             organizationYnq.refreshReferenceObject("ynq");
+            
+            if( StringUtils.isBlank(organizationYnq.getAnswer()) ) {
+                errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].answer", i ), 
+                        KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED,
+                        new String[] { organizationYnq.getYnq().getQuestionId()}
+                    );
+                valid=false;
+            }
+            
             if (StringUtils.isNotBlank(organizationYnq.getAnswer()) && 
                     organizationYnq.getAnswer().equalsIgnoreCase(organizationYnq.getYnq().getExplanationRequiredFor()) && StringUtils.isBlank(organizationYnq.getExplanation())) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.organizationYnqs["+i+"].explanation", RiceKeyConstants.ERROR_REQUIRED,
-                        new String[] { "Explanation" });
+                
+                errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].explanation", i ), 
+                        KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED,
+                        new String[] { organizationYnq.getYnq().getQuestionId()}
+                    );
+                
                 valid = false;
             }
             if (StringUtils.isNotBlank(organizationYnq.getAnswer()) && 
                     organizationYnq.getAnswer().equalsIgnoreCase(organizationYnq.getYnq().getDateRequiredFor()) && 
                     organizationYnq.getReviewDate() == null
                    ) {
+                    errorReporter.reportError(String.format( "document.newMaintainableObject.organizationYnqs[%s].reviewDate", i ), 
+                            KeyConstants.ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED,
+                            new String[] { organizationYnq.getYnq().getQuestionId()}
+                        );
                     valid = false;
-                    GlobalVariables.getErrorMap().putError("document.newMaintainableObject.organizationYnqs["+i+"].reviewDate", RiceKeyConstants.ERROR_REQUIRED,
-                            new String[] { "Review Date" });
             }
             i++;
         }

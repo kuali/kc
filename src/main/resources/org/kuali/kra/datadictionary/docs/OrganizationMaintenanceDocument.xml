@@ -19,16 +19,9 @@
         <value>organizationId</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.OrganizationMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    
-    
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -161,7 +154,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="ynq.description" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="questionId" p:unconditionallyReadOnly="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="answer" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="answer"/>
               <bean parent="MaintainableFieldDefinition" p:name="explanation"/>
               <bean parent="MaintainableFieldDefinition" p:name="reviewDate"/>
             </list>
