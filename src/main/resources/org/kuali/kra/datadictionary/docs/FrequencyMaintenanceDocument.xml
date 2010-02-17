@@ -54,8 +54,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="numberOfDays"/>
 				<bean parent="MaintainableFieldDefinition" p:name="numberOfMonths"/>
 				<bean parent="MaintainableFieldDefinition" p:name="repeatFlag" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="proposalDueFlag" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="invoiceFlag" p:required="true"/>
+				<!--  <bean parent="MaintainableFieldDefinition" p:name="proposalDueFlag" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="invoiceFlag" p:required="true"/> -->
 				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfDays"/>
 				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfMonths"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
