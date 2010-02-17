@@ -38,6 +38,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private String title;
     private Long awardId;
     private Boolean awardDocumentFinalStatus;
+    private String awardDocumentNumber;
     
 
     public AwardHierarchyNode() {
@@ -307,5 +308,13 @@ public class AwardHierarchyNode extends AwardHierarchy {
     
     public void setAwardDocumentFinalStatus(Boolean awardDocumentStatus) {
         this.awardDocumentFinalStatus = awardDocumentStatus;
+    }
+
+    public String getAwardDocumentNumber() {
+        return awardDocumentNumber;
+    }
+
+    public void setAwardDocumentNumber(String awardDocumentNumber) {
+        this.awardDocumentNumber = awardDocumentNumber;
     }
 }

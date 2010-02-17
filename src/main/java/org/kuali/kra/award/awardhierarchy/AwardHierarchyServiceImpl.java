@@ -549,6 +549,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             } catch(WorkflowException e) {
                 throw uncheckedException(e);
             }
+            
+            awardHierarchyNode.setAwardDocumentNumber(documentNumber);
             awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
