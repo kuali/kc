@@ -35,8 +35,8 @@ public class Frequency extends KraPersistableBusinessObjectBase {
     private Integer numberOfDays; 
     private Integer numberOfMonths; 
     private Boolean repeatFlag; 
-    private Boolean proposalDueFlag; 
-    private Boolean invoiceFlag; 
+//    private Boolean proposalDueFlag; 
+//    private Boolean invoiceFlag; 
     private Integer advanceNumberOfDays; 
     private Integer advanceNumberOfMonths; 
     
@@ -85,21 +85,21 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         this.repeatFlag = repeatFlag;
     }
 
-    public Boolean getProposalDueFlag() {
-        return proposalDueFlag;
-    }
-
-    public void setProposalDueFlag(Boolean proposalDueFlag) {
-        this.proposalDueFlag = proposalDueFlag;
-    }
-
-    public Boolean getInvoiceFlag() {
-        return invoiceFlag;
-    }
-
-    public void setInvoiceFlag(Boolean invoiceFlag) {
-        this.invoiceFlag = invoiceFlag;
-    }
+//    public Boolean getProposalDueFlag() {
+//        return proposalDueFlag;
+//    }
+//
+//    public void setProposalDueFlag(Boolean proposalDueFlag) {
+//        this.proposalDueFlag = proposalDueFlag;
+//    }
+//
+//    public Boolean getInvoiceFlag() {
+//        return invoiceFlag;
+//    }
+//
+//    public void setInvoiceFlag(Boolean invoiceFlag) {
+//        this.invoiceFlag = invoiceFlag;
+//    }
 
     public Integer getAdvanceNumberOfDays() {
         return advanceNumberOfDays;
@@ -126,8 +126,8 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         hashMap.put("numberOfDays", getNumberOfDays());
         hashMap.put("numberOfMonths", getNumberOfMonths());
         hashMap.put("repeatFlag", getRepeatFlag());
-        hashMap.put("proposalDueFlag", getProposalDueFlag());
-        hashMap.put("invoiceFlag", getInvoiceFlag());
+//        hashMap.put("proposalDueFlag", getProposalDueFlag());
+//        hashMap.put("invoiceFlag", getInvoiceFlag());
         hashMap.put("advanceNumberOfDays", getAdvanceNumberOfDays());
         hashMap.put("advanceNumberOfMonths", getAdvanceNumberOfMonths());
         return hashMap;
