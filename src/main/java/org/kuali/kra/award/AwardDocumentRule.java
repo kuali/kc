@@ -28,13 +28,7 @@ import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
 import org.kuali.kra.award.commitments.AwardFandaRateRule;
-import org.kuali.kra.award.contacts.AwardCreditSplitBean;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRule;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleImpl;
-import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRule;
-import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleEvent;
-import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleImpl;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplitAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
@@ -115,8 +109,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             SpecialReviewRule<AwardSpecialReview>,
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
-                                                                            AwardPersonCreditSplitRule,
-                                                                            AwardPersonUnitCreditSplitRule,
                                                                             AwardProjectPersonsSaveRule,
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
@@ -291,8 +283,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
-        retval &= processAwardPersonCreditSplitBusinessRules(awardDocument);
-        retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
         retval &= processSpecialReviewBusinessRule(document);
@@ -534,6 +524,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardCostShareAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardFandARateAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardProjectPersonsAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardPersonCreditSplitAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSubawardAuditRule().processRunAuditBusinessRules(document);
         
         return retval;
@@ -795,14 +786,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
     
-    public boolean checkAwardPersonCreditSplitTotals(AwardPersonCreditSplitRuleEvent event) {
-        return new AwardPersonCreditSplitRuleImpl().checkAwardPersonCreditSplitTotals(event);
-    }
-
-    public boolean checkAwardPersonUnitCreditSplitTotals(AwardPersonUnitCreditSplitRuleEvent event) {
-        return new AwardPersonUnitCreditSplitRuleImpl().checkAwardPersonUnitCreditSplitTotals(event);
-    }
-
     private boolean processSaveAwardProjectPersonsBusinessRules(ErrorMap errorMap, AwardDocument document) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -812,15 +795,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         return success;
-    }
-
-    private boolean processAwardPersonCreditSplitBusinessRules(AwardDocument document) {
-        return new AwardCreditSplitBean(document).recalculateCreditSplit();
-        
-    }
-    
-    private boolean processAwardPersonUnitCreditSplitBusinessRules(AwardDocument document) {
-        return new AwardCreditSplitBean(document).recalculateCreditSplit();
     }
 
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
