@@ -472,4 +472,8 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id="genericActionService" class="org.kuali.kra.irb.actions.genericactions.GenericActionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 </beans>
