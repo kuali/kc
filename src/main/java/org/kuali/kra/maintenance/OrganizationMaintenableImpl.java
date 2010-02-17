@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.maintenance;
 
+import gov.grants.apply.forms.nih398ModularBudgetV10.NIH398ModularBudgetDocument.NIH398ModularBudget.Explanation;
+
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
@@ -35,7 +38,7 @@ import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 7123853550462673935L;
-
+    private static final Logger LOG = Logger.getLogger(OrganizationMaintenableImpl.class);
     public OrganizationMaintenableImpl() {
         super();
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
@@ -83,6 +86,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
             OrganizationYnq organizationYnq = new OrganizationYnq();
             organizationYnq.setYnq(ynq);
             organizationYnq.setQuestionId(ynq.getQuestionId());
+            
             if (StringUtils.isNotBlank(organization.getOrganizationId())) {
                 organizationYnq.setOrganizationId(organization.getOrganizationId()); 
             }
@@ -129,4 +133,8 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private Organization getOrganization() {
         return ((Organization)getBusinessObject());
     }
+    
+
+    
+    
 }
