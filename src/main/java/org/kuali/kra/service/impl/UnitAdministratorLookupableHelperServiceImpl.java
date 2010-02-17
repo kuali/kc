@@ -18,9 +18,13 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.irb.ProtocolLookupConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Lookupable helper service used for proposal log lookup
@@ -45,5 +49,22 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         }
         return returnHtmlDataList;
     }
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows =  super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("person.userName")) {
+                    field.setFieldConversions("principalName:person.userName,principalId:personId");
+                }
+            }
+        }
+        return rows;
+    }
+    
     
 }
