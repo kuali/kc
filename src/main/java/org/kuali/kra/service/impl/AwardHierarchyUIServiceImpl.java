@@ -92,6 +92,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getProjectStartDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getTitle());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardId());
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardDocumentNumber());
             if(aNode.isAwardDocumentFinalStatus()) {
                 sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(DOC_FINAL_STATUS_CODE);
             } else {
