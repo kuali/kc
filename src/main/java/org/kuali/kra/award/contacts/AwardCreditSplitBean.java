@@ -16,6 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,6 @@ public class AwardCreditSplitBean implements Serializable {
     
     private static final long serialVersionUID = 1330497293834315534L;
     private static Logger LOGGER = Logger.getLogger(AwardCreditSplitBean.class);
-    private static final String PARM_TYPE_CODE = "D";
     private static final String YES = "Y";
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
     private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);
@@ -106,6 +106,31 @@ public class AwardCreditSplitBean implements Serializable {
         return getAward().getProjectPersons();
     }
 
+    /**
+     * This method returns all Principal Investigators and Co-Investigators.
+     * Just like getProjectPersons(), it also prepares all project personnel,
+     * and their units, with empty credit splits for any InvestigatorCreditTypes
+     * that aren't already represented.
+     * @return
+     * @see getProjectPersons()
+     */
+    public List<AwardPerson> getInvestigators() {
+        Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
+        List<AwardPerson> investigators = new ArrayList<AwardPerson>();
+        List<AwardPerson> projectPersons = getAward().getProjectPersons();
+        for(AwardPerson person: projectPersons) {
+            createDefaultCreditSplitMapForProjectPerson(creditTypes, person);
+            for(AwardPersonUnit apu: person.getUnits()) {
+                createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
+            }
+            
+            if(person.isPrincipalInvestigator() || person.isCoInvestigator()) {
+                investigators.add(person);
+            }
+        }
+        return investigators;
+    }
+    
     /**
      * @return The totals map which contains the unit totals 
      */
