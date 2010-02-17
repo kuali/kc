@@ -113,10 +113,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
             }
             i++;
         }
-
-
         return valid;
-
     }
 
 }

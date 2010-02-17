@@ -133,8 +133,4 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private Organization getOrganization() {
         return ((Organization)getBusinessObject());
     }
-    
-
-    
-    
 }
