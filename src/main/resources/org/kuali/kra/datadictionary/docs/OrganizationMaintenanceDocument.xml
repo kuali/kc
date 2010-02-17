@@ -109,8 +109,8 @@
       </list>
     </property>
   </bean>
-  <bean id="OrganizationMaintenanceDocument-OrganizationIndirectcost" parent="OrganizationMaintenanceDocument-OrganizationIndirectcost-parentBean"/>
 
+  <bean id="OrganizationMaintenanceDocument-OrganizationIndirectcost" parent="OrganizationMaintenanceDocument-OrganizationIndirectcost-parentBean"/>
   <bean id="OrganizationMaintenanceDocument-OrganizationIndirectcost-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Organization Indirectcost"/>
     <property name="title" value="Organization Indirectcost"/>
@@ -134,8 +134,8 @@
       </list>
     </property>
   </bean>
-  <bean id="OrganizationMaintenanceDocument-OrganizationYnq" parent="OrganizationMaintenanceDocument-OrganizationYnq-parentBean"/>
 
+  <bean id="OrganizationMaintenanceDocument-OrganizationYnq" parent="OrganizationMaintenanceDocument-OrganizationYnq-parentBean"/>
   <bean id="OrganizationMaintenanceDocument-OrganizationYnq-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Organization Ynq"/>
     <property name="title" value="Organization Ynq"/>
