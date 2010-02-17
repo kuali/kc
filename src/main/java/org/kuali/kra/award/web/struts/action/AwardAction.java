@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -84,10 +85,11 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * 
@@ -102,6 +104,7 @@ public class AwardAction extends BudgetParentActionBase {
     //question constants
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
     
+    
     private static final AwardTemplateSyncScope[] DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES = new AwardTemplateSyncScope[] { AwardTemplateSyncScope.AWARD_PAGE,
         AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
         AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
@@ -110,6 +113,10 @@ public class AwardAction extends BudgetParentActionBase {
         AwardTemplateSyncScope.COMMENTS_TAB
         };
 
+    private static final int OK = 0;
+    private static final int WARNING = 1;
+    private static final int ERROR = 2;
+    private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
@@ -225,19 +232,64 @@ public class AwardAction extends BudgetParentActionBase {
         return forward;
     }
     
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = null;
+    private int isValidSubmission(AwardDocument awardDocument) {
+        int state = OK;
+        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardDocument);
+        if (!auditPassed) {
+            state = WARNING;
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
+                    state = ERROR;
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                    break;
+                }
+            }
+        }
+        return state;
+    }
+    
+    protected ActionForward submitAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
             forward = super.route(mapping, form, request, response);
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
-            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        return forward;
+    }
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setAuditActivated(true);
+
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        
+        int status = isValidSubmission(awardForm.getAwardDocument());
+        
+        if (status == WARNING) {
+            if(status == WARNING && question == null){
+                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                return submitAward(mapping, form, request, response);
+            } else{
+                return forward;
+            }    
         }
         
-        return forward;        
+        if(status == OK){
+           return submitAward(mapping, form, request, response);
+        } else {
+            GlobalVariables.getErrorMap().clear(); 
+            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            return forward;
+         }
     }
     
     @Override
