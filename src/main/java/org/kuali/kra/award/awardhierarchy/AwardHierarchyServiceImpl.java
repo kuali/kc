@@ -42,6 +42,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -117,6 +118,14 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
+        ObjectUtils.materializeAllSubObjects(targetNode.getAward());
+        try { 
+            ObjectUtils.materializeUpdateableCollections(targetNode.getAward());
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
         for(AwardAmountInfo awardAmount : newAward.getAwardAmountInfos()) {
             awardAmount.setAnticipatedTotalAmount(KualiDecimal.ZERO);

@@ -26,11 +26,8 @@
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.AwardPersonCreditSplit.attributes}" />
 <c:set var="columnWidth" value="${100/(fn:length(investigatorCreditTypes) + 1)}%" />
 
-<div class="tab-container" align="center">
-	<h3>
-		<span class="subhead-left">Combined Credit Split</span>
-		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" altText="help"/></span>
-    </h3>
+<kra:innerTab tabTitle="Combined Credit Split" parentTab="Project Personnel" defaultOpen="true" 
+				tabErrorKey="document.awardList[0].projectPersons.awardPerson*" auditCluster="contactsCreditSplitAuditErrors" tabAuditKey="document.awardList[0].projectPersons.awardPerson*">
 
     <table cellpadding="0" cellspacing="0" summary="">
     	<%-- Heading with InvestigatorCreditType Description --%>
@@ -150,4 +147,4 @@
         	<html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>        
  		</div>
  	<%-- </kra:section> --%>   	 	
-</div>
+</kra:innerTab>
