@@ -23,6 +23,7 @@
         <ref bean="UnitAdministrator-person.fullName" />
         <ref bean="UnitAdministrator-unitAdministratorType.description" />
         <ref bean="UnitAdministrator-versionNumber" />
+        <ref bean="UnitAdministrator-person.userName" />      
       </list>
     </property>
   </bean>
@@ -32,8 +33,30 @@
 
   <bean id="UnitAdministrator-personId" parent="UnitAdministrator-personId-parentBean" />
 
-  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="KcPerson-personId">
+  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="PersonImpl-principalName">
+  	<property name="name" value="personId" />
+        <property name="label" value="KC Person ID" />
+        <property name="shortLabel" value="KC Person ID" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="displayLabelAttribute" value="person.userName" />
   </bean>
+  
+  <bean id="UnitAdministrator-person.userName" parent="UnitAdministrator-person.userName-parentBean" />
+    <bean id="UnitAdministrator-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="KC Person" />
+        <property name="shortLabel" value="KC Person User Name" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+    </bean>
+  
   <bean id="UnitAdministrator-unitAdministratorTypeCode" parent="UnitAdministrator-unitAdministratorTypeCode-parentBean" />
 
   <bean id="UnitAdministrator-unitAdministratorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -71,11 +94,14 @@
     <property name="summary" value="Unit Number" />
     <property name="description" value="Unit Number" />
   </bean>
+  
   <bean id="UnitAdministrator-person.fullName" parent="UnitAdministrator-person.fullName-parentBean" />
-
-  <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-    <property name="name" value="person.fullName" />
-  </bean>
+    <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="KcPerson Full Name" />
+        <property name="shortLabel" value="KcPerson Full Name" />
+    </bean>
+  
   <bean id="UnitAdministrator-unitAdministratorType.description" parent="UnitAdministrator-unitAdministratorType.description-parentBean" />
 
   <bean id="UnitAdministrator-unitAdministratorType.description-parentBean" abstract="true" parent="UnitAdministratorType-description">
@@ -132,8 +158,9 @@
     </property>
     <property name="lookupFields" >
       <list>
+     
         <bean parent="FieldDefinition"
-              p:attributeName="personId" />
+              p:attributeName="person.userName" />
         <bean parent="FieldDefinition"
               p:attributeName="unitAdministratorTypeCode" />
         <bean parent="FieldDefinition"
