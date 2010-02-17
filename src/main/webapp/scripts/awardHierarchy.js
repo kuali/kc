@@ -214,7 +214,7 @@
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-        
+
         if(text11 == 1){
         	var txtImage = "<img src=\"static/images/award_active.gif\" />";
         }else if(text11 == 2 || text11 == 4 || text11 == 5){
@@ -222,13 +222,25 @@
         }else if(text11 == 3 || text11 == 6){
         	var txtImage = "<img src=\"static/images/award_pending.gif\" />";
         }
+
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text12 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text13 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text14 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text15 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
         var racodereverse = revString(racode);
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
-        var racode2 = racode.substring(i2,12);
+        var racode2 = racode.substring(i2,12); 
         
-      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1 
-      				+"</td></tr></tbody></table>";
+      	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
+      				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
+      				+ "<a href='kew/DocHandler.do?docId=" + text15 + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
+      				+ "</td></tr></tbody></table>"; 
         
       	return abc; 
     }
@@ -244,7 +256,7 @@
       var indexForHiddenField = text1.substring(i2,12);
       
       
-	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
+	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 	    
 	  	var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Award Copy");
@@ -347,7 +359,7 @@
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
       
-	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
+	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 
 	    var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("New Child");
