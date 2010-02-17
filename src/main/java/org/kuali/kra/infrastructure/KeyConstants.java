@@ -649,7 +649,10 @@ public final class KeyConstants {
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE = "error.correspondence.template.invalid.file.type";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
     
-    
+    //Organization
+    public static final String ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED = "error.organization.questionYnq.answerRequired";
+    public static final String ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED = "error.organization.questionYnq.explanationRequired";
+    public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
