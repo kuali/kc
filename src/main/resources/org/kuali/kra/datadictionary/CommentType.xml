@@ -37,7 +37,6 @@
 
 
   <bean id="CommentType-commentTypeCode" parent="CommentType-commentTypeCode-parentBean" />
-
   <bean id="CommentType-commentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="commentTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -56,64 +55,31 @@
   </bean>
   
   <bean id="CommentType-templateFlag" parent="CommentType-templateFlag-parentBean" />
-
-  <bean id="CommentType-templateFlag-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CommentType-templateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="templateFlag" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Template Flag" />
     <property name="shortLabel" value="Template Flag" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property>
     <property name="summary" value="Template Flag" />
     <property name="description" value="Template Flag" />
   </bean>
   
   <bean id="CommentType-checklistFlag" parent="CommentType-checklistFlag-parentBean" />
-
-  <bean id="CommentType-checklistFlag-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CommentType-checklistFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="checklistFlag" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Checklist Flag" />
     <property name="shortLabel" value="Checklist Flag" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property>
     <property name="summary" value="Checklist Flag" />
     <property name="description" value="Checklist Flag" />
   </bean>
   
   <bean id="CommentType-awardCommentScreenFlag" parent="CommentType-awardCommentScreenFlag-parentBean" />
-
-  <bean id="CommentType-awardCommentScreenFlag-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CommentType-awardCommentScreenFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="awardCommentScreenFlag" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Award Comment Screen Flag" />
     <property name="shortLabel" value="Award Comment Screen Flag" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property>
     <property name="summary" value="Award Comment Screen Flag" />
     <property name="description" value="Award Comment Screen Flag" />
   </bean>
