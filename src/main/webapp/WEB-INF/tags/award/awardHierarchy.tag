@@ -21,14 +21,14 @@
 
 <kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
-    	<h3>
-    		<span class="subhead-left">Hierarchy</span>
+    	<h3> 
+    		<span class="subhead-left">Hierarchy</span>  
     		<span class="subhead-right">
     			<kul:help businessObjectClassName="org.kuali.kra.award.commitments.AwardFandaRate" altText="help"/>
 			</span>
         </h3>        
-    
-	<table style="border: medium none ; width: 100%; border-collapse: collapse;">
+		    
+	<table style="border: medium none ; border-collapse: collapse;">  
 	<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
@@ -48,6 +48,12 @@
     
     </div>
     
+	<c:forEach items="${KualiForm.awardHierarchyNodes}" var="tempNode" varStatus="status">
+		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}.y" />  
+		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}.y" />
+		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
+		${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
+	</c:forEach> 
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
 	
 	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">
