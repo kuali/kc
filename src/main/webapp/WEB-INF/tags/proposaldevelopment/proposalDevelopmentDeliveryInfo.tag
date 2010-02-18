@@ -49,9 +49,11 @@
                 <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailingAddressId}"/></div></th>
                 <td align="left" valign="middle">
+                    <c:if test="${!readOnly}">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].mailingAddressId" attributeEntry="${proposalDevelopmentAttributes.mailingAddressId}" />
                     <c:if test="${!empty KualiForm.document.developmentProposalList[0].rolodex.lastName}" >
                     <c:out value="${KualiForm.document.developmentProposalList[0].rolodex.lastName}, ${KualiForm.document.developmentProposalList[0].rolodex.firstName}"/>
+                    </c:if>
                     </c:if>    
                           
 					<c:choose>
@@ -62,9 +64,10 @@
 						<c:set var="mailingInfo" value="(select)" />
 					</c:otherwise>
 					</c:choose>
-					<c:if test="${empty readOnly or readOnly != true}" >  
+					<c:if test="${empty readOnly or !readOnly}" >  
 						${mailingInfo}
 						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.developmentProposalList[0].mailingAddressId,firstName:document.developmentProposalList[0].rolodex.firstName,lastName:document.developmentProposalList[0].rolodex.lastName,organization:document.developmentProposalList[0].rolodex.organization,addressLine1:document.developmentProposalList[0].rolodex.addressLine1,addressLine2:document.developmentProposalList[0].rolodex.addressLine2,addressLine3:document.developmentProposalList[0].rolodex.addressLine3,city:document.developmentProposalList[0].rolodex.city,state:document.developmentProposalList[0].rolodex.state" anchor="${currentTabIndex}"/><br>
+	                </c:if>
 	                    <c:if test="${!empty KualiForm.document.developmentProposalList[0].rolodex.firstName}" >
 	                    <span id="mailingFirstName">${KualiForm.document.developmentProposalList[0].rolodex.firstName}</span>&nbsp;
 	                    </c:if>                      
@@ -92,11 +95,11 @@
 	                    <c:if test="${!empty KualiForm.document.developmentProposalList[0].rolodex.state}" >
 	                    <span id="mailingState"><c:out value="${KualiForm.document.developmentProposalList[0].rolodex.state}"/></span><br/>
 	                    <div align="right"> 
+	                       <c:if test="${!readOnly}">
 	                         <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+	                       </c:if>
 	                    </div>
 	                    </c:if>
-	                    
-                    </c:if>
                 </td>
                 
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
