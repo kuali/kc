@@ -45,6 +45,8 @@ import noNamespace.SpecialReviewType2;
 import noNamespace.UnitType;
 import noNamespace.InstituteProposalDocument.InstituteProposal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KcPerson;
@@ -71,7 +73,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.mortbay.log.Log;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution
@@ -81,6 +82,8 @@ import org.mortbay.log.Log;
  */
 public class InstitutionalProposalXmlStream extends
 		InstitutionalProposalBaseStream {
+    
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalXmlStream.class);
 	
 	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
 	private static final String COST_SHARING_COMMENT_CODE;
@@ -343,7 +346,7 @@ public class InstitutionalProposalXmlStream extends
 	            schoolInfoType.setSchoolName(schoolName);
 	        }
 		} catch (IllegalArgumentException ex) {
-	        Log.warn("Unable to find parameter " + SCHOOL_NAME);
+		    LOG.warn("Unable to find system parameter " + SCHOOL_NAME);
 	    }
 		try {
 		    String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
@@ -351,7 +354,7 @@ public class InstitutionalProposalXmlStream extends
 	            schoolInfoType.setAcronym(schoolAcronym);
 	        }
 		} catch (IllegalArgumentException ex) {
-		    Log.warn("Unable to find parameter " + SCHOOL_ACRONYM);
+		    LOG.warn("Unable to find system parameter " + SCHOOL_ACRONYM);
 		}
 		
 		return schoolInfoType;
