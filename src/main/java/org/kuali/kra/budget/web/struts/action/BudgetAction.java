@@ -103,10 +103,14 @@ public class BudgetAction extends BudgetActionBase {
         if (budget.getActivityTypeCode().equals("x")) {
             budget.setActivityTypeCode(KraServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budgetDocument));
         }
+
+        // this is to prevent item calamts to be regenerated again when load doc from doc search
+        // getting uglier.  definitely candidate for refactoring
         if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
-            // this is to prevent item calamts to be regenerated again when load doc from doc search
-            // getting uglier.  definitely candidate for refactoring
             ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
+        }        
+        if(budget.getUrRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
+            ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }        
 
         reconcileBudgetStatus(budgetForm);
