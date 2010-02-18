@@ -35,6 +35,7 @@ public class OpenAwardBudgetAuthorizer extends AwardAuthorizer {
         AwardDocument doc = task.getAward().getAwardDocument();
         
         return kraWorkflowService.hasWorkflowPermission(userId, doc) || 
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.VIEW_AWARD_BUDGET.getAwardPermission());       
+                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission()) ||       
+                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.VIEW_AWARD_BUDGET.getAwardPermission());       
     }
 }

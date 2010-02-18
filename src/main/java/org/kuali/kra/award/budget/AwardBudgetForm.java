@@ -15,9 +15,24 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AwardBudgetForm extends BudgetForm {
     /**
@@ -48,6 +63,44 @@ public class AwardBudgetForm extends BudgetForm {
     }
     public String getActionPrefix(){
         return "awardBudget";
+    }
+
+    public AwardBudgetDocument getAwardBudgetDocument() {
+        return (AwardBudgetDocument)super.getBudgetDocument();
+    }
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        AwardBudgetDocument doc = this.getAwardBudgetDocument();
+        String externalImageURL = "kra.externalizable.images.url";
+        
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.POST_AWARD_BUDGET,doc ))) {
+            String submitToGrantsGovImage = buildExtraButtonSourceURI("buttonsmall_postawardbudget.gif");
+            addExtraButton("methodToCall.postAwardBudget", submitToGrantsGovImage, "Post Budget");
+        
+        }
+        
+        return extraButtons;
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
     }
     
 }

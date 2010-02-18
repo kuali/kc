@@ -16,9 +16,13 @@
 package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -27,38 +31,15 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AwardBudgetModifyAuthorizer extends BudgetAuthorizer {
+public class ModifyAwardBudgetAuthorizer extends BudgetAuthorizer {
  
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, Task task) {
-        return true;
-//        BudgetTask budgetTask = (BudgetTask) task;
-//        
-//        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
-//        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-//        
-//        return !kraWorkflowService.isInWorkflow(doc) &&
-//               hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&
-//              !doc.getDevelopmentProposal().getSubmitFlag();        
-    }
-    
-    /**
-     * If the Budget Document completed or not?
-     * @param proposalDoc the proposal development document
-     * @param budgetDocument the budget document
-     * @return true if completed; otherwise false
-     */
-    private boolean isBudgetCompleted(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
-        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
-            return false;
-        }
-        for (BudgetDocumentVersion budgetVersion: proposalDoc.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag() && budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
-                return true;
-            }
-        }
-        return false;
+            AwardBudgetTask budgetTask = (AwardBudgetTask) task;
+            AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
+            return !budgetDocument.isViewOnly() && !kraWorkflowService.isInWorkflow(budgetDocument) && 
+                    hasUnitPermission(userId, budgetDocument.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission());
     }
 }

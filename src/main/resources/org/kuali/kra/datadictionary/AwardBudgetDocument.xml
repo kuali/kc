@@ -8,8 +8,8 @@
     
     <property name="documentTypeName" value="AwardBudgetDocument"/>
     <property name="documentClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.document.BudgetDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer"/>
+    <property name="businessRulesClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.award.budget.document.authorization.AwardBudgetDocumentAuthorizer"/>
     
     <property name="attributes">
       <list>

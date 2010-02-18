@@ -83,7 +83,15 @@
             	<td class="infoline">&nbsp;</td>
 	            <td class="infoline">
             		<div align=center>
-            			<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+            		<c:choose>
+    					<c:when test="${proposalBudgetFlag}">
+            				<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+            			</c:when>
+						<c:otherwise>
+    				    	<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
+    				    	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' />
+    					</c:otherwise>
+					</c:choose>
 					</div>
 				</td>
           	</tr>
