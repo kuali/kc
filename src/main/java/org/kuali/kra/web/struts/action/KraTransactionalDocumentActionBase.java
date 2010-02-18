@@ -24,6 +24,7 @@ import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -55,6 +56,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
@@ -83,6 +85,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -697,6 +700,31 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         }
         return bo;
+    }
+    
+    protected void streamToResponse(AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
     }
 
 

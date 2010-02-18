@@ -396,31 +396,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    public void streamToResponse(AttachmentDataSource attachmentDataSource,
-            HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-
-            WebUtils
-                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
-
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                // LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
-    }
-
     public ActionForward printChangeReport(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
