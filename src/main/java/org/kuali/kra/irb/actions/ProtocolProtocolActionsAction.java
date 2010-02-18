@@ -61,7 +61,8 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
-import org.kuali.kra.irb.actions.expire.ProtocolExpireService;
+//import org.kuali.kra.irb.actions.expire.ProtocolExpireService;
+import org.kuali.kra.irb.actions.genericactions.GenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -1408,7 +1409,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-        getProtocolExpireService().expire(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        //getProtocolExpireService().expire(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().expire(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         getReviewerCommentsService().persistReviewerComments(
                 actionBean.getReviewComments(), 
@@ -1449,9 +1451,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
+    /*
     private ProtocolExpireService getProtocolExpireService() {
         return KraServiceLocator.getService(ProtocolExpireService.class);
-    }
+    }*/
     
     public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -1691,5 +1694,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ActionForward moveDownReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
         comments.moveDown(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private GenericActionService getGenericActionService(){
+        return KraServiceLocator.getService(GenericActionService.class);
     }
 }

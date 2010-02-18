@@ -452,10 +452,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="protocolExpireService" class="org.kuali.kra.irb.actions.expire.ProtocolExpireServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
     <bean id="protocolTerminateService" class="org.kuali.kra.irb.actions.terminate.ProtocolTerminateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
