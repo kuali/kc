@@ -51,71 +51,47 @@ public class GenericActionServiceImpl implements GenericActionService {
     
     /**{@inheritDoc}**/
     public void approve(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.APPROVED, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.APPROVED, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
     
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.CLOSED_ADMINISTRATIVELY);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
     }
     
     /**{@inheritDoc}**/
     public void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.CLOSED_FOR_ENROLLMENT, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT);
     }
     
     /**{@inheritDoc}**/
     public void expire(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.EXPIRED, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.EXPIRED);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.EXPIRED, ProtocolStatus.EXPIRED);
     }
 
     /**{@inheritDoc}**/
     public void permitDataAnalysis(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.DATA_ANALYSIS_ONLY, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY);
     }
 
     /**{@inheritDoc}**/
     public void reopen(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.REOPEN_ENROLLMENT, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
 
     /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.SUSPENDED, actionBean.getComments(), actionBean.getActionDate());
         if (isIrbAdministrator()) {
-            protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_IRB);
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
         } 
         else {
-            protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_PI);
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI);
         }
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
     }
     
     /**{@inheritDoc}**/
     public void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.SUSPENDED_BY_DSMB, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.SUSPENDED_BY_DSMB);
-        protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolStatus.SUSPENDED_BY_DSMB);
     }
     
     private boolean isIrbAdministrator() {
@@ -130,8 +106,18 @@ public class GenericActionServiceImpl implements GenericActionService {
     
     /**{@inheritDoc}**/
     public void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        addAction(protocol, ProtocolActionType.TERMINATED, actionBean.getComments(), actionBean.getActionDate());
-        protocol.setProtocolStatusCode(ProtocolStatus.TERMINATED_BY_IRB);
+        performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
+    }
+    
+    private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
+            String protocolActionType, String newProtocolStatus) throws Exception {
+        
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
+        protocolAction.setComments(actionBean.getComments());
+        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+        protocol.getProtocolActions().add(protocolAction);
+        
+        protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
     }
