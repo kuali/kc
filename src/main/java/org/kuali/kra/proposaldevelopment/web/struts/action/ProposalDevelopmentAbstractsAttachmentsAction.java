@@ -249,7 +249,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @param response
      * @throws Exception
      */
-    private void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
+    @Override
+    protected void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
         byte[] xbts = attachmentDataSource.getContent();
         ByteArrayOutputStream baos = null;
         try{

@@ -21,6 +21,7 @@
     	<h3>
     		<span class="subhead-left">Print</span>
         </h3>
+        <kra-ip:printNotice />
         <kra:printReports requestUri="/institutionalProposalActions.do"/>
     </div> 
 </kul:tab>

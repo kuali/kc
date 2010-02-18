@@ -71,6 +71,7 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.mortbay.log.Log;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution
@@ -336,14 +337,23 @@ public class InstitutionalProposalXmlStream extends
 	private IPSchoolInfoType getSchoolInfoType() {
 		IPSchoolInfoType schoolInfoType = IPSchoolInfoType.Factory
 				.newInstance();
-		String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
-		if (schoolName != null) {
-			schoolInfoType.setSchoolName(schoolName);
+		try {
+		    String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
+		    if (schoolName != null) {
+	            schoolInfoType.setSchoolName(schoolName);
+	        }
+		} catch (IllegalArgumentException ex) {
+	        Log.warn("Unable to find parameter " + SCHOOL_NAME);
+	    }
+		try {
+		    String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
+		    if (schoolAcronym != null) {
+	            schoolInfoType.setAcronym(schoolAcronym);
+	        }
+		} catch (IllegalArgumentException ex) {
+		    Log.warn("Unable to find parameter " + SCHOOL_ACRONYM);
 		}
-		if (schoolAcronym != null) {
-			schoolInfoType.setAcronym(schoolAcronym);
-		}
+		
 		return schoolInfoType;
 	}
 
