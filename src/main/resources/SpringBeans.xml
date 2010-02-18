@@ -1644,9 +1644,6 @@
 		<property name="budgetService">
 			<ref bean="budgetService" />
 		</property> 
-		<property name="budgetCalculationService">
-			<ref bean="budgetCalculationService"/>
-		</property>
 		<property name="propPersonBioService">
 			<ref bean="proposalPersonBiographyService"/>
 		</property>
