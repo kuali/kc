@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-class DatesDataFeedCommand extends ProposalDataFeedCommandBase {
-
-    public DatesDataFeedCommand(Award award, InstitutionalProposal proposal) {
+class CustomDataDataFeedCommand extends ProposalDataFeedCommandBase {
+    
+    public CustomDataDataFeedCommand(Award award, InstitutionalProposal proposal) {
         super(award, proposal);
     }
 
@@ -29,8 +31,13 @@ class DatesDataFeedCommand extends ProposalDataFeedCommandBase {
      */
     @Override
     void performDataFeed() {
-        award.setBeginDate(proposal.getRequestedStartDateTotal());
-        award.setProjectEndDate(proposal.getRequestedEndDateTotal()); 
+        for (InstitutionalProposalCustomData ipCustomData : proposal.getInstitutionalProposalCustomDataList()) {
+            for (AwardCustomData awardCustomData : award.getAwardCustomDataList()) {
+                if (ipCustomData.getCustomAttributeId().equals(awardCustomData.getCustomAttributeId())) {
+                    awardCustomData.setValue(ipCustomData.getValue());
+                }
+            }
+        }
     }
 
 }

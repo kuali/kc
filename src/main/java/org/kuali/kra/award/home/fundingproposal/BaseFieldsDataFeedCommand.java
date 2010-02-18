@@ -18,20 +18,20 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-class SponsorDataFeedCommand extends ProposalDataFeedCommandBase {
-
-    public SponsorDataFeedCommand(Award award, InstitutionalProposal proposal) {
+class BaseFieldsDataFeedCommand extends ProposalDataFeedCommandBase {
+    
+    public BaseFieldsDataFeedCommand(Award award, InstitutionalProposal proposal) {
         super(award, proposal);
     }
 
+    /**
+     * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
+     */
     @Override
     void performDataFeed() {
-        award.setSponsor(proposal.getSponsor());
-        award.setSponsorCode(proposal.getSponsorCode());
-        award.setPrimeSponsor(proposal.getPrimeSponsor());
-        award.setPrimeSponsorCode(proposal.getPrimeSponsorCode());
-        award.setCfdaNumber(proposal.getCfdaNumber());
-        award.setNsfCode(proposal.getNsfCode());
+        award.setActivityType(proposal.getActivityType());
+        award.setActivityTypeCode(proposal.getActivityTypeCode());
+        award.setTitle(proposal.getTitle());
     }
 
 }
