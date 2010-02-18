@@ -49,10 +49,12 @@
                 <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.rolodexId}"/></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.institutionalProposal.rolodexId" attributeEntry="${institutionalProposalAttributes.rolodexId}" />
-                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.lastName}" >
-                    <c:out value="${KualiForm.document.institutionalProposal.rolodex.lastName}, ${KualiForm.document.institutionalProposal.rolodex.firstName}"/>
-                    </c:if>    
+                    <c:if test="${!readOnly}" > 
+                	    <kul:htmlControlAttribute property="document.institutionalProposal.rolodexId" attributeEntry="${institutionalProposalAttributes.rolodexId}" />
+                        <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.lastName}" >
+                            <c:out value="${KualiForm.document.institutionalProposal.rolodex.lastName}, ${KualiForm.document.institutionalProposal.rolodex.firstName}"/>
+                        </c:if>    
+                    </c:if>
                           
 					<c:choose>
 					<c:when test="${!empty KualiForm.document.institutionalProposal.rolodex.addressLine1 || !empty KualiForm.document.institutionalProposal.rolodex.addressLine2 || !empty KualiForm.document.institutionalProposal.rolodex.addressLine3 ||!empty KualiForm.document.institutionalProposal.rolodex.city ||!empty KualiForm.document.institutionalProposal.rolodex.state}">  
@@ -62,9 +64,10 @@
 						<c:set var="mailingInfo" value="(select)" />
 					</c:otherwise>
 					</c:choose>
-					<c:if test="${empty readOnly or readOnly != true}" >  
-						${mailingInfo}
+					<c:if test="${empty readOnly or !readOnly}" >  
+						<c:out value="${mailingInfo}"/>
 						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId,firstName:document.institutionalProposal.rolodex.firstName,lastName:document.institutionalProposal.rolodex.lastName,organization:document.institutionalProposal.rolodex.organization,addressLine1:document.institutionalProposal.rolodex.addressLine1,addressLine2:document.institutionalProposal.rolodex.addressLine2,addressLine3:document.institutionalProposal.rolodex.addressLine3,city:document.institutionalProposal.rolodex.city,state:document.institutionalProposal.rolodex.state" anchor="${currentTabIndex}"/><br>
+	                </c:if>
 	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.firstName}" >
 	                    <span id="mailingFirstName">${KualiForm.document.institutionalProposal.rolodex.firstName}</span>&nbsp;
 	                    </c:if>                      
@@ -93,9 +96,10 @@
 	                    <span id="mailingState"><c:out value="${KualiForm.document.institutionalProposal.rolodex.state}"/></span><br/>
 	                    </c:if>
 	                    <div align="right"> 
+	                       <c:if test="${!readOnly}" >
 	                         <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+	                       </c:if>
 	                    </div>
-                    </c:if>
                 </td>
                 
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailDescription}"  /></div></th>
