@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetService;
@@ -112,7 +111,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ProposalHierarchyDao proposalHierarchyDao;
     private NarrativeService narrativeService;
     private BudgetService budgetService;
-    private BudgetCalculationService budgetCalculationService;
     private ProposalPersonBiographyService propPersonBioService;
     private ParameterService parameterService;
     private IdentityManagementService identityManagementService;
@@ -184,14 +182,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
-    }
-
-    /**
-     * Sets the budgetCalculationService attribute value.
-     * @param budgetCalculationService The budgetCalculationService to set.
-     */
-    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
-        this.budgetCalculationService = budgetCalculationService;
     }
 
     /**
@@ -767,7 +757,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
         GlobalVariables.setKualiForm(null);
-        budgetCalculationService.calculateBudget(hierarchyBudget);
+        //budgetCalculationService.calculateBudget(hierarchyBudget);
+        sumHierarchyBudget(hierarchyBudget);
         GlobalVariables.setKualiForm(oldForm);
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
@@ -891,7 +882,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 childPeriod = childPeriods.get(j);
                 if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
                         || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
-                    retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, "" + j);
+                    retval = new ProposalHierarchyErrorDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, childProposal.getProposalNumber());
                     break;
                 }
             }
@@ -1088,7 +1079,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private int computeHierarchyHashCode(DevelopmentProposal proposal, Budget budget) {
         int prime = 31;
         int result = 1;
-        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        //budgetCalculationService.calculateBudgetSummaryTotals(budget);
         for (ProposalPerson person : proposal.getProposalPersons()) {
             result = prime * result + person.hashCode();
         }
@@ -1101,7 +1092,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (ProposalSpecialReview review : proposal.getPropSpecialReviews()) {
             result = prime * result + review.hierarchyHashCode();
         }
-        result = prime * result + budget.getBudgetSummaryTotals().hashCode();
+        //result = prime * result + budget.getBudgetSummaryTotals().hashCode();
         return result;
     }
 
@@ -1382,5 +1373,20 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         boolean isInvestigator2 = StringUtils.equals(person2.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || StringUtils.equals(person2.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
         return isInvestigator1 == isInvestigator2;
+    }
+    
+    private void sumHierarchyBudget(Budget budget) {
+        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+            period.setCostSharingAmount(period.getSumCostSharingAmountFromLineItems());
+            period.setTotalCost(period.getSumTotalCostAmountFromLineItems());
+            period.setTotalDirectCost(period.getSumDirectCostAmountFromLineItems());
+            period.setTotalIndirectCost(period.getSumIndirectCostAmountFromLineItems());
+            period.setUnderrecoveryAmount(period.getSumUnderreoveryAmountFromLineItems());
+        }
+        budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
+        budget.setTotalCost(budget.getSumTotalCostAmountFromPeriods());
+        budget.setTotalDirectCost(budget.getSumDirectCostAmountFromPeriods());
+        budget.setTotalIndirectCost(budget.getSumIndirectCostAmountFromPeriods());
+        budget.setUnderrecoveryAmount(budget.getSumUnderreoveryAmountFromPeriods());
     }
 }
