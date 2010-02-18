@@ -232,7 +232,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassTypeT())) {
                 rateClassType = budgetLaRate.getRateClass().getRateClassTypeT().getDescription();
             }
-            String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
+            String errorPath = "budgetRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
             if(budgetLaRate.isApplicableRateNull()) {
@@ -422,7 +422,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         return retval;
     }
     
-    private boolean processRunAuditBudgetVersionRule(BudgetParentDocument parentDocument) {
+    protected boolean processRunAuditBudgetVersionRule(BudgetParentDocument parentDocument) {
         // audit check for budgetversion with final status
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
@@ -451,10 +451,6 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         }
 
         return retval;
-    }
-    
-    private ProposalDevelopmentService getProposalDevelopmentService() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
     
     public boolean processSyncModularBusinessRules(Document document) {

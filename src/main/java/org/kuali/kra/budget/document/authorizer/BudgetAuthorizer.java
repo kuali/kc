@@ -18,6 +18,9 @@ package org.kuali.kra.budget.document.authorizer;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Base class for Narrative Authorizers.
@@ -46,4 +49,27 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
     protected final boolean hasParentPermission(String userId, BudgetParentDocument doc, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
+    
+    /**
+     * Get the corresponding workflow document.  
+     * @param doc the document
+     * @return the workflow document or null if there is none
+     */
+    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
+        KualiWorkflowDocument workflowDocument = null;
+        if (doc != null) {
+            DocumentHeader header = doc.getDocumentHeader();
+            if (header != null) {
+                try {
+                    workflowDocument = header.getWorkflowDocument();
+                } 
+                catch (RuntimeException ex) {
+                    // do nothing; there is no workflow document
+                }
+            }
+        }
+        return workflowDocument;
+    }
+    
+    
 }

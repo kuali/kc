@@ -20,11 +20,12 @@ package org.kuali.kra.infrastructure;
  * This class...
  */
 public enum AwardPermissionConstants {
-    VIEW_ANY_PROPOSAL("View Any Proposal"),APPROVE_AWARD_BUDGET("Approve Award Budget"),CREATE_AWARD_BUDGET("Create Award Budget")
-        ,MAINTAIN_AWARD_BUDGET_ROUTING("Maintain Award Budget Routing"),POST_AWARD_BUDGET("Post AwardBudget")
-        ,SUBMIT_ANY_AWARD_BUDGET("Submit Any Award Budget"),CREATE_AWARD("Create Award"),MAINTAIN_REPORTING_REQUIREMENTS("Maintain Reporting Requirements")
-        ,MODIFY_AWARD("Modify Award"),VIEW_AWARD("View Award"),MAINTAIN_NOTEPAD_ENTRIES("Maintain Notepad Entries"),MODIFY_AWARD_BUDGET("Modify AwardBudget")
-        ,SUBMIT_AWARD_BUDGET("Submit AwardBudget"),VIEW_AWARD_BUDGET("View AwardBudget"),MAINTAIN_AWARD_DOCUMENTS("Maintain Award Documents")
+        VIEW_ANY_PROPOSAL("View Any Proposal"),APPROVE_AWARD_BUDGET("Approve AwardBudget"),CREATE_AWARD_BUDGET("Create AwardBudget")
+        ,MODIFY_AWARD_BUDGET("Modify AwardBudget"),SUBMIT_AWARD_BUDGET("Submit AwardBudget"),VIEW_AWARD_BUDGET("View AwardBudget")
+        ,MAINTAIN_AWARD_BUDGET_ROUTING("Maintain AwardBudgetRouting"),POST_AWARD_BUDGET("Post AwardBudget")
+        ,CREATE_AWARD("Create Award"),MAINTAIN_REPORTING_REQUIREMENTS("Maintain Reporting Requirements")
+        ,MODIFY_AWARD("Modify Award"),VIEW_AWARD("View Award"),MAINTAIN_NOTEPAD_ENTRIES("Maintain Notepad Entries")
+        ,MAINTAIN_AWARD_DOCUMENTS("Maintain Award Documents")
         ,VIEW_AWARD_DOCUMENTS("View Award Documents"),VIEW_AWARDS_AT_UNIT("View Award At Unit"),VIEW_AWARD_TEMPLATE("View Award Template");
 
     private String permission;   

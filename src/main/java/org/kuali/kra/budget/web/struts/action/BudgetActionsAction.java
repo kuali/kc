@@ -35,6 +35,10 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetForm;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -307,4 +311,88 @@ public class BudgetActionsAction extends BudgetAction {
             }
         }
     }
+    
+    /**
+     * route the document using the document service
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        boolean success = isValidForSubmission(awardBudgetDocument);    
+        getAwardBudgetService().processSubmision(awardBudgetDocument);   
+        return super.route(mapping, form, request, response);
+    }
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
+    }
+
+    /**
+     * route the document using the document service
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        boolean success = isValidForSubmission(awardBudgetDocument);
+        ActionForward actionForward = super.approve(mapping, form, request, response);
+        getAwardBudgetService().processApproval(awardBudgetDocument);   
+        return actionForward;
+    }
+
+    /**
+     * route the document using the document service
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    @Override
+    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        boolean success = isValidForSubmission(awardBudgetDocument);
+        getAwardBudgetService().processDisapproval(awardBudgetDocument);   
+        return super.disapprove(mapping, form, request, response);
+    }
+    private boolean isValidForSubmission(AwardBudgetDocument awardBudgetDocument) {
+        return false;
+    }
+    /**
+     * route the document using the document service
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward postAwardBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        boolean success = isValidForPost(awardBudgetDocument);
+        getAwardBudgetService().post(awardBudgetDocument);   
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private boolean isValidForPost(AwardBudgetDocument awardBudgetDocument) {
+        return false;
+    }
+    
 }

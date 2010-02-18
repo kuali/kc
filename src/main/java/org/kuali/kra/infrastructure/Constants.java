@@ -545,4 +545,6 @@ public interface Constants {
     public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
     public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "A";
     public static final String AWARD_BUDGET_STATUS_IN_PROGRESS_CODE = "AWARD_BUDGET_STATUS_IN_PROGRESS_CODE";
+    public static final String AWARD_BUDGET_TYPE_REBUDGET_CODE = "AWARD_BUDGET_TYPE_REBUDGET_CODE";
+    public static final String MODULE_NAMESPACE_AWARD_BUDGET = "KC-AB";
 }

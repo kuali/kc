@@ -604,12 +604,15 @@ public class BudgetForm extends BudgetVersionFormBase {
         extraTopButtons.add(configureReturnToParentTopButton());
     }
     
+    public List<ExtraButton> getExtraActionsButtons() {
+        return new ArrayList<ExtraButton>();
+    }
     /**
      * This method does what its name says
      * @param buttonFileName
      * @return
      */
-    private String buildExtraButtonSourceURI(String buttonFileName) {
+    protected String buildExtraButtonSourceURI(String buttonFileName) {
         return lookupKualiConfigurationService().getPropertyString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 

@@ -16,12 +16,17 @@
 package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The AwardBudget Modify Authorizer checks to see if the user has 
@@ -32,16 +37,18 @@ import org.kuali.kra.infrastructure.Constants;
 public class ApproveAwardBudgetAuthorizer extends BudgetAuthorizer {
  
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ApproveAwardBudgetAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, Task task) {
-        BudgetTask budgetTask = (BudgetTask) task;
+        AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
-        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
+        AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
         AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
-        
-        return kraWorkflowService.hasWorkflowPermission(userId, budgetDocument) && 
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.APPROVE_AWARD_BUDGET.getAwardPermission());
+        KualiWorkflowDocument workflowDoc = getWorkflowDocument(doc);
+        return kraWorkflowService.isEnRoute(budgetDocument) && 
+                kraWorkflowService.hasWorkflowPermission(userId, budgetDocument);
+//        && 
+//                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.APPROVE_AWARD_BUDGET.getAwardPermission());
     }
-    
+
 }
