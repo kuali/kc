@@ -241,9 +241,7 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
-    //Moved the GenericActionServiceTest here as it is failing while being worked on.
-    org.kuali.kra.irb.actions.genericactions.GenericActionsServiceTest.class
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class
     
 })
 /**

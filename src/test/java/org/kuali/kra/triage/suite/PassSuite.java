@@ -395,7 +395,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRuleTest.class,
     org.kuali.kra.irb.protocol.location.ProtocolLocationServiceTest.class,
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
-    org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class
+    org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
+    org.kuali.kra.irb.actions.genericactions.GenericActionsServiceTest.class
 
 
 })
