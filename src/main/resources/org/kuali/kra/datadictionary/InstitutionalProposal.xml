@@ -155,8 +155,8 @@
     <bean id="InstitutionalProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Number" />
-        <property name="shortLabel" value="Proposal Number" />
+        <property name="label" value="Institutional Proposal ID" />
+        <property name="shortLabel" value="IP ID" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -410,7 +410,7 @@
         <property name="name" value="activityTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Activity Type" />
-        <property name="shortLabel" value="Activity Type Code" />
+        <property name="shortLabel" value="Activity" />
          <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -432,7 +432,7 @@
     <bean id="InstitutionalProposal-requestedStartDateInitial" parent="InstitutionalProposal-requestedStartDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedStartDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedStartDateInitial" />
-        <property name="label" value="Requested Start Date" />
+        <property name="label" value="Initial Requested Start Date" />
         <property name="shortLabel" value="Requested Start Date" />
         <property name="summary" value="Requested Start Date Initial" />
         <property name="description" value="Requested Start Date Initial" />
@@ -441,7 +441,7 @@
     <bean id="InstitutionalProposal-requestedStartDateTotal" parent="InstitutionalProposal-requestedStartDateTotal-parentBean" />
     <bean id="InstitutionalProposal-requestedStartDateTotal-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedStartDateTotal" />
-        <property name="label" value="Requested Start Date Total" />
+        <property name="label" value="Total Requested Start Date" />
         <property name="shortLabel" value="Requested Start Date Total" />
         <property name="summary" value="Requested Start Date Total" />
         <property name="description" value="Requested Start Date Total" />
@@ -450,7 +450,7 @@
     <bean id="InstitutionalProposal-requestedEndDateInitial" parent="InstitutionalProposal-requestedEndDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedEndDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedEndDateInitial" />
-        <property name="label" value="Requested End Date" />
+        <property name="label" value="Initial Requested End Date" />
         <property name="shortLabel" value="Requested End Date" />
         <property name="summary" value="Requested End Date Initial" />
         <property name="description" value="Requested End Date Initial" />
@@ -459,7 +459,7 @@
     <bean id="InstitutionalProposal-requestedEndDateTotal" parent="InstitutionalProposal-requestedEndDateTotal-parentBean" />
     <bean id="InstitutionalProposal-requestedEndDateTotal-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedEndDateTotal" />
-        <property name="label" value="Requested End Date Total" />
+        <property name="label" value="Total Requested End Date" />
         <property name="shortLabel" value="Requested End Date Total" />
         <property name="summary" value="Requested End Date Total" />
         <property name="description" value="Requested End Date Total" />
@@ -469,7 +469,7 @@
     <bean id="InstitutionalProposal-totalDirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalDirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Direct Cost" />
+        <property name="label" value="Initial Total Direct Cost" />
         <property name="shortLabel" value="Total Direct Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
@@ -491,7 +491,7 @@
     <bean id="InstitutionalProposal-totalDirectCostTotal-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalDirectCostTotal" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Direct Cost Total" />
+        <property name="label" value="Total Total Direct Cost" />
         <property name="shortLabel" value="Total Direct Cost Total" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
@@ -513,8 +513,8 @@
     <bean id="InstitutionalProposal-totalIndirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalIndirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Indirect Cost" />
-        <property name="shortLabel" value="Total Indirect Cost" />
+        <property name="label" value="Initial F&amp;A Cost" />
+        <property name="shortLabel" value="Initial F&amp;A Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       		<bean parent="FixedPointValidationPattern"
@@ -535,8 +535,8 @@
     <bean id="InstitutionalProposal-totalIndirectCostTotal-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalIndirectCostTotal" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Indirect Cost Total" />
-        <property name="shortLabel" value="Total Indirect Cost Total" />
+        <property name="label" value="Total F&amp;A Cost" />
+        <property name="shortLabel" value="Total F&amp;A Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       		<bean parent="FixedPointValidationPattern"
@@ -879,22 +879,22 @@
 	<bean id="InstitutionalProposal-leadUnit.unitNumber" parent="InstitutionalProposal-leadUnit.unitNumber-parentBean" />
     <bean id="InstitutionalProposal-leadUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
         <property name="name" value="leadUnit.unitNumber" />
-        <property name="label" value="Unit Number" />
-        <property name="shortLabel" value="Unit Number" />
+        <property name="label" value="Lead Unit ID" />
+        <property name="shortLabel" value="Unit ID" />
     </bean>
     
     <bean id="InstitutionalProposal-leadUnit.unitName" parent="InstitutionalProposal-leadUnit.unitName-parentBean" />
     <bean id="InstitutionalProposal-leadUnit.unitName-parentBean" abstract="true" parent="Unit-unitName">
         <property name="name" value="leadUnit.unitName" />
-        <property name="label" value="Unit Name" />
+        <property name="label" value="Lead Unit Name" />
         <property name="shortLabel" value="Unit Name" />
     </bean>
     
     <bean id="InstitutionalProposal-principalInvestigator.fullName" parent="InstitutionalProposal-principalInvestigator.fullName-parentBean" />
     <bean id="InstitutionalProposal-principalInvestigator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="principalInvestigator.fullName" />
-        <property name="label" value="Principal Investigator Name" />
-        <property name="shortLabel" value="PI Name" />
+        <property name="label" value="Principal Investigator" />
+        <property name="shortLabel" value="Investigator" />
     </bean>
     
     <bean id="InstitutionalProposal-sponsor.sponsorName" parent="InstitutionalProposal-sponsor.sponsorName-parentBean" />
@@ -915,7 +915,7 @@
     <bean id="InstitutionalProposal-activityType.description" parent="InstitutionalProposal-activityType.description-parentBean" />
     <bean id="InstitutionalProposal-activityType.description-parentBean" abstract="true" parent="ActivityType-description">
         <property name="name" value="activityType.description" />
-        <property name="label" value="Activity" />
+        <property name="label" value="Activity Type" />
         <property name="shortLabel" value="Activity" />
     </bean>
     
@@ -956,11 +956,11 @@
                     p:attributeName="currentAccountNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="leadUnit.unitNumber" />
-                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true"
+                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
                     p:attributeName="leadUnit.unitName" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="principalInvestigator.fullName" />
                 <bean parent="FieldDefinition" 
                     p:attributeName="sponsorCode" />
