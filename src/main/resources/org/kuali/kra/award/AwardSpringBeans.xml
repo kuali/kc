@@ -70,7 +70,7 @@
          </property>
      </bean>
      
-    <bean id="awardBudgetVersionsWebAuthorizer"
+    <bean id="awardBudgetsWebAuthorizer"
           class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
 
         <property name="classname"
@@ -253,6 +253,11 @@
 	
 	<bean id="awardTransactionLookupService" class="org.kuali.kra.award.lookup.AwardTransactionLookupServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	<bean id="awardBudgetService" class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
 	</bean>
 
 </beans>

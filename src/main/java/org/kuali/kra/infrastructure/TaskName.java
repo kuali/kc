@@ -127,5 +127,8 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
     
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "answerProtocolQuestionnaire";
+    public static final String APPROVE_AWARD_BUDGET = "approveAwardBudget";
+    public static final String DISAPPROVE_AWARD_BUDGET = "disapproveAwardBudget";
+    public static final String POST_AWARD_BUDGET = "postAwardBudget";
 
 }

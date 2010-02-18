@@ -14,17 +14,36 @@
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/awardBudgetVersions.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
+			<policies>
+              <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+              </policy>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+            </policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" />
+					<start name="Initiated" nextNode="AwardBudgetOSPApproval"/><!--
+					<requests name="AwardBudgetInitialApproval" nextNode="AwardBudgetOSPApproval"/>
+					--><requests name="AwardBudgetOSPApproval"/>
 				</routePath>
 			</routePaths>
 			<routeNodes>
 				<start name="Initiated">
-					<activationType>P</activationType>
-					<mandatoryRoute>false</mandatoryRoute>
-					<finalApproval>false</finalApproval>
-				</start>
+					<activationType>S</activationType>
+				</start><!--
+				<role name="AwardBudgetInitialApproval">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+	            </role>
+				--><role name="AwardBudgetOSPApproval">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+                    <finalApproval>true</finalApproval>
+	            </role>
 			</routeNodes>
 		</documentType>
 	</documentTypes>

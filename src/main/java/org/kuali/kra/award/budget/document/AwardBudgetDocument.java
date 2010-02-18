@@ -15,13 +15,35 @@
  */
 package org.kuali.kra.award.budget.document;
 
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3564659576355229703L;
+    /**
+     * 
+     * This method returns Budget object. Creates new budget instance if the budgets list is empty
+     * @return Budget
+     */
+    public Budget getBudget(){
+        if(getBudgets().isEmpty()){
+            getBudgets().add(new AwardBudgetExt());
+        }
+        return getBudgets().get(0);
+    }
+    
+    public AwardBudgetExt getAwardBudget(){
+        return (AwardBudgetExt)getBudget();
+    }
 
 }

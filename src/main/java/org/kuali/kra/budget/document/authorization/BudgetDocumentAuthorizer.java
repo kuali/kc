@@ -92,7 +92,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPermissions(String userId, BudgetParentDocument doc, Set<String> editModes) {
+    protected void setPermissions(String userId, BudgetParentDocument doc, Set<String> editModes) {
         if (canExecuteParentDocumentTask(userId, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
@@ -132,15 +132,20 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteBudgetTask(String userId, BudgetDocument budgetDocument, String taskName) {
-        String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
-        if(budgetDocument.getParentDocument()!=null){
-            taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
-        }
-        BudgetTask task = new BudgetTask(taskGroupName,taskName, budgetDocument);       
+        String taskGroupName = getTaskGroupName();
+        Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
+    protected Task createNewBudgetTask(String taskGroupName, String taskName, BudgetDocument budgetDocument) {
+        return new BudgetTask(taskGroupName,taskName, budgetDocument);
+    }
+
+    protected String getTaskGroupName() {
+        return TaskGroupName.PROPOSAL_BUDGET;
+    }
+
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */

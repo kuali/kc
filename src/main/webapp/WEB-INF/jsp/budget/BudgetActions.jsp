@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
+<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -52,6 +53,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
+		extraButtons="${extraButtons}"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 

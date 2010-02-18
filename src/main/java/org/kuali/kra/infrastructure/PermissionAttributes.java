@@ -30,7 +30,7 @@ public class PermissionAttributes {
     private static final String DOC_TYPE_MEETING_MANAGEMENT = "MeetingManagementDocument";
     private static final String DOC_TYPE_AWARD = "AwardDocument";
     private static final String DOC_TYPE_TIMEANDMONEY = "TimeAndMoneyDocument";
-    private static final String DOC_TYPE_AWARD_BUDGET = "BudgetDocument";
+    private static final String DOC_TYPE_AWARD_BUDGET = "AwardBudgetDocument";
    
     private static final String SECTION_PROPOSAL = "proposal";
     private static final String SECTION_BUDGET = "budget";
@@ -258,9 +258,9 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_POST_AWARD_BUDGET);
         tempAttributesMap.put(AwardPermissionConstants.POST_AWARD_BUDGET.getAwardPermission(), attributes);
 
-        attributes = new HashMap<String, String>();  
-        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD_BUDGET); 
-        tempAttributesMap.put(AwardPermissionConstants.SUBMIT_ANY_AWARD_BUDGET.getAwardPermission(), attributes);
+//        attributes = new HashMap<String, String>();  
+//        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD_BUDGET); 
+//        tempAttributesMap.put(AwardPermissionConstants.SUBMIT_ANY_AWARD_BUDGET.getAwardPermission(), attributes);
 
         attributes = new HashMap<String, String>();  
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD); 
@@ -274,10 +274,10 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
         tempAttributesMap.put(AwardPermissionConstants.VIEW_ANY_PROPOSAL.getAwardPermission(), attributes);
         
-        attributes = new HashMap<String, String>();  
-        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD_BUDGET);
-        tempAttributesMap.put(AwardPermissionConstants.SUBMIT_ANY_AWARD_BUDGET.getAwardPermission(), attributes);
-
+//        attributes = new HashMap<String, String>();  
+//        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD_BUDGET);
+//        tempAttributesMap.put(AwardPermissionConstants.SUBMIT_ANY_AWARD_BUDGET.getAwardPermission(), attributes);
+//
         attributes = new HashMap<String, String>();  
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionnaireMaintenanceDocument"); 
         tempAttributesMap.put(PermissionConstants.MODIFY_QUESTIONNAIRE, attributes);
