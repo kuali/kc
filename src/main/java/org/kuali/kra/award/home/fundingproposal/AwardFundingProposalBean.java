@@ -16,11 +16,17 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -28,6 +34,7 @@ import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AwardFundingProposalBean implements Serializable {
     private static final long serialVersionUID = 7278945841002454778L;
@@ -200,14 +207,16 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
+        new BaseFieldsDataFeedCommand(award, proposal).performDataFeed();
         new CommentsDataFeedCommand(award, proposal).performDataFeed();
         new SponsorDataFeedCommand(award, proposal).performDataFeed();
-        new DatesDataFeedCommand(award, proposal).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal).performDataFeed();
         new CostSharingDataFeedCommand(award, proposal).performDataFeed();
         new FandARatesDataFeedCommand(award, proposal).performDataFeed();
         new KeywordsDataFeedCommand(award, proposal).performDataFeed();
         new LeadUnitDataFeedCommand(award, proposal).performDataFeed();
+        new CustomDataDataFeedCommand(award, proposal).performDataFeed();
+        new ProjectPersonnelDataFeedCommand(award, proposal).performDataFeed();
     }
 
     private boolean validateForAdd() {
