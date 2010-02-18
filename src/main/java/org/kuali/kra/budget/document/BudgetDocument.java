@@ -198,9 +198,10 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
      */
     public Budget getBudget(){
         if(budgets.isEmpty()){
-            Budget newBudget = ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)?
-                        new Budget():new AwardBudgetExt();
-            budgets.add(newBudget);
+//            Budget newBudget = ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)?
+//                        new Budget():new AwardBudgetExt();
+//            budgets.add(newBudget);
+            budgets.add(new Budget());
         }
         return budgets.get(0);
     }

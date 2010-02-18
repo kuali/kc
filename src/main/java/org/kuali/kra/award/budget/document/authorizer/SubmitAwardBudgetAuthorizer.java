@@ -16,6 +16,8 @@
 package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
@@ -35,13 +37,13 @@ public class SubmitAwardBudgetAuthorizer extends BudgetAuthorizer {
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, Task task) {
-        BudgetTask budgetTask = (BudgetTask) task;
+        AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
-        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
+        AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
         AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
         
         return !kraWorkflowService.isInWorkflow(budgetDocument) && 
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.SUBMIT_AWARD_BUDGET.getAwardPermission());
+                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.SUBMIT_AWARD_BUDGET.getAwardPermission());
     }
     
 }

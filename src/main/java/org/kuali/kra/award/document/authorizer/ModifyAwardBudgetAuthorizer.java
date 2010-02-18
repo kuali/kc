@@ -35,6 +35,6 @@ public class ModifyAwardBudgetAuthorizer extends AwardAuthorizer {
         AwardDocument doc = task.getAward().getAwardDocument(); 
         
         return !doc.isViewOnly() && !kraWorkflowService.isInWorkflow(doc) && 
-                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission());
+                hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.MODIFY_AWARD_BUDGET.getAwardPermission());
     }
 }

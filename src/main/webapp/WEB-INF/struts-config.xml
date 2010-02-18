@@ -160,7 +160,7 @@
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
-          <forward name="versionsOpen" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+          <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
           <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
           <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
@@ -174,14 +174,6 @@
           <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
       </action>
-      <!--
-      <action path="/awardBudgetParameters" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/AwardBudgetParameters.jsp" type="org.kuali.kra.budget.web.struts.action.BudgetParametersAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/budget/AwardBudgetParameters.jsp" />
-      </action>
-      <action path="/awardBudgetVersionsOpen" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/BudgetVersions.jsp" type="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
-      </action>
-	-->
 
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
         type="org.kuali.kra.web.struts.action.CustomDocHandlerRedirectAction" >
