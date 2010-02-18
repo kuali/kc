@@ -75,8 +75,10 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHeaderService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -84,6 +86,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -212,12 +215,24 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // create a new proposal document
         ProposalDevelopmentDocument newDoc;
+        
+        // manually assembling a new PDDoc here because the DocumentService will deny initiator permission without context
+        // since a person with MAINTAIN_PROPOSAL_HIERARCHY permission is allowed to initiate IF they are creating a parent
+        // we circumvent the initiator step altogether. 
         try {
-            newDoc = (ProposalDevelopmentDocument) documentService.getNewDocument(ProposalDevelopmentDocument.class);
+            KualiWorkflowDocument workflowDocument = KraServiceLocator.getService(WorkflowDocumentService.class).createWorkflowDocument("ProposalDevelopmentDocument", GlobalVariables.getUserSession().getPerson());
+            GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
+            DocumentHeader documentHeader = new DocumentHeader();
+            documentHeader.setWorkflowDocument(workflowDocument);
+            documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+            newDoc = new ProposalDevelopmentDocument();
+            newDoc.setDocumentHeader(documentHeader);
+            newDoc.setDocumentNumber(documentHeader.getDocumentNumber());
         }
         catch (WorkflowException x) {
             throw new ProposalHierarchyException("Error creating new document: " + x);
         }
+        
         // copy the initial information to the new parent proposal
         DevelopmentProposal hierarchy = newDoc.getDevelopmentProposal();
         copyInitialData(hierarchy, initialChild);
