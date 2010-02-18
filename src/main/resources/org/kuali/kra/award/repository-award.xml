@@ -719,8 +719,8 @@
 		<field-descriptor name="numberOfDays" column="NUMBER_OF_DAYS" jdbc-type="INTEGER" />
 		<field-descriptor name="numberOfMonths" column="NUMBER_OF_MONTHS" jdbc-type="INTEGER" />
 		<field-descriptor name="repeatFlag" column="REPEAT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<!--  <field-descriptor name="proposalDueFlag" column="PROPOSAL_DUE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="invoiceFlag" column="INVOICE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/> -->
+		<field-descriptor name="proposalDueFlag" column="PROPOSAL_DUE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="invoiceFlag" column="INVOICE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
