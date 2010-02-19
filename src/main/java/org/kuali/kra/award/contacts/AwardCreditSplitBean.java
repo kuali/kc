@@ -110,22 +110,17 @@ public class AwardCreditSplitBean implements Serializable {
      * This method returns all Principal Investigators and Co-Investigators.
      * Just like getProjectPersons(), it also prepares all project personnel,
      * and their units, with empty credit splits for any InvestigatorCreditTypes
-     * that aren't already represented.
+      * that aren't already represented.
      * @return
      * @see getProjectPersons()
      */
     public List<AwardPerson> getInvestigators() {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-        List<AwardPerson> investigators = new ArrayList<AwardPerson>();
-        List<AwardPerson> projectPersons = getAward().getProjectPersons();
-        for(AwardPerson person: projectPersons) {
-            createDefaultCreditSplitMapForProjectPerson(creditTypes, person);
-            for(AwardPersonUnit apu: person.getUnits()) {
+        List<AwardPerson> investigators = getAward().getInvestigators();
+        for(AwardPerson investigator: investigators) {
+            createDefaultCreditSplitMapForProjectPerson(creditTypes, investigator);
+            for(AwardPersonUnit apu: investigator.getUnits()) {
                 createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
-            }
-            
-            if(person.isPrincipalInvestigator() || person.isCoInvestigator()) {
-                investigators.add(person);
             }
         }
         return investigators;

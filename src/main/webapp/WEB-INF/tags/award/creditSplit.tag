@@ -120,26 +120,24 @@
 		</c:forEach>
 		
 		<%-- Show credit split totals for all persons by cred split type --%>
-		<c:if test="${fn:length(investigators) > 0}">			
-            <tr>
-                <td colspan="${columnWidth}" nowrap class="tab-subhead" >
-                    Totals
-                </td>
-            </tr>
-            <tr>
-				<td nowrap class="infoline">
-					<strong>Project Person Total:</strong>
-				</td>
-  				<bean:define id="personsTotalsMap" name="KualiForm" property="awardCreditSplitBean.personsTotalsMap" />
-  				<c:forEach items="${investigatorCreditTypes}" var="invType" >
-                	<td class="infoline">
-                		<div align="right">
-                			<strong>${personsTotalsMap[invType.invCreditTypeCode]}</strong>
-                		</div>
-                	</td>
-  				</c:forEach>
-			</tr>
-		</c:if> 
+        <tr>
+            <td colspan="${columnWidth}" nowrap class="tab-subhead" >
+                Totals
+            </td>
+        </tr>
+        <tr>
+			<td nowrap class="infoline">
+				<strong>Project Person Total:</strong>
+			</td>
+			<bean:define id="personsTotalsMap" name="KualiForm" property="awardCreditSplitBean.personsTotalsMap" />
+			<c:forEach items="${investigatorCreditTypes}" var="invType" >
+            	<td class="infoline">
+            		<div align="right">
+            			<strong>${personsTotalsMap[invType.invCreditTypeCode]}</strong>
+            		</div>
+            	</td>
+			</c:forEach>
+		</tr>
 	</table>
 	<br/>
     <%-- <kra:section permission="modifyAward"> --%>
