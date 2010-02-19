@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -36,6 +37,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
@@ -139,9 +141,11 @@ public class AwardBudgetsAction extends AwardAction {
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             Budget budget = budgetDocument.getBudget();
+            getBudgetRateService().syncAllBudgetRates( budgetDocument);
+//            getBudgetSummaryService().calculateBudget(budget);
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
@@ -155,6 +159,14 @@ public class AwardBudgetsAction extends AwardAction {
     }
     
     
+    private BudgetSummaryService getBudgetSummaryService() {
+        return KraServiceLocator.getService(BudgetSummaryService.class);
+    }
+
+    private BudgetRatesService<Award> getBudgetRateService() {
+        return KraServiceLocator.getService(BudgetRatesService.class);
+    }
+
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
     }
