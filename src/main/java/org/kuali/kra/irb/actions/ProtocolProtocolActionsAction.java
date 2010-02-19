@@ -42,7 +42,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaEvent;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
@@ -52,21 +51,16 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.close.ProtocolCloseService;
-import org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisService;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
-//import org.kuali.kra.irb.actions.expire.ProtocolExpireService;
 import org.kuali.kra.irb.actions.genericactions.GenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
-import org.kuali.kra.irb.actions.reopen.ProtocolReopenService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
@@ -75,8 +69,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
-import org.kuali.kra.irb.actions.suspend.ProtocolSuspendService;
-import org.kuali.kra.irb.actions.terminate.ProtocolTerminateService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
@@ -1135,7 +1127,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        getProtocolApproveService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1172,16 +1164,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolApproveService getProtocolApproveService() {
-        return KraServiceLocator.getService(ProtocolApproveService.class);
-    }
-    
     public ActionForward reopen(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
-        getProtocolReopenService().reopen(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().reopen(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1218,16 +1206,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolReopenService getProtocolReopenService() {
-        return KraServiceLocator.getService(ProtocolReopenService.class);
-    }
-    
     public ActionForward closeEnrollment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-        getProtocolCloseEnrollmentService().closeEnrollment(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().closeEnrollment(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1264,16 +1248,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolCloseEnrollmentService getProtocolCloseEnrollmentService() {
-        return KraServiceLocator.getService(ProtocolCloseEnrollmentService.class);
-    }
-    
     public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-        getProtocolSuspendService().suspend(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().suspend(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1315,7 +1295,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
-        getProtocolSuspendService().suspendByDsmb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().suspendByDsmb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1352,17 +1332,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolSuspendService getProtocolSuspendService() {
-        return KraServiceLocator.getService(ProtocolSuspendService.class);
-    }
-    
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-        getProtocolCloseService().close(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().close(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1397,10 +1373,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    private ProtocolCloseService getProtocolCloseService() {
-        return KraServiceLocator.getService(ProtocolCloseService.class);
     }
     
     public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -1451,17 +1423,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    /*
-    private ProtocolExpireService getProtocolExpireService() {
-        return KraServiceLocator.getService(ProtocolExpireService.class);
-    }*/
-    
     public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-        getProtocolTerminateService().terminate(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().terminate(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1498,16 +1465,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolTerminateService getProtocolTerminateService() {
-        return KraServiceLocator.getService(ProtocolTerminateService.class);
-    }
-    
     public ActionForward permitDataAnalysis(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-        getProtocolDataAnalysisService().permit(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getGenericActionService().permitDataAnalysis(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1542,10 +1505,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    private ProtocolDataAnalysisService getProtocolDataAnalysisService() {
-        return KraServiceLocator.getService(ProtocolDataAnalysisService.class);
     }
     
     public ActionForward addRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
