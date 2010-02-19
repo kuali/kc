@@ -33,6 +33,7 @@ import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -46,6 +47,7 @@ import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -64,13 +66,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
                                                                                             KeywordsManager<InstitutionalProposalScienceKeyword>,
                                                                                             SequenceOwner<InstitutionalProposal>, Sponsorable { 
     
+    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
+    public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
     
     private static final long serialVersionUID = 1L;
     private static final Integer PROPOSAL_PENDING_STATUS_CODE = 1;
     private static final Integer PROPOSAL_FUNDED_STATUS_CODE = 2;
-    
-    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
-    public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
     
     private InstitutionalProposalDocument institutionalProposalDocument;
     private Long proposalId; 
@@ -1418,10 +1419,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * 
      * @param proposalLog ProposalLog
      */
-    /**
-     * This method...
-     * @param proposalLog
-     */
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
         this.setProposalNumber(proposalLog.getProposalNumber());
         this.setDeadlineDate(proposalLog.getDeadlineDate());
@@ -1433,6 +1430,26 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setTitle(proposalLog.getTitle());
         this.setLeadUnit(getUnitService().getUnit(proposalLog.getLeadUnit()));
         this.setLeadUnitNumber(proposalLog.getLeadUnit());
+        InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
+        if (proposalLog.getPerson() != null) {
+            ipPerson.setPerson(proposalLog.getPerson());
+        } else if (proposalLog.getRolodex() != null) {
+            ipPerson.setRolodex(proposalLog.getRolodex());
+        }
+        initializeDefaultPrincipalInvestigator(ipPerson);
+        this.setPrincipalInvestigator(ipPerson);
+    }
+    
+    private void initializeDefaultPrincipalInvestigator(InstitutionalProposalPerson ipPerson) {
+        ipPerson.setProposalNumber(this.getProposalNumber());
+        ipPerson.setSequenceNumber(this.getSequenceNumber());
+        ipPerson.initializeDefaultCreditSplits();
+        InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
+        ipPersonUnit.setUnit(this.getLeadUnit());
+        ipPersonUnit.setLeadUnit(true);
+        ipPersonUnit.initializeDefaultCreditSplits();
+        ipPerson.add(ipPersonUnit);
+        
     }
     
     public UnitService getUnitService() {
