@@ -15,6 +15,16 @@
  */
 package org.kuali.kra.award.home;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -60,16 +70,6 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -406,6 +406,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardPerson> getProjectPersons() {
         return projectPersons;
+    }
+
+    /**
+     * This method returns all PIs and co-PIs.
+     * @return
+     */
+    public List<AwardPerson> getInvestigators() {
+        List<AwardPerson> investigators = new ArrayList<AwardPerson>();
+        for(AwardPerson person: projectPersons) {
+            if(person.isPrincipalInvestigator() || person.isCoInvestigator()) {
+                investigators.add(person);
+            }
+        }
+        return investigators;
     }
     
     /**
