@@ -26,6 +26,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContact;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -215,6 +216,21 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      */
     public void setCreditSplits(List<InstitutionalProposalPersonCreditSplit> creditSplits) {
         this.creditSplits = creditSplits;
+    }
+    
+    /**
+     * This method will initialize required credit splits and populate them with 
+     * default values of 100%.
+     */
+    @SuppressWarnings("unchecked")
+    public void initializeDefaultCreditSplits() {
+        List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
+        for (InvestigatorCreditType creditType : creditTypes) {
+            InstitutionalProposalPersonCreditSplit creditSplit = new InstitutionalProposalPersonCreditSplit();
+            creditSplit.setInvestigatorCreditType(creditType);
+            creditSplit.setCredit(new KualiDecimal(100));
+            this.add(creditSplit);
+        }
     }
 
     /**
