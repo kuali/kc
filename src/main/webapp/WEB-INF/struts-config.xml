@@ -251,7 +251,23 @@
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
       </action>
       <action path="/awardBudgets" name="AwardForm" input="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" type="org.kuali.kra.award.web.struts.action.AwardBudgetsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-      	<forward name="basic" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+      	  <forward name="basic" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
+          <forward name="budgets" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
+          <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />
+          <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
+          <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/award/AwardPermissionsRoleRights.jsp" />
+          <forward name="permissionsEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsEditRoles.jsp" />
+          <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsCloseEditRoles.jsp" />
+          <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
       </action>
       
       <!-- Award Budget-->
