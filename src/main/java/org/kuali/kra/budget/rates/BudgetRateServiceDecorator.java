@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -181,18 +182,33 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return rateType;
     }
 
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument){
-      super.getBudgetRates(rateClassTypes, budgetDocument);
-      if(isAwardBudget(budgetDocument) && isOutOfSyncAwardRates(budgetDocument.getBudget())){
-          syncAllBudgetRates(budgetDocument);
-      }
+    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
+        if(isAwardBudget(budgetDocument) ){
+            if(isOutOfSyncAwardRates(budgetDocument.getBudget())){
+                super.syncAllBudgetRates(budgetDocument);
+            }
+        }else{
+            super.syncAllBudgetRates(budgetDocument);
+        }
     }
+    private boolean hasNoRatesFromParent(Budget budget) {
+        Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        return award.getAwardFandaRate().isEmpty() && award.getSpecialEbRateOffCampus()==null && award.getSpecialEbRateOnCampus()==null;
+    }
+
+//    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument){
+//      super.getBudgetRates(rateClassTypes, budgetDocument);
+//    }
     
     private boolean isOutOfSyncAwardRates(Budget budget) {
         Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
-        return isOutOfRatesSync(award,budget);
+        if(hasNoRatesFromParent(budget)){
+            return isOutOfSync(budget);
+        }else{
+            return isOutOfSyncAwardRates(award,budget);
+        }
     }
-    private boolean isOutOfRatesSync(Award award,Budget budget) {
+    private boolean isOutOfSyncAwardRates(Award award,Budget budget) {
         List<AwardFandaRate> fnaRates = award.getAwardFandaRate();
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
         boolean ratesOutOfSync = false;
@@ -219,8 +235,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
                 BudgetRate budgetEbOnCampusRate = filteredEbRates.get(0);
                 ratesOutOfSync = budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOnCampus.bigDecimalValue());
             }
-            
-            
         }
         KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
         if(!ratesOutOfSync && specialEbRateOffCampus!=null){
