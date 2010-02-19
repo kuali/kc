@@ -80,7 +80,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.awardTypeCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
+           			<kra:kraControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
            		</td>
         	</tr>
      		<tr>

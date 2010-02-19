@@ -71,7 +71,7 @@
   		if(collection != null && collection.size() > 0) {
   			for(Object obj : collection) {
   				org.kuali.rice.core.util.KeyLabelPair pair = (org.kuali.rice.core.util.KeyLabelPair) obj;
-  				if(pair.getKey().equals(propertyValue)) {
+  				if(pair.getKey() != null && pair.getKey().toString().equals(propertyValue)) {
   					selectedOptionDescription = pair.getLabel(); 
   					pageCtx.setAttribute("readOnlyAlternateDisplay", selectedOptionDescription);
   					break;
