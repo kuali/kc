@@ -25,20 +25,23 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...
  */
 public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit> {
 
+    public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
+    public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8863551989073626234L;
-    public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
-    public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
     
     private Long institutionalProposalPersonUnitId;
     private InstitutionalProposalPerson institutionalProposalPerson;
@@ -52,14 +55,15 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     private Long institutionalProposalContactId;
     
     /**
-     * Default Constructor
+     * Default Constructor.
      */
     public InstitutionalProposalPersonUnit() {
         super();
         creditSplits = new ArrayList<InstitutionalProposalPersonUnitCreditSplit>();
     }
+    
     /**
-     * Constructs a institutionalProposalPersonUnit
+     * Constructs a institutionalProposalPersonUnit.
      * @param institutionalProposalPerson
      */
     InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson) {
@@ -68,7 +72,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
     
     /**
-     * Constructs a institutionalProposalPersonUnit
+     * Constructs a institutionalProposalPersonUnit.
      * @param institutionalProposalPerson
      * @param unit
      * @param isLeadUnit
@@ -81,14 +85,14 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
     
     /**
-     * Find the lead unit from among institutionalProposal institutionalProposalPerson units
+     * Find the lead unit from among institutionalProposal institutionalProposalPerson units.
      * @param institutionalProposalPersonUnits
      * @return
      */
     public static Unit findLeadUnit(Collection<InstitutionalProposalPersonUnit> institutionalProposalPersonUnits) {
         Unit foundLeadUnit = null;
-        for(InstitutionalProposalPersonUnit apu: institutionalProposalPersonUnits) {
-            if(apu.isLeadUnit()) {
+        for (InstitutionalProposalPersonUnit apu : institutionalProposalPersonUnits) {
+            if (apu.isLeadUnit()) {
                 foundLeadUnit = apu.getUnit();
             }
         }
@@ -111,6 +115,21 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public void add(InstitutionalProposalPersonUnitCreditSplit creditSplit) {
        creditSplits.add(creditSplit);
        creditSplit.setInstitutionalProposalPersonUnit(this);
+    }
+    
+    /**
+     * This method will initialize required credit splits and populate them with 
+     * default credits of 100%.
+     */
+    @SuppressWarnings("unchecked")
+    public void initializeDefaultCreditSplits() {
+        List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
+        for (InvestigatorCreditType creditType : creditTypes) {
+            InstitutionalProposalPersonUnitCreditSplit creditSplit = new InstitutionalProposalPersonUnitCreditSplit();
+            creditSplit.setInvestigatorCreditType(creditType);
+            creditSplit.setCredit(new KualiDecimal(100));
+            this.add(creditSplit);
+        }
     }
     
     /**

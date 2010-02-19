@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -59,7 +59,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private Timestamp createTimestamp;
     
     private ProposalType proposalType;
-    private Rolodex rolodex;
+    private NonOrganizationalRolodex rolodex;
     private Sponsor sponsor;
     private ProposalLogStatus proposalLogStatus;
     private Unit unit;
@@ -69,6 +69,9 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     
     private transient KcPersonService kcPersonService;
     
+    /**
+     * Constructs a ProposalLog.java.
+     */
     public ProposalLog() { 
 
     } 
@@ -192,11 +195,11 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         return null;
     }
     
-    public Rolodex getRolodex() {
+    public NonOrganizationalRolodex getRolodex() {
         return rolodex;
     }
 
-    public void setRolodex(Rolodex rolodex) {
+    public void setRolodex(NonOrganizationalRolodex rolodex) {
         this.rolodex = rolodex;
     }
 
