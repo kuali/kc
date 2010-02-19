@@ -432,34 +432,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolReopenService" class="org.kuali.kra.irb.actions.reopen.ProtocolReopenServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolCloseEnrollmentService" class="org.kuali.kra.irb.actions.closeenrollment.ProtocolCloseEnrollmentServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolSuspendService" class="org.kuali.kra.irb.actions.suspend.ProtocolSuspendServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolCloseService" class="org.kuali.kra.irb.actions.close.ProtocolCloseServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolTerminateService" class="org.kuali.kra.irb.actions.terminate.ProtocolTerminateServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="protocolDataAnalysisService" class="org.kuali.kra.irb.actions.dataanalysis.ProtocolDataAnalysisServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
