@@ -36,6 +36,7 @@
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
+        <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -314,6 +315,10 @@
       
       <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" />
+      </action>
+
+      <action path="/batchCorrespondenceDetail" name="BatchCorrespondenceDetailForm" input="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" />
       </action>
       <!--  KRA IRB Mapping END -->
       

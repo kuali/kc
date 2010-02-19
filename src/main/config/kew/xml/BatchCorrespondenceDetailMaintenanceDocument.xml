@@ -4,9 +4,9 @@
     <documentTypes xmlns="ns:workflow/DocumentType"
         xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
-            <name>BatchCorrespondenceMaintenanceDocument</name>
-            <description>Create/Edit a Batch Correspondence</description>
-            <label>Batch Correspondence</label>
+            <name>BatchCorrespondenceDetailMaintenanceDocument</name>
+            <description>Create/Edit Batch Correspondence Details</description>
+            <label>Batch Correspondence Detail</label>
             <parent>KcSharedMaintenanceDocument</parent>
         </documentType>
     </documentTypes>
