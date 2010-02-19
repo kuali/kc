@@ -29,7 +29,7 @@
                                     <td width="10%">
                                         <div align="center">
                                             <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="globalbuttons"
-                                            property="methodToCall.printProposalSummary" alt="Print Proposal Notice" />
+                                            property="methodToCall.printProposalSummary" alt="Print Proposal Notice" onclick="excludeSubmitRestriction=true" />
                                         </div>
                                     </td>
                                 </tr>
