@@ -73,7 +73,7 @@
 			</c:when> 
 			<c:otherwise>
  				<td>
-    				<kul:htmlControlAttribute property="document.institutionalProposal.statusCode" attributeEntry="${institutionalProposalAttributes.statusCode}" />
+    				<kra:kraControlAttribute property="document.institutionalProposal.statusCode" attributeEntry="${institutionalProposalAttributes.statusCode}" />
 				</td>
 			</c:otherwise>
 		</c:choose>
@@ -83,13 +83,13 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" /></div>
     	</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.institutionalProposalList[0].proposalTypeCode" attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" />
+    		<kra:kraControlAttribute property="document.institutionalProposalList[0].proposalTypeCode" attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" />
 		</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.activityTypeCode}" /></div>
     	</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.institutionalProposalList[0].activityTypeCode" attributeEntry="${institutionalProposalAttributes.activityTypeCode}" />
+    		<kra:kraControlAttribute property="document.institutionalProposalList[0].activityTypeCode" attributeEntry="${institutionalProposalAttributes.activityTypeCode}" />
 		</td>
   	</tr>
   	<tr>
