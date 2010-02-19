@@ -26,8 +26,6 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="actions">
-  	
-This is the  Institutional Proposal Actions - Under Construction
 
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
 <kul:adHocRecipients />
