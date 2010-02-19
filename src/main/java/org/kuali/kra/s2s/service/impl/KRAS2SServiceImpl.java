@@ -382,6 +382,8 @@ public class KRAS2SServiceImpl implements S2SService {
 				response = grantsGovConnectorService.submitApplication(
 						applicationXml, attachments, pdDoc
 								.getDevelopmentProposal().getProposalNumber());
+	            appSubmission
+	            .setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			} catch (S2SException ex) {
 				appSubmission
 						.setStatus(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR);
