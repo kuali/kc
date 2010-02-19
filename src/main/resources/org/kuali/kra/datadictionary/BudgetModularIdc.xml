@@ -119,7 +119,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Description" />
