@@ -423,6 +423,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * This method returns the combined number of units for all project personnel.
+     * @return
+     */
+    public int getTotalUnitCount() {
+        int count = 0;
+        for (AwardPerson person: projectPersons)
+            count += person.getUnits().size();
+        return count;
+    }
+    
+    /**
      * @return
      */
     public int getAwardContactsCount() {
