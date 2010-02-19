@@ -16,7 +16,10 @@
 package org.kuali.kra.irb.correspondence;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class BatchCorrespondence extends KraPersistableBusinessObjectBase { 
     
@@ -26,14 +29,16 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
     private String description; 
     private Integer defaultTimeWindow; 
     private String finalActionTypeCode; 
-    private String finalActionCorrespType; 
+    private String finalActionCorrespType;
+    
+    private List<BatchCorrespondenceDetail> batchCorrespondenceDetails;
     
 //    private ProtocolCorrespondenceType protocolCorrespondenceType; 
 //    private ProtocolActionType protocolActionType; 
 //    private CommCorrespBatch commCorrespBatch; 
     
-    public BatchCorrespondence() { 
-
+    public BatchCorrespondence() {
+        setBatchCorrespondenceDetails(new ArrayList<BatchCorrespondenceDetail>());
     } 
     
     public String getBatchCorrespondenceTypeCode() {
@@ -99,6 +104,14 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
 //    public void setCommCorrespBatch(CommCorrespBatch commCorrespBatch) {
 //        this.commCorrespBatch = commCorrespBatch;
 //    }
+
+    public List<BatchCorrespondenceDetail> getBatchCorrespondenceDetails() {
+        return batchCorrespondenceDetails;
+    }
+
+    public void setBatchCorrespondenceDetails(List<BatchCorrespondenceDetail> batchCorrespondenceDetails) {
+        this.batchCorrespondenceDetails = batchCorrespondenceDetails;
+    }
 
     /** {@inheritDoc} */
     @Override 
