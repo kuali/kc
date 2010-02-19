@@ -208,6 +208,7 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.refresh(mapping, form, request, response);
+        GlobalVariables.getUserSession().removeObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
         AwardForm awardMultiLookupForm = (AwardForm) form;
         String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
         String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
@@ -250,7 +251,7 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".performLookup") != -1 && parameterName.contains("InstitutionalProposal")) {
-            GlobalVariables.getUserSession().addObject("linkedProposals", ((AwardForm) form).getLinkedProposals());
+            GlobalVariables.getUserSession().addObject(Constants.LINKED_FUNDING_PROPOSALS_KEY, ((AwardForm) form).getLinkedProposals());
         }
 
         return super.performLookup(mapping, form, request, response);
