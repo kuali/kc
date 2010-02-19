@@ -195,7 +195,7 @@
 				</tr>	                     
 	    	</c:forEach>	    	
 	    </table>
-	    <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && fn:length(KualiForm.document.awardList[0].investigators) > 0}" > 
+	    <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && KualiForm.document.awardList[0].totalUnitCount > 0}" > 
 	    	<kra-a:creditSplit/>
 	    </c:if>	    
     </div>    
