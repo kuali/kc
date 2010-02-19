@@ -355,7 +355,8 @@ public interface Constants {
     
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     
-    public static final String LINKED_PROPOSALS_DELIMITER = "--";
+    public static final String LINKED_FUNDING_PROPOSALS_KEY = "linkedProposals";
+    
     
   //Institutional Proposal
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";

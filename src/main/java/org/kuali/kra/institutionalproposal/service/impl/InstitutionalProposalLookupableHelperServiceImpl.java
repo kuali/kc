@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -42,7 +43,6 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
-    private static final String LINKED_PROPOSALS_KEY = "linkedProposals";
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -98,12 +98,13 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private boolean lookupIsFromAward(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
-        return returnLocation.contains(AWARD_HOME_ACTION);
+        return returnLocation != null && returnLocation.contains(AWARD_HOME_ACTION);
     }
     
     @SuppressWarnings("unchecked")
     private void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
-        List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(LINKED_PROPOSALS_KEY);
+        List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
+        if (linkedProposals == null) { return; }
         int indexToRemove = -1;
         for (Long linkedProposalId : linkedProposals) {
             for (int j = 0; j < searchResults.size(); j++) {
@@ -118,7 +119,6 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
                 indexToRemove = -1;
             }
         }
-        GlobalVariables.getUserSession().removeObject(LINKED_PROPOSALS_KEY);
     }
     
     /* 
