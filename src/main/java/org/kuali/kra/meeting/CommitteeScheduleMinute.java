@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,12 +32,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.hibernate.annotations.Type;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -168,7 +173,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setProtocolContingencyCode(String protocolContingencyCode) {
         this.protocolContingencyCode = protocolContingencyCode;
-        if (!StringUtils.isBlank(protocolContingencyCode)) {
+        if (!StringUtils.isBlank(protocolContingencyCode) && getProtocolContingency() != null) {
             setMinuteEntry(getProtocolContingency().getDescription());
         }
     }
@@ -292,7 +297,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
         this.protocolReviewer = protocolReviewer;
     }
-    
+
     /**
      * Equality is based on minute id, minute entry value, entry number(order position)
      * and whether or not it is private.
@@ -306,5 +311,48 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
             this.getMinuteEntry().equals(csm.getMinuteEntry()) && 
             this.getEntryNumber().equals(csm.getEntryNumber()) &&
             this.getPrivateCommentFlag() == csm.getPrivateCommentFlag();
+    }
+
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        setUpdateUserIfModified();
+        super.beforeUpdate(persistenceBroker);
+    }
+    
+    private void setUpdateUserIfModified() {
+        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
+        if (getCommScheduleMinutesId() != null) {
+            HashMap <String, String> pkMap = new HashMap<String, String>();
+            pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
+            CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
+            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {
+                if (!minuteEntry.equals(committeeScheduleMinute.getMinuteEntry())
+                        || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag()
+                        || finalFlag != committeeScheduleMinute.isFinalFlag()
+                        || isProtocolFieldChanged(committeeScheduleMinute)
+                        ) {
+                    this.setUpdateUser(updateUser);
+                }                                    
+            }
+        } else {
+            this.setUpdateUser(updateUser);            
+        }
+        setUpdateUserSet(true);
+    }
+    
+    private boolean isProtocolFieldChanged(CommitteeScheduleMinute committeeScheduleMinute) {
+        boolean isChanged = false;
+        if (protocolIdFk != null && committeeScheduleMinute.getProtocolIdFk() != null) {
+            if (protocolContingencyCode != null && committeeScheduleMinute.getProtocolContingencyCode() !=null
+                    && !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode())) {
+                isChanged = true;
+            } else if (!(protocolContingencyCode == null && committeeScheduleMinute.getProtocolContingencyCode() == null)) {
+                isChanged = true;
+            }
+            
+        } else if (!(protocolIdFk == null && committeeScheduleMinute.getProtocolIdFk() == null)) {
+            isChanged = true;
+        }
+        return isChanged;
     }
 }
