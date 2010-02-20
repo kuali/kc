@@ -29,19 +29,11 @@ public interface MeetingService {
     
     /**
      * 
-     * This method is to get the last agenda generation date.
-     * @param scheduleId
-     * @return
-     */
-    public Date getAgendaGenerationDate(Long scheduleId);
-
-    /**
-     * 
      * This method is to save the changed meeting data properly.
      * @param committeeSchedule
      * @param deletedBos
      */
-    public void SaveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
+    public void saveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
 
     
     /**
@@ -51,4 +43,90 @@ public interface MeetingService {
      * @return
      */
     public String getStandardReviewComment(String protocolContingencyCode);
+    
+    
+    /**
+     * 
+     * This method is to add new other action to other action list.
+     * @param committeeSchedule
+     * @param newOtherAction
+     */
+    public void addOtherAction(CommScheduleActItem newOtherAction, CommitteeSchedule committeeSchedule);    
+   
+    /**
+     * 
+     * This method is to delete the selected other action from the list.
+     * 
+     * @param committeeSchedule
+     * @param itemNumber
+     * @param deletedOtherActions
+     */
+    public void deleteOtherAction(CommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions);
+
+    /**
+     * 
+     * This method is to move member from present list to absent list.
+     * 
+     * @param memberPresentBeans
+     * @param memberAbsentBeans
+     * @param itemNumber
+     */
+    public void markAbsent(List<MemberPresentBean> memberPresentBeans, List<MemberAbsentBean> memberAbsentBeans,  int itemNumber);
+
+    /**
+     * 
+     * This method is to add new committee schedule minute entry to minute entry list.
+     * @param meetingHelper
+     */
+    public void addCommitteeScheduleMinute(MeetingHelper meetingHelper);
+    
+    /**
+     * 
+     * This method is to delete committee schedule minute entry from minute entry list.
+     * @param committeeSchedule
+     * @param deletedCommitteeScheduleMinutes
+     * @param itemNumber
+     */
+    public void deleteCommitteeScheduleMinute(CommitteeSchedule committeeSchedule, List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber);
+    
+    /**
+     * 
+     * This method is to populate meeting form/helper data when meeting page is loaded.
+     * @param meetingHelper
+     * @param commSchedule
+     * @param lineNumber
+     */
+    public void populateFormHelper(MeetingHelper meetingHelper, CommitteeSchedule commSchedule, int lineNumber);
+    
+    /**
+     * 
+     * This method is to move member absent to member present list.
+     * @param meetingHelper
+     * @param itemNumber
+     */
+    public void presentVoting(MeetingHelper meetingHelper, int itemNumber);
+    
+    /**
+     * 
+     * This method is to move absent member to other present.
+     * @param meetingHelper
+     * @param itemNumber
+     */
+    public void presentOther(MeetingHelper meetingHelper, int itemNumber);
+
+    /**
+     * 
+     * This method is to add the selected person or rolodex to other present list.
+     * @param meetingHelper
+     */
+    public void addOtherPresent(MeetingHelper meetingHelper);
+
+    /**
+     * 
+     * This method is to delete other present. if the deleted other present is a member, then this person will be added to absent
+     * list.
+     * @param meetingHelper
+     * @param itemNumber
+     */
+    public void deleteOtherPresent(MeetingHelper meetingHelper, int itemNumber);
 }

@@ -16,14 +16,13 @@
 package org.kuali.kra.meeting;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import java.util.Collections;
 
 /**
  * 

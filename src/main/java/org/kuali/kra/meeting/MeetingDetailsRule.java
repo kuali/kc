@@ -37,7 +37,7 @@ public class MeetingDetailsRule {
     private static final String MSG4 = "mm as 0-59";
 
     private static final String COLON = ":";
-    private static final String ALTERNATE_ENTRY_TYPE = "3";
+    private static final String PROTOCOL_ENTRY_TYPE = "3";
 
     private static final String ID1 = "meetingHelper.committeeSchedule.viewTime.time";
     private static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
@@ -99,7 +99,8 @@ public class MeetingDetailsRule {
 
     /**
      * 
-     * This method is to validate that the member absent is not an alternate for
+     * This method is to validate that the member absent is not an alternate for.
+     * This will be called by action 'presentVoting & 'presentOther'
      * @param memberPresentBeans
      * @param memberAbsentBean
      * @return
@@ -165,7 +166,7 @@ public class MeetingDetailsRule {
         boolean rulePassed = true;
         errorReporter = new ErrorReporter();
         if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(ALTERNATE_ENTRY_TYPE)) {
+                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)) {
             if (committeeScheduleMinute.getProtocolIdFk() == null) {
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
                 rulePassed = false;
@@ -181,7 +182,7 @@ public class MeetingDetailsRule {
             }
         }
         else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(ALTERNATE_ENTRY_TYPE)
+                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)
                 && committeeScheduleMinute.getProtocolIdFk() != null) {
             errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
             rulePassed = false;
@@ -223,6 +224,7 @@ public class MeetingDetailsRule {
                 && StringUtils.isNotBlank(otherPresentBean.getAttendance().getPersonId())
                 // TODO check alternate for is not perfect because there is no indicator that alternatefor is person or rolodex
                 // and we can't rule out personid=rolodexid
+                // However, rolodex_id is number(6) and principal_d is varchar(40).   if we keep current format of principal_id with 11 digits, then it should be OK.
                 && memberPresentBean.getAttendance().getAlternateFor().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
         }
@@ -231,6 +233,7 @@ public class MeetingDetailsRule {
 
     /*
      * check 'time' format
+     * This is copied from CommitteeScheduleTimeRule and with some modification.
      */
     private boolean processTime(String time, String id) {
         String prefix = "";
@@ -297,7 +300,7 @@ public class MeetingDetailsRule {
             rulePassed = false;
         }
         else if (startTime.getMeridiem().equals(endTime.getMeridiem())) {
-            try {
+          //  try {
                 startHrs = new Integer(startTimeSplit[0]);
                 startMins = new Integer(startTimeSplit[1]);
                 endHrs = new Integer(endTimeSplit[0]);
@@ -307,9 +310,9 @@ public class MeetingDetailsRule {
                             KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
                     rulePassed = false;
                 }
-            }
-            catch (NumberFormatException e) {
-            }
+          //  }
+          //  catch (NumberFormatException e) {
+          //  }
         }
         return rulePassed;
     }

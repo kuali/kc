@@ -370,7 +370,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinderTest.class,
     org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImplTest.class,
     org.kuali.kra.committee.service.CommitteeScheduleServiceImplTest.class,
-    org.kuali.kra.meeting.MeetingRuleTest.class,
     org.kuali.kra.irb.personnel.ProtocolPersonnelRuleTest.class,
     org.kuali.kra.irb.web.ProtocolParticipantPanelWebTest.class,
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
@@ -395,7 +394,11 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.protocol.location.ProtocolLocationServiceTest.class,
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
-    org.kuali.kra.irb.actions.genericactions.GenericActionsServiceTest.class
+    org.kuali.kra.irb.actions.genericactions.GenericActionsServiceTest.class,
+    org.kuali.kra.meeting.MeetingAddMinuteRuleTest.class,
+    org.kuali.kra.meeting.MeetingAddOtherRuleTest.class,
+    org.kuali.kra.meeting.MeetingPresentOtherOrVotingRuleTest.class,
+    org.kuali.kra.meeting.MeetingSaveRuleTest.class
 
 
 })
