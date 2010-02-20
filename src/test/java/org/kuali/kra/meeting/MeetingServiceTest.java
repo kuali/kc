@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -34,18 +32,40 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.bo.MembershipRole;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @RunWith(JMock.class)
 public class MeetingServiceTest {
     private Mockery context = new JUnit4Mockery();
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    
+    private static final String PERSON_ID = "jtester";
+    private static final String PERSON_ID_1 = "1";
+    private static final String PERSON_ID_2 = "2";
+    private static final String PERSON_ID_3 = "3";
+    private static final String PERSON_NAME_1 = "test 1";
+    private static final String PERSON_NAME_2 = "test 2";
+    private static final String PERSON_NAME_3 = "test 3";
+    private static final Integer ROLODEX_ID = 1746;
+    private static final String MEMBERSHIP_TYPE_CD = "1";
+    private static final Date TERM_START_DATE = Date.valueOf("2009-01-01");
+    private static final Date TERM_END_DATE = Date.valueOf("2009-01-31");
+    private static final Date SCHEDULE_DATE = Date.valueOf("2009-01-15");
+    private static final String MEMBERSHIP_ROLE_CD_1 = "1";
+    private static final String MEMBERSHIP_ROLE_CD_4 = "4";
+    private static final Date ROLE_START_DATE = Date.valueOf("2009-01-10");
+    private static final Date ROLE_END_DATE = Date.valueOf("2009-01-20");
 
-    private CommitteeSchedule getCommitteeSchedule()  throws Exception {
+
+    private CommitteeSchedule getCommitteeSchedule() throws Exception {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         committeeSchedule.setId(1L);
         committeeSchedule.setCommittee(createCommittee("test", "committeeName"));
@@ -55,7 +75,7 @@ public class MeetingServiceTest {
         committeeSchedule.setScheduleStatusCode(1);
         return committeeSchedule;
     }
-    
+
     private Committee createCommittee(String committeeId, String committeeName) {
         Committee committee = new Committee();
         committee.setCommitteeId(committeeId);
@@ -63,7 +83,7 @@ public class MeetingServiceTest {
         committee.setMaxProtocols(5);
         return committee;
     }
-    
+
     private List<ScheduleAgenda> getAgendas() throws Exception {
         List<ScheduleAgenda> scheduleAgendas = new ArrayList<ScheduleAgenda>();
         ScheduleAgenda scheduleAgenda = new ScheduleAgenda();
@@ -71,7 +91,7 @@ public class MeetingServiceTest {
         scheduleAgenda.setAgendaNumber(3);
         scheduleAgenda.setAgendaName("test");
         scheduleAgenda.setScheduleAgendaId(3L);
-        
+
         scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/08/2009").getTime()).getTime()));
         scheduleAgendas.add(scheduleAgenda);
         scheduleAgenda = new ScheduleAgenda();
@@ -79,7 +99,7 @@ public class MeetingServiceTest {
         scheduleAgenda.setAgendaNumber(2);
         scheduleAgenda.setAgendaName("test");
         scheduleAgenda.setScheduleAgendaId(2L);
-        
+
         scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/05/2009").getTime()).getTime()));
         scheduleAgendas.add(scheduleAgenda);
         scheduleAgenda = new ScheduleAgenda();
@@ -87,14 +107,14 @@ public class MeetingServiceTest {
         scheduleAgenda.setAgendaNumber(1);
         scheduleAgenda.setAgendaName("test");
         scheduleAgenda.setScheduleAgendaId(1L);
-        
+
 
         scheduleAgenda.setCreateTimestamp(new Timestamp(new Date(dateFormat.parse("10/02/2009").getTime()).getTime()));
         scheduleAgendas.add(scheduleAgenda);
         return scheduleAgendas;
     }
-    
-    @Test 
+
+    @Test
     public void testSaveCommitteeSchedule() throws Exception {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
@@ -107,14 +127,16 @@ public class MeetingServiceTest {
         final List<CommScheduleActItem> deletedOtherActions = new ArrayList<CommScheduleActItem>();
         CommScheduleActItem actItem = new CommScheduleActItem();
         deletedOtherActions.add(actItem);
-        context.checking(new Expectations() {{
-            one(businessObjectService).delete(deletedOtherActions);
-            one(businessObjectService).save(committeeSchedule);
+        context.checking(new Expectations() {
+            {
+                one(businessObjectService).delete(deletedOtherActions);
+                one(businessObjectService).save(committeeSchedule);
 
-            
-        }});
+
+            }
+        });
         meetingService.setBusinessObjectService(businessObjectService);
-        meetingService.SaveMeetingDetails(committeeSchedule, deletedOtherActions);
+        meetingService.saveMeetingDetails(committeeSchedule, deletedOtherActions);
         Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeId(), "test");
         Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeName(), "committeeName");
         Assert.assertEquals(committeeSchedule.getPlace(), "iu - poplar");
@@ -125,68 +147,426 @@ public class MeetingServiceTest {
         Assert.assertEquals(committeeSchedule.getScheduleStatusCode(), new Integer(1));
         // TODO : need to set up protocolsubmission/otheractions/attendances/minutes for more testing
         // to check whetehr it is really persisted in DB ok or assume the mock 'save' and 'delete' are ok ?
-    
+
     }
 
-    @Test 
+    @Test
     public void testgetStandardReviewComment() throws Exception {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final ProtocolContingency protocolContingency = new ProtocolContingency();
         protocolContingency.setProtocolContingencyCode("1");
         protocolContingency.setDescription("Protocol Contingency comment #1");
-        context.checking(new Expectations() {{
-            Map<String, String> queryMap = new HashMap<String, String>();
-            queryMap.put("protocolContingencyCode", "1");
-            one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
-            will(returnValue(protocolContingency));
-            
-        }});
+        context.checking(new Expectations() {
+            {
+                Map<String, String> queryMap = new HashMap<String, String>();
+                queryMap.put("protocolContingencyCode", "1");
+                one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+                will(returnValue(protocolContingency));
+
+            }
+        });
         meetingService.setBusinessObjectService(businessObjectService);
         String description = meetingService.getStandardReviewComment("1");
         Assert.assertEquals(description, "Protocol Contingency comment #1");
-        context.checking(new Expectations() {{
-            Map<String, String> queryMap = new HashMap<String, String>();
-            queryMap.put("protocolContingencyCode", "2");
-            one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
-            will(returnValue(null));
-            
-        }});
+        context.checking(new Expectations() {
+            {
+                Map<String, String> queryMap = new HashMap<String, String>();
+                queryMap.put("protocolContingencyCode", "2");
+                one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+                will(returnValue(null));
+
+            }
+        });
         description = meetingService.getStandardReviewComment("2");
         Assert.assertTrue(description == null);
 
-    
+
     }
 
-    @Test 
-    public void getAgendaGenerationDate() throws Exception {
+    @Test
+    public void testAddOtherAction() throws Exception {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        CommScheduleActItem newOtherAction = getOtherActionItem(1L, "1", 0);
+        newOtherAction.setScheduleActItemTypeCode("1");
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        committeeSchedule.setCommScheduleActItems(new ArrayList<CommScheduleActItem>());
+        meetingService.addOtherAction(newOtherAction, committeeSchedule);
+        Assert.assertTrue(committeeSchedule.getCommScheduleActItems().size() == 1);
+        Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getScheduleActItemTypeCode(), "1");
+        Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getActionItemNumber(), new Integer(1));
+    }
+
+    @Test
+    public void testDeleteOtherAction() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        List<CommScheduleActItem> items = new ArrayList<CommScheduleActItem>();
+        List<CommScheduleActItem> deletedItems = new ArrayList<CommScheduleActItem>();
+        CommScheduleActItem otherAction1 = getOtherActionItem(1L, "1", 1);
+        items.add(otherAction1);
+        CommScheduleActItem otherAction2 = getOtherActionItem(2L, "2", 2);
+        items.add(otherAction2);
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        committeeSchedule.setCommScheduleActItems(items);
+
+        meetingService.deleteOtherAction(committeeSchedule, 1, deletedItems);
+        Assert.assertTrue(committeeSchedule.getCommScheduleActItems().size() == 1);
+        Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getScheduleActItemTypeCode(), "1");
+        Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getActionItemNumber(), new Integer(1));
+        Assert.assertTrue(deletedItems.size() == 1);
+        Assert.assertEquals(deletedItems.get(0).getScheduleActItemTypeCode(), "2");
+        Assert.assertEquals(deletedItems.get(0).getActionItemNumber(), new Integer(2));
+    }
+
+    private CommScheduleActItem getOtherActionItem(Long commScheduleActItemsId, String scheduleActItemTypeCode, int actionItemNumber) {
+        CommScheduleActItem otherAction = new CommScheduleActItem() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                if (referenceObjectName.equals("scheduleActItemType")) {
+                    ScheduleActItemType scheduleActItemType = new ScheduleActItemType();
+                    scheduleActItemType.setScheduleActItemTypeCode(this.getScheduleActItemTypeCode());
+                }
+
+            }
+        };
+
+        otherAction.setActionItemNumber(actionItemNumber);
+        otherAction.setScheduleActItemTypeCode(scheduleActItemTypeCode);
+        otherAction.setCommScheduleActItemsId(commScheduleActItemsId);
+        return otherAction;
+
+    }
+
+    @Test
+    public void testMarkAbsent() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        List<MemberPresentBean> memberPresentBeans = new ArrayList<MemberPresentBean>();
+        List<MemberAbsentBean> memberAbsentBeans = new ArrayList<MemberAbsentBean>();
+        memberPresentBeans.add(getMemberPresentBean(PERSON_ID_1, PERSON_NAME_1));
+        memberPresentBeans.add(getMemberPresentBean(PERSON_ID_2, PERSON_NAME_2));
+        memberPresentBeans.add(getMemberPresentBean(PERSON_ID_3, PERSON_NAME_3));
+
+        meetingService.markAbsent(memberPresentBeans, memberAbsentBeans, 1);
+        Assert.assertTrue(memberPresentBeans.size() == 2);
+        Assert.assertTrue(memberAbsentBeans.size() == 1);
+        Assert.assertEquals(memberPresentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_1);
+        Assert.assertEquals(memberPresentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_1);
+        Assert.assertEquals(memberPresentBeans.get(1).getAttendance().getPersonId(), PERSON_ID_3);
+        Assert.assertEquals(memberPresentBeans.get(1).getAttendance().getPersonName(), PERSON_NAME_3);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_2);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_2);
+    }
+
+
+    private MemberPresentBean getMemberPresentBean(String personId, String personName) {
+        MemberPresentBean memberPresentBean = new MemberPresentBean();
+        CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
+        attendance.setPersonId(personId);
+        attendance.setPersonName(personName);
+        memberPresentBean.setAttendance(attendance);
+        return memberPresentBean;
+    }
+
+    @Test
+    public void testPresentVoting() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        List<MemberPresentBean> memberPresentBeans = new ArrayList<MemberPresentBean>();
+        List<MemberAbsentBean> memberAbsentBeans = new ArrayList<MemberAbsentBean>();
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_1, PERSON_NAME_1));
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_2, PERSON_NAME_2));
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_3, PERSON_NAME_3));
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+
+        committeeSchedule.setCommittee(getCommitteeWithMember());
+        // TODO : test if "alternate for" role ?
+        committeeSchedule.setScheduledDate(SCHEDULE_DATE);
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+        meetingHelper.setCommitteeSchedule(committeeSchedule);
+        meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
+        meetingHelper.setMemberPresentBeans(memberPresentBeans);
+        meetingService.presentVoting(meetingHelper, 1);
+        Assert.assertTrue(memberPresentBeans.size() == 1);
+        Assert.assertTrue(memberAbsentBeans.size() == 2);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_1);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_1);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonId(), PERSON_ID_3);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonName(), PERSON_NAME_3);
+        Assert.assertEquals(memberPresentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_2);
+        Assert.assertEquals(memberPresentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_2);
+    }
+
+    @Test
+    public void testPresentOther() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        List<OtherPresentBean> otherPresentBeans = new ArrayList<OtherPresentBean>();
+        List<MemberAbsentBean> memberAbsentBeans = new ArrayList<MemberAbsentBean>();
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_1, PERSON_NAME_1));
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_2, PERSON_NAME_2));
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_3, PERSON_NAME_3));
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+
+        committeeSchedule.setCommittee(getCommitteeWithMember());
+
+        committeeSchedule.setScheduledDate(SCHEDULE_DATE);
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+        meetingHelper.setCommitteeSchedule(committeeSchedule);
+        meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
+        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingService.presentOther(meetingHelper, 1);
+        Assert.assertTrue(otherPresentBeans.size() == 1);
+        Assert.assertTrue(memberAbsentBeans.size() == 2);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_1);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_1);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonId(), PERSON_ID_3);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonName(), PERSON_NAME_3);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_2);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_2);
+    }
+
+    private CommitteeMembership getMembership(String personID, Integer rolodexID, String membershipTypeCode, Date termStartDate,
+            Date termEndDate) {
+        CommitteeMembership committeeMembership = new CommitteeMembership();
+        committeeMembership.setPersonId(personID);
+        committeeMembership.setRolodexId(rolodexID);
+        committeeMembership.setMembershipTypeCode(membershipTypeCode);
+        committeeMembership.setTermStartDate(termStartDate);
+        committeeMembership.setTermEndDate(termEndDate);
+        return committeeMembership;
+    }
+
+    private MemberAbsentBean getMemberAbsentBean(String personId, String personName) {
+        MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
+        CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
+        attendance.setPersonId(personId);
+        attendance.setPersonName(personName);
+        memberAbsentBean.setAttendance(attendance);
+        return memberAbsentBean;
+    }
+
+    private CommitteeMembershipRole getRole(String membershipRoleCode, Date startDate, Date endDate) {
+        CommitteeMembershipRole committeeMembershipRole = new CommitteeMembershipRole();
+        committeeMembershipRole.setMembershipRoleCode(membershipRoleCode);
+        committeeMembershipRole.setStartDate(startDate);
+        committeeMembershipRole.setEndDate(endDate);
+        MembershipRole membershipRole = new MembershipRole();
+        membershipRole.setMembershipRoleCode(membershipRoleCode);
+        membershipRole.setDescription("Role " + membershipRoleCode);
+        committeeMembershipRole.setMembershipRole(membershipRole);
+        return committeeMembershipRole;
+    }
+
+    @Test
+    public void testAddOtherPresent() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        OtherPresentBean newOtherPresentBean = getOtherPresentBean(PERSON_ID_1, PERSON_NAME_1, true);
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        List<OtherPresentBean> otherPresentBeans = new ArrayList<OtherPresentBean>();
+        List<MemberAbsentBean> memberAbsentBeans = new ArrayList<MemberAbsentBean>();
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_1, PERSON_NAME_1));
+
+        committeeSchedule.setCommittee(getCommitteeWithMember());
+
+        committeeSchedule.setScheduledDate(SCHEDULE_DATE);
+
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+        meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
+        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingHelper.setNewOtherPresentBean(newOtherPresentBean);
+        meetingHelper.setCommitteeSchedule(committeeSchedule);
+        meetingService.addOtherPresent(meetingHelper);
+        Assert.assertTrue(otherPresentBeans.size() == 1);
+        Assert.assertTrue(memberAbsentBeans.size() == 0);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_1);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_1);
+    }
+
+    private Committee getCommitteeWithMember() {
+        Committee committee = new Committee();
+        CommitteeMembership committeeMembership = getMembership(PERSON_ID_1, null, MEMBERSHIP_TYPE_CD, TERM_START_DATE,
+                TERM_END_DATE);
+        committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
+        committee.getCommitteeMemberships().add(committeeMembership);
+        committee.getCommitteeMemberships()
+                .add(getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE));
+        committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_4, ROLE_START_DATE, ROLE_END_DATE));
+        return committee;
+    }
+    
+    @Test
+    public void testdeleteOtherPresent() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        List<OtherPresentBean> otherPresentBeans = new ArrayList<OtherPresentBean>();
+        otherPresentBeans.add(getOtherPresentBean(PERSON_ID_1, PERSON_NAME_1, true));
+        otherPresentBeans.add(getOtherPresentBean(PERSON_ID_3, PERSON_NAME_3, false));
+        List<MemberAbsentBean> memberAbsentBeans = new ArrayList<MemberAbsentBean>();
+        memberAbsentBeans.add(getMemberAbsentBean(PERSON_ID_2, PERSON_NAME_2));
+
+        committeeSchedule.setCommittee(getCommitteeWithMember());
+
+        committeeSchedule.setScheduledDate(SCHEDULE_DATE);
+
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+        meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
+        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingHelper.setCommitteeSchedule(committeeSchedule);
+        meetingService.deleteOtherPresent(meetingHelper, 0);
+        Assert.assertTrue(otherPresentBeans.size() == 1);
+        Assert.assertTrue(memberAbsentBeans.size() == 2);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_3);
+        Assert.assertEquals(otherPresentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_3);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonId(), PERSON_ID_2);
+        Assert.assertEquals(memberAbsentBeans.get(0).getAttendance().getPersonName(), PERSON_NAME_2);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonId(), PERSON_ID_1);
+        Assert.assertEquals(memberAbsentBeans.get(1).getAttendance().getPersonName(), PERSON_NAME_1);
+    }
+
+
+    private OtherPresentBean getOtherPresentBean(String personId, String personName, boolean isMember) {
+        OtherPresentBean otherPresentBean = new OtherPresentBean();
+        CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
+        attendance.setPersonId(personId);
+        attendance.setPersonName(personName);
+        otherPresentBean.setAttendance(attendance);
+        otherPresentBean.setMember(isMember);
+        return otherPresentBean;
+    }
+
+    @Test
+    public void testAddCommitteeScheduleMinute() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        CommitteeScheduleMinute newCommitteeScheduleMinute = getCommitteeScheduleMinute(1L, "1", 1);
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        committeeSchedule.setId(1L);
+        committeeSchedule.setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>());
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+        meetingHelper.setNewCommitteeScheduleMinute(newCommitteeScheduleMinute);
+        meetingHelper.setCommitteeSchedule(committeeSchedule);
+        meetingService.addCommitteeScheduleMinute(meetingHelper);
+        Assert.assertTrue(committeeSchedule.getCommitteeScheduleMinutes().size() == 1);
+        Assert.assertEquals(committeeSchedule.getCommitteeScheduleMinutes().get(0).getMinuteEntryTypeCode(), "1");
+        Assert.assertEquals(committeeSchedule.getCommitteeScheduleMinutes().get(0).getEntryNumber(), new Integer(1));
+    }
+
+    @Test
+    public void testDeleteCommitteeScheduleMinute() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        List<CommitteeScheduleMinute> items = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinute> deletedItems = new ArrayList<CommitteeScheduleMinute>();
+        CommitteeScheduleMinute minute1 = getCommitteeScheduleMinute(1L, "1", 1);
+        items.add(minute1);
+        CommitteeScheduleMinute minute2 = getCommitteeScheduleMinute(2L, "2", 2);
+        items.add(minute2);
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        committeeSchedule.setCommitteeScheduleMinutes(items);
+
+        meetingService.deleteCommitteeScheduleMinute(committeeSchedule, deletedItems, 1);
+        Assert.assertTrue(committeeSchedule.getCommitteeScheduleMinutes().size() == 1);
+        Assert.assertEquals(committeeSchedule.getCommitteeScheduleMinutes().get(0).getMinuteEntryTypeCode(), "1");
+        Assert.assertEquals(committeeSchedule.getCommitteeScheduleMinutes().get(0).getEntryNumber(), new Integer(1));
+        Assert.assertTrue(deletedItems.size() == 1);
+        Assert.assertEquals(deletedItems.get(0).getMinuteEntryTypeCode(), "2");
+        Assert.assertEquals(deletedItems.get(0).getEntryNumber(), new Integer(2));
+    }
+
+    private CommitteeScheduleMinute getCommitteeScheduleMinute(Long commScheduleMinutesId, String minuteEntryTypeCode,
+            int entryNumber) {
+        CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                if (referenceObjectName.equals("minuteEntryType")) {
+                    MinuteEntryType minuteEntryType = new MinuteEntryType();
+                    minuteEntryType.setMinuteEntryTypeCode(this.getMinuteEntryTypeCode());
+                }
+
+            }
+        };
+
+        committeeScheduleMinute.setEntryNumber(entryNumber);
+        committeeScheduleMinute.setMinuteEntryTypeCode(minuteEntryTypeCode);
+        committeeScheduleMinute.setCommScheduleMinutesId(commScheduleMinutesId);
+        return committeeScheduleMinute;
+
+    }
+
+
+    @Test
+    public void testPopulateFormHelper() throws Exception {
+        MeetingServiceImpl meetingService = new MeetingServiceImpl();
+        CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+
+        Committee committee = new Committee();
+        committee.setCommitteeId("1");
+        committee.setCommitteeName("Test Committee");
+        CommitteeMembership committeeMembership = getMembership(PERSON_ID, null, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
+        committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
+        committee.getCommitteeMemberships().add(committeeMembership);
+        committee.getCommitteeMemberships()
+                .add(getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE));
+        committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_4, ROLE_START_DATE, ROLE_END_DATE));
+        committeeSchedule.setCommittee(committee);
+        // TODO : test if "alternate for" role ?
+        committeeSchedule.setScheduledDate(SCHEDULE_DATE);
+        committeeSchedule.setId(1L);
+        List<ProtocolSubmission> protocolSubmissions = new ArrayList<ProtocolSubmission>();
+        protocolSubmissions.add(getProtocolSubmission(1L));
+        protocolSubmissions.add(getProtocolSubmission(2L));
+        committeeSchedule.setProtocolSubmissions(protocolSubmissions);
+        MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final List<ScheduleAgenda> agendas = getAgendas();
-        context.checking(new Expectations() {{
-            Map queryMap = new HashMap();
-            queryMap.put("scheduleIdFk", 1L);
-            one(businessObjectService).findMatchingOrderBy(
-                    ScheduleAgenda.class, queryMap, "createTimestamp", false);;
-            will(returnValue(agendas));
-            
-        }});
-        meetingService.setBusinessObjectService(businessObjectService);
-        Date agendaGenerationDate = meetingService.getAgendaGenerationDate(1L);
-        Assert.assertEquals(agendaGenerationDate, new Date(dateFormat.parse("10/08/2009").getTime()));
-        final List<ScheduleAgenda> agenda1s = new ArrayList<ScheduleAgenda>(); 
-        context.checking(new Expectations() {{
-            Map queryMap = new HashMap();
-            queryMap.put("scheduleIdFk", 2L);
-            one(businessObjectService).findMatchingOrderBy(
-                    ScheduleAgenda.class, queryMap, "createTimestamp", false);;
-            will(returnValue(agenda1s));
-            
-        }});
-        agendaGenerationDate = meetingService.getAgendaGenerationDate(2L);
-        Assert.assertTrue(agendaGenerationDate == null);
+        context.checking(new Expectations() {
+            {
+                Map queryMap = new HashMap();
+                queryMap.put("scheduleIdFk", 1L);
+                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", false);
+                ;
+                will(returnValue(agendas));
 
-    
+            }
+        });
+        meetingService.setBusinessObjectService(businessObjectService);
+
+        meetingService.populateFormHelper(meetingHelper, committeeSchedule, 1);
+        Assert.assertTrue(meetingHelper.getMemberAbsentBeans().size() == 2);
+        Assert.assertTrue(meetingHelper.getProtocolSubmittedBeans().size() == 2);
+        Assert.assertTrue(meetingHelper.getMemberPresentBeans().size() == 0);
+        Assert.assertTrue(meetingHelper.getOtherPresentBeans().size() == 0);
+        Assert.assertEquals(meetingHelper.getTabLabel(), "Test Committee #1 Meeting " + dateFormat.format(SCHEDULE_DATE));
+    }
+
+    private ProtocolSubmission getProtocolSubmission(Long submissionId) {
+        ProtocolSubmission protocolSubmission = new ProtocolSubmission() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+        };
+        protocolSubmission.setProtocol(getProtocol());
+        protocolSubmission.setSubmissionId(submissionId);
+        return protocolSubmission;
+
+    }
+
+    private Protocol getProtocol() {
+        Protocol protocol = new Protocol() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+            }
+
+            @Override
+            public ProtocolPerson getPrincipalInvestigator() {
+                ProtocolPerson protocolPerson = new ProtocolPerson();
+                protocolPerson.setPersonId(PERSON_ID_1);
+                protocolPerson.setPersonName(PERSON_NAME_1);
+                return protocolPerson;
+            }
+
+        };
+        return protocol;
+
     }
 
 }
