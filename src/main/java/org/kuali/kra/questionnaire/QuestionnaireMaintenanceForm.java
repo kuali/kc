@@ -186,5 +186,16 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     }
 
 
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        if (propertyName.startsWith("document.newMaintainableObject.businessObject") 
+                || propertyName.startsWith("qnaireQuestions")) {
+            return true;
+        } else {
+            return super.isPropertyEditable(propertyName);
+        }
+    }
+
+
 
 }
