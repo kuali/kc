@@ -20,7 +20,7 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}DistributionAndIncome"
-	documentTypeName="BudgetDocument"
+	documentTypeName="${KualiForm.docTypeName}"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="distributionAndIncome"
   	extraTopButtons="${KualiForm.extraTopButtons}"

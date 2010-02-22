@@ -98,26 +98,20 @@ public class BudgetAction extends BudgetActionBase {
         }
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        // populate costelement and other shared field to personnel detail
-        // primarily to prevent sync modular budget in case 'reload' on modular budget page
         copyLineItemToPersonnelDetails(budgetDocument);
         if (budget.getActivityTypeCode().equals("x")) {
             budget.setActivityTypeCode(KraServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budgetDocument));
         }
 
-        // this is to prevent item calamts to be regenerated again when load doc from doc search
-        // getting uglier.  definitely candidate for refactoring
         if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
             ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
         if(budget.getUrRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
             ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }        
-//        if ( "Y".equals(budgetForm.getSyncBudgetRate())) {
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
-            budgetForm.setSyncBudgetRate("");
-            getBudgetSummaryService().calculateBudget(budget);
-//        }
+        getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+        budgetForm.setSyncBudgetRate("");
+        getBudgetSummaryService().calculateBudget(budget);
         reconcileBudgetStatus(budgetForm);
         return forward;
     }
