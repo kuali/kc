@@ -23,6 +23,8 @@ import java.io.Serializable;
  * This class is form data for member absent in meeting page
  */
 public class MemberAbsentBean implements Serializable, Comparable<MemberAbsentBean> {
+
+    private static final long serialVersionUID = -5220883072192174587L;
     private CommitteeScheduleAttendance attendance;
 
     public CommitteeScheduleAttendance getAttendance() {

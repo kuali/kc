@@ -42,12 +42,11 @@ public class MeetingAddOtherRule extends ResearchDocumentRuleBase implements Bus
         if (StringUtils.isBlank(event.getMeetingHelper().getNewOtherPresentBean().getAttendance().getPersonName())) {
             errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_EMPTY_PERSON);
             rulePassed = false;
-        }
-        else {
+        } else {
             for (MemberPresentBean memberPresentBean : event.getMeetingHelper().getMemberPresentBeans()) {
                 if (isMemberPresent(memberPresentBean, event.getMeetingHelper().getNewOtherPresentBean())) {
-                    errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_ADD_MEMBER_PRESENT, event.getMeetingHelper().getNewOtherPresentBean()
-                            .getAttendance().getPersonName());
+                    errorReporter.reportError(NEWOTHERPRESENT_PERSONNAME, KeyConstants.ERROR_ADD_MEMBER_PRESENT, event
+                            .getMeetingHelper().getNewOtherPresentBean().getAttendance().getPersonName());
                     rulePassed = false;
                 }
 
@@ -64,16 +63,11 @@ public class MeetingAddOtherRule extends ResearchDocumentRuleBase implements Bus
         if (memberPresentBean.getAttendance().getNonEmployeeFlag() && otherPresentBean.getAttendance().getNonEmployeeFlag()
                 && memberPresentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
-        }
-        else if (!memberPresentBean.getAttendance().getNonEmployeeFlag() && !otherPresentBean.getAttendance().getNonEmployeeFlag()
+        } else if (!memberPresentBean.getAttendance().getNonEmployeeFlag() && !otherPresentBean.getAttendance().getNonEmployeeFlag()
                 && memberPresentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
-        }
-        else if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
+        }  else if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
                 && StringUtils.isNotBlank(otherPresentBean.getAttendance().getPersonId())
-                // TODO check alternate for is not perfect because there is no indicator that alternatefor is person or rolodex
-                // and we can't rule out personid=rolodexid
-                // However, rolodex_id is number(6) and principal_d is varchar(40).   if we keep current format of principal_id with 11 digits, then it should be OK.
                 && memberPresentBean.getAttendance().getAlternateFor().equals(otherPresentBean.getAttendance().getPersonId())) {
             isPresent = true;
         }

@@ -34,6 +34,8 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase implements
     
 
     private static final long serialVersionUID = 3106451618464691958L;
+    public static final String ATTENDANCE = "2";
+    public static final String PROTOCOL = "3";
     @Id 
     @Column(name="MINUTE_ENTRY_TYPE_CODE")
     private String minuteEntryTypeCode; 
@@ -41,8 +43,6 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase implements
     private Integer sortId; 
     @Column(name="DESCRIPTION")
     private String description; 
-    public static final String ATTENDANCE = "2";
-    public static final String PROTOCOL = "3";
     
         
     public MinuteEntryType() { 
