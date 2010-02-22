@@ -26,7 +26,6 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<%-- <kra:permission value="${KualiForm.meetingHelper.modifySubjects}">--%>
              <c:if test="${!readOnly}">
 	            <tr>
 				<th class="infoline" width="5%">

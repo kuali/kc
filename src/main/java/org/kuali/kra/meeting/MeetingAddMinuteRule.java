@@ -64,8 +64,7 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                     rulePassed = false;
                 }
             }
-        }
-        else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
                 && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)
                 && committeeScheduleMinute.getProtocolIdFk() != null) {
             errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);

@@ -60,8 +60,6 @@ public boolean processRules(MeetingPresentOtherOrVotingEvent event) {
 
         if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())
                 && StringUtils.isNotBlank(memberAbsentBean.getAttendance().getPersonId())
-                // TODO check alternate for is not perfect because there is no indicator that alternatefor is person or rolodex
-                // and we can't rule out personid=rolodexid
                 && memberPresentBean.getAttendance().getAlternateFor().equals(memberAbsentBean.getAttendance().getPersonId())) {
             isPresent = true;
         }
