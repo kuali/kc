@@ -513,6 +513,7 @@
 			            
 			            <tbody id="G${anchorIndex}" style="display: none;">
 				           	<c:forEach var="nonPersonnelObjectCode" items="${nonPersonnelObjectCodes}" varStatus="objStatus" >
+				           		<c:if test="${nonPersonnelObjectCode.costElement ne KualiForm.proposalHierarchyIndirectObjectCode}"> 
 					        	 <tr>
 									<c:if test="${objStatus.index == 0}">
 					        	 		<td width="5%" rowspan="${fn:length(nonPersonnelObjectCodes)}">&nbsp;</td>
@@ -539,6 +540,14 @@
 					                </td>
 					                
 					        	 </tr>
+					        	 </c:if>
+					        	 <c:if test="${nonPersonnelObjectCode.costElement eq KualiForm.proposalHierarchyIndirectObjectCode}">
+					        	 	 <c:forEach var="periodTotal" items="${KualiForm.document.budget.objectCodeTotals[nonPersonnelObjectCode]}" varStatus="objPeriodStatus" >
+					               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${objPeriodStatus.index}" />
+					               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${objPeriodStatus.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
+					        	 	 </c:forEach>
+					                
+					        	 </c:if>
 							</c:forEach>
 						</tbody>
 					</c:if>

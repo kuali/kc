@@ -71,6 +71,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -429,6 +430,7 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         budget.getBudgetTotals();
+        budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
         return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
     }
 
