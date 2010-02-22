@@ -25,7 +25,7 @@ import org.kuali.rice.kns.document.Document;
  */
 public class MeetingAddOtherEvent  extends MeetingEventBase<MeetingAddOtherRule> {
     
-    private static final String MSG = "Add meeting other actions ";
+    private static final String MSG = "Add meeting present other  ";
     
     public MeetingAddOtherEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);

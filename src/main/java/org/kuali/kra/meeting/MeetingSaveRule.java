@@ -148,7 +148,6 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
                 return rulePassed;
             }
 
-
             if (!(mins >= 0 && mins <= 59)) {
                 rulePassed = createErrorReport(id, prefix, MSG4);
                 return rulePassed;
@@ -174,21 +173,20 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
         Integer endHrs;
         Integer endMins;
 
-        if (startTime.getMeridiem().equals("PM") && endTime.getMeridiem().equals("AM")) {
+        if ("PM".equals(startTime.getMeridiem()) && "AM".equals(endTime.getMeridiem())) {
             errorReporter.reportError(ID1.replace(VIEW_TIME, VIEW_END_TIME),
                     KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
             rulePassed = false;
-        }
-        else if (startTime.getMeridiem().equals(endTime.getMeridiem())) {
-                startHrs = new Integer(startTimeSplit[0]);
-                startMins = new Integer(startTimeSplit[1]);
-                endHrs = new Integer(endTimeSplit[0]);
-                endMins = new Integer(endTimeSplit[1]);
-                if ((startHrs != 12 && (startHrs > endHrs || endHrs == 12)) || (startHrs.equals(endHrs) && startMins > endMins)) {
-                    errorReporter.reportError(ID1.replace(VIEW_TIME, VIEW_END_TIME),
-                            KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
-                    rulePassed = false;
-                }
+        } else if (startTime.getMeridiem().equals(endTime.getMeridiem())) {
+            startHrs = new Integer(startTimeSplit[0]);
+            startMins = new Integer(startTimeSplit[1]);
+            endHrs = new Integer(endTimeSplit[0]);
+            endMins = new Integer(endTimeSplit[1]);
+            if ((startHrs != 12 && (startHrs > endHrs || endHrs == 12)) || (startHrs.equals(endHrs) && startMins > endMins)) {
+                errorReporter.reportError(ID1.replace(VIEW_TIME, VIEW_END_TIME),
+                        KeyConstants.ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME);
+                rulePassed = false;
+            }
         }
         return rulePassed;
     }

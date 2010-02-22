@@ -22,6 +22,8 @@ import java.io.Serializable;
  * This class is form data for other present.
  */
 public class OtherPresentBean implements Serializable, Comparable<OtherPresentBean> {
+
+    private static final long serialVersionUID = 4831035284455868528L;
     private CommitteeScheduleAttendance attendance;
     private boolean member;
 

@@ -111,7 +111,7 @@ public class MeetingServiceImpl implements MeetingService {
             return new Timestamp(dt.getTime());
         } catch (Exception e) {
             // TODO : not sure to throw runtimeexception or not.
-            // folowing may convert date to 12-31-1969 ? 
+            // folowing may convert date to 07-02-1970 iftz is gmt+12 or more
             dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH); 
             return new Timestamp(DateUtils.addMinutes(dt, viewTime.findMinutes()).getTime());
             
@@ -187,7 +187,6 @@ public class MeetingServiceImpl implements MeetingService {
         memberPresentBean.getAttendance().setAlternateFlag(
                 isAlternateForMember(meetingHelper.getCommitteeSchedule(), memberPresentBean.getAttendance(), meetingHelper
                         .getCommitteeSchedule().getScheduledDate()));
-
         meetingHelper.getMemberPresentBeans().add(memberPresentBean);
         meetingHelper.getMemberAbsentBeans().remove(itemNumber);
     }
@@ -265,7 +264,6 @@ public class MeetingServiceImpl implements MeetingService {
             }
         }
         committeeScheduleAttendance.setRoleName(roleName);
-        // return roleName;
     }
 
 
@@ -333,7 +331,6 @@ public class MeetingServiceImpl implements MeetingService {
         memberHandling(meetingHelper, otherPresentBean);
         meetingHelper.getOtherPresentBeans().add(otherPresentBean);
         meetingHelper.setNewOtherPresentBean(new OtherPresentBean());
-
     }
 
     /**
@@ -605,16 +602,14 @@ public class MeetingServiceImpl implements MeetingService {
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
                     committeeScheduleAttendance.setPersonId(committeeMembership.getRolodexId().toString());
                     committeeScheduleAttendance.setNonEmployeeFlag(true);
-                }
-                else {
+                } else {
                     committeeScheduleAttendance.setPersonId(committeeMembership.getPersonId());
                     committeeScheduleAttendance.setNonEmployeeFlag(false);
                 }
                 committeeScheduleAttendance.setPersonName(committeeMembership.getPersonName());
                 if (isAlternate(committeeMembership, commSchedule.getScheduledDate())) {
                     committeeScheduleAttendance.setAlternateFlag(true);
-                }
-                else {
+                } else {
                     committeeScheduleAttendance.setAlternateFlag(false);
 
                 }
@@ -637,8 +632,7 @@ public class MeetingServiceImpl implements MeetingService {
                     && memberPresentBean.getAttendance().getPersonId().equals(committeeMembership.getRolodexId().toString())) {
                 isPresent = true;
                 break;
-            }
-            else if (!memberPresentBean.getAttendance().getNonEmployeeFlag()
+            } else if (!memberPresentBean.getAttendance().getNonEmployeeFlag()
                     && StringUtils.isNotBlank(committeeMembership.getPersonId())
                     && memberPresentBean.getAttendance().getPersonId().equals(committeeMembership.getPersonId())) {
                 isPresent = true;
@@ -658,8 +652,7 @@ public class MeetingServiceImpl implements MeetingService {
                     && otherPresentBean.getAttendance().getPersonId().equals(committeeMembership.getRolodexId().toString())) {
                 isPresent = true;
                 break;
-            }
-            else if (!otherPresentBean.getAttendance().getNonEmployeeFlag()
+            } else if (!otherPresentBean.getAttendance().getNonEmployeeFlag()
                     && StringUtils.isNotBlank(committeeMembership.getPersonId())
                     && otherPresentBean.getAttendance().getPersonId().equals(committeeMembership.getPersonId())) {
                 isPresent = true;

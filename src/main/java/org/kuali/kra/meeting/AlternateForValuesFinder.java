@@ -18,24 +18,27 @@ package org.kuali.kra.meeting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 /**
  * 
  * This class is to set up the 'Alternate For' drop down list for members who have 'Alternate' role.
  */
 public class AlternateForValuesFinder extends KeyValuesBase {
-    private String absenteeList;
 
+    private static final String MEMBER_SEPARATOR = "#m#";
+    private static final String FIELD_SEPARATOR = "#f#";
+    private String absenteeList;
+    
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
 
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        for (String idName : absenteeList.split("#m#")) {
-            String[] valuePair = idName.split("#f#");
+        for (String idName : absenteeList.split(MEMBER_SEPARATOR)) {
+            String[] valuePair = idName.split(FIELD_SEPARATOR);
             keyValues.add(new KeyLabelPair(valuePair[0], valuePair[1]));
         }
         keyValues.add(0, new KeyLabelPair("", "select"));
