@@ -209,6 +209,9 @@ public class BudgetAction extends BudgetActionBase {
         getBudgetSummaryService().calculateBudget(budgetDoc.getBudget());
 
         ActionForward forward = super.save(mapping, form, request, response);
+        BudgetForm savedBudgetForm = (BudgetForm) form;
+        BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
+        refreshBudgetDocumentVersion(savedBudgetDoc);
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
             forward = this.getReturnToProposalForward(budgetForm);
@@ -225,6 +228,11 @@ public class BudgetAction extends BudgetActionBase {
 
         return forward;
     }
+
+    private void refreshBudgetDocumentVersion(BudgetDocument savedBudgetDoc) {
+        savedBudgetDoc.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+    }
+
 
     protected BudgetSummaryService getBudgetSummaryService() {
         return KraServiceLocator.getService(BudgetSummaryService.class);
