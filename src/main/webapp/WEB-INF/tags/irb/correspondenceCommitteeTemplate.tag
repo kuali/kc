@@ -31,23 +31,23 @@
     <%-- New Template --%>
     <c:if test="${!readOnly}">
         <tr>
-            <td>
+            <td class="infoline nobord">
                 <div align="center" style="font-weight:bold;">
                     add
                 </div>
             </td>
-            <td>
+            <td class="infoline nobord">
                 <div align="left">
                     <kul:htmlControlAttribute property="newCorrespondenceTemplates[${index}].committeeId"
                                               attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" />
                 </div>
             </td>
-            <td>
+            <td class="infoline nobord">
                 <div align="center">
                     <kra:file property="newCorrespondenceTemplates[${index}].templateFile" />
                 </div>
             </td>
-            <td>
+            <td class="infoline nobord">
                 <div align="center">
                 <html:image property="methodToCall.addCorrespondenceTemplate.correspondenceType[${index}]" 
                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
