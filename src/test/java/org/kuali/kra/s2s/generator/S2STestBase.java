@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -38,27 +39,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public abstract class S2STestBase<T> extends KraTestBase {
     private S2SBaseFormGenerator generatorObject;
-    private ProposalDevelopmentDocument document;
+    private static ProposalDevelopmentDocument document;
 
-    private void initializeApp() throws Exception {
-        try {
-            generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
-            ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService()
-            .getNewDocument("ProposalDevelopmentDocument");
-            savePropDoc(pd);
-            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
-        } catch (Throwable e) {
-            e.printStackTrace();
-            tearDown();
-            throw new RuntimeException(e);
-        }
-    }
-    
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
         initializeApp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
@@ -73,17 +60,35 @@ public abstract class S2STestBase<T> extends KraTestBase {
     @Test
     public void testValidateForm() throws Exception {
         prepareData(document);
-        getService(BusinessObjectService.class).save(document);
+        saveBO(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
         XmlObject object=generatorObject.getFormObject(document);
-//        object.save(new File("C:\\GrantsGovfiles\\"+object.getClass().getName()+ ".xml"));
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
         assertTrue(errors.isEmpty());
     }
 
-    private void savePropDoc(ProposalDevelopmentDocument pd) {
+    private void saveProposalDocument(ProposalDevelopmentDocument pd) throws Exception {
+        pd.setUpdateUser("quickst");
+        pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+        DocumentHeader docHeader = pd.getDocumentHeader();
+        docHeader.setDocumentDescription("Test s2s service description");
+        String docNumber = docHeader.getDocumentNumber();
+        assertNotNull(docNumber);
+        assertNotNull(pd.getDevelopmentProposal());
+        assertEquals(1, pd.getDevelopmentProposalList().size());    
+        getDocumentService().saveDocument(pd);
+    }
+
+    private ProposalDevelopmentDocument initializeDocument() throws Exception {
+        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
+        pdService.initializeUnitOrganizationLocation(pd);
+        pdService.initializeProposalSiteNumbers(pd);
+        return pd;
+    }
+
+    private DevelopmentProposal initializeDevelopmentProposal(ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
-        
         developmentProposal.setActivityTypeCode("1");
         developmentProposal.refreshReferenceObject("activityType");
         developmentProposal.setSponsorCode("000162");
@@ -100,13 +105,7 @@ public abstract class S2STestBase<T> extends KraTestBase {
         developmentProposal.setDeadlineType("P");
         developmentProposal.setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
         developmentProposal.setNsfCode("J.05");
-        pd.setUpdateUser("quickst");
-        pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-        DocumentHeader docHeader = pd.getDocumentHeader();
-        docHeader.setDocumentDescription("Test s2s service description");
-        String docNumber = docHeader.getDocumentNumber();
-        assertNotNull(docNumber);
-        saveBO(pd);
+        return developmentProposal;
     }
 
     /**
@@ -115,5 +114,20 @@ public abstract class S2STestBase<T> extends KraTestBase {
      */
     protected void saveBO(PersistableBusinessObjectBase bo) {
         getService(BusinessObjectService.class).save(bo);
+    }
+
+    private void initializeApp() throws Exception {
+        try {
+            generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
+            document = initializeDocument();
+            initializeDevelopmentProposal(document);
+            saveProposalDocument(document);
+            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
+            assertNotNull(document.getDevelopmentProposal());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            tearDown();
+            throw new RuntimeException(e);
+        }
     }
 }
