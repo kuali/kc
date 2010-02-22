@@ -440,6 +440,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id="batchCorrespondenceDetailService" class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
     <bean id="genericActionService" class="org.kuali.kra.irb.actions.genericactions.GenericActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
