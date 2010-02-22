@@ -26,14 +26,16 @@
                 <kul:htmlControlAttribute property="batchCorrespondence.batchCorrespondenceTypeCode"
                                           attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.batchCorrespondenceTypeCode}" />          
         </td>
-        <td>
-                <div align="left" style="font-weight:bold;">
-                   Correspondence Period:
-                </div>          
-                <kul:htmlControlAttribute property="batchCorrespondence.defaultTimeWindow"
-                                          attributeEntry="${DataDictionary.BatchCorrespondence.attributes.defaultTimeWindow}" />          
-                days
-        </td>
+        <c:if test="${not empty KualiForm.batchCorrespondence.batchCorrespondenceTypeCode}">
+            <td>
+                    <div align="left" style="font-weight:bold;">
+                       Correspondence Period:
+                    </div>          
+                    <kul:htmlControlAttribute property="batchCorrespondence.defaultTimeWindow"
+                                              attributeEntry="${DataDictionary.BatchCorrespondence.attributes.defaultTimeWindow}" />          
+                    days
+            </td>
+        </c:if>
     </tr>
     <tr>
         <td colspan="2" class="infoline nobord" style="padding:4px">

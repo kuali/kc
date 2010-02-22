@@ -44,7 +44,9 @@
         </h3>
         <table cellpadding="0" cellspacing="0" border="0">
            <kra-irb:batchCorrespondenceDetailType />
-           <kra-irb:batchCorrespondenceDetailDetails />
+           <c:if test="${not empty KualiForm.batchCorrespondence.batchCorrespondenceTypeCode}">
+               <kra-irb:batchCorrespondenceDetailDetails />
+           </c:if>
         </table>
         
         
