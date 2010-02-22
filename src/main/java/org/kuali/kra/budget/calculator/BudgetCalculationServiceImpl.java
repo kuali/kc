@@ -35,6 +35,7 @@ import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -43,7 +44,10 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ErrorMap;
 
@@ -94,7 +98,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      */
     private boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
         assert budgetPeriod != null : "The budget period is null";
-        
+ 
+        if (budgetPeriod.getBudget().getBudgetDocument().getParentDocument() instanceof ProposalDevelopmentDocument) {
+            ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument)budgetPeriod.getBudget().getBudgetDocument().getParentDocument();
+            if (pdDoc.getDevelopmentProposal().isParent()) return false;
+        }
+
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
         
         if(isLineItemsEmpty && !budgetLineItemDeleted){
@@ -576,9 +585,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
-                    List<BudgetDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
-                    for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                        budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
+                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
+                        List<BudgetDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
+                        for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                            budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
+                        }
                     }
                 }
             }
