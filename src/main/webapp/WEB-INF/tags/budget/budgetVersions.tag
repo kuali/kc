@@ -37,8 +37,11 @@
 	<c:set var="readonly" value="true"/> 	
 </c:if>
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-
-<kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}">
+<c:set var="projectDatesString" value=""/>
+<c:if test="${proposalBudgetFlag}">
+	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
+</c:if>
+<kul:tabTop tabTitle="Budget Versions ${projectDatesString}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}">
 
 	<div class="tab-container" align="center">
 

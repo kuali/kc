@@ -46,17 +46,12 @@
            		</td>
             </tr>
         	<tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>
-                <td align="left" valign="middle">
-                	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
-                </td>
        			<th>
            			<div align="right">Obligated Amount:</div>
        			</th>
            		<td>
-           			<bean:write name="KualiForm" property="awardInMultipleNodeHierarchy"/> 
+           			<bean:write name="KualiForm" property="awardInMultipleNodeHierarchy"/>&nbsp; 
            		</td>
-            </tr>
                 <%--
         <c:choose>
 			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">
@@ -88,11 +83,6 @@
            		</td>
                 --%>
                 
-        	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
-                <td>
-                	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
-                </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
            		<td>
            			<bean:write name="KualiForm" property="document.budget.totalCostLimit"/> 
