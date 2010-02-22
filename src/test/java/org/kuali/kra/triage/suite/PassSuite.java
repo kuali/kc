@@ -437,7 +437,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_2GeneratorTest.class,
     org.kuali.kra.s2s.polling.S2SPollingTaskTest.class,
-    org.kuali.kra.s2s.service.PrintFormTest.class
+    org.kuali.kra.s2s.service.PrintFormTest.class,
+    org.kuali.kra.irb.protocol.location.ProtocolLocationRuleTest.class,
+    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
