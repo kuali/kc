@@ -25,7 +25,7 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}Parameters"
-	documentTypeName="BudgetDocument"
+	documentTypeName="${KualiForm.docTypeName}"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="parameters"
   	extraTopButtons="${KualiForm.extraTopButtons}">
