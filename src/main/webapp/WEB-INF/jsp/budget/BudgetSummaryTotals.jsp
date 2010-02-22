@@ -19,7 +19,7 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}SummaryTotals"
-	documentTypeName="BudgetDocument"
+	documentTypeName="${KualiForm.docTypeName}"
   	headerDispatch="reload" 
   	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
