@@ -72,7 +72,8 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         return super.execute(mapping, form, request, response);
     }
     
-    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("batchCorrespondenceTypeCode", ((BatchCorrespondenceDetailForm) form).getBatchCorrespondence().getBatchCorrespondenceTypeCode());
@@ -90,30 +91,48 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
 //        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("protocolCorrespondenceTemplateService");
 //    }
     
+    public ActionForward addCorrespondenceTemplate (ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
+        BatchCorrespondence batchCorrespondence = batchCorrespondenceDetailForm.getBatchCorrespondence();
+        BatchCorrespondenceDetail newBatchCorrespondenceDetail = batchCorrespondenceDetailForm.getNewBatchCorrespondenceDetail();
+
+        // check any business rules
+//        boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processAddDefaultProtocolCorrespondenceTemplateRules(correspondenceType, 
+//                newCorrespondenceTemplate, typeIndex);
+//        if (rulePassed) {
+            getBatchCorrespondenceDetailService().addBatchCorrespondenceDetail(batchCorrespondence, newBatchCorrespondenceDetail);
+//        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteBatchCorrespondenceDetail (ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        int index = getSelectedBatchCorrespondenceDetail(request);
+        BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
+        BatchCorrespondence batchCorrespondence = batchCorrespondenceDetailForm.getBatchCorrespondence();
+        BatchCorrespondenceDetail batchCorrespondenceDetail = batchCorrespondence.getBatchCorrespondenceDetails().get(index);
+        
+        // Add batch correspondence detail to database deletion list
+//        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
+//        correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
+        
+        getBatchCorrespondenceDetailService().deleteBatchCorrespondenceDetail(batchCorrespondence, batchCorrespondenceDetail);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * This method returns the index of the selected correspondence type.
      * @param request
      * @return index
      */
-    protected int getSelectedCorrespondenceType(HttpServletRequest request) {
+    protected int getSelectedBatchCorrespondenceDetail(HttpServletRequest request) {
         int index = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            index = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceType[", "]"));
-        }
-        return index;
-    }
-
-    /**
-     * This method returns the index of the selected correspondence template.
-     * @param request
-     * @return index
-     */
-    protected int getSelectedCorrespondenceTemplate(HttpServletRequest request) {
-        int index = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            index = Integer.parseInt(StringUtils.substringBetween(parameterName, "correspondenceTemplate[", "]"));
+            index = Integer.parseInt(StringUtils.substringBetween(parameterName, "batchCorrespondenceDetail[", "]"));
         }
         return index;
     }
@@ -241,8 +260,8 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         return actionForward;
     }
     
-//    private ProtocolCorrespondenceTemplateAuthorizationService getProtocolCorrespondenceTemplateAuthorizationService() {
-//        return KraServiceLocator.getService(ProtocolCorrespondenceTemplateAuthorizationService.class);
-//    }
+    private BatchCorrespondenceDetailService getBatchCorrespondenceDetailService() {
+        return (BatchCorrespondenceDetailService) KraServiceLocator.getService("batchCorrespondenceDetailService");
+    }
 
 }

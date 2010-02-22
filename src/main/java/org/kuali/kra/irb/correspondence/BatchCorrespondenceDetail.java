@@ -29,6 +29,8 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
     private String protoCorrespTypeCode;
     private Integer noOfDaysTillNext;
     
+    private ProtocolCorrespondenceType protocolCorrespondenceType;
+    
     public BatchCorrespondenceDetail() {
         
     }
@@ -73,6 +75,14 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         this.noOfDaysTillNext = noOfDaysTillNext;
     }
     
+    public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
+        return protocolCorrespondenceType;
+    }
+
+    public void setProtocolCorrespondenceType(ProtocolCorrespondenceType protocolCorrespondenceType) {
+        this.protocolCorrespondenceType = protocolCorrespondenceType;
+    }
+
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
