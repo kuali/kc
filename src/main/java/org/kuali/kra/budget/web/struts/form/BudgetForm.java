@@ -161,11 +161,7 @@ public class BudgetForm extends BudgetVersionFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        BudgetParentDocument budgetParentDocument = getDocument().getParentDocument();
         List<HeaderNavigation> navList = getBudgetHeaderNavigatorList();
-        if(budgetParentDocument!=null){
-            navList =budgetParentDocument.getBudgetHeaderNavigatorList();
-        }
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
         this.setHeaderNavigationTabs(list);
@@ -188,11 +184,11 @@ public class BudgetForm extends BudgetVersionFormBase {
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
     }
 
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
+    protected List<HeaderNavigation> getBudgetHeaderNavigatorList(){
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(getBudgetDocument().getClass().getName());
         return docEntry.getHeaderNavigationList();
-      }
+    }
     
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();

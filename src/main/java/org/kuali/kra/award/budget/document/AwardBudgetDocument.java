@@ -26,10 +26,20 @@ import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
 
+    private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3564659576355229703L;
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     */
+    @Override
+    public String getDocumentTypeCode() {
+        return AWARD_BUDGET_DOCUMENT_TYPE_CODE;
+    }
+
     /**
      * 
      * This method returns Budget object. Creates new budget instance if the budgets list is empty
