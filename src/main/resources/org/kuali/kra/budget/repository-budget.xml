@@ -706,8 +706,8 @@
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rateTypeCode"/>
 			<foreignkey field-ref="rateClassCode"/>
+			<foreignkey field-ref="rateTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.personnel.ValidCeJobCode" table="VALID_CE_JOB_CODES">
