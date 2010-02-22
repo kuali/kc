@@ -27,22 +27,22 @@
     <%-- New Details --%>
     <c:if test="${!readOnly}">
         <tr>
-            <td>
+            <td class="infoline nobord">
                 <div align="center" style="font-weight:bold;">
                     <kul:htmlControlAttribute property="newBatchCorrespondenceDetail.noOfDaysTillNext"
                                               attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.noOfDaysTillNext}" />
                     (of ${KualiForm.batchCorrespondence.defaultTimeWindow})
                 </div>
             </td>
-            <td>
+            <td class="infoline nobord">
                 <div align="left">
                     <kul:htmlControlAttribute property="newBatchCorrespondenceDetail.protoCorrespTypeCode"
                                               attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.protoCorrespTypeCode}" />
                 </div>
             </td>
-            <td>
+            <td class="infoline nobord">
                 <div align="center">
-                <html:image property="methodToCall.addCorrespondenceTemplate.correspondenceType[${index}]" 
+                <html:image property="methodToCall.addCorrespondenceTemplate" 
                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
                     title="Add Correspondence Template" 
                     alt="Add Correspondence Template" 
@@ -63,13 +63,13 @@
             </td>
             <td>
                 <div align="left">
-                    ${protocolCorrespondenceTemplate.committee.committeeName}
+                    ${details.protocolCorrespondenceType.description}
                 </div>
             </td>
             <c:if test="${!readOnly}">
                 <td>
                     <div align="center">
-                        <html:image property="methodToCall.deleteBatchCorrespondenceDetail[${status.index}]}" 
+                        <html:image property="methodToCall.deleteBatchCorrespondenceDetail.batchCorrespondenceDetail[${status.index}]}" 
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif" 
                             title="delete" 
                             alt="delete" 
@@ -99,6 +99,4 @@
             </td>
         </c:if>
     </tr>
-    <%-- Final --%>
-    
-
+    <%-- Final --%>    

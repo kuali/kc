@@ -132,13 +132,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="No Of Days Till Next" />
         <property name="shortLabel" value="No Of Days Till Next" />
-        <property name="maxLength" value="12" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="12" />
+                p:size="3" />
         </property>
         <property name="summary" value="No Of Days Till Next" />
         <property name="description" value="No Of Days Till Next" />
