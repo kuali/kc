@@ -54,7 +54,9 @@ public class MeetingAction extends KualiAction {
     private static final String CLOSE_QUESTION_ID = "meeting.close.question";
     private static final String NEW_SCHEDULE_MINUTE_ERROR_PATH = "meetingHelper.newCommitteeScheduleMinute";
     private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
-
+    private static final String LINE_NUMBER = "lineNum";
+    private static final String REFRESH_CALLER = "refreshCaller";
+    private static final String COMMITTEE_SCHEDULE_ERROR_PATH = "meetingHelper.committeeSchedule";
     /**
      * 
      * This method is for the initial load of meeting page. It is called when 'maintain' button of committee schedule is clicked.
@@ -73,7 +75,7 @@ public class MeetingAction extends KualiAction {
         fieldValues.put("id", request.getParameter("scheduleId"));
         CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
                 fieldValues);
-        ((MeetingForm) form).setReadOnly(request.getParameter("readOnly").equals("true"));
+        ((MeetingForm) form).setReadOnly("true".equals(request.getParameter("readOnly")));
         ((MeetingForm) form).getMeetingHelper().setCommitteeSchedule(commSchedule);
         if (!hasViewModifySchedulePermission(form)) {
             // same exception as of checkauthorization of kualiaction
@@ -93,11 +95,9 @@ public class MeetingAction extends KualiAction {
      */
     private int getScheduleLineNumber(HttpServletRequest request, CommitteeSchedule commSchedule) {
         int lineNumber = 0;
-        if (StringUtils.isNotBlank(request.getParameter("lineNum"))) {
-            lineNumber = Integer.parseInt(request.getParameter("lineNum"));
-        }
-        else {
-
+        if (StringUtils.isNotBlank(request.getParameter(LINE_NUMBER))) {
+            lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
+        } else {
             for (CommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
@@ -164,9 +164,9 @@ public class MeetingAction extends KualiAction {
      */
     private boolean isValidToSave(MeetingHelper meetingHelper) {
 
-        GlobalVariables.getMessageMap().addToErrorPath("meetingHelper.committeeSchedule");
+        GlobalVariables.getMessageMap().addToErrorPath(COMMITTEE_SCHEDULE_ERROR_PATH);
         getDictionaryValidationService().validateBusinessObject(meetingHelper.getCommitteeSchedule());
-        GlobalVariables.getMessageMap().removeFromErrorPath("meetingHelper.committeeSchedule");
+        GlobalVariables.getMessageMap().removeFromErrorPath(COMMITTEE_SCHEDULE_ERROR_PATH);
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         valid &= applyRules(new MeetingSaveEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR));
@@ -301,8 +301,7 @@ public class MeetingAction extends KualiAction {
         if (question == null) {
             return performQuestionWithoutInput(mapping, form, request, response, CLOSE_QUESTION_ID, CLOSE_QUESTION,
                     KNSConstants.CONFIRMATION_QUESTION, ((MeetingForm) form).getMethodToCall(), "");
-        }
-        else {
+        } else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
@@ -311,8 +310,7 @@ public class MeetingAction extends KualiAction {
                     getMeetingService().saveMeetingDetails(committeeSchedule,
                             ((MeetingForm) form).getMeetingHelper().getDeletedBos());
                     ((MeetingForm) form).getMeetingHelper().initDeletedList();
-                }
-                else {
+                } else {
                     return mapping.findForward(Constants.MAPPING_BASIC);
 
                 }
@@ -370,7 +368,7 @@ public class MeetingAction extends KualiAction {
     public ActionForward presentVoting(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         MeetingForm meetingForm = (MeetingForm) form;
-        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get((getLineToDelete(request)));
+        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get(getLineToDelete(request));
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         if (applyRules(new MeetingPresentOtherOrVotingEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper
                 .getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
@@ -394,7 +392,7 @@ public class MeetingAction extends KualiAction {
     public ActionForward presentOther(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         MeetingForm meetingForm = (MeetingForm) form;
-        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get((getLineToDelete(request)));
+        MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get(getLineToDelete(request));
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         if (applyRules(new MeetingPresentOtherOrVotingEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper
                 .getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
@@ -416,7 +414,6 @@ public class MeetingAction extends KualiAction {
      */
     public ActionForward addOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
-        MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         if (applyRules(new MeetingAddOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR))) {
@@ -427,7 +424,7 @@ public class MeetingAction extends KualiAction {
 
     /**
      * 
-     * This method is to remove the selected otehr present.
+     * This method is to remove the selected other present.
      * 
      * @param mapping
      * @param form
@@ -498,11 +495,10 @@ public class MeetingAction extends KualiAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        if (StringUtils.isNotBlank(request.getParameter("refreshCaller"))) {
-            if (request.getParameter("refreshCaller").equals("nonOrganizationalRolodexLookupable")) {
+        if (StringUtils.isNotBlank(request.getParameter(REFRESH_CALLER))) {
+            if ("nonOrganizationalRolodexLookupable".equals(request.getParameter(REFRESH_CALLER))) {
                 ((MeetingForm) form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(true);
-            }
-            else {
+            } else {
                 ((MeetingForm) form).getMeetingHelper().getNewOtherPresentBean().getAttendance().setNonEmployeeFlag(false);
             }
         }
@@ -533,12 +529,22 @@ public class MeetingAction extends KualiAction {
         return KraServiceLocator.getService(DictionaryValidationService.class);
     }
 
+    /**
+     * 
+     * This method is to reload the meeting page.  Reload page when it is 'readOnly' and moving from page to page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    private boolean applyRules(KualiDocumentEvent event) {
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
 

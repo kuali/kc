@@ -38,70 +38,70 @@
                         
                         <div>
                             <table id="protocolSubmitted-table" cellpadding=0 cellspacing="0"  style="border-collapse:collapse;">
-
-<thead>		      <tr>
-        		<th width="4%" />
-                 <th width="8%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="9%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-                 <th width="6%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
-				<c:if test="${!readOnly}">
-					<th class="{sorter: false}" width="5%"> </th>
-				</c:if>
-			</tr>
-</thead>			
-<tbody>			
+                                <thead>
+		                            <tr>
+        		                        <th width="4%" />
+                                        <th width="8%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="16%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="9%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="12%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="6%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+				                        <c:if test="${!readOnly}">
+					                       <th class="{sorter: false}" width="5%"> </th>
+				                        </c:if>
+			                       </tr>
+                                </thead>			
+                                <tbody>			
 			<%-- Existing data --%>
-        	<c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
-	             <tr>
-					<th class="infoline" align="center">
-						<c:out value="${status.index+1}" />
-					</th>
-	                <td align="left" valign="middle">
-	                    <div align="left"> ${protocolSubmission.protocolNumber} </div>
-					</td>
-	                <td align="left" valign="middle">
+        	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
+	                                    <tr>
+					                       <th class="infoline" align="center">
+						                       <c:out value="${status.index+1}" />
+					                       </th>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left"> ${protocolSubmission.protocolNumber} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
 	                    <%-- TODO : getPrincipalInvestigator is calling service which should be avoided.  So, rework this --%>
-	                	<div align="left"> ${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personName}</div>
-                        <c:choose>
-	                        <c:when test="${!empty KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}">
-						        <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].personId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}"/>
-                                <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].personId:personId" anchor="${tabKey}" />
-	                        </c:when>
-	                        <c:otherwise>
-						        <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].rolodexId}"/>
-                                <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId:rolodexId" anchor="${tabKey}" />
-	                        </c:otherwise>
-                       </c:choose>
+	                	                       <div align="left"> ${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personName}</div>
+                                               <c:choose>
+	                                               <c:when test="${!empty KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}">
+						                               <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].personId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}"/>
+                                                       <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].personId:personId" anchor="${tabKey}" />
+	                                               </c:when>
+	                                               <c:otherwise>
+						                               <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].rolodexId}"/>
+                                                       <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId:rolodexId" anchor="${tabKey}" />
+	                                               </c:otherwise>
+                                              </c:choose>
 	                	<%-- TODO : need to take care of rolodex_id  --%>
-	                </td>
-	                <td align="left" valign="middle">
-	                	<div align="left"> ${protocolSubmission.protocol.title}</div>
-	                </td>
-	                <td align="left" valign="middle">
-	                    <div align="left"> ${protocolSubmission.protocolSubmissionType.description} </div>
-					</td>
-	                <td align="left" valign="middle">
-	                    <div align="left"> ${protocolSubmission.protocolSubmissionQualifierType.description} </div>
-					</td>
-	                <td align="left" valign="middle">
-	                    <div align="left"> ${protocolSubmission.protocolReviewType.description} </div>
-					</td>
-	                <td align="left" valign="middle">
-	                    <div align="left"> ${protocolSubmission.submissionStatus.description} </div>
-					</td>
-	                <td align="left" valign="middle">
-	                    <div align="left">               				
-	                        <fmt:formatDate value="${protocolSubmission.submissionDate}" pattern="MM/dd/yyyy" />
-	                     </div>
-					</td>
+	                                       </td>
+	                                       <td align="left" valign="middle">
+	                	                       <div align="left"> ${protocolSubmission.protocol.title}</div>
+	                                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left"> ${protocolSubmission.protocolSubmissionType.description} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left"> ${protocolSubmission.protocolSubmissionQualifierType.description} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left"> ${protocolSubmission.protocolReviewType.description} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left"> ${protocolSubmission.submissionStatus.description} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left">               				
+	                                               <fmt:formatDate value="${protocolSubmission.submissionDate}" pattern="MM/dd/yyyy" />
+	                                            </div>
+					                       </td>
 
-                   <c:if test="${!readOnly}">
-						<td>
+                                          <c:if test="${!readOnly}">
+						                       <td>
 						<%--	<div align=center>&nbsp;					
 								<html:image property="methodToCall.viewProtocolSubmission.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
@@ -110,22 +110,21 @@
                        onclick="viewProtocolPop('true', ${status.index}, ${currentTabIndex});return false"/>   --%>      
 
 <%-- view protocol popup alternatives --%>
-<a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
-    <img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
+                                                    <a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
+                                                       <img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
 
-							</div>
-		                </td>
-		            </c:if>
-	            </tr>
-        	</c:forEach>
+							                       </div>
+		                                       </td>
+		                                   </c:if>
+	                                   </tr>
+        	                       </c:forEach>
 			<%-- Existing data --%>
-</tbody>		
-  </table>
-  </div>
-  </td>
-  </tr>
-	        				
+                       </tbody>		
+                    </table>
+                  </div>
+               </td>
+            </tr>	        				
         </table>
-</div>
+    </div>
 
 </kul:tab>

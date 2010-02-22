@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeSchedule;
