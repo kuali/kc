@@ -39,7 +39,7 @@
 
 <h3>
     <span class="subhead-left">${tabTitle}</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalLocation" altText="help"/></span>
+    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
 </h3>
 <table cellpadding=0 cellspacing="0" summary="">
     <tr>
