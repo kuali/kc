@@ -23,13 +23,16 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
@@ -67,6 +70,7 @@ public class ProposalHierarcyActionHelper {
     private static final String ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.sync.noPrincipleInvestigator";
 
     private ProposalHierarchyService hierarchyService;
+    private KraAuthorizationService authorizationService;
 
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
         if (validateHierarchyForSyncAll(hierarchyProposal)) {
@@ -125,7 +129,11 @@ public class ProposalHierarcyActionHelper {
     }
     
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) {
-        if (validateParent(hierarchyProposal)) {
+        if (!getAuthoriztionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), hierarchyProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)
+                || !getAuthoriztionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), newChildProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)) {
+            GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, KeyConstants.AUTHORIZATION_VIOLATION, new String[0]);
+        }
+        else if (validateParent(hierarchyProposal)) {
             boolean valid = true;
             valid &= validateChildCandidate(newChildProposal);
             if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
@@ -160,6 +168,13 @@ public class ProposalHierarcyActionHelper {
             hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
         }
         return hierarchyService;
+    }
+    
+    private KraAuthorizationService getAuthoriztionService() {
+        if (authorizationService == null) {
+            authorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        }
+        return authorizationService;
     }
     
     private boolean validateParent(DevelopmentProposal proposal) {
