@@ -19,6 +19,7 @@ package org.kuali.kra.s2s.generator.impl;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,11 +30,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
+import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -159,4 +166,39 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
             addAttachment(attachmentData);
         }
     }
+    /**
+     * 
+     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocument
+     * 
+     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
+     * @return List<BudgetSubAwards> list of budget sub awards.
+     */
+    protected List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Budget budget = findBudgetFromProposal(proposalDevelopmentDocument);
+        List<BudgetSubAwards> budgetSubAwardsList = budget==null?new ArrayList<BudgetSubAwards>():budget.getBudgetSubAwards();
+        if(budgetSubAwardsList.isEmpty()){
+            getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
+        }
+        return budgetSubAwardsList;
+    }
+
+    private Budget findBudgetFromProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Budget finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
+        if(finalBudget==null){
+            List<BudgetDocumentVersion> budgetDocumentVersions = proposalDevelopmentDocument.getBudgetDocumentVersions();
+            BudgetVersionOverview budgetVersionOverview = null;
+            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
+                if(budgetDocumentVersion.isBudgetComplete()){
+                    budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+                    return budgetDocumentVersion.findBudget();
+                }
+            }
+            if(!budgetDocumentVersions.isEmpty()){
+                finalBudget = budgetDocumentVersions.get(0).findBudget();
+            }
+        }
+        return finalBudget;
+        
+    }
+    
 }

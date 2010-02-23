@@ -37,8 +37,6 @@ import org.w3c.dom.Node;
  */
 public class S2SValidatorServiceImpl implements S2SValidatorService {
 
-    private static final String GRANTS_GOV_PREFIX = "/GrantApplication/Forms";
-
     /**
      * This method receives an XMLObject and validates it against its schema and returns the validation result. It also receives a
      * list in which upon validation failure, populates it with XPaths of the error nodes.
@@ -55,7 +53,6 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
         result = validateXml(formObject, formErrors);
 
         for (String validationError : formErrors) {
-//            errors.add(S2SErrorMessages.getProperty(GRANTS_GOV_PREFIX + val, val + " is not found"));
             errors.add(S2SErrorHandler.getError(GRANTS_GOV_PREFIX + validationError));
         }
 

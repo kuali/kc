@@ -27,10 +27,11 @@ import org.kuali.rice.kns.util.AuditError;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public interface S2SValidatorService
-
-{
+public interface S2SValidatorService{
+    
     Logger LOG = Logger.getLogger(S2SValidatorService.class);
+    public static final String GRANTS_GOV_PREFIX = "/GrantApplication/Forms";
+
 
     /**
      * 

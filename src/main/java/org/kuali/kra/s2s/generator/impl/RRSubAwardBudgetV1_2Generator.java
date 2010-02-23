@@ -36,7 +36,9 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.kra.s2s.validator.S2SErrorMessages;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -168,36 +170,6 @@ public class RRSubAwardBudgetV1_2Generator extends RRSubAwardBudgetBaseGenerator
         return rrBudget;
     }
 
-    /**
-     * 
-     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocument
-     * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
-     * @return List<BudgetSubAwards> list of budget sub awards.
-     */
-    private List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Budget budget = findBudgetFromProposal();
-        return budget==null?new ArrayList<BudgetSubAwards>():budget.getBudgetSubAwards();
-    }
-
-    private Budget findBudgetFromProposal() {
-        Budget finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
-        if(finalBudget==null){
-            List<BudgetDocumentVersion> budgetDocumentVersions = proposalDevelopmentDocument.getBudgetDocumentVersions();
-            BudgetVersionOverview budgetVersionOverview = null;
-            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                if(budgetDocumentVersion.isBudgetComplete()){
-                    budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-                    return budgetDocumentVersion.findBudget();
-                }
-            }
-            if(!budgetDocumentVersions.isEmpty()){
-                finalBudget = budgetDocumentVersions.get(0).findBudget();
-            }
-        }
-        return finalBudget;
-        
-    }
 
     /**
      * This method creates {@link XmlObject} of type {@link RRSubawardBudgetDocument} by populating data from the given
