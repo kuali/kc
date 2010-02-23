@@ -82,7 +82,8 @@ public class GenericActionsServiceTest extends KraTestBase {
         assertTrue(true);
     }
 
-    @Test
+    //@Test
+    /*
     public void testApprove() throws Exception {
         Protocol prot = getNewProtocol();
         ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
@@ -90,7 +91,7 @@ public class GenericActionsServiceTest extends KraTestBase {
         genericActionService.approve(prot, actionBean);
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
-    }
+    }*/
 
     @Test
     public void testClose() throws Exception {

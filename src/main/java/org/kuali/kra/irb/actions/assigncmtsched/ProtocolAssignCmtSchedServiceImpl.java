@@ -77,6 +77,7 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
         ProtocolSubmission submission = findSubmission(protocol);
         setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
         submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
     }
 
