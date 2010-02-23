@@ -18,6 +18,8 @@
 
 <%@ attribute name="index" required="true" %>
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <p style="text-align:left; font-weight:bold;">Customized per Committee</p>
 
 <table style="border-top-width:1px; border-top-style:solid; border-top-color:#999999;" cellpAdding="0" cellspacing="0" width="50%" align="center" >
@@ -38,8 +40,30 @@
             </td>
             <td class="infoline nobord">
                 <div align="left">
-                    <kul:htmlControlAttribute property="newCorrespondenceTemplates[${index}].committeeId"
-                                              attributeEntry="${DataDictionary.ProtocolCorrespondenceTemplate.attributes.committeeId}" />
+                    <c:set var="hasCommitteeError" value="false"/>
+                    <c:set var="fieldName" value="newCorrespondenceTemplates[${index}].committeeId" />
+                    <c:forEach items="${ErrorPropertyList}" var="key">
+                        <c:if test="${key eq fieldName }">
+                            <c:set var="hasCommitteeError" value="true"/>
+                        </c:if>
+                    </c:forEach>
+                    <c:set target="${paramMap}" property="correspondenceTemplates" value="${KualiForm.correspondenceTypes[index].committeeProtocolCorrespondenceTemplates}" />
+                    <html:select property="newCorrespondenceTemplates[${index}].committeeId" tabindex="0"  >                               
+                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder', paramMap)}" var="option">
+                            <c:choose>                      
+                                <c:when test="${KualiForm.newCorrespondenceTemplates[index].committeeId == option.key}">
+                                    <option value="${option.key}" selected>${option.label}</option>
+                                </c:when>
+                                <c:otherwise>                               
+                                    <c:out value="${option.label}"/>
+                                    <option value="${option.key}">${option.label}</option>
+                                </c:otherwise>
+                            </c:choose>                                                
+                        </c:forEach>
+                    </html:select>
+                    <c:if test="${hasCommitteeError}">
+                        <kul:fieldShowErrorIcon />
+                    </c:if>
                 </div>
             </td>
             <td class="infoline nobord">
