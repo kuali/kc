@@ -23,7 +23,8 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase { 
+public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase 
+                                            implements Comparable<ProtocolCorrespondenceTemplate> { 
     
     private static final long serialVersionUID = 1L;
 
@@ -91,10 +92,6 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         return templateFile;
     }
 
-    public String getCommitteeName() {
-        return null;
-    }
-    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -105,6 +102,10 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         hashMap.put("fileName", this.getFileName());
         hashMap.put("correspondenceTemplate", this.getCorrespondenceTemplate());
         return hashMap;
+    }
+    
+    public int compareTo(ProtocolCorrespondenceTemplate arg) {
+        return this.getCommittee().getCommitteeName().compareTo(arg.getCommittee().getCommitteeName());
     }
     
     private CommitteeService getCommitteeService() {

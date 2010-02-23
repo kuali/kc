@@ -875,7 +875,17 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     private ProtocolCorrespondenceTemplate getCorrespondenceTemplate(String committeeId) throws IOException {
     	simulateValidMockedFileBehavior();
     	
-        ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = new ProtocolCorrespondenceTemplate();
+        ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = new ProtocolCorrespondenceTemplate() {
+            private static final long serialVersionUID = 1L;
+
+            // Since we don't actually test the sort order and we don't want to instantiate the Committee
+            // object the compareTo method is overridden.
+            @Override
+            public int compareTo(ProtocolCorrespondenceTemplate arg) {
+                return this.getCommitteeId().compareTo(arg.getCommitteeId());
+            }
+        };
+        
         protocolCorrespondenceTemplate.setCommitteeId(committeeId);
         protocolCorrespondenceTemplate.setFileName("test.xml");
         protocolCorrespondenceTemplate.setCorrespondenceTemplate(new byte[] { (byte) 1, (byte) 2, (byte) 3 });
