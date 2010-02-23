@@ -32,6 +32,10 @@ public final class ProposalLogUtils {
         return "2";
     }
     
+    public static String getProposalLogSubmittedStatusCode() {
+        return "3";
+    }
+    
     public static String getProposalLogVoidStatusCode() {
         return "4";
     }

@@ -23,16 +23,41 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * Default implementation of services defined by ProposalLogService.
+ */
 public class ProposalLogServiceImpl implements ProposalLogService {
     
     private BusinessObjectService businessObjectService;
     
+    /**
+     * Update the status of the log entry for the given proposal number to 'merged'.
+     * 
+     * @param proposalNumber String
+     */
     public void mergeProposalLog(String proposalNumber) {
+        updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogMergedStatusCode());
+    }
+    
+    /**
+     * Update the state of the log entry for the given proposal number to reflect that it has been promoted
+     * to an Institutional Proposal.
+     * 
+     * @param proposalNumber String
+     */
+    public void promoteProposalLog(String proposalNumber) {
+        updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogSubmittedStatusCode());
+    }
+    
+    private void updateProposalLogStatus(String proposalNumber, String logStatus) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("proposalNumber", proposalNumber);
         ProposalLog proposalLog = 
             (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
-        proposalLog.setLogStatus(ProposalLogUtils.getProposalLogMergedStatusCode());
+        if (proposalLog == null) {
+            throw new IllegalArgumentException("Can't update proposal log status; proposal number " + proposalNumber + " not found.");
+        }
+        proposalLog.setLogStatus(logStatus);
         this.getBusinessObjectService().save(proposalLog);
     }
 
