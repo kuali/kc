@@ -24,7 +24,6 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
  * This class...
  */
 public interface ProposalHierarchyDao {
-    public HierarchyProposalSummary getProposalSummary(String proposalNumber);
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
 }

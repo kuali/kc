@@ -24,7 +24,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	htmlFormAction="proposalDevelopmentHierarchy"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
-	showTabButtons="true"
+	showTabButtons="false"
 	auditCount="0"
 	headerDispatch="${KualiForm.headerDispatch}"
 	headerTabActive="hierarchy">
@@ -32,18 +32,34 @@ http://www.osedu.org/licenses/ECL-2.0
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal Hierarchy" /></div>
 
 <c:forEach var="summary" items="${hierarchySummaries}" varStatus="status">
+	<c:set var="proposalNumber" value="${KualiForm.hierarchyProposalSummaries[status.index].proposalNumber}"/>
 	<c:choose>
 		<c:when test="${status.index eq 0}">
-			<kra-ph:parentProposalSummary summaryIndex="${status.index}" />
+			<kul:tabTop tabTitle="Parent (Proposal # ${proposalNumber})" defaultOpen="false" >
+				<kra-ph:proposalSummaryBody proposalNumber="${proposalNumber}" />
+			</kul:tabTop>
 		</c:when>
 		<c:otherwise>
-			<kra-ph:childProposalSummary summaryIndex="${status.index}" />
+			<c:choose>
+				<c:when test="${KualiForm.hierarchyProposalSummaries[status.index].synced}">
+					<c:set var="syncLabel" value="Synced" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="syncLabel" value="Not synced" />
+				</c:otherwise>
+			</c:choose>	
+			<kul:tab tabTitle="Child (Proposal # ${proposalNumber})" tabDescription="${syncLabel}" defaultOpen="false" >
+				<kra-ph:proposalSummaryBody proposalNumber="${proposalNumber}" />
+			</kul:tab>		
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="scripts/jquery/jquery.js"></script>
+<script language="javascript" src="scripts/proposalHierarchy.js"></script>
 
 </kul:documentPage>
