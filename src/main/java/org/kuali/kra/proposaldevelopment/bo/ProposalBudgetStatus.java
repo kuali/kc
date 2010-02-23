@@ -30,6 +30,7 @@ public class ProposalBudgetStatus extends KraPersistableBusinessObjectBase {
     
     private String proposalNumber;
     private String budgetStatusCode;
+    private BudgetStatus budgetStatus;
     
     public String getProposalNumber() {
         return proposalNumber;
@@ -44,6 +45,20 @@ public class ProposalBudgetStatus extends KraPersistableBusinessObjectBase {
         this.budgetStatusCode = budgetStatusCode;
     }
 
+    /**
+     * Sets the budgetStatus attribute value.
+     * @param budgetStatus The budgetStatus to set.
+     */
+    public void setBudgetStatus(BudgetStatus budgetStatus) {
+        this.budgetStatus = budgetStatus;
+    }
+    /**
+     * Gets the budgetStatus attribute. 
+     * @return Returns the budgetStatus.
+     */
+    public BudgetStatus getBudgetStatus() {
+        return budgetStatus;
+    }
     @Override 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();

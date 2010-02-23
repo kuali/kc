@@ -110,6 +110,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
     private String budgetStatus;
+    private String budgetStatusDescription;
     private Integer postSubmissionStatusCode;
     private List<Narrative> narratives;
     private List<ProposalAbstract> proposalAbstracts;
@@ -1532,6 +1533,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 //        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
 //        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
 //    }
+
+    /**
+     * Sets the budgetStatusDescription attribute value.
+     * @param budgetStatusDescription The budgetStatusDescription to set.
+     */
+    public void setBudgetStatusDescription(String budgetStatusDescription) {
+        this.budgetStatusDescription = budgetStatusDescription;
+    }
+
+    /**
+     * Gets the budgetStatusDescription attribute. 
+     * @return Returns the budgetStatusDescription.
+     */
+    public String getBudgetStatusDescription() {
+        return budgetStatusDescription;
+    }
 
     /**
      * Gets index i from the budget versions list.
