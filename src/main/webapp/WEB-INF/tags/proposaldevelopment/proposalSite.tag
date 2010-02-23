@@ -57,6 +57,7 @@
 <c:if test="${showTabTitle}">
     <h3>
         <span class="subhead-left">${tabTitle}</span>
+        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
     </h3>
 </c:if>
 
