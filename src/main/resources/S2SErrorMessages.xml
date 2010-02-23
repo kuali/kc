@@ -554,6 +554,10 @@
 		<Message>Please answer the international participation question.</Message>
 		<FixLink>questions</FixLink>
 	</Error>
-	
+	<Error>
+		<MessageKey>budget.subaward.notfound</MessageKey>
+		<Message>Subaward Budget not being uploaded</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
 </S2SErrors>
 
