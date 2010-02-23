@@ -143,7 +143,7 @@ public class ProposalHierarcyActionHelper {
     public List<HierarchyProposalSummary> getHierarchySummaries(String proposalNumber) {
         List<HierarchyProposalSummary> retval = null;
         try {
-            retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
+            retval = getProposalHierarchyService().getHierarchyProposalSummaries(proposalNumber);
         }
         catch (ProposalHierarchyException e) {
             doUnexpectedError(e, FIELD_GENERIC, false);

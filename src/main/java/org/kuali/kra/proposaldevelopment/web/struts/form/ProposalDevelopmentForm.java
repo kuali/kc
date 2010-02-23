@@ -24,6 +24,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,6 +33,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -155,7 +157,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String newHierarchyChildProposalNumber;
     private String newHierarchyBudgetTypeCode;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
-   
+    private DevelopmentProposal proposalToSummarize;
+    private Budget budgetToSummarize;
+    private String proposalNumberToSummarize;
+    private String budgetNumberToSummarize;
+    
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
     private transient ParameterService parameterService;
@@ -1578,6 +1584,70 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setProposalDataOverrideMethodToCalls(List<String> proposalDataOverrideMethodToCalls) {
         this.proposalDataOverrideMethodToCalls = proposalDataOverrideMethodToCalls;
+    }
+
+    /**
+     * Sets the proposalToSummarize attribute value.
+     * @param proposalToSummarize The proposalToSummarize to set.
+     */
+    public void setProposalToSummarize(DevelopmentProposal proposalToSummarize) {
+        this.proposalToSummarize = proposalToSummarize;
+    }
+
+    /**
+     * Gets the proposalToSummarize attribute. 
+     * @return Returns the proposalToSummarize.
+     */
+    public DevelopmentProposal getProposalToSummarize() {
+        return proposalToSummarize;
+    }
+
+    /**
+     * Sets the budgetToSummarize attribute value.
+     * @param budgetToSummarize The budgetToSummarize to set.
+     */
+    public void setBudgetToSummarize(Budget budgetToSummarize) {
+        this.budgetToSummarize = budgetToSummarize;
+    }
+
+    /**
+     * Gets the budgetToSummarize attribute. 
+     * @return Returns the budgetToSummarize.
+     */
+    public Budget getBudgetToSummarize() {
+        return budgetToSummarize;
+    }
+
+    /**
+     * Sets the proposalNumberToSummarize attribute value.
+     * @param proposalNumberToSummarize The proposalNumberToSummarize to set.
+     */
+    public void setProposalNumberToSummarize(String proposalNumberToSummarize) {
+        this.proposalNumberToSummarize = proposalNumberToSummarize;
+    }
+
+    /**
+     * Gets the proposalNumberToSummarize attribute. 
+     * @return Returns the proposalNumberToSummarize.
+     */
+    public String getProposalNumberToSummarize() {
+        return proposalNumberToSummarize;
+    }
+
+    /**
+     * Sets the budgetNumberToSummarize attribute value.
+     * @param budgetNumberToSummarize The budgetNumberToSummarize to set.
+     */
+    public void setBudgetNumberToSummarize(String budgetNumberToSummarize) {
+        this.budgetNumberToSummarize = budgetNumberToSummarize;
+    }
+
+    /**
+     * Gets the budgetNumberToSummarize attribute. 
+     * @return Returns the budgetNumberToSummarize.
+     */
+    public String getBudgetNumberToSummarize() {
+        return budgetNumberToSummarize;
     }
     
     
