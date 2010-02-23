@@ -213,7 +213,7 @@
 						                <td class="infoline">
 						                	<div align=center>
 						                		<kra:section permission="modifyBudgets">
-						                			<html:image property="methodToCall.delete.line${idcStatus.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						                			<html:image property="methodToCall.delete.line${idcStatus.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						                		</kra:section>
 						                	</div>
 						                </td>
