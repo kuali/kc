@@ -60,7 +60,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
             proposalPersons = (List)getBusinessObjectService().findMatching(ProposalPerson.class, queryMap);
         }
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if(proposalPerson.getPersonId().equals(userId)){
+            if(StringUtils.equals(proposalPerson.getPersonId(), userId)){
                 propPersonName = proposalPerson.getFullName();
                 break;
             }
