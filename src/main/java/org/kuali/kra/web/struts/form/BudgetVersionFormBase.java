@@ -57,13 +57,6 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
      */
     private String lookupResultsSequenceNumber;
     
-    public BudgetVersionFormBase() {
-        super();
-        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
-        //only registering formatter for one array type - do not want to break something
-        //by override all array formatting behavior.
-        Formatter.registerFormatter(String[].class, ArrayFormatter.class);
-    }
     
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
