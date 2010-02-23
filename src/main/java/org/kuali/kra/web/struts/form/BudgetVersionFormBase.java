@@ -41,7 +41,9 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
     private boolean auditActivated;
     private String activePanelName;
     private boolean saveAfterCopy;
-    
+
+    private String proposalHierarchyIndirectObjectCode;
+
     
     /**
      * The type of result returned by the multi-value lookup
@@ -170,6 +172,22 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
     }
     public String getHierarchyChildStatus() {
         return HierarchyStatusConstants.Child.code();
+    }
+
+    /**
+     * Sets the proposalHierarchyIndirectObjectCode attribute value.
+     * @param proposalHierarchyIndirectObjectCode The proposalHierarchyIndirectObjectCode to set.
+     */
+    public void setProposalHierarchyIndirectObjectCode(String proposalHierarchyIndirectObjectCode) {
+        this.proposalHierarchyIndirectObjectCode = proposalHierarchyIndirectObjectCode;
+    }
+
+    /**
+     * Gets the proposalHierarchyIndirectObjectCode attribute. 
+     * @return Returns the proposalHierarchyIndirectObjectCode.
+     */
+    public String getProposalHierarchyIndirectObjectCode() {
+        return proposalHierarchyIndirectObjectCode;
     }
 
 
