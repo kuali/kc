@@ -1,5 +1,6 @@
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
@@ -13,7 +14,9 @@ class LeadUnitDataFeedCommand extends ProposalDataFeedCommandBase {
 
     @Override
     void performDataFeed() {
-        award.setLeadUnit(proposal.getLeadUnit());
-        award.setUnitNumber(proposal.getUnitNumber());
+        if (StringUtils.isBlank(award.getLeadUnitNumber())) {
+            award.setLeadUnit(proposal.getLeadUnit());
+            award.setUnitNumber(proposal.getUnitNumber());
+        }
     }
 }

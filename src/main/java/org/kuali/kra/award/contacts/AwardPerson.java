@@ -151,6 +151,21 @@ public class AwardPerson extends AwardContact implements PersonRolodex {
     }
     
     /**
+     * Determine whether this AwardPerson already has the given unit.
+     * 
+     * @param unitNumber String
+     * @return boolean 
+     */
+    public boolean hasUnit(String unitNumber) {
+        for (AwardPersonUnit awardPersonUnit : this.getUnits()) {
+            if (awardPersonUnit.getUnitNumber().equals(unitNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Gets the units attribute. 
      * @return Returns the units.
      */
