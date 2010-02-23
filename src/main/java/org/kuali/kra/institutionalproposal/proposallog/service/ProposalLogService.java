@@ -15,8 +15,25 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service;
 
+/**
+ * External services provided by the Proposal Log module.
+ */
 public interface ProposalLogService {
     
+    /**
+     * Update the state of the log entry for the given proposal number to reflect that it has been merged
+     * with another proposal log.
+     * 
+     * @param proposalNumber String
+     */
     void mergeProposalLog(String proposalNumber);
+    
+    /**
+     * Update the state of the log entry for the given proposal number to reflect that it has been promoted
+     * to an Institutional Proposal.
+     * 
+     * @param proposalNumber String
+     */
+    void promoteProposalLog(String proposalNumber);
 
 }
