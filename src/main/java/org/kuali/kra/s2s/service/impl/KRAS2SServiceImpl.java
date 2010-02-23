@@ -55,6 +55,7 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
@@ -591,16 +592,17 @@ public class KRAS2SServiceImpl implements S2SService {
 				continue;
 			}
 			FormMappingInfo info = null;
-			S2SFormGenerator s2sFormGenerator = null;
+			S2SBaseFormGenerator s2sFormGenerator = null;
 			try {
 				info = new FormMappingLoader().getFormInfo(opportunityForm
 						.getOppNameSpace());
-				s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(info
+				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
 						.getNameSpace());
 			} catch (S2SGeneratorNotFoundException e) {
 				continue;
 			}
 			try {
+			    s2sFormGenerator.setAuditErrors(auditErrors);
 				XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 				if (s2SValidatorService.validate(formObject, auditErrors)) {
 					if (forms != null && attList != null) {
