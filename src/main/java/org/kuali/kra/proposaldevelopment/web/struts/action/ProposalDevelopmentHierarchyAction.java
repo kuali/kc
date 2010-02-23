@@ -99,6 +99,8 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             }
         }
         pdForm.setBudgetToSummarize(budget);
+        pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
+
         return mapping.findForward(FORWARD_BUDGET_SUMMARY);
     }    
 
