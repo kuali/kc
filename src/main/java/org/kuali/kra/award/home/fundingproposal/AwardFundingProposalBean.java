@@ -24,6 +24,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.customdata.AwardCustomData;
+import org.kuali.kra.award.customdata.CustomDataHelper;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -34,7 +36,6 @@ import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AwardFundingProposalBean implements Serializable {
     private static final long serialVersionUID = 7278945841002454778L;
@@ -215,6 +216,7 @@ public class AwardFundingProposalBean implements Serializable {
         new FandARatesDataFeedCommand(award, proposal).performDataFeed();
         new KeywordsDataFeedCommand(award, proposal).performDataFeed();
         new LeadUnitDataFeedCommand(award, proposal).performDataFeed();
+        initializeAwardCustomDataIfNecessary(award);
         new CustomDataDataFeedCommand(award, proposal).performDataFeed();
         new ProjectPersonnelDataFeedCommand(award, proposal).performDataFeed();
     }
@@ -230,4 +232,20 @@ public class AwardFundingProposalBean implements Serializable {
         }
         return valid;
     }
+    
+    private void initializeAwardCustomDataIfNecessary(Award award) {
+        if (award.getAwardCustomDataList().isEmpty()) {
+            Map<String, CustomAttributeDocument> customAttributeDocuments = awardForm.getAwardDocument().getCustomAttributeDocuments();
+            for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
+                CustomAttributeDocument customAttributeDocument = entry.getValue();
+                AwardCustomData awardCustomData = new AwardCustomData();
+                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+                awardCustomData.setValue("");
+                awardCustomData.setAward(award);
+                award.getAwardCustomDataList().add(awardCustomData);
+            }
+        }
+    }
+    
 }

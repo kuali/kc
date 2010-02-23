@@ -402,6 +402,40 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * Retrieve the AwardPerson for the given personId, if it exists.
+     * 
+     * @param personId String
+     * @return AwardPerson
+     */
+    public AwardPerson getProjectPerson(String personId) {
+        if (!StringUtils.isBlank(personId)) {
+            for (AwardPerson awardPerson : this.getProjectPersons()) {
+                if (personId.equals(awardPerson.getPersonId())) {
+                    return awardPerson;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Retrieve the AwardPerson for the given rolodexId, if it exists.
+     * 
+     * @param rolodexId Integer
+     * @return AwardPerson
+     */
+    public AwardPerson getProjectPerson(Integer rolodexId) {
+        if (rolodexId != null) {
+            for (AwardPerson awardPerson : this.getProjectPersons()) {
+                if (rolodexId.equals(awardPerson.getRolodexId())) {
+                    return awardPerson;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
      * @return
      */
     public List<AwardPerson> getProjectPersons() {
