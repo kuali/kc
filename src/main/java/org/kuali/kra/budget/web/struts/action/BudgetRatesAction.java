@@ -59,7 +59,7 @@ public class BudgetRatesAction extends BudgetAction {
         budget.setRateSynced(false);
 
         ActionForward forward = super.save(mapping, form, request, response);
-        if (!(budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
+        if ((!budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
         return forward;
     }
     
