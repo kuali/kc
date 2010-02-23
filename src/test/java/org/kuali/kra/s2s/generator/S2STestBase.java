@@ -62,6 +62,7 @@ public abstract class S2STestBase<T> extends KraTestBase {
         prepareData(document);
         saveBO(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
+        generatorObject.setAuditErrors(errors);
         XmlObject object=generatorObject.getFormObject(document);
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
         assertTrue(errors.isEmpty());
