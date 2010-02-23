@@ -78,6 +78,7 @@ http://www.osedu.org/licenses/ECL-2.0
 		<c:set var="numOfCols" value="${ fn:length(budget.budgetPeriods) + 2 }" />
 		<jsp:useBean id="personnelSubTotalsMap" class="java.util.HashMap" scope="request" />
 		<jsp:useBean id="nonPersonnelSubTotalsMap" class="java.util.HashMap" scope="request" />
+		<jsp:useBean id="indirectCostMap" class="java.util.HashMap" scope="request" />
 		<c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status">
 			<c:set var="periodTotalVar" value="period${status.index}" />
 			<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="0.00" />
@@ -163,6 +164,16 @@ http://www.osedu.org/licenses/ECL-2.0
 					</div>
 				</td>
 		   </tr>
+		   	     <c:forEach var="calculatedExpenseTotal" items="${budget.personnelCalculatedExpenseTotals}" >
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
+		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
+		                	<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="0.00" />
+			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
+		        	    </c:forEach> 
+		        	   </c:if>
+		        	   </c:forEach>
+		   
 			<tr>
                 <td><strong>Personnel Subtotal</strong></td>
                 <c:set var="cumPersonnelTotal" value="0.00" />
@@ -229,6 +240,16 @@ http://www.osedu.org/licenses/ECL-2.0
 					</div>
 				</td>
 		   </tr>
+			<c:set var="nonPersonnelObjectCodes" value="${budget.objectCodeListByBudgetCategoryType[categoryType]}" />
+		   		<c:forEach var="nonPersonnelObjectCode" items="${nonPersonnelObjectCodes}" varStatus="objStatus" >
+		   		<c:if test="${nonPersonnelObjectCode.costElement eq KualiForm.proposalHierarchyIndirectObjectCode}">
+					        	 	 <c:forEach var="periodTotal" items="${budget.objectCodeTotals[nonPersonnelObjectCode]}" varStatus="objPeriodStatus" >
+					               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${objPeriodStatus.index}" />
+					               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${objPeriodStatus.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
+					        	 	 </c:forEach>
+					                
+					        	 </c:if>
+							</c:forEach>
 			<tr>
                 <td width="20%"><strong>Non-Personnel Subtotal</strong></td>
                 <c:set var="cumNonPersonnelTotal" value="0.00" />
@@ -248,6 +269,67 @@ http://www.osedu.org/licenses/ECL-2.0
             <tr>
                   <td colspan="${numOfCols}" class="subhead"><span class="subhead-left"> Totals&nbsp;</span> </td>
             </tr>
+
+
+        	<tr>
+                <td class="infoline"><strong>TOTAL DIRECT COSTS</strong></td>
+                <c:set var="cumTotal" value="0.00" />
+        	    <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
+        	    	<c:set var="periodTotalVar" value="period${status.index}" />
+						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
+					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" />
+				</c:forEach>    
+                <td class="infoline">
+                	<div align="right">  	
+                      <strong>
+                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+                      </strong>
+                	</div>
+                </td>
+        	 </tr>
+        	 
+        	 <tr>
+                <td class="infoline">
+                	<strong>TOTAL F&amp;A COSTS</strong>
+                </td>
+                <c:set var="cumTotal" value="0.00" />
+        	    <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
+        	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
+						<td class="infoline">
+						<div align="right">
+							<strong><fmt:formatNumber value="${indirectCostMap[calculatedIndirectExpenseVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong>
+						</div>
+						</td>
+					<c:set var="cumTotal" value = "${cumTotal + indirectCostMap[calculatedIndirectExpenseVar]}" />
+				</c:forEach>    
+                <td class="infoline">
+                	<div align="right">  	
+                      <strong>
+                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+                      </strong>
+                	</div>
+                </td>
+        	 </tr>
+        	 
+        	 <tr>
+                <td class="infoline"><strong>TOTAL COSTS</strong></td>
+                <c:set var="cumTotal" value="0.00" />
+        	    <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
+        	    	<c:set var="periodTotalVar" value="period${status.index}" />
+        	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
+						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
+					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" />
+				</c:forEach>    
+                <td class="infoline">
+                	<div align="right">  	
+                      <strong>
+                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+                      </strong>
+                	</div>
+                </td>
+        	 </tr>
+
+
 		   
           
 			</tbody>
