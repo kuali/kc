@@ -25,25 +25,17 @@ import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.AssertionUtils;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 7123853550462673935L;
     private static final Logger LOG = Logger.getLogger(OrganizationMaintenableImpl.class);
-    public OrganizationMaintenableImpl() {
-        super();
-        Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
-
-    }
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
