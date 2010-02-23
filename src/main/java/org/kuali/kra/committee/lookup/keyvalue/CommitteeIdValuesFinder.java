@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -30,9 +31,11 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 
- * This class is to create key/values pair for protocolsubmission & meeting lookup. Key and values are all committeeId
+ * This class is to create key/values pair of active committees.
  */
 public class CommitteeIdValuesFinder extends KeyValuesBase {
+    
+    private List<ProtocolCorrespondenceTemplate> correspondenceTemplates;
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
@@ -45,18 +48,45 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         if (CollectionUtils.isNotEmpty(committees)) {
-            List<String> committeeIds = new ArrayList<String>();
+            List<Committee> selectedCommittees = new ArrayList<Committee>();
+            List<String> excludedCommitteeIds = getExcludedCommitteeIds();
+
             // only the active ones
             Collections.sort((List<Committee>) committees, Collections.reverseOrder());
             for (Committee committee : committees) {
-                if (!committeeIds.contains(committee.getCommitteeId())) {
-                    keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
-                    committeeIds.add(committee.getCommitteeId());
+                if (!excludedCommitteeIds.contains(committee.getCommitteeId())) {
+                    selectedCommittees.add(committee);
+                    excludedCommitteeIds.add(committee.getCommitteeId());
                 }
+            }
+
+            Collections.sort(selectedCommittees);
+            for (Committee committee : selectedCommittees) {
+                keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
+            }
+        }
+        
+        return keyValues;
+    }
+    
+    private List<String> getExcludedCommitteeIds() {
+        List<String> committeeIds = new ArrayList<String>();
+
+        if (CollectionUtils.isNotEmpty(correspondenceTemplates)) {
+            for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceTemplates) {
+                committeeIds.add(correspondenceTemplate.getCommitteeId());
             }
         }
 
-        return keyValues;
+        return committeeIds;
+    }
+
+    public List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates() {
+        return correspondenceTemplates;
+    }
+
+    public void setCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> correspondenceTemplates) {
+        this.correspondenceTemplates = correspondenceTemplates;
     }
 
 }
