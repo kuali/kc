@@ -54,11 +54,13 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -548,13 +550,17 @@ public class BudgetAction extends BudgetActionBase {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        if (budgetParent instanceof DevelopmentProposal) {
+            DevelopmentProposal proposal = (DevelopmentProposal)budgetParent;
+            KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+        }
         if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
             budget.setBudgetStatus(budgetParent.getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             budget.setBudgetStatus(budgetStatusIncompleteCode);
-        }
+        }        
     }
 
     /**

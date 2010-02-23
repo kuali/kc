@@ -106,8 +106,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
     private static final String APPLICATION_STATUS_PARENT_ENROUTE = "Parent Enroute";
 
-
-    
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
@@ -118,10 +116,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ParameterService parameterService;
     private IdentityManagementService identityManagementService;
     private ProposalStateService proposalStateService;
-    
 
-   
-    
     /**
      * Sets the proposalStateService attribute value.
      * @param proposalStateService The ProposalStateService to set.
@@ -376,38 +371,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         return getHierarchy(childProposal.getHierarchyParentProposalNumber());
-    }
-
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalSummaries(java.lang.String)
-     */
-    public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException {
-        List<HierarchyProposalSummary> summaries = new ArrayList<HierarchyProposalSummary>();
-        List<String> proposalNumbers = new ArrayList<String>();
-        DevelopmentProposal proposal = getDevelopmentProposal(proposalNumber);
-        if (proposal.isParent()) {
-            proposalNumbers.add(proposalNumber);
-        }
-        else if (proposal.isChild()) {
-            proposalNumbers.add(proposal.getHierarchyParentProposalNumber());
-        }
-        else {
-            throw new ProposalHierarchyException("Proposal " + proposalNumber + " is not a member of a hierarchy.");            
-        }
-        
-        proposalNumbers.addAll(proposalHierarchyDao.getHierarchyChildProposalNumbers(proposalNumbers.get(0)));
-
-        HierarchyProposalSummary summary;
-
-        for (String number : proposalNumbers) {
-            summary = proposalHierarchyDao.getProposalSummary(number);
-            if (!StringUtils.equals(number, proposalNumbers.get(0))) {
-                summary.setSynced(isSynchronized(number));
-            }
-            summaries.add(summary);
-        }
-
-        return summaries;
     }
 
     private void linkChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode)
@@ -1403,5 +1366,36 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         budget.setTotalDirectCost(budget.getSumDirectCostAmountFromPeriods());
         budget.setTotalIndirectCost(budget.getSumIndirectCostAmountFromPeriods());
         budget.setUnderrecoveryAmount(budget.getSumUnderreoveryAmountFromPeriods());
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyProposalSummaries(java.lang.String)
+     */
+    public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException {
+        DevelopmentProposal proposal = getDevelopmentProposal(proposalNumber);
+        List<HierarchyProposalSummary> summaries = new ArrayList<HierarchyProposalSummary>();
+
+        List<String> proposalNumbers = new ArrayList<String>();
+        if (proposal.isParent()) {
+            proposalNumbers.add(proposalNumber);
+        }
+        else if (proposal.isChild()) {
+            proposalNumbers.add(proposal.getHierarchyParentProposalNumber());
+        }
+        else {
+            throw new ProposalHierarchyException("Proposal " + proposalNumber + " is not a member of a hierarchy.");            
+        }
+        proposalNumbers.addAll(proposalHierarchyDao.getHierarchyChildProposalNumbers(proposalNumbers.get(0)));
+
+        HierarchyProposalSummary summary;
+        for (String number : proposalNumbers) {
+            summary = new HierarchyProposalSummary();
+            summary.setProposalNumber(number);
+            if (!StringUtils.equals(number, proposalNumbers.get(0))) {
+                summary.setSynced(isSynchronized(number));
+            }
+            summaries.add(summary);
+        }
+        return summaries;
     }
 }
