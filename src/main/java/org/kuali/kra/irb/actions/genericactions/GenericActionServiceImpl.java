@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -50,11 +49,6 @@ public class GenericActionServiceImpl implements GenericActionService {
     }
     
     /**{@inheritDoc}**/
-    public void approve(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.APPROVED, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
-    }
-    
-    /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
     }
@@ -83,8 +77,7 @@ public class GenericActionServiceImpl implements GenericActionService {
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         if (isIrbAdministrator()) {
             performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
-        } 
-        else {
+        } else {
             performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI);
         }
     }
@@ -109,6 +102,15 @@ public class GenericActionServiceImpl implements GenericActionService {
         performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
     }
     
+    /**
+     * 
+     * This method performs the Generic action persistence.  A state change, action date, and a comment, that's it
+     * @param protocol
+     * @param actionBean
+     * @param protocolActionType
+     * @param newProtocolStatus
+     * @throws Exception
+     */
     private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
             String protocolActionType, String newProtocolStatus) throws Exception {
         
@@ -120,12 +122,5 @@ public class GenericActionServiceImpl implements GenericActionService {
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-    }
-    
-    private void addAction(Protocol protocol, String actionTypeCode, String comments, Date actionDate) {
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, actionTypeCode);
-        protocolAction.setComments(comments);
-        protocolAction.setActionDate(new Timestamp(actionDate.getTime()));
-        protocol.getProtocolActions().add(protocolAction);
     }
 }

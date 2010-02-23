@@ -25,15 +25,6 @@ import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 public interface GenericActionService {
     
     /**
-     * Grant an approval to a protocol that is.
-     * submitted to the IRB office.
-     * @param protocol Protocol object
-     * @param actionBean ProtocolGenericActionBean object
-     * @throws Exception if there was a general problem performing the action
-     */
-    void approve(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
-    
-    /**
      * Reopen a protocol for enrollment.
      * @param protocol Protocol object
      * @param actionBean ProtocolGenericActionBean object
