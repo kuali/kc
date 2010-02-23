@@ -116,7 +116,6 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private String newGroupName;
     
-    private String proposalHierarchyIndirectObjectCode;
     
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
@@ -860,22 +859,6 @@ public class BudgetForm extends BudgetVersionFormBase {
             tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         }
         return tabs;
-    }
-
-    /**
-     * Sets the proposalHierarchyIndirectObjectCode attribute value.
-     * @param proposalHierarchyIndirectObjectCode The proposalHierarchyIndirectObjectCode to set.
-     */
-    public void setProposalHierarchyIndirectObjectCode(String proposalHierarchyIndirectObjectCode) {
-        this.proposalHierarchyIndirectObjectCode = proposalHierarchyIndirectObjectCode;
-    }
-
-    /**
-     * Gets the proposalHierarchyIndirectObjectCode attribute. 
-     * @return Returns the proposalHierarchyIndirectObjectCode.
-     */
-    public String getProposalHierarchyIndirectObjectCode() {
-        return proposalHierarchyIndirectObjectCode;
     }
 
 }
