@@ -60,6 +60,7 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
@@ -534,7 +535,7 @@ public class PrintServiceImpl implements PrintService {
 		ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
 		byte[] formPdfBytes = null;
 		FormMappingInfo info = null;
-		S2SFormGenerator s2sFormGenerator = null;
+		S2SBaseFormGenerator s2sFormGenerator = null;
 		ByteArrayOutputStream[] pdfArray = null;
 		List<AuditError> errors = new ArrayList<AuditError>();
 		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
@@ -543,12 +544,13 @@ public class PrintServiceImpl implements PrintService {
 		for (String namespace : sortedNameSpaces) {
 			try {
 				info = new FormMappingLoader().getFormInfo(namespace);
-				s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(info
+				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
 						.getNameSpace());
 			} catch (S2SGeneratorNotFoundException e) {
 				LOG.info("Form not found for namespace: " + namespace);
 				continue;
 			}
+			s2sFormGenerator.setAuditErrors(errors);
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 
 			if (s2SValidatorService.validate(formObject, errors)) {

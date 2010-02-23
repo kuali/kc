@@ -171,19 +171,18 @@ public class RRSubAwardBudgetV1_1Generator extends RRSubAwardBudgetBaseGenerator
         return rrBudget;
     }
 
-    /**
-     * 
-     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocument
-     * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
-     * @return List<BudgetSubAwards> list of budget sub awards.
-     */
-
-    private List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
-        // TODO need to set to BudgetSubAwrads from ProposalDevelopmentDocument
-        return budgetSubAwardsList;
-    }
+//    /**
+//     * 
+//     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocument
+//     * 
+//     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
+//     * @return List<BudgetSubAwards> list of budget sub awards.
+//     */
+//
+//    private List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+//        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
+//        return budgetSubAwardsList;
+//    }
 
 
     /**

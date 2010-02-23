@@ -39,6 +39,7 @@ import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kns.util.AuditError;
 
 /**
  * 
@@ -65,6 +66,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
 
     protected ProposalDevelopmentDocument pdDoc = null;
+    private List<AuditError> auditErrors;
 
     /*
      * Reference to global library generators are defined here. The actual form generator will decide which object to be used for
@@ -256,5 +258,21 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             }
         }
         return null;
+    }
+
+    /**
+     * Gets the auditErrors attribute. 
+     * @return Returns the auditErrors.
+     */
+    public List<AuditError> getAuditErrors() {
+        return auditErrors;
+    }
+
+    /**
+     * Sets the auditErrors attribute value.
+     * @param auditErrors The auditErrors to set.
+     */
+    public void setAuditErrors(List<AuditError> auditErrors) {
+        this.auditErrors = auditErrors;
     }
 }
