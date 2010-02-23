@@ -29,7 +29,7 @@
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
             <td class="content" valign="top" colspan="2">
               <c:if test="${!empty param.backdoorId}">
-                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
+                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login=1" />
               </c:if>
               <c:if test="${empty param.backdoorId}">
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
