@@ -872,10 +872,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private int getCorrespondingParentPeriod(Budget parentBudget, Budget childBudget) {
         int correspondingStart = -1;
  
-        Date childStart = childBudget.getStartDate();
+        // using start date of first period as start date and end date of last period
+        // as end because budget start and end are not particularly reliable
+        Date childStart = childBudget.getBudgetPeriod(0).getStartDate();
+        Date parentStart = parentBudget.getBudgetPeriod(0).getStartDate();
+        Date parentEnd = parentBudget.getBudgetPeriod(parentBudget.getBudgetPeriods().size()-1).getEndDate();
         // check that child budget starts somewhere during parent budget
-        if (childStart.compareTo(parentBudget.getStartDate()) >= 0
-                && childStart.compareTo(parentBudget.getEndDate()) < 0) {
+        if (childStart.compareTo(parentStart) >= 0
+                && childStart.compareTo(parentEnd) < 0) {
             // check that child budget starts on one of the budget period starts
             List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
             for (int i=0; i<parentPeriods.size(); i++) {
