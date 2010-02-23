@@ -18,21 +18,14 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
-    
-    //FIXME: this should get registered somewhere else (most likely in a centralized location like a context init listener).
-    static {
-        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
-    }
-    
+       
  	private static final long serialVersionUID = -2136003574701633349L;
     
 	private String fiscalYear;
