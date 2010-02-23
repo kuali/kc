@@ -97,7 +97,7 @@
             <tr>
                   <td colspan="${numOfCols}" class="subhead" >
                   	<span class="subhead-left"> Personnel&nbsp;
-                  		<html:image property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.personnel.x"
+                  		<html:image property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.personnel"
 									src='${ConfigProperties.kra.externalizable.images.url}edit.gif' />
                   	</span> 
                   </td>
@@ -474,7 +474,7 @@
 			<tr>
                   <td colspan="${numOfCols}" class="subhead" >
                   	   <span class="subhead-left"> Non-Personnel&nbsp;
-                  	   		<html:image property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.expenses.x"
+                  	   		<html:image property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.expenses"
 									src='${ConfigProperties.kra.externalizable.images.url}edit.gif' />
                   	   </span> 
                   </td>

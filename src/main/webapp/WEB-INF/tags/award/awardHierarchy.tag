@@ -49,8 +49,8 @@
     </div>
     
 	<c:forEach items="${KualiForm.awardHierarchyNodes}" var="tempNode" varStatus="status">
-		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}.y" />  
-		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}.y" />
+		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
+		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
 		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
 		${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
 	</c:forEach> 
