@@ -496,6 +496,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
 	</bean>
 	
 	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">
