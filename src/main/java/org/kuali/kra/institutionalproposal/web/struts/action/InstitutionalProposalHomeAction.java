@@ -34,6 +34,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KeywordsService;
@@ -249,6 +250,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
         if (proposalLog != null) {
             ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+            getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
         }
     }
     
@@ -338,6 +340,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     
     protected InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
         return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+    }
+    
+    protected ProposalLogService getProposalLogService() {
+        return KraServiceLocator.getService(ProposalLogService.class);
     }
     
 }
