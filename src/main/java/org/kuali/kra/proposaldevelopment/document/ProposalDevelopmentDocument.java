@@ -204,6 +204,17 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         
         
+        //if it is a child and is being canceled, remove it from the hierarchy.
+        if( getDevelopmentProposal().isChild() && StringUtils.equals(KEWConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken() )) {
+            ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            try {
+                hService.removeFromHierarchy(this.getDevelopmentProposal() );
+            } catch (ProposalHierarchyException e) {
+                throw new RuntimeException( String.format( "COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber() ) );
+            }
+        }
+        
+        
         if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
             InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
             String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
