@@ -118,7 +118,9 @@ public class ProposalHierarcyActionHelper {
                 // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
                 MessageMap messageMap = GlobalVariables.getMessageMap();
                 String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
-                GlobalVariables.setMessageMap(messageMap);
+                if (GlobalVariables.getMessageMap() != messageMap) {
+                    GlobalVariables.getMessageMap().merge(messageMap);
+                }
                 GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (ProposalHierarchyException e) {
@@ -138,7 +140,12 @@ public class ProposalHierarcyActionHelper {
             valid &= validateChildCandidate(newChildProposal);
             if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
                 try {
+                    // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
+                    MessageMap messageMap = GlobalVariables.getMessageMap();
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+                    if (GlobalVariables.getMessageMap() != messageMap) {
+                        GlobalVariables.getMessageMap().merge(messageMap);
+                    }
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (ProposalHierarchyException e) {
