@@ -33,7 +33,7 @@
 
 	<div align="center">
 	    <c:choose>
-	       <c:when test="${KualiForm.editingMode['printProposal']}">
+	       <c:when test="${KualiForm.editingMode['printProposal'] and proposalBudgetFlag}">
 		       <kra-b:budgetPrintForms />
 		       <kra-b:budgetJustification top="false" />
 		   </c:when>
