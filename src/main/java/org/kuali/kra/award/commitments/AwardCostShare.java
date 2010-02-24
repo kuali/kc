@@ -193,7 +193,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        LinkedHashMap<String,Object> hashMap = super.toStringMapper();
         hashMap.put("awardCostShareId", getAwardCostShareId());
         hashMap.put("fiscalYear", getFiscalYear());
         hashMap.put("costSharePercentage", getCostSharePercentage());
