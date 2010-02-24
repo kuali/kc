@@ -165,7 +165,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         int delAttachment = getLineToDelete(request);
         
         return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response,
-                delAttachment+1), CONFIRM_DELETE_ATTACHMENT, "");
+                delAttachment), CONFIRM_DELETE_ATTACHMENT, "");
         //awardDocument.getAward().getAwardAttachments().remove(delAttachment);
     }
     
@@ -182,8 +182,13 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
      */
     private StrutsConfirmation buildDeleteAttachmentConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, int deleteAttachment) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        
+        AwardAttachment attachment = awardDocument.getAward().getAwardAttachments().get(deleteAttachment);
+        
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_ATTACHMENT_KEY,
-                KeyConstants.QUESTION_DELETE_ATTACHMENT, Integer.toString(deleteAttachment));
+                KeyConstants.QUESTION_DELETE_ATTACHMENT, "Award Attachment", attachment.getFile().getName());
     }
     
     /**

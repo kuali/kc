@@ -106,7 +106,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class,
     org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
     org.kuali.kra.irb.web.ProtocolHistoryWebTest.class,
-    org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.irb.web.ProtocolNotifyIrbWebTest.class,
 //    org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolRequestWebTest.class,
