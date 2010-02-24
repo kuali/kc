@@ -23,7 +23,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -34,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
  * state change.
  */
-public class GenericActionServiceImpl implements GenericActionService {
+public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionService {
     
     private static final String NAMESPACE = "KC-PROTOCOL";
     

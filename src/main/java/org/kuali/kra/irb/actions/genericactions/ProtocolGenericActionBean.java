@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions;
+package org.kuali.kra.irb.actions.genericactions;
 
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
 
 
