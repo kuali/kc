@@ -16,13 +16,12 @@
 package org.kuali.kra.irb.actions.genericactions;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 
 /**
  * 
  * This interface defines the functions needed for the generic action service implementation.
  */
-public interface GenericActionService {
+public interface ProtocolGenericActionService {
     
     /**
      * Reopen a protocol for enrollment.

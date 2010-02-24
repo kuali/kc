@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.ReviewComments" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.reviewcomments.ReviewComments" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>

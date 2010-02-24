@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolGenericActionBean" parent="ProtocolGenericActionBean-parentBean" />
 	<bean id="ProtocolGenericActionBean-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolGenericActionBean" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean" />
 		<property name="objectLabel" value="Protocol GrantExemption Bean" />
 		<property name="titleAttribute" value="ProtocolGenericActionBean-reason" />
 		<property name="attributes" >

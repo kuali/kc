@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.expediteapproval;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolVersionService;
-import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -65,7 +65,7 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
     }
    
     /**
-     * @see org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService#grantExpeditedApproval(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.ProtocolGenericActionBean)
+     * @see org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService#grantExpeditedApproval(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean)
      */
     public void grantExpeditedApproval(Protocol protocol, ProtocolGenericActionBean withdrawBean) throws Exception {
        
