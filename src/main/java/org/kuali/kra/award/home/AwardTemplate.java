@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.award.home;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.award.paymentreports.Frequency;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -430,5 +432,23 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        // TODO : need this ?
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getTemplateTerms());
+        managedLists.add(getAwardComments());
+        managedLists.add(getTemplateReportTerms());
+        managedLists.add(getTemplateContacts());
+        ArrayList<AwardReportTermRecipient> rcpts = new ArrayList<AwardReportTermRecipient>(); 
+        for( AwardTemplateReportTerm rt : getTemplateReportTerms() ) {
+            rcpts.addAll(rt.getAwardReportTermRecipients() );
+        }
+        managedLists.add(rcpts);
+        return managedLists;
+    }
+
 	
 }
