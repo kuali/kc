@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -42,7 +43,6 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -118,14 +118,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
-        ObjectUtils.materializeAllSubObjects(targetNode.getAward());
-        try { 
-            ObjectUtils.materializeUpdateableCollections(targetNode.getAward());
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
         for(AwardAmountInfo awardAmount : newAward.getAwardAmountInfos()) {
             awardAmount.setAnticipatedTotalAmount(KualiDecimal.ZERO);
@@ -297,9 +289,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         try {
             String originalAwardNumber = award.getAwardNumber();
             Integer originalSequenceNumber = award.getSequenceNumber();
+            ObjectCopyUtils.prepareObjectForDeepCopy(award);
+            AwardDocument document = award.getAwardDocument();
+            award.setAwardDocument(null);
             newAward = useOriginalAwardAsTemplateForCopy(award, nextAwardNumber);
             restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
-        } catch(VersionException e) {
+            award.setAwardDocument(document);
+        } catch(Exception e) { 
             throw uncheckedException(e);
         }
         return newAward;
