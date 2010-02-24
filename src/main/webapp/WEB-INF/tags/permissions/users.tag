@@ -83,7 +83,7 @@
             
             <%-- The list of current users --%>
             
-            <c:forEach var="user" items="${KualiForm.permissionsHelper.users}" varStatus="status">R
+            <c:forEach var="user" items="${KualiForm.permissionsHelper.users}" varStatus="status">
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	<td align="left" valign="middle">${user.person.userName}</td>
