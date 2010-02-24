@@ -119,6 +119,7 @@
 	<param name="actionlist.outbox">true</param>
 	<param name="ActionList.norefresh">false</param>
 	<param name="kns.editable.properties.history.size">20</param>
+	<param name="enable.nonproduction.data.unmasking">true</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
 	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
