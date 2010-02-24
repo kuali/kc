@@ -159,7 +159,7 @@
 				<value>committeeLookupable</value>	
 				<value>committeeScheduleLookupable</value>	
 				<value>awardLookupable</value>
-				<!-- <value>awardPersonLookupable</value> -->
+				<value>awardPersonLookupable</value>
 				<value>docSearchCriteriaDTOLookupable</value>
 				<value>questionnaireLookupable</value>
 				<value>questionLookupable</value>
