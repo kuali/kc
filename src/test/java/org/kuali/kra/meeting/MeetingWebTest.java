@@ -214,7 +214,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(page.asText().contains(protocolNumbers.get(0) +" Nicholas Majors New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
         assertTrue(page.asText().contains(protocolNumbers.get(1) +" Nicholas Majors New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
         assertTrue(page.asText().contains(protocolNumbers.get(2) +" Nicholas Majors New protocol test Initial Protocol Application for Approval Full Submitted to Committee"));
-        String viewProtocolNumber = StringUtils.substringBetween(page.asText(), "Submission Date Actions 1 ", " Terry Durkin New protocol test Initial Protocol ");
+        String viewProtocolNumber = StringUtils.substringBetween(page.asText(), "Submission Date Actions 1 ", " Nicholas Majors New protocol test Initial Protocol ");
        // HtmlPage protocolActionPage = clickOnByName(page, "methodToCall.viewProtocolSubmission.line0", true);
         HtmlAnchor hyperlink = getAnchor(page, "meetingManagement.do?command=viewProtocolSubmission&line=0");
         assertNotNull(hyperlink);
@@ -225,7 +225,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(protocolActionPage.asText().contains("Protocol Number: "+viewProtocolNumber));
         //assertTrue(protocolActionPage.asText().contains("PI: Terry Durkin Status: Submitted to IRB Title: New protocol test"));
         //assertTrue(protocolActionPage.asText().contains("Status: ENROUTE Initiator: quickstart"));
-        assertTrue(protocolActionPage.asText().contains("Terry Durkin Principal Investigator BL-BL : BLOOMINGTON "));
+        assertTrue(protocolActionPage.asText().contains("Nicholas Majors Principal Investigator 000001 : University "));
 
     }
     
