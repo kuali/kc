@@ -92,8 +92,6 @@ public class AwardComment extends AwardAssociate {
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = super.toStringMapper();
         hashMap.put("awardCommentId", getAwardCommentId());
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         return hashMap;
     }
 
