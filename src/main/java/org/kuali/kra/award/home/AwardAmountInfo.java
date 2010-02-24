@@ -64,6 +64,7 @@ public class AwardAmountInfo extends AwardAssociate {
         setAnticipatedTotalAmount(new KualiDecimal(0.00));
         setAmountObligatedToDate(new KualiDecimal(0.00));
         setObliDistributableAmount(new KualiDecimal(0.00));
+        setAntDistributableAmount(new KualiDecimal(0.00));
         
 
     } 

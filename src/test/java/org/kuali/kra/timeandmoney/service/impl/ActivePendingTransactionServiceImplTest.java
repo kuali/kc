@@ -99,23 +99,23 @@ public class ActivePendingTransactionServiceImplTest {
      
         
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber2, awardNumber1, awardHierarchyNodes, parent));
+        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber2, awardHierarchyNodes, parent));
         Assert.assertEquals(awardNumber1, parent.getAwardNumber());
              
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber3, awardNumber1, awardHierarchyNodes, parent));
+        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber3, awardHierarchyNodes, parent));
         Assert.assertEquals(awardNumber1, parent.getAwardNumber());
      
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber4, awardNumber1, awardHierarchyNodes, parent));
+        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber1, awardNumber4, awardHierarchyNodes, parent));
         Assert.assertEquals(awardNumber1, parent.getAwardNumber());
      
         parent = new AwardHierarchyNode();
-        Assert.assertFalse(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber3, awardNumber2, awardHierarchyNodes, parent));
+        Assert.assertFalse(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber2, awardNumber3, awardHierarchyNodes, parent));
         Assert.assertEquals(null, parent.getAwardNumber());
         
         parent = new AwardHierarchyNode();
-        Assert.assertTrue(activePendingTransactionsServiceImpl.parentChildRelationshipExists(awardNumber4, awardNumber2, awardHierarchyNodes, parent));
+        Assert.assertTrue(activePendingTransactionsServiceImpl.childParentRelationshipExists(awardNumber2, awardNumber4, awardHierarchyNodes, parent));
         Assert.assertEquals(awardNumber2, parent.getAwardNumber());
      
                 
