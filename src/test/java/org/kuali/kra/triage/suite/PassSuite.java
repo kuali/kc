@@ -440,7 +440,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceTest.class,
     org.kuali.kra.meeting.MeetingWebTest.class,
     org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
-    org.kuali.kra.award.home.AwardCommentTest.class
+    org.kuali.kra.award.home.AwardCommentTest.class,
+    org.kuali.kra.award.commitments.AwardCostShareTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

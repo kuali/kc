@@ -24,7 +24,6 @@ import org.junit.runners.Suite.SuiteClasses;
     
     org.kuali.kra.HtmlUnitUtilTest.class,
     org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
-    org.kuali.kra.award.commitments.AwardCostShareTest.class,
     org.kuali.kra.award.contacts.AwardCentralAdminContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsProjectPersonnelWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsUnitContactsWebTest.class,
