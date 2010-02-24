@@ -435,7 +435,11 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.polling.S2SPollingTaskTest.class,
     org.kuali.kra.s2s.service.PrintFormTest.class,
     org.kuali.kra.irb.protocol.location.ProtocolLocationRuleTest.class,
-    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class
+    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class,
+    org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
+    org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceTest.class,
+    org.kuali.kra.meeting.MeetingWebTest.class
+
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

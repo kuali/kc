@@ -35,17 +35,17 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private static final String QUICKSTART_FULLNAME = "Geoff McGregor";
     
     
-    private static final String TESTER_USERNAME = "majors";
-    private static final String TESTER_FULLNAME = "Nicholas Majors";
+    private static final String TESTER_USERNAME = "jtester";
+    private static final String TESTER_FULLNAME = "Joe Tester";
     
-    private static final String USER1_USERNAME = "cate";
-    private static final String USER1_FULLNAME = "Allyson Cate";
+    private static final String USER3_USERNAME = "cate";
+    private static final String USER3_FULLNAME = "Allyson Cate";
     
     private static final String USER2_USERNAME = "oblood";
     private static final String USER2_FULLNAME = "Opal Blood";
     
-    private static final String USER3_USERNAME = "woods";
-    private static final String USER3_FULLNAME = "Della Woods";
+    private static final String USER1_USERNAME = "woods";
+    private static final String USER1_FULLNAME = "Della Woods";
     
     private static final String USER4_USERNAME = "chew";
     private static final String USER4_FULLNAME = "Inez Chew";
@@ -274,8 +274,9 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         // the lead unit of the protocol.
         
         HtmlPage lookupPage = clickOnLookup(permissionsPage, "newUser");
-        String homeUnit = getFieldValue(lookupPage, "homeUnit");
-        assertEquals(UNIT_NUMBER, homeUnit);
+        // kcperson page does not have home unit anymore
+//      String homeUnit = getFieldValue(lookupPage, "homeUnit");
+//      assertEquals(UNIT_NUMBER, homeUnit);
         
         // Go back to the permissions page and use the lookup() method
         // to verify the lookup of a person. The username field should 
@@ -303,17 +304,18 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         permissionsPage = deleteUser(permissionsPage, TESTER_USERNAME, true);
         
         // Check the Assigned Roles  panel.
+        // TODO : permissionhelper.users has been sorted, this changed test results
         
-        String[] aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
+        String[] aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME);
         
         checkAssignedRoles(permissionsPage, aggregators, null);
         
         // Check the User table.
         
         List<User> users = new ArrayList<User>();
+        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
-        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -340,17 +342,17 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         
         // Check the Assigned Roles  panel.
         
-        String[] aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
+        String[] aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME);
         String[] viewers = buildArray(TESTER_FULLNAME);
         checkAssignedRoles(permissionsPage, aggregators, viewers);
         
         // Check the User table.
         
         List<User> users = new ArrayList<User>();
+        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
-        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -397,17 +399,17 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         
         // Check the Assigned Roles  panel.
         
-        String[] aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
+        String[] aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME);
         String[] viewers = buildArray(TESTER_FULLNAME, USER2_FULLNAME);
         checkAssignedRoles(permissionsPage, aggregators, viewers);
         
         // Check the User table.
         
         List<User> users = new ArrayList<User>();
+        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
-        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -422,17 +424,17 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         
         // Check the Assigned Roles  panel.
         
-        aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
+        aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME);
         viewers = buildArray(TESTER_FULLNAME);
         checkAssignedRoles(permissionsPage, aggregators, viewers);
         
         // Check the User table.
         
         users = new ArrayList<User>();
+        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
-        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
