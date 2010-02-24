@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;

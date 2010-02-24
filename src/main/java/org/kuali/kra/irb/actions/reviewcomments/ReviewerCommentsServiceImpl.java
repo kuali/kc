@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.reviewcomments;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ReviewComments;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.rice.kns.service.BusinessObjectService;
