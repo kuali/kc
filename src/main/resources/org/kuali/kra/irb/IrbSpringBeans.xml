@@ -444,7 +444,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="genericActionService" class="org.kuali.kra.irb.actions.genericactions.GenericActionServiceImpl">
+    <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     

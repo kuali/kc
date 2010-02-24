@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import org.kuali.kra.irb.actions.ReviewComments;
 
 /**
  * 

@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.role.service.RoleService;
@@ -47,11 +46,11 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";")
 }))
-public class GenericActionsServiceTest extends KraTestBase {
+public class ProtocolGenericActionsServiceTest extends KraTestBase {
     
     private BusinessObjectService businessObjectService;
-    private GenericActionService genericActionService;
-    private GenericActionServiceImpl genericActionServiceImpl;
+    private ProtocolGenericActionService genericActionService;
+    private ProtocolGenericActionServiceImpl genericActionServiceImpl;
     
     private static final String BASIC_COMMENT = "some dummy comments here";
     private static final Date BASIC_ACTION_DATE = new Date(2010, 2, 14);
@@ -62,8 +61,8 @@ public class GenericActionsServiceTest extends KraTestBase {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        genericActionService = KraServiceLocator.getService(GenericActionService.class);
-        genericActionServiceImpl = (GenericActionServiceImpl)KraServiceLocator.getService(GenericActionService.class);
+        genericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
+        genericActionServiceImpl = (ProtocolGenericActionServiceImpl)KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
 
     @Override
