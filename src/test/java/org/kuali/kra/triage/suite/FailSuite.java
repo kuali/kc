@@ -80,7 +80,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.web.BudgetPersonnelWebTest.class,
     org.kuali.kra.budget.web.BudgetRatesWebTest.class,
     org.kuali.kra.budget.web.BudgetVersionsWebTest.class,
-    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
+//    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
     org.kuali.kra.infrastructure.KraHierarchyProviderWithMetaRuleTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContactsProjectPersonnelWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCostShareWebTest.class,
