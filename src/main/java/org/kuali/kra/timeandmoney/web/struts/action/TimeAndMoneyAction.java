@@ -165,12 +165,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
             
             updateDocumentFromSession(doc);
-            
+
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             //service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
             service.processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
-            doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
+            //doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
         //perform this logic if active view
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());
@@ -191,7 +191,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
                 doc.setAwardHierarchyItems(document.getAwardHierarchyItems());
                 doc.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
-            }else{
+            }else {
                 throw new RuntimeException("Can't Retrieve Time And Money Document from Session");
             }
         }
