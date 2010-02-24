@@ -19,8 +19,6 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.text.StringContains.containsString;
 
-import java.net.URL;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,7 +31,7 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
            
     private static final String ONE_PERSONNEL_ATTACHMENT = "Personnel Attachments (1)";
     private static final String OTHER_TYPE_NAME = "Other";
-    private static final String PERSON_NAME = "Terry Durkin";
+    private static final String PERSON_NAME = "Nicholas Majors";
     private static final String PERSONNEL_ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Personnel Attachment ProtocolNoteAndAttachmentWebTest.class?";
     private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String PROTOCOL_ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Protocol Attachment ProtocolWebTestBase.class?";
@@ -221,7 +219,7 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
      *  @return page after add
      */
     private HtmlPage addPersonnelAttachment(HtmlPage initalPage) throws Exception {
-        //should find the PI - Terry Durkin
+        //should find the PI - Nicholas Majors
         selectAnyOption(initalPage, NEW_ATTACHMENT_PERSONNEL_PERSON_PROTOCOL_PERSON_ID_NAME);
         setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_TYPE_CODE_NAME, TYPE_CODE_9);
         setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_DESCRIPTION_NAME, DESCRIPTION);

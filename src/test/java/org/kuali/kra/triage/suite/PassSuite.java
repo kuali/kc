@@ -21,7 +21,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
-    
+
+    org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
     org.kuali.kra.irb.protocol.participant.ProtocolParticipantRuleTest.class,
@@ -397,7 +398,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.meeting.MeetingAddOtherRuleTest.class,
     org.kuali.kra.meeting.MeetingPresentOtherOrVotingRuleTest.class,
     org.kuali.kra.meeting.MeetingSaveRuleTest.class,
-
     org.kuali.kra.s2s.generator.impl.AttachmentsV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.BudgetV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.EDAbstractV1_0GeneratorTest.class,

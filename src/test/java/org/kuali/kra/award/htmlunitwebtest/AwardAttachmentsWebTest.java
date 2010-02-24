@@ -18,8 +18,6 @@ package org.kuali.kra.award.htmlunitwebtest;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.text.StringContains.containsString;
 
-import java.net.URL;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,11 +31,11 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
     
     private static final String ONE_ATTACHMENT = "Attachments (1)";
     private static final String ONE_TYPE_NAME = "Notice of Award";
-    private static final String ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you want to delete Attachment 1";
+    private static final String ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Award Attachment AwardAttachmentsWebTest.class";
     private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String DESCRIPTION = "a description";
     private static final String TYPE_CODE_1 = "1";
-    private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_PERSONNEL = "methodToCall.deleteAttachment";
+    private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_AWARD = "methodToCall.deleteAttachment";
     private static final String METHOD_TO_CALL_ADD_ATTACHMENT = "methodToCall.addAttachment";
     private static final String NEW_ATTACHMENT_NEW_FILE_NAME = "awardAttachmentFormBean.newAttachment.newFile";
     private static final String NEW_ATTACHMENT_DESCRIPTION_NAME = "awardAttachmentFormBean.newAttachment.description";
@@ -46,9 +44,9 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
     private static final String FILE_1 = "AwardAttachmentsWebTest.class";
     
     
-    /** tests adding and replacing personnel attachments. */
+    /** tests adding and replacing award attachments. */
     @Test
-    public void testPersonnelAttachment() throws Exception {
+    public void testAwardAttachment() throws Exception {
         HtmlPage initalPage = getAwardNotesAndAttachmentsPage();
         Assert.assertThat(initalPage.asText(), containsString(NO_ATTACHMENTS));
         
@@ -66,12 +64,11 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
     }
     
     /**
-     *  adds a personnel attachment.
+     *  adds a award attachment.
      *  @param initalPage the attachments page
      *  @return page after add
      */
     private HtmlPage addAttachment(HtmlPage initalPage) throws Exception {
-        //should find the PI - Terry Durkin
         setFieldValue(initalPage, NEW_ATTACHMENT_TYPE_CODE_NAME, TYPE_CODE_1);
         setFieldValue(initalPage, NEW_ATTACHMENT_DESCRIPTION_NAME, DESCRIPTION);
         setFieldValue(initalPage, NEW_ATTACHMENT_NEW_FILE_NAME, this.getFilePath(AwardAttachmentsWebTest.class));
@@ -91,12 +88,12 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
     }
     
     /**
-     *  deletes a personnel attachment.
+     *  deletes a award attachment.
      *  @param afterReplacePage the attachments page after replace
      *  @return page after delete
      */
     private HtmlPage deleteAttachment(HtmlPage afterReplacePage) throws Exception {
-        return clickOnByName(afterReplacePage, METHOD_TO_CALL_DELETE_ATTACHMENT_PERSONNEL, true);
+        return clickOnByName(afterReplacePage, METHOD_TO_CALL_DELETE_ATTACHMENT_AWARD, true);
     }
     
     /**
