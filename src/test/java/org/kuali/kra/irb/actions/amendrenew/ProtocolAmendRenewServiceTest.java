@@ -99,7 +99,7 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "A001", amendmentDocument.getProtocol().getProtocolNumber());
         
-        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.AMENDMENT_CREATED, "Amendment 001 created.");
+        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.AMENDMENT_CREATED, "Amendment-001: Created");
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
     
@@ -112,7 +112,7 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
-        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal 001 created.");
+        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), null, 0);
     }
     
@@ -130,7 +130,7 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
-        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal 001 created.");
+        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
     
