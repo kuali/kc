@@ -44,9 +44,9 @@ public class AwardAmountInfoServiceImplTest {
         addAwardAmountInfos(awardAmountInfos, 1);
         addAwardAmountInfos(awardAmountInfos, 4);
         addAwardAmountInfos(awardAmountInfos, 3);
-        addAwardAmountInfos(awardAmountInfos, 115);
-        addAwardAmountInfos(awardAmountInfos, 32);
         addAwardAmountInfos(awardAmountInfos, 13);
+        addAwardAmountInfos(awardAmountInfos, 32);
+        addAwardAmountInfos(awardAmountInfos, 115);
         Assert.assertEquals(new Long(115), awardAmountInfoServiceImpl.fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos).getTransactionId());
     }
     
