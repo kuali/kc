@@ -393,10 +393,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
     org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionsServiceTest.class,
-//    org.kuali.kra.meeting.MeetingAddMinuteRuleTest.class,
-//    org.kuali.kra.meeting.MeetingAddOtherRuleTest.class,
-//    org.kuali.kra.meeting.MeetingPresentOtherOrVotingRuleTest.class,
-//    org.kuali.kra.meeting.MeetingSaveRuleTest.class,
+    org.kuali.kra.meeting.MeetingAddMinuteRuleTest.class,
+    org.kuali.kra.meeting.MeetingAddOtherRuleTest.class,
+    org.kuali.kra.meeting.MeetingPresentOtherOrVotingRuleTest.class,
+    org.kuali.kra.meeting.MeetingSaveRuleTest.class,
 
     org.kuali.kra.s2s.generator.impl.AttachmentsV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.BudgetV1_1GeneratorTest.class,
@@ -438,7 +438,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class,
     org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
     org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceTest.class,
-    org.kuali.kra.meeting.MeetingWebTest.class
+    org.kuali.kra.meeting.MeetingWebTest.class,
+    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

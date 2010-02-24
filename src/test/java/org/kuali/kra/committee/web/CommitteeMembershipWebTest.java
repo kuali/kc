@@ -37,7 +37,7 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     private static final String EMPLOYEE_ID = "10000000000";
     private static final String EMPLOYEE_NAME = "Geoff McGregor";
     private static final String NON_EMPLOYEE_ID = "1727";
-    private static final String NON_EMPLOYEE_NAME = "Pauline Ho";
+    private static final String NON_EMPLOYEE_NAME = "Ho, Pauline";
     private static final String ADD_MEMBER_BUTTON = "methodToCall.addCommitteeMembership";
     private static final String CLEAR_BUTTON = "methodToCall.clearCommitteeMembership";
     
@@ -135,9 +135,10 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
         /*
          * Get the document again and verify that it was correctly saved to the database.
          */
-        membersPage = clickOn(membersPage, "reload");
-        assertFalse(hasError(membersPage));
-        assertContains(membersPage, "Document was successfully reloaded.");
+         // Don't have 'reload' button anymore
+//        membersPage = clickOn(membersPage, "reload");
+//        assertFalse(hasError(membersPage));
+//        assertContains(membersPage, "Document was successfully reloaded.");
         
         /*
          * Verify that the role table of the first member has five rows (title, form, and new role row),
