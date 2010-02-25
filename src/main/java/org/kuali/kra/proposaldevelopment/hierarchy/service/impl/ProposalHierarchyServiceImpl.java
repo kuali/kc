@@ -254,6 +254,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         linkChild(hierarchy, initialChild, HierarchyBudgetTypeConstants.SubBudget.code());
         setInitialPi(hierarchy, initialChild);
         copyInitialAttachments(initialChild, hierarchy);
+        aggregateHierarchy(hierarchy);
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchy.getProposalNumber()));
         
         finalizeHierarchySync(hierarchy);
@@ -631,6 +632,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
+                        ObjectUtils.materializeSubObjectsToDepth(childLineItem, 5);
                         parentLineItem = (BudgetLineItem) ObjectUtils.deepCopy(childLineItem);
                         parentLineItem.setBudgetId(budgetId);
                         parentLineItem.setBudgetPeriodId(budgetPeriodId);
@@ -725,11 +727,21 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private void aggregateHierarchy(DevelopmentProposal hierarchy) throws ProposalHierarchyException {
         LOG.info(String.format("***Aggregating Proposal Hierarchy #%s", hierarchy.getProposalNumber()));
-        List<ProposalPerson> propPersons = hierarchy.getProposalPersons();
         List<ProposalPersonBiography> biosToRemove = new ArrayList<ProposalPersonBiography>();
         for (ProposalPersonBiography bio : hierarchy.getPropPersonBios()) {
-            if (!propPersons.contains(bio.getPersonId()) && !propPersons.contains(bio.getRolodexId())) {
-                biosToRemove.add(bio);      
+            String bioPersonId = bio.getPersonId();
+            Integer bioRolodexId = bio.getRolodexId();
+            boolean keep = false;
+            for (ProposalPerson person : hierarchy.getProposalPersons()) {
+                if ((bioPersonId != null && bioPersonId.equals(person.getPersonId())) 
+                        || (bioRolodexId != null && bioRolodexId.equals(person.getRolodexId()))) {
+                    bio.setProposalPersonNumber(person.getProposalPersonNumber());
+                    keep = true;
+                    break;
+                }
+            }
+            if (!keep) {
+                biosToRemove.add(bio);
             }
         }
         if (!biosToRemove.isEmpty()) {
@@ -994,7 +1006,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        finalizeHierarchySync(hierarchyProposal.getProposalDocument());
+        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
+        businessObjectService.save(hierarchyProposal);
     }
         
     private void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
