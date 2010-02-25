@@ -67,7 +67,7 @@
     <action-mappings>
 <!-- Rice content Start -->    
 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
-        <action path="/kualiExceptionIncidentReport"
+        <action path="/kualiExceptionIncidentReport" name="KualiForm"
                 type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
             <forward name="basic" path="/kr/kualiExceptionIncidentReport.do" />
         </action>        
