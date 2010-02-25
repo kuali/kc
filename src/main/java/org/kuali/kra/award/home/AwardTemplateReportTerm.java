@@ -33,7 +33,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
      */
     private static final long serialVersionUID = -2410943921568581512L;
     private Integer templateReportTermId; 
-//	private Integer templateCode; 
     private AwardTemplate awardTemplate;
 	private List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients;
 	
@@ -49,7 +48,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
     private FrequencyBase frequencyBase; 
     private Report report; 
     private ReportClass reportClass;
-    private List awardReportTermRecipients;
 
 	
 	public AwardTemplateReportTerm() { 
@@ -64,21 +62,11 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
 		this.templateReportTermId = templateReportTermId;
 	}
 
-//	public Integer getTemplateCode() {
-//		return templateCode;
-//	}
-//
-//	public void setTemplateCode(Integer templateCode) {
-//		this.templateCode = templateCode;
-//	}
-
-
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("templateReportTermId", getTemplateReportTermId());
-//		hashMap.put("templateCode", getTemplateCode());
 		hashMap.put("reportClassCode", getReportClassCode());
 		hashMap.put("reportCode", getReportCode());
 		hashMap.put("frequencyCode", getFrequencyCode());
@@ -102,7 +90,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
      */
     public void setAwardTemplateReportTermRecipients(List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients) {
         this.awardTemplateReportTermRecipients = awardTemplateReportTermRecipients;
-        this.awardReportTermRecipients = awardTemplateReportTermRecipients;
     }
 
 
@@ -313,7 +300,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((awardReportTermRecipients == null) ? 0 : awardReportTermRecipients.hashCode());
         result = prime * result + ((awardTemplate == null) ? 0 : awardTemplate.hashCode());
         result = prime * result + ((awardTemplateReportTermRecipients == null) ? 0 : awardTemplateReportTermRecipients.hashCode());
         result = prime * result + ((distribution == null) ? 0 : distribution.hashCode());
@@ -343,17 +329,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
         if (getClass() != obj.getClass())
             return false;
         AwardTemplateReportTerm other = (AwardTemplateReportTerm) obj;
-        if (awardReportTermRecipients == null) {
-            if (other.awardReportTermRecipients != null)
-                return false;
-        }
-        else if (!awardReportTermRecipients.equals(other.awardReportTermRecipients))
-            return false;
-        if (awardTemplate == null) {
-            if (other.awardTemplate != null)
-                return false;
-        }
-        else if (!awardTemplate.equals(other.awardTemplate))
+        if (!awardTemplate.equals(other.awardTemplate))
             return false;
         if (awardTemplateReportTermRecipients == null) {
             if (other.awardTemplateReportTermRecipients != null)
@@ -435,5 +411,15 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
             return false;
         return true;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        // TODO : need this ?
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getAwardReportTermRecipients());
+        return managedLists;
+    }
+  
 
 }

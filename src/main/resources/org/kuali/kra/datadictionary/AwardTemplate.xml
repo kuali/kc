@@ -39,18 +39,15 @@
 				<ref bean="AwardTemplate-description" />
 				<ref bean="AwardTemplate-statusCode" />
 				<ref bean="AwardTemplate-primeSponsorCode" />
-				<ref bean="AwardTemplate-nonCompetingContPrpslDueCode" />
-				<ref bean="AwardTemplate-competingRenewalPrpslDueCode" />
 				<ref bean="AwardTemplate-basisOfPaymentCode" />
 				<ref bean="AwardTemplate-methodOfPaymentCode" />
-				<ref bean="AwardTemplate-paymentInvoiceFreqCode" />
-				<ref bean="AwardTemplate-invoiceNumberOfCopies" />
-				<ref bean="AwardTemplate-finalInvoiceDue" />
 				<ref bean="AwardTemplate-versionNumber" />
+				<!-- Defined to allow lookup screen to display the descriptions instead of the codes. -->
+				<ref bean="AwardTemplate-statusCodeDescription" />
+				<ref bean="AwardTemplate-basisOfPaymentDescription"/>
+				<ref bean="AwardTemplate-methodOfPaymentDescription"/>
 			</list>
 		</property>
-		
-	
 		
 	</bean>
 
@@ -98,8 +95,8 @@
 	<bean id="AwardTemplate-statusCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="statusCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Status Code" />
-		<property name="shortLabel" value="Status Code" />
+		<property name="label" value="Sponsor Template Status" />
+		<property name="shortLabel" value="Sponsor Template Status" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -115,6 +112,20 @@
 	    </property>
 		<property name="summary" value="Status Code" />
 		<property name="description" value="Status Code" />
+	</bean>
+
+	<bean id="AwardTemplate-statusCodeDescription" parent="AwardTemplate-statusCodeDescription-parentBean" />
+	<bean id="AwardTemplate-statusCodeDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="awardTemplateStatus.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sponsor Template Status" />
+		<property name="shortLabel" value="Sponsor Template Status" />
+		<property name="summary" value="Status Code" />
+		<property name="description" value="Status Code" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
 	</bean>
 
 	<bean id="AwardTemplate-primeSponsorCode" parent="AwardTemplate-primeSponsorCode-parentBean" />
@@ -135,56 +146,12 @@
 		<property name="description" value="Prime Sponsor Code" />
 	</bean>
 
-	<bean id="AwardTemplate-nonCompetingContPrpslDueCode" parent="AwardTemplate-nonCompetingContPrpslDueCode-parentBean" />
-	<bean id="AwardTemplate-nonCompetingContPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="nonCompetingContPrpslDueCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Non Competing Cont Prpsl Due" />
-		<property name="shortLabel" value="Non Competing Cont Prpsl Due" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
-	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardProposalDueValueFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="frequencyCode"
-	            p:labelAttribute="description" />
-	    </property>
-		<property name="summary" value="Non Competing Cont Prpsl Due" />
-		<property name="description" value="Non Competing Cont Prpsl Due" />
-	</bean>
-
-	<bean id="AwardTemplate-competingRenewalPrpslDueCode" parent="AwardTemplate-competingRenewalPrpslDueCode-parentBean" />
-	<bean id="AwardTemplate-competingRenewalPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="competingRenewalPrpslDueCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Competing Renewal Prpsl Due" />
-		<property name="shortLabel" value="Competing Renewal Prpsl Due" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
-	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardProposalDueValueFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="frequencyCode"
-	            p:labelAttribute="description" />
-	    </property>
-		<property name="summary" value="Competing Renewal Prpsl Due" />
-		<property name="description" value="Competing Renewal Prpsl Due" />
-	</bean>
-
 	<bean id="AwardTemplate-basisOfPaymentCode" parent="AwardTemplate-basisOfPaymentCode-parentBean" />
 	<bean id="AwardTemplate-basisOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="basisOfPaymentCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Basis Of Payment Code" />
-		<property name="shortLabel" value="Basis Of Payment Code" />
+		<property name="label" value="Payment Basis" />
+		<property name="shortLabel" value="Payment Basis" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -198,16 +165,24 @@
 	            p:keyAttribute="basisOfPaymentCode"
 	            p:labelAttribute="description" />
 	    </property>
-		<property name="summary" value="Basis Of Payment Code" />
-		<property name="description" value="Basis Of Payment Code" />
+		<property name="summary" value="Payment Basis" />
+		<property name="description" value="Payment Basis" />
 	</bean>
-
+	
+	<bean id="AwardTemplate-basisOfPaymentDescription" parent="AwardTemplate-basisOfPaymentCode-parentBean">
+		<property name="name" value="awardBasisOfPayment.description" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+	</bean>
+	
 	<bean id="AwardTemplate-methodOfPaymentCode" parent="AwardTemplate-methodOfPaymentCode-parentBean" />
 	<bean id="AwardTemplate-methodOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="methodOfPaymentCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Method Of Payment Code" />
-		<property name="shortLabel" value="Method Of Payment Code" />
+		<property name="label" value="Payment Method" />
+		<property name="shortLabel" value="Payment Method" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -221,72 +196,22 @@
 	            p:keyAttribute="methodOfPaymentCode"
 	            p:labelAttribute="description" />
 	    </property>
-		<property name="summary" value="Method Of Payment Code" />
-		<property name="description" value="Method Of Payment Code" />
+		<property name="summary" value="Payment Method" />
+		<property name="description" value="Payment Method" />
 	</bean>
 
-	<bean id="AwardTemplate-paymentInvoiceFreqCode" parent="AwardTemplate-paymentInvoiceFreqCode-parentBean" />
-	<bean id="AwardTemplate-paymentInvoiceFreqCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="paymentInvoiceFreqCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Payment Invoice Freq Code" />
-		<property name="shortLabel" value="Payment Invoice Freq Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
-	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.PaymentInvoiceFrequencyValueFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="frequencyCode"
-	            p:labelAttribute="description" />
-	    </property>
-		<property name="summary" value="Payment Invoice Freq Code" />
-		<property name="description" value="Payment Invoice Freq Code" />
-	</bean>
-
-	<bean id="AwardTemplate-invoiceNumberOfCopies" parent="AwardTemplate-invoiceNumberOfCopies-parentBean" />
-	<bean id="AwardTemplate-invoiceNumberOfCopies-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="invoiceNumberOfCopies" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Invoice Number Of Copies" />
-		<property name="shortLabel" value="Invoice Number Of Copies" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
+	<bean id="AwardTemplate-methodOfPaymentDescription" parent="AwardTemplate-methodOfPaymentCode-parentBean">
+		<property name="name" value="awardMethodOfPayment.description" />
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Invoice Number Of Copies" />
-		<property name="description" value="Invoice Number Of Copies" />
 	</bean>
-
-	<bean id="AwardTemplate-finalInvoiceDue" parent="AwardTemplate-finalInvoiceDue-parentBean" />
-	<bean id="AwardTemplate-finalInvoiceDue-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="finalInvoiceDue" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Final Invoice Due" />
-		<property name="shortLabel" value="Final Invoice Due" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Final Invoice Due" />
-		<property name="description" value="Final Invoice Due" />
-	</bean>
+	
 
 	<bean id="AwardTemplate-versionNumber" parent="AwardTemplate-versionNumber-parentBean" />
-	<bean id="AwardTemplate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+	<bean id="AwardTemplate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardTemplate-inquiryDefinition" parent="AwardTemplate-inquiryDefinition-parentBean" />
 	<bean id="AwardTemplate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -308,19 +233,9 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="primeSponsorCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="nonCompetingContPrpslDueCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="competingRenewalPrpslDueCode" />
-							<bean parent="FieldDefinition"
 								p:attributeName="basisOfPaymentCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="methodOfPaymentCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="paymentInvoiceFreqCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="invoiceNumberOfCopies" />
-							<bean parent="FieldDefinition"
-								p:attributeName="finalInvoiceDue" />
 						</list>
 					</property>
 				</bean>
@@ -350,19 +265,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="primeSponsorCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="nonCompetingContPrpslDueCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="competingRenewalPrpslDueCode" />
-				<bean parent="FieldDefinition"
 					p:attributeName="basisOfPaymentCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="methodOfPaymentCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="paymentInvoiceFreqCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceNumberOfCopies" />
-				<bean parent="FieldDefinition"
-					p:attributeName="finalInvoiceDue" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -373,23 +278,13 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
 				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" />
+					p:attributeName="awardTemplateStatus.description" />
 				<bean parent="FieldDefinition"
 					p:attributeName="primeSponsorCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="nonCompetingContPrpslDueCode" />
+					p:attributeName="awardBasisOfPayment.description" />
 				<bean parent="FieldDefinition"
-					p:attributeName="competingRenewalPrpslDueCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="basisOfPaymentCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="methodOfPaymentCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="paymentInvoiceFreqCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceNumberOfCopies" />
-				<bean parent="FieldDefinition"
-					p:attributeName="finalInvoiceDue" />
+					p:attributeName="awardMethodOfPayment.description" />
 			</list>
 		</property>
 	</bean>

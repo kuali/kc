@@ -2569,18 +2569,18 @@ public abstract class AwardBaseStream implements XmlStream {
 			otherHeaderDetails.setPrimeSponsorDescription(award
 					.getPrimeSponsor().getSponsorName());
 		}
-		if (award.getNonCompetingContPrpslDueCode() != null) {
-			otherHeaderDetails.setNonCompetingContCode(award
-					.getNonCompetingContPrpslDueCode());
-		}
-		String nonCompetingContDesc = getNonCompetingContDesc();
-		if (nonCompetingContDesc != null) {
-			otherHeaderDetails.setNonCompetingContDesc(nonCompetingContDesc);
-		}
-		if (award.getCompetingRenewalPrpslDueCode() != null) {
-			otherHeaderDetails.setCompetingRenewalCode(award
-					.getCompetingRenewalPrpslDueCode());
-		}
+//		if (award.getNonCompetingContPrpslDueCode() != null) {
+//			otherHeaderDetails.setNonCompetingContCode(award
+//					.getNonCompetingContPrpslDueCode());
+//		}
+//		String nonCompetingContDesc = getNonCompetingContDesc();
+//		if (nonCompetingContDesc != null) {
+//			otherHeaderDetails.setNonCompetingContDesc(nonCompetingContDesc);
+//		}
+//		if (award.getCompetingRenewalPrpslDueCode() != null) {
+//			otherHeaderDetails.setCompetingRenewalCode(award
+//					.getCompetingRenewalPrpslDueCode());
+//		}
 		String competingRenewalDesc = getCompetingRenewalDesc();
 		if (competingRenewalDesc != null) {
 			otherHeaderDetails.setCompetingRenewalDesc(competingRenewalDesc);
@@ -2632,29 +2632,29 @@ public abstract class AwardBaseStream implements XmlStream {
 		if (fellowShipname != null) {
 			otherHeaderDetails.setFellowshipAdminName(fellowShipname);
 		}
-		if (award.getPaymentInvoiceFreqCode() != null) {
-			otherHeaderDetails.setPaymentFreqCode(award
-					.getPaymentInvoiceFreqCode());
-		}
-		if (award.getPaymentInvoiceFrequency() != null
-				&& award.getPaymentInvoiceFrequency().getDescription() != null) {
-			otherHeaderDetails.setPaymentFreqDesc(award
-					.getPaymentInvoiceFrequency().getDescription());
-		}
-		if (prevAward != null) {
-			if (award.getInvoiceNumberOfCopies() != null
-					&& award.getInvoiceNumberOfCopies() != prevAward
-							.getInvoiceNumberOfCopies()) {
-				otherHeaderDetails.setInvoiceCopies(award
-						.getInvoiceNumberOfCopies());
-			}
-		} else if (award.getInvoiceNumberOfCopies() != null) {
-			otherHeaderDetails.setInvoiceCopies(award
-					.getInvoiceNumberOfCopies());
-		}
-		if (award.getFinalInvoiceDue() != null) {
-			otherHeaderDetails.setFinalInvoiceDue(award.getFinalInvoiceDue());
-		}
+//		if (award.getPaymentInvoiceFreqCode() != null) {
+//			otherHeaderDetails.setPaymentFreqCode(award
+//					.getPaymentInvoiceFreqCode());
+//		}
+//		if (award.getPaymentInvoiceFrequency() != null
+//				&& award.getPaymentInvoiceFrequency().getDescription() != null) {
+//			otherHeaderDetails.setPaymentFreqDesc(award
+//					.getPaymentInvoiceFrequency().getDescription());
+//		}
+//		if (prevAward != null) {
+//			if (award.getInvoiceNumberOfCopies() != null
+//					&& award.getInvoiceNumberOfCopies() != prevAward
+//							.getInvoiceNumberOfCopies()) {
+//				otherHeaderDetails.setInvoiceCopies(award
+//						.getInvoiceNumberOfCopies());
+//			}
+//		} else if (award.getInvoiceNumberOfCopies() != null) {
+//			otherHeaderDetails.setInvoiceCopies(award
+//					.getInvoiceNumberOfCopies());
+//		}
+//		if (award.getFinalInvoiceDue() != null) {
+//			otherHeaderDetails.setFinalInvoiceDue(award.getFinalInvoiceDue());
+//		}
 		if (award.getAccountTypeCode() != null) {
 			otherHeaderDetails.setAccountTypeCode(String.valueOf(award
 					.getAccountTypeCode()));
@@ -2752,22 +2752,22 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	private String getCompetingRenewalDesc() {
 		String competingRenewalDesc = null;
-		if (prevAward != null) {
-			if ((award.getCompetingRenewalPrpslDue() != null && award
-					.getCompetingRenewalPrpslDue().getDescription() != null)
-					&& (prevAward.getCompetingRenewalPrpslDue() == null || !(prevAward
-							.getCompetingRenewalPrpslDue().equals(award
-							.getCompetingRenewalPrpslDue())))) {
-				competingRenewalDesc = new StringBuilder(
-						START_ASTERISK_SPACE_INDICATOR).append(
-						award.getCompetingRenewalPrpslDue().getDescription())
-						.toString();
-			}
-		} else if (award.getCompetingRenewalPrpslDue() != null
-				&& award.getCompetingRenewalPrpslDue().getDescription() != null) {
-			competingRenewalDesc = award.getCompetingRenewalPrpslDue()
-					.getDescription();
-		}
+//		if (prevAward != null) {
+//			if ((award.getCompetingRenewalPrpslDue() != null && award
+//					.getCompetingRenewalPrpslDue().getDescription() != null)
+//					&& (prevAward.getCompetingRenewalPrpslDue() == null || !(prevAward
+//							.getCompetingRenewalPrpslDue().equals(award
+//							.getCompetingRenewalPrpslDue())))) {
+//				competingRenewalDesc = new StringBuilder(
+//						START_ASTERISK_SPACE_INDICATOR).append(
+//						award.getCompetingRenewalPrpslDue().getDescription())
+//						.toString();
+//			}
+//		} else if (award.getCompetingRenewalPrpslDue() != null
+//				&& award.getCompetingRenewalPrpslDue().getDescription() != null) {
+//			competingRenewalDesc = award.getCompetingRenewalPrpslDue()
+//					.getDescription();
+//		}
 		return competingRenewalDesc;
 	}
 
@@ -2776,22 +2776,22 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	private String getNonCompetingContDesc() {
 		String nonCompetinContDesc = null;
-		if (prevAward != null) {
-			if ((award.getNonCompetingContPrpslDue() != null && award
-					.getNonCompetingContPrpslDue().getDescription() != null)
-					&& (prevAward.getNonCompetingContPrpslDue() == null || !(prevAward
-							.getNonCompetingContPrpslDue().equals(award
-							.getNonCompetingContPrpslDue())))) {
-				nonCompetinContDesc = new StringBuilder(
-						START_ASTERISK_SPACE_INDICATOR).append(
-						award.getNonCompetingContPrpslDue().getDescription())
-						.toString();
-			}
-		} else if (award.getNonCompetingContPrpslDue() != null
-				&& award.getNonCompetingContPrpslDue().getDescription() != null) {
-			nonCompetinContDesc = award.getNonCompetingContPrpslDue()
-					.getDescription();
-		}
+//		if (prevAward != null) {
+//			if ((award.getNonCompetingContPrpslDue() != null && award
+//					.getNonCompetingContPrpslDue().getDescription() != null)
+//					&& (prevAward.getNonCompetingContPrpslDue() == null || !(prevAward
+//							.getNonCompetingContPrpslDue().equals(award
+//							.getNonCompetingContPrpslDue())))) {
+//				nonCompetinContDesc = new StringBuilder(
+//						START_ASTERISK_SPACE_INDICATOR).append(
+//						award.getNonCompetingContPrpslDue().getDescription())
+//						.toString();
+//			}
+//		} else if (award.getNonCompetingContPrpslDue() != null
+//				&& award.getNonCompetingContPrpslDue().getDescription() != null) {
+//			nonCompetinContDesc = award.getNonCompetingContPrpslDue()
+//					.getDescription();
+//		}
 		return nonCompetinContDesc;
 	}
 
