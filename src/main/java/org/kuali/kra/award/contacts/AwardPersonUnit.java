@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -31,7 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class associates an AwardContact and a Unit
  */
-public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<AwardPersonUnit> {
+public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<AwardPersonUnit>, SequenceAssociate<Award> {
     public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
     public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
     
@@ -72,7 +74,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      */
     AwardPersonUnit(AwardPerson awardPerson, Unit unit, boolean isLeadUnit) {
         this();
-        this.awardPerson = awardPerson;
+        setAwardPerson(awardPerson);
         setUnit(unit);
         leadUnit = isLeadUnit;        
     }
@@ -311,4 +313,22 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
             }
         }
     }
+    public Award getSequenceOwner() {
+        return awardPerson != null ? awardPerson.getAward() : null;
+    }
+    
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        if(awardPerson != null) {
+            awardPerson.setAward(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  awardPerson != null ? awardPerson.getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        awardPersonUnitId = null;
+    }
+    
 }

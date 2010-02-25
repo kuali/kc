@@ -314,13 +314,11 @@
 	    optionTag.appendTo(selectTag);
 	    while(selectBoxText.length>1){
 	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
-	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
-	    	optionText = optionText.replace("%3A",":");
-	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
 	    	if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
-	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
 	    	}else{
-	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue);
 	    	}
 	    	optionTag.appendTo(selectTag);	    	
 	    }
@@ -412,17 +410,15 @@
 	    var optionTag = $("<option> select: </option>").attr("value","");
 	    optionTag.appendTo(selectTag);
 	    while(selectBoxText.length>1){
-	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
-	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
-	    	optionText = optionText.replace("%3A",":");
-	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
 	    	if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
-	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
 	    	}else{
-	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue);
 	    	}
 	    	optionTag.appendTo(selectTag);	    	
-	    }
+	    } 
 	    selectTag.appendTo(subTdTag4)
 	    
 	    lookupField.appendTo(subTdTag5);
