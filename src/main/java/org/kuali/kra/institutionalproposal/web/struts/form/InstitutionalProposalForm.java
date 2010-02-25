@@ -114,7 +114,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         newSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
         projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
-        medusaBean = new MedusaBean(this);
+        medusaBean = new MedusaBean();
         reportHelperBean = new ReportHelperBean(this);
         unitContactsBean = new InstitutionalProposalUnitContactsBean(this);
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);

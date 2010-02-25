@@ -35,6 +35,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
+import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
@@ -113,7 +114,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private Integer statusCode; 
     private String unitNumber;
     private String scienceCodeIndicator; 
-    private String nsfCode; 
+    private String nsfCode;
+    private NsfCode nsfCodeBo;
     private String primeSponsorCode; 
     private String initialContractAdmin; 
     private String ipReviewActivityIndicator; 
@@ -1482,6 +1484,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setNihDescription(Map<String, String> descriptionMap) {
         // TODO Auto-generated method stub
         
+    }
+
+    public NsfCode getNsfCodeBo() {
+        return nsfCodeBo;
+    }
+
+    public void setNsfCodeBo(NsfCode nsfCodeBo) {
+        this.nsfCodeBo = nsfCodeBo;
     }
     
 }
