@@ -191,6 +191,14 @@ public class MedusaServiceImpl implements MedusaService {
             awardFunding.refreshReferenceObject("award");
             awards.add(awardFunding.getAward());
         }
+        if (StringUtils.isNotBlank(ip.getCurrentAwardNumber())) {
+            Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", ip.getCurrentAwardNumber()));
+            for (Award curAward : proposalCurrentAwards) {
+                if (!awards.contains(curAward)) {
+                    awards.add(curAward);
+                }
+            }
+        }
         return awards;
     }
     
@@ -212,6 +220,12 @@ public class MedusaServiceImpl implements MedusaService {
         for (AwardFundingProposal awardFunding : awardFundingProposals) {
             awardFunding.refreshReferenceObject("proposal");
             ips.add(awardFunding.getProposal());
+        }
+        Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
+        for (InstitutionalProposal proposal : curAwardIps) {
+            if (!ips.contains(proposal)) {
+                ips.add(proposal);
+            }
         }
         return ips;    
     }
