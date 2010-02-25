@@ -993,11 +993,7 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
-        if(getAwardDocument().getAward().getAwardHierarchyTempObjects() == null) {
-            getAwardDocument().getAward().initializeAwardHierarchyTempObjects();
-        }
-        
-        while(getAwardDocument().getAward().getAwardHierarchyTempObjects().size() <= index) {
+        while(getAwardHierarchyTempObjects().size() <= index) {
             getAwardDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
         }
         return getAwardDocument().getAward().getAwardHierarchyTempObjects().get(index);

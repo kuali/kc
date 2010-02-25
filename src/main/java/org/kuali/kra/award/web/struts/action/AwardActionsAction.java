@@ -487,8 +487,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
-                    sb.append(awardHierarchyNodes.get(str).getAwardNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append("%3A");
+                    AwardHierarchyNode tempAwardNode = awardHierarchyNodes.get(str);
+                    if(tempAwardNode.isAwardDocumentFinalStatus()) {
+                        sb.append(tempAwardNode.getAwardNumber());
+                        sb.append(KNSConstants.BLANK_SPACE).append("%3A");    
+                    }
                 }
                 temp.setSelectBox2(sb.toString());
             }
