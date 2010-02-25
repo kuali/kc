@@ -318,7 +318,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         else {
             businessObjectService.save(childProposal);
-            synchronizeAllChildren(hierarchyProposal);
+            synchronizeAllChildren(hierarchyProposal.getProposalDocument());
         }
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
@@ -326,13 +326,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeAllChildren(java.lang.String)
      */
-    public void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+    public void synchronizeAllChildren(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
+        DevelopmentProposal hierarchyProposal = pdDoc.getDevelopmentProposal();
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s)", hierarchyProposal.getProposalNumber()));
         if (!hierarchyProposal.isParent()) {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposal.getProposalNumber()
                     + " is not a hierarchy parent");
         }
-        prepareHierarchySync(hierarchyProposal);
+        prepareHierarchySync(pdDoc);
         boolean changed = false;
         DevelopmentProposal childProposal;
         for (String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposal.getProposalNumber())) {
@@ -342,7 +343,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (changed) {
             aggregateHierarchy(hierarchyProposal);
         }
-        finalizeHierarchySync(hierarchyProposal);
+        finalizeHierarchySync(pdDoc);
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s) complete", hierarchyProposal.getProposalNumber()));
     }
 
@@ -975,12 +976,25 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     private void prepareHierarchySync(DevelopmentProposal hierarchyProposal) {
-        hierarchyProposal.getProposalDocument().refreshReferenceObject("documentNextvalues");
+        prepareHierarchySync(hierarchyProposal.getProposalDocument());
     }
     
-    private void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) {
-        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());       
-        businessObjectService.save(hierarchyProposal);
+    private void prepareHierarchySync(ProposalDevelopmentDocument pdDoc) {
+        pdDoc.refreshReferenceObject("documentNextvalues");
+    }
+    
+    private void finalizeHierarchySync(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
+        pdDoc.refreshReferenceObject("budgetDocumentVersions");
+        try {
+            documentService.saveDocument(pdDoc);
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException(e);
+        }
+    }
+    
+    private void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        finalizeHierarchySync(hierarchyProposal.getProposalDocument());
     }
         
     private void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
