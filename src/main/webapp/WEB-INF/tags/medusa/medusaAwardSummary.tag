@@ -7,7 +7,7 @@
     </tr>
     <tr>
       <td style="text-align: center;" colspan="4">
-	  <a href="${ConfigProperties.kew.url}/DocHandler.do?command=displayDocSearchView&docId=${node.bo.awardDocument.documentNumber}"
+	  <a href="${ConfigProperties.application.url}/awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.awardDocument.documentNumber}&medusaOpenedDoc=true"
 	     target="_blank" class="medusaOpenLink">
 	    <img title="Open Proposal" 
 	          alt="Open Proposal" style="border: medium none ;" 
