@@ -118,10 +118,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardAmountTransaction aat = timeAndMoneyDocument.getNewAwardAmountTransaction();
-        if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0) {
+        if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0 ||
+                (timeAndMoneyDocument.getAwardAmountTransactions().size() == 1 && 
+                        timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null)) {
             aat.setAwardNumber(timeAndMoneyDocument.getAwardNumber());
             aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-            timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
+            timeAndMoneyDocument.getAwardAmountTransactions().set(0, aat);
         }else {
             AwardAmountTransaction firstAatInList = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
             for(AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
