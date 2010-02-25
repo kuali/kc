@@ -33,7 +33,7 @@
 		
 		
 		
-		<property name="documentTypeName" value="Award Status Maintenance Document"/>
+		<property name="documentTypeName" value="AwardStatusMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
