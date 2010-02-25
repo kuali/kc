@@ -168,6 +168,7 @@
 				<value>proposalLogLookupable</value>
 				<value>proposalDevelopmentLookupable</value>
 				<value>unitAdministratorLookupable</value>
+				<value>customAttributeDocumentLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -1899,5 +1900,15 @@
 
     <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.CurrentReportDaoOjb" />
     <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
+
+	<bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="customAttributeDocumentLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="customAttributeDocumentLookupableHelperService" class="org.kuali.kra.lookup.CustomAttributeLookupHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+ 	</bean>
 
 </beans>
