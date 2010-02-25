@@ -17,13 +17,14 @@ package org.kuali.kra.medusa;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.service.MedusaService;
 
 public class MedusaBean implements Serializable{
 
@@ -34,36 +35,10 @@ public class MedusaBean implements Serializable{
     private String medusaViewRadio;
     private String moduleName;
     private Long moduleIdentifier;
-    private AwardForm awardForm;
-    private ProposalDevelopmentForm proposalDevelopmentForm;
-    private InstitutionalProposalForm institutionalProposalForm;
-    private String medusa;
+    private List<MedusaNode> parentNodes;
+    private MedusaNode currentNode;
     
-    /**
-     * 
-     * Constructs a AwardReportsBean.java.
-     * @param form
-     */
-    public MedusaBean(ProposalDevelopmentForm form) {
-        this.proposalDevelopmentForm = form;
-    }
-    
-    /**
-     * 
-     * Constructs a AwardReportsBean.java.
-     * @param form
-     */
-    public MedusaBean(AwardForm form) {
-        this.awardForm = form;
-    }
-    
-    /**
-     * 
-     * Constructs a AwardReportsBean.java.
-     * @param form
-     */
-    public MedusaBean(InstitutionalProposalForm form) {
-        this.institutionalProposalForm = form;
+    public MedusaBean() {
     }
     
     /**
@@ -113,46 +88,6 @@ public class MedusaBean implements Serializable{
     public void setModuleIdentifier(Long moduleIdentifier) {
         this.moduleIdentifier = moduleIdentifier;
     }
-
-    /**
-     * Gets the medusaForm attribute. 
-     * @return Returns the medusaForm.
-     */
-    public AwardForm getAwardForm() {
-        return awardForm;
-    }
-
-    /**
-     * Sets the medusaForm attribute value.
-     * @param medusaForm The medusaForm to set.
-     */
-    public void setAwardForm(AwardForm awardForm) {
-        this.awardForm = awardForm;
-    }
-
-    /**
-     * Gets the medusa attribute. 
-     * @return Returns the medusa.
-     */
-    public String getMedusa() throws ParseException{
-        medusa = "";
-        
-        if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
-            setMedusa(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
-        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
-            setMedusa(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
-        } 
-        
-        return medusa;
-    }
-
-    /**
-     * Sets the medusa attribute value.
-     * @param medusa The medusa to set.
-     */
-    public void setMedusa(String medusa) {
-        this.medusa = medusa;
-    }
     
     /**
      * This method...
@@ -162,36 +97,27 @@ public class MedusaBean implements Serializable{
         return KraServiceLocator.getService(MedusaService.class);
     }
 
-    /**
-     * Gets the proposalDevelopmentForm attribute. 
-     * @return Returns the proposalDevelopmentForm.
-     */
-    public ProposalDevelopmentForm getProposalDevelopmentForm() {
-        return proposalDevelopmentForm;
+
+    public List<MedusaNode> getParentNodes() {
+        if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
+            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
+        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
+            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
+        } 
+        
+        return parentNodes;
     }
 
-    /**
-     * Sets the proposalDevelopmentForm attribute value.
-     * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
-     */
-    public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
-        this.proposalDevelopmentForm = proposalDevelopmentForm;
+    public void setParentNodes(List<MedusaNode> parentNodes) {
+        this.parentNodes = parentNodes;
     }
-
-    /**
-     * Gets the institutionalProposalForm attribute. 
-     * @return Returns the institutionalProposalForm.
-     */
-    public InstitutionalProposalForm getInstitutionalProposalForm() {
-        return institutionalProposalForm;
+    
+    public MedusaNode getCurrentNode() {
+        return currentNode;
     }
-
-    /**
-     * Sets the institutionalProposalForm attribute value.
-     * @param institutionalProposalForm The institutionalProposalForm to set.
-     */
-    public void setInstitutionalProposalForm(InstitutionalProposalForm institutionalProposalForm) {
-        this.institutionalProposalForm = institutionalProposalForm;
+    
+    public void setCurrentNode(MedusaNode currentNode) {
+        this.currentNode = currentNode;
     }
     
 }

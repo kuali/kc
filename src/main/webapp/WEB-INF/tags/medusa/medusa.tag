@@ -14,6 +14,15 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+	<script src="scripts/jquery/jquery.js"></script>
+	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+
+
 <kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
 <div class="tab-container"  align="center">
 	<h3> 
@@ -56,14 +65,17 @@
     </tr>
 </table>
 
-<c:if test="${not empty KualiForm.medusaBean.medusa}" >   
-<div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
-  <ul id="medusaview" class="filetree stripeli treeview"  >
-        <%-- <li><span class="folder">00000</span>
-        </li> --%>
-    </ul>
-   </div>
-</div>
+<c:if test="${not empty KualiForm.medusaBean.parentNodes}" >   
+<div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; position: relative; text-align: left;" >     
+  <ul id="medusaview" class="filetree stripeli treeview medusatree"  >
+		<c:forEach items="${KualiForm.medusaBean.parentNodes}" var="node">
+			<kra-m:medusaTreeNode node="${node}"/>
+		</c:forEach>
+  </ul>
+  <div id="medusadetails" class="medusadetails">
+  </div> 
+</div> 
+
 </c:if>
 
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.medusaViewRadio")}
@@ -72,20 +84,6 @@ ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleName")}
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
-
-	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-
-	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-		
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
-
-	<script src="scripts/jquery/jquery.js"></script>
-	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-	
-	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
       
 </kul:tabTop>   
 

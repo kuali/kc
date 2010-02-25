@@ -28,11 +28,10 @@
   	headerTabActive="medusa"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
-<kra:medusa />
+<kra-m:medusa />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 	<script type="text/javascript" src="scripts/medusaView.js"></script>	
-	<script type="text/javascript" src="scripts/awardMedusa.js"></script>
 	
 </kul:documentPage>

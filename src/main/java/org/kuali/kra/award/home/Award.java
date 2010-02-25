@@ -113,6 +113,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer accountTypeCode;
     private String activityTypeCode;
     private Integer awardTypeCode;
+    private AwardType awardType;
     private String cfdaNumber;
     private String documentFundingId;
     private KualiDecimal preAwardAuthorizedAmount;
@@ -2850,5 +2851,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
         return awardHierarchyTempObjects;
+    }
+
+    public AwardType getAwardType() {
+        return awardType;
+    }
+
+    public void setAwardType(AwardType awardType) {
+        this.awardType = awardType;
     }
 }

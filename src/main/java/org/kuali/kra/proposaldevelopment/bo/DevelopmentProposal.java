@@ -28,6 +28,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.NoticeOfOpportunity;
+import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -78,12 +80,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String currentAwardNumber;
     private Date deadlineDate;
     private String noticeOfOpportunityCode;
+    private NoticeOfOpportunity noticeOfOpportunity;
     private String deadlineType;
     private String cfdaNumber;
     private String programAnnouncementNumber;
     private String primeSponsorCode;
     private String sponsorProposalNumber;
     private String nsfCode;
+    private NsfCode nsfCodeBo;
     private Boolean subcontracts;
     private String agencyDivisionCode;
     private String agencyProgramCode;
@@ -1938,6 +1942,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public boolean isParentInHierarchyComplete() {
         return isParentProposalComplete();
+    }
+
+    public NoticeOfOpportunity getNoticeOfOpportunity() {
+        return noticeOfOpportunity;
+    }
+
+    public void setNoticeOfOpportunity(NoticeOfOpportunity noticeOfOpportunity) {
+        this.noticeOfOpportunity = noticeOfOpportunity;
+    }
+
+    public NsfCode getNsfCodeBo() {
+        return nsfCodeBo;
+    }
+
+    public void setNsfCodeBo(NsfCode nsfCodeBo) {
+        this.nsfCodeBo = nsfCodeBo;
     }
 
 }
