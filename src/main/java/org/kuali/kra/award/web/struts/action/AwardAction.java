@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +44,7 @@ import org.kuali.kra.award.AwardTemplateSyncService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
@@ -70,6 +72,7 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -208,9 +211,24 @@ public class AwardAction extends BudgetParentActionBase {
         AwardHierarchyBean helperBean = awardForm.getAwardHierarchyBean();
         AwardHierarchy rootNode = helperBean.getRootNode();
         Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
+        Map<String,AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
+        getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap);
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         awardForm.setOrder(order);
+        StringBuilder sb = new StringBuilder();
+        for(String str:order){
+            sb.append(awardHierarchyNodesMap.get(str).getAwardNumber());
+            sb.append(KNSConstants.BLANK_SPACE).append("%3A");
+        }
+        
+        if(CollectionUtils.isNotEmpty(awardForm.getAwardHierarchyTempObjects())) {
+            for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){
+                temp.setSelectBox1(sb.toString());
+                temp.setSelectBox2(sb.toString());
+            }
+        }
+
     }
     
 

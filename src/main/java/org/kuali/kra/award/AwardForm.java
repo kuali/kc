@@ -985,6 +985,10 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the hiddenObject.
      */
     public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
+        if(getAwardDocument().getAward().getAwardHierarchyTempObjects() == null) {
+            getAwardDocument().getAward().initializeAwardHierarchyTempObjects(); 
+        }
+        
         return getAwardDocument().getAward().getAwardHierarchyTempObjects();
     }
     

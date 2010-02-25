@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
@@ -29,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Class representation of the Award Person credit split
  */
-public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
+public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
 
     private static final long serialVersionUID = -6999442247404810830L;
@@ -193,4 +195,23 @@ public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBa
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
+    
+    public Award getSequenceOwner() {
+        return awardPerson != null ? awardPerson.getAward() : null;
+    }
+    
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        if(awardPerson != null) {
+            awardPerson.setAward(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  awardPerson != null ? awardPerson.getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        awardPersonCreditSplitId  = null;
+    }
+
 }

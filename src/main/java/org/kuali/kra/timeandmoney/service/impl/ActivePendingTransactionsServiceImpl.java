@@ -16,15 +16,14 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -1243,7 +1242,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             award = (Award) vh.getSequenceOwner();
         }else{
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMap(awardNumber))).get(0);              
+            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
+            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
         }
         return award;
     }
