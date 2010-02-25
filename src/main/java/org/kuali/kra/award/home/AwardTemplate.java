@@ -48,18 +48,9 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     private String basisOfPaymentCode; 
     //
     private String methodOfPaymentCode; 
-    //
-    private String paymentInvoiceFreqCode; 
-    //
-    private Integer invoiceNumberOfCopies; 
-    //
-    private Integer finalInvoiceDue;
     
     private Sponsor primeSponsor;
   
-    private Frequency nonCompetingContPrpslDue;
-    private Frequency competingRenewalPrpslDue;
-    private Frequency paymentInvoiceFrequency;
     private AwardBasisOfPayment awardBasisOfPayment;
     private AwardMethodOfPayment awardMethodOfPayment;
     
@@ -120,11 +111,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
           hashMap.put("competingRenewalPrpslDue", getCompetingRenewalPrpslDueCode());
           hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
           hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
-          hashMap.put("paymentInvoiceFreqCode", getPaymentInvoiceFreqCode());
-          hashMap.put("invoiceNumberOfCopies", getInvoiceNumberOfCopies());
-          hashMap.put("finalInvoiceDue", getFinalInvoiceDue());
-
-		hashMap.put("statusCode", getStatusCode());
+          hashMap.put("statusCode", getStatusCode());
 		return hashMap;
 	}
 
@@ -288,103 +275,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     public void setMethodOfPaymentCode(String methodOfPaymentCode) {
         this.methodOfPaymentCode = methodOfPaymentCode;
     }
-
-    /**
-     * Gets the paymentInvoiceFreqCode attribute. 
-     * @return Returns the paymentInvoiceFreqCode.
-     */
-    public String getPaymentInvoiceFreqCode() {
-        return paymentInvoiceFreqCode;
-    }
-
-    /**
-     * Sets the paymentInvoiceFreqCode attribute value.
-     * @param paymentInvoiceFreqCode The paymentInvoiceFreqCode to set.
-     */
-    public void setPaymentInvoiceFreqCode(String paymentInvoiceFreqCode) {
-        this.paymentInvoiceFreqCode = paymentInvoiceFreqCode;
-    }
-
-    /**
-     * Gets the invoiceNumberOfCopies attribute. 
-     * @return Returns the invoiceNumberOfCopies.
-     */
-    public Integer getInvoiceNumberOfCopies() {
-        return invoiceNumberOfCopies;
-    }
-
-    /**
-     * Sets the invoiceNumberOfCopies attribute value.
-     * @param invoiceNumberOfCopies The invoiceNumberOfCopies to set.
-     */
-    public void setInvoiceNumberOfCopies(Integer invoiceNumberOfCopies) {
-        this.invoiceNumberOfCopies = invoiceNumberOfCopies;
-    }
-
-    /**
-     * Gets the finalInvoiceDue attribute. 
-     * @return Returns the finalInvoiceDue.
-     */
-    public Integer getFinalInvoiceDue() {
-        return finalInvoiceDue;
-    }
-
-    /**
-     * Sets the finalInvoiceDue attribute value.
-     * @param finalInvoiceDue The finalInvoiceDue to set.
-     */
-    public void setFinalInvoiceDue(Integer finalInvoiceDue) {
-        this.finalInvoiceDue = finalInvoiceDue;
-    }
-
-    /**
-     * Gets the nonCompetingContPrpslDue attribute. 
-     * @return Returns the nonCompetingContPrpslDue.
-     */
-    public Frequency getNonCompetingContPrpslDue() {
-        return nonCompetingContPrpslDue;
-    }
-
-    /**
-     * Sets the nonCompetingContPrpslDue attribute value.
-     * @param nonCompetingContPrpslDue The nonCompetingContPrpslDue to set.
-     */
-    public void setNonCompetingContPrpslDue(Frequency nonCompetingContPrpslDue) {
-        this.nonCompetingContPrpslDue = nonCompetingContPrpslDue;
-    }
-
-    /**
-     * Gets the competingRenewalPrpslDue attribute. 
-     * @return Returns the competingRenewalPrpslDue.
-     */
-    public Frequency getCompetingRenewalPrpslDue() {
-        return competingRenewalPrpslDue;
-    }
-
-    /**
-     * Sets the competingRenewalPrpslDue attribute value.
-     * @param competingRenewalPrpslDue The competingRenewalPrpslDue to set.
-     */
-    public void setCompetingRenewalPrpslDue(Frequency competingRenewalPrpslDue) {
-        this.competingRenewalPrpslDue = competingRenewalPrpslDue;
-    }
-
-    /**
-     * Gets the paymentInvoiceFrequency attribute. 
-     * @return Returns the paymentInvoiceFrequency.
-     */
-    public Frequency getPaymentInvoiceFrequency() {
-        return paymentInvoiceFrequency;
-    }
-
-    /**
-     * Sets the paymentInvoiceFrequency attribute value.
-     * @param paymentInvoiceFrequency The paymentInvoiceFrequency to set.
-     */
-    public void setPaymentInvoiceFrequency(Frequency paymentInvoiceFrequency) {
-        this.paymentInvoiceFrequency = paymentInvoiceFrequency;
-    }
-
+ 
     /**
      * Gets the awardBasisOfPayment attribute. 
      * @return Returns the awardBasisOfPayment.
@@ -432,6 +323,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
     }
+	
     
     @SuppressWarnings("unchecked")
     @Override
@@ -449,6 +341,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
         managedLists.add(rcpts);
         return managedLists;
     }
-
-	
+  
+    
+    
 }

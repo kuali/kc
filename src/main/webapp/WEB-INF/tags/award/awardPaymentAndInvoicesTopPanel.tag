@@ -50,18 +50,6 @@
 	<tr>
 		<th width="25%">
 			<div align="right">
-				<kul:htmlAttributeLabel attributeEntry="${awardAttributes.finalInvoiceDue}"  />
-			</div>
-		</th>
-		<td width="25%" valign="middle">
-			<div align="left">
-				<c:out value="due within" />
-                <kul:htmlControlAttribute property="document.awardList[0].finalInvoiceDue" attributeEntry="${awardAttributes.finalInvoiceDue}" />
-                <c:out value="days" />
-			</div>
-		</td>
-		<th width="25%">
-			<div align="right">
 				<kul:htmlAttributeLabel attributeEntry="${awardAttributes.documentFundingId}"  />
 			</div>
 		</th>
@@ -70,5 +58,14 @@
                 <kul:htmlControlAttribute property="document.awardList[0].documentFundingId" attributeEntry="${awardAttributes.documentFundingId}" />
 			</div>
 		</td>
+				<th width="25%">
+			<div align="right">
+			</div>
+		</th>
+		<td width="25%" valign="middle">
+			<div align="left">
+			</div>
+		</td>
+		
 	</tr>
 </table>

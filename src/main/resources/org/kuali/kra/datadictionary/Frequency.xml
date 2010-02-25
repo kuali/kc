@@ -34,8 +34,6 @@
 				<ref bean="Frequency-numberOfDays"/>
 				<ref bean="Frequency-numberOfMonths"/>
 				<ref bean="Frequency-repeatFlag"/>
-				<ref bean="Frequency-proposalDueFlag"/>
-				<ref bean="Frequency-invoiceFlag"/>
 				<ref bean="Frequency-advanceNumberOfDays"/>
 				<ref bean="Frequency-advanceNumberOfMonths"/>
 				<ref bean="Frequency-versionNumber"/>
@@ -120,23 +118,6 @@
 		<property name="description" value="Repeat Flag"/>
 	</bean>
 
-	<bean id="Frequency-proposalDueFlag" parent="Frequency-proposalDueFlag-parentBean"/>
-	<bean abstract="true" id="Frequency-proposalDueFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
-		<property name="name" value="proposalDueFlag"/>
-		<property name="label" value="Proposal Due Flag"/>
-		<property name="shortLabel" value="Proposal Due Flag"/>
-		<property name="summary" value="Proposal Due Flag"/>
-		<property name="description" value="Proposal Due Flag"/>
-	</bean>
-
-	<bean id="Frequency-invoiceFlag" parent="Frequency-invoiceFlag-parentBean"/>
-	<bean abstract="true" id="Frequency-invoiceFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
-		<property name="name" value="invoiceFlag"/>
-		<property name="label" value="Invoice Flag"/>
-		<property name="shortLabel" value="Invoice Flag"/>
-		<property name="summary" value="Invoice Flag"/>
-		<property name="description" value="Invoice Flag"/>
-	</bean>
 	<bean id="Frequency-advanceNumberOfDays" parent="Frequency-advanceNumberOfDays-parentBean"/>
 	<bean abstract="true" id="Frequency-advanceNumberOfDays-parentBean" parent="AttributeDefinition">
 		<property name="name" value="advanceNumberOfDays"/>
@@ -191,8 +172,6 @@
 							<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
 							<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
 							<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
-							<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/>
-							<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
 							<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
 							<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 						</list>
@@ -219,8 +198,6 @@
 				<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
 				<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
 				<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
-				<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/>
-				<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
 				<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 			</list>
@@ -232,8 +209,6 @@
 				<bean p:attributeName="numberOfDays" parent="FieldDefinition"/>
 				<bean p:attributeName="numberOfMonths" parent="FieldDefinition"/>
 				<bean p:attributeName="repeatFlag" parent="FieldDefinition"/>
-				<bean p:attributeName="proposalDueFlag" parent="FieldDefinition"/> 
-				<bean p:attributeName="invoiceFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
 				<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 			</list>
