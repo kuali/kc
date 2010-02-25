@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
@@ -32,7 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
-public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
+public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
     private static final long serialVersionUID = 7370393791601182821L;
     
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
@@ -71,7 +73,7 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
         return awardPersonUnitCreditSplitId;
     }
 
-    /**
+    /** 
      * Gets the awardPersonUnit attribute. 
      * @return Returns the awardPersonUnit.
      */
@@ -193,5 +195,24 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
+    }
+    
+    
+    public Award getSequenceOwner() {
+        return awardPersonUnit != null ? awardPersonUnit.getSequenceOwner() : null;
+    }
+    
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        if(awardPersonUnit != null) {
+            awardPersonUnit.setSequenceOwner(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  awardPersonUnit != null ? awardPersonUnit.getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        awardPersonUnitCreditSplitId  = null;
     }
 }

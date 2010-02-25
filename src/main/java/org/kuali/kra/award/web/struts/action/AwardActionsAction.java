@@ -132,16 +132,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                         }
                         forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                     }else{
-                        awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
-                        populateAwardHierarchy(awardForm);
-                        forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+                        AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+                        //populateAwardHierarchy(awardForm); 
+                        forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode); 
                     }    
                 }else{
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
                 }
             }
-        }else{
+        }else{  
             GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_NO_OPTION_SELECTED, awardNumber);
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
@@ -476,10 +476,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyNodes.get(str).getAwardNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append("%3A").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getAccountNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getPrincipalInvestigatorName());
-                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getLeadUnitName());
-                    sb.append("#");
+                    sb.append(KNSConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox1(sb.toString());
             }
@@ -491,10 +488,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyNodes.get(str).getAwardNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append("%3A").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getAccountNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getPrincipalInvestigatorName());
-                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getLeadUnitName());
-                    sb.append("#");
+                    sb.append(KNSConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox2(sb.toString());
             }
