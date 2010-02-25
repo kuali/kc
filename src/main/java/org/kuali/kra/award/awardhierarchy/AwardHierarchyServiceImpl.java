@@ -112,6 +112,19 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return copyAwardAsChildOfAnotherNode(nodeToCopyFrom, targetParentNode);
     }
 
+    public void copyAwardAmountDateInfo(Award source, Award copy) {
+        List<AwardAmountInfo> awardAmountInfoList = new ArrayList<AwardAmountInfo>();
+        for(AwardAmountInfo awardAmount : source.getAwardAmountInfos()) {
+            AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
+            awardAmountInfo.setFinalExpirationDate(awardAmount.getFinalExpirationDate());
+            awardAmountInfo.setCurrentFundEffectiveDate(awardAmount.getCurrentFundEffectiveDate());
+            awardAmountInfo.setObligationExpirationDate(awardAmount.getObligationExpirationDate());
+            awardAmountInfo.setAward(copy);
+            awardAmountInfoList.add(awardAmountInfo);
+        }
+        
+        copy.setAwardAmountInfos(awardAmountInfoList);
+    }
     /**
      * @param targetNode
      * @return
@@ -119,11 +132,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
-        for(AwardAmountInfo awardAmount : newAward.getAwardAmountInfos()) {
-            awardAmount.setAnticipatedTotalAmount(KualiDecimal.ZERO);
-            awardAmount.setAmountObligatedToDate(KualiDecimal.ZERO);
-        }
-        
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, nextAwardNumber, targetNode.getAward().getAwardNumber());
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
@@ -295,6 +303,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             newAward = useOriginalAwardAsTemplateForCopy(award, nextAwardNumber);
             restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
             award.setAwardDocument(document);
+            copyAwardAmountDateInfo(award, newAward);
         } catch(Exception e) { 
             throw uncheckedException(e);
         }
