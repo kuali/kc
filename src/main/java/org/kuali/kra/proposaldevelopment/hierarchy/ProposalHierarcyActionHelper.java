@@ -274,13 +274,13 @@ public class ProposalHierarcyActionHelper {
         boolean match = true;
         try {
             if (proposal.isParent() 
-                    && hasCompleteBudget(proposal) 
+                    && hasCompleteBudget(document) 
                     && !getProposalHierarchyService().allChildBudgetsAreComplete(proposal.getProposalNumber())) {
                 match = false; 
                 GlobalVariables.getMessageMap().putError(FIELD_PARENT_BUDGET_STATUS, ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE);
             }
             else if (proposal.isChild() 
-                    && !hasCompleteBudget(proposal) 
+                    && !hasCompleteBudget(document) 
                     && hasCompleteBudget(getProposalHierarchyService().lookupParent(proposal))) {
                 match = false;
                 // TODO error
@@ -324,5 +324,18 @@ public class ProposalHierarcyActionHelper {
             valid = false;
         }
         return valid;
+    }
+    
+    private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
+        boolean retval = false;
+        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+
+        for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {
+                retval = true;
+                break;
+            }
+        }
+        return retval;
     }
 }
