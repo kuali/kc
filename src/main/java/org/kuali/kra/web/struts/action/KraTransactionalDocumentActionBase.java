@@ -743,4 +743,16 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                
     }
     
+    @Override
+    protected ActionForward returnToSender(HttpServletRequest request, ActionMapping mapping, KualiDocumentFormBase form) {
+        //call this first so it will call setupDocumentExit before we try to return
+        ActionForward superForward = super.returnToSender(request, mapping, form);
+        if (form instanceof KraTransactionalDocumentFormBase) {
+            KraTransactionalDocumentFormBase kraForm = (KraTransactionalDocumentFormBase)form;
+            if (kraForm.isMedusaOpenedDoc()) {
+                return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
+            }
+        }
+        return superForward;
+    }
 }

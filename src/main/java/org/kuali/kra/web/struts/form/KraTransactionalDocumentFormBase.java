@@ -54,6 +54,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     private boolean viewOnly = false;
     private boolean popupViewOnly = false;
     
+    private boolean medusaOpenedDoc = false;
+    
     public String getActionName() {
         return actionName;
     }
@@ -300,5 +302,13 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                 LOG.warn(String.format("property[%s] not accessable (%s)", property, (e.getCause() != null) ? e.getCause().getClass().getName() : e.getClass().getName()));
             }
         }
+    }
+
+    public boolean isMedusaOpenedDoc() {
+        return medusaOpenedDoc;
+    }
+
+    public void setMedusaOpenedDoc(boolean medusaOpenedDoc) {
+        this.medusaOpenedDoc = medusaOpenedDoc;
     }
 }
