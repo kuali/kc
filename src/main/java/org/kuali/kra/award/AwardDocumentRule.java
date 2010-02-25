@@ -84,6 +84,7 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -287,7 +288,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardCommentsBusinessRules(awardDocument);
         retval &= processSpecialReviewBusinessRule(document);
         retval &= processAwardDetailsAndDatesSaveRules(document);
-
+        retval &= processDateBusinessRule(errorMap, awardDocument);
         
         return retval;
     }
@@ -809,6 +810,40 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean success = award.getUnitNumber() != null && award.getUnit() != null;
         if(!success) {
             errorMap.putError("unitNumber", "error.award.unitNumber", award.getUnitNumber());    
+        }
+
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return success;
+    }
+
+    /*
+     * This method is to add bus rule check proj beg date <= proj end date
+     * and obligation end date >= obligation start date.
+     */
+    private boolean processDateBusinessRule(ErrorMap errorMap, AwardDocument awardDocument) {
+        Award award = awardDocument.getAward();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+
+        boolean success = true;
+        if (award.getBeginDate() != null 
+                && award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate() != null) {
+            if (award.getBeginDate().after(
+                    award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate())) {
+                success = false;
+                errorMap.putError("awardAmountInfos["+(award.getAwardAmountInfos().size()-1)+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                        new String[] {"Project End Date", "Project Begin Date"});
+            }
+        }
+        if (award.getAwardEffectiveDate() != null 
+                && award.getObligationExpirationDate() != null) {
+            if (award.getAwardEffectiveDate().after(
+                    award.getObligationExpirationDate())) {
+                success = false;
+                errorMap.putError("obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                        new String[] {"Obligation End Date", "Obligation Start Date"});
+            }
         }
 
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
