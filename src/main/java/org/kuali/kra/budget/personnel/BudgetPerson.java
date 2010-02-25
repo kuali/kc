@@ -18,6 +18,7 @@ package org.kuali.kra.budget.personnel;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -300,7 +301,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
         if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode())
-                || !this.getEffectiveDate().equals(budgetPerson.getEffectiveDate())) {
+                || !ObjectUtils.equals(this.getEffectiveDate(), budgetPerson.getEffectiveDate())) {
             return false;
         }
         if (this.getNonEmployeeFlag() != null && this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && budgetPerson.getNonEmployeeFlag()) {
