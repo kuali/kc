@@ -37,15 +37,6 @@
 					</div>
             	</td>
             </tr>
-            <tr>
-            	<th colspan="2" align="center" scope="row">
-            		<div align="center">
-            		  <c:if test="${(!readOnly)}">
-	         			<kra-a:awardSyncButton scopeNames="" tabKey="${tabKey}"/>
-	        		   </c:if>
-					</div>
-	         	</th>
-			</tr>
 		</table>
 	</div>
 </kul:tab>
