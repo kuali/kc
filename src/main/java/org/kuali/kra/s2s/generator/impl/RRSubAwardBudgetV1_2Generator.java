@@ -54,7 +54,6 @@ import org.w3c.dom.NodeList;
 public class RRSubAwardBudgetV1_2Generator extends RRSubAwardBudgetBaseGenerator {
 
     private static final Logger LOG = Logger.getLogger(RRSubAwardBudgetV1_2Generator.class);
-    private ProposalDevelopmentDocument proposalDevelopmentDocument;
 
     /**
      * 
@@ -67,7 +66,7 @@ public class RRSubAwardBudgetV1_2Generator extends RRSubAwardBudgetBaseGenerator
         RRSubawardBudgetDocument rrSubawardBudgetDocument = RRSubawardBudgetDocument.Factory.newInstance();
         RRSubawardBudget rrSubawardBudget = RRSubawardBudget.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(proposalDevelopmentDocument);
+        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc);
         RRBudget[] budgetList = new RRBudget[budgetSubAwardsList.size()];
         rrSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_2);
 
@@ -180,7 +179,7 @@ public class RRSubAwardBudgetV1_2Generator extends RRSubAwardBudgetBaseGenerator
      * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.proposalDevelopmentDocument=proposalDevelopmentDocument;
+        pdDoc=proposalDevelopmentDocument;
         return getRRSubawardBudgetDocument();
     }
 
