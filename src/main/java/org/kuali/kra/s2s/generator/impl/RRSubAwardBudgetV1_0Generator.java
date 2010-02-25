@@ -49,7 +49,6 @@ import org.w3c.dom.NodeList;
 public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator {
 
     private static final Logger LOG = Logger.getLogger(RRSubAwardBudgetV1_0Generator.class);
-    private ProposalDevelopmentDocument proposalDevelopmentDocument;
 
     /**
      * 
@@ -62,7 +61,7 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
 
         RRSubawardBudget rrSubawardBudget = RRSubawardBudget.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(proposalDevelopmentDocument);
+        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc);
         RRBudget[] budgetList = new RRBudget[budgetSubAwardsList.size()];
 
 
