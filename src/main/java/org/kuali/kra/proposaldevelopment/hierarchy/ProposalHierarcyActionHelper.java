@@ -48,13 +48,13 @@ public class ProposalHierarcyActionHelper {
     private ProposalHierarchyService hierarchyService;
     private KraAuthorizationService authorizationService;
 
-    public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
-        syncAllHierarchy(hierarchyProposal, false);
+    public void syncAllHierarchy(ProposalDevelopmentDocument doc) {
+        syncAllHierarchy(doc, false);
     }
-    public void syncAllHierarchy(DevelopmentProposal hierarchyProposal, boolean allowEndDateChange) {
-        if (validateHierarchyForSyncAll(hierarchyProposal, allowEndDateChange)) {
+    public void syncAllHierarchy(ProposalDevelopmentDocument doc, boolean allowEndDateChange) {
+        if (validateHierarchyForSyncAll(doc.getDevelopmentProposal(), allowEndDateChange)) {
             try {
-                getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
+                getProposalHierarchyService().synchronizeAllChildren(doc);
                 GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
             }
             catch (ProposalHierarchyException e) {
