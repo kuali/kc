@@ -548,4 +548,8 @@ public interface Constants {
     public static final String AWARD_BUDGET_STATUS_IN_PROGRESS_CODE = "AWARD_BUDGET_STATUS_IN_PROGRESS_CODE";
     public static final String AWARD_BUDGET_TYPE_REBUDGET_CODE = "AWARD_BUDGET_TYPE_REBUDGET_CODE";
     public static final String MODULE_NAMESPACE_AWARD_BUDGET = "KC-AB";
+    
+    public static final String CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE = "DocumentType";
+    public static final String CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME = "customAttributeDocumentType";
+
 }
