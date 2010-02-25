@@ -19,7 +19,6 @@
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
-		<form-bean name="MedusaForm" type="org.kuali.kra.medusa.MedusaForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
@@ -37,6 +36,7 @@
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
+        <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
     </form-beans>
 
 <!-- Rice content Start -->
@@ -221,19 +221,7 @@
       <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardActionsAction"  >
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
       </action>
-      
-      <action path="/awardMedusaViewAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardMedusaAction"  >
-          <forward name="basic" path="/WEB-INF/jsp/award/awardMedusaViewAjax.jsp" />
-      </action>
-      
-      <action path="/proposalDevelopmentMedusaViewAjax" name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentMedusaAction"  >
-          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/proposalMedusaViewAjax.jsp" />
-      </action>
-      
-      <action path="/institutionalProposalMedusaViewAjax" name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposalMedusaAction"  >
-          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/proposalMedusaViewAjax.jsp" />
-      </action>
-      
+                        
       <!-- Time And Money -->
       <!-- Award Budget -->
       <action path="/awardBudget*" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -361,6 +349,10 @@
      <action path="/meetingManagement" name="MeetingForm" type="org.kuali.kra.meeting.MeetingAction" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting.jsp" />
             <forward name="meetingAction" path="/WEB-INF/jsp/meeting/meetingAction.jsp" />
+     </action>
+     
+     <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/medusa/medusaAjax.jsp"/>
      </action>
 
     </action-mappings>

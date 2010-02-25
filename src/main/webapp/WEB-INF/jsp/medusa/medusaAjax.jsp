@@ -1,37 +1,30 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
-
+ Copyright 2006-2008 The Kuali Foundation
+ 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-
+ 
  http://www.osedu.org/licenses/ECL-2.0
-
+ 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<!-- ProposalDevelopmentMedusa.jsp -->
-
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="institutionalProposalMedusa"
-	documentTypeName="InstitutionalProposalDocument"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="medusa" >
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Medusa</title>
 
-<kra-m:medusa />
-<kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+</head>
+<body>
+<c:out value="I am in medusaViewAjax.jsp" />
 
-</kul:documentPage>
-	
-	<script type="text/javascript" src="scripts/medusaView.js"></script>	
-	
+<kra-m:medusaNodeView node="${KualiForm.medusaBean.currentNode}"/>
+
+</body>
+</html>
