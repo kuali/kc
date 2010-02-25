@@ -85,7 +85,7 @@ public interface ProposalHierarchyService {
      * @param hierarchyProposal the hierarchy in question
      * @throws ProposalHierarchyException if hierarchyProposal is not a valid Hierarchy
      */
-    public void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
+    public void synchronizeAllChildren(ProposalDevelopmentDocument hierarchyProposalDocument) throws ProposalHierarchyException;
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;

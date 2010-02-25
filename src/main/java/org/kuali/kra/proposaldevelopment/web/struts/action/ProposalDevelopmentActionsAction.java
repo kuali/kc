@@ -1159,8 +1159,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward syncAllHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
-        DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
-        getHierarchyHelper().syncAllHierarchy(hierarchyProposal);
+        //DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
+        getHierarchyHelper().syncAllHierarchy(pdForm.getDocument());
         if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
             return doEndDateConfirmation(mapping, form, request, response, "syncAllHierarchy", "syncAllHierarchyConfirm");
         }
@@ -1170,8 +1170,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward syncAllHierarchyConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
-        DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
-        getHierarchyHelper().syncAllHierarchy(hierarchyProposal, true);
+        //DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
+        getHierarchyHelper().syncAllHierarchy(pdForm.getDocument(), true);
         return mapping.findForward(Constants.MAPPING_BASIC);
         //return reload(mapping, form, request, response);
     }
