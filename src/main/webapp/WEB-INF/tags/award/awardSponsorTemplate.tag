@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="awardAttributes" value="${DataDictionary.AwardDocument.attributes}" />
-<c:set var="awardApprovedSubawardAttributes" value="${DataDictionary.AwardTemplate.attributes}" />
 <c:set var="action" value="awardTemplateSync" />
 
 <kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.awardTemplate*">

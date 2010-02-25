@@ -65,30 +65,12 @@
 		<property name="description" value="Template Report Terms Id" />
 	</bean>
 
-<!--	<bean id="AwardTemplateReportTerm-templateCode" parent="AwardTemplateReportTerm-templateCode-parentBean" />-->
-<!--	<bean id="AwardTemplateReportTerm-templateCode-parentBean" abstract="true" parent="AttributeDefinition" >-->
-<!--		<property name="name" value="templateCode" />-->
-<!--		<property name="forceUppercase" value="false" />-->
-<!--		<property name="label" value="Template Code" />-->
-<!--		<property name="shortLabel" value="Template Code" />-->
-<!--		<property name="maxLength" value="22" />-->
-<!--		<property name="validationPattern" >-->
-<!--			<bean parent="NumericValidationPattern" />-->
-<!--		</property>-->
-<!--		<property name="control" >-->
-<!--			<bean parent="TextControlDefinition"-->
-<!--				p:size="10" />-->
-<!--		</property>-->
-<!--		<property name="summary" value="Template Code" />-->
-<!--		<property name="description" value="Template Code" />-->
-<!--	</bean>-->
-
 	<bean id="AwardTemplateReportTerm-reportClassCode" parent="AwardTemplateReportTerm-reportClassCode-parentBean" />
 	<bean id="AwardTemplateReportTerm-reportClassCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportClassCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Report Class Code" />
-		<property name="shortLabel" value="Report Class Code" />
+		<property name="label" value="Report Class" />
+		<property name="shortLabel" value="Report Class" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -110,8 +92,8 @@
 	<bean id="AwardTemplateReportTerm-reportTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Report Type Code" />
-		<property name="shortLabel" value="Report Type Code" />
+		<property name="label" value="Report Type" />
+		<property name="shortLabel" value="Report Type" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -133,8 +115,8 @@
 	<bean id="AwardTemplateReportTerm-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Frequency Code" />
-		<property name="shortLabel" value="Frequency Code" />
+		<property name="label" value="Frequency" />
+		<property name="shortLabel" value="Frequency" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -156,8 +138,8 @@
 	<bean id="AwardTemplateReportTerm-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyBaseCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Frequency Base Code" />
-		<property name="shortLabel" value="Frequency Base Code" />
+		<property name="label" value="Frequency Base" />
+		<property name="shortLabel" value="Frequency Base" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -179,8 +161,8 @@
 	<bean id="AwardTemplateReportTerm-ospFileCopy-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="ospDistributionCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Osp File Copy Code" />
-		<property name="shortLabel" value="Osp File Copy Code" />
+		<property name="label" value="Osp File Copy" />
+		<property name="shortLabel" value="Osp File Copy" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -226,8 +208,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="templateReportTermId" 
 								p:forceInquiry="true" />
-<!--							<bean parent="FieldDefinition"-->
-<!--								p:attributeName="templateCode" />-->
 							<bean parent="FieldDefinition"
 								p:attributeName="reportClassCode" />
 							<bean parent="FieldDefinition"
@@ -262,8 +242,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="templateReportTermId" 
 					p:forceInquiry="true" />
-<!--				<bean parent="FieldDefinition"-->
-<!--					p:attributeName="templateCode" />-->
 				<bean parent="FieldDefinition"
 					p:attributeName="reportClassCode" />
 				<bean parent="FieldDefinition"
@@ -283,8 +261,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="templateReportTermId" 
 					p:forceInquiry="true" />
-<!--				<bean parent="FieldDefinition"-->
-<!--					p:attributeName="templateCode" />-->
 				<bean parent="FieldDefinition"
 					p:attributeName="reportClassCode" />
 				<bean parent="FieldDefinition"

@@ -30,15 +30,12 @@
         <ref bean="Award-preAwardInstitutionalAuthorizedAmount" />
         <ref bean="Award-preAwardInstitutionalEffectiveDate" />
         <ref bean="Award-sequenceNumber" />
-        <ref bean="Award-nonCompetingContPrpslDueCode" />
-        <ref bean="Award-competingRenewalPrpslDueCode" />
         <ref bean="Award-specialEbRateOnCampus" />
         <ref bean="Award-specialEbRateOffCampus" />
         <ref bean="Award-subPlanFlag" />
         <ref bean="Award-procurementPriorityCode" />
         <ref bean="Award-basisOfPaymentCode" />
         <ref bean="Award-methodOfPaymentCode" />
-        <ref bean="Award-finalInvoiceDue" />
         <ref bean="Award-documentFundingId" />
         <ref bean="Award-activityTypeCode" />
         <ref bean="Award-title" />
@@ -146,8 +143,7 @@
   </bean>
   
   
-   <bean id="Award-sequenceNumber" parent="Award-sequenceNumber-parentBean" />
-
+  <bean id="Award-sequenceNumber" parent="Award-sequenceNumber-parentBean" />
   <bean id="Award-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -163,56 +159,6 @@
     </property>
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
-  </bean>
-  
-  <bean id="Award-nonCompetingContPrpslDueCode" parent="Award-nonCompetingContPrpslDueCode-parentBean" />
-
-  <bean id="Award-nonCompetingContPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonCompetingContPrpslDueCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Non Competing Continuation" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="frequencyCode"
-            p:labelAttribute="description" />
-    </property>
-    <property name="summary" value="Non Competing Continuation" />
-    <property name="description" value="Non Competing Continuation" />
-  </bean>
-  
-  <bean id="Award-competingRenewalPrpslDueCode" parent="Award-competingRenewalPrpslDueCode-parentBean" />
-
-  <bean id="Award-competingRenewalPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="competingRenewalPrpslDueCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Competing Renewal" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="frequencyCode"
-            p:labelAttribute="description" />
-    </property>
-    <property name="summary" value="Competing Renewal" />
-    <property name="description" value="Competing Renewal" />
   </bean>
   
   <bean id="Award-specialEbRateOnCampus" parent="Award-specialEbRateOnCampus-parentBean" />
@@ -338,29 +284,8 @@
     <property name="summary" value="Payment Method" />
     <property name="description" value="Payment Method" />
   </bean>
-  
-  <bean id="Award-finalInvoiceDue" parent="Award-finalInvoiceDue-parentBean" />
-  
-  <bean id="Award-finalInvoiceDue-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finalInvoiceDue" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Final Invoice" />
-    <property name="shortLabel" value="Final Invoice" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="Final Invoice" />
-    <property name="description" value="Final Invoice" />
-  </bean>
-  
+   
   <bean id="Award-documentFundingId" parent="Award-documentFundingId-parentBean" />
-  
   <bean id="Award-documentFundingId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentFundingId" />
     <property name="forceUppercase" value="false" />

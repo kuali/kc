@@ -28,7 +28,6 @@
 		<property name="attributes">
 			<list>
 				<ref bean="AwardTemplateComment-templateCommentsId"/>
-				<!--<ref bean="AwardTemplateComment-templateCode" />-->
 				<ref bean="AwardTemplateComment-commentTypeCode"/>
 				<ref bean="AwardTemplateComment-checklistPrintFlag"/>
 				<ref bean="AwardTemplateComment-comments"/>
@@ -55,25 +54,7 @@
 		<property name="summary" value="Template Comments Id"/>
 		<property name="description" value="Template Comments Id"/>
 	</bean>
-
-	<!--<bean id="AwardTemplateComment-templateCode" parent="AwardTemplateComment-templateCode-parentBean" />-->
-	<!--<bean id="AwardTemplateComment-templateCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="templateCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Template Code" />
-		<property name="shortLabel" value="Template Code" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Template Code" />
-		<property name="description" value="Template Code" />
-	</bean>-->
-
+	
 	<bean id="AwardTemplateComment-commentTypeCode" parent="AwardTemplateComment-commentTypeCode-parentBean"/>
 	<bean abstract="true" id="AwardTemplateComment-commentTypeCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="commentTypeCode"/>
@@ -133,8 +114,6 @@
 					<property name="inquiryFields">
 						<list>
 							<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
-							<!--<bean parent="FieldDefinition"
-								p:attributeName="templateCode" />-->
 							<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
 							<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
 							<bean p:attributeName="comments" parent="FieldDefinition"/>
@@ -158,8 +137,6 @@
 		<property name="lookupFields">
 			<list>
 				<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
-				<!--<bean parent="FieldDefinition"
-					p:attributeName="templateCode" />-->
 				<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
 				<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="comments" parent="FieldDefinition"/>
@@ -168,8 +145,6 @@
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="templateCommentsId" p:forceInquiry="true" parent="FieldDefinition"/>
-				<!--<bean parent="FieldDefinition"
-					p:attributeName="templateCode" />-->
 				<bean p:attributeName="commentTypeCode" parent="FieldDefinition"/>
 				<bean p:attributeName="checklistPrintFlag" parent="FieldDefinition"/>
 				<bean p:attributeName="comments" parent="FieldDefinition"/>
