@@ -32,14 +32,6 @@
             </list>
           </property>
         </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="documentType"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean p:sourceName="documentTypeName" p:targetName="name" parent="PrimitiveAttributeDefinition"/>
-            </list>
-          </property>
-        </bean>
       </list>
     </property>
   </bean>
@@ -68,7 +60,8 @@
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean p:size="19" parent="TextControlDefinition"/>
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDocumentTypeValuesFinder" />
     </property>
     <property name="summary" value="Document Type Code"/>
     <property name="description" value="Document Type Code"/>
@@ -146,6 +139,7 @@
 
   <bean abstract="true" id="CustomAttributeDocument-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Custom Attribute Document Lookup"/>
+    <property name="lookupableID" value="customAttributeDocumentLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
     <property name="defaultSort">
