@@ -522,11 +522,11 @@
     var trTag2 = $('<tr></tr>');
     var thTag5=$('<th style="text-align:right;width:160px;"></th>').html('<b>Anticipated Amount</b>');
     trTag2.html(thTag5);
-    var tdTag5=$('<td ></td>').html("$" + text5);
+    var tdTag5=$('<td ></td>').html("$" + text6);
     tdTag5.appendTo(trTag2);
     var thTag6=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligated Amount</b>');
     thTag6.appendTo(trTag2);    
-    var tdTag6=$('<td ></td>').html("$" + text6);
+    var tdTag6=$('<td ></td>').html("$" + text5);
     tdTag6.appendTo(trTag2);
     
     // 4th tr
