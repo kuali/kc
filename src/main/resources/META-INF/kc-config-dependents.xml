@@ -3,12 +3,13 @@
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="appserver.url">${app.host}</param>
 	
+	<param name="rice.app.url">${application.url}</param>
+	
 	<param name="externalizable.help.url">${application.url}/static/help/</param>
 	<param name="externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">${application.url}/static/images/</param>
 
-	
 	<param name="kr.url">${rice.app.url}/kr</param>
 	<param name="ken.url">${rice.app.url}/ken</param>
 	<param name="kew.url">${rice.app.url}/kew</param>
