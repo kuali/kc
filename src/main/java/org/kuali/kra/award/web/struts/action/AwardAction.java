@@ -216,16 +216,22 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         awardForm.setOrder(order);
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
         for(String str:order){
-            sb.append(awardHierarchyNodesMap.get(str).getAwardNumber());
-            sb.append(KNSConstants.BLANK_SPACE).append("%3A");
+            AwardHierarchyNode tempAwardNode = awardHierarchyNodesMap.get(str);
+            sb1.append(tempAwardNode.getAwardNumber());
+            sb1.append(KNSConstants.BLANK_SPACE).append("%3A");
+            if(tempAwardNode.isAwardDocumentFinalStatus()) {
+                sb2.append(tempAwardNode.getAwardNumber());
+                sb2.append(KNSConstants.BLANK_SPACE).append("%3A");
+            }
         }
         
         if(CollectionUtils.isNotEmpty(awardForm.getAwardHierarchyTempObjects())) {
             for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){
-                temp.setSelectBox1(sb.toString());
-                temp.setSelectBox2(sb.toString());
+                temp.setSelectBox1(sb1.toString());
+                temp.setSelectBox2(sb2.toString());
             }
         }
 
@@ -274,6 +280,7 @@ public class AwardAction extends BudgetParentActionBase {
         
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
             forward = super.route(mapping, form, request, response);
+            populateAwardHierarchy(awardForm);
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
         }
@@ -855,7 +862,7 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward awardActions(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
 
-        populateAwardHierarchy(form);
+        populateAwardHierarchy(form); 
 
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
