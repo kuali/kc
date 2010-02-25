@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +80,6 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHeaderService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -96,11 +97,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
-    private static final String ERROR_BUDGET_START_DATE_INCONSISTENT = "error.hierarchy.budget.startDateInconsistent";
-    private static final String ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT = "error.hierarchy.budget.periodDurationInconsistent";
-    private static final String PARAMETER_NAME_DIRECT_COST_ELEMENT = "proposalHierarchySubProjectDirectCostElement";
-    private static final String PARAMETER_NAME_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
-    private static final String PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP = "instituteNarrativeTypeGroup";
     
     private static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
     private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
@@ -535,6 +531,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.save(childProposal);
         LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
         synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType());
+        if (hierarchyBudget.getEndDate().after(hierarchyProposal.getRequestedEndDateInitial())) {
+            hierarchyProposal.setRequestedEndDateInitial(hierarchyBudget.getEndDate());
+        }
+        if (childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial())) {
+            hierarchyProposal.setRequestedEndDateInitial(childProposal.getRequestedEndDateInitial());
+        }
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
         }
@@ -710,6 +712,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     }
                 }
             }
+            parentBudget.setStartDate(parentBudget.getBudgetPeriod(0).getStartDate());
+            parentBudget.setEndDate(parentBudget.getBudgetPeriod(parentBudget.getBudgetPeriods().size()-1).getEndDate());
         }
         catch (Exception e) {
             LOG.error("Problem copying line items to parent", e);
@@ -838,7 +842,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
-            DevelopmentProposal childProposal) throws ProposalHierarchyException {
+            DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
         BudgetDocument<DevelopmentProposal> parentBudgetDoc = getHierarchyBudget(hierarchyProposal);
         Budget parentBudget = parentBudgetDoc.getBudget();
         BudgetDocument<DevelopmentProposal> childBudgetDocument = getFinalOrLatestChildBudget(childProposal); 
@@ -855,7 +859,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
             List<BudgetPeriod> childPeriods = childBudget.getBudgetPeriods();
             BudgetPeriod parentPeriod, childPeriod;
-            for (int i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
+            int i;
+            int j;
+            for (i = correspondingStart, j = 0; i < parentPeriods.size() && j < childPeriods.size(); i++, j++) {
                 parentPeriod = parentPeriods.get(i);
                 childPeriod = childPeriods.get(j);
                 if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
@@ -864,8 +870,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     break;
                 }
             }
+            if (retval == null 
+                    && !allowEndDateChange 
+                    && (j < childPeriods.size() 
+                            || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
+                retval = new ProposalHierarchyErrorDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, childProposal.getProposalNumber());
+            }
         }
-
+        
         return retval;
     }
     
