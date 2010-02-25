@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +29,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -44,36 +45,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class ProposalHierarcyActionHelper {
     private static final Log LOG = LogFactory.getLog(ProposalHierarcyActionHelper.class);
 
-    public static final String FIELD_GENERIC = "newHierarchyProposal.x";
-    public static final String FIELD_PARENT_NUMBER = "newHierarchyProposalNumber";
-    public static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposalNumber";
-    public static final String FIELD_PARENT_BUDGET_STATUS = "document.budgetDocumentVersion[0].budgetVersionOverview.budgetStatus";
-
-    private static final String MESSAGE_LINK_SUCCESS = "message.hierarchy.link.success";
-    private static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";
-    private static final String MESSAGE_SYNC_SUCCESS = "message.hierarchy.sync.success";
-    private static final String MESSAGE_REMOVE_SUCCESS = "message.hierarchy.remove.success";
-    public static final String MESSAGE_REMOVE_CANCEL = "message.hierarchy.remove.cancel";
-    public static final String QUESTION_REMOVE_CONFIRM = "question.hierarchy.remove.confirm";
-
-    private static final String WARNING_LINK_NO_FINAL_BUDGET = "warning.hierarchy.link.noFinalBudget";
-    private static final String WARNING_LINK_DIFFERENT_SPONSOR = "warning.hierarchy.link.differentSponsor";
-    
-    private static final String ERROR_LINK_ALREADY_MEMBER = "error.hierarchy.link.alreadyHierarchyMember";
-    private static final String ERROR_LINK_NOT_PARENT = "error.hierarchy.link.notParent";
-    private static final String ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.link.noPrincipleInvestigator";
-    private static final String ERROR_LINK_NO_BUDGET_VERSION = "error.hierarchy.link.noBudgetVersion";
-    private static final String ERROR_LINK_PARENT_BUDGET_COMPLETE = "error.hierarchy.link.parentBudgetComplete";
-    private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
-    private static final String ERROR_UNEXPECTED = "error.hierarchy.unexpected";
-    private static final String ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE = "error.hierarchy.budget.childStatusesNotComplete";
-    private static final String ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.sync.noPrincipleInvestigator";
-
     private ProposalHierarchyService hierarchyService;
     private KraAuthorizationService authorizationService;
 
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
-        if (validateHierarchyForSyncAll(hierarchyProposal)) {
+        syncAllHierarchy(hierarchyProposal, false);
+    }
+    public void syncAllHierarchy(DevelopmentProposal hierarchyProposal, boolean allowEndDateChange) {
+        if (validateHierarchyForSyncAll(hierarchyProposal, allowEndDateChange)) {
             try {
                 getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
                 GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
@@ -96,10 +75,14 @@ public class ProposalHierarcyActionHelper {
             }
         }
     }
-    
+
     public void syncToHierarchyParent(DevelopmentProposal childProposal) {
+        syncToHierarchyParent(childProposal, false);
+    }
+    
+    public void syncToHierarchyParent(DevelopmentProposal childProposal, boolean allowEndDateChange) {
         DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
-        if (validateChildForSync(childProposal, hierarchy)) {
+        if (validateChildForSync(childProposal, hierarchy, allowEndDateChange)) {
             try {
                 getProposalHierarchyService().synchronizeChild(childProposal);
                 GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
@@ -131,6 +114,10 @@ public class ProposalHierarcyActionHelper {
     }
     
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) {
+        linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode, false);
+    }
+    
+    public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode, boolean allowEndDateChange) {
         if (!getAuthoriztionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), hierarchyProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)
                 || !getAuthoriztionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), newChildProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, KeyConstants.AUTHORIZATION_VIOLATION, new String[0]);
@@ -138,7 +125,7 @@ public class ProposalHierarcyActionHelper {
         else if (validateParent(hierarchyProposal)) {
             boolean valid = true;
             valid &= validateChildCandidate(newChildProposal);
-            if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
+            if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, allowEndDateChange)) {
                 try {
                     // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
                     MessageMap messageMap = GlobalVariables.getMessageMap();
@@ -220,13 +207,13 @@ public class ProposalHierarcyActionHelper {
         return valid;
     }
 
-    private boolean validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child) {
+    private boolean validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child, boolean allowEndDateChange) {
         boolean valid = true;
         if (!StringUtils.equalsIgnoreCase(hierarchy.getSponsorCode(), child.getSponsorCode())) {
             GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
         }
         try {
-            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child);
+            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
             if (budgetError != null) {
                 valid = false;
                 GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
@@ -305,14 +292,14 @@ public class ProposalHierarcyActionHelper {
         return match;
     }
     
-    public boolean validateChildForSync (DevelopmentProposal child, DevelopmentProposal hierarchy) {
+    public boolean validateChildForSync (DevelopmentProposal child, DevelopmentProposal hierarchy, boolean allowEndDateChange) {
         boolean valid = true;
         if (child.getPrincipalInvestigator() == null) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR, child.getProposalNumber());
             valid = false;
         }
         try {
-            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child);
+            ProposalHierarchyErrorDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
             if (budgetError != null) {
                 valid = false;
                 GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
@@ -325,11 +312,11 @@ public class ProposalHierarcyActionHelper {
         return valid;
     }
     
-    public boolean validateHierarchyForSyncAll (DevelopmentProposal hierarchy) {
+    public boolean validateHierarchyForSyncAll (DevelopmentProposal hierarchy, boolean allowEndDateChange) {
         boolean valid = true;
         try {
             for (DevelopmentProposal child : getProposalHierarchyService().getHierarchyChildren(hierarchy.getProposalNumber())) {
-                valid &= validateChildForSync(child, hierarchy);
+                valid &= validateChildForSync(child, hierarchy, allowEndDateChange);
             }
         }
         catch (ProposalHierarchyException e) {

@@ -60,7 +60,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
@@ -93,6 +93,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -1147,7 +1148,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         DevelopmentProposal newChildProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyChildProposalNumber());
         String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
         if (newChildProposal == null) {
-            GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_CHILD_NUMBER, KeyConstants.ERROR_REQUIRED, "Link Child Proposal");
+            GlobalVariables.getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER, KeyConstants.ERROR_REQUIRED, "Link Child Proposal");
         }
         else {
             getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
@@ -1160,13 +1161,24 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
         getHierarchyHelper().syncAllHierarchy(hierarchyProposal);
-        //return mapping.findForward(Constants.MAPPING_BASIC);
-        return reload(mapping, form, request, response);
+        if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+            return doEndDateConfirmation(mapping, form, request, response, "syncAllHierarchy", "syncAllHierarchyConfirm");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        //return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward syncAllHierarchyConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
+        getHierarchyHelper().syncAllHierarchy(hierarchyProposal, true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        //return reload(mapping, form, request, response);
     }
     
     public ActionForward removeFromHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, "removeFromHierarchy", ProposalHierarcyActionHelper.QUESTION_REMOVE_CONFIRM);
-        return confirm(question, "removeFromHierarchyConfirmed", "removeFromHierarchyCanceled");
+        StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, "removeFromHierarchy", ProposalHierarchyKeyConstants.QUESTION_REMOVE_CONFIRM);
+        return confirm(question, "removeFromHierarchyConfirmed", "hierarchyActionCanceled");
     }
         
     public ActionForward removeFromHierarchyConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1176,8 +1188,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward removeFromHierarchyCanceled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().add(ProposalHierarcyActionHelper.MESSAGE_REMOVE_CANCEL);
+    public ActionForward hierarchyActionCanceled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlobalVariables.getMessageList().add(ProposalHierarchyKeyConstants.MESSAGE_ACTION_CANCEL);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1185,9 +1197,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal childProposal = pdForm.getDocument().getDevelopmentProposal();
         getHierarchyHelper().syncToHierarchyParent(childProposal);
+        if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+            return doEndDateConfirmation(mapping, form, request, response, "syncToHierarchyParent", "syncToHierarchyParentConfirm");
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
+    public ActionForward syncToHierarchyParentConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        DevelopmentProposal childProposal = pdForm.getDocument().getDevelopmentProposal();
+        getHierarchyHelper().syncToHierarchyParent(childProposal, true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     public ActionForward createHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal initialChildProposal = pdForm.getDocument().getDevelopmentProposal();
@@ -1201,10 +1223,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         DevelopmentProposal newChildProposal = pdForm.getDocument().getDevelopmentProposal();
         String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
         if (hierarchyProposal == null) {
-            GlobalVariables.getMessageMap().putError(ProposalHierarcyActionHelper.FIELD_PARENT_NUMBER, KeyConstants.ERROR_REQUIRED, "Link to Hierarchy");
+            GlobalVariables.getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_PARENT_NUMBER, KeyConstants.ERROR_REQUIRED, "Link to Hierarchy");
         }
         else {
             getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+            if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+                return doEndDateConfirmation(mapping, form, request, response, "linkToHierarchy", "linkToHierarchyConfirm");
+            }
+            pdForm.setNewHierarchyProposalNumber("");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward linkToHierarchyConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
+        DevelopmentProposal newChildProposal = pdForm.getDocument().getDevelopmentProposal();
+        String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
+        if (hierarchyProposal == null) {
+            GlobalVariables.getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_PARENT_NUMBER, KeyConstants.ERROR_REQUIRED, "Link to Hierarchy");
+        }
+        else {
+            getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode, true);
             pdForm.setNewHierarchyProposalNumber("");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1308,6 +1348,22 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         request.setAttribute(ReportHelperBean.PENDING_REPORT_BEANS_KEY, helper.preparePendingReport());
         request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ActionForward doEndDateConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionId, String yesMethodName) throws Exception {
+        List<ErrorMessage> errors = GlobalVariables.getMessageMap().getErrorMessagesForProperty(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER);
+        List<String> proposalNumbers = new ArrayList<String>();
+        for (ErrorMessage error : errors) {
+            if (error.getErrorKey().equals(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+                proposalNumbers.add(error.getMessageParameters()[0]);
+            }
+        }
+        String proposalNumberList = StringUtils.join(proposalNumbers, ',');
+        StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, questionId, ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM, proposalNumberList);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.getMessageMap().getWarningMessages().clear();
+        GlobalVariables.getMessageMap().getInfoMessages().clear();
+        return confirm(question, yesMethodName, "hierarchyActionCanceled");
     }
 }
     
