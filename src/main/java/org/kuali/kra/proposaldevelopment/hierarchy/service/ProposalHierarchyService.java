@@ -24,15 +24,11 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
-
 
 /**
  * This class...
  */
-
 public interface ProposalHierarchyService {
 
     //Constants for Proposal Hierarchy Child Routing
@@ -94,7 +90,7 @@ public interface ProposalHierarchyService {
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
-    public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     
     
     /**
