@@ -27,12 +27,12 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="medusa" >
 
-<kra:medusa />
+<kra-m:medusa />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true"/>
 
 </kul:documentPage>
 	
 	<script type="text/javascript" src="scripts/medusaView.js"></script>	
-	<script type="text/javascript" src="scripts/proposalDevelopmentMedusa.js"></script>
+	
 	

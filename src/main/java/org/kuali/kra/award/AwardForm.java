@@ -67,8 +67,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.service.AwardHierarchyUIService;
-import org.kuali.kra.service.MedusaService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
@@ -230,7 +230,7 @@ public class AwardForm extends BudgetVersionFormBase
         order = new ArrayList<String>();
         
         awardHierarchyBean = new AwardHierarchyBean(this);
-        medusaBean = new MedusaBean(this);
+        medusaBean = new MedusaBean();
         //sync
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;

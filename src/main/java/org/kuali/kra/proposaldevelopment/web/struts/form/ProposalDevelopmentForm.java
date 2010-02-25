@@ -230,7 +230,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewProposalChangedData(new ProposalChangedData());
         versionNumberForS2sOpportunity = null;
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
-        medusaBean = new MedusaBean(this);
+        medusaBean = new MedusaBean();
         reportHelperBean = new ReportHelperBean(this);
     }
 

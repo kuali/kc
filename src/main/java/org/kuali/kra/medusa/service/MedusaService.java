@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.kra.medusa.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.medusa.MedusaNode;
 
 
 public interface MedusaService {
 
-    public String getMedusaByAward(String moduleName, Long moduleIdentifier);
-    public String getMedusaByProposal(String moduleName, Long moduleIdentifier);
+    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier);
+    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier);
+    public MedusaNode getMedusaNode(String moduleName, Long moduleIdentifier);
+    
+ 
 }
