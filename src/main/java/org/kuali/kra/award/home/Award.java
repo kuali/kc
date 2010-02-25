@@ -132,29 +132,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Date noticeDate;
     private String currentActionComments;
     
-    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} )
     private Integer templateCode; 
     @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
     private String primeSponsorCode; 
-    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
-    private String nonCompetingContPrpslDueCode; 
-    @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
-    private String competingRenewalPrpslDueCode; 
     @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
     private String basisOfPaymentCode; 
     @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
     private String methodOfPaymentCode; 
-    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
-    private String paymentInvoiceFreqCode; 
-    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB})
-    private Integer invoiceNumberOfCopies; 
-    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB})
-    private Integer finalInvoiceDue;
     
     private AwardTemplate awardTemplate;
-    private Frequency nonCompetingContPrpslDue;
-    private Frequency competingRenewalPrpslDue;
-    private Frequency paymentInvoiceFrequency;
     private AwardBasisOfPayment awardBasisOfPayment;
     private AwardMethodOfPayment awardMethodOfPayment;
     private AwardTransactionType awardTransactionType;
@@ -900,24 +886,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.cfdaNumber = cfdaNumber;
     }
 
-
-    /**
-     *
-     * @return
-     */
-//    public Integer getCompetingRenewalProposalDue() {
-//        return Integer.parseInt(getCompetingRenewalPrpslDueCode());
-//    }
-
-    /**
-     *
-     * @param competingRenewalProposalDue
-     */
-//    public void setCompetingRenewalProposalDue(Integer competingRenewalProposalDue) {
-//        setCompetingRenewalPrpslDueCode(competingRenewalProposalDue.toString());
-//    }
-
-
     /**
      * 
      * @return
@@ -934,8 +902,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setDocumentFundingId(String documentFundingId) {
         this.documentFundingId = documentFundingId;
     }
-
-
 
     /**
      * @return
@@ -958,8 +924,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         ospAdministratorName = ospAdministrator != null ? ospAdministrator.getFullName() : null;
         return ospAdministratorName;
     }
-    
-
 
     /**
      *
@@ -1235,8 +1199,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
         hashMap.put("cfdaNumber", getCfdaNumber());
         hashMap.put("documentFundingId", getDocumentFundingId());
-        hashMap.put("finalInvoiceDue", getFinalInvoiceDue());
-        hashMap.put("invoiceNumberOfCopies", getInvoiceNumberOfCopies());
         hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
         hashMap.put("preAwardAuthorizedAmount", getPreAwardAuthorizedAmount());
         hashMap.put("preAwardEffectiveDate", getPreAwardEffectiveDate());
@@ -1498,16 +1460,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return result;
     }  
      
-//    public AwardReportTerm getAwardReportTermByTemplateReportTerm( AwardTemplateReportTerm term, boolean createNew ) {
-//        AwardReportTerm result = null;
-//        for( AwardReportTerm arTerm : this.getAwardReportTermItems()  ) {
-//            if( StringUtils.equals(term.getReportCode(), arTerm.getReportCode())
-//        }
-//        
-//        
-//    }
-//     
-    
     /**
      * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
      * @return
@@ -2367,38 +2319,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * Gets the nonCompetingContPrpslDueCode attribute. 
-     * @return Returns the nonCompetingContPrpslDueCode.
-     */
-    public String getNonCompetingContPrpslDueCode() {
-        return nonCompetingContPrpslDueCode;
-    }
-
-    /**
-     * Sets the nonCompetingContPrpslDueCode attribute value.
-     * @param nonCompetingContPrpslDueCode The nonCompetingContPrpslDueCode to set.
-     */
-    public void setNonCompetingContPrpslDueCode(String nonCompetingContPrpslDueCode) {
-        this.nonCompetingContPrpslDueCode = nonCompetingContPrpslDueCode;
-    }
-
-    /**
-     * Gets the competingRenewalPrpslDueCode attribute. 
-     * @return Returns the competingRenewalPrpslDueCode.
-     */
-    public String getCompetingRenewalPrpslDueCode() {
-        return competingRenewalPrpslDueCode;
-    }
-
-    /**
-     * Sets the competingRenewalPrpslDueCode attribute value.
-     * @param competingRenewalPrpslDueCode The competingRenewalPrpslDueCode to set.
-     */
-    public void setCompetingRenewalPrpslDueCode(String competingRenewalPrpslDueCode) {
-        this.competingRenewalPrpslDueCode = competingRenewalPrpslDueCode;
-    }
-
-    /**
      * Gets the basisOfPaymentCode attribute. 
      * @return Returns the basisOfPaymentCode.
      */
@@ -2431,54 +2351,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * Gets the paymentInvoiceFreqCode attribute. 
-     * @return Returns the paymentInvoiceFreqCode.
-     */
-    public String getPaymentInvoiceFreqCode() {
-        return paymentInvoiceFreqCode;
-    }
-
-    /**
-     * Sets the paymentInvoiceFreqCode attribute value.
-     * @param paymentInvoiceFreqCode The paymentInvoiceFreqCode to set.
-     */
-    public void setPaymentInvoiceFreqCode(String paymentInvoiceFreqCode) {
-        this.paymentInvoiceFreqCode = paymentInvoiceFreqCode;
-    }
-
-    /**
-     * Gets the invoiceNumberOfCopies attribute. 
-     * @return Returns the invoiceNumberOfCopies.
-     */
-    public Integer getInvoiceNumberOfCopies() {
-        return invoiceNumberOfCopies;
-    }
-
-    /**
-     * Sets the invoiceNumberOfCopies attribute value.
-     * @param invoiceNumberOfCopies The invoiceNumberOfCopies to set.
-     */
-    public void setInvoiceNumberOfCopies(Integer invoiceNumberOfCopies) {
-        this.invoiceNumberOfCopies = invoiceNumberOfCopies;
-    }
-
-    /**
-     * Gets the finalInvoiceDue attribute. 
-     * @return Returns the finalInvoiceDue.
-     */
-    public Integer getFinalInvoiceDue() {
-        return finalInvoiceDue;
-    }
-
-    /**
-     * Sets the finalInvoiceDue attribute value.
-     * @param finalInvoiceDue The finalInvoiceDue to set.
-     */
-    public void setFinalInvoiceDue(Integer finalInvoiceDue) {
-        this.finalInvoiceDue = finalInvoiceDue;
-    }
-
-    /**
      * Gets the awardTemplate attribute. 
      * @return Returns the awardTemplate.
      */
@@ -2492,54 +2364,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public void setAwardTemplate(AwardTemplate awardTemplate) {
         this.awardTemplate = awardTemplate;
-    }
-
-    /**
-     * Gets the nonCompetingContPrpslDue attribute. 
-     * @return Returns the nonCompetingContPrpslDue.
-     */
-    public Frequency getNonCompetingContPrpslDue() {
-        return nonCompetingContPrpslDue;
-    }
-
-    /**
-     * Sets the nonCompetingContPrpslDue attribute value.
-     * @param nonCompetingContPrpslDue The nonCompetingContPrpslDue to set.
-     */
-    public void setNonCompetingContPrpslDue(Frequency nonCompetingContPrpslDue) {
-        this.nonCompetingContPrpslDue = nonCompetingContPrpslDue;
-    }
-
-    /**
-     * Gets the competingRenewalPrpslDue attribute. 
-     * @return Returns the competingRenewalPrpslDue.
-     */
-    public Frequency getCompetingRenewalPrpslDue() {
-        return competingRenewalPrpslDue;
-    }
-
-    /**
-     * Sets the competingRenewalPrpslDue attribute value.
-     * @param competingRenewalPrpslDue The competingRenewalPrpslDue to set.
-     */
-    public void setCompetingRenewalPrpslDue(Frequency competingRenewalPrpslDue) {
-        this.competingRenewalPrpslDue = competingRenewalPrpslDue;
-    }
-
-    /**
-     * Gets the paymentInvoiceFrequency attribute. 
-     * @return Returns the paymentInvoiceFrequency.
-     */
-    public Frequency getPaymentInvoiceFrequency() {
-        return paymentInvoiceFrequency;
-    }
-
-    /**
-     * Sets the paymentInvoiceFrequency attribute value.
-     * @param paymentInvoiceFrequency The paymentInvoiceFrequency to set.
-     */
-    public void setPaymentInvoiceFrequency(Frequency paymentInvoiceFrequency) {
-        this.paymentInvoiceFrequency = paymentInvoiceFrequency;
     }
 
     /**

@@ -569,9 +569,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(((AwardForm) form).getAwardDocument().getAward());
-        
         return super.save(mapping, form, request, response);
     }
 

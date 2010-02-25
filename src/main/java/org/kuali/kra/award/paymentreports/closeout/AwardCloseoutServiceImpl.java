@@ -65,7 +65,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         boolean allDueDatesAreEqual;
         String closeoutReportTypeCode;
         
-        java.util.Date dateCalculatedUsingFinalInvoiceDue = getDateCalculatedUsingFinalInvoiceDue(award, finalExpirationDate).getTime();
+        //java.util.Date dateCalculatedUsingFinalInvoiceDue = getDateCalculatedUsingFinalInvoiceDue(award, finalExpirationDate).getTime();
         
         refreshAwardReportTerms(award.getAwardReportTermItems());
                 
@@ -88,7 +88,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
                     }
                     dateCalculatedUsingFrequencyOld = dateCalculatedUsingFrequency;
                 }
-                updateCloseoutDueDate(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, dateCalculatedUsingFrequency, allDueDatesAreEqual
+                updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual
                                         , closeoutReportTypeCode);
             }
         }
@@ -99,15 +99,15 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
     
     /*
      * This method checks if finalInvoiceDue is not null and adds it to the final expiration date and returns the calculated date.
-     * 
+     * This is no longer needed.  
      */
-    private Calendar getDateCalculatedUsingFinalInvoiceDue(Award award, Date finalExpirationDate) {
-        Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);        
-        if (award.getFinalInvoiceDue() != null) {
-            calendar.add(Calendar.DAY_OF_YEAR, award.getFinalInvoiceDue());    
-        }
-        return calendar;
-    }
+//    private Calendar getDateCalculatedUsingFinalInvoiceDue(Award award, Date finalExpirationDate) {
+//        Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);        
+//        if (award.getFinalInvoiceDue() != null) {
+//            calendar.add(Calendar.DAY_OF_YEAR, award.getFinalInvoiceDue());    
+//        }
+//        return calendar;
+//    }
     
     /*
      * This method updates the due dates for Award Closeout static reports for the case when total number of awardReportTerm objects for the particular 

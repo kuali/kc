@@ -46,22 +46,11 @@
 		<property name="title" value="Edit Sponsor Template"/>
 		<property name="maintainableItems">
 			<list>
-				<!--<bean parent="MaintainableFieldDefinition"
-					p:name="templateCode"
-					p:required="true" />-->
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="statusCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="primeSponsorCode"/>
-				<bean parent="MaintainableFieldDefinition" p:name="nonCompetingContPrpslDueCode"/>
-				<!--<bean parent="MaintainableFieldDefinition"
-					p:name="nonCompetingContPrpslDueCode" 
-					p:webUILeaveFieldFunction="filterNonCompetingContPrpslDueCode()"/>-->
-				<bean parent="MaintainableFieldDefinition" p:name="competingRenewalPrpslDueCode"/>
 				<bean parent="MaintainableFieldDefinition" p:name="basisOfPaymentCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="methodOfPaymentCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="paymentInvoiceFreqCode"/>
-				<bean parent="MaintainableFieldDefinition" p:name="invoiceNumberOfCopies"/>
-				<bean parent="MaintainableFieldDefinition" p:name="finalInvoiceDue"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

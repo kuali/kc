@@ -88,13 +88,16 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             super.addNewLineToCollection(collectionName);
         }
     }
+   
     @Override
     public void prepareForSave() {
         AwardTemplate awardTemplate = (AwardTemplate)this.businessObject;
         if(!isValid(awardTemplate.getBasisOfPaymentCode(),awardTemplate.getMethodOfPaymentCode())){
             reportInvalidAwardBasisError(awardTemplate);
         }
+        super.prepareForSave();
     }
+    
     private void reportInvalidAwardBasisError(AwardTemplate awardTemplate) {
         ErrorReporter errorReporter = new ErrorReporter();
         awardTemplate.refreshNonUpdateableReferences();
