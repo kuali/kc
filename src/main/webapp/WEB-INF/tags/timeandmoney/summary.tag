@@ -32,19 +32,19 @@
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
 		      	</th>
 		    	<td>
-		    		<kul:htmlControlAttribute property="document.award.awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" readOnly="true" />
+		    		<kul:htmlControlAttribute property="document.award.awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" readOnlyAlternateDisplay="${KualiForm.document.award.awardType.description}" readOnly="true" />
 		      	</td>		    	
 		  	</tr>
 		  	<tr>
 		    	<th>
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
 		      	</th>
-		    	<td><kul:htmlControlAttribute property="document.award.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" readOnly="true" /></td>
+		    	<td><kul:htmlControlAttribute property="document.award.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" readOnlyAlternateDisplay="${KualiForm.document.award.sponsor.sponsorName}"readOnly="true" /></td>
 		    	<th>
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
 		    	</th>
 		    	<td>
-		    		<kul:htmlControlAttribute property="document.award.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnly="true" />
+		    		<kul:htmlControlAttribute property="document.award.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.document.award.activityType.description}"readOnly="true" />
 				</td>
 		  	</tr>
 		  	<tr>
@@ -58,7 +58,7 @@
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
 				</th>
 		    	<td>
-		    		<kul:htmlControlAttribute property="document.award.accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" readOnly="true" />
+		    		<kul:htmlControlAttribute property="document.award.accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" readOnlyAlternateDisplay="${KualiForm.document.award.accountTypeDescription}" readOnly="true" />
 				</td>
 		  	</tr>
 		  	<tr>
@@ -68,7 +68,7 @@
 		      		</div>
 		      	</th>
 		    	<td>
-		    		<kul:htmlControlAttribute property="document.award.statusCode" attributeEntry="${awardAttributes.statusCode}" readOnly="true" />
+		    		<kul:htmlControlAttribute property="document.award.statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.document.award.awardStatus.description}" readOnly="true" />
 		      	</td>
 		    	<th>&nbsp;</th>
 		    	<td align="left" valign="middle">&nbsp;</td>
