@@ -614,6 +614,7 @@
 		</collection-descriptor>
 
 		<collection-descriptor name="proposalPersonYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="questionId" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
