@@ -319,17 +319,26 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     @Override
-    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         AwardForm awardForm = (AwardForm) form;
 
-        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
-            forward = super.blanketApprove(mapping, form, request, response);
-        }else{
+        if (getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(),
+                awardForm.getAwardHierarchyNodes())) {
+            awardForm.setAuditActivated(true);
+            int status = isValidSubmission(awardForm.getAwardDocument());
+            if (status == 2) {
+                GlobalVariables.getMessageMap().clearErrorMessages();
+                GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
+                forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            } else {
+                forward = super.blanketApprove(mapping, form, request, response);
+            }
+        } else {
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        
         return forward;
     }
     
