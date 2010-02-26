@@ -55,7 +55,10 @@ public class BudgetDecimalFormatter extends BigDecimalFormatter {
      * Returns a string representation of its argument formatted as a currency value.
      */
     public Object format(Object obj) {
-        LOG.info("format '" + obj + "'");
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("format '" + obj + "'");
+        }
 
         if (obj == null)
             return null;
