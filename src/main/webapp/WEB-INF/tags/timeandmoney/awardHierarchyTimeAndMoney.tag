@@ -37,7 +37,7 @@
     			<c:when test="${fn:length(KualiForm.document.awardAmountTransactions) > 0}" >
     				<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].transactionTypeCode" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
+		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].transactionTypeCode" readOnlyAlternateDisplay="${KualiForm.document.awardAmountTransactions[0].awardTransactionType.description}" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
 					</div>
 					</td>
 					<td align="left" valign="middle">					
