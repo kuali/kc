@@ -30,7 +30,7 @@
 
 <kra-m:medusa />
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 	<script type="text/javascript" src="scripts/medusaView.js"></script>	
 	

@@ -27,6 +27,6 @@
 
     <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 </kul:documentPage>

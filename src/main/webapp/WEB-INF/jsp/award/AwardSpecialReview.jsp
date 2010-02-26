@@ -30,7 +30,7 @@
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
 
 <kra-a:awardSpecialReview /> 
-<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

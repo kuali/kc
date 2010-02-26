@@ -45,6 +45,6 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="dwr/interface/AwardReportsService.js" ></script>
 <script language="javascript" src="scripts/awardApprovedForeignTravel.js"></script>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 </kul:documentPage>
