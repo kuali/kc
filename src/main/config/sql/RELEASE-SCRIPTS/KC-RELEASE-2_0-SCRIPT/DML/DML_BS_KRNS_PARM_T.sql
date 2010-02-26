@@ -242,20 +242,13 @@ INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewActivityHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND)
-VALUES('KC-IP', 'D', 'proposalcommenttype.generalcomment', 'CONFG', '1', 'Code for General Proposal Comment Type', 'A', 'Y') ;
+VALUES('KC-IP', 'D', 'proposalcommenttype.generalcomment', 'CONFG', '16', 'Code for General Proposal Comment Type', 'A', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND)
-VALUES('KC-IP', 'D', 'proposalcommenttype.reviewercomment', 'CONFG', '1', 'Code for IP Reviewer Proposal Comment Type', 'A', 'Y') ;
+VALUES('KC-IP', 'D', 'proposalcommenttype.reviewercomment', 'CONFG', '17', 'Code for IP Reviewer Proposal Comment Type', 'A', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', '1', 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
-
-UPDATE KRNS_PARM_T 
-SET TXT='MM/dd/yy;MM/dd/yyyy;MM/dd/yyyy hh:mm a;MM/dd/yyyy HH:mm:ss;MM/dd/yy;MM-dd-yy;MMMM dd;yyyy;MMddyy' 
-WHERE NMSPC_CD = 'KR-NS'
-      AND PARM_DTL_TYP_CD = 'All'
-      AND PARM_NM = 'STRING_TO_DATE_FORMATS'
-      AND APPL_NMSPC_CD = 'KUALI';
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;

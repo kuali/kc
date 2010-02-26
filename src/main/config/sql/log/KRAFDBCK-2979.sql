@@ -1,3 +1,4 @@
+-- Create Institutional Proposal Viewer Person and user for unit 000001 descending
 insert into krim_entity_t (ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR) 
 select krim_entity_id_s.nextval, 'Y', sysdate, sys_guid(), 1 from dual;
 
