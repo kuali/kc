@@ -46,6 +46,6 @@
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
 		viewOnly="${viewOnly}"
-		/>
+		suppressCancelButton="true" />
 		
 </kul:documentPage>
