@@ -64,7 +64,10 @@ public class ProposalHierarcyActionHelper {
     }
     
     public void removeFromHierarchy(DevelopmentProposal childProposal) {
-        if (validateChildForRemoval(childProposal)) {
+        if (!hierarchyService.validateRemovePermissions(childProposal, GlobalVariables.getUserSession().getPrincipalId())) {
+            GlobalVariables.getMessageMap().putError(FIELD_GENERIC, KeyConstants.AUTHORIZATION_VIOLATION, new String[0]);
+        }
+        else if (validateChildForRemoval(childProposal)) {
             try {
                 getProposalHierarchyService().removeFromHierarchy(childProposal);
                 GlobalVariables.getMessageList().add(MESSAGE_REMOVE_SUCCESS);

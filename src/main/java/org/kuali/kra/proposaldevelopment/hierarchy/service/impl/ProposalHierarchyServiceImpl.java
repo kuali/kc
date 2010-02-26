@@ -40,6 +40,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -1440,5 +1441,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             summaries.add(summary);
         }
         return summaries;
+    }
+
+    public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId) {
+        boolean valid = true;
+        valid &= kraAuthorizationService.hasPermission(principalId, childProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+        try {
+            valid &= kraAuthorizationService.hasPermission(principalId, getHierarchy(childProposal.getHierarchyParentProposalNumber()).getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+        }
+        catch (ProposalHierarchyException e) {
+            valid = false;
+        }
+        return valid;
     }
 }
