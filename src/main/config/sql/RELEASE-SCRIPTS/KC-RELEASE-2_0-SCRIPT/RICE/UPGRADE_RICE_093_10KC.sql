@@ -82,3 +82,11 @@ PROMPT ***************************
 
 COMMIT;
 
+spool KRACOEUS-3423.txt
+PROMPT ***************************
+PROMPT Running KRACOEUS-3423
+PROMPT ***************************
+@upgrade_11_10kc\KRACOEUS-3423.sql
+
+COMMIT;
+
