@@ -65,25 +65,23 @@
     SELECT KIM_TYP_ID INTO l_adhoc_review_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review';
     SELECT KIM_TYP_ID INTO l_unit_hier_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'UnitHierarchy';
     SELECT KIM_TYP_ID INTO l_unit_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Unit';
-    SELECT KIM_ATTR_DEFN_ID INTO l_doc_type_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName';
-    SELECT KIM_ATTR_DEFN_ID INTO l_created_by_self_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'createdBySelfOnly';
-    SELECT KIM_ATTR_DEFN_ID INTO l_action_request_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionRequestCd';
-
     SELECT KIM_TYP_ID INTO l_role_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Role';
     SELECT KIM_TYP_ID INTO l_perm_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Permission';
     SELECT KIM_TYP_ID INTO l_resp_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Responsibility'; 
     SELECT KIM_TYP_ID INTO l_parm_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Parameter'; 
     SELECT KIM_TYP_ID INTO l_comp_fld_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Component Field'; 
+    
+    SELECT KIM_ATTR_DEFN_ID INTO l_doc_type_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName';
+    SELECT KIM_ATTR_DEFN_ID INTO l_created_by_self_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'createdBySelfOnly';
+    SELECT KIM_ATTR_DEFN_ID INTO l_action_request_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionRequestCd';
     SELECT KIM_ATTR_DEFN_ID INTO l_namespace_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'namespaceCode';
     SELECT KIM_ATTR_DEFN_ID INTO l_comp_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'componentName';
     SELECT KIM_ATTR_DEFN_ID INTO l_property_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'propertyName';
 
+    -- KC Manager Role
     insert into krim_role_t (role_id, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, last_updt_dt, obj_id) 
     values (krim_role_id_s.nextval, 'Manager', 'KC-SYS', 'This role represents a collection of all the KC module manager roles and has permission to initiate simple maintenance documents.', (select kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), 'Y', sysdate, sys_guid());
 
-    --insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    --values (krim_perm_id_s.nextval, l_edit_doc_perm_tmpl_id, 'KC-SYS', 'Edit Document', 'Edit Simple KC Maintenance Documents', 'Y', SYS_GUID());
-    
     insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
     values (krim_perm_id_s.nextval, l_admin_routing_perm_tmpl_id, 'KC-SYS', 'Administer Routing for Document', 'Allows users to open KC documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).', 'Y', SYS_GUID());
     
@@ -352,28 +350,6 @@
 	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
 	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Cancel Proposal Log'), 'Y');
 
-	-- assign osp administrator role to borst
-	insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) 
-	values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'borst' and actv_ind = 'Y'), 'P');
-	
-	-- qualify role assignment at unit 000001 with descend on
-	insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'unitNumber' and actv_ind = 'Y'), '000001');
-	
-	insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'subunits' and actv_ind = 'Y'), 'Y');
-	
-	-- assign osp administrator role to quickstart
-	insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) 
-	values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'quickstart' and actv_ind = 'Y'), 'P');
-	
-	-- qualify role assignment at unit 000001 with descend on
-	insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'unitNumber' and actv_ind = 'Y'), '000001');
-
-	insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'subunits' and actv_ind = 'Y'), 'Y');
-
 	-- add a new type for Proposal Log Derived Role: PI
 	insert into krim_typ_t (kim_typ_id, obj_id, ver_nbr, nm, srvc_nm, actv_ind, nmspc_cd) 
 	values (KRIM_TYP_ID_S.nextval, sys_guid(), 1, 'Derived Role - Proposal Log PI', 'proposalLogPiDerivedRoleTypeService', 'Y', 'KC-IP');
@@ -456,27 +432,6 @@
 	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), 'Y');
 	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), 'Y');
 	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), 'Y');
-	
-	-- assign Institutional Proposal Maintainer role to quickstart
-	insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Maintainer'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'quickstart' and actv_ind = 'Y'), 'P');
-	
-	-- qualify role assignment at unit 000001 with descend on
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'unitNumber' and actv_ind = 'Y'), '000001');
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'subunit' and actv_ind = 'Y'), 'Y');
-	
-	-- assign Institutional Proposal Viewer role to borst
-	insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional Proposal Viewer'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'borst' and actv_ind = 'Y'), 'P');
-	
-	-- qualify role assignment at unit 000001 with descend on
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'unitNumber' and actv_ind = 'Y'), '000001');
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'subunit' and actv_ind = 'Y'), 'Y');
-	
-	-- assign IP Review Maintainer role to chew
-	insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Intellectual Property Review Maintainer'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'chew' and actv_ind = 'Y'), 'P');
-	
-	-- qualify role assignment at unit 000001 with descend on
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'unitNumber' and actv_ind = 'Y'), '000001');
-	insert into krim_role_mbr_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_MBR_ID_S.currval, (select kim_typ_id from krim_typ_t where nm = 'UnitHierarchy'and actv_ind = 'Y'), (select kim_attr_defn_id from krim_attr_defn_t where nm = 'subunit' and actv_ind = 'Y'), 'Y');
 	
 	-- add a new type for Derived Role: Unit Administrator
 	insert into krim_typ_t values (KRIM_TYP_ID_S.nextval, sys_guid(), 1, 'Derived Role - Unit Administrator', 'unitAdministratorDerivedRoleTypeService', 'Y', 'KC-IP');
@@ -562,6 +517,25 @@ VALUES (KRIM_ROLE_PERM_ID_S.nextval, 1119, KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID
 
 INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, '3', '13', 'ProtocolDocument') ;
+
+INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
+VALUES (KRIM_PERM_ID_S.nextVal, 16, 'Modify Correspondence Template', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
+VALUES (KRIM_ROLE_PERM_ID_S.nextval, 1119, KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, '3', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument') ;
+
+-- Correspondence Permissions
+INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
+VALUES (KRIM_PERM_ID_S.nextVal, 40, 'View Correspondence Template', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
+VALUES (KRIM_ROLE_PERM_ID_S.nextval, 1120, KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, '3', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument') ;
 
 --Proposal Hierarchy Permission 2 statements
 INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, OBJ_ID)
