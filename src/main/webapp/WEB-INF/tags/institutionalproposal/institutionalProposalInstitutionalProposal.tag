@@ -57,7 +57,7 @@
     		<div align="left"> 
 				<kul:htmlControlAttribute property="document.institutionalProposalList[0].currentAwardNumber" attributeEntry="${institutionalProposalAttributes.currentAwardNumber}"/>
 				<c:if test="${!readOnly}">
-			         <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardId:document.institutionalProposal.currentAwardNumber" anchor="${tabKey}"/>
+			         <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:document.institutionalProposal.currentAwardNumber" anchor="${tabKey}"/>
 			    </c:if>
 			</div>
     	</td>
