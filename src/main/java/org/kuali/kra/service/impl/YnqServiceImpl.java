@@ -19,6 +19,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,8 @@ import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
+import java.util.Collections;
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
@@ -69,9 +72,11 @@ public class YnqServiceImpl implements YnqService {
         /* filter by status - fetch all active questions */
         questionTypeMap.put("status", Constants.STATUS_ACTIVE); 
 
-        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "groupName", false);
+        // get YNQs sorted by group and question id
+        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "questionId", false);
         List<Ynq> ynqs = new ArrayList<Ynq>();
         ynqs.addAll(allTypes);
+        Collections.sort(ynqs, new GroupNameComparator());   // this preserves the question ID ordering because Collections.sort is "guaranteed to be stable: equal elements will not be reordered as a result of the sort." (see javadoc)
         /* also filter all questions based on effective date - current date >= effective date */
         /* - Effective date filter currently not used
         Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
@@ -84,6 +89,27 @@ public class YnqServiceImpl implements YnqService {
         return ynqs;
     }
 
+    /**
+     * Compares two YNQs by groupName.
+     */
+    private class GroupNameComparator implements Comparator<Ynq> {
+
+        public int compare(Ynq o1, Ynq o2) {
+            int retValue;
+            String groupName1 = o1==null ? null : o1.getQuestionId();
+            String groupName2 = o2==null ? null : o2.getQuestionId();
+            
+            if (groupName1 == null) {
+                retValue = -1;
+            }
+            else {
+                retValue = groupName1.compareTo(groupName2);
+            }
+            
+            return retValue;
+        }
+    }
+    
     /**
      *
      * @param proposalPerson
