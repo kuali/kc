@@ -58,6 +58,6 @@ var kualiElements = kualiForm.elements;
 						extraButtonSource="${extraButtonSource}" 
 						extraButtonProperty="${extraButtonProperty}"
 						extraButtonAlt="${extraButtonAlt}" 
-						/>
+					    suppressCancelButton="true"/>
 
 </kul:documentPage>
