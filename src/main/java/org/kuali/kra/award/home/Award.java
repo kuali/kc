@@ -41,7 +41,6 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
-import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
@@ -49,6 +48,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.bo.AccountType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -330,6 +330,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
+    }
+    
+    public String getAccountTypeDescription() {
+        AccountType accountType = 
+            (AccountType) getBusinessObjectService().findByPrimaryKey
+            (AccountType.class, Collections.singletonMap("accountTypeCode", getAccountTypeCode()));
+        if (accountType == null) {
+            return "None Selected";
+        }else {
+            return accountType.getDescription();
+        }
     }
 
 
