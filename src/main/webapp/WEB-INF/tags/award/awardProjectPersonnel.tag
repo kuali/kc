@@ -21,9 +21,11 @@
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab tabTitle="Project Personnel" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
-			 tabErrorKey="document.awardList[0].projectPerson*,projectPersonnelBean.newAwardContact*,"
+			 tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons"
 			 auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*"
-			 transparentBackground="true" useRiceAuditMode="true">
+			 transparentBackground="true" useRiceAuditMode="true"
+			 innerTabErrorKey="document.awardList[0].projectPersons[*"
+			 >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
