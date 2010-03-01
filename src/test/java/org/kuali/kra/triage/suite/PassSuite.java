@@ -22,6 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
 
+    org.kuali.kra.HtmlUnitUtilTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
@@ -441,7 +442,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.meeting.MeetingWebTest.class,
     org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
     org.kuali.kra.award.home.AwardCommentTest.class,
-    org.kuali.kra.award.commitments.AwardCostShareTest.class
+    org.kuali.kra.award.commitments.AwardCostShareTest.class,
+    org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

@@ -49,14 +49,16 @@ public class UserRoleBoundDocSearchWebTest extends ProposalDevelopmentWebTestBas
         assertNotNull(hyperlink);
         final HtmlPage docPage = clickOn(hyperlink);
        
-        assertThat(docPage.asText(), containsString("KRA Proposal Development"));
-        // should see the user roles specified in document type xml : aggregator/budget creator/narrative writer/viewer/approver
-        assertThat(docPage.asText(), containsString("Aggregator: Budget Creator: Narrative Writer: Viewer: Approver:")); 
-         
-        // 'quickstart' is temporary set to reference the login user.  When the search xpath is finalized, this may not be the same
-        setFieldValue(docPage, "propertyField[0].value", "quickstart");
-        final HtmlPage docSearchResultsPage = clickOn(docPage, "methodToCall.doDocSearch");
-        assertThat(docSearchResultsPage.asText(), containsString(documentNumber+" KRA Proposal Development Proposal Development Document"));
+        assertThat(docPage.asText(), containsString("ProposalDevelopmentDocument"));
+        // should see the user roles specified in document type xml : aggregator/budget creator/narrative writer/viewer
+        assertThat(docPage.asText(), containsString("Aggregator: Budget Creator: Narrative Writer: Viewer:")); 
+        
+        setFieldValue(docPage, "aggregator", "quickstart");
+        
+        final HtmlPage docSearchResultsPage = clickOn(docPage, "methodToCall.search");
+        
+        assertThat(docSearchResultsPage.asText(), containsString(documentNumber + " Proposal Development Document Proposal Development Document"));
+        
     }
 
     /**

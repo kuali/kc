@@ -17,6 +17,8 @@ package org.kuali.kra.award.web.struts.action;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 
 /**
@@ -48,5 +50,8 @@ public class AwardTimeAndMoneyActionTest {
         award = null;
         awardTimeAndMoneyAction = null;
     }
+    
+    @Test @Ignore
+    public void foo() {}
 
 }
