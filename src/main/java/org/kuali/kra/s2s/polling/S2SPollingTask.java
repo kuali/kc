@@ -246,11 +246,8 @@ public class S2SPollingTask {
 										ggApplication
 												.getGrantsGovApplicationStatus()
 												.value());
-						s2SService.populateAppSubmission(appSubmission,
+						s2SService.populateAppSubmission(pdDoc, appSubmission,
 								ggApplication);
-						if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
-						    pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
-						}
 					}
 				}
 			} catch (S2SException e) {
