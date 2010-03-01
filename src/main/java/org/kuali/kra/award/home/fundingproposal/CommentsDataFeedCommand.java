@@ -17,11 +17,15 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 
+/**
+ * This class will populate Award comments based on their corresponding Institutional Proposal comments.
+ * The mapping is based on the Comment Type code, even though some of the comment names don't quite match.
+ */
 public class CommentsDataFeedCommand extends ProposalDataFeedCommandBase {
+    
     private static final String FUNDING_PROPOSAL_ADDED_MSG_PATTERN = "Funding Proposal Number %s was added to Award";
     
     public CommentsDataFeedCommand(Award award, InstitutionalProposal proposal) {
@@ -32,12 +36,52 @@ public class CommentsDataFeedCommand extends ProposalDataFeedCommandBase {
      * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
      */
     void performDataFeed() {
-        InstitutionalProposalComments proposalComments = proposal.getProposalComments();
-        AwardComment proposalComment = findOrCreateCommentOfSpecifiedType(awardCommentFactory.createProposalComment());
-        if(proposalComments != null) {
-            appendComments(proposalComment, proposalComments.getComments());
+        feedProposalComment();
+        feedProposalSummaryComment();
+        feedFandARateComment();
+        feedCostShareComment();
+        feedProposalIPReviewComment();
+    }
+    
+    void feedProposalComment() {
+        InstitutionalProposalComment proposalDeliveryComment = proposal.getDeliveryComment();
+        AwardComment awardProposalComment = award.getawardProposalComments();
+        if (proposalDeliveryComment != null) {
+            appendComments(awardProposalComment, proposalDeliveryComment.getComments());
         } else {
-            appendComments(proposalComment, String.format(FUNDING_PROPOSAL_ADDED_MSG_PATTERN, proposal.getProposalNumber()));
+            appendComments(awardProposalComment, String.format(FUNDING_PROPOSAL_ADDED_MSG_PATTERN, proposal.getProposalNumber()));
+        }
+    }
+    
+    void feedProposalSummaryComment() {
+        InstitutionalProposalComment proposalSummaryComment = proposal.getSummaryComment();
+        if (proposalSummaryComment != null) {
+            AwardComment awardProposalSummaryComment = award.getawardProposalSummary();
+            appendComments(awardProposalSummaryComment, proposalSummaryComment.getComments());
+        }
+    }
+    
+    void feedFandARateComment() {
+        InstitutionalProposalComment proposalFandAComment = proposal.getUnrecoveredFandAComment();
+        if (proposalFandAComment != null) {
+            AwardComment awardFandAComment = award.getAwardFandaRateComment();
+            appendComments(awardFandAComment, proposalFandAComment.getComments());
+        }
+    }
+    
+    void feedCostShareComment() {
+        InstitutionalProposalComment proposalCostShareComment = proposal.getCostShareComment();
+        if (proposalCostShareComment != null) {
+            AwardComment awardCostShareComment = award.getAwardCostShareComment();
+            appendComments(awardCostShareComment, proposalCostShareComment.getComments());
+        }
+    }
+    
+    void feedProposalIPReviewComment() {
+        InstitutionalProposalComment proposalGeneralComment = proposal.getGeneralComment();
+        if (proposalGeneralComment != null) {
+            AwardComment awardIpReviewComment = award.getAwardProposalIPReviewComment();
+            appendComments(awardIpReviewComment, proposalGeneralComment.getComments());
         }
     }
 }

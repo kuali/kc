@@ -27,13 +27,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
@@ -43,6 +44,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
@@ -142,7 +144,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     //private AwardFundingProposals awardFundingProposals; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
-    private InstitutionalProposalComments proposalComments; 
+    private List<InstitutionalProposalComment> proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
     
     private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
@@ -155,6 +157,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
     private List<AwardFundingProposal> awardFundingProposals;
+    private Map<String, InstitutionalProposalComment> commentMap;
 
     public InstitutionalProposal() { 
         super();
@@ -189,6 +192,20 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);//default value for all IP's
         projectPersons = new ArrayList<InstitutionalProposalPerson>();
+    }
+    
+    protected void initializeCollections() {
+        institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
+        institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
+        specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
+        institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
+        institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
+        institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
+        proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
+        proposalIpReviewJoins.add(new ProposalIpReviewJoin());
+        awardFundingProposals = new ArrayList<AwardFundingProposal>();
+        institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
+        proposalComments = new ArrayList<InstitutionalProposalComment>();
     }
     
     /**
@@ -395,19 +412,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
 
-    protected void initializeCollections() {
-        institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
-        institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
-        specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
-        institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
-        institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
-        institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
-        proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
-        proposalIpReviewJoins.add(new ProposalIpReviewJoin());
-        awardFundingProposals = new ArrayList<AwardFundingProposal>();
-        institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
-    }
-    
     /**
      * This method adds a Project Person to the institutionalProposal
      * @param projectPerson
@@ -1089,11 +1093,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.proposalUnitCreditSplit = proposalUnitCreditSplit;
     }
 
-    public InstitutionalProposalComments getProposalComments() {
+    public List<InstitutionalProposalComment> getProposalComments() {
         return proposalComments;
     }
 
-    public void setProposalComments(InstitutionalProposalComments proposalComments) {
+    public void setProposalComments(List<InstitutionalProposalComment> proposalComments) {
         this.proposalComments = proposalComments;
     }
     
@@ -1492,6 +1496,54 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setNsfCodeBo(NsfCode nsfCodeBo) {
         this.nsfCodeBo = nsfCodeBo;
+    }
+    
+    /* Comments methods. ORM treats comments as a list, so we lazy-copy them to a map for faster access from the getters. */
+    
+    public InstitutionalProposalComment getSummaryComment() {
+        return getInstitutionalProposalCommentByType(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, true);
+    }
+    
+    public InstitutionalProposalComment getDeliveryComment() {
+        return getInstitutionalProposalCommentByType(Constants.PROPOSAL_COMMENT_TYPE_CODE, true);
+    }
+    
+    public InstitutionalProposalComment getCostShareComment() {
+        return getInstitutionalProposalCommentByType(Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
+    }
+    
+    public InstitutionalProposalComment getUnrecoveredFandAComment() {
+        return getInstitutionalProposalCommentByType(Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
+    }
+    
+    public InstitutionalProposalComment getGeneralComment() {
+        return getInstitutionalProposalCommentByType(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, true);
+    }
+    
+    public InstitutionalProposalComment getInstitutionalProposalCommentByType(String commentTypeCode, boolean createNew) {
+        InstitutionalProposalComment ipComment = getCommentMap().get(commentTypeCode);
+        if (ipComment == null && createNew) {
+            ipComment = new InstitutionalProposalComment(commentTypeCode);
+            ipComment.refreshReferenceObject("commentType");
+            add(ipComment);
+            commentMap.put(ipComment.getCommentType().getCommentTypeCode(), ipComment);
+        }
+        return ipComment;
+    }
+    
+    public void add(InstitutionalProposalComment ipComment) {
+        proposalComments.add(ipComment);
+        ipComment.setInstitutionalProposal(this);
+    }
+    
+    private Map<String, InstitutionalProposalComment> getCommentMap() {
+        if (commentMap == null) {
+            commentMap = new HashMap<String, InstitutionalProposalComment>();
+            for (InstitutionalProposalComment ipc : proposalComments) {
+                commentMap.put(ipc.getCommentType().getCommentTypeCode(), ipc);
+            }
+        }
+        return commentMap;
     }
     
 }

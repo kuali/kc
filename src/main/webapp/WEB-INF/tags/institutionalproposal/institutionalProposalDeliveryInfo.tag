@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
+<c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
 <c:set var="textAreaFieldName" value="document.institutionalProposal.mailDescription" />
 <c:set var="action" value="institutionalProposalHome" />
 
@@ -108,6 +109,20 @@
                     <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${institutionalProposalAttributes.mailDescription.label}" />
                 </td>
             </tr>
+        </table>
+    </div>
+    <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Delivery Comments</span>
+        </h3>
+        <table>
+            <th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+            <td class="infoline">
+                <div align="left">
+                    <kul:htmlControlAttribute property="document.institutionalProposalList[0].deliveryComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
+                    <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].deliveryComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
+                </div>
+            </td>
         </table>
     </div>
 </kul:tab>
