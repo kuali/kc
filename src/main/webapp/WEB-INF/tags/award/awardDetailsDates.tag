@@ -305,7 +305,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" datePicker="true" />
         </td>
     </tr>
     <tr>
@@ -313,13 +313,13 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[0].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" datePicker="true" />
         </td>
         <th>
         	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
         </th>
         <td align="left" valign="middle">
-            <kul:htmlControlAttribute property="document.awardList[0].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" datePicker="true" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" datePicker="true" />
         </td>
     </tr>
     <tr>

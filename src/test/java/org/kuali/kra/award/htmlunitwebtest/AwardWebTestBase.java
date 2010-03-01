@@ -60,8 +60,8 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String STATUS_CODE_ID = AWARD_ID_PREFIX + "statusCode";
     protected static final String MOD_NUMBER_ID = AWARD_ID_PREFIX + "modificationNumber";
     protected static final String SPONSOR_AWARD_NUMBER_ID = AWARD_ID_PREFIX + "sponsorAwardNumber";
-    protected static final String AWARD_EXEC_DATE_ID = AWARD_ID_PREFIX + "awardExecutionDate";
-    protected static final String AWARD_EFF_DATE_ID = AWARD_ID_PREFIX + "awardEffectiveDate";
+    protected static final String AWARD_EXEC_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].obligationExpirationDate";
+    protected static final String AWARD_EFF_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].currentFundEffectiveDate";
     protected static final String ACTIVITY_TYPE_CODE_ID = AWARD_ID_PREFIX + "activityTypeCode";
     protected static final String BEGIN_DATE_ID = AWARD_ID_PREFIX + "beginDate";
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
