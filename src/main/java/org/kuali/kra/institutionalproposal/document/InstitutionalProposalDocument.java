@@ -29,6 +29,9 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
@@ -149,6 +152,17 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         managedLists.add(institutionalProposal.getInstitutionalProposalCostShares());
         managedLists.add(institutionalProposal.getInstitutionalProposalUnrecoveredFandAs());
         
+        // For project personnel 
+        List<InstitutionalProposalPersonUnit> units = new ArrayList<InstitutionalProposalPersonUnit>();
+        List<InstitutionalProposalPersonCreditSplit> creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();
+        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
+            units.addAll(person.getUnits());
+            creditSplits.addAll(person.getCreditSplits());
+        }
+        managedLists.add(units);
+        managedLists.add(creditSplits);
+        managedLists.add(institutionalProposal.getProjectPersons());
+
         return managedLists;
     }
     
