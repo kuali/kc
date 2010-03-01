@@ -490,7 +490,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
        if (proposalDevelopmentForm.getDocument().getDocumentNumber() == null) {
-           // If entering this action from copy link on doc search
+           // If entering this action from the medusa link on the search
            loadDocumentInForm(request, proposalDevelopmentForm);
        }
        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
