@@ -67,11 +67,6 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         int i=0;
-        for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
-            s2sSubmissionHistory = (S2sSubmissionHistory)boService.retrieve(s2sSubmissionHistory);
-            doc.getDevelopmentProposal().getS2sSubmissionHistory().get(i).setSubmissionTime(s2sSubmissionHistory.getSubmissionTime());
-            i++;
-        }
         
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
         
@@ -114,14 +109,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
  //           if(!originalWFDoc.stateIsFinal()){
  //               originalWFDoc.cancel("");
  //           }
-            //Copying the submission history from the previous proposal to new proposal
-            //setting id field to null so that OJB can treat this as a new insert
-            //just copying the existing history and not adding any new history
-            for(S2sSubmissionHistory s2sSubmissionHistory : copiedDocument.getDevelopmentProposal().getS2sSubmissionHistory()){
-                s2sSubmissionHistory.setId(null);
-            }           
             docService.saveDocument(copiedDocument);
-            boService.save(copiedDocument.getDevelopmentProposal().getS2sSubmissionHistory());
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             }
         }
