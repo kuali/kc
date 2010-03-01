@@ -29,7 +29,7 @@
     });
          
     function processError(htmlObject, errorMessage, exception){
-        alert('Error loading XML document');
+        alert('Error loading document. Please try again.');
      }
   
   function hasFormAlreadyBeenSubmitted() {
@@ -77,7 +77,7 @@
         cache: false,
         data:'medusaBean.moduleName=' + moduleName + '&medusaBean.moduleIdentifier=' + moduleId,
         async:false,
-        timeout: 5000,
+        timeout: 15000,
         context: myContext,
         error:processError,
         success:function(data, textStatus) {

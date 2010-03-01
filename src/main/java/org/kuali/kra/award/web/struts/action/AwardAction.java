@@ -59,10 +59,6 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -133,55 +129,13 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         String moduleIdentifier = getModuleIdentifierForOpeningDocument(request);
         ActionForward forward;
-        if(moduleIdentifier!=null){
-            String documentType = getDocumentType(request);
-            forward = new ActionForward(openDocumentFromMedusa(documentType, moduleIdentifier), true);
-        }else{
-            forward = handleDocument(mapping, form, request, response, awardForm);
-            
-            AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-            awardForm.initializeFormOrDocumentBasedOnCommand();
-            setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
-        }
+        forward = handleDocument(mapping, form, request, response, awardForm);
         
-        
-        
-        return forward;
-    }
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        awardForm.initializeFormOrDocumentBasedOnCommand();
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
 
-    /*
-     * This method gets called from docHandler in AwardAction; this method creates appropriate document based on moduleIdentifier and document type passed from
-     * Medusa js file. Returns a string to forward request to appropriate document.
-     *   
-     * @param request
-     * @param moduleIdentifier
-     * @param routeHeaderId
-     * @param service
-     * @return
-     * @throws WorkflowException
-     */
-    private String openDocumentFromMedusa(String documentType, String moduleIdentifier) throws WorkflowException {
-        
-        Long routeHeaderId = null;
-        BusinessObjectService service = getBusinessObjectService();
-        DocumentService documentService = getDocumentService();
-        if(StringUtils.equalsIgnoreCase("DP", documentType)){
-            DevelopmentProposal dp = service.findBySinglePrimaryKey(DevelopmentProposal.class, moduleIdentifier);
-            ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(dp.getProposalDocument().getDocumentNumber());
-            routeHeaderId = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        }else if(StringUtils.equalsIgnoreCase("IP", documentType)){
-            int proposalId = Integer.parseInt(moduleIdentifier);
-            InstitutionalProposal ip = service.findBySinglePrimaryKey(InstitutionalProposal.class, proposalId);
-            InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(ip.getInstitutionalProposalDocument().getDocumentNumber());
-            routeHeaderId = institutionalProposalDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        }else if(StringUtils.equalsIgnoreCase("A", documentType)){
-            int awardId = Integer.parseInt(moduleIdentifier); 
-            Award award = service.findBySinglePrimaryKey(Award.class, awardId);
-            AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
-            routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        }
-        
-        return buildForwardUrl(routeHeaderId);
+        return forward;
     }
 
     /**
