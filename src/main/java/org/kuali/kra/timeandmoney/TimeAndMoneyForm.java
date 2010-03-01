@@ -109,7 +109,22 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         this.registerEditableProperty("controlForAwardHierarchyView");
         this.registerEditableProperty("currentOrPendingView");
+        registerHierarchyNodeDates();
         super.populate(request);
+    }
+    
+    /**
+     * This method registers the dates for each node that is being sent to the request on save.  Only nodes that are expanded in the 
+     * view will be sent.
+     */
+    public void registerHierarchyNodeDates() {
+        int temp = 1;
+        for (AwardHierarchyNode awardHierarchyNode : awardHierarchyNodeItems) {
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].currentFundEffectiveDate");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].finalExpirationDate");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligationExpirationDate");
+            temp++;
+        }
     }
     
     /**

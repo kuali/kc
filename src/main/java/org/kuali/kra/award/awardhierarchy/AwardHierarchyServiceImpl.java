@@ -530,7 +530,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             Award award = activePendingTransactionsService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
             AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
             
-            awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
+            awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
             awardHierarchyNode.setLeadUnitName(award.getUnitName());
             awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
             awardHierarchyNode.setAccountNumber(award.getAccountNumber());
@@ -539,8 +539,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
             awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-          //  awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
+            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+            //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
             awardHierarchyNode.setProjectStartDate(award.getBeginDate());
             awardHierarchyNode.setTitle(award.getTitle());
