@@ -364,7 +364,12 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can disapprove the document; otherwise false
      */
     protected boolean canDisapprove(Document document, Person user) {
-        return true;
+        //KRACOEUS-3548:  This used to just return true.  Altered so that it returns true only if there
+        //is an approval requested and workflow believes that a disapprove is allowed. 
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return workflowDocument.getRouteHeader().isApproveRequested() 
+                && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_DENIED_CD)
+                && !workflowDocument.stateIsInitiated();
     }
     
     /**
