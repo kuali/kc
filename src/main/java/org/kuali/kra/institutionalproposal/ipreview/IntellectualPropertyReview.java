@@ -38,7 +38,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner {
+public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner<IntellectualPropertyReview> {
     
     private static final long serialVersionUID = 1L;
     private static final String GENERAL_COMMENT_CODE_PARM_NM = "proposalcommenttype.generalcomment";
@@ -420,7 +420,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
      * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
-       this.setSequenceNumber(this.getSequenceNumber() + 1);
+        this.setSequenceNumber(this.getSequenceNumber() + 1);
     }
 
     /**
@@ -430,7 +430,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         return this;
     }
 
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+    public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
         // TODO Auto-generated method stub
     }
 
