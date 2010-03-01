@@ -689,7 +689,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
-            createSubmissionHistory(proposalDevelopmentDocument);
         }
        
         proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
@@ -793,55 +792,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument);
-    }
-        
-    /**
-     * Create the submission history for a proposal.
-     * @param proposalDevelopmentDocument
-     * @throws Exception
-     */
-    private void createSubmissionHistory(ProposalDevelopmentDocument proposalDevelopmentDocument)throws Exception{
-        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
-        GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE);
-        S2sSubmissionHistory s2sSubmissionHistory = createSubmissionHistory(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument);
-        proposalDevelopmentDocument.getDevelopmentProposal().getS2sSubmissionHistory().add(s2sSubmissionHistory);
-               
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        
-        Map queryPDD = new HashMap();
-        String continuedFrom = proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(); 
-        while (continuedFrom!=null) {
-            queryPDD.put("proposalNumber", continuedFrom);
-            ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, queryPDD);
-            
-            S2sSubmissionHistory newS2sSubmissionHistory = createSubmissionHistory(pd.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument);
-            pd.getDevelopmentProposal().getS2sSubmissionHistory().add(newS2sSubmissionHistory);
-            businessObjectService.save(pd.getDevelopmentProposal().getS2sSubmissionHistory());
-            continuedFrom = pd.getDevelopmentProposal().getContinuedFrom();
-        }
-        businessObjectService.save(proposalDevelopmentDocument.getDevelopmentProposal().getS2sSubmissionHistory());
-    }
-    
-    /**
-     * Create a single Submission History entry.
-     * @param proposalNumber
-     * @param proposalDevelopmentDocument
-     * @return
-     */
-    private S2sSubmissionHistory createSubmissionHistory(String proposalNumber, ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        S2sSubmissionHistory s2sSubmissionHistory = new S2sSubmissionHistory();
-        s2sSubmissionHistory.setProposalNumber(proposalNumber);
-        s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        s2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
-        List<S2sAppSubmission> submissions = proposalDevelopmentDocument.getDevelopmentProposal().getS2sAppSubmission();
-        s2sSubmissionHistory.setFederalIdentifier(submissions.get(submissions.size()-1).getGgTrackingId());
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-            s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode());
-            s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode());
-        }            
-        s2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getPerson().getPrincipalName());
-        s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
-        return s2sSubmissionHistory;
     }
     
     /**

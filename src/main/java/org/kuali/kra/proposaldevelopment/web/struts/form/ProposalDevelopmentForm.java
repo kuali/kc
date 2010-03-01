@@ -1100,41 +1100,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {
-            boolean showSubmitButton = true;
-            boolean showResubmitButton = true;
-            if(doc.getDevelopmentProposal().getS2sSubmissionHistory()!=null && doc.getDevelopmentProposal().getS2sSubmissionHistory().size()!=0){
-                for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
-                    if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getDevelopmentProposal().getProposalNumber())){
-                        showSubmitButton=false;
-                    }
-                    if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getDevelopmentProposal().getProposalNumber())){
-                        showResubmitButton=false;
-                    }
-                }
-            } else if (doc.getDevelopmentProposal().getSubmitFlag()) {
-                /*
-                 * If we get here, we have a non-electronic submission which doesn't have a submission history.
-                 */
-                showSubmitButton = false;
-                showResubmitButton = false;
-            }
-            else {
-                showResubmitButton=false;
-            }  
-        
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
+            
             KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
  
-            if (showSubmitButton) {
-                if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
-                    String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
-                    addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
-                }
-            }else if(showResubmitButton){
-                String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_replaceproposal.gif";
-                addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
+            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
+                String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
+                addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
-        
         }
         //check to see if they are authorized to reject the document
         
