@@ -30,8 +30,10 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplic
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,8 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -220,10 +224,7 @@ public class KRAS2SServiceImpl implements S2SService {
 									ggApplication
 											.getGrantsGovApplicationStatus()
 											.value());
-					populateAppSubmission(appSubmission, ggApplication);
-                    if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
-                        pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
-                    }					
+					populateAppSubmission(pdDoc, appSubmission, ggApplication);					
 				}
 			}
 			if (statusChanged) {
@@ -274,7 +275,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @param appSubmission
 	 * @param ggApplication
 	 */
-	public void populateAppSubmission(S2sAppSubmission appSubmission,
+	public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
 			ApplicationInformationType ggApplication) {
 		appSubmission.setGgTrackingId(ggApplication
 				.getGrantsGovTrackingNumber());
@@ -292,10 +293,38 @@ public class KRAS2SServiceImpl implements S2SService {
 				&& ggApplication.getAgencyTrackingNumber().length() > 0) {
 			appSubmission
 					.setComments(S2SConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED);
+			populateSponsorProposalId(pdDoc, appSubmission);
 		} else {
 			appSubmission.setComments(ggApplication
 					.getGrantsGovApplicationStatus().toString());
 		}
+	}
+	
+	/**
+	 * @see org.kuali.kra.s2s.service.S2SService#populateSponsorProposalId(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.s2s.bo.S2sAppSubmission)
+	 */
+	public void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission) {
+	    if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
+	        if (StringUtils.isBlank(pdDoc.getDevelopmentProposal().getSponsorProposalNumber())) {
+	            pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+	            getBusinessObjectService().save(pdDoc.getDevelopmentProposal());
+	        }
+	        
+	        //find and populate the inst proposal sponsor proposal id as well
+	        Map<String, String> values = new HashMap<String, String>();
+	        values.put("devProposalNumber", pdDoc.getDevelopmentProposal().getProposalNumber());
+	        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, values);
+	        
+	        for(Iterator<ProposalAdminDetails> iter = proposalAdminDetails.iterator(); iter.hasNext();){
+	            ProposalAdminDetails pad = iter.next();
+	            pad.refreshReferenceObject("institutionalProposal");
+	            if (StringUtils.isBlank(pad.getInstitutionalProposal().getSponsorProposalNumber())) {
+	                pad.getInstitutionalProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+	                getBusinessObjectService().save(pad.getInstitutionalProposal());
+	            }
+	        }
+	        
+	    }
 	}
 
 	/**
