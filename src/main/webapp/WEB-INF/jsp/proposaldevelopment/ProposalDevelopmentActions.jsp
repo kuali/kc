@@ -83,7 +83,7 @@ showDocumentInfo="true"
 
 <c:if test="${hierarchyStatus != hierarchyChildStatus}">
 	<kul:routeLog /> 
-	<kra-pd:adHocRecipients /> 
+	<kul:adHocRecipients /> 
 </c:if>
 
 <kul:panelFooter />

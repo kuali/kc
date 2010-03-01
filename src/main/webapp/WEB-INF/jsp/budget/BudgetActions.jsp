@@ -44,6 +44,7 @@
 	    <c:if test="${proposalBudgetFlag}">
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
+        <kul:adHocRecipients />
 		<kul:panelFooter />
 	</div>
 
