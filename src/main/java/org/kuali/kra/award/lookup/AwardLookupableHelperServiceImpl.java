@@ -70,7 +70,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         AwardDocument document = ((Award) businessObject).getAwardDocument();
         htmlDataList.add(getOpenLink(document));
-        addCopyLink(businessObject, pkNames, htmlDataList, COPY_HREF_PATTERN, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL);        
+        addCopyLink(businessObject, pkNames, htmlDataList, COPY_HREF_PATTERN, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL);
+        htmlDataList.add(getMedusaLink(document, false));
         return htmlDataList;
     }
 

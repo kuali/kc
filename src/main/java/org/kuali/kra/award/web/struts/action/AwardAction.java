@@ -851,8 +851,9 @@ public class AwardAction extends BudgetParentActionBase {
     * @param response
     * @return
     */
-   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        AwardForm awardForm = (AwardForm) form;
+       loadDocumentInForm(request, awardForm);
        awardForm.getMedusaBean().setMedusaViewRadio("0");
        awardForm.getMedusaBean().setModuleName("award");
        awardForm.getMedusaBean().setModuleIdentifier(awardForm.getAwardDocument().getAward().getAwardId());
@@ -905,10 +906,8 @@ public class AwardAction extends BudgetParentActionBase {
         String command = awardForm.getCommand();
         ActionForward forward;
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            loadDocumentInForm(request, awardForm);
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-            awardForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
                     baseForward.getPath(),docIdRequestParameter));
@@ -918,6 +917,13 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getAwardDocument().populateCustomAttributes();
         return forward;
     }
+    
+    protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm) throws WorkflowException {
+        String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+        AwardDocument retrievedDocument = (AwardDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        awardForm.setDocument(retrievedDocument);
+        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+    }    
 
     /**
      *
