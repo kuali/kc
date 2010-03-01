@@ -21,8 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
-    
-    org.kuali.kra.HtmlUnitUtilTest.class,
+
     org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
     org.kuali.kra.award.contacts.AwardCentralAdminContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsProjectPersonnelWebTest.class,
@@ -78,6 +77,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.web.BudgetPersonnelWebTest.class,
     org.kuali.kra.budget.web.BudgetRatesWebTest.class,
     org.kuali.kra.budget.web.BudgetVersionsWebTest.class,
+    org.kuali.kra.dao.CurrentAndPendingReportDaoOjbTest.class,
+    org.kuali.kra.committee.bo.CommitteeScheduleTest.class,
 //    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
     org.kuali.kra.infrastructure.KraHierarchyProviderWithMetaRuleTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContactsProjectPersonnelWebTest.class,

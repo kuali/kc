@@ -30,9 +30,8 @@ public class KraWebTestUtil extends Assert {
     private static final String KRA_HOMEPAGE_TITLE = "Kuali Portal Index";
     private static final String KRA_DOCSEARCH_LINK_TEXT = "Document Search";
     private static final String KRA_PROPOSAL_PAGE_TITLE = "Kuali :: Proposal Development Document";
-    private static final String KRA_BUDGET_PAGE_TITLE = "Kuali :: Budget Document";
     
-    private static final String KRA_DOCSEARCH_BUTTON_ID = "methodToCall.doDocSearch";
+    private static final String KRA_DOCSEARCH_BUTTON_ID = "methodToCall.search";
     private static final String KRA_DOCUMENT_SAVE_BUTTON_ID = "methodToCall.save";
     private static final String KRA_DOCUMENT_RELOAD_BUTTON_ID = "methodToCall.reload";
     private static final String KRA_DOCUMENT_CLOSE_BUTTON_ID = "methodToCall.close";

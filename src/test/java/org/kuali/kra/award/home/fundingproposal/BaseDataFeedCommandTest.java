@@ -22,7 +22,7 @@ import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class BaseDataFeedCommandTest {
+public abstract class BaseDataFeedCommandTest {
     Award award;
     InstitutionalProposal proposal;
     MockAwardCommentFactory awardCommentFactory; 
