@@ -91,7 +91,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -1840,14 +1840,8 @@ public class PrintingTestUtils {
 		ipCostShare.setProposalCostShareId(1L);
 		ipCostShare.setSourceAccount("1");
 		proposal.getInstitutionalProposalCostShares().add(ipCostShare);
-		
-		
-		InstitutionalProposalComments summaryComments=new InstitutionalProposalComments();
-		summaryComments.setComments("Proposal Summary comments");
-		summaryComments.setCommentTypeCode("21");
-		
-		
-		proposal.setProposalComments(summaryComments);
+
+		proposal.getSummaryComment().setComments("Proposal Summary comments");
 		
 		ipd.setInstitutionalProposal(proposal);
 		return ipd;

@@ -19,10 +19,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
+public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> { 
     
     private static final long serialVersionUID = 1L;
 
@@ -131,14 +130,14 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public IntellectualPropertyReview getSequenceOwner() {
         return getIntellectualPropertyReview();
     }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+    public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
         setIntellectualPropertyReview((IntellectualPropertyReview) newlyVersionedOwner);
     }
 

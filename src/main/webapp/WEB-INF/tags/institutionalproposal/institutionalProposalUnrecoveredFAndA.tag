@@ -17,8 +17,10 @@
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalUnrecoveredFandAAttributes" value="${DataDictionary.InstitutionalProposalUnrecoveredFandA.attributes}" />
+<c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="tabItemCount" value="0" />
+<c:set var="action" value="institutionalProposalDistribution" />
 
 <c:forEach var="institutionalProposalUnrecoveredFandA" items="${KualiForm.document.institutionalProposal.institutionalProposalUnrecoveredFandAs}" varStatus="status">               
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
@@ -145,4 +147,18 @@
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>
    </c:if>
+   <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Unrecovered F&A Comments</span>
+        </h3>
+        <table>
+            <th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+            <td class="infoline">
+                <div align="left">
+                    <kul:htmlControlAttribute property="document.institutionalProposalList[0].unrecoveredFandAComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
+                    <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].unrecoveredFandAComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
+                </div>
+            </td>
+        </table>
+    </div>
 </kul:tab>

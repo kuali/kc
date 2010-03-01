@@ -16,7 +16,10 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
+<c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
+
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="action" value="institutionalProposalHome" />
 
 <kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].statusCode,document.institutionalProposalList[0].activityTypeCode,document.institutionalProposalList[0].proposalTypeCode,document.institutionalProposalList[0].title,document.institutionalProposalList[0].currentAwardNumber">
 	<!-- Institution -->
@@ -138,5 +141,19 @@
     	</td>
   	</tr>
 </table>
+</div>
+<div class="tab-container" align="center">
+    <h3>
+        <span class="subhead-left">Summary Comments</span>
+    </h3>
+    <table>
+        <th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+        <td class="infoline">
+             <div align="left">
+                 <kul:htmlControlAttribute property="document.institutionalProposalList[0].summaryComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
+                 <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].summaryComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
+             </div>
+        </td>
+    </table>
 </div>
 </kul:tab>

@@ -61,7 +61,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
@@ -157,21 +157,15 @@ public class InstitutionalProposalXmlStream extends
 				.setMailingInfo(getMailingInfoType(institutionalProposal));
 		instituteProposalXmlObject
 				.setIDCRatesArray(getIdcRateTypes(institutionalProposal));
-		InstitutionalProposalComments institutionalProposalComments = institutionalProposal
-				.getProposalComments();
-		if (institutionalProposalComments != null) {
-			if (INDIRECT_COST_COMMENT_CODE.equals(institutionalProposalComments
-					.getCommentTypeCode())) {
-				instituteProposalXmlObject
-						.setIDCRatesComments(institutionalProposalComments
-								.getComments());
-			}
-			if (COST_SHARING_COMMENT_CODE.equals(institutionalProposalComments
-					.getCommentTypeCode())) {
-				instituteProposalXmlObject
-						.setCostSharingComments(institutionalProposalComments
-								.getComments());
-			}
+		if (institutionalProposal.getUnrecoveredFandAComment() != null) {
+			instituteProposalXmlObject
+					.setIDCRatesComments(institutionalProposal.getUnrecoveredFandAComment()
+							.getComments());
+		}
+		if (institutionalProposal.getCostShareComment() != null) {
+			instituteProposalXmlObject
+					.setCostSharingComments(institutionalProposal.getCostShareComment()
+							.getComments());
 		}
 		instituteProposalXmlObject
 				.setSpecialReviewsArray(getSpecialReviewTypes(institutionalProposal));
@@ -630,9 +624,9 @@ public class InstitutionalProposalXmlStream extends
 			mailingInfoType.setMailToPerson(personType);
 		}
 		if (institutionalProposal.getProposalComments() != null
-				&& institutionalProposal.getProposalComments().getComments() != null) {
+				&& institutionalProposal.getDeliveryComment().getComments() != null) {
 			mailingInfoType.setComments(institutionalProposal
-					.getProposalComments().getComments());
+					.getDeliveryComment().getComments());
 		}
 		return mailingInfoType;
 	}
@@ -762,8 +756,8 @@ public class InstitutionalProposalXmlStream extends
 	private void setComments(InstitutionalProposal institutionalProposal,
 			InstProposalMasterData instProposalMasterData) {
 		if (institutionalProposal.getProposalComments() != null) {
-			InstitutionalProposalComments institutionalProposalComments = institutionalProposal
-					.getProposalComments();
+			InstitutionalProposalComment institutionalProposalComments = institutionalProposal
+					.getSummaryComment();
 			if (institutionalProposalComments != null
 					&& institutionalProposalComments.getCommentTypeCode()
 							.equals(PROPOSAL_SUMMARY_COMMENT_CODE)) {
