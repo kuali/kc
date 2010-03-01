@@ -26,8 +26,6 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="distribution">
-  	
-This is the  Institutional Proposal Distribution - Under Construction
 
 <kra-ip:institutionalProposalCostShare/>
 <kra-ip:institutionalProposalUnrecoveredFAndA />
