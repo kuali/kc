@@ -31,7 +31,7 @@
 
   <bean id="JobCode-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="jobCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Job Code" />
     <property name="shortLabel" value="Job Code" />
     <property name="maxLength" value="6" />
