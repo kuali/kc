@@ -328,7 +328,7 @@ public class AwardAction extends BudgetParentActionBase {
                 awardForm.getAwardHierarchyNodes())) {
             awardForm.setAuditActivated(true);
             int status = isValidSubmission(awardForm.getAwardDocument());
-            if (status == 2) {
+            if (status == ERROR) {
                 GlobalVariables.getMessageMap().clearErrorMessages();
                 GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
                 forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
