@@ -141,9 +141,20 @@ public interface S2SService {
 	 * @param appSubmission
 	 * @param ggApplication
 	 */
-	public void populateAppSubmission(S2sAppSubmission appSubmission,
+	public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
 			ApplicationInformationType ggApplication);
-
+	
+	/**
+	 * 
+	 * Takes the appSubmission and proposal and if a federal tracking id has been specified, will
+	 * set on both the proposal development doc and the related institutional proposal doc
+	 * if there is not a sponsor proposal id already.
+	 * @param pdDoc
+	 * @param appSubmission
+	 */
+	public void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, 
+	        S2sAppSubmission appSubmission);
+	
 	/**
 	 * This method fetches the application list from Grants.gov for a given
 	 * proposal
