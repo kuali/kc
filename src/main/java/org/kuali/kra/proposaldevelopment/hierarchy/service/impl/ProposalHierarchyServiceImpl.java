@@ -790,7 +790,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         ProposalPerson pi = child.getPrincipalInvestigator();
         if (pi != null) {
             int index = hierarchy.getProposalPersons().indexOf(pi);
-            if (index > -1) hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+            if (index > -1) {
+                hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                hierarchy.getProposalPerson(index).setHierarchyProposalNumber(null);
+            }
         }
     }
     
