@@ -127,7 +127,6 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        String moduleIdentifier = getModuleIdentifierForOpeningDocument(request);
         ActionForward forward;
         forward = handleDocument(mapping, form, request, response, awardForm);
         
