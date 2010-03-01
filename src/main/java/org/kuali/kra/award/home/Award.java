@@ -131,6 +131,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer awardTransactionTypeCode;
     private Date noticeDate;
     private String currentActionComments;
+    private int indexOfLastAwardAmountInfo;
     
     private Integer templateCode; 
     @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
@@ -300,6 +301,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+    
+    
+    public int getIndexOfLastAwardAmountInfo() {
+        return awardAmountInfos.size() - 1;
+    }
+
 
     
     /**

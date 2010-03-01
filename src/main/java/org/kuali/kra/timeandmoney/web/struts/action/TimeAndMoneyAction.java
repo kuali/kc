@@ -85,7 +85,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         updateDocumentFromSession(timeAndMoneyDocument);
         updateAwardAmountTransactions(timeAndMoneyDocument);
-        
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
             Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());            
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
@@ -94,14 +93,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null){                
                 aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                 addToList = true;
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null){
                 aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                 addToList = true;
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null){
                 aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                 addToList = true;
             }
             if(addToList){
@@ -112,7 +114,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         getBusinessObjectService().save(timeAndMoneyDocument.getAward());
         getBusinessObjectService().save(awardAmountInfoObjects);
         getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
-        
+        timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");
+
+
         return forward;
     }
     
@@ -166,13 +170,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             List<Award> awardItems = new ArrayList<Award>();
             List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
             
-            updateDocumentFromSession(doc);
+            //updateDocumentFromSession(doc);
 
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             //service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
             service.processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
-            //doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
+            doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
         //perform this logic if active view
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());

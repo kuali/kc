@@ -115,20 +115,20 @@
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[0].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />
         		</td>
 	        <tr>	        	
 				<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[0].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[0].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />
         		</td>	        	
 	        </tr>
 	        <tr>	        	
@@ -136,13 +136,13 @@
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[0].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
-        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[0].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />
         		</td>
 	        </tr>
         </table>	

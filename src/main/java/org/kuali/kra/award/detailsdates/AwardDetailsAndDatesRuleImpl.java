@@ -80,12 +80,14 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
             reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
         }
         if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
-                award.getAwardEffectiveDate() == null) {
+                //award.getAwardEffectiveDate() == null) {
+                award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1).getCurrentFundEffectiveDate() == null) {
             valid = false;
             reportError(AWARD_EFFECTIVE_DATE_PROPERTY_NAME, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
         }
         if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
-                award.getObligationExpirationDate() == null) {
+                //award.getObligationExpirationDate() == null) {
+                award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1).getObligationExpirationDate() == null) {
             valid = false;
             reportError(OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
         }
