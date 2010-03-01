@@ -259,7 +259,10 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-       loadDocumentInForm(request, institutionalProposalForm);
+       if (institutionalProposalForm.getDocument().getDocumentNumber() == null) {
+           //if we are loading this from the medusa link on the search
+           loadDocumentInForm(request, institutionalProposalForm);
+       }
        InstitutionalProposalDocument document = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
        
        institutionalProposalForm.getMedusaBean().setMedusaViewRadio("0");
