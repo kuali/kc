@@ -39,6 +39,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
 
     private static final String COLUMN = ":";
     private static final String VIEW = "view";
+    private static final String MEDUSA = "medusa";
     /**
      * create 'edit' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
@@ -82,6 +83,21 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         htmlData.setHref(href);
         return htmlData;
 
+    }
+    
+    protected AnchorHtmlData getMedusaLink(Document document, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(MEDUSA);
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", document.getDocumentNumber());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
     }
 
     

@@ -32,6 +32,7 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockServ
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -255,8 +256,10 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     * @param response
     * @return
     */
-   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       
        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+       loadDocumentInForm(request, institutionalProposalForm);
        InstitutionalProposalDocument document = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
        
        institutionalProposalForm.getMedusaBean().setMedusaViewRadio("0");
@@ -264,6 +267,13 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
        institutionalProposalForm.getMedusaBean().setModuleIdentifier(document.getInstitutionalProposal().getProposalId());
        return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE);
    }
+   
+   protected void loadDocumentInForm(HttpServletRequest request, InstitutionalProposalForm institutionalProposalForm) throws WorkflowException {
+       String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+       InstitutionalProposalDocument retrievedDocument = (InstitutionalProposalDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+       institutionalProposalForm.setDocument(retrievedDocument);
+       request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+   }      
     
     @Override
     protected PessimisticLockService getPessimisticLockService() {

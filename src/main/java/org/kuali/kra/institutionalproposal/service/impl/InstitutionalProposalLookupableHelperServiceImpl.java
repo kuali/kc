@@ -78,6 +78,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         if (includeMergeCustomActionUrls) {
             htmlDataList.add(getSelectLink((InstitutionalProposal) businessObject));
         }
+        htmlDataList.add(getMedusaLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument(), false));
         return htmlDataList;
     }
 

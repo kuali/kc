@@ -75,7 +75,9 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
         ProposalDevelopmentDocument document = ((DevelopmentProposal)businessObject).getProposalDocument();
         String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.MODIFY_PROPOSAL)) {
+        boolean canModifyProposal = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.MODIFY_PROPOSAL);
+        boolean canViewProposal = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_PROPOSAL);
+        if(canModifyProposal) {
             AnchorHtmlData editHtmlData = getViewLink(document);
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
@@ -83,9 +85,15 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
             editHtmlData.setDisplayText("edit");
             htmlDataList.add(editHtmlData);
         }
-        if(kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_PROPOSAL)) {
+        if(canViewProposal) {
             AnchorHtmlData viewLink = getViewLink(document);
             htmlDataList.add(viewLink);
+            
+        }
+        if (canModifyProposal) {
+            htmlDataList.add(getMedusaLink(document, false));
+        } else if (canViewProposal) {
+            htmlDataList.add(getMedusaLink(document, true));
         }
         
         return htmlDataList;
