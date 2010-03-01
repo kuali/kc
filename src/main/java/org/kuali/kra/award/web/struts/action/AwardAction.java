@@ -806,7 +806,10 @@ public class AwardAction extends BudgetParentActionBase {
     */
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        AwardForm awardForm = (AwardForm) form;
-       loadDocumentInForm(request, awardForm);
+       if (awardForm.getDocument().getDocumentNumber() == null) {
+           //if we are entering this from the search results
+           loadDocumentInForm(request, awardForm);
+       }
        awardForm.getMedusaBean().setMedusaViewRadio("0");
        awardForm.getMedusaBean().setModuleName("award");
        awardForm.getMedusaBean().setModuleIdentifier(awardForm.getAwardDocument().getAward().getAwardId());
