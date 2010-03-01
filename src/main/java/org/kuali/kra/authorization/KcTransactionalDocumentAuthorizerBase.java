@@ -129,6 +129,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         if (canSendAdhocRequests(document, user)) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
         }
+        if (canAddAdhocRequests(document, user)) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
+        }
  
         if (canAcknowledge(document, user)) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
@@ -266,7 +269,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     protected final boolean canSendAdhocRequests(Document document) {
         return canAdHocRoute(document) && document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
     }
-   
+       
     /**
      * Can the user edit the given document?
      * @param document the document
@@ -382,6 +385,17 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         return canSendAdhocRequests(document);
     }
     
+    /**
+     * Can the user Add adhoc requests to the given document?
+     * @param document the document
+     * @param user the user
+     * @return true if the user can add adhoc requests; otherwise false
+     */
+    protected boolean canAddAdhocRequests(Document document, Person user) {
+        // kcawd-578 : use canAdHocRoute for now
+        return canAdHocRoute(document, user);
+    }
+
     /**
      * Can the user blanket approve the given document?
      * @param document the document
