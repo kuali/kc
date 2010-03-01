@@ -487,9 +487,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     * @param response
     * @return
     */
-   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-       ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) proposalDevelopmentForm.getDocument();
+       if (proposalDevelopmentForm.getDocument().getDocumentNumber() == null) {
+           // If entering this action from copy link on doc search
+           loadDocumentInForm(request, proposalDevelopmentForm);
+       }
+       ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
        proposalDevelopmentForm.getMedusaBean().setMedusaViewRadio("0");
        proposalDevelopmentForm.getMedusaBean().setModuleName("DP");
