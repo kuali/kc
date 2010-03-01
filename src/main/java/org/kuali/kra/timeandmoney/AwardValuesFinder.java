@@ -29,6 +29,8 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 public class AwardValuesFinder extends KeyValuesBase{
     
     public List<KeyLabelPair> getKeyValues() {
@@ -42,8 +44,10 @@ public class AwardValuesFinder extends KeyValuesBase{
                 GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyItems());    
         
         if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){
-            for(Entry<String, AwardHierarchy> awardHierachy: document.getAwardHierarchyItems().entrySet()){            
-                keyValues.add(new KeyLabelPair(awardHierachy.getKey(), awardHierachy.getValue().getAwardNumber()));
+            Object[] keyset = document.getAwardHierarchyItems().keySet().toArray();
+            Arrays.sort(keyset);
+            for(Object awardNumber : keyset) {
+                keyValues.add(new KeyLabelPair((String) awardNumber, document.getAwardHierarchyItems().get(awardNumber).getAwardNumber()));
             }
         }
         
