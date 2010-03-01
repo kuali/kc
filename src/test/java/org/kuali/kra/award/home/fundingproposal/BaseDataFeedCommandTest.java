@@ -17,18 +17,21 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public abstract class BaseDataFeedCommandTest {
+public abstract class BaseDataFeedCommandTest extends KraTestBase {
     Award award;
     InstitutionalProposal proposal;
     MockAwardCommentFactory awardCommentFactory; 
     
     @Before
-    public void setUp() {
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
         award = new Award();
         proposal = new InstitutionalProposal();
         proposal.setProposalNumber("1234");
@@ -36,7 +39,9 @@ public abstract class BaseDataFeedCommandTest {
     }
     
     @After
-    public void tearDown() {
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
         award = null;
         proposal = null;
     }

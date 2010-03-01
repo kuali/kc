@@ -20,17 +20,23 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
+public class SponsorDataFeedCommandTest {
+    
+    Award award;
+    InstitutionalProposal proposal;
     private ProposalDataFeedCommandBase command;
     private Sponsor sponsor;
     
     @Before
     public void setUp() {
-        super.setUp();
+        award = new Award();
+        proposal = new InstitutionalProposal();
+        proposal.setProposalNumber("1234");
         command = new SponsorDataFeedCommand(award, proposal);
-        command.setAwardCommentFactory(awardCommentFactory);
         sponsor = new Sponsor();
         sponsor.setSponsorCode("12345");
         sponsor.setSponsorName("Test Sponsor");
@@ -39,8 +45,9 @@ public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     
     @After
     public void tearDown() {
+        award = null;
+        proposal = null;
         command = null;
-        super.tearDown();
     }
 
     @Test

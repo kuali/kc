@@ -17,7 +17,9 @@
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalCostShareAttributes" value="${DataDictionary.InstitutionalProposalCostShare.attributes}" />
+<c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="action" value="institutionalProposalDistribution" />
 
 <c:set var="tabItemCount" value="0" />
 <c:forEach var="institutionalProposalCostShare" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">               
@@ -135,5 +137,18 @@
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>           
    </c:if>
+   <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Cost Share Comments</span>
+        </h3>
+        <table>
+            <th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+            <td class="infoline">
+                <div align="left">
+                    <kul:htmlControlAttribute property="document.institutionalProposalList[0].costShareComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
+                    <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].costShareComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
+                </div>
+            </td>
+        </table>
+    </div>
 </kul:tab>
-

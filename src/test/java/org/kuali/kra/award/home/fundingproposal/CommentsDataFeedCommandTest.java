@@ -21,40 +21,29 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments;
 
 public class CommentsDataFeedCommandTest extends BaseDataFeedCommandTest {
     private static final String TEST_COMMENT = "Test Comment";
     private ProposalDataFeedCommandBase command;
-    private InstitutionalProposalComments ipComments;
     
     @Before
-    public void setUp() {
+    @Override
+    public void setUp() throws Exception {
         super.setUp();
         command = new CommentsDataFeedCommand(award, proposal);
         command.setAwardCommentFactory(awardCommentFactory);
     }
     
     @After
-    public void tearDown() {
+    @Override
+    public void tearDown() throws Exception {
         command = null;
         super.tearDown();
     }
     
     @Test
-    public void testAddingCommentWhenNoIpCommentExists() {
-        proposal.setProposalComments(null);
-        command.performDataFeed();
-        AwardComment comment = award.findCommentOfSpecifiedType(awardCommentFactory.createProposalComment());
-        Assert.assertNotNull(comment);
-        Assert.assertEquals("Funding Proposal Number 1234 was added to Award", comment.getComments());
-    }
-    
-    @Test
-    public void testAddingCommentWhenIpCommentExists() {
-        ipComments = new InstitutionalProposalComments();
-        ipComments.setComments(TEST_COMMENT);
-        proposal.setProposalComments(ipComments);
+    public void testAddingComment() {
+        proposal.getDeliveryComment().setComments(TEST_COMMENT);
         command.performDataFeed();
         AwardComment comment = award.findCommentOfSpecifiedType(awardCommentFactory.createProposalComment());
         Assert.assertNotNull(comment);
