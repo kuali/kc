@@ -29,13 +29,16 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
+/**
+ * WARNING: This test is affected by the side effects other tests cause and will fail if not executed first.
+ */
 public class HtmlUnitUtilTest extends KraTestBase {
     private static String kraHomePageUrl;
     private ProposalDevelopmentDocument document;
@@ -43,6 +46,7 @@ public class HtmlUnitUtilTest extends KraTestBase {
     private ProposalDevelopmentService proposalDevelopmentService;
     
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         transactionalLifecycle.stop();
@@ -73,9 +77,8 @@ public class HtmlUnitUtilTest extends KraTestBase {
         final HtmlTable table = (HtmlTable) docSearchResultsPage.getHtmlElementById("row");
         assertNotNull(table);
         assertEquals(2, table.getRowCount());
-        System.out.println(docSearchResultsPage.asText());
-        assertTrue(docSearchResultsPage.asText().contains("Document/Notification Id Type Title Route Status Initiator Date Created Route Log Copy Document"));
-        assertTrue(docSearchResultsPage.asText().contains(docId+" Proposal Development Document Proposal Development Document - " + PROPOSAL_DOCUMENT_DESC + " SAVED "));
+        assertTrue(docSearchResultsPage.asText(), docSearchResultsPage.asText().contains("Document/Notification Id Type Title Route Status Document Status Initiator Date Created Route Log Copy Document"));                                                          
+        assertTrue(docSearchResultsPage.asText(), docSearchResultsPage.asText().contains(docId+" Proposal Development Document Proposal Development Document - " + PROPOSAL_DOCUMENT_DESC + " SAVED "));
     }
     
     private ProposalDevelopmentDocument createDocument() {
@@ -83,7 +86,7 @@ public class HtmlUnitUtilTest extends KraTestBase {
         
         try {
               GlobalVariables.setUserSession(new UserSession("quickstart"));
-              GlobalVariables.setErrorMap(new ErrorMap());
+              GlobalVariables.setMessageMap(new MessageMap());
               document = (ProposalDevelopmentDocument) getDocumentService()
                       .getNewDocument("ProposalDevelopmentDocument");
               Date requestedStartDateInitial = new Date(System.currentTimeMillis());
