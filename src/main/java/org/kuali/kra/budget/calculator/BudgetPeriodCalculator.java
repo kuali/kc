@@ -298,15 +298,29 @@ public class BudgetPeriodCalculator {
                 // Sort so that the recent date comes first
                 vecPropInflationRates.sort("startDate", false);
 
-                BudgetRate proposalRatesBean = vecPropInflationRates.get(0);
-                BudgetDecimal applicableRate = proposalRatesBean.getApplicableRate();
-                // lineItemCost = lineItemCost * (100 + applicableRate) / 100;
-                lineItemCost = lineItemCost.add(lineItemCost.percentage(applicableRate));
+                //BudgetRate proposalRatesBean = vecPropInflationRates.get(0);
+                BudgetRate proposalRatesBean = getCampusMatchedRateBean(budgetLineItem.getOnOffCampusFlag(), vecPropInflationRates);
+                if (proposalRatesBean != null) {
+                    BudgetDecimal applicableRate = proposalRatesBean.getApplicableRate();
+                    // lineItemCost = lineItemCost * (100 + applicableRate) / 100;
+                    lineItemCost = lineItemCost.add(lineItemCost.percentage(applicableRate));
+                }
             }// End For vecPropInflationRates != null ...
         }// End If vecCE != null ...
         return lineItemCost;
     }
 
+    private BudgetRate getCampusMatchedRateBean(boolean onOffCampus, QueryList<BudgetRate> vecPropInflationRates) {
+        BudgetRate proposalRatesBean = null;
+        for (BudgetRate budgetRate : vecPropInflationRates) {
+            if (budgetRate.getOnOffCampusFlag().booleanValue() == onOffCampus) {
+                proposalRatesBean = budgetRate;
+                break;
+            }
+        }
+        return proposalRatesBean;
+    }
+    
     public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         Equals eqBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetDetailBean.getBudgetPeriod()));
