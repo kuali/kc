@@ -51,7 +51,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
         this.awardApprovedSubawards = awardApprovedSubawardRuleEvent.getAwardApprovedSubawards();
         this.awardApprovedSubaward = awardApprovedSubawardRuleEvent.getApprovedSubaward();
         this.errorPath = awardApprovedSubawardRuleEvent.getErrorPathPrefix();
-        return processCommonValidations();
+        return true;
     }
     
     /**
@@ -112,18 +112,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
         this.awardApprovedSubaward = awardApprovedSubawardRuleEvent.getApprovedSubaward();
         this.errorPath = awardApprovedSubawardRuleEvent.getErrorPathPrefix();
         boolean validOrganization = validateApprovedSubawardOrganization();
-        boolean commonValidations = processCommonValidations();
-        return commonValidations && validOrganization;
-    }
-    
-    /**
-     * This method processes common validations for business rules
-     * @param event
-     * @return
-     */
-    public boolean processCommonValidations() {
-        boolean validAmount = validateApprovedSubawardAmount();
-        return validAmount;
+        return validOrganization;
     }
     
     /**
@@ -159,27 +148,6 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
             return false;
         }
         return isValid;
-    }
-    
-    
-    
-    /**
-    *
-    * Test Approved Subaward amount for zero and negative value.
-    * @param AwardApprovedSubaward, ErrorMap
-    * @return Boolean
-    */
-    public boolean validateApprovedSubawardAmount(){
-        KualiDecimal amount = awardApprovedSubaward.getAmount();
-        boolean valid = true;
-        if (amount == null)
-            valid = false;   // a "required field" error is already reported by the framework, so don't call reportError
-        else if(!amount.isGreaterThan(new KualiDecimal(0.00))) {
-            valid = false;
-            reportError(NEW_AWARD_APPROVED_SUBAWARD+AMOUNT, 
-                    KeyConstants.ERROR_AMOUNT_IS_ZERO);
-        }
-        return valid;
     }
 
 }
