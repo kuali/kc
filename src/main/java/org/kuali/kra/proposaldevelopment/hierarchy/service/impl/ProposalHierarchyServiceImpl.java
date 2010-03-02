@@ -320,7 +320,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         else {
             businessObjectService.save(childProposal);
-            synchronizeAllChildren(hierarchyProposal.getProposalDocument());
+            synchronizeAllChildren(hierarchyProposal);
         }
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
@@ -329,15 +329,25 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeAllChildren(java.lang.String)
      */
     public void synchronizeAllChildren(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
-        DevelopmentProposal hierarchyProposal = pdDoc.getDevelopmentProposal();
+        prepareHierarchySync(pdDoc);
+        synchronizeAll(pdDoc.getDevelopmentProposal());
+        finalizeHierarchySync(pdDoc);
+    }
+
+    private void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        prepareHierarchySync(hierarchyProposal);
+        synchronizeAll(hierarchyProposal);
+        finalizeHierarchySync(hierarchyProposal);
+    }
+
+    private void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        boolean changed = false;
+        DevelopmentProposal childProposal;
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s)", hierarchyProposal.getProposalNumber()));
         if (!hierarchyProposal.isParent()) {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposal.getProposalNumber()
                     + " is not a hierarchy parent");
         }
-        prepareHierarchySync(pdDoc);
-        boolean changed = false;
-        DevelopmentProposal childProposal;
         for (String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposal.getProposalNumber())) {
             childProposal = getDevelopmentProposal(childProposalNumber);
             changed |= synchronizeChild(hierarchyProposal, childProposal);
@@ -345,7 +355,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (changed) {
             aggregateHierarchy(hierarchyProposal);
         }
-        finalizeHierarchySync(pdDoc);
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s) complete", hierarchyProposal.getProposalNumber()));
     }
 
