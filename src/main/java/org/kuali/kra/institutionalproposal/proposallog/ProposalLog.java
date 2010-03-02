@@ -282,6 +282,10 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalLogToMerge = proposalLogToMerge;
     }
     
+    public boolean isPersisted() {
+        return this.getVersionNumber() != null;
+    }
+    
     /* These methods are for manipulating data before object persistence. */
 
     /**
