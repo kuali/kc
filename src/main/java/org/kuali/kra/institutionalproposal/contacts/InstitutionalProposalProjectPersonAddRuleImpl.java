@@ -80,7 +80,8 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
         boolean valid = true;
         for(InstitutionalProposalPerson p: institutionalProposal.getProjectPersons()) {
             if (p.getClass().equals(newProjectPerson.getClass()) 
-                    && p.getContact().getIdentifier().equals(newProjectPerson.getContact().getIdentifier())) {
+                    && p.getContact().getIdentifier().equals(newProjectPerson.getContact().getIdentifier())
+                    && isProjectPersonInvestigator(p) && isProjectPersonInvestigator(newProjectPerson)) {
                 valid = false;
                 break;
             }
@@ -94,6 +95,9 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
         return valid;
     }
     
+    private boolean isProjectPersonInvestigator(InstitutionalProposalPerson projectPerson) {
+        return projectPerson.isCoInvestigator() || projectPerson.isPrincipalInvestigator();
+    }
     /**
      * verify no duplicate units for a person
      * @param projectPersons

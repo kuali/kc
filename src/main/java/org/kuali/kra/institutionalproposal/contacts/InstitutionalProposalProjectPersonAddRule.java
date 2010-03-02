@@ -22,7 +22,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public interface InstitutionalProposalProjectPersonAddRule extends BusinessRule {
 
-    public static final String PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY = "projectPersonnelBean.newInstitutionalProposalContact";
+    public static final String PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY = "projectPersonnelBean.contactRoleCode";
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_PI_EXISTS = "error.institutionalProposalProjectPerson.pi.exists";
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_EXISTS = "error.institutionalProposalProjectPerson.person.exists";
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS = "error.institutionalProposalProjectPerson.duplicate.units";

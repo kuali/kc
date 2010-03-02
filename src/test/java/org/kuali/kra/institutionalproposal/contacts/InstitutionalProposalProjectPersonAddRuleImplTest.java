@@ -78,7 +78,7 @@ public class InstitutionalProposalProjectPersonAddRuleImplTest {
     public void testCheckForDuplicateContact_DuplicatePersonFound() {
         KcPerson duplicatePerson = KcPersonFixtureFactory.createKcPerson(PERSON_ID);
         duplicatePerson.setPersonId(person1.getPersonId());
-        InstitutionalProposalPerson newPerson = new InstitutionalProposalPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        InstitutionalProposalPerson newPerson = new InstitutionalProposalPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_COI);
         Assert.assertFalse("Duplicate Person not identified", rule.checkForDuplicatePerson(institutionalProposal, newPerson));
     }
 
@@ -87,7 +87,7 @@ public class InstitutionalProposalProjectPersonAddRuleImplTest {
     public void testCheckForDuplicateContact_DuplicateRolodexFound() {
         NonOrganizationalRolodex duplicatePerson = new NonOrganizationalRolodex ();
         duplicatePerson.setRolodexId(ROLODEX_ID);
-        InstitutionalProposalPerson newPerson = new InstitutionalProposalPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
+        InstitutionalProposalPerson newPerson = new InstitutionalProposalPerson(duplicatePerson, ContactRoleFixtureFactory.MOCK_COI);
         Assert.assertFalse("Duplicate Rolodex not identified", rule.checkForDuplicatePerson(institutionalProposal, newPerson));
     }
 }
