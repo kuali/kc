@@ -55,7 +55,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();        
         List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
                 awardAmountTransactionItems, awardItems, transactionDetailItems);
-        //deletePendingTransactions
+        doc.setPendingTransactions(new ArrayList<PendingTransaction>());
         performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
     }
 
@@ -121,23 +121,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             awardHierarchyNode.getValue().setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
             awardHierarchyNode.getValue().setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
             awardHierarchyNode.getValue().setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
-            awardHierarchyNode.getValue().setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-            //for(Award award: awardItems){
-//                if(StringUtils.equalsIgnoreCase(award.getAwardNumber(),awardHierarchyNode.getValue().getAwardNumber())){
-//                    awardHierarchyNode.getValue().setCurrentFundEffectiveDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate());
-//                    awardHierarchyNode.getValue().setObligationExpirationDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getObligationExpirationDate());
-//                    awardHierarchyNode.getValue().setFinalExpirationDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate());
-//                    awardHierarchyNode.getValue().setAnticipatedTotalAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAnticipatedTotalAmount());
-//                    awardHierarchyNode.getValue().setAmountObligatedToDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAmountObligatedToDate());
-//                    awardHierarchyNode.getValue().setObliDistributableAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getObliDistributableAmount());
-//                    awardHierarchyNode.getValue().setAntDistributableAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAntDistributableAmount());
-//
-//                }
- //           }
+            awardHierarchyNode.getValue().setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());        
         }
-        //this needs to be changed so the pending transactions will stay after doc has been submitted. Probably needs to be done when we
-        //call approve transactions.  Between processTransactions and performSave.
-        //deletePendingTransactions(doc, pendingTransactionsToBeDeleted);
         
         List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
         return awardAmountTransactions;
