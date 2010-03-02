@@ -82,8 +82,8 @@ public interface ProposalHierarchyService {
     
     /**
      * This method synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
-     * @param hierarchyProposal the hierarchy in question
-     * @throws ProposalHierarchyException if hierarchyProposal is not a valid Hierarchy
+     * @param hierarchyProposalDocument the hierarchy in question
+     * @throws ProposalHierarchyException if hierarchyProposalDocument is not a valid Hierarchy
      */
     public void synchronizeAllChildren(ProposalDevelopmentDocument hierarchyProposalDocument) throws ProposalHierarchyException;
 
