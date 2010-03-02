@@ -578,6 +578,7 @@ public final class KeyConstants {
     public static final String ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS = "error.proposalLog.multiplePi";
     public static final String ERROR_INVALID_STATUS_CHANGE = "error.proposalLog.invalidStatusChange";
     public static final String ERROR_INVALID_LEADUNIT = "error.proposalLog.invalidLeadUnit";
+    public static final String ERROR_UNAUTHORIZED_LEAD_UNIT = "error.proposalLog.unauthorizedLeadUnit";
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
 
     //CommitteeSchedule Messages

@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -32,7 +33,7 @@ public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizer
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
         ProposalLog proposalLog = (ProposalLog) maintenanceDocument.getDocumentBusinessObject();
-        if (proposalLog.getLeadUnit() != null) {
+        if (!StringUtils.isBlank(proposalLog.getLeadUnit()) && proposalLog.isPersisted()) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, proposalLog.getLeadUnit());
         } else {
             attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
