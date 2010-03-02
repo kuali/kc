@@ -16,11 +16,13 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
@@ -50,7 +52,8 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
      */
     public boolean processAddInstitutionalProposalUnrecoveredFandABusinessRules(
             InstitutionalProposalAddUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent) {
-        return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation());
+        return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation(), 
+                institutionalProposalAddUnrecoveredFandARuleEvent.getInstitutionalProposalUnrecoveredFandAs());
     }
 
     /**
@@ -58,7 +61,8 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
      */
     public boolean processSaveInstitutionalProposalUnrecoveredFandABusinessRules(
             InstitutionalProposalSaveUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent) {
-        return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation());
+        return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation(), 
+                institutionalProposalAddUnrecoveredFandARuleEvent.getInstitutionalProposalUnrecoveredFandAs());
     }
     
     /**
@@ -66,7 +70,7 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
      * @param event
      * @return
      */
-    public boolean processCommonValidations(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA) {
+    public boolean processCommonValidations(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA, List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
         boolean validFiscalYearRange = validateUnrecoveredFandAFiscalYearRange(institutionalProposalUnrecoveredFandA);
         
      // test if percentage is valid
@@ -75,11 +79,16 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
         // test if type is selected and valid
         boolean validRateType = validateRateType(institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode());
         
+        // test if source account is valid
+        boolean validSourceAccount = validateSourceAccount(institutionalProposalUnrecoveredFandA.getSourceAccount());
+        
         // test if amount is entered and valid
         boolean validAmount = validateAmount(institutionalProposalUnrecoveredFandA.getAmount());
         
+        // test if row is a duplicate
+        boolean validRows = checkNoDuplicates(institutionalProposalUnrecoveredFandA, institutionalProposalUnrecoveredFandAs);
  
-        return validFiscalYearRange && validPercentage && validRateType && validAmount;
+        return validFiscalYearRange && validPercentage && validRateType && validSourceAccount && validAmount  && validRows;
     }
     
     /**
@@ -143,6 +152,15 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
         }
         return isValid;
     }
+    
+    private boolean validateSourceAccount(String a) {
+        boolean isValid = true;
+        if (StringUtils.isBlank(a)) {
+            isValid = false;
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".sourceAccount", KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
+        }
+        return isValid;
+    }
 
     private boolean validateAmount(KualiDecimal amount) {
         boolean isValid = true;
@@ -155,6 +173,24 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
             this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_PROPOSAL_UFNA_AMOUNT_INVALID, new String[] { amount.toString() });
         }
         return isValid;
+    }
+    
+    private boolean checkNoDuplicates(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA, List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
+        boolean noDuplicates = true;
+        for (InstitutionalProposalUnrecoveredFandA a : institutionalProposalUnrecoveredFandAs) {
+            if ((a != institutionalProposalUnrecoveredFandA) &&
+                    StringUtils.equals(a.getFiscalYear(), institutionalProposalUnrecoveredFandA.getFiscalYear()) &&
+                    ObjectUtils.equals(a.getIndirectcostRateTypeCode(), institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode()) &&
+                    ObjectUtils.equals(a.getApplicableIndirectcostRate(), institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate()) &&
+                    ObjectUtils.equals(a.getOnCampusFlag(), institutionalProposalUnrecoveredFandA.getOnCampusFlag()) &&
+                    StringUtils.equals(a.getSourceAccount(), institutionalProposalUnrecoveredFandA.getSourceAccount()) &&
+                    ObjectUtils.equals(a.getAmount(), institutionalProposalUnrecoveredFandA.getAmount())) {
+                noDuplicates = false;
+                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".fiscalYear", KeyConstants.ERROR_PROPOSAL_UFNA_DUPLICATE_ROW);
+
+            }
+        }
+        return noDuplicates;
     }
     
     /**

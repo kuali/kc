@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
@@ -45,6 +47,14 @@ public class InstitutionalProposalAddUnrecoveredFandARuleEvent extends KraDocume
         return (InstitutionalProposalDocument) getDocument();
     }
     
+    /**
+     * This method returns all unrecovered F&A distributions
+     * @return
+     */
+    public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {
+        return getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalUnrecoveredFandAs();
+    }
+
     /**
      * This method returns the equipment item for validation
      * @return
