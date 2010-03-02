@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,30 +96,13 @@ public class AwardApprovedSubawardRuleTest {
         awardApprovedSubawards = null;
     }
     
-    /**
-     * Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#processCommonValidations
-     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
-     */
+    //removed existing test functions as they all dealt with code moved to audit rule
     @Test
-    public final void testProcessCommonValidations() {
-        Assert.assertTrue(awardApprovedSubawardRule.processCommonValidations());
+    public void foo() throws Exception {
+        assertTrue(true);
     }
     
     
-    /**
-     *Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#
-     *ValidateApprovedSubawardDuplicateOrganization 
-     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
-     */
-    @Test
-    public final void testValidateApprovedSubawardAmount () {
-        Assert.assertTrue(awardApprovedSubawardRule.validateApprovedSubawardAmount());
-        awardApprovedSubawardTest.setAmount(new KualiDecimal(0));
-        Assert.assertFalse(awardApprovedSubawardRule.validateApprovedSubawardAmount());
-        awardApprovedSubawardTest.setAmount(new KualiDecimal(NEGATIVE_VALUE));
-        Assert.assertFalse(awardApprovedSubawardRule.validateApprovedSubawardAmount());
-        awardApprovedSubawardTest.setAmount(new KualiDecimal(TWENTY_FIVE_THOUSAND));
-    }
 
 
 
