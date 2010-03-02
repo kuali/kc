@@ -208,7 +208,7 @@
 	-->
 	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment" table="PROPOSAL_COMMENTS">
-		<field-descriptor name="proposalCommentsId" column="PROPOSAL_COMMENTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_IP_COMMENT" />
+		<field-descriptor name="proposalCommentsId" column="PROPOSAL_COMMENTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IP_COMMENT" />
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
