@@ -425,7 +425,6 @@
 			parent="lookupableHelperService" 
 			scope="prototype">
 		<property name="kraAuthorizationService" ref="kraAuthorizationService"/>
-		<property name="kcPersonService" ref="kcPersonService" />		
 	</bean>
 	
 	<bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
