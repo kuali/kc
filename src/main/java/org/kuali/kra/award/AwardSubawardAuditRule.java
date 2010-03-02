@@ -28,21 +28,19 @@ import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...
  */
 public class AwardSubawardAuditRule implements DocumentAuditRule {
-
     
-    private static final int FIVE = 5;
-    private static final int ZERO = 0;
-    private static final String DOT = ".";
     private static final String SUBAWARD_AUDIT_ERRORS = "subawardAuditErrors";
-    private static final String ORGANIZATION = "Organization";
+    private static final String SUBAWARD_AUDIT_WARNINGS = "subawardAuditWarnings";
 
     List<AwardApprovedSubaward> awardApprovedSubawards;
     private List<AuditError> auditErrors;
+    private List<AuditError> auditWarnings;
     
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
@@ -51,31 +49,31 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;
         auditErrors = new ArrayList<AuditError>();
+        auditWarnings = new ArrayList<AuditError>();
         Award award = awardDocument.getAward();
         this.awardApprovedSubawards = award.getAwardApprovedSubawards();
-          if(!validateApprovedSubawardDuplicateOrganization(awardApprovedSubawards)){
-                valid&=false;
-                addErrorToAuditErrors(ORGANIZATION);
+        if(!validateApprovedSubawardDuplicateOrganization(awardApprovedSubawards)){
+            valid = false;
+            auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY, 
+                    KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME, 
+                    Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.SUBAWARD_PANEL_ANCHOR,
+                    new String[]{"Organization"}));
+        }
+        for (int i = 0; i < awardApprovedSubawards.size(); i++) {
+            AwardApprovedSubaward subAward = awardApprovedSubawards.get(i);
+            KualiDecimal amount = subAward.getAmount();
+            if (amount == null) {
+                valid = false;  // a "required field" error is already reported by the framework, so don't call reportError
+            } else if(!amount.isGreaterThan(new KualiDecimal(0.00))) {
+                valid = false;
+                auditWarnings.add(new AuditError("document.awardList[0].awardApprovedSubawards[" + i + "].amount",
+                        KeyConstants.ERROR_AMOUNT_IS_ZERO,
+                        Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.SUBAWARD_PANEL_ANCHOR,
+                        null));
             }
+        }
         reportAndCreateAuditCluster();
         return valid;
-    }
-    
-    /**
-     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
-     * @param description
-     */
-    protected void addErrorToAuditErrors(String description) {
-        String[] params = new String[FIVE];
-        params[ZERO] = description;
-        StringBuilder sb = new StringBuilder();
-        sb.append(Constants.MAPPING_AWARD_HOME_PAGE);
-        sb.append(DOT);
-        sb.append(Constants.SUBAWARD_PANEL_ANCHOR);
-        auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULES_ERROR_KEY, 
-                                        KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME, 
-                                        sb.toString(),
-                                        params));   
     }
     
     /**
@@ -83,9 +81,13 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
      */
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
-        if (auditErrors.size() > ZERO) {
+        if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
+        } 
+        if (auditWarnings.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_WARNINGS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
+                    auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }
     
@@ -94,7 +96,7 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     * Test Approved Subawards for duplicate organizations
     * @return Boolean
     */
-    public boolean validateApprovedSubawardDuplicateOrganization(List<AwardApprovedSubaward> awardApprovedSubawards){
+    protected boolean validateApprovedSubawardDuplicateOrganization(List<AwardApprovedSubaward> awardApprovedSubawards){
             boolean valid = true;
             int index = 0;
         test:
@@ -112,6 +114,6 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
                 index++;
             }
             return valid;
-           }
-
+    }
+    
 }
