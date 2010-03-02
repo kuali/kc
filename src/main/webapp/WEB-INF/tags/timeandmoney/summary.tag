@@ -286,7 +286,6 @@
 	        		&nbsp;
 	        	</td>
 	        	<td>
-	        		&nbsp;
 	        		<c:forEach var="leadUnit" items="${KualiForm.document.award.principalInvestigator.units}" varStatus="status">
 	        			<c:out value="${KualiForm.document.award.principalInvestigator.units[status.index].unit.unitName}" />	        			
         				<c:if test="${KualiForm.document.award.principalInvestigator.units[status.index].leadUnit}" >
@@ -294,6 +293,23 @@
         				</c:if>
 	        		</c:forEach>
 	        	</td>
+	        </tr>
+	        
+	        	<c:forEach var="coInvestigator" items="${KualiForm.document.award.coInvestigators}" varStatus="status">
+	        	<tr>
+	        		<td>
+	        			<c:out value="${KualiForm.document.award.coInvestigators[status.index].fullName}" />&nbsp;
+        			</td>
+        			<td>
+	        			<c:forEach var="unit" items="${coInvestigator.units}" varStatus="status">
+	        				<c:out value="${coInvestigator.units[status.index].unit.unitName}" /><br>	        			
+	        			</c:forEach>
+        			</td>
+	        	</tr>
+	        	</c:forEach>
+	        
+	        	
+	        	
 	        </tr>	
 	    </table>    	
     </div>    
