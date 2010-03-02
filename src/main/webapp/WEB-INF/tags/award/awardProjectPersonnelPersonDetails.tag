@@ -25,7 +25,7 @@
 
 <kra:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
                           useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="document.awardList[0].projectPersons[*">
+                          tabErrorKey="document.awardList[0].projectPersons[${awardContactRowStatusIndex}*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
 		<tr>
 			<th class="infoline">
