@@ -52,5 +52,7 @@ public class KraAuthorizationConstants {
         public static final String MODIFY_BUDGET = "modifyBudgets";
         public static final String VIEW_BUDGET = "viewBudgets";
     }
+    
+    public static final String PERMISSION_SUBMIT_PROPOSAL_LOG = "Submit Proposal Log";
   
  }
