@@ -91,7 +91,7 @@
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costShareTypeCode" attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}"/>
+                		<kra:kraControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costShareTypeCode" attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}"/>
 					</div>
 	                </td>
 	                <td width="15%" valign="middle">                	
