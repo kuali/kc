@@ -462,6 +462,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * This method returns all PIs and co-PIs.
+     * @return
+     */
+    public List<AwardPerson> getCoInvestigators() {
+        List<AwardPerson> coInvestigators = new ArrayList<AwardPerson>();
+        for(AwardPerson person: projectPersons) {
+            if(person.isCoInvestigator()) {
+                coInvestigators.add(person);
+            }
+        }
+        return coInvestigators;
+    }
+    
+    /**
      * This method returns the combined number of units for all project personnel.
      * @return
      */
