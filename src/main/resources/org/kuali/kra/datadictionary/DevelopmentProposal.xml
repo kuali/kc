@@ -78,10 +78,25 @@
 				<ref bean="DevelopmentProposal-hierarchyStatus" />
 				<ref bean="DevelopmentProposal-hierarchyStatusName" />
 				<ref bean="DevelopmentProposal-principalInvestigatorName" />
+				<ref bean="DevelopmentProposal-proposalPersons.fullName" />
 				<ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
 				<ref bean="DevelopmentProposal-budgetStatus" />
 			</list>
 		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="proposalPersons" p:label="Proposal Personnel" p:shortLabel="Personnel" p:elementLabel="Proposal Person" />
+			</list>	
+		</property>
+<!-- 
+		<property name="relationships">
+			<list>
+				<bean parent=RelationshipDefinition">
+				
+				</bean>
+			</list>
+		</property>
+-->
 	</bean>
 
 
@@ -809,12 +824,12 @@
 		<property name="description" value="Hierarchy Status" />
 	</bean>
 
-  	<bean id="DevelopmentProposal-principalInvestigatorName" parent="DevelopmentProposal-principalInvestigatorName-parentBean" />
-	<bean id="DevelopmentProposal-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="principalInvestigatorName" />
+  	<bean id="DevelopmentProposal-proposalPersons.fullName" parent="DevelopmentProposal-proposalPersons.fullName-parentBean" />
+	<bean id="DevelopmentProposal-proposalPersons.fullName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="proposalPersons.fullName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Investigator" />
-		<property name="shortLabel" value="Investigator" />
+		<property name="label" value="Proposal Person" />
+		<property name="shortLabel" value="Proposal Person" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
       		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
@@ -822,8 +837,25 @@
 		<property name="control" >
 			<bean p:size="20" parent="TextControlDefinition" />
 		</property>
-		<property name="summary" value="Investigator" />
-		<property name="description" value="Investigator" />
+		<property name="summary" value="Proposal Person" />
+		<property name="description" value="Proposal Person" />
+	</bean>
+	
+  	<bean id="DevelopmentProposal-principalInvestigatorName" parent="DevelopmentProposal-principalInvestigatorName-parentBean" />
+	<bean id="DevelopmentProposal-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="principalInvestigatorName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Principle Investigator" />
+		<property name="shortLabel" value="PI" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean p:size="20" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="Principle Investigator" />
+		<property name="description" value="Principle Investigator Full Name" />
 	</bean>
 	
 	<bean id="DevelopmentProposal-budgetStatus" parent="DevelopmentProposal-budgetStatus-parentBean"/>
@@ -863,12 +895,13 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
-				<bean parent="FieldDefinition" p:attributeName="principalInvestigatorName" />
+				<bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorName" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitName" />
+				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
 			</list>
@@ -880,12 +913,13 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalType.description" />
 				<bean parent="FieldDefinition" p:attributeName="proposalState.description" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
-				<bean parent="FieldDefinition" p:attributeName="principalInvestigatorName" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorName" />
+				<bean parent="FieldDefinition" p:attributeName="principalInvestigatorName" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitName" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
+				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
 			</list>
