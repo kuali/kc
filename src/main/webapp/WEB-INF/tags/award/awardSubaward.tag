@@ -20,7 +20,7 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="newAwardApprovedSubaward.*,document.awardList[0].awardApprovedSubawards*,approvedSubawardFormHelper.*" auditCluster="subawardAuditErrors" tabAuditKey="document.subawardAuditRules*">
+<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="newAwardApprovedSubaward.*,document.awardList[0].awardApprovedSubawards*,approvedSubawardFormHelper.*" auditCluster="subawardAuditErrors,subawardAuditWarnings" useRiceAuditMode="true" tabAuditKey="document.subawardAuditRules*,document.awardList[0].awardApprovedSubawards*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Approved Subawards</span>
