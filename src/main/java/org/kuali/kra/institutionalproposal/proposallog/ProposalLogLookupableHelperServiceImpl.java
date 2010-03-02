@@ -45,8 +45,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         checkIsLookupForProposalCreation(fieldValues);
         
         if (isLookupForProposalCreation) {
-            fieldValues.remove("logStatus");
-            fieldValues.put("logStatus", ProposalLogUtils.getProposalLogPendingStatusCode());
+            fieldValues.remove(ProposalLog.LOG_STATUS);
+            fieldValues.put(ProposalLog.LOG_STATUS, ProposalLogUtils.getProposalLogPendingStatusCode());
         }
         
         return super.getSearchResults(fieldValues);
@@ -64,8 +64,11 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             htmlDataList.add(getSelectLinkForProposalCreation((ProposalLog) businessObject));
         } else {
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-            if (isUnmergedTemporaryLog((ProposalLog) businessObject)) {
+            if (((ProposalLog) businessObject).isMergeCandidate()) {
                 htmlDataList.add(getMergeLink(((ProposalLog) businessObject).getProposalNumber()));
+            }
+            if (((ProposalLog) businessObject).isSubmitted()) {
+                removeEditLink(htmlDataList);
             }
         }
         return htmlDataList;
@@ -97,15 +100,25 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         return htmlData;
     }
     
-    private boolean isUnmergedTemporaryLog(ProposalLog proposalLog) {
-        return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(proposalLog.getProposalLogTypeCode())
-            && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(proposalLog.getLogStatus());
-    }
-    
     protected void checkIsLookupForProposalCreation(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get("backLocation");
         if (returnLocation.contains("institutionalProposalCreate.do")) {
             isLookupForProposalCreation = true;
+        }
+    }
+    
+    private void removeEditLink(List<HtmlData> htmlDataList) {
+        int editLinkIndex = -1;
+        int currentIndex = 0;
+        for (HtmlData htmlData : htmlDataList) {
+            if (KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(htmlData.getMethodToCall())) {
+                editLinkIndex = currentIndex;
+                break;
+            }
+            currentIndex++;
+        }
+        if (editLinkIndex != -1) {
+            htmlDataList.remove(editLinkIndex);
         }
     }
     

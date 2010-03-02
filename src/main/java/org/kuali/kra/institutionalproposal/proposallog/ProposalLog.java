@@ -76,6 +76,25 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
 
     } 
     
+    /* Public convenience methods */
+    
+    public boolean isPersisted() {
+        return this.getVersionNumber() != null;
+    }
+    
+    public boolean isSubmitted() {
+        return ProposalLogUtils.getProposalLogSubmittedStatusCode().equals(this.getLogStatus());
+    }
+    
+    public boolean isMergeCandidate() {
+        return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(this.getProposalLogTypeCode())
+            && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(this.getLogStatus());
+    }
+    
+    /* End public convenience methods */
+    
+    /* Getters and setters */
+    
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -282,9 +301,9 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalLogToMerge = proposalLogToMerge;
     }
     
-    public boolean isPersisted() {
-        return this.getVersionNumber() != null;
-    }
+    /* End getters and setters */
+    
+    
     
     /* These methods are for manipulating data before object persistence. */
 

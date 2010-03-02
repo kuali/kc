@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import java.util.Set;
 
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
@@ -39,10 +40,22 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
                 fields.add(ProposalLog.LOG_STATUS);
             }
             if (isEdit(document) || isSaved(document)) {
-                fields.add("proposalLogTypeCode");
+                fields.add(ProposalLog.PROPOSAL_LOG_TYPE_CODE);
             }
         }
         return fields;
+    }
+    
+    @Override
+    protected boolean canEdit(Document document) {
+        boolean canEdit = super.canEdit(document);
+        if (canEdit) {
+            ProposalLog proposalLog = (ProposalLog) ((MaintenanceDocument) document).getOldMaintainableObject().getBusinessObject();
+            if (proposalLog.isSubmitted()) {
+                canEdit = false;
+            }
+        }
+        return canEdit;
     }
     
     private boolean isValidDocument(MaintenanceDocument document) {
