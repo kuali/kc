@@ -78,13 +78,14 @@ import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewRule;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -527,7 +528,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardProjectPersonsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPersonCreditSplitAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSubawardAuditRule().processRunAuditBusinessRules(document);
-        
+        try {
+            retval &= KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((AwardDocument)document);
+        } catch (Exception ex) {
+            // TODO : should log it here
+            throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
+        }
+         
         return retval;
         
         
@@ -836,9 +843,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                         new String[] {"Project End Date", "Project Begin Date"});
             }
         }
-        if (award.getAwardEffectiveDate() != null 
+        if (award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate() != null 
                 && award.getObligationExpirationDate() != null) {
-            if (award.getAwardEffectiveDate().after(
+            if (award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate().after(
                     award.getObligationExpirationDate())) {
                 success = false;
                 errorMap.putError("obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
