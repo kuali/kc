@@ -16,7 +16,12 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -42,8 +47,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
         
         if (!isProposalStatusChangeValid(document)) {
-            GlobalVariables.getMessageMap().putError(
-                    "document.newMaintainableObject.logStatus", 
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.logStatus", 
                     KeyConstants.ERROR_INVALID_STATUS_CHANGE, 
                     proposalLog.getProposalLogStatus().getDescription());
             valid = false;
@@ -78,6 +82,14 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             valid = false;
         }
         
+        if (!hasUnitAuthorization(proposalLog)) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.leadUnit", 
+                    KeyConstants.ERROR_UNAUTHORIZED_LEAD_UNIT, 
+                    GlobalVariables.getUserSession().getPrincipalName().toUpperCase(),
+                    proposalLog.getLeadUnit());
+            valid = false;
+        }
+        
         return valid;
     }
     
@@ -93,6 +105,20 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         }
         
         return true;
+    }
+    
+    private boolean hasUnitAuthorization(ProposalLog proposalLog) {
+        IdentityManagementService idmService = getIdentityManagementService();
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put("documentTypeName", "ProposalLogMaintenanceDocument");
+        AttributeSet qualifications = new AttributeSet();
+        qualifications.put(KraAuthorizationConstants.QUALIFICATION_UNIT_NUMBER, proposalLog.getLeadUnit());
+        return idmService.isAuthorized(
+                GlobalVariables.getUserSession().getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                KraAuthorizationConstants.PERMISSION_SUBMIT_PROPOSAL_LOG, 
+                permissionDetails, 
+                qualifications);
     }
     
 }
