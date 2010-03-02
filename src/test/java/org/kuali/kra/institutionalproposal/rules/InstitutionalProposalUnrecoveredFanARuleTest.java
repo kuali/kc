@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +28,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -71,7 +70,6 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
         institutionalProposalUnrecoveredFandA.setIndirectcostRateTypeCode(RATE_TYPE_CODE);
         queryMap.put("indirectcostRateTypeCode", 1);
         GlobalVariables.setErrorMap(new ErrorMap());
-          
     }
     
     /**
@@ -97,9 +95,8 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
             will(returnValue(1));
         }});
         institutionalProposalUnrecoveredFandARuleImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
-        Assert.assertTrue(institutionalProposalUnrecoveredFandARuleImpl.processCommonValidations(institutionalProposalUnrecoveredFandA));
+        Assert.assertTrue(institutionalProposalUnrecoveredFandARuleImpl.processCommonValidations(institutionalProposalUnrecoveredFandA, new ArrayList<InstitutionalProposalUnrecoveredFandA>()));
     }
-    
     
     /**
      * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareFiscalYearRange
