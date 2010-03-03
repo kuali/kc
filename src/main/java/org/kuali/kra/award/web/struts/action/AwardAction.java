@@ -75,7 +75,6 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -824,10 +823,16 @@ public class AwardAction extends BudgetParentActionBase {
      * @param request
      * @param response
      * @return
-     */
+     */ 
     public ActionForward awardActions(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {
+            , HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        AwardForm awardForm = (AwardForm) form;
+        String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
+        if(StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+            loadDocumentInForm(request, awardForm); 
+            //createDefaultAwardHierarchy(awardForm);  
+        } 
         populateAwardHierarchy(form); 
 
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
@@ -866,21 +871,32 @@ public class AwardAction extends BudgetParentActionBase {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
-                    baseForward.getPath(),docIdRequestParameter));
+                    baseForward.getPath(),awardForm.getDocument().getDocumentNumber()));
         } else {
         forward = super.docHandler(mapping, form, request, response);
         }
         awardForm.getAwardDocument().populateCustomAttributes();
         return forward;
     }
-    
-    protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm) throws WorkflowException {
+   
+   /**
+    *
+    * loadDocumentInForm
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */    
+    protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm)
+    throws WorkflowException {
         String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-        AwardDocument retrievedDocument = (AwardDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        AwardDocument retrievedDocument = (AwardDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         awardForm.setDocument(retrievedDocument);
-        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
-    }    
-
+        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        request.setAttribute("selectedAwardNumber", retrievedDocument.getAward().getAwardNumber()); 
+    }
+    
     /**
      *
      * @return
