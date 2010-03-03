@@ -75,6 +75,18 @@ public class PrintingUtils {
 	}
 
 	/**
+	 * 
+	 * This method is used if class is not PD. right now is used by AWARD.
+	 * @param clazz
+	 * @param parameter
+	 * @return
+	 */
+    public static String getParameterValue(Class clazz, String parameter) {
+        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        return parameterService.getParameterValue(clazz, parameter);
+    }
+
+	/**
 	 * This method is to get a State object from the state name
 	 * 
 	 * @param stateName

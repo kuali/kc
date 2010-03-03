@@ -145,7 +145,7 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		amountInfoType.setAnticipatedChangeIndirect(new BigDecimal(
 				awardAmountInfo.getAnticipatedChangeIndirect()));
 		String enableAwdAntOblDirectIndirectCost = PrintingUtils
-				.getParameterValue(OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
+				.getParameterValue(AwardDocument.class, OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
 		amountInfoType
 				.setEnableAwdAntOblDirectIndirectCost(enableAwdAntOblDirectIndirectCost);
 		amountInfoType.setTreeLevel(rowNo);
