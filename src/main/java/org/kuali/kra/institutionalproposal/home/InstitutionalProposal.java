@@ -27,8 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
@@ -158,6 +156,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
     private List<AwardFundingProposal> awardFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
+    
+    private transient String lookupUnitName;
+    private transient String lookupUnitNumber;
+    private transient String lookupPersonNumber;
 
     public InstitutionalProposal() { 
         super();
@@ -1544,6 +1546,30 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             }
         }
         return commentMap;
+    }
+
+    public void setLookupUnitName(String lookupUnitName) {
+        this.lookupUnitName = lookupUnitName;
+    }
+
+    public String getLookupUnitName() {
+        return lookupUnitName;
+    }
+
+    public void setLookupUnitNumber(String lookupUnitNumber) {
+        this.lookupUnitNumber = lookupUnitNumber;
+    }
+
+    public String getLookupUnitNumber() {
+        return lookupUnitNumber;
+    }
+
+    public void setLookupPersonNumber(String lookupPersonNumber) {
+        this.lookupPersonNumber = lookupPersonNumber;
+    }
+
+    public String getLookupPersonNumber() {
+        return lookupPersonNumber;
     }
     
 }

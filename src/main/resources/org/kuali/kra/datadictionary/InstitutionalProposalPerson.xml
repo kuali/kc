@@ -33,8 +33,15 @@
         <ref bean="InstitutionalProposalPerson-totalEffort" />
         <ref bean="InstitutionalProposalPerson-contactRoleCode" />
         <ref bean="InstitutionalProposalPerson-keyPersonRole" />
+        <ref bean="InstitutionalProposalPerson-units.unit.unitName" />
+        <ref bean="InstitutionalProposalPerson-units.unitNumber" />
       </list>
     </property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="units" p:label="Units" p:shortLabel="Units" p:elementLabel="Unit" />
+			</list>	
+		</property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -186,11 +193,21 @@
 		<property name="summary" value="Project Role" />
 		<property name="description" value="Project Role" />
 	</bean>	
+	
+	<bean id="InstitutionalProposalPerson-units.unit.unitName" parent="InstitutionalProposalPerson-units.unit.unitName-parentBean" />
+	<bean id="InstitutionalProposalPerson-units.unit.unitName-parentBean" abstract="true" parent="InstitutionalProposalPersonUnit-unitName">
+		<property name="name" value="units.unit.unitName" />
+	</bean>
+
+	<bean id="InstitutionalProposalPerson-units.unitNumber" parent="InstitutionalProposalPerson-units.unitNumber-parentBean" />
+	<bean id="InstitutionalProposalPerson-units.unitNumber-parentBean" abstract="true" parent="InstitutionalProposalPersonUnit-unitNumber">
+		<property name="name" value="units.unitNumber" />
+	</bean>
 
 	<bean id="InstitutionalProposalPerson-lookupDefinition" parent="InstitutionalProposalPerson-lookupDefinition-parentBean" />
   	<bean id="InstitutionalProposalPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="InstitutionalProposal Person Lookup" />
-		<property name="lookupableID" value="institutionalProposalPersonLookupable" />
+		<!-- property name="lookupableID" value="institutionalProposalPersonLookupable" /-->
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -201,6 +218,8 @@
 		  	<bean p:attributeName="proposalNumber" parent="FieldDefinition" />
 		  	<bean p:attributeName="sequenceNumber" parent="FieldDefinition" />
 		  	<bean p:attributeName="fullName" parent="FieldDefinition" />		  	
+		  	<bean p:attributeName="units.unit.unitName" parent="FieldDefinition" />		  	
+		  	<bean p:attributeName="units.unitNumber" parent="FieldDefinition" />		  	
 		  </list>
 		</property>
 		<property name="resultFields" >
