@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -43,13 +42,11 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         
         String docHandler = returnForward.getPath();
         if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
-            //docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
             docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "actions");
-            //docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions=Proposal Actions";
         } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
-//            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
-//            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions=Protocol Actions";
             docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "protocolActions");
+        } else if (("AwardDocument").equals(request.getParameter("documentTypeName"))) {
+            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "awardActions");
         }
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());

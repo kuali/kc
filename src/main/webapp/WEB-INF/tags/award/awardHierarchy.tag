@@ -19,7 +19,7 @@
 <c:set var="action" value="awardHierarchy" />
 <input type="hidden" property="viewOnly" value="${readOnly}" />
 
-<kul:tab tabTitle="Hierarchy" defaultOpen="false" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Hierarchy" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3> 
     		<span class="subhead-left">Hierarchy</span>  
@@ -55,6 +55,7 @@
 		${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
 	</c:forEach> 
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
+    <input type="hidden" id = "selectedAwardNumber" name="selectedAwardNumber" value="${(param.selectedAwardNumber == '' or param.selectedAwardNumber == null) ? selectedAwardNumber : param.selectedAwardNumber}">
 	
 	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].awardNumber1" name="awardHierarchyTempObject[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
