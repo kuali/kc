@@ -102,12 +102,14 @@
 	                       </c:if>
 	                    </div>
                 </td>
-                
+                <th><div align="right"></th>
+                <td><div align="right"></td>
+                <%--
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailDescription}"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.institutionalProposal.mailDescription" attributeEntry="${institutionalProposalAttributes.mailDescription}" />
                     <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${institutionalProposalAttributes.mailDescription.label}" />
-                </td>
+                </td> --%>
             </tr>
         </table>
     </div>
