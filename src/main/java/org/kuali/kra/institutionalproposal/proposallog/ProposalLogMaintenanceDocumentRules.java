@@ -31,6 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase
     implements MaintenanceDocumentRule {
     
+    private final String SPONSOR_CODE = "document.newMaintainableObject.sponsorCode";
     /**
      * Checks to see if document is in valid state to save.
      * 
@@ -66,7 +67,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             
             valid = false;
         }
-        
+        valid &= isSponsorValid(document);
         return valid;
     }
     
@@ -93,6 +94,25 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         return valid;
     }
     
+    /*
+     * verify sponsor code exist and valid.
+     */
+    private boolean isSponsorValid(MaintenanceDocument document) {
+        boolean valid = true;
+        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        if (StringUtils.isBlank(proposalLog.getSponsorCode())) {
+            GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_MISSING_SPONSOR_CODE);
+            valid = false;
+        } else {
+            proposalLog.refreshReferenceObject("sponsor");
+            if (proposalLog.getSponsor() == null) {
+                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
     private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
         
         ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
