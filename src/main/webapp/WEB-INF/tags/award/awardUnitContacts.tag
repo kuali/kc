@@ -115,16 +115,10 @@
 	                
 					<td>
 						<c:set var="isLeadUnit" value="${award.leadUnit != null && awardContact.person != null && awardContact.person.organizationIdentifier == award.leadUnit.unitNumber}" />
-						<c:if test="${not isLeadUnit}">
-							<c:set var="deleteButton" value="tinybutton-delete1.gif" />
-						</c:if>
-						<c:if test="${isLeadUnit}">
-							<c:set var="deleteButton" value="tinybutton-delete2.gif" />
-						</c:if>
 						<div align="center">
 						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteUnitContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}${deleteButton}' styleClass="tinybutton" disabled="${isLeadUnit}"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" disabled="${isLeadUnit}"/>
 						  </c:if>
 						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
