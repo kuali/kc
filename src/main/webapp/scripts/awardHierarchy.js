@@ -5,12 +5,14 @@
     var cutNode;
     var sqlScripts = "";
     var ulTagId;
-    var sqls = [];
+    var sqls = []; 
     var sqlidx = 0;
     var deletedNodes="";
     var newNodes=";";
     var loadedidx=0;
-      
+    var selectedAwardNumber = $("#selectedAwardNumber").attr("value");
+    var selectedNodeReached = false;
+    
     $(document).ready(function(){
       $.ajaxSettings.cache = false; 
       $("#awardhierarchy").treeview({
@@ -21,52 +23,28 @@
                  
                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                      $("#"+divId).slideToggle(300);
-                     //alert(idstr +"-"+ loadedidx)
-                     //if (idstr <= loadedidx) {  // TODO : if this is not a new node
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
-                     //}
-                    // var subul=this.getElementsByTagName("ul")[0]
-                    // if (subul.style.display=="block")
-                    // alert("You've opened this Folder!" + idstr)
                     },
                 animated: "fast",
                 collapsed: true,
-                control: "#treecontrol"
+                control: "#treecontrol" 
                     
                  
               });
-     // $("#browser").treeview();
-      // $("div#foo").append("Hello World!").css("color","red");
-  /*
-	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
-	 * $.ajaxComplete(function() { $("div#foo").text(""); });
-	 */    
-      
-      // $("body").append('<div id="loading"></div>');
-      // $("#loading").css("color","red");
+
       $(document).ajaxStart(function(){
-      // this is weird, it will not show if the alert is not included??
-         // return false;
-         // var img = $('<a href="#"><img
-			// src="static/images/jquery/ajax-loader.gif" /></a>')
          $("#loading").show();
-         // alert ("start Ajax");
-         // return false;
        });
 
       $(document).ajaxComplete(function(){
-         // alert ("complete Ajax");
          $("#loading").hide();
-         // return false;
        });
-    }); // $(document).ready
+    }); 
      
-
     /*
 	 * Load first level area of research when page is initially loaded
 	 */
     function loadFirstLevel(){ 
-      
       $.ajax({
         url: 'awardHierarchyAwardActionsAjax.do',
         type: 'GET',
@@ -79,16 +57,11 @@
            alert('Error loading XML document');
         },
         success: function(xml){
-           //alert("success"+xml);
- //for (var k=0; k< 10; k++) {       	
            $(xml).find('h3').each(function(){
            var item_text = $(this).text();
            i++;
            var racode = item_text.substring(0,item_text.indexOf("%3A")).trim();
            item_text = item_text.replace("%3A",":");
-          // if (i < 4 ) {
-        	//   alert(item_text+"-"+racode);
-          // }	   
            var id = "item"+i;
            var tagId = "listcontrol"+i;
            var divId = "listcontent"+i;
@@ -117,61 +90,40 @@
        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
     			"racode" + i).attr("name", "racode" + i).attr("value",racode);
        	   hidracode.appendTo(div);
-       	   
-           // $(document).ready(function () {
+           
            tag.click(
                   function()
                   {
-                      // alert ("sibling
-						// "+$(this).siblings('div:eq(0)').attr("id"));
-                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                      var idx = $(this).attr("id").substring(11);
-                      if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                    	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          
-                          var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
-                          if(docStatus == 'F') { 
-                        	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          }
-                          
-                          if ($("#"+divId).is(":hidden")) {
-                              // alert(divId + " hidden0");
-                               $("#listcontent"+idx).show();
-                               // $("#listcontent"+idx).slideToggle(300);
-                          }
-                      } else {
-                          $("#listcontent"+idx).slideToggle(300);
-                      }   
-                      
-                      loadChildrenRA(item_text, tagId);
+                	  linkOnclick($(this), item_text, divId, tagId);
                   }
               );
-          // });
        	
            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-           
-           // tag.appendTo(listitem);
-           // listitem.appendTo('ul#file31');
            ulTagId = "browser";
-           // tableTag(item_text, id).appendTo(div)
            div.appendTo(listitem);
            // need this ultag to force to display folder.
            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
            childUlTag.appendTo(listitem);
            listitem.appendTo('ul#awardhierarchy');
-                   // also need this to show 'folder' icon
+           
+           if(racode == selectedAwardNumber) {
+        	   selectedNodeReached = true;
+         	   tag.trigger('click');
+           } 
+           
+           if( (selectedAwardNumber != null || selectedAwardNumber != '') && racode != selectedAwardNumber){
+        	   loadChildrenRA($("#itemText"+i).text(), tagId);
+           } 
+           
+           // also need this to show 'folder' icon
            $('#awardhierarchy').treeview({
-              add: listitem
-              
+        	   add: listitem
            });
-          // setupListItem(item_text).appendTo('ul#browser');
-       
+
+           
            });
-// } // end test loop 'for'          
         }
        });  
-      // return false;
     }  // generate
     
     function revString(str) { 
@@ -272,7 +224,6 @@
 	    	var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
 	    }
 	    
-	    //var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("value",false);
 	    var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","elementsToReset").attr("value","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
 	    
 	    var tdTag1=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; width: 30px;">');
@@ -572,7 +523,7 @@
         	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
          			"racode" + i).attr("name", "racode" + i).attr("value",code);
             	   hidracode.appendTo(detDiv);
-       // $(document).ready(function () {
+                   
             $(tag).click(
                     function()
                     {
@@ -591,48 +542,51 @@
                             }
                         } else {   
 
-                       // $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                             $("#"+divId).slideToggle(300);
-                            // $("#"+divId).show();;
                         }  
-                        // TODO : this is a new item, so should not need to loadchildren ?
-                     //   loadChildrenRA(code +" : "+name, tagId);
                     }
                 );
-        // });
-            // alert(tag.html());
             var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
-            // tableTag(name, id1).appendTo(detDiv)
             detDiv.appendTo(listitem);
-            // alert(listitem.html());
             return listitem;
 	}
  
+  function linkOnclick(obj, item_text, divId, tagId) {
+      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+      var idx = obj.attr("id").substring(11);
+      if (obj.siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+    	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+          tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+          var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
+          if(docStatus == 'F') { 
+        	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+          }
+          if ($("#listcontent"+idx).is(":hidden")) {
+               $("#listcontent"+idx).show();  
+          }
+      } else {
+          $("#listcontent"+idx).slideToggle(300); 
+      }   
+      
+      loadChildrenRA(item_text, tagId);
+  }
 
   /*
 	 * load children area of research when parents RA is expanding.
 	 */
   function loadChildrenRA(nodeName, tagId) {
-      var parentNode = $("#"+tagId);
-      // alert ("load subnodes for
-		// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
+      var parentNode = $("#"+tagId); 
       var liNode = parentNode.parents('li:eq(0)');
-      var ulNode = liNode.children('ul:eq(0)');
+      var ulNode = liNode.children('ul:eq(0)'); 
       var inputNodev;
-// alert (ulNode);
-// if (liNode.children('ul').size() > 0 ) {
-// inputNodev = ulNode.children('input:eq(0)');
-// }
+      var awardNumber = getAwardNumber(liNode);
       
-      
-      // if (liNode.children('ul').size() == 0 ) {
       if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-          // alert(liNode.children('ul').size());
           $.ajax({
            url: 'awardHierarchyAwardActionsAjax.do',
            type: 'GET',
            dataType: 'html',
-           data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E',
+           data:'awardNumber='+awardNumber+'&addRA=E',
            cache: false,
            async: false,
            timeout: 1000,
@@ -640,7 +594,6 @@
               alert('Error loading XML document');
            },
            success: function(xml){
-              //i++;
               var ulTag ;
               if (liNode.children('ul').size() == 0) {
                   ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
@@ -648,9 +601,6 @@
                   ulTag = ulNode;
               }
              
-              // alert(ulTag.html());
-              
-              // ulTag.appendTo(parentNode);
               ulTag.appendTo(liNode);
               var loadedId = "loaded"+i;
               var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
@@ -664,78 +614,59 @@
               var tagId = "listcontrol"+i;
               var divId = "listcontent"+i;
               
-             // if (i == 1) {
-          var idDiv;
-          if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																					// later
-																					// change
-																					// RA
-																					// description
-          } else {    
-               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
-																			// later
-																			// change
-																			// RA
-																			// description
-          }
+	          var idDiv;
+	          if ( jQuery.browser.msie ) { 
+	               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																						// later
+																						// change
+																						// RA
+																						// description
+	          } else {    
+	               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+																				// later
+																				// change
+																				// RA
+																				// description
+	          }
               var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
               var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; " align="left" ></div>').attr("id",divId);
-         	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+         	  var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
               			"racode" + i).attr("name", "racode" + i).attr("value",racode);
                  	   hidracode.appendTo(detDiv);
                  	  
                  	   tag.click(
-                              function()
-                              {
-                                  // alert ("click "+tagId);
-                                  $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                                  var idx = $(this).attr("id").substring(11);
-                                  if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                                	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
-                                      if(docStatus == 'F') { 
-                                    	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      }
-                                      if ($("#listcontent"+idx).is(":hidden")) {
-                                      // alert(divId + " hidden0");
-                                           $("#listcontent"+idx).show();
-                                       // $("#listcontent"+idx).slideToggle(300);
-                                      }
-                                  } else {
-                                      $("#listcontent"+idx).slideToggle(300); 
-                                  }   
-
-                                  loadChildrenRA(item_text, tagId);
-                              }
+                              function(){ 
+                            	  linkOnclick($(this), item_text, divId, tagId);
+                          	  }
                           );
                  	  
               var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-              // tag.appendTo(listitem);
-              // listitem.appendTo('ul#file31');
               ulTagId = ulTag.attr("id");
-              // tableTag(item_text, id).appendTo(detDiv)
               detDiv.appendTo(listitem);
-              // listitem.appendTo('ul#file31');
-              // need this ultag to force to display folder.
               var childUlTag = $('<ul></ul>').attr("id","ul"+i);
               childUlTag.appendTo(listitem);
               listitem.appendTo(ulTag);
+              
+              if(racode == selectedAwardNumber) {
+            	  selectedNodeReached = true;
+            	  tag.trigger('click');
+            	  $("#"+id).parents('li').each(function(){
+            		  $(this).removeClass("closed");
+            		  $(this).addClass("open"); 
+            	  });
+              }
+              
+              while(!selectedNodeReached) {
+	              if( (selectedAwardNumber != null || selectedAwardNumber != '') && racode != selectedAwardNumber) {
+	            	  loadChildrenRA(item_text, tagId);
+	              }
+              }
+	              
               // force to display folder icon
               $("#awardhierarchy").treeview({
                  add: listitem
-                 // toggle: function() {
-                 // var subul=this.getElementsByTagName("ul")[0]
-                 // if (subul.style.display=="block")
-                 // alert("You've opened this Folder!")
-                 // }
               });
               
-              if (i==1) {
-              // alert (listitem.html());
-              }
-          
               });
            }
           });    
@@ -748,10 +679,6 @@
 	 * refined because if code contains ':', then this is not working correctly.
 	 */
   function getAwardNumber(node) {
-   // TODO : this maybe problemmatic because it makes the assumption that
-	// areacode does not contain ":"
-//          var endIdx = nodeName.indexOf(":");
-//          return nodeName.substring(0, endIdx - 1);    
        return $("#racode"+node.attr("id").substring(4)).attr("value");
   }
   
@@ -774,18 +701,11 @@
   );  
   
   function hasFormAlreadyBeenSubmitted() {
-      // return false;
   }
 
   $(document).ready(function(){
-
-	  //for (var k = 0; k<3;k++) {
-		  // performance test
       loadFirstLevel();
       $("#listcontent00").show();
       loadedidx=i;
-	  //}
-      // $("#listcontrol00").show();
-      // $("#listcontent00").slideToggle(300);
   })
   $("#loading").hide();
