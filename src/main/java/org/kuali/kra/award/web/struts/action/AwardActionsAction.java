@@ -511,7 +511,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
-            setMultipleNodeHierarchyOnAwardFormTrue(awardForm);
+            if(!newNodeToView.isRootNode()) {
+                setMultipleNodeHierarchyOnAwardFormTrue(awardForm);  
+            }
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
             forward = mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
