@@ -25,9 +25,12 @@
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.AwardPersonCreditSplit.attributes}" />
 <c:set var="columnWidth" value="${100/(fn:length(investigatorCreditTypes) + 1)}%" />
-
+<c:set var="errkey" value=""/>
+<c:forEach items="${projectPersonnel}" var="projectPerson" varStatus="ppStatus">
+<c:set var="errkey" value="${errkey},document.awardList[0].projectPersons[${ppStatus.index}].cr*,document.awardList[0].projectPersons[${ppStatus.index}].un*"/>
+</c:forEach>
 <kra:innerTab tabTitle="Combined Credit Split" parentTab="Project Personnel" defaultOpen="true" 
-                tabErrorKey="document.awardList[0].projectPersons.awardPerson*" auditCluster="contactsCreditSplitAuditErrors" tabAuditKey="document.awardList[0].projectPersons.awardPerson*">
+                tabErrorKey="${errkey}" auditCluster="contactsCreditSplitAuditErrors" tabAuditKey="document.awardList[0].projectPersons.awardPerson*">
 
     <table cellpadding="0" cellspacing="0" summary="">
         <%-- Heading with InvestigatorCreditType Description --%>
@@ -41,7 +44,7 @@
         <%-- For each project person ... --%>
         <c:forEach items="${projectPersonnel}" var="projectPerson" varStatus="ppStatus">
             <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
-            <c:set var="projectPersonProperty" value="document.awardList[0].projectPerson[${ppStatus.index}]" />
+            <c:set var="projectPersonProperty" value="document.awardList[0].projectPersons[${ppStatus.index}]" />
             
             <tr>
                 <%-- ... show full name --%>
@@ -56,7 +59,7 @@
                     <c:forEach items="${projectPerson.creditSplits}" var="personCreditSplit" varStatus="personSplitStatus" >
                         
                         <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
-                        <c:set var="personCreditSplitMacro" value="${projectPersonProperty}.creditSplit[${personSplitStatus.index}]" />
+                        <c:set var="personCreditSplitMacro" value="${projectPersonProperty}.creditSplits[${personSplitStatus.index}]" />
                         
                         <c:if test="${personCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
                             <td class="tab-subhead">
@@ -76,7 +79,7 @@
             <c:forEach items="${projectPerson.units}" var="personUnit" varStatus="unitStatus">
                 <tr>
                     <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
-                    <c:set var="unitProperty" value="${projectPersonProperty}.unit[${unitStatus.index}]" />
+                    <c:set var="unitProperty" value="${projectPersonProperty}.units[${unitStatus.index}]" />
                     
                     <%-- ... show unit number and name --%>
                     <td nowrap>
@@ -86,7 +89,7 @@
                     <%-- ... show unit credit split for each credit split type --%>                     
                     <c:forEach items="${investigatorCreditTypes}" var="invType">
                         <c:forEach items="${personUnit.creditSplits}" var="unitCreditSplit" varStatus="personUnitSplitStatus" >
-                            <c:set var="unitCreditSplitMacro" value="${unitProperty}.creditSplit[${personUnitSplitStatus.index}]" />
+                            <c:set var="unitCreditSplitMacro" value="${unitProperty}.creditSplits[${personUnitSplitStatus.index}]" />
                             <c:if test="${unitCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
                             <td>
                                 <div align="right">
