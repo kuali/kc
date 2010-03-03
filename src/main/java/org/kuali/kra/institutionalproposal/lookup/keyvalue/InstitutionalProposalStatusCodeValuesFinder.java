@@ -19,24 +19,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
- * This class...
+ * Builds a key/value pair of available Institutional Proposal Status Codes.
  */
 public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
 
     /**
-     * lookup all proposal status's except for Funded.  This is the result of a rule that disallows user to change
-     * an Institutional Proposal to funded.  The only way an Institutional Proposal can be funded is if it is associated
-     * with an Award, and this can only be done from the Award module.
+     * If this is being called from the InstitutionalProposalForm, lookup all proposal status's except for Funded.  
+     * This is the result of a rule that disallows user to change an Institutional Proposal to funded.  
+     * The only way an Institutional Proposal can be funded is if it is associated with an Award, and this can 
+     * only be done from the Award module.  If the lookup is from elsewhere, Funded should be included.
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
@@ -45,8 +46,14 @@ public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        for(ProposalStatus proposalStatus : proposalStatusList){                      
-            if(!proposalStatus.getDescription().equals("Funded")){
+        boolean includeFunded = true;
+        KualiForm form = GlobalVariables.getKualiForm();
+        if (form instanceof InstitutionalProposalForm) {
+            includeFunded = false;
+        }
+        
+        for (ProposalStatus proposalStatus : proposalStatusList) {
+            if (!proposalStatus.getDescription().equals("Funded") || includeFunded) {
                 keyValues.add(new KeyLabelPair(proposalStatus.getProposalStatusCode()
                         ,proposalStatus.getDescription()));    
             }
@@ -61,7 +68,7 @@ public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
      * 
      * @return
      */
-    protected KeyValuesService getKeyValuesService(){
+    protected KeyValuesService getKeyValuesService() {
         return KraServiceLocator.getService(KeyValuesService.class);
     }
 
