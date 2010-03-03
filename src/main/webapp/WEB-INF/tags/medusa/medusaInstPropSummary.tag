@@ -19,10 +19,6 @@
 	         alt="Notes" style="border: medium none ;" 
 	         src="static/images/tinybutton-notes.gif" 
 	         onclick="javascript: alert('Notes Functionality not available.'); return false;" />
-	  <input type="image" title="Negotiation" 
-	         alt="Negotiation" style="border: medium none ;" 
-	         src="static/images/tinybutton-negotiation.gif" 
-	         onclick="javascript: alert('Negotiations Functionality not available.'); return false;" />        
       </td>
     </tr>
     <tr>
