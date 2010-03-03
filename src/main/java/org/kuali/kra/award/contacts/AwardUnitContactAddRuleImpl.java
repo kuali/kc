@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -47,7 +48,8 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
     boolean checkForDuplicatePerson(Award award, AwardUnitContact newUnitContact) {
         boolean valid = true;
         for(AwardUnitContact unitContact: award.getAwardUnitContacts()) {
-            valid = !unitContact.getPersonId().equals(newUnitContact.getPersonId());
+            // equal, but not both are null
+            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()) && unitContact.getPersonId()!= null);
             if(!valid) {
                 registerError(newUnitContact);
                 break;

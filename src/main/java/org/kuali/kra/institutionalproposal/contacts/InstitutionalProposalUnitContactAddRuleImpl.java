@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -52,7 +53,8 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
     boolean checkForDuplicatePerson(InstitutionalProposal institutionalProposal, InstitutionalProposalUnitContact newUnitContact) {
         boolean valid = true;
         for(InstitutionalProposalUnitContact unitContact: institutionalProposal.getInstitutionalProposalUnitContacts()) {
-            valid = !unitContact.getPersonId().equals(newUnitContact.getPersonId());
+            // equal, but not both are null
+            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()) && unitContact.getPersonId()!= null);
             if(!valid) {
                 registerError(newUnitContact);
                 break;
