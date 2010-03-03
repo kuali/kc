@@ -93,6 +93,7 @@ public class AwardUnitContact extends AwardContact {
 //        return unitAdministratorUnitNumber;    
 //    }
 //    
+        if (getPerson() != null) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("unitNumber", getAward().getLeadUnitNumber());
             criteria.put("personId", getPerson().getPersonId());
@@ -103,6 +104,9 @@ public class AwardUnitContact extends AwardContact {
             } else {
                 return results.get(0).getUnitNumber(); //display Unit number of default unit administrator table.
             }
+        } else {
+            return "";
+        }
     }
     
     /**
