@@ -16,16 +16,24 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Lookupable helper service used for proposal log lookup
@@ -34,7 +42,27 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     private static final long serialVersionUID = -7638045643796948730L;
     
+    private static final String USERNAME_FIELD = "person.userName";
+    
     private boolean isLookupForProposalCreation;
+    
+    /*
+     * We want to allow users to query on principal name instead of person id, 
+     * so we need to translate before performing the lookup.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        String userName = (String) lookupForm.getFieldsForLookup().get(USERNAME_FIELD);
+        if (!StringUtils.isBlank(userName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+            if (person != null) {
+                lookupForm.getFieldsForLookup().put("piId", person.getPersonId());
+            }
+            lookupForm.getFieldsForLookup().remove(USERNAME_FIELD);
+        }
+        return super.performLookup(lookupForm, resultTable, bounded);
+    }
     
     /* 
      * Overriding this to only return the currently Active version of a proposal 
@@ -72,6 +100,22 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             }
         }
         return htmlDataList;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows =  super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals(USERNAME_FIELD)) {
+                    field.setFieldConversions("principalName:person.userName,principalId:personId");
+                }
+            }
+        }
+        return rows;
     }
     
     protected AnchorHtmlData getSelectLinkForProposalCreation(ProposalLog proposalLog) {
@@ -120,6 +164,10 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         if (editLinkIndex != -1) {
             htmlDataList.remove(editLinkIndex);
         }
+    }
+    
+    protected KcPersonService getKcPersonService() {
+        return KraServiceLocator.getService(KcPersonService.class);
     }
     
 }
