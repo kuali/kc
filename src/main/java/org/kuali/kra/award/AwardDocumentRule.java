@@ -528,12 +528,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardProjectPersonsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPersonCreditSplitAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSubawardAuditRule().processRunAuditBusinessRules(document);
-        try {
-            retval &= KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((AwardDocument)document);
-        } catch (Exception ex) {
-            // TODO : should log it here
-            throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
-        }
          
         return retval;
         
@@ -835,20 +829,20 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
         boolean success = true;
         if (award.getBeginDate() != null 
-                && award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate() != null) {
+                && award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate() != null) {
             if (award.getBeginDate().after(
-                    award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate())) {
+                    award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate())) {
                 success = false;
-                errorMap.putError("awardAmountInfos["+(award.getAwardAmountInfos().size()-1)+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].finalExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
                         new String[] {"Project End Date", "Project Begin Date"});
             }
         }
-        if (award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate() != null 
+        if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate() != null 
                 && award.getObligationExpirationDate() != null) {
-            if (award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate().after(
+            if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate().after(
                     award.getObligationExpirationDate())) {
                 success = false;
-                errorMap.putError("obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
+                errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
                         new String[] {"Obligation End Date", "Obligation Start Date"});
             }
         }
