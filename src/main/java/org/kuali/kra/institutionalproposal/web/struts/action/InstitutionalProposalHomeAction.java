@@ -200,6 +200,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         if (institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex() != null) {
         
+            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().setRolodexId(null);
+            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setRolodexId(null);
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine1("");
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine2("");
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine3("");
