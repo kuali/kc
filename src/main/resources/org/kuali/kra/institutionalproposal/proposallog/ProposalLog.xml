@@ -16,8 +16,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
     <bean id="ProposalLog" parent="ProposalLog-parentBean" />
     <bean id="ProposalLog-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -439,11 +441,11 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="ProposalLog-inquiryDefinition" parent="ProposalLog-inquiryDefinition-parentBean" />
     <bean id="ProposalLog-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Proposal Number" />
+        <property name="title" value="Proposal Log" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Proposal Number" />
+                    <property name="title" value="Proposal Log" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -459,7 +461,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="title" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="piId" />
+                                p:attributeName="person.userName" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="rolodexId" />
                             <bean parent="FieldDefinition"
@@ -504,7 +506,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="piId" />
+                    p:attributeName="person.userName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="rolodexId" />
                 <bean parent="FieldDefinition"
