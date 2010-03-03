@@ -42,7 +42,7 @@
         <c:if test="${!readOnly}" >
         <c:choose>
             <c:when test="${!empty KualiForm.document.developmentProposalList[0].s2sOpportunity.opportunityId}" >    
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remvopp.gif" styleClass="globalbuttons" property="methodToCall.removeOpportunity" title="remove opportunity" alt="remove opportunity"/>
+                <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-remvopp.gif" styleClass="globalbuttons" property="methodToCall.removeOpportunity" title="remove opportunity" alt="remove opportunity"/>
             </c:when>    
         </c:choose>            
         </c:if>
