@@ -34,20 +34,17 @@
 			<ref bean="DevelopmentProposal-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="proposalNumber" />
-
-
-
 		<property name="attributes">
 			<list>
 				<ref bean="DevelopmentProposal-proposalNumber" />
 				<ref bean="DevelopmentProposal-title" />
 				<ref bean="DevelopmentProposal-sponsorCode" />
-				<ref bean="DevelopmentProposal-sponsorName" />
+				<ref bean="DevelopmentProposal-sponsor.sponsorName" />
 				<ref bean="DevelopmentProposal-requestedStartDateInitial" />
 				<ref bean="DevelopmentProposal-requestedEndDateInitial" />
 				<ref bean="DevelopmentProposal-activityTypeCode" />
 				<ref bean="DevelopmentProposal-ownedByUnitNumber" />
-				<ref bean="DevelopmentProposal-ownedByUnitName" />
+				<ref bean="DevelopmentProposal-ownedByUnit.unitName" />
 				<ref bean="DevelopmentProposal-proposalTypeCode" />
 				<ref bean="DevelopmentProposal-proposalType.description" />
 				<ref bean="DevelopmentProposal-currentAwardNumber" />
@@ -160,10 +157,10 @@
 			value="The identification number of the organization or agency that is providing support for the sponsored project." />
 	</bean>
 
-	<bean id="DevelopmentProposal-sponsorName" parent="DevelopmentProposal-sponsorName-parentBean" />
-	<bean id="DevelopmentProposal-sponsorName-parentBean" abstract="true"
+	<bean id="DevelopmentProposal-sponsor.sponsorName" parent="DevelopmentProposal-sponsor.sponsorName-parentBean" />
+	<bean id="DevelopmentProposal-sponsor.sponsorName-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="sponsorName" />
+		<property name="name" value="sponsor.sponsorName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor Name" />
 		<property name="shortLabel" value="Sponsor Name" />
@@ -249,10 +246,10 @@
 			value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
 	</bean>
 
-	<bean id="DevelopmentProposal-ownedByUnitName" parent="DevelopmentProposal-ownedByUnitName-parentBean" />
-	<bean id="DevelopmentProposal-ownedByUnitName-parentBean"
+	<bean id="DevelopmentProposal-ownedByUnit.unitName" parent="DevelopmentProposal-ownedByUnit.unitName-parentBean" />
+	<bean id="DevelopmentProposal-ownedByUnit.unitName-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="ownedByUnitName" />
+		<property name="name" value="ownedByUnit.unitName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit Name" />
 		<property name="shortLabel" value="Lead Unit Name" />
@@ -828,14 +825,14 @@
 	<bean id="DevelopmentProposal-proposalPersons.fullName-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="proposalPersons.fullName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Proposal Person" />
+		<property name="label" value="Proposal Person Full Name" />
 		<property name="shortLabel" value="Proposal Person" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
       		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean p:size="20" parent="TextControlDefinition" />
+			<bean p:size="30" parent="TextControlDefinition" />
 		</property>
 		<property name="summary" value="Proposal Person" />
 		<property name="description" value="Proposal Person" />
@@ -886,6 +883,11 @@
 			value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>proposalNumber</value>
+					</list>
+				</property>
 			</bean>
 		</property>
 		<property name="lookupFields">
@@ -898,9 +900,9 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-				<bean parent="FieldDefinition" p:attributeName="sponsorName" />
+				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
-				<bean parent="FieldDefinition" p:attributeName="ownedByUnitName" />
+				<bean parent="FieldDefinition" p:attributeName="ownedByUnit.unitName" />
 				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
@@ -914,10 +916,10 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalState.description" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-				<bean parent="FieldDefinition" p:attributeName="sponsorName" />
+				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />
 				<bean parent="FieldDefinition" p:attributeName="principalInvestigatorName" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
-				<bean parent="FieldDefinition" p:attributeName="ownedByUnitName" />
+				<bean parent="FieldDefinition" p:attributeName="ownedByUnit.unitName" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />

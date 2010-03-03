@@ -16,12 +16,16 @@
 package org.kuali.kra.institutionalproposal.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -30,7 +34,6 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.springframework.util.StringUtils;
 
 /**
  * This class is used to control behavior of Institutional Proposal lookups. Depending
@@ -58,6 +61,27 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         
         fieldValues.remove(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING);
         fieldValues.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
+        
+        Map<String, String> formProps = new HashMap<String, String>();
+        if (!StringUtils.isEmpty(fieldValues.get("lookupUnitName"))) {
+            formProps.put("units.unit.unitName", fieldValues.get("lookupUnitName"));
+        }
+        if (!StringUtils.isEmpty(fieldValues.get("lookupUnitNumber"))) {
+            formProps.put("units.unitNumber", fieldValues.get("lookupUnitNumber"));
+        }
+        fieldValues.remove("lookupUnitNumber");
+        fieldValues.remove("lookupUnitName");
+        if (!formProps.isEmpty()) {
+            List<Long> ids = new ArrayList<Long>();
+            Collection<InstitutionalProposalPerson> persons = getLookupService().findCollectionBySearch(InstitutionalProposalPerson.class, formProps);
+            if (persons.isEmpty()) {
+                return new ArrayList<InstitutionalProposal>();
+            }
+            for (InstitutionalProposalPerson person : persons) {
+                ids.add(person.getInstitutionalProposalContactId());
+            }
+            fieldValues.put("projectPersons.institutionalProposalContactId", StringUtils.join(ids, '|'));
+        }
         
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         
