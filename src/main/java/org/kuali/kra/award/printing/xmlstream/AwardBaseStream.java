@@ -1346,7 +1346,7 @@ public abstract class AwardBaseStream implements XmlStream {
 						.setObligatedTotalIndirect(obligatedTotalIndirect);
 			}
 			String enableAwdAntOblDirectIndirectCost = PrintingUtils
-					.getParameterValue(OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
+					.getParameterValue(AwardDocument.class, OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
 			if (enableAwdAntOblDirectIndirectCost != null) {
 				amountInfoType
 						.setEnableAwdAntOblDirectIndirectCost(enableAwdAntOblDirectIndirectCost);
