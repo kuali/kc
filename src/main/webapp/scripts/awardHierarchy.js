@@ -656,10 +656,8 @@
             	  });
               }
               
-              while(!selectedNodeReached) {
-	              if(selectedAwardNumber != null && selectedAwardNumber != '' && racode != selectedAwardNumber) {
-	            	  loadChildrenRA(item_text, tagId);
-	              }
+              while(selectedAwardNumber != null && selectedAwardNumber != '' && !selectedNodeReached && racode != selectedAwardNumber) {
+            	  loadChildrenRA(item_text, tagId);
               }
 	              
               // force to display folder icon
