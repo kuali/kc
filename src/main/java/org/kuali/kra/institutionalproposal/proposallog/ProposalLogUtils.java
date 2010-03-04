@@ -40,6 +40,10 @@ public final class ProposalLogUtils {
         return "4";
     }
     
+    public static String getProposalLogTemporaryStatusCode() {
+        return "5";
+    }
+    
     public static String getProposalLogPermanentTypeCode() {
         return "1";
     }
