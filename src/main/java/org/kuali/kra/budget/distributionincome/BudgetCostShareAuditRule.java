@@ -49,6 +49,13 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
         // Forces full allocation of cost sharing
         if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
             retval = false;
+            if (costShares.size() ==0) {
+                getAuditErrors().add(new AuditError("document.budget.budgetCostShare",
+                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                        params));
+                
+            }
             for (int i=0;i<costShares.size();i++) {
                 getAuditErrors().add(new AuditError("document.budget.budgetCostShare["+i+"].shareAmount",
                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
