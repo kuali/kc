@@ -16,13 +16,16 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.irb.ProtocolLookupConstants;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -66,5 +69,22 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         return rows;
     }
     
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
+            if (userName != null) {
+                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+                if (person != null) {
+                    lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
+                }
+            }
+            return super.performLookup(lookupForm, resultTable, bounded);
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+    }
+
     
 }
