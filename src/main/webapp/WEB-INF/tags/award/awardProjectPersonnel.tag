@@ -20,7 +20,7 @@
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
 <%-- kra:section permission="modifyAward" --%>
-<kul:tab tabTitle="Project Personnel" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
+<kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
 			 tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons"
 			 auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*"
 			 transparentBackground="true" useRiceAuditMode="true"
@@ -28,16 +28,16 @@
 			 >
 	<div class="tab-container" align="center">
 		<h3>
-			<span class="subhead-left">Project Personnel</span>
+			<span class="subhead-left">Key Personnel</span>
 			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardPerson" altText="help"/></span>
 		</h3>
 		
-		<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Project Personnel">
+		<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Key Personnel">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
-				<th width="15%">Person</th>
+				<th width="15%">*Person</th>
 				<th width="15%">Unit</th>
-				<th width="20%">Project Role</th>
+				<th width="20%">*Project Role</th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
 				<th width="15%"><div align="center">Actions</div></th>
@@ -47,25 +47,29 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
-					<div>
-						<label><span style="margin-right: 30;">Add Employee: </span></label>
-    					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
-          							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/>
-          				<label>
+				    <table style="border: none;"><tr>
+				        <td style="white-space:nowrap; border: none;">
+    						Employee User Name:
+                        </td>
+                        <td style="white-space:nowrap; border: none;">
+                            <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
+                                        attributeEntry="${awardPersonAttributes.fullName}"/>
           					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
                                         fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
-  	 									lookupParameters="projectPersonnelBean.personId:personId"/>
-  	 					</label>
-  	 				</div>
-  	 				<div>
-          				<label><span style="margin-right: 3;">Add Non-employee:</span></label>
-      					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
-          								attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/>
-      					<label>
+  	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>
+  	 					</td>
+                    </tr><tr>
+                        <td style="white-space:nowrap; border: none;">
+              				<label><span style="margin-right: 3;">Non-employee ID:
+                        </td>
+                        <td style="white-space:nowrap; border: none;">
+                            <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
+                                            attributeEntry="${awardPersonAttributes.fullName}"/>
       						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
-      									anchor="${tabKey}" lookupParameters="projectPersonnelBean.rolodexId:rolodexId"/>
-      					</label>
-      				</div>
+      									anchor="${tabKey}"
+      									lookupParameters="projectPersonnelBean.rolodexId:rolodexId,projectPersonnelBean.newProjectPerson.rolodex.fullName:lastName"/>
+                        </td>
+                    </tr></table>
 	        	</td>
 	        	<td class="infoline">
 	        		<div align="center">

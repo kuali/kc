@@ -25,7 +25,7 @@
 <!-- Institution -->
 <div class="tab-container" align="center">
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Actions" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Action" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -58,7 +58,7 @@
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
-    	<th><div align="right">*Award ID:</div></th>
+    	<th><div align="right">Award ID:</div></th>
     	<td>${KualiForm.awardDocument.award.awardNumber}&nbsp;</td>
 
         <c:set var="docInSavedState" value="${KualiForm.awardDocument.saved}" />
@@ -74,13 +74,15 @@
             <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
             <c:if test="${docInSavedState}">
                 <html:hidden property="document.awardList[0].unitNumber" />
+                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="true" />
+                -
                 <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes.unitName}" readOnly="true" />
             </c:if>
     	</td>
   	</tr>
   	<tr>
     	<th>
-    		<div align="right">*Version:</div>
+    		<div align="right">Version:</div>
       	</th>
     	<td>${KualiForm.awardDocument.award.sequenceNumber}</td>
     	<th>
@@ -223,7 +225,7 @@
 
 <!-- Sponsor Funding Transferred -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
     <tr>

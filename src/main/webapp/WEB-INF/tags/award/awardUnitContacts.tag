@@ -32,9 +32,9 @@
 	    <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
-				<th width="15%">Person</th>
+				<th width="15%">*Person</th>
 				<th width="15%">Unit</th>
-				<th width="20%">Project Role</th>
+				<th width="20%">*Project Role</th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
 				<th width="15%"><div align="center">Actions</div></th>
@@ -44,6 +44,7 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
+				    Employee User Name:
 					<kul:htmlControlAttribute property="unitContactsBean.newAwardContact.fullName" 
       							attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
       				<label>

@@ -86,9 +86,10 @@
 	<bean id="AwardReportTermRecipient-contactId" parent="AwardReportTermRecipient-contactId-parentBean" />
 	<bean id="AwardReportTermRecipient-contactId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="contactId" />
+        <property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Contact" />
-		<property name="shortLabel" value="Contact" />
+		<property name="label" value="Contact Type" />
+		<property name="shortLabel" value="Contact Type" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -98,8 +99,8 @@
             	p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.ContactsValuesFinder"
             	p:includeKeyInLabel="false" />    
 		</property>
-		<property name="summary" value="Contact" />
-		<property name="description" value="Contact" />
+		<property name="summary" value="Contact Type" />
+		<property name="description" value="Contact Type" />
 	</bean>
 	
 	<bean id="AwardReportTermRecipient-contactTypeCode" parent="AwardReportTermRecipient-contactTypeCode-parentBean" />
@@ -148,8 +149,8 @@
 	<bean id="AwardReportTermRecipient-numberOfCopies-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="numberOfCopies" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="# Of Copies" />
-		<property name="shortLabel" value="# Of Copies" />
+		<property name="label" value="Number of Copies" />
+		<property name="shortLabel" value="Number of Copies" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -158,8 +159,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="# Of Copies" />
-		<property name="description" value="# Of Copies" />
+		<property name="summary" value="Number of Copies" />
+		<property name="description" value="Number of Copies" />
 	</bean>
 
 	<bean id="AwardReportTermRecipient-versionNumber" parent="AwardReportTermRecipient-versionNumber-parentBean" />

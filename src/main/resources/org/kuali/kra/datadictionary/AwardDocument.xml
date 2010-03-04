@@ -69,13 +69,6 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardQuestionsHelp" p:parameterDetailType="D"/>
-          </property>
-          <property name="headerTabDisplayName" value="Questions"/>
-          <property name="headerTabNavigateTo" value="questions"/>
-        </bean>
-        <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Comments, Notes &amp; Attachments"/>
