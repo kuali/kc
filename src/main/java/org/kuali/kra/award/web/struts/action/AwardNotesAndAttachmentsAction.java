@@ -27,7 +27,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
+import org.kuali.kra.award.notesandattachments.notes.AwardNoteAddEvent;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
+import org.kuali.kra.award.notesandattachments.notes.AwardNoteEventBase.ErrorType;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -85,9 +87,12 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
      * @return mapping forward
      * @throws Exception
      */
-    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        awardNotepadBean.addNote(((AwardForm) form).getAwardNotepadBean());
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        if (applyRules(new AwardNoteAddEvent(Constants.EMPTY_STRING, ((AwardForm) form).getDocument(), ((AwardForm) form)
+                .getAwardNotepadBean().getNewAwardNotepad(), ErrorType.HARDERROR))) {
+            awardNotepadBean.addNote(((AwardForm) form).getAwardNotepadBean());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

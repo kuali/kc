@@ -78,17 +78,17 @@ import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewRule;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -117,7 +117,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardReportTermRecipientRule,
                                                                             AwardCloseoutRule,
                                                                             AwardTemplateSyncRule,
-                                                                            AwardCommentsRule {
+                                                                            AwardCommentsRule,
+                                                                            BusinessRuleInterface {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -850,6 +851,15 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return success;
+    }
+
+    /**
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
     }
 
 }
