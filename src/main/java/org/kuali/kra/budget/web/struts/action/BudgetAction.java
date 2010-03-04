@@ -466,9 +466,11 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         ActionForward forward = null;
         
-        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        if (StringUtils.equalsIgnoreCase((String)budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY), "TRUE")) {
             forward = this.save(mapping, form, request, response);
         }
+       
+        setupDocumentExit();
         
         if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
             return this.getReturnToProposalForward(budgetForm);

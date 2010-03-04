@@ -30,6 +30,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -70,25 +71,9 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
                  || ADD_BUDGET.equals(entry.getKey())
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)));
+            return (StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;
-    }
-    
-    /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#getEditModeWithEditableModesRemoved(java.util.Map)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = new HashMap();
-        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), ADD_BUDGET)) {
-                entry.setValue(FALSE);
-            }
-        }
-        return editModeMap;
     }
     
     /**
@@ -100,8 +85,9 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         BudgetDocument budgetDocument = (BudgetDocument) document;
         if (document.useCustomLockDescriptors()) {
             String lockDescriptor = document.getCustomLockDescriptor(user);
-            PessimisticLock budgetLockForProposal = generateNewLock(budgetDocument.getParentDocumentKey(), lockDescriptor, user);
-            budgetDocument.getParentDocument().addPessimisticLock(budgetLockForProposal);
+            //establish any locks needed on the parent document
+            this.establishLocks(budgetDocument.getParentDocument(), new HashMap(), user); 
+            
             return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
         } 
         else {
