@@ -70,6 +70,7 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -229,6 +230,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(YES_FLAG);
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
+        awardComments = new TypedArrayList(AwardComment.class);
     }
     
     /**
@@ -2716,4 +2718,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
     }
+    
+    /**
+     * 
+     * This method text area tag need this method.
+     * @param index
+     * @return
+     */
+    public AwardComment getAwardComment(int index) {
+        while (getAwardComments().size() <= index) {
+            getAwardComments().add(new AwardComment());
+        }
+        return getAwardComments().get(index);
+    }
+
 }

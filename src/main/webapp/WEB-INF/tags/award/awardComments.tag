@@ -16,7 +16,7 @@
 <%-- member of AwardNotesAndAttachments.jsp --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Comments" defaultOpen="false" tabErrorKey="*">
+<kul:tabTop tabTitle="Comments" defaultOpen="false" tabErrorKey="document.awardList[0].awardComment[*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Comments</span>
