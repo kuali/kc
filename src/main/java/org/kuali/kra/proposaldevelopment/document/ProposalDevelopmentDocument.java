@@ -64,6 +64,7 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -355,6 +356,43 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public String getDocumentKey() {
         return Permissionable.PROPOSAL_KEY;
     }
+    
+    private ProposalDevelopmentDocument getPersistedCopy() {
+        ProposalDevelopmentDocument copy = null;
+
+        try {
+            copy = (ProposalDevelopmentDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
+                    this.getDocumentNumber());
+        }
+        catch (Exception e) {
+        }
+
+        return copy;
+    }
+
+    private boolean isNotLatest(ProposalDevelopmentDocument copy) {
+        if (copy.getVersionNumber().longValue() > this.getVersionNumber().longValue())
+            return false;
+
+        return true;
+    }    
+    
+    @SuppressWarnings("unchecked")
+    private void refreshBudgetDocumentsFromUpdatedCopy() {
+        ProposalDevelopmentDocument retrievedDocument = getPersistedCopy();
+        if (retrievedDocument == null)
+            return;
+
+        List<BudgetDocumentVersion> budgetVersions = retrievedDocument.getBudgetDocumentVersions();
+
+        if (isNotLatest(retrievedDocument)) {
+            // The same document has been updated by someone else
+            // Refresh Narratives related collections
+            if (budgetVersions.size() >= this.getBudgetDocumentVersions().size()) {
+                this.setBudgetDocumentVersions(budgetVersions);
+            }
+        }
+    }
 
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
@@ -363,6 +401,16 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+
+        for (PessimisticLock lock : this.getPessimisticLocks()) {
+            if (lock.isOwnedByUser(currentUser) && lock.getLockDescriptor() != null
+                    && !lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+                refreshBudgetDocumentsFromUpdatedCopy();
+                break;
+            }
+        }
+
         managedLists.addAll(getDevelopmentProposal().buildListOfDeletionAwareLists());
         managedLists.add(developmentProposalList);
         return managedLists;
