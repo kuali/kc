@@ -623,7 +623,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void setTotalDirectCostInitial(KualiDecimal totalDirectCostInitial) {
-        this.totalDirectCostInitial = totalDirectCostInitial;
+        if (totalDirectCostInitial == null) {
+            this.totalDirectCostInitial = KualiDecimal.ZERO;
+        } else {
+            this.totalDirectCostInitial = totalDirectCostInitial;
+        }
     }
 
     public KualiDecimal getTotalDirectCostTotal() {
@@ -631,7 +635,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
-        this.totalDirectCostTotal = totalDirectCostTotal;
+        if (totalDirectCostTotal == null) {
+            this.totalDirectCostTotal = KualiDecimal.ZERO;
+        } else {
+            this.totalDirectCostTotal = totalDirectCostTotal;
+        }
     }
 
     public KualiDecimal getTotalIndirectCostInitial() {
@@ -639,7 +647,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void setTotalIndirectCostInitial(KualiDecimal totalIndirectCostInitial) {
-        this.totalIndirectCostInitial = totalIndirectCostInitial;
+        if (totalIndirectCostInitial == null) {
+            this.totalIndirectCostInitial = KualiDecimal.ZERO;
+        } else {
+            this.totalIndirectCostInitial = totalIndirectCostInitial;
+        }
     }
 
     public KualiDecimal getTotalIndirectCostTotal() {
@@ -647,7 +659,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
-        this.totalIndirectCostTotal = totalIndirectCostTotal;
+        if (totalIndirectCostTotal == null) {
+            this.totalIndirectCostTotal = KualiDecimal.ZERO;
+        } else {
+            this.totalIndirectCostTotal = totalIndirectCostTotal;
+        }
     }
 
     public String getNumberOfCopies() {
