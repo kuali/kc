@@ -114,18 +114,18 @@
 	<bean id="AwardPaymentSchedule-submitDate" parent="AwardPaymentSchedule-submitDate-parentBean" />
 	<bean id="AwardPaymentSchedule-submitDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="submitDate" />
-		<property name="label" value="Submit Date" />
-		<property name="shortLabel" value="Submit Date" />
-		<property name="summary" value="Submit Date" />
-		<property name="description" value="Submit Date" />
+		<property name="label" value="Activity Date" />
+		<property name="shortLabel" value="Activity Date" />
+		<property name="summary" value="Activity Date" />
+		<property name="description" value="Activity Date" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-submittedBy" parent="AwardPaymentSchedule-submittedBy-parentBean" />
 	<bean id="AwardPaymentSchedule-submittedBy-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="submittedBy" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Submitted By" />
-		<property name="shortLabel" value="Submitted By" />
+		<property name="label" value="Preparer" />
+		<property name="shortLabel" value="Preparer" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -134,16 +134,16 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Submitted By" />
-		<property name="description" value="Submitted By" />
+		<property name="summary" value="Preparer" />
+		<property name="description" value="Preparer" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-invoiceNumber" parent="AwardPaymentSchedule-invoiceNumber-parentBean" />
 	<bean id="AwardPaymentSchedule-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="invoiceNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Invoice Number" />
-		<property name="shortLabel" value="Invoice Number" />
+		<property name="label" value="Invoice ID" />
+		<property name="shortLabel" value="ID" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -152,16 +152,16 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Invoice Number" />
-		<property name="description" value="Invoice Number" />
+		<property name="summary" value="ID" />
+		<property name="description" value="ID" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-statusDescription" parent="AwardPaymentSchedule-statusDescription-parentBean" />
 	<bean id="AwardPaymentSchedule-statusDescription-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="statusDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Status Description" />
-		<property name="shortLabel" value="Status Description" />
+		<property name="label" value="Comments" />
+		<property name="shortLabel" value="Comments" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -170,8 +170,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Status Description" />
-		<property name="description" value="Status Description" />
+		<property name="summary" value="Comments" />
+		<property name="description" value="Comments" />
 	</bean>
 	
 	<bean id="AwardPaymentSchedule-status" parent="AwardPaymentSchedule-status-parentBean" />
