@@ -106,19 +106,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         BudgetDocument<T> newBudgetDoc = getNewBudgetVersion(document, versionName);
         if(newBudgetDoc==null) return null;
         
-        PessimisticLock budgetLockForProposalDoc = null;
-        for(PessimisticLock pdLock : document.getPessimisticLocks()) {
-            if(pdLock.getLockDescriptor()!=null && pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                budgetLockForProposalDoc = pdLock;
-                break;
-            }
-        }
-        try {
-            PessimisticLock budgetLockForBudgetDoc = getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
-            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
-        } catch (Exception e) {
-            
-        }
         return newBudgetDoc;
     }
 
