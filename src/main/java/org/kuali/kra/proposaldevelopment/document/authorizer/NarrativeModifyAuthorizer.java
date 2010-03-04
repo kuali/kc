@@ -33,12 +33,10 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String userId, Task task) {
+    public boolean isAuthorized(String userId, NarrativeTask task) {
         
-        NarrativeTask narrativeTask = (NarrativeTask) task;
-        
-        ProposalDevelopmentDocument doc = narrativeTask.getDocument();
-        Narrative narrative = narrativeTask.getNarrative();
+        ProposalDevelopmentDocument doc = task.getDocument();
+        Narrative narrative = task.getNarrative();
        
         // First, the user must have the MODIFY_NARRATIVE permission.  This is really
         // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are

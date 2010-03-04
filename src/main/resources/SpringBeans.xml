@@ -678,6 +678,7 @@
             <list>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyProposal" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
@@ -686,6 +687,7 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="maintainProposalHierarchy" />
                     <property name="permission" value="Maintain ProposalHierarchy" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="printProposal" />
@@ -694,15 +696,18 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToSponsor" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToWorkflow" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="certify" />
                     <property name="permission" value="Certify" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
@@ -711,21 +716,25 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="alterProposalData" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyProposalRoles" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <!-- Narratives -->
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="addNarrative" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                  <!-- Budget -->
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="addBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
@@ -734,6 +743,7 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalHierarchyChildWorkflowActionAuthorizer" parent="parentProposalAuthorizer">
@@ -742,6 +752,7 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="rejectProposal" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 
            </list>
@@ -755,18 +766,22 @@
             <list>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyNarrativeRights" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="downloadNarrative" />
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="deleteNarrative" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replaceNarrative" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyNarratives" />
+                    <property name="requiresWritableDoc" value="true"/>
                 </bean>                
             </list>
         </property>
