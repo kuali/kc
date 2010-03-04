@@ -87,7 +87,6 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
     
     @SuppressWarnings("unchecked")
     public String getUnitAdministratorUnitNumberByPersonId() {
-        if (getPerson() != null) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("unitNumber", getInstitutionalProposal().getLeadUnitNumber());
             criteria.put("personId", getPerson().getPersonId());
@@ -98,9 +97,6 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
             } else {
                 return results.get(0).getUnitNumber(); //display Unit number of default unit administrator table.
             }
-        } else {
-            return "";
-        }
     }
     
     /**
