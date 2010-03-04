@@ -87,8 +87,6 @@ public class AwardContactsAction extends AwardAction {
                 List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
                         ServiceHelper.getInstance().buildCriteriaMap("unitName", awardForm.getProjectPersonnelBean().getSelectedLeadUnit()));
                 Unit leadUnit = units.get(0);
-                award.setLeadUnit(leadUnit);
-                award.setUnitNumber(leadUnit.getUnitNumber());
                  if (leadUnit != null) {
                     award.setUnitNumber(leadUnit.getUnitNumber());
                     award.setLeadUnit(leadUnit);
