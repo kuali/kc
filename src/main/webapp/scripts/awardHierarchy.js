@@ -111,7 +111,7 @@
          	   tag.trigger('click');
            } 
            
-           if( (selectedAwardNumber != null || selectedAwardNumber != '') && racode != selectedAwardNumber){
+           if(selectedAwardNumber != null && selectedAwardNumber != '' && racode != selectedAwardNumber){
         	   loadChildrenRA($("#itemText"+i).text(), tagId);
            } 
            
@@ -168,11 +168,11 @@
         var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
 
         if(text11 == 1){
-        	var txtImage = "<img src=\"static/images/award_active.gif\" />";
+        	var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Active\" title=\"Active\" />";
         }else if(text11 == 2 || text11 == 4 || text11 == 5){
-        	var txtImage = "<img src=\"static/images/award_inactive.gif\" />";
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Inactive\" title=\"Inactive\" />";
         }else if(text11 == 3 || text11 == 6){
-        	var txtImage = "<img src=\"static/images/award_pending.gif\" />";
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
         }
 
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
@@ -657,7 +657,7 @@
               }
               
               while(!selectedNodeReached) {
-	              if( (selectedAwardNumber != null || selectedAwardNumber != '') && racode != selectedAwardNumber) {
+	              if(selectedAwardNumber != null && selectedAwardNumber != '' && racode != selectedAwardNumber) {
 	            	  loadChildrenRA(item_text, tagId);
 	              }
               }
