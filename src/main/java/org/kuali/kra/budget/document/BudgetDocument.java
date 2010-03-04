@@ -40,6 +40,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
@@ -290,6 +291,14 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     }
     public String getProposalBudgetFlag() {
         return getParentDocument().getProposalBudgetFlag();
+    }
+    
+    @Override
+    public List<String> getLockClearningMethodNames() {
+        List<String> methodToCalls = super.getLockClearningMethodNames();
+        methodToCalls.add("returnToProposal");
+        methodToCalls.add("returnToAward");
+        return methodToCalls;
     }
     
 }
