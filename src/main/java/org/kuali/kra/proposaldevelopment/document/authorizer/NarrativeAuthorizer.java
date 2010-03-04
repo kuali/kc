@@ -18,11 +18,13 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.service.KraAuthorizationService;
 
 /**
@@ -32,7 +34,18 @@ import org.kuali.kra.service.KraAuthorizationService;
 public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
     
     private KraAuthorizationService kraAuthorizationService;
+    private boolean requiresWritableDoc = false;
     
+    public boolean isAuthorized(String userId, Task task) {
+        NarrativeTask narrativeTask = (NarrativeTask)task;
+        if (isRequiresWritableDoc() && narrativeTask.getDocument().isViewOnly()) {
+            return false;
+        } else {
+            return isAuthorized(userId, narrativeTask);
+        }
+    }
+    
+    public abstract boolean isAuthorized(String userId, NarrativeTask task);
 
     /**
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
@@ -70,5 +83,13 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
             }
         }
         return false;
+    }
+
+    public boolean isRequiresWritableDoc() {
+        return requiresWritableDoc;
+    }
+
+    public void setRequiresWritableDoc(boolean requiresWritableDoc) {
+        this.requiresWritableDoc = requiresWritableDoc;
     }
 }
