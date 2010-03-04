@@ -18,7 +18,9 @@ package org.kuali.kra.award.notesandattachments.comments;
 import java.io.Serializable;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
@@ -90,6 +92,26 @@ public class AwardCommentBean implements Serializable {
         //List<CommentType> commentTypes = awardCommentService.retrieveCommentTypes();
         //setAwardCommentScreenDisplayTypes(commentTypes);
         setAwardCommentScreenDisplayTypes(awardCommentService.retrieveCommentTypes());
+        for (CommentType commentType :  getAwardCommentScreenDisplayTypes()) {
+            setupAwardComment(form, commentType);
+        }
+    }
+    
+    /*
+     * This method is to add awardComment for a commenttype.
+     */
+    private void setupAwardComment(AwardForm form, CommentType commentType) {
+        for (AwardComment awardComment : form.getAwardDocument().getAward().getAwardComments()) {
+            if (StringUtils.equals(awardComment.getCommentTypeCode(), commentType.getCommentTypeCode())) {
+                return;
+            }
+        }
+        AwardComment awardComment = new AwardComment();
+        awardComment.setCommentTypeCode(commentType.getCommentTypeCode());
+        awardComment.setCommentType(commentType);
+        awardComment.setAwardNumber(form.getAwardDocument().getAward().getAwardNumber());
+        form.getAwardDocument().getAward().getAwardComments().add(awardComment);
+        
     }
     
     /**
