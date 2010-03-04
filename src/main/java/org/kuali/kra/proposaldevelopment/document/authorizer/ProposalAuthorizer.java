@@ -28,12 +28,17 @@ import org.kuali.kra.service.KraAuthorizationService;
 public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
     
     private KraAuthorizationService kraAuthorizationService;
+    private boolean requiresWritableDoc = false;
     
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
-        return isAuthorized(userId, (ProposalTask) task);
+        if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly()) {
+            return false;
+        } else {
+            return isAuthorized(userId, (ProposalTask) task);
+        }
     }
 
     /**
@@ -62,4 +67,14 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
     protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
+
+    public boolean isRequiresWritableDoc() {
+        return requiresWritableDoc;
+    }
+
+    public void setRequiresWritableDoc(boolean requiresWritableDoc) {
+        this.requiresWritableDoc = requiresWritableDoc;
+    }
+
+
 }

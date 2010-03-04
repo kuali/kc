@@ -35,7 +35,7 @@ public class NarrativeAddAuthorizer extends ProposalAuthorizer {
         ProposalDevelopmentDocument doc = task.getDocument();
         
         boolean hasPermission = false;
-        if (!kraWorkflowService.isInWorkflow(doc) && !doc.getDevelopmentProposal().getSubmitFlag()) {
+        if (!kraWorkflowService.isInWorkflow(doc) && !doc.isViewOnly() && !doc.getDevelopmentProposal().getSubmitFlag()) {
             hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
         }
         return hasPermission;

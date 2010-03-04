@@ -34,12 +34,10 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    public boolean isAuthorized(String userId, Task task) {
-        
-        NarrativeTask narrativeTask = (NarrativeTask) task;
+    public boolean isAuthorized(String userId, NarrativeTask task) {
           
-        ProposalDevelopmentDocument doc = narrativeTask.getDocument();
-        Narrative narrative = narrativeTask.getNarrative();
+        ProposalDevelopmentDocument doc = task.getDocument();
+        Narrative narrative = task.getNarrative();
         
         // First, the user must have the VIEW_NARRATIVE permission.  This is really
         // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
