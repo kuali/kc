@@ -33,7 +33,7 @@
 
   <bean id="UnitAdministrator-personId" parent="UnitAdministrator-personId-parentBean" />
 
-  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="PersonImpl-principalId">
   	<property name="name" value="personId" />
         <property name="label" value="KC Person ID" />
         <property name="shortLabel" value="KC Person ID" />
