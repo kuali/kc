@@ -831,7 +831,7 @@ public class AwardAction extends BudgetParentActionBase {
         String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
         if(StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
             loadDocumentInForm(request, awardForm); 
-            //createDefaultAwardHierarchy(awardForm);  
+            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber()); 
         } 
         populateAwardHierarchy(form); 
 
@@ -894,7 +894,6 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument retrievedDocument = (AwardDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         awardForm.setDocument(retrievedDocument);
         request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-        request.setAttribute("selectedAwardNumber", retrievedDocument.getAward().getAwardNumber()); 
     }
     
     /**
