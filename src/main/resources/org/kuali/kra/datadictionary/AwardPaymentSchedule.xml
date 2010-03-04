@@ -143,7 +143,7 @@
 		<property name="name" value="invoiceNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Invoice ID" />
-		<property name="shortLabel" value="ID" />
+		<property name="shortLabel" value="Invoice ID" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -152,8 +152,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="ID" />
-		<property name="description" value="ID" />
+		<property name="summary" value="Invoice ID" />
+		<property name="description" value="Invoice ID" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-statusDescription" parent="AwardPaymentSchedule-statusDescription-parentBean" />
