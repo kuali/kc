@@ -84,11 +84,17 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        // If this is the initial save, we need to set the fiscal year and month.
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
+        
+        if (proposalLog.isLogTypeTemporary()) {
+            proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
+        }
+        
+        // If this is the initial save, we need to set the fiscal year and month.
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
             populateAuditProperties(proposalLog);
         }
+        
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }
