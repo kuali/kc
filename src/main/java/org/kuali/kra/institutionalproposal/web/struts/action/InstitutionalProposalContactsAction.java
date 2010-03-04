@@ -76,7 +76,11 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
             if(person.isPrincipalInvestigator()) {
                 Unit leadUnit = person.findLeadUnit();
                 institutionalProposal.setLeadUnit(leadUnit);
-                institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
+                if (leadUnit != null) {
+                    institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
+                } else {
+                    institutionalProposal.setUnitNumber(null);
+                }
             }
         }
     }
