@@ -201,14 +201,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         if (institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex() != null) {
         
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().setRolodexId(null);
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setRolodexId(null);
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine1("");
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine2("");
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setAddressLine3("");
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setCity("");
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setOrganization("");
-            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getRolodex().setState("");
-        
+            institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().setRolodex(null);
         }
       return mapping.findForward("basic");
     }
