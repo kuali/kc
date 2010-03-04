@@ -83,7 +83,11 @@ public class AwardContactsAction extends AwardAction {
             if(person.isPrincipalInvestigator()) {
                 Unit leadUnit = person.findLeadUnit();
                 award.setLeadUnit(leadUnit);
-                award.setUnitNumber(leadUnit.getUnitNumber());
+                if (leadUnit != null) {
+                    award.setUnitNumber(leadUnit.getUnitNumber());
+                } else {
+                    award.setUnitNumber(null);
+                }
             }
         }
     }
