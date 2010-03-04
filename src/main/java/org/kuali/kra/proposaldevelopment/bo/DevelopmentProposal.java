@@ -971,10 +971,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             return;
 
         List<Narrative> narratives = retrievedDocument.getDevelopmentProposal().getNarratives();
-        for (Narrative narrative : narratives) {
-            managedLists.add(narrative.getNarrativeUserRights());
-        }
-        managedLists.add(narratives);
 
         if (isNotLatest(retrievedDocument)) {
             // The same document has been updated by someone else
@@ -993,11 +989,18 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
         for (PessimisticLock lock : getProposalDocument().getPessimisticLocks()) {
             if (lock.isOwnedByUser(currentUser) && lock.getLockDescriptor() != null
-                    && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
+                    && !lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES)) {
                 refreshNarrativesFromUpdatedCopy(managedLists);
                 break;
             }
         }
+        List<NarrativeUserRights> narrativeRights = new ArrayList<NarrativeUserRights>();
+        for (Narrative narrative : narratives) {
+            narrativeRights.addAll(narrative.getNarrativeUserRights());
+        }
+        managedLists.add(narrativeRights);
+        managedLists.add(narratives);
+        
         List<ProposalPersonUnit> units = new ArrayList<ProposalPersonUnit>();
         List<ProposalPersonDegree> degrees = new ArrayList<ProposalPersonDegree>();
         for (ProposalPerson person : getProposalPersons()) {
@@ -1028,7 +1031,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());
         managedLists.add(getS2sAppSubmission());
-        managedLists.add(getS2sSubmissionHistory());
         /*
          * This is really bogus, but OJB doesn't delete a BO component from the database after it is set to null, i.e. the S2S
          * Opportunity. It is the same issue as deleting items from a list. To get around OJB's stupidity, we will construct a list
