@@ -42,6 +42,7 @@ public class AwardUnitContact extends AwardContact {
     private UnitContactType unitContactType;
     private UnitAdministratorType unitAdministratorType;
     private String unitAdministratorTypeCode;
+    private String unitAdministratorUnitNumber;
 
 
     /**
@@ -103,6 +104,15 @@ public class AwardUnitContact extends AwardContact {
             } else {
                 return results.get(0).getUnitNumber(); //display Unit number of default unit administrator table.
             }
+        
+    }
+    
+    public String getUnitNumberForDisplay() {
+        if (unitAdministratorUnitNumber == null) {
+            return getPerson().getUnit().getUnitNumber();
+        }else {
+            return unitAdministratorUnitNumber;
+        }
     }
     
     /**
@@ -139,7 +149,6 @@ public class AwardUnitContact extends AwardContact {
     }
     
     
-
     /**
      * Gets the unitAdministratorTypeCode attribute. 
      * @return Returns the unitAdministratorTypeCode.
@@ -154,6 +163,22 @@ public class AwardUnitContact extends AwardContact {
      */
     public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
         this.unitAdministratorTypeCode = unitAdministratorTypeCode;
+    }
+
+    /**
+     * Gets the unitAdministratorUnitNumber attribute. 
+     * @return Returns the unitAdministratorUnitNumber.
+     */
+    public String getUnitAdministratorUnitNumber() {
+        return unitAdministratorUnitNumber;
+    }
+
+    /**
+     * Sets the unitAdministratorUnitNumber attribute value.
+     * @param unitAdministratorUnitNumber The unitAdministratorUnitNumber to set.
+     */
+    public void setUnitAdministratorUnitNumber(String unitAdministratorUnitNumber) {
+        this.unitAdministratorUnitNumber = unitAdministratorUnitNumber;
     }
 
     /**
