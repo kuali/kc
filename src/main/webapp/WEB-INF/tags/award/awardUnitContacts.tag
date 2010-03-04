@@ -79,6 +79,7 @@
 			</c:if>
 				
 			<c:forEach var="awardContact" items="${KualiForm.unitContactsBean.unitContacts}" varStatus="awardContactRowStatus">
+			<c:set var="isDefaultUnitContact" value="${awardContact.unitAdministratorUnitNumber != null}" />
 				<tr>
 					<th class="infoline" scope="row">
 						<c:out value="${awardContactRowStatus.index + 1}" />
@@ -93,15 +94,22 @@
 	                <td valign="middle">
 	                	<div align="center">
 	                		<input type="hidden" name="unit_contact.orgNumber_${awardContactRowStatus.index}" value="${awardContact.organizationIdentifier}" />
-							${awardContact.unitAdministratorUnitNumberByPersonId}&nbsp;
+							${awardContact.unitNumberForDisplay}&nbsp;
 							<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="unit_contact.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
 						</div>
 					</td>
 	                <td valign="middle">
-	                	<div align="center">
-	                		<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].unitAdministratorTypeCode" 
+	                	<c:choose>
+							<c:when test="${not isDefaultUnitContact}">
+	                    		<div align="center">
+	                				<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].unitAdministratorTypeCode" 
 	                									attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}" />
-	                	</div>
+	                			</div>
+	               			</c:when>
+	                  		<c:otherwise>
+								<c:out value="${KualiForm.unitContactsBean.unitContacts[awardContactRowStatus.index].unitAdministratorType.description}" />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td valign="middle">
 						<div align="center">
@@ -115,7 +123,12 @@
 					</td>
 	                
 					<td>
-						<c:set var="isLeadUnit" value="${award.leadUnit != null && awardContact.person != null && awardContact.person.organizationIdentifier == award.leadUnit.unitNumber}" />
+						<c:if test="${not isDefaultUnitContact}">
+							<c:set var="deleteButton" value="tinybutton-delete1.gif" />
+						</c:if>
+						<c:if test="${isLeadUnit}">
+							<c:set var="deleteButton" value="tinybutton-delete2.gif" />
+						</c:if>
 						<div align="center">
 						  <c:if test="${!readOnly}">
 							<html:image property="methodToCall.deleteUnitContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"

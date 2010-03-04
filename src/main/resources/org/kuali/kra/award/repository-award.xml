@@ -625,6 +625,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="unitAdministratorUnitNumber" column="UNIT_ADMINISTRATOR_UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitAdministratorTypeCode"/> 
 		</reference-descriptor>
