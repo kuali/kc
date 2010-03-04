@@ -23,7 +23,7 @@
  
 <%-- kra:section permission="modifyInstitutionalProposal" --%>
 <kul:tab defaultOpen="false" tabItemCount="${KualiForm.unitContactsBean.unitContactsCount}" 
-				tabTitle="Unit Contacts" tabErrorKey="unitContactsBean.newInstitutionalProposalContact,document.institutionalProposalList[0].institutionalProposalUnitContacts*" >
+				tabTitle="Unit Contacts" tabErrorKey="unitContactsBean.newInstitutionalProposalContact.*,unitContactsBean.unitContact.unitAdministratorTypeCode,document.institutionalProposalList[0].institutionalProposalUnitContacts*" >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Unit Contacts</span>
@@ -32,9 +32,9 @@
 	    <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
-				<th width="15%">Person</th>
+				<th width="15%">*Person</th>
 				<th width="15%">Unit</th>
-				<th width="20%">Project Role</th>
+				<th width="20%">*Project Role</th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
 				<th width="15%"><div align="center">Actions</div></th>

@@ -17,21 +17,25 @@ package org.kuali.kra.award.contacts;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
  */
 public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
-    public static final String AWARD_UNIT_CONTACT_LIST_ERROR_KEY = "unitContactsBean.newAwardContact";
+    public static final String AWARD_UNIT_CONTACT_LIST_ERROR_KEY = "unitContactsBean.unitContact.unitAdministratorTypeCode";
     public static final String ERROR_AWARD_UNIT_CONTACT_EXISTS = "error.awardUnitContact.person.exists";
-    
+    private static final String PERSON_ERROR_KEY = "unitContactsBean.newAwardContact.fullName";
     /**
      * @param event
      * @return
      */
     public boolean processAddAwardUnitContactBusinessRules(Award award, AwardUnitContact newUnitContact) {
-        return checkForSelectedContactAdministratorTypeCode(newUnitContact) && checkForDuplicatePerson(award, newUnitContact);
+        boolean valid = checkForSelectedContactAdministratorTypeCode(newUnitContact);
+        valid &= checkForDuplicatePerson(award, newUnitContact);
+        valid &= checkForSelectedPerson(newUnitContact);
+        return  valid;
     }
 
     public boolean checkForSelectedContactAdministratorTypeCode(AwardUnitContact newContact) {
@@ -45,11 +49,27 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
         return valid;
     }
     
+    private boolean checkForSelectedPerson(AwardUnitContact newContact) {
+        boolean valid = true;
+
+        if (StringUtils.isBlank(newContact.getPersonId())) {
+            if (StringUtils.isBlank(newContact.getFullName())) {
+                GlobalVariables.getMessageMap().putError(PERSON_ERROR_KEY, KeyConstants.ERROR_MISSING_UNITCONTACT_PERSON);
+            }
+            else {
+                GlobalVariables.getMessageMap().putError(PERSON_ERROR_KEY, KeyConstants.ERROR_INVALID_UNITCONTACT_PERSON);
+            }
+            valid = false;
+        }
+
+        return valid;
+    }
+
     boolean checkForDuplicatePerson(Award award, AwardUnitContact newUnitContact) {
         boolean valid = true;
         for(AwardUnitContact unitContact: award.getAwardUnitContacts()) {
             // equal, but not both are null
-            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()) && unitContact.getPersonId()!= null);
+            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()));
             if(!valid) {
                 registerError(newUnitContact);
                 break;
@@ -60,7 +80,7 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
     }
 
     private void registerError(AwardUnitContact newUnitContact) {
-        GlobalVariables.getErrorMap().putError(AWARD_UNIT_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_UNIT_CONTACT_EXISTS, 
+        GlobalVariables.getErrorMap().putError(PERSON_ERROR_KEY, ERROR_AWARD_UNIT_CONTACT_EXISTS, 
                                                 newUnitContact.getContact().getFullName());
     }
 }

@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.contacts.AwardUnitContact;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -25,10 +26,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class InstitutionalProposalUnitContactAddRuleImpl {
 
-    public static final String INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_LIST_ERROR_KEY = "unitContactsBean.newInstitutionalProposalContact";
+    public static final String INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_LIST_ERROR_KEY = "unitContactsBean.unitContact.unitAdministratorTypeCode";
     public static final String ERROR_INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_EXISTS = "error.institutionalProposalUnitContact.person.exists";
     public static final String ERROR_INSTITUTIONAL_PROPOSAL_CONTACT_REQUIRED = "error.institutionalProposal.contact.person.required";
     public static final String ERROR_INSTITUTIONAL_PROPOSAL_CONTACT_ROLE_REQUIRED = "error.institutionalProposal.contact.person.role.required";
+    private static final String PERSON_ERROR_KEY = "unitContactsBean.newInstitutionalProposalContact.fullName";
     
     /**
      * @param event
@@ -36,7 +38,10 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
      */
     public boolean processAddInstitutionalProposalUnitContactBusinessRules(InstitutionalProposal institutionalProposal, 
                                                                                 InstitutionalProposalUnitContact newUnitContact) {
-        return checkForSelectedContactAdministratorTypeCode(newUnitContact) && checkForDuplicatePerson(institutionalProposal, newUnitContact);
+        boolean valid = checkForSelectedContactAdministratorTypeCode(newUnitContact);
+        valid &= checkForDuplicatePerson(institutionalProposal, newUnitContact);
+        valid &= checkForSelectedPerson(newUnitContact);
+        return  valid; 
     }
 
     public boolean checkForSelectedContactAdministratorTypeCode(InstitutionalProposalUnitContact newContact) {
@@ -50,11 +55,27 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
         return valid;
     }
     
+    private boolean checkForSelectedPerson(InstitutionalProposalUnitContact newContact) {
+        boolean valid = true;
+
+        if (StringUtils.isBlank(newContact.getPersonId())) {
+            if (StringUtils.isBlank(newContact.getFullName())) {
+                GlobalVariables.getMessageMap().putError(PERSON_ERROR_KEY, KeyConstants.ERROR_MISSING_UNITCONTACT_PERSON);
+            }
+            else {
+                GlobalVariables.getMessageMap().putError(PERSON_ERROR_KEY, KeyConstants.ERROR_INVALID_UNITCONTACT_PERSON);
+            }
+            valid = false;
+        }
+
+        return valid;
+    }
+
     boolean checkForDuplicatePerson(InstitutionalProposal institutionalProposal, InstitutionalProposalUnitContact newUnitContact) {
         boolean valid = true;
         for(InstitutionalProposalUnitContact unitContact: institutionalProposal.getInstitutionalProposalUnitContacts()) {
             // equal, but not both are null
-            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()) && unitContact.getPersonId()!= null);
+            valid = !(StringUtils.equals(unitContact.getPersonId(),newUnitContact.getPersonId()));
             if(!valid) {
                 registerError(newUnitContact);
                 break;
@@ -106,7 +127,7 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
 
     @SuppressWarnings("deprecation")
     private void registerError(InstitutionalProposalUnitContact newUnitContact) {
-        GlobalVariables.getErrorMap().putError(INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_LIST_ERROR_KEY, ERROR_INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_EXISTS, 
+        GlobalVariables.getErrorMap().putError(PERSON_ERROR_KEY, ERROR_INSTITUTIONAL_PROPOSAL_UNIT_CONTACT_EXISTS, 
                                                 newUnitContact.getContact().getFullName());
     }
 }
