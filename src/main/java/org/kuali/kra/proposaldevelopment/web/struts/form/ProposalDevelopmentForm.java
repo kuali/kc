@@ -1322,17 +1322,17 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     // Returns piece that should be locked for this form
     protected String getLockRegion() {
-        String lockRegion = "";
+        //default lock region
+        String lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
         if (isProposalAction()) {
             lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
         } else if (isNarrativeAction()) {
-            lockRegion = null;
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
         } else if (isBudgetVersionsAction()) {
             lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
-       // return lockRegion;
-        // TODO : a hack to return true for now because 'navigateto is null
-        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        
+        return lockRegion;
     }
     
     // Checks whether the action associated with this form instance maps to a ProposalDevelopment page
