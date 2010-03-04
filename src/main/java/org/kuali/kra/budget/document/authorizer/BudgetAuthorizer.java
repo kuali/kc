@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.document.authorizer;
 
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -29,7 +31,21 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
     
     private KraAuthorizationService kraAuthorizationService;
+    private boolean requiresWritableDoc = false;
     
+    public boolean isAuthorized(String userId, Task task) {
+        BudgetTask budgetTask = (BudgetTask)task;
+        if (isRequiresWritableDoc() && budgetTask.getBudgetDocument().isViewOnly()) {
+            return false;
+        } else {
+            return isAuthorized(userId, budgetTask);
+        }
+           
+    }
+    
+    public boolean isAuthorized(String userId, BudgetTask task) {
+        return true;
+    }
 
     /**
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
@@ -69,6 +85,14 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
             }
         }
         return workflowDocument;
+    }
+
+    public boolean isRequiresWritableDoc() {
+        return requiresWritableDoc;
+    }
+
+    public void setRequiresWritableDoc(boolean requiresWritableDoc) {
+        this.requiresWritableDoc = requiresWritableDoc;
     }
     
     

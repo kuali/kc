@@ -138,6 +138,7 @@
             <list>
                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
+                    <property name="requiresWritableDoc" value="true" />
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetAuthorizer" parent="parentProposalAuthorizer">
