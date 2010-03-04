@@ -9,14 +9,16 @@
       <td style="text-align: center;" colspan="4">
 	  <a href="${ConfigProperties.application.url}/awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.awardDocument.documentNumber}&medusaOpenedDoc=true"
 	     target="_blank" class="medusaOpenLink">
-	    <img title="Open Proposal" 
-	          alt="Open Proposal" style="border: medium none ;" 
+	    <img title="Open Award" 
+	          alt="Open Award" style="border: medium none ;" 
 	          src="static/images/tinybutton-openaward.gif"/>
 	  </a>      
-	  <input type="image" title="Notes" 
-	         alt="Notes" style="border: medium none ;" 
-	         src="static/images/tinybutton-notes.gif" 
-	         onclick="javascript: alert('Notes Functionality not available.'); return false;" />
+	  <a href="${ConfigProperties.application.url}/awardNotesAndAttachments.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.awardDocument.documentNumber}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes"
+	     target="_blank" class="medusaOpenLink">
+	    <img title="Open Award Notes" 
+	          alt="Open Award Notes" style="border: medium none ;" 
+	          src="static/images/tinybutton-notes.gif"/>
+	  </a> 	  
       </td>
     </tr>
     <tr>
