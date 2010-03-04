@@ -31,8 +31,7 @@
 	    <table id="sponsor-contacts-table" cellpadding="0" cellspacing="0" summary="Sponsor Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
-				<th width="15%">Person</th>
-				<th width="15%">Unit</th>
+				<th width="15%">* Person or Organization</th>
 				<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" /></div></th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
@@ -43,14 +42,14 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
+                    Non-employee ID:
 					<kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.rolodex.fullName" 
       								attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
   					<label>
   						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
   									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
-  					</label>					
-        		</td>
-	        	<td class="infoline">
+  					</label>
+  					<br/>					
 	        		<div align="center">
 	        			<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contactOrganizationName}" />&nbsp;
 	        		</div>

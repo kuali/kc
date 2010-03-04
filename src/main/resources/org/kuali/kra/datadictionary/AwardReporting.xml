@@ -120,8 +120,8 @@
     <bean id="AwardReporting-overdueCounter-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="overdueCounter" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Overdue Counter" />
-        <property name="shortLabel" value="Overdue Counter" />
+        <property name="label" value="Overdue" />
+        <property name="shortLabel" value="Overdue" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -130,16 +130,16 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Overdue Counter" />
-        <property name="description" value="Overdue Counter" />
+        <property name="summary" value="Overdue" />
+        <property name="description" value="Overdue" />
     </bean>
 
     <bean id="AwardReporting-reportStatusCode" parent="AwardReporting-reportStatusCode-parentBean" />
     <bean id="AwardReporting-reportStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="reportStatusCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Report Status Code" />
-        <property name="shortLabel" value="Report Status Code" />
+        <property name="label" value="Status" />
+        <property name="shortLabel" value="Status" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -148,8 +148,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Report Status Code" />
-        <property name="description" value="Report Status Code" />
+        <property name="summary" value="Status" />
+        <property name="description" value="Status" />
     </bean>
 
     <bean id="AwardReporting-activityDate" parent="AwardReporting-activityDate-parentBean" />

@@ -32,7 +32,6 @@
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardReportingAttributes.reportStatusCode}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardReportingAttributes.activityDate}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardReportingAttributes.comments}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${awardReportingAttributes.personId}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardReportingAttributes.notificationWindow}" scope="col" /></div></th>
           	</tr> 
           	<%-- Header --%>
@@ -68,11 +67,6 @@
                 		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].comments" attributeEntry="${awardReportingAttributes.comments}"  readOnly="true" />
 					</div>
 				  </td>
-                  <td align="left" valign="middle">
-					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].personId" attributeEntry="${awardReportingAttributes.personId}"  readOnly="true" />
-					</div>
-				  </td>                  
 				  <td class="infoline">
 					<div align="center">
 						<html:image property="methodToCall.deleteReportScheduleItem.awardReportTerm${index}.line${status.index}.anchor${currentTabIndex}"
