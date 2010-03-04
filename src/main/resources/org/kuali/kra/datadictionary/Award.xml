@@ -718,8 +718,8 @@
 	<bean id="Award-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="unitNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Lead Unit" />
-		<property name="shortLabel" value="Lead Unit" />
+		<property name="label" value="Lead Unit ID" />
+		<property name="shortLabel" value="Lead Unit ID" />
 		<property name="maxLength" value="150" />
 		<property name="validationPattern" >
 		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />

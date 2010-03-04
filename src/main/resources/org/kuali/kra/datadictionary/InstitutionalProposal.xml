@@ -200,8 +200,8 @@
     <bean id="InstitutionalProposal-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sequenceNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Sequence Number" />
-        <property name="shortLabel" value="Sequence Number" />
+        <property name="label" value="Institutional Proposal Version" />
+        <property name="shortLabel" value="Institutional Proposal Version" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -210,8 +210,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Sequence Number" />
-        <property name="description" value="Sequence Number" />
+        <property name="summary" value="Institutional Proposal Version" />
+        <property name="description" value="Institutional Proposal Version" />
     </bean>
 
     <bean id="InstitutionalProposal-proposalTypeCode" parent="InstitutionalProposal-proposalTypeCode-parentBean" />
