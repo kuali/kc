@@ -661,11 +661,15 @@ public final class KeyConstants {
     private static final String AWARD_BUDGET_STATUS_ERROR_IN_POSTING = "awardBudgetStatusErrorInPosting";
     public static final String AWARD_BUDGET_POST_ENABLED = "AWARD_BUDGET_POST_ENABLED";
     public static final String ERROR_END_DATE_PRIOR_START_DATE = "error.end.date.prior.start.date";
+    public static final String ERROR_INVALID_UNITCONTACT_PERSON = "error.unitContact.invalid.person";
+    public static final String ERROR_MISSING_UNITCONTACT_PERSON = "error.unitContact.missing.person";
    
     //Organization
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED = "error.organization.questionYnq.answerRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED = "error.organization.questionYnq.explanationRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
+    
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
