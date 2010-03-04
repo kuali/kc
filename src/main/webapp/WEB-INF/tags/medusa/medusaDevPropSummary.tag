@@ -13,10 +13,12 @@
 	          alt="Open Proposal" style="border: medium none ;" 
 	          src="static/images/tinybutton-openproposal.gif"/>
 	  </a>    
-	  <input type="image" title="Notes" 
-	         alt="Notes" style="border: medium none ;" 
-	         src="static/images/tinybutton-notes.gif" 
-	         onclick="javascript: alert('Notes Functionality not available.'); return false;" />
+	  <a href="${ConfigProperties.application.url}/proposalDevelopmentAbstractsAttachments.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.proposalDocument.documentNumber}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes"
+	     target="_blank" class="medusaOpenLink">
+	    <img title="Open Proposal Notes" 
+	          alt="Open Proposal Notes" style="border: medium none ;" 
+	          src="static/images/tinybutton-notes.gif"/>
+	  </a> 
       </td>
     </tr>
     <tr>
