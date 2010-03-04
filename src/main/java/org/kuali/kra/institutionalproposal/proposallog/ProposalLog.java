@@ -30,6 +30,9 @@ import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogServic
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 
+/**
+ * Encapsulates data and behavior of a Proposal Log.
+ */
 public class ProposalLog extends KraPersistableBusinessObjectBase { 
     
     /** Log Status property name. */
@@ -78,14 +81,38 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     
     /* Public convenience methods */
     
+    /**
+     * Determine whether this Proposal Log has been persisted.
+     * 
+     * @return boolean
+     */
     public boolean isPersisted() {
         return this.getVersionNumber() != null;
     }
     
+    /**
+     * Determine whether this Proposal Log has been promoted to an Institutional Proposal.
+     * 
+     * @return boolean
+     */
     public boolean isSubmitted() {
         return ProposalLogUtils.getProposalLogSubmittedStatusCode().equals(this.getLogStatus());
     }
     
+    /**
+     * Determine whether this Proposal Log has a proposal log type of Temporary.
+     * 
+     * @return boolean
+     */
+    public boolean isLogTypeTemporary() {
+        return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(this.getProposalLogTypeCode());
+    }
+    
+    /**
+     * Determine whether this Proposal Log is a candidate to be merged with another Proposal Log.
+     * 
+     * @return boolean
+     */
     public boolean isMergeCandidate() {
         return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(this.getProposalLogTypeCode())
             && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(this.getLogStatus());
