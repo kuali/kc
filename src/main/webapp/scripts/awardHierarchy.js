@@ -21,8 +21,7 @@
                      var tagId = "listcontrol"+idstr;
                      var divId = "listcontent"+idstr;
                  
-                     $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                     $("#"+divId).slideToggle(300);
+                     $(".hierarchydetail").slideUp(300); 
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
                     },
                 animated: "fast",
@@ -98,6 +97,7 @@
                   }
               );
        	
+           div.hide();
            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
            ulTagId = "browser";
            div.appendTo(listitem);
@@ -567,8 +567,6 @@
       } else {
           $("#listcontent"+idx).slideToggle(300); 
       }   
-      
-      loadChildrenRA(item_text, tagId);
   }
 
   /*
@@ -639,7 +637,8 @@
                             	  linkOnclick($(this), item_text, divId, tagId);
                           	  }
                           );
-                 	  
+           	  detDiv.hide();
+              
               var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
               ulTagId = ulTag.attr("id");
               detDiv.appendTo(listitem);
