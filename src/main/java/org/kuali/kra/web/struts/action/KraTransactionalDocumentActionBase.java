@@ -154,9 +154,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        if (form instanceof KraTransactionalDocumentFormBase) {
+            ((KraTransactionalDocumentFormBase)form).setNavigateTo(getHeaderTabNavigateTo(request));
+        }
         ((KualiForm) form).setTabStates(new HashMap());
         return super.headerTab(mapping, form, request, response);
-    }
+    }  
 
     /**
      * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required.
@@ -380,6 +383,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             }
         }
         
+        //Code still here, but probably can be deleted. Copied to populateAuthorizationFields
+        //as it looks like this code is only called when the document is being closed, not every request
         //Check the locks held by the user - detect user's navigation away from one lock region to another
         for(PessimisticLock lock: document.getPessimisticLocks()) {
             if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
@@ -403,6 +408,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
             Set<String> editModes = new HashSet<String>();
             
+            KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
+            kraFormBase.setupLockRegions();     
+            String activeLockRegion = (String)GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+            
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
@@ -419,8 +428,19 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                             
                     Map<String, String> editMode = convertSetToMap(editModes);
+                    
+                    //Check the locks held by the user - detect user's navigation away from one lock region to another
+                    //refresh locks as stale ones can exist in the document due to it being in the form
+                    document.refreshPessimisticLocks();
+                    for(PessimisticLock lock: document.getPessimisticLocks()) {
+                        if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
+                            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user, lock.getLockDescriptor());
+                        }
+                    }
                     editMode = getPessimisticLockService().establishLocks(document, editMode, user);
-                            
+                     
+                    //Task Authorizers should key off the document viewonly flag to determine
+                    //if the document is available for writing or if its locked.
                     if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
                         document.setViewOnly(true);
                     }
@@ -428,8 +448,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 editModes = documentAuthorizer.getEditModes(document, user, null);
                 Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
                 
-                KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
-                kraFormBase.setupLockRegions();
                 formBase.setDocumentActions(convertSetToMap(documentActions));
             }
             formBase.setEditingMode(convertSetToMap(editModes));

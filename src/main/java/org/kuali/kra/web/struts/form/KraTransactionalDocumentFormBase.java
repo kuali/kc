@@ -130,7 +130,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     private boolean hasActiveLockRegionChanged(Document document, String activeLockRegion) {
         if(StringUtils.isNotEmpty(activeLockRegion)) {
             for(PessimisticLock lock: document.getPessimisticLocks()) {
-                if(lock.getLockDescriptor()!=null && !lock.getLockDescriptor().contains(activeLockRegion)) {
+                if(lock.getLockDescriptor()!=null && !lock.getLockDescriptor().contains(activeLockRegion)
+                        && lock.getOwnedByUser().getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
                     return true;
                 }
             } 
