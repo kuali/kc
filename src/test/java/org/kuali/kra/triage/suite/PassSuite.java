@@ -444,7 +444,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.home.AwardCommentTest.class,
     org.kuali.kra.award.commitments.AwardCostShareTest.class,
     org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class,
-    org.kuali.kra.award.AwardSubawardAuditRuleTest.class
+    org.kuali.kra.award.AwardSubawardAuditRuleTest.class,
+    org.kuali.kra.award.notesandattachments.notes.AwardNoteAddRuleTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

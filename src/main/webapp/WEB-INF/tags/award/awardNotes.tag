@@ -23,7 +23,7 @@
 </c:forEach>
 
 
-<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="awardNotepadBean.*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
