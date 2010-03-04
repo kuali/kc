@@ -19,6 +19,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.List;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +36,12 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,7 +62,7 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
-        setLeadUnitOnAwardFromPILeadUnit(award);
+        setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
         awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
         ActionForward forward = super.save(mapping, form, request, response); 
         return forward;
@@ -78,15 +80,21 @@ public class AwardContactsAction extends AwardAction {
      * This method is called to reset the Lead Unit on the award if the lead unit is changed on the PI.
      * @param award
      */
-    private void setLeadUnitOnAwardFromPILeadUnit(Award award) {
+    @SuppressWarnings("unchecked")
+    private void setLeadUnitOnAwardFromPILeadUnit(Award award, AwardForm awardForm) {
         for (AwardPerson person : award.getProjectPersons()) {
             if(person.isPrincipalInvestigator()) {
-                Unit leadUnit = person.findLeadUnit();
+                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
+                        ServiceHelper.getInstance().buildCriteriaMap("unitName", awardForm.getProjectPersonnelBean().getSelectedLeadUnit()));
+                Unit leadUnit = units.get(0);
                 award.setLeadUnit(leadUnit);
-                if (leadUnit != null) {
+                award.setUnitNumber(leadUnit.getUnitNumber());
+                 if (leadUnit != null) {
                     award.setUnitNumber(leadUnit.getUnitNumber());
+                    award.setLeadUnit(leadUnit);
                 } else {
                     award.setUnitNumber(null);
+                    award.setLeadUnit(null);
                 }
             }
         }
