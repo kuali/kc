@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class AwardCommentWebTest extends AwardNotesAndAttachmentsWebTest {
 
     private static final String GENERAL_COMMENTS_DESCRIPTION_NAME = "General Comments";
-    private static final String GENERAL_COMMENTS_ID = "document.awardList[0].awardGeneralComments.comments";
+    private static final String GENERAL_COMMENTS_ID = "document.awardList[0].awardComment[1].comments";
     private static final String SOME_COMMENTS = "Live Long and Prosper";
     
     

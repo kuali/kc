@@ -22,6 +22,12 @@
 
 <c:set var="commentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="commentMethodName" value="${fn:replace(commentTypeDescription,' ','')}"/>
+    <c:set var="commentIndex" value="0"/>
+    <c:forEach var="awardDocument" items="${KualiForm.document.awardList[0].awardComments}" varStatus="status">    
+        <c:if test="${KualiForm.document.awardList[0].awardComments[status.index].commentTypeCode == commentTypeCode}">
+           <c:set var="commentIndex" value="${status.index}"/>
+        </c:if>
+    </c:forEach>
 
 	<kra:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
 		<table>
@@ -32,9 +38,9 @@
         <tr>
         	<td class="infoline">
             	 <div align="left">
-            	  	 <kul:htmlControlAttribute property="${docAward}.award${commentMethodName}.comments" attributeEntry="${commentAttributes.comments}"/>
-            	  	 <kul:expandedTextArea textAreaFieldName="${docAward}.award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
-            	  </div>	 
+            	  	 <kul:htmlControlAttribute property="${docAward}.awardComment[${commentIndex}].comments" attributeEntry="${commentAttributes.comments}"/>
+            	  	 <kul:expandedTextArea textAreaFieldName="${docAward}.awardComment[${commentIndex}].comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
+            	   </div>	 
             </td>	     	 
             <td>	 
             	<div align="center">
