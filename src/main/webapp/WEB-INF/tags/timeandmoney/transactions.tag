@@ -25,6 +25,7 @@
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
+        <c:set var="isRouted" value="${KualiForm.document.documentRouteStatus}" />
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
@@ -52,7 +53,7 @@
 				</td>
 				<td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.comments" attributeEntry="${pendingTransactionAttributes.comments}" />
+                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.comments" attributeEntry="${pendingTransactionAttributes.comments}"/>
                 	</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
@@ -98,7 +99,7 @@
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].comments" attributeEntry="${pendingTransactionAttributes.comments}"  readOnly="true" />
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].comments" attributeEntry="${pendingTransactionAttributes.comments}"  readOnly="${isRouted}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
