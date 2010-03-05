@@ -1,3 +1,24 @@
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusInProgress', 'CONFG', '1', 'This system parameter maps the AwardBudget status In Progress', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusSubmitted', 'CONFG', '5', 'This system parameter maps the AwardBudget status Submitted', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusRejected', 'CONFG', '8', 'This system parameter maps the AwardBudget status Rejected', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusToBePosted', 'CONFG', '10', 'This system parameter maps the AwardBudget status To Be Posted', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusPosted', 'CONFG', '9', 'This system parameter maps the AwardBudget status Posted', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetStatusErrorInPosting', 'CONFG', '11', 'This system parameter maps the AwardBudget status Error In Posting', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'AWARD_BUDGET_POST_ENABLED', 'CONFG', '1', 'This system parameter enables on demand Award Budget Posting', 'A') ;
+
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'awardHomeHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Home Help', 'A') ;
 
@@ -112,6 +133,9 @@ VALUES('KC-AWARD', 'D', 'scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsF
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES('KC-AWARD', 'D', 'contactTypeOther', SYS_GUID () , 1, 'CONFG', '8', 'Contact Type Code For Contact Type Other', 'A', 'WorkflowAdmin', 'Y') ;
 
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'A', 'ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST', 'CONFG', '2143', 'obligated direct indirect cost', 'A') ;
+
 --comment types  
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode', 'CONFG', '1', 'Comma delimited list of comment type codes to sync on the Payments and Invoices Tab.', 'A') ;
@@ -137,6 +161,9 @@ VALUES('KC-AWARD', 'D', 'scope.sync.REPORTS_TAB.AwardReportTerm.reportClassCode'
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-GEN', 'DocumentType', 'customAttributeDocumentType', 'CONFG', 'AWRD=Award;INPR=Institutional Proposal;PRDV=Proposal Development;PROT=Protocol', 'List of Custom Attribute Document type name.', 'A') ;
 
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
@@ -248,7 +275,7 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, P
 VALUES('KC-IP', 'D', 'proposalcommenttype.reviewercomment', 'CONFG', '17', 'Code for IP Reviewer Proposal Comment Type', 'A', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', '1', 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
+VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', SYS_GUID(), 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
@@ -288,6 +315,18 @@ VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'defau
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
+
+INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_DOCUMENT_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.', 'A') ;
+
+INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from the Action List will load the Route Log in a new window.', 'A') ;
+
+INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.', 'A') ;
+
+INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A') ;
 
 UPDATE KRNS_PARM_T 
 SET TXT='4' 
@@ -345,9 +384,6 @@ VALUES('KRA-PD', 'A', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A')
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
-
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'A', 'ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST', 'CONFG', '2143', 'obligated direct indirect cost', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KRA-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
