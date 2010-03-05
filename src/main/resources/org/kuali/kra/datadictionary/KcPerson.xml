@@ -995,8 +995,8 @@
         <bean parent="FieldDefinition" p:attributeName="emailAddress" />
         <bean parent="FieldDefinition" p:attributeName="officePhone" />
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
+        <bean parent="FieldDefinition" p:attributeName="organizationIdentifier" />  
         <!-- these aren't searchable because they don't exist in the person search inside rice 
-        <bean parent="FieldDefinition" p:attributeName="organizationIdentifier" /> 
         <bean parent="FieldDefinition" p:attributeName="extendedAttributes.directoryTitle" />
         <bean parent="FieldDefinition" p:attributeName="facultyFlag" />
         <bean parent="FieldDefinition" p:attributeName="researchStaffFlag" />

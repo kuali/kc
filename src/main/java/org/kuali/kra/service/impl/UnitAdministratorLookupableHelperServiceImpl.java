@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
@@ -73,7 +74,7 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (userName != null && userName != "") {
+            if (StringUtils.isNotEmpty(userName)) {
                 KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
                 if (person != null) {
                     lookupForm.getFieldsForLookup().put("personId", person.getPersonId());

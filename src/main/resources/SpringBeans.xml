@@ -314,6 +314,9 @@
        <property name="identityService">
            <ref bean="identityService" />
        </property>
+       <property name="personService">
+           <ref bean="personService" />
+       </property>
     </bean>
 	
 	<bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

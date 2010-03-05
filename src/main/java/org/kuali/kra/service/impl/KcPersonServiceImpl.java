@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
@@ -35,7 +34,9 @@ import org.kuali.rice.kim.service.PersonService;
 public class KcPersonServiceImpl implements KcPersonService {
     
     private IdentityService identityService;
-    //private PersonService personService;
+    
+    @SuppressWarnings("unchecked")
+    private PersonService personService;
     
     /** {@inheritDoc} */
     public List<KcPerson> getKcPersons(final Map<String, String> fieldValues) {
@@ -45,10 +46,8 @@ public class KcPersonServiceImpl implements KcPersonService {
         
         this.modifyFieldValues(fieldValues);
         
-        //final List<KimEntityInfo> entities = this.identityService.lookupEntityInfo(fieldValues, true);
-        final List<PersonImpl> people = KraServiceLocator.getService(PersonService.class).findPeople(fieldValues, true);
+        final List<PersonImpl> people = personService.findPeople(fieldValues, true);
         
-        //return this.createKcPersonsFrom(entities);
         return this.createKcPersonsFromPeople(people);
     }
     
@@ -58,20 +57,25 @@ public class KcPersonServiceImpl implements KcPersonService {
      */
     private void modifyFieldValues(final Map<String, String> fieldValues) {
         //convert username and kcpersonid to proper naming such the person service can use them
-        if (fieldValues.containsKey("userName")){
+        if (StringUtils.isNotBlank(fieldValues.get("userName"))){
             String userNameSearchValue = fieldValues.get("userName");
-            fieldValues.put("principalName", userNameSearchValue);
+            fieldValues.put("principalName", userNameSearchValue);  
         }
         
-        if (fieldValues.containsKey("personId")){
+        if (StringUtils.isNotBlank(fieldValues.get("personId"))){
             String personIdSearchValue = fieldValues.get("personId");
             fieldValues.put("principalId", personIdSearchValue);
         }
         
-        if (fieldValues.containsKey("officePhone")){
+        if (StringUtils.isNotBlank(fieldValues.get("officePhone"))){
             String officePhoneSerachValue = fieldValues.get("officePhone");
             fieldValues.put("phoneNumber", officePhoneSerachValue);
         }
+        
+        if (StringUtils.isNotBlank(fieldValues.get("organizationIdentifier"))){
+            String primaryDeptCodeSearchValue = fieldValues.get("organizationIdentifier");
+            fieldValues.put("primaryDepartmentCode", primaryDeptCodeSearchValue);
+        } 
     }
     
     /** {@inheritDoc} */
@@ -133,8 +137,9 @@ public class KcPersonServiceImpl implements KcPersonService {
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
-    /*
+    
     public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }*/
+    }
+    
 }
