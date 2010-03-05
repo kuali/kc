@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.rules;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -33,7 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentRuleBase implements
         InstitutionalProposalAddCostShareRule {
 
-    private static final String NEW_PROPOSAL_COST_SHARE = "newInstitutionalProposalCostShare";
+    private static final String NEW_PROPOSAL_COST_SHARE = Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY;
     InstitutionalProposalCostShare institutionalProposalCostShare;
 
     /**
@@ -54,6 +55,8 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
         
         // test if commitment amount is entered and valid
         isValid &= validateAmount(institutionalProposalCostShare.getAmount());
+        
+        isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
         
         return isValid;
     }
@@ -103,7 +106,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
         boolean isValid = true;
         if (percentage!=null && percentage.isLessThan(new KualiDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
+            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
         return isValid;
     }
@@ -136,6 +139,16 @@ public class InstitutionalProposalAddCostShareRuleImpl extends ResearchDocumentR
             isValid = false;
             this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
         }
+        return isValid;
+    }
+    
+    private boolean validateSourceAccount(String sourceAccount) {
+        boolean isValid = true;
+        if (StringUtils.isEmpty(sourceAccount)) {
+            isValid = false;
+            this.reportError(Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".sourceAccount", KeyConstants.ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED);
+        }
+        
         return isValid;
     }
 }
