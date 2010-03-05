@@ -46,7 +46,7 @@
 					<kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.rolodex.fullName" 
       								attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
   					<label>
-  						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
+  						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
   									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
   					</label>
   					<br/>					
