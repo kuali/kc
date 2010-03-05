@@ -19,14 +19,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit { 
+public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> { 
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -195,4 +198,22 @@ public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusine
         }
     }
     
+    public InstitutionalProposal getSequenceOwner() {
+        return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
+    }
+    
+    public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
+        if(getInstitutionalProposalPerson() != null) {
+            getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        this.institutionalProposalPersonCreditSplitId = null;
+    }
+
 }
