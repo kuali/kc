@@ -26,7 +26,7 @@
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
 </c:forEach>
 <div id="workarea">
-<kul:tab tabItemCount="${tabItemCount}" tabTitle="Cost Sharing" defaultOpen="false" transparentBackground="true" tabErrorKey="newInstitutionalProposalCostShare.*">
+<kul:tab tabItemCount="${tabItemCount}" tabTitle="Cost Sharing" defaultOpen="false" transparentBackground="true" tabErrorKey="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.*,document.institutionalProposalList[0].institutionalProposalCostShares*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>
@@ -86,27 +86,27 @@
 					</th>
 	                <td width="10%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].fiscalYear" attributeEntry="${institutionalProposalCostShareAttributes.fiscalYear}"/>
+                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].fiscalYear" attributeEntry="${institutionalProposalCostShareAttributes.fiscalYear}"/>
 					</div>
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="center">
-                		<kra:kraControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costShareTypeCode" attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}"/>
+                		<kra:kraControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].costShareTypeCode" attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}"/>
 					</div>
 	                </td>
 	                <td width="15%" valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" styleClass="amount"/> 
+                  		<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" styleClass="amount"/> 
 					</div>
 					</td>
 	                <td width="15%" valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].sourceAccount" attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}"/> 
+                  		<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].sourceAccount" attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}"/> 
 					</div>
 					</td>
 	                <td width="15%" valign="middle">
 					<div align="center">
-	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
+	                	<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
 					</div>
 	                </td>
 	                <c:if test="${!readOnly}">

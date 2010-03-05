@@ -522,7 +522,7 @@ public interface Constants {
     public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN = "document.newMaintainableObject.businessObject.lookupReturn";
     
     //Institutional Proposal Rules
-    public static final String IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newInstitutionalProposalCostShare";
+    public static final String IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare";
     public static final String IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY = "newInstitutionalProposalUnrecoveredFandA";
     
     //Institutional Proposal Audit Rules 

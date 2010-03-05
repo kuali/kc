@@ -563,6 +563,7 @@ public final class KeyConstants {
     public static final String ERROR_IP_COST_SHARE_TYPE_INVALID = "error.institutionalProposalCostShare.costShareTypeCode.invalid";
     public static final String ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED = "error.institutionalProposalCostShare.amount.required";
     public static final String ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID = "error.institutionalProposalCostShare.amount.invalid";
+    public static final String ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED = "error.institutionalProposalCostShare.sourceAccount.required";
     public static final String ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
     
     //Institutional Proposal Unrecovered FandA
