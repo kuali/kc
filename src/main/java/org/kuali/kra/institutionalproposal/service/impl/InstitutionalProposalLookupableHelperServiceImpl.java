@@ -27,10 +27,13 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -49,6 +52,11 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
+    private BusinessObjectService businessObjectService;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
     /* 
      * Overriding this to only return the currently Active version of a proposal 
@@ -87,6 +95,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         
         if (lookupIsFromAward(fieldValues)) {
             filterAlreadyLinkedProposals(searchResults, fieldValues);
+            filterApprovedPendingSubmitProposals(searchResults);
         }
         
         return searchResults;
@@ -146,6 +155,41 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         }
     }
     
+    /*
+     * This method is filter out INSP which is generated from PD whose ProposeStateType is "Approval Pending Submitted"
+     */
+    private void filterApprovedPendingSubmitProposals(List<? extends BusinessObject> searchResults) {
+        List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
+        for (int j = 0; j < searchResults.size(); j++) {
+            if (isDevelopmentProposalAppPendingSubmitted((InstitutionalProposal) searchResults.get(j))) {
+                removeResults.add(searchResults.get(j));
+            }
+        }
+        if (!removeResults.isEmpty()) {
+            searchResults.removeAll(removeResults);
+        }
+    }
+
+    /*
+     * Find if any proposal associate with this INSP has 'Approval Pending Submitted' proposal state type
+     */
+    private boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
+        Map keyMap = new HashMap();
+        keyMap.put("instProposalId", ip.getProposalId());
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
+                keyMap);
+        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+            proposalAdminDetail.refreshReferenceObject("developmentProposal");
+            DevelopmentProposal developmentProposal = proposalAdminDetail.getDevelopmentProposal();
+            if ("5".equals(developmentProposal.getProposalStateTypeCode())) {
+                devProposals.add(proposalAdminDetail.getDevelopmentProposal());
+            }
+        }
+        return !devProposals.isEmpty();
+    }
+
+
     /* 
      * Determine whether lookup is being called from a location that shouldn't include the custom action links
      */
