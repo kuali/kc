@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import java.util.regex.Pattern;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
@@ -55,9 +56,36 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
             }
         }
         
+        if (isValid) {
+            isValid = checkUniqueness(addCongressionalDistrictEvent, proposalSiteHelper);
+        }
+        
         return isValid;
     }
 
+    /**
+     * This method tests whether the new district already exists for the Proposal Site.
+     * It assumes the site index in addCongressionalDistrictEvent is valid.
+     * @param addCongressionalDistrictEvent
+     * @param proposalSiteHelper
+     * @return
+     */
+    private boolean checkUniqueness(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent, CongressionalDistrictHelper proposalSiteHelper) {
+        boolean isValid = true;
+        
+        CongressionalDistrict newDistrict = new CongressionalDistrict();
+        newDistrict.setCongressionalDistrict(proposalSiteHelper.getNewState(), proposalSiteHelper.getNewDistrictNumber());
+        
+        for (CongressionalDistrict existingDistrict: addCongressionalDistrictEvent.getProposalSite().getCongressionalDistricts()) {
+            if (StringUtils.equals(newDistrict.getCongressionalDistrict(), existingDistrict.getCongressionalDistrict())) {
+                reportError("newDistrictNumber", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_DUPLICATE);
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+    
     /**
      * Checks that site index and district index are valid.
      * @param deleteCongressionalDistrictEvent

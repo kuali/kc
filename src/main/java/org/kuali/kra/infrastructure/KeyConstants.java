@@ -59,6 +59,7 @@ public final class KeyConstants {
     // Proposal Sites errors
     public static final String ERROR_PROPOSAL_SITES_STATE_CODE_INVALID = "error.document.accountMaintenance.stateCodeInvalid";
     public static final String ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT = "error.congressionalDistrict.format";
+    public static final String ERROR_PROPOSAL_SITES_DISTRICT_DUPLICATE = "error.congressionalDistrict.duplicate";
     public static final String ERROR_PROPOSAL_SITES_INDEX_INVALID_FORMAT = "error.integer";   // used for site indexes and district indexes
     public static final String ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED = "error.required.locationName";
     public static final String ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED = "error.required.address";
