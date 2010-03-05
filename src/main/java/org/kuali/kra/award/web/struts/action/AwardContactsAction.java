@@ -86,11 +86,11 @@ public class AwardContactsAction extends AwardAction {
             if(person.isPrincipalInvestigator()) {
                 List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
                         ServiceHelper.getInstance().buildCriteriaMap("unitName", awardForm.getProjectPersonnelBean().getSelectedLeadUnit()));
+                if (units.size() > 0) {
                 Unit leadUnit = units.get(0);
-                 if (leadUnit != null) {
-                    award.setUnitNumber(leadUnit.getUnitNumber());
-                    award.setLeadUnit(leadUnit);
-                } else {
+                award.setUnitNumber(leadUnit.getUnitNumber());
+                award.setLeadUnit(leadUnit);
+                }else {
                     award.setUnitNumber(null);
                     award.setLeadUnit(null);
                 }
