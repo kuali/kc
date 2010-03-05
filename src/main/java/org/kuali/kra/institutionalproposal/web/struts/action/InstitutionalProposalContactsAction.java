@@ -19,6 +19,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -35,6 +39,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProject
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContactsBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
@@ -53,7 +58,7 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
-        setLeadUnitOnInstitutionalProposalFromPILeadUnit(institutionalProposal);
+        setLeadUnitOnInstitutionalProposalFromPILeadUnit(institutionalProposal, institutionalProposalForm);
         institutionalProposalForm.getCentralAdminContactsBean().initCentralAdminContacts();
         ActionForward forward = super.save(mapping, form, request, response); 
         return forward;
@@ -71,15 +76,37 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
      * This method is called to reset the Lead Unit on the InstitutionalProposal if the lead unit is changed on the PI.
      * @param institutionalProposal
      */
-    private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal) {
+//    private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal) {
+//        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
+//            if(person.isPrincipalInvestigator()) {
+//                Unit leadUnit = person.findLeadUnit();
+//                institutionalProposal.setLeadUnit(leadUnit);
+//                if (leadUnit != null) {
+//                    institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
+//                } else {
+//                    institutionalProposal.setUnitNumber(null);
+//                }
+//            }
+//        }
+//    }
+    
+    /**
+     * This method is called to reset the Lead Unit on the award if the lead unit is changed on the PI.
+     * @param award
+     */
+    @SuppressWarnings("unchecked")
+    private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal, InstitutionalProposalForm institutionalProposalForm) {
         for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
             if(person.isPrincipalInvestigator()) {
-                Unit leadUnit = person.findLeadUnit();
+                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
+                        ServiceHelper.getInstance().buildCriteriaMap("unitName", institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit()));
+                if (units.size() > 0) {
+                Unit leadUnit = units.get(0);
+                institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
                 institutionalProposal.setLeadUnit(leadUnit);
-                if (leadUnit != null) {
-                    institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
-                } else {
+                }else {
                     institutionalProposal.setUnitNumber(null);
+                    institutionalProposal.setLeadUnit(null);
                 }
             }
         }
