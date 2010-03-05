@@ -1235,6 +1235,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward acknowledge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
+        ((ProposalDevelopmentForm)form).getDocument().prepareForSave();
         return super.acknowledge(mapping, form, request, response);
     }
     /**
