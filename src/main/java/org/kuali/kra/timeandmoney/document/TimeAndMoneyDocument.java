@@ -165,6 +165,10 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         return roles;
     }
     
+    public boolean getDocumentRouteStatus() {
+        return getDocumentHeader().getWorkflowDocument().stateIsEnroute() || getDocumentHeader().getWorkflowDocument().stateIsFinal();
+    }
+    
     public boolean isNew(){
         return documentNumber == null;
     }
