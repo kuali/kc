@@ -1,3 +1,39 @@
+-- assign KC Award Budget Administrator to quickstart unit 000001 descending
+INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ROLE_MBR_ID_S.NEXTVAL, (SELECT ROLE_ID FROM KRIM_ROLE_T T1 WHERE T1.ROLE_NM = 'Award Budget Administrator'), 
+		(SELECT PRNCPL_ID FROM KRIM_PRNCPL_T T2 WHERE T2.PRNCPL_NM = 'quickstart'), 
+		'P', NULL, NULL, to_date('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, SYS_GUID());
+
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, krim_role_mbr_id_s.currval, 
+	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'), 
+	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'unitNumber' AND NMSPC_CD = 'KC-SYS'), 
+	'000001', 1, sys_guid());
+
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, krim_role_mbr_id_s.currval, 
+		(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'), 
+		(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'subunits' AND NMSPC_CD = 'KC-SYS'), 
+		'Y', 1, sys_guid());
+
+-- assign Award Budget Approver to jtester unit 000001 descending
+INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ROLE_MBR_ID_S.NEXTVAL, (SELECT ROLE_ID FROM KRIM_ROLE_T T1 WHERE T1.ROLE_NM = 'Award Budget Approver'), 
+		(SELECT PRNCPL_ID FROM KRIM_PRNCPL_T T2 WHERE T2.PRNCPL_NM = 'jtester'), 
+		'P', NULL, NULL, to_date('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, SYS_GUID());
+
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, krim_role_mbr_id_s.currval, 
+	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'), 
+	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'unitNumber' AND NMSPC_CD = 'KC-SYS'), 
+	'000001', 1, sys_guid());
+
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID) 
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, krim_role_mbr_id_s.currval, 
+		(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS'), 
+		(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'subunits' AND NMSPC_CD = 'KC-SYS'), 
+		'Y', 1, sys_guid());
+		
 -- assign osp administrator role to borst
 insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd) 
 values (KRIM_ROLE_MBR_ID_S.nextval, 1, sys_guid(), (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y' and nmspc_cd = 'KC-ADM'), (select prncpl_id from krim_prncpl_t where prncpl_nm = 'borst' and actv_ind = 'Y'), 'P');
