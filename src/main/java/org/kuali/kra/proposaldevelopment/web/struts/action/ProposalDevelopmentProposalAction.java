@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -47,8 +46,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
@@ -873,14 +872,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
            
         if (developmentProposal.getRolodex() != null) {
-        
-            Rolodex rolodex = developmentProposal.getRolodex();
-            rolodex.setAddressLine1("");
-            rolodex.setAddressLine2("");
-            rolodex.setAddressLine3("");
-            rolodex.setCity("");
-            rolodex.setOrganization("");
-            rolodex.setState("");
+           
+            developmentProposal.setRolodex(null);
+            developmentProposal.setMailingAddressId(null);
         
         }
       return mapping.findForward(Constants.MAPPING_BASIC);
