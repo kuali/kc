@@ -515,12 +515,13 @@
     <property name="shortLabel" value="Sponsor Award ID" />
     <property name="maxLength" value="70" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="12" />
+            p:size="20" />
     </property>
     <property name="summary" value="Sponsor Award ID" />
     <property name="description" value="Sponsor Award ID" />
@@ -540,7 +541,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="12" />
+            p:size="20" />
     </property>
     <property name="summary" value="Modification ID" />
     <property name="description" value="Modification ID" />
