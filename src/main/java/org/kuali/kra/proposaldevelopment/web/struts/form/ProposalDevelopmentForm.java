@@ -1104,7 +1104,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             
             KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
  
-            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
+            if ( isCanSubmitToSponsor() ) {
                 String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
@@ -1203,17 +1203,25 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isSubmissionStatusReadOnly() {
+        boolean result = true;
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         boolean canModify = proposalAuthService.hasPermission(userId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
-        if (canModify) { return false; }
+        if (canModify) { result = false; }
         
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         if(kraAuthorizationService.hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
-            return false;
+            result =  false;
         }
         
-        return true;
+        return result;
+    }
+    
+    public boolean isCanSubmitToSponsor() {
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
+        .getDocRouteStatus();
+        return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
+                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
     }
 
     public Long getVersionNumberForS2sOpportunity() {
