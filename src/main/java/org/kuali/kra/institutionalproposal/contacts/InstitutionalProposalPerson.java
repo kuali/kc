@@ -319,4 +319,9 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         this.keyPersonRole = keyPersonRole;
     }
     
+    /** {@inheritDoc}  */
+    public void resetPersistenceState() {
+        this.setInstitutionalProposalContactId(null);
+    }
+
 }

@@ -19,19 +19,23 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class...
  */
-public abstract class InstitutionalProposalContact extends InstitutionalProposalAssociate {
+public abstract class InstitutionalProposalContact extends InstitutionalProposalAssociate implements SequenceAssociate<InstitutionalProposal> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -474,4 +478,23 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         }
         setRolodex(rolodex);
     }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public InstitutionalProposal getSequenceOwner() {
+        return getInstitutionalProposal();
+    }
+
+    public Integer getSequenceNumber() {
+        return getInstitutionalProposal().getSequenceNumber();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
+        setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
+    }
+
 }

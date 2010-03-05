@@ -21,10 +21,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -33,7 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class...
  */
-public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit> {
+public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit>, SequenceAssociate<InstitutionalProposal> {
 
     public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
     public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
@@ -334,5 +336,24 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
             }
         }
     }
+
+    public InstitutionalProposal getSequenceOwner() {
+        return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
+    }
+    
+    public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
+        if(getInstitutionalProposalPerson() != null) {
+            getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        this.institutionalProposalPersonUnitId = null;
+    }
+
 
 }
