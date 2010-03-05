@@ -73,7 +73,7 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (userName != null) {
+            if (userName != null && userName != "") {
                 KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
                 if (person != null) {
                     lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
