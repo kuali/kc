@@ -88,6 +88,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -831,7 +832,10 @@ public class AwardAction extends BudgetParentActionBase {
         String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
         if(StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
             loadDocumentInForm(request, awardForm); 
-            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber()); 
+            KualiWorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+            if(workflowDoc != null)
+                awardForm.setDocTypeName(workflowDoc.getDocumentType());
+            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());   
         } 
         populateAwardHierarchy(form); 
 
