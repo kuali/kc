@@ -202,6 +202,26 @@
             </list>
           </property>
         </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Unit Unit Administrators"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="unitAdministrators"/>
+                <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministrator"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean p:attributeName="person.fullName" parent="FieldDefinition"/>
+                    <bean p:attributeName="unitAdministratorTypeCode" parent="FieldDefinition"/>
+                    <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
