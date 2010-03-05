@@ -240,6 +240,15 @@ http://www.osedu.org/licenses/ECL-2.0
 					</div>
 				</td>
 		   </tr>
+		   	    <c:forEach var="calculatedExpenseTotal" items="${budget.nonPersonnelCalculatedExpenseTotals}" >
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+		               <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
+		               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
+		               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
+						</c:forEach>
+					</c:if>
+				</c:forEach>
+		   
 			<c:set var="nonPersonnelObjectCodes" value="${budget.objectCodeListByBudgetCategoryType[categoryType]}" />
 		   		<c:forEach var="nonPersonnelObjectCode" items="${nonPersonnelObjectCodes}" varStatus="objStatus" >
 		   		<c:if test="${nonPersonnelObjectCode.costElement eq KualiForm.proposalHierarchyIndirectObjectCode}">
