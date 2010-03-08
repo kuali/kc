@@ -15,14 +15,14 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textApproveComments" value="actionHelper.protocolApproveBean.comments" />
 
 <kra:permission value="${KualiForm.actionHelper.canApprove}">
 
-<kra:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpediteApprovalBean*">
+<kra:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
