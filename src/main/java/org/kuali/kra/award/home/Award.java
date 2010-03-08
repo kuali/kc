@@ -202,6 +202,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private transient List<AwardHierarchyTempObject> awardHierarchyTempObjects;
 
+    // transient for award header label
+    private transient String docIdStatus;
+    private transient String awardIdAccount;       
+
     /**
      * 
      * Constructs an Award BO.
@@ -2735,5 +2739,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return getAwardComments().get(index);
     }
+
+    
+    public String getDocIdStatus() {
+        return docIdStatus;
+    }
+
+    public String getAwardIdAccount() {
+        return awardIdAccount;
+    }
+
 
 }

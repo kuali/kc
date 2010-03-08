@@ -68,6 +68,9 @@
         <ref bean="Award-closeoutDate" />
         <ref bean="Award-awardTransactionTypeCode" />
         <ref bean="Award-noticeDate" />
+        <ref bean="Award-updateTimestamp" />
+        <ref bean="Award-docIdStatus" />
+        <ref bean="Award-awardIdAccount" />        
       </list>
     </property>
   </bean>
@@ -737,8 +740,8 @@
 	<bean id="Award-unitName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="unitName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Unit Name" />
-		<property name="shortLabel" value="Unit Name" />
+		<property name="label" value="Lead Unit" />
+		<property name="shortLabel" value="Lead Unit" />
 		<property name="maxLength" value="150" />
 		<property name="validationPattern" >
 		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
@@ -873,6 +876,43 @@
 	    <property name="summary" value="Final Expiration Date" />
 	    <property name="description" value="Final Expiration Date" />
   	</bean>
+
+	<bean id="Award-updateTimestamp" parent="Award-updateTimestamp-parentBean" />
+	<bean id="Award-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Last Update" />
+	</bean>
+
+	<bean id="Award-docIdStatus" parent="Award-docIdStatus-parentBean" />
+	<bean id="Award-docIdStatus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docIdStatus" />
+		<property name="label" value="Document ID:Status" />
+		<property name="shortLabel" value="Document ID:Status" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+		<property name="summary" value="Label for award header fields" />
+		<property name="description" value="Label for award header fields" />
+	</bean>
+	
+	<bean id="Award-awardIdAccount" parent="Award-awardIdAccount-parentBean" />
+	<bean id="Award-awardIdAccount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardIdAccount" />
+		<property name="label" value="Award ID: Account" />
+		<property name="shortLabel" value="Award ID: Account" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+		<property name="summary" value="Label for award header fields" />
+		<property name="description" value="Label for award header fields" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 
