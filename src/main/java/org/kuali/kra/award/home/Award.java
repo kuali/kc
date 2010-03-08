@@ -309,6 +309,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardAmountInfos.size() - 1;
     }
 
+    public AwardAmountInfo getLastAwardAmountInfo() {
+        return awardAmountInfos.get(getIndexOfLastAwardAmountInfo());
+    }
 
     
     /**
@@ -2582,7 +2585,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public Date getRequestedStartDateInitial() {
-        return getAwardEffectiveDate();
+        return getLastAwardAmountInfo().getCurrentFundEffectiveDate();
     }
 
     public Unit getUnit() {
