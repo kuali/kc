@@ -39,6 +39,7 @@
 				<th><div align="center">Actions</div></th>
 			</tr>
 			
+            <c:if test="${!readOnly}">
 			<tr>
             	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
             	<td width="80" class="infoline">
@@ -71,6 +72,8 @@
 					</div>
 	            </td>
           	</tr>
+            </c:if>
+            
          <c:forEach var="institutionalProposalNotepad" items="${KualiForm.document.institutionalProposal.institutionalProposalNotepads}" varStatus="status">
 	             <tr>
 					<th class="infoline">
