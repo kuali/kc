@@ -26,15 +26,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is for calculating personnel line items.
@@ -62,7 +58,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if(budget.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+        if(budget.getOhRateClassCode()!= null && getBudgetFormFromGlobalVariables()!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), getBudgetFormFromGlobalVariables().getOhRateClassCodePrevValue())){
             return true;
         }
         
