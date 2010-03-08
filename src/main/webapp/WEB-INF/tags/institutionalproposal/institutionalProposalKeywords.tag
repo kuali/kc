@@ -32,6 +32,8 @@
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
+             
+            <c:if test="${!readOnly}">
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.institutionalProposal.newDescription}
@@ -46,6 +48,7 @@
               &nbsp;
               </div></td>
             </tr>
+            </c:if>
 
             <logic:iterate name="KualiForm" id="proposalKeywords" property="document.institutionalProposal.institutionalProposalScienceKeywords" indexId="ctr">
               <tr>
@@ -63,15 +66,16 @@
                 </div></td>
               </tr>
             </logic:iterate>
+            
+            <c:if test="${!readOnly && fn:length(KualiForm.document.institutionalProposal.institutionalProposalScienceKeywords) > 0}">
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-	            <%--<c:if test="${fn:length(KualiForm.document.institutionalProposal.institutionalProposalScienceKeywords) > 0}">--%>
 	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllInstitutionalProposalKeywords(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
-	            <%--</c:if>--%>
                 </div></td>
-              </tr>            
+              </tr>
+            </c:if>  
         </table>
     </div>
 </kul:tab>
