@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -78,11 +76,13 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -98,6 +98,10 @@ public class AwardForm extends BudgetVersionFormBase
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
 
+    private static final int NUMBER_30 = 30;
+    public static final String COLUMN = ":";
+    public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
+    public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
     private static final Log LOG = LogFactory.getLog(AwardForm.class);
     private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObject[";
     private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
@@ -1188,4 +1192,71 @@ public class AwardForm extends BudgetVersionFormBase
         return linkedProposals;
     }
     
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     */
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        // super.populateHeaderFields(workflowDocument);
+
+        AwardDocument awardDocument = getAwardDocument();
+        getDocInfo().clear();
+        getDocInfo().add(
+                new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
+                        .getAward().getPrincipalInvestigatorName()));
+
+        String docIdAndStatus = COLUMN;
+        if (workflowDocument != null) {
+            docIdAndStatus = getAwardDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
+        String unitName = awardDocument.getAward().getUnitName();
+        if (StringUtils.isNotBlank(unitName) && unitName.length() > NUMBER_30) {
+            unitName = unitName.substring(0, NUMBER_30);
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.unitName", unitName));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+
+        setupSponsor(awardDocument);
+        setupLastUpdate(awardDocument);
+
+    }
+
+    private String getAwardIdAccount(AwardDocument awardDocument) {
+        String awardNum = awardDocument.getAward().getAwardNumber();
+        String account = awardDocument.getAward().getAccountNumber() != null ? awardDocument.getAward().getAccountNumber()
+                : Constants.EMPTY_STRING;
+        return awardNum + COLUMN + account;
+    }
+
+    private void setupLastUpdate(AwardDocument awardDocument) {
+        String createDateStr = null;
+        String updateUser = null;
+        if (awardDocument.getUpdateTimestamp() != null) {
+            createDateStr = KNSServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
+            updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
+                    : awardDocument.getUpdateUser();
+            getDocInfo().add(
+                    new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + updateUser));
+        } else {
+            getDocInfo().add(new HeaderField(UPDATE_TIMESTAMP_DD_NAME, Constants.EMPTY_STRING));
+        }
+
+    }
+
+
+    private void setupSponsor(AwardDocument awardDocument) {
+        if (awardDocument.getAward().getSponsor() == null) {
+            getDocInfo().add(new HeaderField(SPONSOR_DD_NAME, ""));
+        } else {
+            String sponsorName = awardDocument.getAward().getSponsorName();
+            if (StringUtils.isNotBlank(sponsorName) && sponsorName.length() > NUMBER_30) {
+                sponsorName = sponsorName.substring(0, NUMBER_30);
+            }
+            getDocInfo().add(new HeaderField(SPONSOR_DD_NAME, sponsorName));
+        }
+
+    }
+
 }
