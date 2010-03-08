@@ -357,7 +357,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can approve the document; otherwise false
      */
     protected boolean canApprove(Document document, Person user) {
-        return true;
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return workflowDocument.getRouteHeader().isApproveRequested() 
+                && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_APPROVED_CD)
+                && workflowDocument.stateIsEnroute();  
     }
     
     /**
