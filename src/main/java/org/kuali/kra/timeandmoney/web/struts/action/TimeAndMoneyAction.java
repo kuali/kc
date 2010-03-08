@@ -37,6 +37,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
@@ -146,6 +147,18 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, ZERO));
         int index = Integer.parseInt(StringUtils.reverse(i));
         return index;
+    }
+    
+    /*
+     * override save to call save before we route.
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward;
+        save(mapping, form, request, response);
+        actionForward = super.route(mapping, form, request, response);            
+        return actionForward;
     }
         
     /**
