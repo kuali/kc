@@ -2585,7 +2585,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public Date getRequestedStartDateInitial() {
-        return getLastAwardAmountInfo().getCurrentFundEffectiveDate();
+        AwardAmountInfo awardAmountInfo = getLastAwardAmountInfo();
+        return awardAmountInfo==null?null:awardAmountInfo.getCurrentFundEffectiveDate();
     }
 
     public Unit getUnit() {
