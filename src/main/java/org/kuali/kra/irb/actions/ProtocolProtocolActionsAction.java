@@ -42,6 +42,8 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaEvent;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
@@ -1127,11 +1129,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-        //this is not a generic action, there is extra dates here.
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        //getGenericActionService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        KraServiceLocator.getService(ProtocolApproveService.class).approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         
         getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                 protocolForm.getProtocolDocument().getProtocol());
