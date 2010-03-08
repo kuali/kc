@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 /**
  * 
  * This class is for serving all calculations for a proposal budget.
@@ -141,4 +141,8 @@ public interface BudgetCalculationService {
      * @param budgetLineItem {@link BudgetLineItem} instance to examine amounts for synchronization
      */
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem);    
+    
+    
+    public BudgetForm getBudgetFormFromGlobalVariables();
+
 }

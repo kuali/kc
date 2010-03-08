@@ -45,21 +45,21 @@ http://www.osedu.org/licenses/ECL-2.0
 				</tr>
 				<tr>
 					<th style="text-align: right;">Total Cost:</th>
-					<td>${ budget.totalCost }</td>
+					<td><fmt:formatNumber value="${ budget.totalCost }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 					<th style="text-align: right;">Total Cost Limit:</th>
-					<td>${ budget.totalCostLimit }</td>
+					<td><fmt:formatNumber value="${ budget.totalCostLimit }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 				</tr>
 				<tr>
 					<th style="text-align: right;">Total Direct Cost:</th>
-					<td>${ budget.totalDirectCost }</td>
+					<td><fmt:formatNumber value="${ budget.totalDirectCost }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 					<th style="text-align: right;">Total F&amp;A Cost:</th>
-					<td>${ budget.totalIndirectCost }</td>
+					<td><fmt:formatNumber value="${ budget.totalIndirectCost }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 				</tr>
 				<tr>
 					<th style="text-align: right;">Unrecovered F&amp;A:</th>
-					<td>${ budget.underrecoveryAmount }</td>
+					<td><fmt:formatNumber value="${ budget.underrecoveryAmount }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 					<th style="text-align: right;">Cost Sharing:</th>
-					<td>${ budget.costSharingAmount }</td>
+					<td><fmt:formatNumber value="${ budget.costSharingAmount }" type="currency" currencySymbol="" maxFractionDigits="2" /></td>
 				</tr>
 				<tr>
 					<th style="text-align: right;">F&amp;A Rate Type:</th>

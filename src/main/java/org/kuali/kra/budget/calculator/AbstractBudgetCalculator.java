@@ -45,6 +45,7 @@ import org.kuali.kra.budget.rates.AbstractBudgetRate;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -66,6 +67,7 @@ public abstract class AbstractBudgetCalculator {
     private QueryList<ValidCeRateType> infltionValidCalcCeRates;
     private QueryList<BudgetRate> underrecoveryRates;
     private QueryList<BudgetRate> inflationRates;
+    private BudgetCalculationService budgetCalcultionService;
 
     /**
      * 
@@ -78,6 +80,7 @@ public abstract class AbstractBudgetCalculator {
         this.budgetLineItem = budgetLineItem;
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         dateTimeService = KNSServiceLocator.getDateTimeService();
+        budgetCalcultionService = KraServiceLocator.getService(BudgetCalculationService.class);
         breakupIntervals = new ArrayList<BreakUpInterval>();
     }
     /**
@@ -925,4 +928,9 @@ public abstract class AbstractBudgetCalculator {
     public void setQlLineItemPropRates(QueryList<BudgetRate> qlLineItemPropRates) {
         this.lineItemPropRates = qlLineItemPropRates;
     }
+    
+    protected BudgetForm getBudgetFormFromGlobalVariables() {
+        return budgetCalcultionService.getBudgetFormFromGlobalVariables();
+    }
+
 }
