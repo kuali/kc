@@ -18,7 +18,9 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -29,7 +31,7 @@ import org.kuali.kra.bo.Rolodex;
  * This class represents the AwardReportTermRecipient business object
  * 
  */
-public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
+public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -267,6 +269,24 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
+    }
+
+    public Award getSequenceOwner() {
+        return getAwardReportTerm() != null ? getAwardReportTerm().getAward() : null;
+    }
+
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        if(getAwardReportTerm() != null) {
+            getAwardReportTerm().setAward(newlyVersionedOwner);
+        }
+    }
+
+    public Integer getSequenceNumber() {
+        return  getAwardReportTerm() != null ? getAwardReportTerm().getSequenceNumber() : 0;
+    }
+
+    public void resetPersistenceState() {
+        this.awardReportTermRecipientId = null;
     }
 
     
