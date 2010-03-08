@@ -34,7 +34,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
@@ -62,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -71,17 +71,13 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -214,6 +210,7 @@ public class BudgetAction extends BudgetActionBase {
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
+        getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
         refreshBudgetDocumentVersion(savedBudgetDoc);
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
