@@ -375,7 +375,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return workflowDocument.getRouteHeader().isApproveRequested() 
                 && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_DENIED_CD)
-                && !workflowDocument.stateIsInitiated();
+                && workflowDocument.stateIsEnroute();
     }
     
     /**
