@@ -35,6 +35,7 @@ import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
@@ -132,11 +133,8 @@ public class ActionHelper implements Serializable {
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
+    private ProtocolApproveBean protocolApproveBean;
     private ProtocolGenericActionBean protocolExpediteApprovalBean;
-    /**
-     * the approve bean needs to not be ProtocolGenericActionBean, but will implement ReviewerCommentsContainer
-     */
-    private ProtocolGenericActionBean protocolApproveBean;
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
@@ -202,7 +200,9 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
         protocolExpediteApprovalBean = buildProtocolGenericActionBean(EXPEDITE_APPROVAL_BEAN_TYPE, protocolActions);
-        protocolApproveBean = buildProtocolGenericActionBean(APPROVE_BEAN_TYPE, protocolActions);
+        
+        protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol());
+        
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions);
         protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions);
@@ -217,6 +217,7 @@ public class ActionHelper implements Serializable {
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
     
+    
     /**
      *     
      * This method builds a ProtocolGenericActionBean.  A number of different beans
@@ -226,7 +227,7 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
-        ProtocolAction protocolAction = findGenericProtocolAction(beanType, protocolActions);
+        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -236,8 +237,23 @@ public class ActionHelper implements Serializable {
         addReviewerCommentsToBean(bean, this.form);
         return bean;
     }
+    
+    private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol) throws Exception{
+        ProtocolApproveBean bean = new ProtocolApproveBean();
+        ProtocolAction protocolAction = findProtocolAction(APPROVE_BEAN_TYPE, protocol.getProtocolActions());
+        if (protocolAction != null) {
+            bean.setComments(protocolAction.getComments());
+            java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
+                    protocolAction.getActionDate().getDay());
+            bean.setActionDate(actionDate);
+        }
+        bean.setApprovalDate(protocol.getApprovalDate());
+        bean.setExpirationDate(protocol.getExpirationDate());
+        addReviewerCommentsToBean(bean, this.form);
+        return bean;
+    }
 
-    private ProtocolAction findGenericProtocolAction(int beanType, List<ProtocolAction> protocolActions) throws Exception {
+    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions) throws Exception {
         String actionTypeCode;
         switch(beanType) {
             case EXPEDITE_APPROVAL_BEAN_TYPE:
@@ -673,13 +689,8 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
     }
-    
-    /**
-     * 
-     * This method should not be a ProtocolGenericActionBean .... there are extra dates involved here.
-     * @return
-     */
-    public ProtocolGenericActionBean getProtocolApproveBean() {
+
+    public ProtocolApproveBean getProtocolApproveBean() {
         return protocolApproveBean;
     }
     
