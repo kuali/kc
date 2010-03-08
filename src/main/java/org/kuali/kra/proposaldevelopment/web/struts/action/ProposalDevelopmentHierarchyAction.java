@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -84,6 +85,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             budget = (Budget) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Budget.class, primaryKeys);
             if (budget != null) {
                 budget.getBudgetTotals();
+                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);                
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
                     DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetDocument().getParentDocument().getBudgetParent();
