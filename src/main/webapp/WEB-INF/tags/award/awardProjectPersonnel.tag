@@ -48,7 +48,8 @@
                             </td>
                             <td style="white-space:nowrap; border: none;">
                                 <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
-                                            attributeEntry="${awardPersonAttributes.fullName}"/>
+                                            attributeEntry="${awardPersonAttributes.fullName}"
+                                            readOnly="true" />
               					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
                                             fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
       	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>
@@ -59,7 +60,8 @@
                             </td>
                             <td style="white-space:nowrap; border: none;">
                                 <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
-                                                attributeEntry="${awardPersonAttributes.fullName}"/>
+                                                attributeEntry="${awardPersonAttributes.fullName}"
+                                                readOnly="true" />
           						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
           									anchor="${tabKey}"
           									lookupParameters="projectPersonnelBean.rolodexId:rolodexId,projectPersonnelBean.newProjectPerson.rolodex.fullName:lastName"/>
