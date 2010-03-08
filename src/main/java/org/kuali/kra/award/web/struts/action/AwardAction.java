@@ -70,6 +70,7 @@ import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -116,6 +117,8 @@ public class AwardAction extends BudgetParentActionBase {
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
+    private static final int NINE = 9;
+    private static final int ZERO = 0;
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
    
     /**
@@ -591,6 +594,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
+        boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
 
         populateAwardHierarchy(form);
 
@@ -609,6 +613,10 @@ public class AwardAction extends BudgetParentActionBase {
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
+        //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
+        if(timeAndMoneyDocuments.size() > 0) {
+            firstTimeAndMoneyDocCreation = Boolean.FALSE;
+        }
         TimeAndMoneyDocument timeAndMoneyDocument = null;
 
         for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
@@ -627,6 +635,15 @@ public class AwardAction extends BudgetParentActionBase {
             timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setAward(award);
+            AwardAmountTransaction aat = new AwardAmountTransaction();
+            aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
+            aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+            if(firstTimeAndMoneyDocCreation) {
+                aat.setTransactionTypeCode(NINE);
+            }else {
+                aat.setTransactionTypeCode(null);
+            }
+            timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
             documentService.saveDocument(timeAndMoneyDocument);
         }
         
