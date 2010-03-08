@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
@@ -154,6 +155,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
     private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
+    @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     
