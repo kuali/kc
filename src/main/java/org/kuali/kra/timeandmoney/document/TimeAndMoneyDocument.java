@@ -110,11 +110,11 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         awardHierarchyItems = new HashMap<String, AwardHierarchy>();
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
-        AwardAmountTransaction aat = new AwardAmountTransaction();
-        aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
-        aat.setDocumentNumber(getDocumentNumber());
-        aat.setTransactionTypeCode(9);
-        awardAmountTransactions.add(aat);
+//        AwardAmountTransaction aat = new AwardAmountTransaction();
+//        aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
+//        aat.setDocumentNumber(getDocumentNumber());
+//        aat.setTransactionTypeCode(9);
+//        awardAmountTransactions.add(aat);
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
         timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>(); 
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
