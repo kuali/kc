@@ -55,7 +55,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();        
         List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
                 awardAmountTransactionItems, awardItems, transactionDetailItems);
-        doc.setPendingTransactions(new ArrayList<PendingTransaction>());
+        //doc.setPendingTransactions(new ArrayList<PendingTransaction>());
         performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
     }
 
