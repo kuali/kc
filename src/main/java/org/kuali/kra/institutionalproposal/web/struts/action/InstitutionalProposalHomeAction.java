@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -264,6 +265,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                                                                                                          WorkflowException, 
                                                                                                          IOException {
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(institutionalProposal);
+        resetAwardFundingForNewVersion(newVersion);
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
         InstitutionalProposalDocument newInstitutionalProposalDocument = 
             (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
@@ -276,6 +278,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return null;
     }
     
+    private void resetAwardFundingForNewVersion(InstitutionalProposal newInstProp) {
+        
+        for (AwardFundingProposal awardFundingProposal : newInstProp.getAwardFundingProposals()) {
+            awardFundingProposal.setAwardFundingProposalId(null);
+        }
+    }
+ 
     /**
      * This method prepares the AwardForm with the document found via the Award lookup
      * Because the helper beans may have preserved a different AwardForm, we need to reset these too
