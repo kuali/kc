@@ -106,6 +106,7 @@
         </collection-descriptor>
         <collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
+            <orderby name="updateTimestamp" sort="ASC" />
         </collection-descriptor>
         <collection-descriptor name="protocolSubmissions" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />

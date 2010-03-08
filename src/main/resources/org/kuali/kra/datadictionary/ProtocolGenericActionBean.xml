@@ -22,12 +22,12 @@
 	<bean id="ProtocolGenericActionBean" parent="ProtocolGenericActionBean-parentBean" />
 	<bean id="ProtocolGenericActionBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean" />
-		<property name="objectLabel" value="Protocol GrantExemption Bean" />
+		<property name="objectLabel" value="Protocol Generic Action Bean" />
 		<property name="titleAttribute" value="ProtocolGenericActionBean-reason" />
 		<property name="attributes" >
 			<list>
-			    <ref bean="ProtocolGenericActionBean-approvalDate" />
-			    <ref bean="ProtocolGenericActionBean-expirationDate" />
+			    <!-- <ref bean="ProtocolGenericActionBean-approvalDate" />
+			    <ref bean="ProtocolGenericActionBean-expirationDate" /> -->
 				<ref bean="ProtocolGenericActionBean-comments" />
 				<ref bean="ProtocolGenericActionBean-actionDate" />
 			</list>
@@ -36,6 +36,7 @@
 
 	<!-- Attribute Definitions -->
 	
+	<!-- 
 	<bean id="ProtocolGenericActionBean-approvalDate" parent="ProtocolGenericActionBean-approvalDate-parentBean"/>
 	<bean id="ProtocolGenericActionBean-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
 	    <property name="name" value="approvalDate"/>
@@ -54,7 +55,7 @@
         <property name="required" value="true"/>
         <property name="summary" value="Expiration Date"/>
         <property name="description" value="Expiration Date"/>
-    </bean>
+    </bean>  -->
     
     <bean id="ProtocolGenericActionBean-comments" parent="ProtocolGenericActionBean-comments-parentBean" />
 	<bean id="ProtocolGenericActionBean-comments-parentBean" abstract="true" parent="AttributeDefinition" >

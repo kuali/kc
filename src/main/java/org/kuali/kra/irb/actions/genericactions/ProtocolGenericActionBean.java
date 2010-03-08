@@ -28,28 +28,28 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
 @SuppressWarnings("serial")
 public class ProtocolGenericActionBean implements Serializable, ReviewerCommentsContainer {
     
-    private Date approvalDate = new Date(System.currentTimeMillis());
-    private Date expirationDate;
+    //private Date approvalDate = new Date(System.currentTimeMillis());
+    //private Date expirationDate;
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     
     private ReviewComments reviewComments = new ReviewComments();
     
-    public Date getApprovalDate() {
-        return approvalDate;
-    }
+    //public Date getApprovalDate() {
+      //  return approvalDate;
+    //}
     
-    public void setApprovalDate(Date approvalDate) {
-        this.approvalDate = approvalDate;
-    }
+   // public void setApprovalDate(Date approvalDate) {
+     //   this.approvalDate = approvalDate;
+    //}
     
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+    //public Date getExpirationDate() {
+    //    return expirationDate;
+    //}
     
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+    //public void setExpirationDate(Date expirationDate) {
+      //  this.expirationDate = expirationDate;
+    //}
     
     public String getComments() {
         return comments;
