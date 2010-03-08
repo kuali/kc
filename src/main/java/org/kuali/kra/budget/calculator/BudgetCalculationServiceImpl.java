@@ -50,6 +50,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 /**
@@ -65,24 +66,27 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudget(Budget budget){
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         String ohRateClassCodePrevValue = null;
+        
+        BudgetForm form = getBudgetFormFromGlobalVariables();
+
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(isCalculationRequired(budget.isBudgetLineItemDeleted(),budgetPeriod)){
                 String workOhCode = null;
-                if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
-                    workOhCode = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
+                if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
+                    workOhCode = form.getOhRateClassCodePrevValue();
                 }
                 calculateBudgetPeriod(budget, budgetPeriod);
-                if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
+                if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                         // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
-                    ohRateClassCodePrevValue = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
-                    ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
+                    ohRateClassCodePrevValue = form.getOhRateClassCodePrevValue();
+                    form.setOhRateClassCodePrevValue(workOhCode);
                 }
             }
         }
-        if (((BudgetForm)GlobalVariables.getKualiForm())!=null && ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
+        if (form!=null && form.getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
             // if not all periods are calculated, then this code has potential to be null, and this will force
             // to create calamts again
-            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(ohRateClassCodePrevValue);            
+            form.setOhRateClassCodePrevValue(ohRateClassCodePrevValue);            
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudget(budget);
@@ -101,7 +105,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
  
         if (budgetPeriod.getBudget().getBudgetDocument().getParentDocument() instanceof ProposalDevelopmentDocument) {
             ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument)budgetPeriod.getBudget().getBudgetDocument().getParentDocument();
-            if (pdDoc.getDevelopmentProposal().isParent()) return false;
+            //if (pdDoc.getDevelopmentProposal().isParent()) return false;
         }
 
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
@@ -819,4 +823,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
+    
+    public BudgetForm getBudgetFormFromGlobalVariables() {
+        BudgetForm budgetForm = null;
+        KualiForm form = GlobalVariables.getKualiForm();
+        if (form != null && form instanceof BudgetForm) {
+            budgetForm = (BudgetForm)form;
+        }
+        return budgetForm;
+    }
+    
 }
