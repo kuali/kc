@@ -21,9 +21,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
@@ -37,9 +39,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -177,4 +184,21 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
     protected PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(ProposalLockService.class);
     }
+    
+    @Override
+    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
+        super.setupPessimisticLockMessages(document, request);
+        List<String> lockMessages = (List<String>)request.getAttribute(KNSConstants.PESSIMISTIC_LOCK_MESSAGES);
+        BudgetDocument budgetDoc = (BudgetDocument)document;
+        for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
+            if (StringUtils.contains(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) 
+                    && !lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                String message = generatePessimisticLockMessage(lock);
+                if (!lockMessages.contains(message)) {
+                    lockMessages.add(message);
+                }
+            }
+        }
+        request.setAttribute(KNSConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
+    }  
 }

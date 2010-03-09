@@ -17,7 +17,10 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +30,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -37,6 +42,7 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -48,14 +54,19 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -229,7 +240,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward save(ActionMapping mapping,
         ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
@@ -296,25 +307,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         return -1;
-    }
-    
-    @Override 
-    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
-        DocumentHeader currentDocumentHeader = pdDocument.getDocumentHeader();
-        KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
-        ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
-
-        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber().longValue() > pdDocument.getVersionNumber().longValue()) {
-              //refresh the reference
-            updatedDocCopy.setBudgetDocumentVersions(pdDocument.getBudgetDocumentVersions());
-            updatedDocCopy.getDocumentHeader().setWorkflowDocument(workflowDoc);
-            pdForm.setDocument(updatedDocCopy);
-        }
-        
-        boService.save(pdDocument.getBudgetDocumentVersions());
-    }    
+    }   
     
     /**
      * {@inheritDoc}
@@ -380,5 +373,4 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private ProposalDevelopmentService getProposalDevelopmentService() {
         return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
-
 }
