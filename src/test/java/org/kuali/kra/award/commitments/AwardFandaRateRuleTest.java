@@ -31,6 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class tests <code>AwardFandaRateRule</code>
  */
 public class AwardFandaRateRuleTest {
+    private final static String PROPERTY_PREFIX = "DUMMY_PREFIX";
     
     AwardFandaRateRule awardFandaRateRule;
     AwardFandaRate awardFandaRate;    
@@ -68,19 +69,19 @@ public class AwardFandaRateRuleTest {
      */
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRate() {
-        Assert.assertTrue(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
+        Assert.assertTrue(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate, PROPERTY_PREFIX));
     }
     
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRateNull() {
         awardFandaRate.setApplicableFandaRate(null);
-        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
+        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate, PROPERTY_PREFIX));
     }
     
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRateEmpty() {
         awardFandaRate.setApplicableFandaRate(new KualiDecimal(-5));
-        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
+        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate, PROPERTY_PREFIX));
     }
 
     /**
@@ -88,7 +89,7 @@ public class AwardFandaRateRuleTest {
      */
     @Test
     public final void testEvaluateRuleForIdcRateTypeCode() {
-        Assert.assertTrue(awardFandaRateRule.evaluateRuleForFandaRateTypeCode(awardFandaRate));
+        Assert.assertTrue(awardFandaRateRule.evaluateRuleForFandaRateTypeCode(awardFandaRate, PROPERTY_PREFIX));
     }
 
     /**
@@ -96,7 +97,7 @@ public class AwardFandaRateRuleTest {
      */
     @Test
     public final void testEvaluateRuleForFiscalYear() {
-        Assert.assertTrue(awardFandaRateRule.evaluateRuleForFiscalYear(awardFandaRate));        
+        Assert.assertTrue(awardFandaRateRule.evaluateRuleForFiscalYear(awardFandaRate, PROPERTY_PREFIX));        
     }
 
     /**
@@ -104,7 +105,7 @@ public class AwardFandaRateRuleTest {
      */
     @Test
     public final void testEvaluateRuleForStartAndEndDates() {
-        Assert.assertTrue(awardFandaRateRule.evaluateRuleForStartAndEndDates(awardFandaRate));        
+        Assert.assertTrue(awardFandaRateRule.evaluateRuleForStartAndEndDates(awardFandaRate, PROPERTY_PREFIX));        
     }
 
 }

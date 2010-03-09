@@ -28,6 +28,8 @@ import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
 import org.kuali.kra.award.commitments.AwardFandaRateRule;
+import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
+import org.kuali.kra.award.commitments.AwardFandaRateSaveRule;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplitAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
@@ -108,6 +110,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardApprovedEquipmentRule, 
                                                                             AwardApprovedForeignTravelRule, 
                                                                             AddFandaRateRule,
+                                                                            AwardFandaRateSaveRule,
                                                                             SpecialReviewRule<AwardSpecialReview>,
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
@@ -545,6 +548,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             addAwardFandaRateEvent) {        
         return new AwardFandaRateRule().processAddFandaRateBusinessRules(
                 addAwardFandaRateEvent);            
+    }
+    
+    public boolean processSaveFandaRateBusinessRules(AwardFandaRateSaveEvent awardFandaRateSaveEvent) {
+        return new AwardFandaRateRule().processSaveFandaRateBusinessRules(awardFandaRateSaveEvent);
     }
     
     protected boolean processAwardReportTermBusinessRules(Document document) {
