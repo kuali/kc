@@ -57,9 +57,11 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
      */
     private void filterOutPlaceholderDocument(Collection resultTable, List<DocumentSearchResult> docSearchResults) {
         Iterator resultTableIter = resultTable.iterator();
+        String titleForComparison = null;
         for(DocumentSearchResult docSearchResult: docSearchResults) {
             resultTableIter.next();
-            if(docSearchResult.getResultContainer(DOCUMENT_TITLE_FIELD).getUserDisplayValue().contains(AwardDocument.PLACEHOLDER_DOC_DESCRIPTION)) {
+            titleForComparison = docSearchResult.getResultContainer(DOCUMENT_TITLE_FIELD).getUserDisplayValue();
+            if(StringUtils.isNotBlank(titleForComparison) && titleForComparison.contains(AwardDocument.PLACEHOLDER_DOC_DESCRIPTION)) {
                 resultTableIter.remove();
                 docSearchResults.remove(docSearchResult);
                 break;
