@@ -44,4 +44,6 @@ http://www.osedu.org/licenses/ECL-2.0
   </c:forEach>
 
 </kul:tabTop>
+<kul:panelFooter />
+
 </kul:documentPage>
