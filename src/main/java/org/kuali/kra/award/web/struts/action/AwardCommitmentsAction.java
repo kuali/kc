@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,13 +27,12 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * 
@@ -46,6 +47,36 @@ public class AwardCommitmentsAction extends AwardAction {
     
     public AwardCommitmentsAction(){
         costShareActionHelper = new CostShareActionHelper();
+    }
+    
+    /**
+     * Overridden to validate F&A rates
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean isValid = true;
+        AwardForm awardForm = (AwardForm)form;
+        
+        List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
+        for (int i=0; i<fandaRates.size(); i++) {
+            if (!getKualiRuleService().applyRules(new AwardFandaRateSaveEvent(Constants.EMPTY_STRING, awardForm.getAwardDocument(), i))) {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (isValid) {
+            return super.save(mapping, form, request, response);
+        }
+        else {
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
     }
     
     /**
