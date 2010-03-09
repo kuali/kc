@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
@@ -24,26 +25,49 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
  */
 public interface ProposalHierarchyService {
-
-    //Constants for Proposal Hierarchy Child Routing
-    public static final String PROPOSAL_HIERARCHY_PARENT_ENROUTE="Parent Enroute";
-    public static final String PROPOSAL_HIERARCHY_PARENT_CANCEL="Parent Cancel";
-    public static final String PROPOSAL_HIERARCHY_PARENT_DISAPPROVE="Parent Disapproved";
-    public static final String PROPOSAL_HIERARCHY_PARENT_FINAL="Parent Final";
     
-    public static final String HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION = "SYSTEM DISAPPROVED DOCUMENT - HIERARCHY PARENT WAS DISAPPROVED.";
-    public static final String HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION = "SYSTEM APPROVED DOCUMENT - HIERARCHY PARENT FINAL APPROVAL.";
-    public static final String HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION = "SYSTEM CANCELED DOCUMENT - HIERARCHY PARENT WAS CANCELLED.";
-    public static final String HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION = "SYSTEM SUBMITTED DOCUMENT -  HIERARCHY PARENT WAS SUBMITTED.";
-    public static final String HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION = "SYSTEM RE-SUBMITTED DOCUMENT -  HIERARCHY PARENT WAS RE-SUBMITTED.";
-    public static final String HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION = "SYSTEM REJECTED DOCUMENT -  HIERARCHY PARENT WAS REJECTED.";
-
+    //Constants for Proposal Routing
+    public static final String HIERARCHY_CHILD_ENROUTE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentEnroute";
+    public static final String HIERARCHY_CHILD_CANCEL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentCancel";
+    public static final String HIERARCHY_CHILD_DISAPPROVE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentDisapprove";
+    public static final String HIERARCHY_CHILD_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentProcessed";
+    public static final String HIERARCHY_CHILD_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentFinal";
+    public static final String HIERARCHY_CHILD_REJECTED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.parentRejected";
+    
+    public static final String HIERARCHY_REJECTED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.rejected";
+    public static final String HIERARCHY_ENROUTE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.enroute";
+    public static final String HIERARCHY_CANCEL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.cancel";
+    public static final String HIERARCHY_DISAPPROVE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.disapprove";
+    public static final String HIERARCHY_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.processed";
+    public static final String HIERARCHY_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.final";
+    
+    
+    
+    public static final String HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentDisapproved";
+    public static final String HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentApproved";
+    public static final String HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentCanceled";
+    public static final String HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentSubmitted";
+    public static final String HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentResubmitted";
+    public static final String HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentRejected";
+    public static final String PROPOSAL_ROUTING_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.rejected";
+    
+    
+//    public static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
+//    public static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
+//    public static final String APPLICATION_STATUS_PARENT_ENROUTE = "message.proposalDevelopment.workflow.applicationStatus.parentEnroute";
+//   
+    
+    
     /**
      * This method takes a proposal, creates a Hierarchy
      * and links the proposal as the initial child.
@@ -122,7 +146,7 @@ public interface ProposalHierarchyService {
      * 
      * @return The AppWorkDocStatus that should be set in a children.
      */
-    public String getHierarchyChildRouteCode( String oldStatus, String newStatus );
+    public String getHierarchyChildRouteStatus( String oldStatus, String newStatus );
 
     /**
      * Get a list of DevelopmentProposals that are children of proposal number provided.
@@ -176,9 +200,20 @@ public interface ProposalHierarchyService {
      * @param currentUserPrincipalName the name of the user to perform submit or approve operations on the child document.
      * @throws ProposalHierarchyException If there is a problem routing the children.
      */
-    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto, String currentUserPrincipalName) throws ProposalHierarchyException;
+    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto ) throws ProposalHierarchyException;
     
     public boolean allChildBudgetsAreComplete(String parentProposalNumber);
     
     public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId);
+
+    /**
+     * Update the app doc status for the given document.  Workflow ignores a null or empty value so once you set this you have to manage it after that point.
+     * @param doc The proposal dev document you want to update.
+     * @param principalId the principal id to update it as.
+     * @param newStatus the new status, can be any string.
+     * @throws ProposalHierarchyException 
+     */
+    public void updateAppDocStatus(ProposalDevelopmentDocument doc, String principalId, String newStatus) throws ProposalHierarchyException;
+
+    public void calculateAndSetProposalAppDocStatus(ProposalDevelopmentDocument doc, DocumentRouteStatusChangeDTO dto) throws ProposalHierarchyException;
 }

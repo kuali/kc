@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
+import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
 import java.sql.Date;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,6 +84,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -99,10 +102,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
     
-    private static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
-    private static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
-    private static final String APPLICATION_STATUS_PARENT_ENROUTE = "Parent Enroute";
-
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
@@ -113,6 +112,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ParameterService parameterService;
     private IdentityManagementService identityManagementService;
     private ProposalStateService proposalStateService;
+    private KualiConfigurationService configurationService;
 
     /**
      * Sets the proposalStateService attribute value.
@@ -1083,26 +1083,29 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildRouteCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildRouteStatus(java.lang.String, java.lang.String)
      */
-    public String getHierarchyChildRouteCode( String oldStatus, String newStatus) {
+    public String getHierarchyChildRouteStatus( String oldStatus, String newStatus) {
         
         LOG.info( String.format( "Route status change %s:%s",oldStatus,newStatus));
         
         String retCd = null;
-        if( StringUtils.equals(newStatus,KEWConstants.ROUTE_HEADER_ENROUTE_CD) && ( StringUtils.equals( oldStatus, KEWConstants.ROUTE_HEADER_INITIATED_CD) || StringUtils.equals(oldStatus, KEWConstants.ROUTE_HEADER_SAVED_CD) ) ) {
-                retCd = PROPOSAL_HIERARCHY_PARENT_ENROUTE;
+        if( StringUtils.equals(newStatus,KEWConstants.ROUTE_HEADER_ENROUTE_CD) 
+                && ( StringUtils.equals( oldStatus, KEWConstants.ROUTE_HEADER_INITIATED_CD) 
+                || StringUtils.equals(oldStatus, KEWConstants.ROUTE_HEADER_SAVED_CD)  
+                || StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, oldStatus)) ) { 
+                retCd = renderMessage( HIERARCHY_CHILD_ENROUTE_APPSTATUS );
         } else if ( StringUtils.equals(newStatus, KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-                retCd = PROPOSAL_HIERARCHY_PARENT_FINAL;
+                retCd = renderMessage( HIERARCHY_CHILD_FINAL_APPSTATUS );
         } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
-                retCd = PROPOSAL_HIERARCHY_PARENT_DISAPPROVE;
+                retCd = renderMessage( HIERARCHY_CHILD_DISAPPROVE_APPSTATUS );
         } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_CANCEL_CD ) ) {
-               retCd = PROPOSAL_HIERARCHY_PARENT_CANCEL;
+               retCd = renderMessage( HIERARCHY_CHILD_CANCEL_APPSTATUS );
         } else {
             LOG.warn(String.format("Do not know how to calculate hierarchy child status for %s to %s",oldStatus,newStatus) );
         }
-  
-        LOG.info(String.format("Route status for children:%s",retCd ));
+        if( LOG.isDebugEnabled() )
+            LOG.debug(String.format("Route status for children:%s",retCd ));
         return retCd;
     }
 
@@ -1196,7 +1199,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalName, String appDocStatus ) throws WorkflowException  {
             WorkflowDocument workflowDocument = new WorkflowDocument(identityManagementService.getPrincipalByPrincipalName(principalName).getPrincipalId(), proposalDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
             workflowDocument.returnToPreviousNode(reason, getProposalDevelopmentInitialNodeName() );
-            workflowDocument.updateAppDocStatus(appDocStatus);
+            workflowDocument.updateAppDocStatus( appDocStatus );
     }
     
     
@@ -1211,7 +1214,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
       //1. reject the parent.
         try {
-            rejectProposal( hierarchyParent, REJECT_PROPOSAL_REASON_PREFIX + reason, principalName, "" );
+            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS) );
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
@@ -1220,7 +1223,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         //2. Try to reject all of the children.
         for( ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(hierarchyParent.getDevelopmentProposal().getProposalNumber())) {
             try {
-                rejectProposal( child, REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX + reason, KEWConstants.SYSTEM_USER, "" );
+                rejectProposal( child, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), KEWConstants.SYSTEM_USER, renderMessage( HIERARCHY_CHILD_REJECTED_APPSTATUS ) );
             } catch (WorkflowException e) {
                 throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting child document %s", child.getDevelopmentProposal().getProposalNumber()), e );
             }
@@ -1236,9 +1239,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(getDevelopmentProposal(proposalNumber).getProposalDocument().getDocumentNumber());
         if( !pbo.isInHierarchy() ) {
-            rejectProposal( pDoc, REJECT_PROPOSAL_REASON_PREFIX + reason, principalName, null );
+            rejectProposal( pDoc, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         } else if ( pbo.isParent() ) {
-            rejectProposalHierarchy( pDoc, reason, principalName );
+            rejectProposalHierarchy( pDoc, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason), principalName );
         } else {
             //it is a child or in some unknown state, either way we do not support rejecting it.
             throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
@@ -1336,59 +1339,88 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#routeHierarchyChildren(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO, java.lang.String)
      */
-    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto, String userPrincipalName ) throws ProposalHierarchyException {
-
+    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto ) throws ProposalHierarchyException {
+        
         String childStatusTarget = calculateChildRouteStatus(proposalDevelopmentDocument, dto );
-        
         WorkflowDocument workdoc;
-        
-        LOG.info(  IdentityManagementService.class );
-            for (ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber() )) {
-                try {
-                    if (!StringUtils.equals("", childStatusTarget)) {
-                    
-                        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, childStatusTarget)) {
-                            //The user currently must initially route the child documents in order for them to hold in the system users action list.
-                            
-                            workdoc = new WorkflowDocument(child.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-                            
-                            if( !workdoc.stateIsEnroute() ) {
-                                workdoc.routeDocument(HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION);
-                                workdoc.updateAppDocStatus(APPLICATION_STATUS_PARENT_ENROUTE);
-                            } else {
-                                //this means the status change is actually in the form of an approve action on a document that was moved back to the initial node.
-                                //we need to do an approval.
-                                workdoc.approve(HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION);
-                                workdoc.updateAppDocStatus(APPLICATION_STATUS_PARENT_ENROUTE);
-                            }
-                        
+        ProposalDevelopmentDocument child = null;
+        try {
+            LOG.info(  IdentityManagementService.class );
+            for (ProposalDevelopmentDocument c : getChildProposalDevelopmentDocuments(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber() )) {
+                child = c;
+                if (!StringUtils.equals("", childStatusTarget)) {
+
+                    if (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, childStatusTarget)) {
+                        //The user currently must initially route the child documents in order for them to hold in the system users action list.
+
+                        workdoc = new WorkflowDocument(child.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+                        workdoc.updateAppDocStatus(getHierarchyChildRouteStatus( dto.getOldRouteStatus(), dto.getNewRouteStatus() ));
+
+                        if( !workdoc.stateIsEnroute() ) {
+                            workdoc.routeDocument(HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION);
+
                         } else {
-                            workdoc = new WorkflowDocument( identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER ).getPrincipalId(),child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-                            if (StringUtils.equals(KEWConstants.ROUTE_HEADER_CANCEL_CD, childStatusTarget)) {
-                                workdoc.cancel(HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION);
-                                workdoc.updateAppDocStatus("");
-                            
-                            } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, childStatusTarget)) {
-                                workdoc.approve(HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION);
-                                workdoc.updateAppDocStatus("");
-                            
-                            } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, childStatusTarget)) {
-                                workdoc.disapprove(HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION);
-                                workdoc.updateAppDocStatus("");
-                            } else {
-                                throw new UnsupportedOperationException(String.format("Do not know how to handle new child status of %s", childStatusTarget));
-                            }
-                        
+                            //this means the status change is actually in the form of an approve action on a document that was moved back to the initial node.
+                            //we need to do an approval.
+                            workdoc.approve(HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION);
+                            workdoc.updateAppDocStatus(renderMessage( HIERARCHY_CHILD_ENROUTE_APPSTATUS ) );
                         }
+
+                    } else {
+                        workdoc = new WorkflowDocument( identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER ).getPrincipalId(),child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+                        workdoc.updateAppDocStatus(getHierarchyChildRouteStatus( dto.getOldRouteStatus(), dto.getNewRouteStatus() ));
+
+                        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_CANCEL_CD,childStatusTarget)) {
+                            workdoc.cancel(renderMessage( HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION));
+                            workdoc.updateAppDocStatus(renderMessage( HIERARCHY_CHILD_CANCEL_APPSTATUS  ));
+
+                        } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, childStatusTarget)) {
+                            workdoc.approve(renderMessage( HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION ));
+                            workdoc.updateAppDocStatus(renderMessage( HIERARCHY_CHILD_FINAL_APPSTATUS ));
+
+                        } else if (StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, childStatusTarget)) {
+                            workdoc.disapprove(renderMessage( HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION ));
+                            workdoc.updateAppDocStatus(renderMessage( HIERARCHY_CHILD_DISAPPROVE_APPSTATUS ));
+                        } else {
+                            throw new UnsupportedOperationException(String.format("Do not know how to handle new child status of %s", childStatusTarget));
+                        }
+
                     }
-                } catch ( WorkflowException we ) {
-                    throw new ProposalHierarchyException( String.format( "WorkflowException encountrered while attempting to route child proposal %s ( document #%s ) of proposal hierarchy %s ( document #%s )", child.getDevelopmentProposal().getProposalNumber(), child.getDocumentNumber(), proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument.getDocumentNumber() ), we);
                 }
             }
-    
-    
+        } catch ( WorkflowException we ) {
+            throw new ProposalHierarchyException( String.format( "WorkflowException encountrered while attempting to route child proposal %s ( document #%s ) of proposal hierarchy %s ( document #%s )", child.getDevelopmentProposal().getProposalNumber(), child.getDocumentNumber(), proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument.getDocumentNumber() ), we);
+        }
+        
     }
-
+    
+    public void calculateAndSetProposalAppDocStatus( ProposalDevelopmentDocument doc, DocumentRouteStatusChangeDTO dto  ) throws ProposalHierarchyException {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        if( StringUtils.equals( dto.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_ENROUTE_CD )) {
+            updateAppDocStatus( doc, principalId, HIERARCHY_ENROUTE_APPSTATUS );
+        } else if ( StringUtils.equals(dto.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_CANCEL_CD)) {
+            updateAppDocStatus( doc, principalId, HIERARCHY_CANCEL_APPSTATUS );
+        } else if ( StringUtils.equals(dto.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
+            updateAppDocStatus( doc, principalId, HIERARCHY_DISAPPROVE_APPSTATUS );
+        } else if ( StringUtils.equals(dto.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_FINAL_CD )) {
+            updateAppDocStatus( doc, principalId, HIERARCHY_FINAL_APPSTATUS );
+        } else if ( StringUtils.equals(dto.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_PROCESSED_CD )) {
+            updateAppDocStatus( doc, principalId, HIERARCHY_PROCESSED_APPSTATUS ) ;
+        } 
+    }
+    
+    public void updateAppDocStatus( ProposalDevelopmentDocument doc, String principalId, String newStatus ) throws ProposalHierarchyException {
+        try {
+            WorkflowDocument wdoc = new WorkflowDocument(principalId, doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+            wdoc.updateAppDocStatus(renderMessage( newStatus ));
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException( String.format( "WorkflowException encountrered while attempting to update App Doc Status of proposal %s ( document #%s )", doc.getDevelopmentProposal().getProposalNumber(), doc.getDocumentNumber() ), e);
+        }
+    }
+    
+    
+    
     public boolean allChildBudgetsAreComplete(String parentProposalNumber) {
         boolean retval = true;
         String completeCode = parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
@@ -1466,4 +1498,31 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         return valid;
     }
+
+    /**
+     * Gets the configurationService attribute. 
+     * @return Returns the configurationService.
+     */
+    public KualiConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Sets the configurationService attribute value.
+     * @param configurationService The configurationService to set.
+     */
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+
+    private String renderMessage( String key, String... params ) {
+       String msg = configurationService.getPropertyString(key);
+       for (int i = 0; i < params.length; i++) {
+           msg = replace(msg, "{" + i + "}", params[i]);
+       }
+       return msg;
+       
+    }
+
 }
