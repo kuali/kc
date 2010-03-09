@@ -944,56 +944,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.propSpecialReviews = propSpecialReviews;
     }
 
-    private ProposalDevelopmentDocument getPersistedCopy() {
-        ProposalDevelopmentDocument copy = null;
-
-        try {
-            copy = (ProposalDevelopmentDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
-                    this.getProposalDocument().getDocumentNumber());
-        }
-        catch (Exception e) {
-        }
-
-        return copy;
-    }
-
-    private boolean isNotLatest(ProposalDevelopmentDocument copy) {
-        if (copy.getVersionNumber().longValue() > this.getVersionNumber().longValue())
-            return false;
-
-        return true;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void refreshNarrativesFromUpdatedCopy(List managedLists) {
-        ProposalDevelopmentDocument retrievedDocument = getPersistedCopy();
-        if (retrievedDocument == null)
-            return;
-
-        List<Narrative> narratives = retrievedDocument.getDevelopmentProposal().getNarratives();
-
-        if (isNotLatest(retrievedDocument)) {
-            // The same document has been updated by someone else
-            // Refresh Narratives related collections
-            if (narratives.size() >= this.getNarratives().size()) {
-                this.setNarratives(narratives);
-            }
-        }
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
 
-        for (PessimisticLock lock : getProposalDocument().getPessimisticLocks()) {
-            if (lock.isOwnedByUser(currentUser) && lock.getLockDescriptor() != null
-                    && !lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES)) {
-                refreshNarrativesFromUpdatedCopy(managedLists);
-                break;
-            }
-        }
         List<NarrativeUserRights> narrativeRights = new ArrayList<NarrativeUserRights>();
         for (Narrative narrative : narratives) {
             narrativeRights.addAll(narrative.getNarrativeUserRights());

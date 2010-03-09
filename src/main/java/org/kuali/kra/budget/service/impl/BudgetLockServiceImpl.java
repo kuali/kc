@@ -24,6 +24,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.service.BudgetLockService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -59,6 +60,25 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         }
         return false;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map establishLocks(Document document, Map editMode, Person user) {
+        //check for lock in parent document of the budget section and if it is locked,
+        //then assume this is also locked
+        if (document instanceof BudgetDocument) {
+            BudgetDocument budgetDoc = (BudgetDocument)document;
+            //unsure if this should be for anything but proposal development
+            if (budgetDoc.getParentDocument() instanceof ProposalDevelopmentDocument) { 
+                for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
+                    if (!lock.isOwnedByUser(user) && StringUtils.equals(budgetDoc.getCustomLockDescriptor(user), lock.getLockDescriptor())) {
+                        return getEditModeWithEditableModesRemoved(editMode);
+                    }
+                }
+            } 
+        }
+        return super.establishLocks(document, editMode, user); 
+    }
 
     /**
      * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#isEntryEditMode(java.util.Map.Entry)
@@ -82,17 +102,21 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @SuppressWarnings("unchecked")
     @Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        if (document.useCustomLockDescriptors()) {
-            String lockDescriptor = document.getCustomLockDescriptor(user);
-            //establish any locks needed on the parent document
-            this.establishLocks(budgetDocument.getParentDocument(), new HashMap(), user); 
-            
-            return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
-        } 
-        else {
-            return generateNewLock(document.getDocumentNumber(), user);
-        }  
+        if (document instanceof BudgetDocument) {
+            BudgetDocument budgetDocument = (BudgetDocument) document;
+            if (document.useCustomLockDescriptors()) {
+                String lockDescriptor = document.getCustomLockDescriptor(user);
+                //establish any locks needed on the parent document
+                this.establishLocks(budgetDocument.getParentDocument(), editMode, user); 
+                
+                return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
+            } 
+            else {
+                return generateNewLock(document.getDocumentNumber(), user);
+            }
+        } else {
+            return super.createNewPessimisticLock(document, editMode, user);
+        }
     }
     
     /**

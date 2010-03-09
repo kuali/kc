@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -39,9 +40,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
@@ -50,9 +54,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -70,9 +76,11 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -228,41 +236,88 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return forward;
     }
 
-    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
+    /**
+     * 
+     * This method attempts to deal with the multiple pessimistic locks that can be on the proposal development document
+     * Proposal, Narratives, and Budget must all be treated separately and therefore the other portions of the document,
+     * outside of the one currently being saved, must be updated from the database to make sure the sessions do not stomp
+     * changes already persisted by another session.
+     * @param pdForm
+     * @throws Exception
+     */
+    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) throws Exception {
         ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
-        //For Budget Lock region, this is the only way in which a Proposal Document might get updated
-        if(StringUtils.isNotEmpty(pdForm.getActionName()) && !pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction" )) {
-            if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
-                  //refresh the reference
-                pdDocument.setBudgetDocumentVersions(updatedDocCopy.getBudgetDocumentVersions());
-                pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
-                try {
-                    fixVersionNumbers(updatedDocCopy, pdDocument, new ArrayList<Object>());
+        if (updatedDocCopy != null) {
+            
+            //For Budget and Narrative Lock regions, this is the only way in which a Proposal Document might get updated
+            if (StringUtils.isNotEmpty(pdForm.getActionName()) && updatedDocCopy != null) {
+                if (!pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction")) {
+                    pdDocument.setBudgetDocumentVersions(updatedDocCopy.getBudgetDocumentVersions());
+                    pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
+                } else {
+                    //in case other parts of the document have been saved since we have saved,
+                    //we save off possibly changed parts and reload the rest of the document
+                    List<BudgetDocumentVersion> newVersions = pdDocument.getBudgetDocumentVersions();
+                    String budgetStatus = pdDocument.getDevelopmentProposal().getBudgetStatus();
+                    
+                    pdForm.setDocument(updatedDocCopy);
+                    pdDocument = updatedDocCopy;
+                    
+                    pdDocument.setBudgetDocumentVersions(newVersions);
+                    pdDocument.getDevelopmentProposal().setBudgetStatus(budgetStatus);                  
                 }
-                catch (Exception e) {
-                    e.printStackTrace();
+                if (!pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentAbstractsAttachmentsAction" )) {
+                    pdDocument.getDevelopmentProposal().setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
+                    pdDocument.getDevelopmentProposal().setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
+                    pdDocument.getDevelopmentProposal().setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
+               } else {
+                   //need to refresh everything on the proposal dev document as this section can be
+                   //modified by other sessions and if it has been modified, we could overwrite changes
+                   //by saving here
+                   List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
+                   List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
+                   List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
+    
+                   pdForm.setDocument(updatedDocCopy);
+                   pdDocument = updatedDocCopy;
+    
+                   //now re-add narratives that could include changes and can't be modified otherwise
+                   pdDocument.getDevelopmentProposal().setNarratives(newNarratives);
+                   pdDocument.getDevelopmentProposal().setProposalAbstracts(newAbstracts);
+                   pdDocument.getDevelopmentProposal().setPropPersonBios(newBiographies);
+    
+               }
+            }
+            
+            //rice objects are still using optimistic locking so update rice BO versions
+            //if no other session has saved this document we should be updating with same version number, but no easy way to know if it has been
+            //I don't think anyway? So do it every time.
+            pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
+            int noteIndex = 0;
+            for(Object note: pdDocument.getDocumentHeader().getBoNotes()) {
+                Note updatedNote = updatedDocCopy.getDocumentHeader().getBoNote(noteIndex);
+                ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
+                noteIndex++;
+            }
+            for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
+                DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
+                if(updatedDocumentNextvalue != null) {
+                    documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
                 }
-
-                pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
-                pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
-                int noteIndex = 0;
-                for(Object note: pdDocument.getDocumentHeader().getBoNotes()) {
-                    Note updatedNote = updatedDocCopy.getDocumentHeader().getBoNote(noteIndex);
-                    ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
-                    noteIndex++;
-                }
-                for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
-                    DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
-                    if(updatedDocumentNextvalue != null) {
-                        documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
-                    }
+            }   
+            //fix budget document version's document headers
+            for (int i = 0; i < pdDocument.getBudgetDocumentVersions().size(); i++) {
+                BudgetDocumentVersion curVersion = pdDocument.getBudgetDocumentVersion(i);
+                BudgetDocumentVersion otherVersion = updatedDocCopy.getBudgetDocumentVersion(i);
+                otherVersion.refreshReferenceObject("documentHeader");
+                if (curVersion != null && otherVersion != null) {
+                    curVersion.getDocumentHeader().setVersionNumber(otherVersion.getDocumentHeader().getVersionNumber());
                 }
             }
             pdForm.setDocument(pdDocument);
         }
-        
     }
     
     private boolean isPropertyGetterMethod(Method method, Method methods[]) {
@@ -331,11 +386,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
     }
 
-    protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("documentNumber", pdDocumentNumber);
-        ProposalDevelopmentDocument newCopy = (ProposalDevelopmentDocument) boService.findByPrimaryKey(ProposalDevelopmentDocument.class, keyMap);
+    protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) throws Exception {
+        ProposalDevelopmentDocument newCopy;
+        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        newCopy = (ProposalDevelopmentDocument)docService.getByDocumentHeaderId(pdDocumentNumber);        
         return newCopy;
     }
     
@@ -677,7 +731,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }
         return mtcReturn;
-    }
+    }    
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {

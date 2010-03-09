@@ -49,6 +49,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -443,7 +444,14 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     //if the document is available for writing or if its locked.
                     if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
                         document.setViewOnly(true);
+                        //if budget document we need to set the parent document view only as well for authorization consistency.
+                        if (document instanceof BudgetDocument) {
+                            BudgetDocument budgetDoc = (BudgetDocument)document;
+                            budgetDoc.getParentDocument().setViewOnly(true);
+                        }
                     }
+                } else if (!documentAuthorizer.canEdit(document, user)) {
+                    document.setViewOnly(false);
                 }
                 editModes = documentAuthorizer.getEditModes(document, user, null);
                 Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
