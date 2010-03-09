@@ -64,7 +64,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpireBean.reviewComments}"
                                                        property="actionHelper.protocolExpireBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Expire" />
+                                                       actionName="Expire"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 

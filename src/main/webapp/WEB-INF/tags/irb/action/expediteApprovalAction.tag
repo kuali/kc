@@ -94,7 +94,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.reviewComments}"
                                                        property="actionHelper.protocolExpediteApprovalBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="ExpediteApproval" />
+                                                       actionName="ExpediteApproval"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 

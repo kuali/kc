@@ -203,7 +203,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.committeeDecision.reviewComments}"
                                                        property="actionHelper.committeeDecision.reviewComments"
                                                        action="${action}"
-                                                       actionName="CommitteeDecision" />
+                                                       actionName="CommitteeDecision"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 

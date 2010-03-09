@@ -64,7 +64,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolReopenBean.reviewComments}"
                                                        property="actionHelper.protocolReopenBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Reopen" />
+                                                       actionName="Reopen"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 
