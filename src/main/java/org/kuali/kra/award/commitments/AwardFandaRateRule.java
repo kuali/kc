@@ -25,9 +25,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class represents the AwardFandaRateRule
  */
 public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements AddFandaRateRule {
-    private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
     private static final int FISCAL_YEAR_LENGTH = 4;
     private static final String FISCAL_YEAR_STRING = ".fiscalYear";
+    private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
+    private static final String AWARD_FANDA_RATES_ARRAY = "document.awardList[0].awardFandaRate";
 
     /**
      * 
@@ -40,10 +41,23 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
             addAwardFandaRateEvent.getAwardFandaRate();        
         boolean rulePassed = true;
         
-        rulePassed &= evaluateRuleForApplicableFandaRate(awardFandaRate);
-        rulePassed &= evaluateRuleForFandaRateTypeCode(awardFandaRate);
-        rulePassed &= evaluateRuleForFiscalYear(awardFandaRate);
-        rulePassed &= evaluateRuleForStartAndEndDates(awardFandaRate);
+        rulePassed &= evaluateRuleForApplicableFandaRate(awardFandaRate, NEW_AWARD_FANDA_RATE);
+        rulePassed &= evaluateRuleForFandaRateTypeCode(awardFandaRate, NEW_AWARD_FANDA_RATE);
+        rulePassed &= evaluateRuleForFiscalYear(awardFandaRate, NEW_AWARD_FANDA_RATE);
+        rulePassed &= evaluateRuleForStartAndEndDates(awardFandaRate, NEW_AWARD_FANDA_RATE);
+
+        return rulePassed;
+    }
+    
+    public boolean processSaveFandaRateBusinessRules(AwardFandaRateSaveEvent awardFandaRateSaveEvent) {
+        AwardFandaRate awardFandaRate = awardFandaRateSaveEvent.getAwardFandaRate();        
+        boolean rulePassed = true;
+        
+        String propertyPrefix = AWARD_FANDA_RATES_ARRAY + "[" + awardFandaRateSaveEvent.getFandaRateIndex() + "]";
+        rulePassed &= evaluateRuleForApplicableFandaRate(awardFandaRate, propertyPrefix);
+        rulePassed &= evaluateRuleForFandaRateTypeCode(awardFandaRate, propertyPrefix);
+        rulePassed &= evaluateRuleForFiscalYear(awardFandaRate, propertyPrefix);
+        rulePassed &= evaluateRuleForStartAndEndDates(awardFandaRate, propertyPrefix);
 
         return rulePassed;
     }
@@ -52,19 +66,20 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * 
      * This is a convenience method for evaluating the rule for applicableFandaRate field.
      * @param awardFandaRate
+     * @param propertyPrefix
      * @return
      */
-    protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate){        
+    protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate, String propertyPrefix){        
         boolean rulePassed = awardFandaRate.getApplicableFandaRate()!=null 
                                 && !StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString());
         
         if(!rulePassed){            
-            reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
+            reportError(propertyPrefix+".applicableFandaRate"
                     , KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE);
         }else{
             rulePassed = awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal.ZERO) ? true:false;
             if(!rulePassed){
-                reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
+                reportError(propertyPrefix+".applicableFandaRate"
                         , KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE);
             }
         }
@@ -76,13 +91,14 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * 
      * This is a convenience method for evaluating the rule for fandaRateTypeCode field.
      * @param awardFandaRate
+     * @param propertyPrefix
      * @return
      */
-    protected boolean evaluateRuleForFandaRateTypeCode(AwardFandaRate awardFandaRate){
+    protected boolean evaluateRuleForFandaRateTypeCode(AwardFandaRate awardFandaRate, String propertyPrefix){
         boolean rulePassed = !(awardFandaRate.getFandaRateTypeCode()==null 
                 || StringUtils.isBlank(awardFandaRate.getFandaRateTypeCode().toString()));
         if(!rulePassed){            
-            reportError(NEW_AWARD_FANDA_RATE+".fandaRateTypeCode"
+            reportError(propertyPrefix+".fandaRateTypeCode"
                     , KeyConstants.ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE);
         }        
         return rulePassed;
@@ -92,25 +108,26 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * 
      * This is a convenience method for evaluating the rule for fiscalYear field.
      * @param awardFandaRate
+     * @param propertyPrefix
      * @return
      */
-    protected boolean evaluateRuleForFiscalYear(AwardFandaRate awardFandaRate){
+    protected boolean evaluateRuleForFiscalYear(AwardFandaRate awardFandaRate, String propertyPrefix){
         boolean rulePassed = true;        
         if(awardFandaRate.getFiscalYear()==null 
                 || StringUtils.isBlank(awardFandaRate.getFiscalYear())){
             rulePassed = false;
-            reportError(NEW_AWARD_FANDA_RATE+FISCAL_YEAR_STRING
+            reportError(propertyPrefix+FISCAL_YEAR_STRING
                     , KeyConstants.ERROR_REQUIRED_FISCAL_YEAR);
         }else if(awardFandaRate.getFiscalYear().length()!=FISCAL_YEAR_LENGTH){
             rulePassed = false;
-            reportError(NEW_AWARD_FANDA_RATE+FISCAL_YEAR_STRING
+            reportError(propertyPrefix+FISCAL_YEAR_STRING
                     , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
         }else{
             try{
                 Integer.parseInt(awardFandaRate.getFiscalYear());
             }catch(NumberFormatException e){
                 rulePassed = false;
-                reportError(NEW_AWARD_FANDA_RATE+FISCAL_YEAR_STRING
+                reportError(propertyPrefix+FISCAL_YEAR_STRING
                         , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
             }
         }
@@ -121,21 +138,22 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * 
      * This is a convenience method for evaluating the rule for startDate and endDate fields.
      * @param awardFandaRate
+     * @param propertyPrefix
      * @return
      */
-    protected boolean evaluateRuleForStartAndEndDates(AwardFandaRate awardFandaRate){
+    protected boolean evaluateRuleForStartAndEndDates(AwardFandaRate awardFandaRate, String propertyPrefix){
         boolean rule1Passed = !(awardFandaRate.getStartDate()==null 
                 || StringUtils.isBlank(awardFandaRate.getStartDate().toString()));
         final String[] DATE_PARAMS = {"Start Date","End Date"};
         
         if(!rule1Passed){            
-            reportError(NEW_AWARD_FANDA_RATE+".startDate", KeyConstants.ERROR_REQUIRED_START_DATE);
+            reportError(propertyPrefix+".startDate", KeyConstants.ERROR_REQUIRED_START_DATE);
         }
         boolean rule2Passed =  !(awardFandaRate.getEndDate() !=null 
                 && awardFandaRate.getStartDate() != null 
                 && awardFandaRate.getEndDate().before(awardFandaRate.getStartDate()));
         if (!rule2Passed) {            
-            reportError(NEW_AWARD_FANDA_RATE+".endDate"
+            reportError(propertyPrefix+".endDate"
                     , KeyConstants.ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE,DATE_PARAMS);
         }
         return rule1Passed && rule2Passed;
