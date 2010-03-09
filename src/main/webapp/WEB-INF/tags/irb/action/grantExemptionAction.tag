@@ -79,7 +79,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolGrantExemptionBean.reviewComments}"
                                                        property="actionHelper.protocolGrantExemptionBean.reviewComments"
                                                        action="${action}" 
-                                                       actionName="GrantExemption" />
+                                                       actionName="GrantExemption"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 
