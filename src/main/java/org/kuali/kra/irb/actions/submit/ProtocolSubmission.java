@@ -389,4 +389,20 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setPiName(String piName) {
         this.piName = piName;
     }
+    
+    /**
+     * This method returns true if this submission has the same submission id as the passed in submission id.
+     * @param o a ProtocolSubmission object to compare for equality
+     * @return a boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        ProtocolSubmission ps = (ProtocolSubmission) o;
+        try{
+            return this.getSubmissionId().equals(ps.getSubmissionId());
+        } catch (Exception e) {
+            //an NPE would happen if the submission IDs aren't set.
+            return false;
+        }
+    }
 }
