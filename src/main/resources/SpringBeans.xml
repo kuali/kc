@@ -1343,6 +1343,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="printingService" ref="printingService" />
 
 	</bean>
 	<bean id="s2SUtilService"
@@ -1790,15 +1791,16 @@
 			class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint" scope="prototype">
 			<property name="xmlStream" ref="printCertificationXmlStream" />
 		</bean>
-		<bean id="printProposalSponsorForms"
-			class="org.kuali.kra.proposaldevelopment.printing.print.PrintProposalSponsorForms" scope="prototype">
-			<property name="xmlStream" ref="researchAndRelatedXmlStream" />
+		<bean id="proposalSponsorFormsPrint"
+			class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype">
+			<property name="researchAndRelatedXmlStream" ref="researchAndRelatedXmlStream" />
 			<property name="businessObjectService" ref="businessObjectService" />
+			<property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
 		</bean>
 		<bean id="proposalDevelopmentPrintingService"
 			class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
 			<property name="printCertificationPrint" ref="printCertificationPrint" />
-			<property name="printProposalSponsorForms" ref="printProposalSponsorForms" />
+			<property name="proposalSponsorFormsPrint" ref="proposalSponsorFormsPrint" />
 			<property name="printingService" ref="printingService" />
 			<property name="s2SUtilService" ref="s2SUtilService" />
 			<property name="businessObjectService" ref="businessObjectService" />
@@ -1822,6 +1824,16 @@
 				<ref bean="dateTimeService" />
 			</property>
 		</bean>
+		<bean id="proposalDevelopmentXmlStream"
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+		</bean>
+		
 		<!--Proposal Development Printing Service Configuration End -->
 	
 		<!--  Report config end -->

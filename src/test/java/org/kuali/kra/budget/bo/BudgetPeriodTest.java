@@ -100,7 +100,7 @@ public class BudgetPeriodTest {
         Assert.assertFalse(budgetPeriod.isReadOnly());
         
         budgetPeriod.setBudgetPeriod(1);
-        budgetPeriod.getBudgetLineItems().add(new BudgetLineItem());
+        budgetPeriod.getBudgetLineItems().add(budgetPeriod.getNewBudgetLineItem());
         Assert.assertTrue(budgetPeriod.isReadOnly());
         
         budgetPeriod.setBudgetPeriod(2);
@@ -108,7 +108,7 @@ public class BudgetPeriodTest {
         Assert.assertFalse(budgetPeriod.isReadOnly());
         
         budgetPeriod.setBudgetPeriod(2);
-        budgetPeriod.getBudgetLineItems().add(new BudgetLineItem());
+        budgetPeriod.getBudgetLineItems().add(budgetPeriod.getNewBudgetLineItem());
         Assert.assertTrue(budgetPeriod.isReadOnly());
     }
     

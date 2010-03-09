@@ -198,13 +198,14 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected static final String IDC_COMMENT = "8";
 	protected static final String COMMA_STRING = ", ";
 	protected static final String EMPTY_SPACE = " ";
+	protected static final String DOCUMENT_NUMBER = "documentNumber";
 	protected AwardDocument awardDocument = null;
 	protected Award award = null;
 	protected AwardAmountInfo awardAmountInfo = null;
 	protected Award prevAward = null;
 	protected AwardAmountInfo prevAwardAmountInfo = null;
 	protected BusinessObjectService businessObjectService = null;
-	DocumentService documentService = null;
+	private DocumentService documentService = null;
 	protected DateTimeService dateTimeService = null;
 
 	/**
@@ -261,13 +262,17 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	protected SchoolInfoType2 getSchoolInfoType() {
 		SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
-		String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
-		if (schoolName != null) {
-			schoolInfoType.setSchoolName(schoolName);
-		}
-		if (schoolAcronym != null) {
-			schoolInfoType.setAcronym(schoolAcronym);
+		try {
+			String schoolName = getAwardParameterValue(SCHOOL_NAME);
+			String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
+			if (schoolName != null) {
+				schoolInfoType.setSchoolName(schoolName);
+			}
+			if (schoolAcronym != null) {
+				schoolInfoType.setAcronym(schoolAcronym);
+			}
+		} catch (Exception e) {
+			// LOg e
 		}
 		return schoolInfoType;
 	}
@@ -579,12 +584,18 @@ public abstract class AwardBaseStream implements XmlStream {
 				}
 				fundingProposal.setProposalStatusCode(awardFundingProposal
 						.getProposal().getStatusCode());
-				fundingProposal.setRequestedStartDateTotal(dateTimeService
-						.getCalendar(awardFundingProposal.getProposal()
-								.getRequestedStartDateTotal()));
+				if (awardFundingProposal.getProposal()
+						.getRequestedStartDateTotal() != null) {
+					fundingProposal.setRequestedStartDateTotal(dateTimeService
+							.getCalendar(awardFundingProposal.getProposal()
+									.getRequestedStartDateTotal()));
+				}
+				if(awardFundingProposal.getProposal()
+						.getRequestedEndDateTotal()!=null){
 				fundingProposal.setRequestedEndDateTotal(dateTimeService
 						.getCalendar(awardFundingProposal.getProposal()
 								.getRequestedEndDateTotal()));
+				}
 				if (awardFundingProposal.getProposal()
 						.getTotalDirectCostTotal() != null) {
 					fundingProposal.setDirectCostTotal(awardFundingProposal
@@ -1345,8 +1356,7 @@ public abstract class AwardBaseStream implements XmlStream {
 				amountInfoType
 						.setObligatedTotalIndirect(obligatedTotalIndirect);
 			}
-			String enableAwdAntOblDirectIndirectCost = PrintingUtils
-					.getParameterValue(AwardDocument.class, OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
+			String enableAwdAntOblDirectIndirectCost = getAwardParameterValue(OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
 			if (enableAwdAntOblDirectIndirectCost != null) {
 				amountInfoType
 						.setEnableAwdAntOblDirectIndirectCost(enableAwdAntOblDirectIndirectCost);
@@ -1874,8 +1884,8 @@ public abstract class AwardBaseStream implements XmlStream {
 						.getSequenceNumber());
 			}
 			if (approvedForeignTravel.getContactId() != null) {
-				foreignTravel
-						.setPersonId(approvedForeignTravel.getContactId().toString());
+				foreignTravel.setPersonId(approvedForeignTravel.getContactId()
+						.toString());
 			}
 			if (approvedForeignTravel.getTravelerName() != null) {
 				foreignTravel.setPersonName(approvedForeignTravel
@@ -2573,10 +2583,10 @@ public abstract class AwardBaseStream implements XmlStream {
 //			otherHeaderDetails.setNonCompetingContCode(award
 //					.getNonCompetingContPrpslDueCode());
 //		}
-//		String nonCompetingContDesc = getNonCompetingContDesc();
-//		if (nonCompetingContDesc != null) {
-//			otherHeaderDetails.setNonCompetingContDesc(nonCompetingContDesc);
-//		}
+		String nonCompetingContDesc = getNonCompetingContDesc();
+		if (nonCompetingContDesc != null) {
+			otherHeaderDetails.setNonCompetingContDesc(nonCompetingContDesc);
+		}
 //		if (award.getCompetingRenewalPrpslDueCode() != null) {
 //			otherHeaderDetails.setCompetingRenewalCode(award
 //					.getCompetingRenewalPrpslDueCode());
@@ -2751,7 +2761,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the competing renewal description
 	 */
 	private String getCompetingRenewalDesc() {
-		String competingRenewalDesc = null;
+		String competingRenewalDesc = "";
 //		if (prevAward != null) {
 //			if ((award.getCompetingRenewalPrpslDue() != null && award
 //					.getCompetingRenewalPrpslDue().getDescription() != null)
@@ -2775,7 +2785,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the non competing constant description
 	 */
 	private String getNonCompetingContDesc() {
-		String nonCompetinContDesc = null;
+		String nonCompetinContDesc = "";
 //		if (prevAward != null) {
 //			if ((award.getNonCompetingContPrpslDue() != null && award
 //					.getNonCompetingContPrpslDue().getDescription() != null)
@@ -2796,7 +2806,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	}
 
 	/*
-	 * This method will get the fellow ship administrator name based on the
+	 * This method will get the fellowship administrator name based on the
 	 * Activity Type Code . If Activity Type Code is not empty or not equal to 3
 	 * or 7 then construct the fellowship administrator name from administrator
 	 * name of award
@@ -2809,8 +2819,7 @@ public abstract class AwardBaseStream implements XmlStream {
 				&& award.getActivityTypeCode().equals("7")) {
 			fellowshipname = getAdminName();
 		} else {
-			fellowshipname = PrintingUtils
-					.getParameterValue(FELLOWSHIP_ADMIN_NAME);
+			fellowshipname = getAwardParameterValue(FELLOWSHIP_ADMIN_NAME);
 		}
 		return fellowshipname;
 	}
@@ -3032,5 +3041,15 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	public void setDocumentService(DocumentService documentService) {
 		this.documentService = documentService;
+	}
+
+	protected String getAwardParameterValue(String param) {
+		String value = null;
+		try {
+			value = PrintingUtils.getParameterValue(param);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return value;
 	}
 }

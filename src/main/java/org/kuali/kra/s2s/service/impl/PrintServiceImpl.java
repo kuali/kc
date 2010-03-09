@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.service.impl;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
 
-import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +51,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -64,6 +67,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
+import org.kuali.kra.s2s.printing.print.S2SFormPrint;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -72,19 +76,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * This class is implementation of PrintService. It provides the functionality
@@ -97,17 +88,11 @@ public class PrintServiceImpl implements PrintService {
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SValidatorService s2SValidatorService;
 	private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
-	private static final String KEY_PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
-	private static final String KEY_SPONSOR_CODE = "SPONSOR_CODE";
-	private static final String KEY_PACKAGE_NUMBER = "PACKAGE_NUMBER";
-	private static final String KEY_PAGE_NUMBER = "PAGE_NUMBER";
-	private static final String KEY_PAGE_DATA = "PAGE_DATA";
-	private static final String KEY_PRINT_PROPOSAL = "PRINT_PROPOSAL";
-	private static final String KEY_PARAMETER = "parameter";
 	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
 	private static final String PAGE_NUMBER_DB_KEY = "pageNumber";
 
 	private S2SUtilService s2SUtilService;
+	private PrintingService printingService;
 
 	/**
 	 * Prints the proposal sponsor forms by passing the given proposal
@@ -125,64 +110,9 @@ public class PrintServiceImpl implements PrintService {
 	 */
 	public byte[] printProposalSponsorForms(String proposalNumber,
 			List<SponsorFormTemplate> sponsorFormTemplates) throws S2SException {
-		// List<Map<String, Object>> listData = new ArrayList<Map<String,
-		// Object>>();
-		// for (SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates)
-		// {
-		// SponsorTemplateBean coeusSponsorTemplate = new SponsorTemplateBean();
-		// try {
-		// BeanUtils.copyProperties(coeusSponsorTemplate, sponsorFormTemplate);
-		// }
-		// catch (IllegalAccessException e) {
-		// LOG.error(e.getMessage(), e);
-		// throw new S2SException(e);
-		// }
-		// catch (InvocationTargetException e) {
-		// LOG.error(e.getMessage(), e);
-		// throw new S2SException(e);
-		// }
-		// listData.add(getproposalSponsorMap(proposalNumber,
-		// sponsorFormTemplate, coeusSponsorTemplate));
-		// }
-		// Map<String, List<Map<String, Object>>> map = new HashMap<String,
-		// List<Map<String, Object>>>();
-		// map.put(KEY_PRINT_PROPOSAL, listData);
-		// ProposalPrintReader proposalPrintReader = new ProposalPrintReader();
-		// try {
-		// return proposalPrintReader.read(map).getDocumentData();
-		// }
-		// catch (CoeusException e) {
-		// LOG.error(e.getMessage(), e);
-		// return null;
-		// }
 		throw new RuntimeException("Unsupported functionality");
 	}
 
-	/**
-	 * 
-	 * This method populates and returns map of proposal sponsor information
-	 * 
-	 * @param proposalNumber
-	 *            proposal numbert for which sponsor map is required
-	 * @param sponsorFormTemplate
-	 *            template of the sponsor form
-	 * @param coeusSponsorTemplate
-	 *            {@link SponsorTemplateBean}
-	 * 
-	 * @return {@link Map} containing the properties related to sponsor form for
-	 *         the proposal
-	 */
-	// private Map<String, Object> getproposalSponsorMap(String proposalNumber,
-	// SponsorFormTemplate sponsorFormTemplate,
-	// SponsorTemplateBean coeusSponsorTemplate) {
-	// Map<String, Object> htData = new HashMap<String, Object>();
-	// htData.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-	// htData.put(KEY_SPONSOR_CODE, sponsorFormTemplate.getSponsorCode());
-	// htData.put(KEY_PACKAGE_NUMBER, sponsorFormTemplate.getPackageNumber());
-	// htData.put(KEY_PAGE_NUMBER, sponsorFormTemplate.getPageNumber());
-	// htData.put(KEY_PAGE_DATA, coeusSponsorTemplate);
-	// return htData;
-	// }
 	/**
 	 * 
 	 * This method is to get templates for generic sponsor code.
@@ -328,36 +258,35 @@ public class PrintServiceImpl implements PrintService {
 	 * @param pdDoc(ProposalDevelopmentDocument)
 	 * @return {@link AttachmentDataSource} which contains all information
 	 *         related to the generated PDF
+	 * @throws
 	 * @throws S2SException
 	 * 
 	 * @see org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
 	 */
 	public org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource printForm(
-			ProposalDevelopmentDocument pdDoc) throws S2SException {
-		GrantsGovAttachmentData grantsGovPdfData = new GrantsGovAttachmentData();
-		ByteArrayOutputStream[] pdfArray = null;
+			ProposalDevelopmentDocument pdDoc) throws S2SException,
+			PrintingException {
+		List<Printable> printableList = null;
 		S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
-		List<String> bookmarksList = new ArrayList<String>();
 		if (s2sAppSubmission != null
 				&& s2sAppSubmission.getGgTrackingId() != null) {
-			pdfArray = getSubmittedPDFStream(pdDoc, bookmarksList);
+			printableList = getSubmittedPDFStream(pdDoc);
 		} else {
-			pdfArray = getPDFStream(pdDoc, bookmarksList);
+			printableList = getPDFStream(pdDoc);
 		}
-		if (pdfArray == null) {
-			return null;
-		}
-		String[] bookmarks = new String[0];
-		bookmarks = bookmarksList.toArray(bookmarks);
-		grantsGovPdfData.setContent(mergePdfBytes(pdfArray, bookmarks));
+		AttachmentDataSource attachmentDataSource = printingService
+				.print(printableList);
+		attachmentDataSource.setFileName(getFileNameForFormPrinting(pdDoc));
+		return attachmentDataSource;
+	}
+
+	private String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(pdDoc.getDocumentNumber());
 		fileName.append(pdDoc.getDevelopmentProposal()
 				.getProgramAnnouncementNumber());
 		fileName.append(Constants.PDF_FILE_EXTENSION);
-		grantsGovPdfData.setFileName(fileName.toString());
-		grantsGovPdfData.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-		return grantsGovPdfData;
+		return fileName.toString();
 	}
 
 	/**
@@ -405,16 +334,11 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @param pdDoc
 	 *            Proposal Development Document.
-	 * @param bookmarksList
 	 * @return ByteArrayOutputStream[] of the submitted application data.
 	 * @throws S2SException
 	 */
-	private ByteArrayOutputStream[] getSubmittedPDFStream(
-			ProposalDevelopmentDocument pdDoc, List<String> bookmarksList)
-			throws S2SException {
-		ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
-		byte[] formPdfBytes = null;
-		ByteArrayOutputStream[] pdfArray = null;
+	private List<Printable> getSubmittedPDFStream(
+			ProposalDevelopmentDocument pdDoc) throws S2SException {
 		GrantApplicationDocument submittedXml;
 		try {
 			submittedXml = GrantApplicationDocument.Factory
@@ -429,6 +353,9 @@ public class PrintServiceImpl implements PrintService {
 		List<AuditError> errors = new ArrayList<AuditError>();
 		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
 				.getDevelopmentProposal().getS2sOppForms());
+
+		List<Printable> formPrintables = new ArrayList<Printable>();
+
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
 			try {
@@ -443,20 +370,27 @@ public class PrintServiceImpl implements PrintService {
 
 			XmlObject formObject = s2sFormGenerator.getFormObject(formFragment);
 			if (s2SValidatorService.validate(formObject, errors)) {
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				formPdfBytes = generatePdf(info.getStyleSheet(), formObject);
-				try {
-					stream.write(formPdfBytes);
-				} catch (IOException e) {
-					LOG.error(e.getMessage(), e);
-					throw new S2SException(e);
-				}
 
-				pdfBaosList.add(stream);
-				bookmarksList.add(info.getFormName());
+				byte[] formXmlBytes = formFragment.xmlText().getBytes();
+				S2SFormPrint formPrintable = new S2SFormPrint();
+
+				ArrayList<Source> templates = new ArrayList<Source>();
+				Source xsltSource = new StreamSource(getClass()
+						.getResourceAsStream("/" + info.getStyleSheet()));
+				templates.add(xsltSource);
+				formPrintable.setXSLT(templates);
+
+				// Linkedhashmap is used to preserve the order of entry.
+				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
+				formXmlDataMap.put(info.getFormName(), formXmlBytes);
+				formPrintable.setXmlDataMap(formXmlDataMap);
+
 				List<S2sAppAttachments> attachmentList = getLatestS2SAppSubmission(
 						pdDoc).getS2sApplication().get(0)
 						.getS2sAppAttachmentList();
+
+				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+
 				if (attachmentList != null && !attachmentList.isEmpty()) {
 					for (S2sAppAttachments attAppAttachments : attachmentList) {
 						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
@@ -467,33 +401,91 @@ public class PrintServiceImpl implements PrintService {
 							LOG.error(e.getMessage(), e);
 							throw new S2SException(e);
 						}
-						pdfBaosList.add(attStream);
 						StringBuilder attachment = new StringBuilder();
 						attachment.append("   ATT : ");
 						attachment.append(attAppAttachments.getContentId());
-						bookmarksList.add(attachment.toString());
+						formAttachments.put(attachment.toString(),
+								getAttContent(pdDoc, attAppAttachments
+										.getContentId()));
 					}
 				}
+				formPrintable.setAttachments(formAttachments);
+				formPrintables.add(formPrintable);
 			}
 		}
-		pdfArray = new ByteArrayOutputStream[pdfBaosList.size()];
+		return formPrintables;
+	}
+
+	/**
+	 * This method is used to generate byte stream of forms
+	 * 
+	 * @param pdDoc
+	 *            ProposalDevelopmentDocument
+	 * @param bookmarksList
+	 * @return ByteArrayOutputStream[] PDF byte Array
+	 * @throws S2SException
+	 */
+	private List<Printable> getPDFStream(ProposalDevelopmentDocument pdDoc)
+			throws S2SException {
+		FormMappingInfo info = null;
+		S2SBaseFormGenerator s2sFormGenerator = null;
+		List<AuditError> errors = new ArrayList<AuditError>();
+		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
+				.getDevelopmentProposal().getS2sOppForms());
+
+		List<Printable> formPrintables = new ArrayList<Printable>();
+
+		for (String namespace : sortedNameSpaces) {
+			try {
+				info = new FormMappingLoader().getFormInfo(namespace);
+				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
+						.getNameSpace());
+			} catch (S2SGeneratorNotFoundException e) {
+				LOG.info("Form not found for namespace: " + namespace);
+				continue;
+			}
+			s2sFormGenerator.setAuditErrors(errors);
+			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
+			if (s2SValidatorService.validate(formObject, errors)) {
+
+				byte[] formXmlBytes = formObject.xmlText().getBytes();
+				S2SFormPrint formPrintable = new S2SFormPrint();
+
+				// Linkedhashmap is used to preserve the order of entry.
+				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
+				formXmlDataMap.put(info.getFormName(), formXmlBytes);
+				formPrintable.setXmlDataMap(formXmlDataMap);
+
+				ArrayList<Source> templates = new ArrayList<Source>();
+				Source xsltSource = new StreamSource(getClass()
+						.getResourceAsStream("/" + info.getStylesheet()));
+				templates.add(xsltSource);
+				formPrintable.setXSLT(templates);
+
+				List<AttachmentData> attachmentList = s2sFormGenerator
+						.getAttachments();
+				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+				if (attachmentList != null && !attachmentList.isEmpty()) {
+					for (AttachmentData attachmentData : attachmentList) {
+						if (!isPdfType(attachmentData.getContent()))
+							continue;
+						StringBuilder attachment = new StringBuilder();
+						attachment.append("   ATT : ");
+						attachment.append(attachmentData.getContentId());
+						formAttachments.put(attachment.toString(),
+								attachmentData.getContent());
+					}
+				}
+				if (formAttachments.size() > 0) {
+					formPrintable.setAttachments(formAttachments);
+				}
+				formPrintables.add(formPrintable);
+			}
+		}
 		if (!errors.isEmpty()) {
 			setValidationErrorMessage(errors);
 		}
-		// List<AuditError> auditErrors = new ArrayList<AuditError>();
-		// for (String error : errors) {
-		// auditErrors.add(new AuditError(Constants.NO_FIELD,
-		// Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
-		// + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
-		// }
-		// GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
-		// new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors,
-		// Constants.GRANTSGOV_ERRORS));
-		// for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
-		// pdfArray[frmIndex] = (ByteArrayOutputStream)
-		// pdfBaosList.get(frmIndex);
-		// }
-		return pdfArray;
+		return formPrintables;
 	}
 
 	/**
@@ -518,98 +510,6 @@ public class PrintServiceImpl implements PrintService {
 					new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
 							auditErrors, Constants.GRANTSGOV_ERRORS));
 		}
-	}
-
-	/**
-	 * This method is used to generate byte stream of forms
-	 * 
-	 * @param pdDoc
-	 *            ProposalDevelopmentDocument
-	 * @param bookmarksList
-	 * @return ByteArrayOutputStream[] PDF byte Array
-	 * @throws S2SException
-	 */
-	private ByteArrayOutputStream[] getPDFStream(
-			ProposalDevelopmentDocument pdDoc, List<String> bookmarksList)
-			throws S2SException {
-		ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
-		byte[] formPdfBytes = null;
-		FormMappingInfo info = null;
-		S2SBaseFormGenerator s2sFormGenerator = null;
-		ByteArrayOutputStream[] pdfArray = null;
-		List<AuditError> errors = new ArrayList<AuditError>();
-		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
-				.getDevelopmentProposal().getS2sOppForms());
-
-		for (String namespace : sortedNameSpaces) {
-			try {
-				info = new FormMappingLoader().getFormInfo(namespace);
-				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
-						.getNameSpace());
-			} catch (S2SGeneratorNotFoundException e) {
-				LOG.info("Form not found for namespace: " + namespace);
-				continue;
-			}
-			s2sFormGenerator.setAuditErrors(errors);
-			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-
-			if (s2SValidatorService.validate(formObject, errors)) {
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				formPdfBytes = generatePdf(info.getStyleSheet(), formObject);
-				try {
-					stream.write(formPdfBytes);
-				} catch (Exception e) {
-					LOG.error(e.getMessage(), e);
-					throw new S2SException(e);
-				}
-
-				pdfBaosList.add(stream);
-				bookmarksList.add(info.getFormName());
-				List<AttachmentData> attachmentList = s2sFormGenerator
-						.getAttachments();
-				if (attachmentList != null && !attachmentList.isEmpty()) {
-					for (AttachmentData attachmentData : attachmentList) {
-						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
-						try {
-							attStream.write(attachmentData.getContent());
-							if (!isPdfType(attachmentData.getContent()))
-								continue;
-						} catch (IOException e) {
-							LOG.error(e.getMessage(), e);
-							throw new S2SException(e);
-						}
-						pdfBaosList.add(attStream);
-
-						StringBuilder attachment = new StringBuilder();
-						attachment.append("   ATT : ");
-						attachment.append(attachmentData.getContentId());
-						bookmarksList.add(attachment.toString());
-					}
-				}
-			}
-		}
-		pdfArray = new ByteArrayOutputStream[pdfBaosList.size()];
-		if (!errors.isEmpty()) {
-			setValidationErrorMessage(errors);
-			return null;
-		}
-		// List<AuditError> auditErrors = new ArrayList<AuditError>();
-		// for (String error : errors) {
-		// auditErrors.add(new AuditError(Constants.NO_FIELD,
-		// Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
-		// + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
-		// }
-		// if (!auditErrors.isEmpty()) {
-		// GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
-		// new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors,
-		// Constants.GRANTSGOV_ERRORS));
-		// return null;
-		// }
-		for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
-			pdfArray[frmIndex] = (ByteArrayOutputStream) pdfBaosList
-					.get(frmIndex);
-		}
-		return pdfArray;
 	}
 
 	/**
@@ -684,112 +584,6 @@ public class PrintServiceImpl implements PrintService {
 
 	/**
 	 * 
-	 * This method is used to merge different pages in to the generated pdf, and
-	 * sets page number and font for the pdf.
-	 * 
-	 * @param byteArrayOutputStream
-	 *            stream of byte array.
-	 * @param bookmarks
-	 *            book marks in Pdf file.
-	 * @return byte[] byte array of pdf file.
-	 * @throws S2SException
-	 */
-	private byte[] mergePdfBytes(ByteArrayOutputStream byteArrayOutputStream[],
-			String bookmarks[]) throws S2SException {
-		com.lowagie.text.Document document = null;
-		PdfWriter writer = null;
-		ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
-		byte fileBytes[];
-		int totalNumOfPages = 0;
-		PdfReader[] pdfReaderArr = new PdfReader[byteArrayOutputStream.length];
-		for (int count = 0; count < byteArrayOutputStream.length; count++) {
-			if (byteArrayOutputStream[count] == null) {
-				continue;
-			}
-			fileBytes = byteArrayOutputStream[count].toByteArray();
-			PdfReader reader;
-			try {
-				reader = new PdfReader(fileBytes);
-			} catch (IOException e) {
-				LOG.error(e.getMessage(), e);
-				throw new S2SException(e);
-			}
-			pdfReaderArr[count] = reader;
-			totalNumOfPages += reader.getNumberOfPages();
-		}
-
-		StringBuilder footerPhStr = new StringBuilder();
-		footerPhStr.append(" of ");
-		footerPhStr.append(totalNumOfPages);
-		footerPhStr
-				.append("                                                                            ");
-		footerPhStr
-				.append("                                                                            ");
-		footerPhStr
-				.append("                                                            ");
-		Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL,
-				Color.BLACK);
-		Phrase beforePhrase = new Phrase("Page ", font);
-		Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
-		HeaderFooter footer = new HeaderFooter(beforePhrase, afterPhrase);
-		footer.setAlignment(Element.ALIGN_BASELINE);
-		footer.setBorderWidth(0f);
-		for (int count = 0; count < pdfReaderArr.length; count++) {
-			if (byteArrayOutputStream[count] == null) {
-				continue;
-			}
-			PdfReader reader = pdfReaderArr[count];
-			int nop = reader.getNumberOfPages();
-
-			if (count == 0) {
-				document = nop > 0 ? new com.lowagie.text.Document(reader
-						.getPageSizeWithRotation(1))
-						: new com.lowagie.text.Document();
-				try {
-					writer = PdfWriter.getInstance(document, mergedPdfReport);
-				} catch (DocumentException e) {
-					LOG.error(e.getMessage(), e);
-					throw new S2SException(e);
-				}
-				document.setFooter(footer);
-				document.open();
-			}
-			PdfContentByte cb = writer.getDirectContent();
-			int pageCount = 0;
-			while (pageCount < nop) {
-				document.setPageSize(reader.getPageSize(++pageCount));
-				document.newPage();
-				document.setFooter(footer);
-				PdfImportedPage page = writer
-						.getImportedPage(reader, pageCount);
-
-				cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
-
-				PdfOutline root = cb.getRootOutline();
-				if (pageCount == 1) {
-					String pageName = bookmarks[count];
-					cb.addOutline(new PdfOutline(root, new PdfDestination(
-							PdfDestination.FITH), pageName), pageName);
-				}
-			}
-		}
-		if (document != null) {
-			try {
-				document.close();
-				return mergedPdfReport.toByteArray();
-			} catch (Exception e) {
-				// IO Exception occurs when PDF has no pages
-				LOG
-						.error(
-								"Exception occured because the generated PDF document has no pages",
-								e);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * 
 	 * This method gets the latest S2SAppSubmission record from the list of
 	 * S2SAppSubmissions. It iterates through the list and returns the record
 	 * that has highest SubmissionNo
@@ -814,77 +608,7 @@ public class PrintServiceImpl implements PrintService {
 		return s2sSubmission;
 	}
 
-	/**
-	 * This method convert xmlObject to a PDF byte array
-	 * 
-	 * @param stylesheet
-	 *            {String} xsl style sheet corresponding to the form.
-	 * @param xmlObject
-	 *            {XmlObject} xml object of the form.
-	 * @return byte array containing PDF Document
-	 * @throws S2SException
-	 */
-	private byte[] generatePdf(String stylesheet, XmlObject xmlObject)
-			throws S2SException {
-		try {
-			// BufferedInputStream stylesheetStream = new
-			// BufferedInputStream(getClass().getResourceAsStream("/" +
-			// stylesheet));
-			// byte[] stylesheetBytes = new byte[stylesheetStream.available()];
-			// stylesheetStream.read(stylesheetBytes);
-			// Document xmlDoc = (Document) xmlObject.getDomNode();
-			// return generatePdfBytes(xmlDoc, stylesheetBytes);
 
-			Source xsltSource = new StreamSource(getClass()
-					.getResourceAsStream("/" + stylesheet));
-			return generatePdfBytes(xmlObject, xsltSource);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-			throw new S2SException("Not able to read template ");
-		}
-	}
-
-	/**
-	 * This method will be called by other programs when pdf needs to be
-	 * generated for the given forms
-	 * 
-	 * @param xmldoc
-	 *            {Document}
-	 * @param byteIn
-	 *            {byte[]}
-	 * @return byte[] array containing PDF bytes
-	 * @throws S2SException
-	 */
-
-	private byte[] generatePdfBytes(XmlObject xmlObject, Source xsltSource)
-			throws IOException, S2SException {
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try {
-			FopFactory fopFactory = FopFactory.newInstance();
-			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
-			TransformerFactory factory = TransformerFactory.newInstance();
-			Transformer transformer = factory.newTransformer(xsltSource);
-			Source src = new StreamSource(xmlObject.newInputStream());
-			Result res = new SAXResult(fop.getDefaultHandler());
-			transformer.transform(src, res);
-		} catch (TransformerConfigurationException e) {
-			LOG.error(e.getMessage(), e);
-			throw new S2SException(e);
-		} catch (TransformerException e) {
-			LOG.error(e.getMessage(), e);
-			throw new S2SException(e);
-		} catch (FOPException e) {
-			LOG.error(e.getMessage(), e);
-			throw new S2SException(e);
-		} finally {
-			if (out != null) {
-				out.flush();
-				out.close();
-			}
-		}
-		return out.toByteArray();
-	}
 
 	/**
 	 * 
@@ -939,22 +663,6 @@ public class PrintServiceImpl implements PrintService {
 	 */
 	public void setS2SValidatorService(S2SValidatorService s2SValidatorService) {
 		this.s2SValidatorService = s2SValidatorService;
-	}
-
-	/**
-	 * 
-	 * This class populates the bytes of PDF document to be generated
-	 */
-	private class GrantsGovAttachmentData extends AttachmentDataSource {
-		private byte[] streamData;
-
-		public byte[] getContent() {
-			return streamData;
-		}
-
-		public void setContent(byte[] streamData) {
-			this.streamData = streamData;
-		}
 	}
 
 	private boolean isPdfType(byte[] data) {
@@ -1032,5 +740,13 @@ public class PrintServiceImpl implements PrintService {
 	 */
 	public void setS2SUtilService(S2SUtilService utilService) {
 		s2SUtilService = utilService;
+	}
+
+	public PrintingService getPrintingService() {
+		return printingService;
+	}
+
+	public void setPrintingService(PrintingService printingService) {
+		this.printingService = printingService;
 	}
 }

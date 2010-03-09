@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -41,7 +42,7 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 		return null;
 	}
 
-	public ArrayList<Source> getXSLT() {
+	public List<Source> getXSLT() {
 		ArrayList<Source> ret = new ArrayList<Source>();
 		File xsltfile = new File(
 				"src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
@@ -70,6 +71,11 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 	}
 
 	public ResearchDocumentBase getDocument() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Map<String, byte[]> getAttachments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

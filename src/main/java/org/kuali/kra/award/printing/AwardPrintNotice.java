@@ -20,261 +20,262 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class AwardPrintNotice extends BusinessObjectBase {
-    
-    private Boolean terms;
-    private Boolean specialReview;
-    private Boolean equipment;
-    private Boolean foreignTravel;
-    private Boolean subAward;
-    private Boolean costShare;
-    private Boolean faRates;
-    private Boolean benefitsRates;
-    private Boolean flowThru;
-    private Boolean comments;
-    private Boolean fundingSummary;
-    private Boolean hierarchy;
-    private Boolean technicalReports;
-    private Boolean reports;
-    private Boolean payment;
-    private Boolean closeout;
-    private Boolean sponsorContacts;
-    private Boolean otherData;
-    private Boolean keywords;    
-    private Boolean requireSignature;
-    
-    public AwardPrintNotice() {
-        setDefaults();
-    }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	private Boolean terms;
+	private Boolean specialReview;
+	private Boolean equipment;
+	private Boolean foreignTravel;
+	private Boolean subAward;
+	private Boolean costShare;
+	private Boolean faRates;
+	private Boolean benefitsRates;
+	private Boolean flowThru;
+	private Boolean comments;
+	private Boolean fundingSummary;
+	private Boolean hierarchy;
+	private Boolean technicalReports;
+	private Boolean reports;
+	private Boolean payment;
+	private Boolean closeout;
+	private Boolean sponsorContacts;
+	private Boolean otherData;
+	private Boolean keywords;
+	private Boolean requireSignature;
 
-    public void refresh() {
-        //do nothing
-    }
-    
-    public void setDefaults() {
-        terms = 
-            specialReview =
-            equipment =
-            foreignTravel =
-            subAward =
-            costShare =
-            faRates =
-            benefitsRates =
-            flowThru =
-            comments =
-            technicalReports =
-            reports =
-            payment =
-            closeout =
-            sponsorContacts =
-            otherData =
-            keywords = true;
-        fundingSummary =
-            hierarchy =
-            requireSignature = false;
-    }
-    
-    /**
-     * Selects all items except requireSignature
-     */
-    public void selectAllItems() {
-        setAllItems(true);
-    }
-    /**
-     * Deselects all items except requireSignature
-     */
-    public void deselectAllItems() {
-        setAllItems(false);
-    }
-    
-    /**
-     * Sets all items, except requireSignature for the select all/none button
-     */
-    private void setAllItems(Boolean value) {
-        terms = 
-        specialReview =
-        equipment =
-        foreignTravel =
-        subAward =
-        costShare =
-        faRates =
-        benefitsRates =
-        flowThru =
-        comments =
-        fundingSummary =
-        hierarchy =
-        technicalReports =
-        reports =
-        payment =
-        closeout =
-        sponsorContacts =
-        otherData =
-        keywords = true;
-    }
+	public AwardPrintNotice() {
+		setDefaults();
+	}
 
-    public Boolean getCloseout() {
-        return closeout;
-    }
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public void setCloseout(Boolean closeout) {
-        this.closeout = closeout;
-    }
+	public void refresh() {
+		// do nothing
+	}
 
-    public Boolean getCostShare() {
-        return costShare;
-    }
+	public void setDefaults() {
+		terms = true;
+		specialReview = true;
+		equipment = true;
+		foreignTravel = true;
+		subAward = true;
+		costShare = true;
+		faRates = true;
+		benefitsRates = true;
+		flowThru = true;
+		comments = true;
+		technicalReports = true;
+		reports = true;
+		payment = true;
+		closeout = true;
+		sponsorContacts = true;
+		otherData = true;
+		keywords = true;
+		fundingSummary = false;
+		hierarchy = false;
+		requireSignature = false;
+	}
 
-    public void setCostShare(Boolean costShare) {
-        this.costShare = costShare;
-    }
+	/**
+	 * Selects all items except requireSignature
+	 */
+	public void selectAllItems() {
+		setAllItems(true);
+	}
 
-    public Boolean getEquipment() {
-        return equipment;
-    }
+	/**
+	 * Deselects all items except requireSignature
+	 */
+	public void deselectAllItems() {
+		setAllItems(false);
+	}
 
-    public void setEquipment(Boolean equipment) {
-        this.equipment = equipment;
-    }
+	/**
+	 * Sets all items, except requireSignature for the select all/none button
+	 */
+	private void setAllItems(Boolean value) {
+		terms = true;
+		specialReview = true;
+		equipment = true;
+		foreignTravel = true;
+		subAward = true;
+		costShare = true;
+		faRates = true;
+		benefitsRates = true;
+		flowThru = true;
+		comments = true;
+		fundingSummary = true;
+		hierarchy = true;
+		technicalReports = true;
+		reports = true;
+		payment = true;
+		closeout = true;
+		sponsorContacts = true;
+		otherData = true;
+		keywords = true;
+	}
 
-    public Boolean getFlowThru() {
-        return flowThru;
-    }
+	public Boolean getCloseout() {
+		return closeout;
+	}
 
-    public void setFlowThru(Boolean flowThru) {
-        this.flowThru = flowThru;
-    }
+	public void setCloseout(Boolean closeout) {
+		this.closeout = closeout;
+	}
 
-    public Boolean getForeignTravel() {
-        return foreignTravel;
-    }
+	public Boolean getCostShare() {
+		return costShare;
+	}
 
-    public void setForeignTravel(Boolean foreignTravel) {
-        this.foreignTravel = foreignTravel;
-    }
+	public void setCostShare(Boolean costShare) {
+		this.costShare = costShare;
+	}
 
-    public Boolean getFundingSummary() {
-        return fundingSummary;
-    }
+	public Boolean getEquipment() {
+		return equipment;
+	}
 
-    public void setFundingSummary(Boolean fundingSummary) {
-        this.fundingSummary = fundingSummary;
-    }
+	public void setEquipment(Boolean equipment) {
+		this.equipment = equipment;
+	}
 
-    public Boolean getHierarchy() {
-        return hierarchy;
-    }
+	public Boolean getFlowThru() {
+		return flowThru;
+	}
 
-    public void setHierarchy(Boolean hierarchy) {
-        this.hierarchy = hierarchy;
-    }
+	public void setFlowThru(Boolean flowThru) {
+		this.flowThru = flowThru;
+	}
 
-    public Boolean getKeywords() {
-        return keywords;
-    }
+	public Boolean getForeignTravel() {
+		return foreignTravel;
+	}
 
-    public void setKeywords(Boolean keywords) {
-        this.keywords = keywords;
-    }
+	public void setForeignTravel(Boolean foreignTravel) {
+		this.foreignTravel = foreignTravel;
+	}
 
-    public Boolean getOtherData() {
-        return otherData;
-    }
+	public Boolean getFundingSummary() {
+		return fundingSummary;
+	}
 
-    public void setOtherData(Boolean otherData) {
-        this.otherData = otherData;
-    }
+	public void setFundingSummary(Boolean fundingSummary) {
+		this.fundingSummary = fundingSummary;
+	}
 
-    public Boolean getPayment() {
-        return payment;
-    }
+	public Boolean getHierarchy() {
+		return hierarchy;
+	}
 
-    public void setPayment(Boolean payment) {
-        this.payment = payment;
-    }
+	public void setHierarchy(Boolean hierarchy) {
+		this.hierarchy = hierarchy;
+	}
 
-    public Boolean getSpecialReview() {
-        return specialReview;
-    }
+	public Boolean getKeywords() {
+		return keywords;
+	}
 
-    public void setSpecialReview(Boolean specialReview) {
-        this.specialReview = specialReview;
-    }
+	public void setKeywords(Boolean keywords) {
+		this.keywords = keywords;
+	}
 
-    public Boolean getSubAward() {
-        return subAward;
-    }
+	public Boolean getOtherData() {
+		return otherData;
+	}
 
-    public void setSubAward(Boolean subAward) {
-        this.subAward = subAward;
-    }
+	public void setOtherData(Boolean otherData) {
+		this.otherData = otherData;
+	}
 
-    public Boolean getTerms() {
-        return terms;
-    }
+	public Boolean getPayment() {
+		return payment;
+	}
 
-    public void setTerms(Boolean terms) {
-        this.terms = terms;
-    }
+	public void setPayment(Boolean payment) {
+		this.payment = payment;
+	}
 
-    public Boolean getRequireSignature() {
-        return requireSignature;
-    }
+	public Boolean getSpecialReview() {
+		return specialReview;
+	}
 
-    public void setRequireSignature(Boolean requireSignature) {
-        this.requireSignature = requireSignature;
-    }
+	public void setSpecialReview(Boolean specialReview) {
+		this.specialReview = specialReview;
+	}
 
-    public Boolean getFaRates() {
-        return faRates;
-    }
+	public Boolean getSubAward() {
+		return subAward;
+	}
 
-    public void setFaRates(Boolean faRates) {
-        this.faRates = faRates;
-    }
+	public void setSubAward(Boolean subAward) {
+		this.subAward = subAward;
+	}
 
-    public Boolean getBenefitsRates() {
-        return benefitsRates;
-    }
+	public Boolean getTerms() {
+		return terms;
+	}
 
-    public void setBenefitsRates(Boolean benefitsRates) {
-        this.benefitsRates = benefitsRates;
-    }
+	public void setTerms(Boolean terms) {
+		this.terms = terms;
+	}
 
-    public Boolean getTechnicalReports() {
-        return technicalReports;
-    }
+	public Boolean getRequireSignature() {
+		return requireSignature;
+	}
 
-    public void setTechnicalReports(Boolean technicalReports) {
-        this.technicalReports = technicalReports;
-    }
+	public void setRequireSignature(Boolean requireSignature) {
+		this.requireSignature = requireSignature;
+	}
 
-    public Boolean getReports() {
-        return reports;
-    }
+	public Boolean getFaRates() {
+		return faRates;
+	}
 
-    public void setReports(Boolean reports) {
-        this.reports = reports;
-    }
+	public void setFaRates(Boolean faRates) {
+		this.faRates = faRates;
+	}
 
-    public Boolean getSponsorContacts() {
-        return sponsorContacts;
-    }
+	public Boolean getBenefitsRates() {
+		return benefitsRates;
+	}
 
-    public void setSponsorContacts(Boolean sponsorContacts) {
-        this.sponsorContacts = sponsorContacts;
-    }
+	public void setBenefitsRates(Boolean benefitsRates) {
+		this.benefitsRates = benefitsRates;
+	}
 
-    public Boolean getComments() {
-        return comments;
-    }
+	public Boolean getTechnicalReports() {
+		return technicalReports;
+	}
 
-    public void setComments(Boolean comments) {
-        this.comments = comments;
-    }
+	public void setTechnicalReports(Boolean technicalReports) {
+		this.technicalReports = technicalReports;
+	}
+
+	public Boolean getReports() {
+		return reports;
+	}
+
+	public void setReports(Boolean reports) {
+		this.reports = reports;
+	}
+
+	public Boolean getSponsorContacts() {
+		return sponsorContacts;
+	}
+
+	public void setSponsorContacts(Boolean sponsorContacts) {
+		this.sponsorContacts = sponsorContacts;
+	}
+
+	public Boolean getComments() {
+		return comments;
+	}
+
+	public void setComments(Boolean comments) {
+		this.comments = comments;
+	}
 
 }

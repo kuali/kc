@@ -15,17 +15,13 @@
  */
 package org.kuali.kra.award.printing.print;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.transform.Source;
 
-import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -55,8 +51,8 @@ public class AwardDeltaPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public ArrayList<Source> getXSLT() {
-		ArrayList<Source> sourceList = PrintingUtils
+	public List<Source> getXSLT() {
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(AwardPrintType.AWARD_DELTA_REPORT
 						.getAwardPrintType());
 		return sourceList;

@@ -121,7 +121,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @returns true if the rules passed, false otherwise
      */
     public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document,  String name) {
-        debug("Invoking budgetrule " + getBudgetVersionRule());
+        debug("Invoking budgetrule getBudgetVersionRule()");
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
     }
     /**
@@ -195,6 +195,26 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
         
+        saveBudgetDocument(budgetDocument);
+        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        parentDocument.refreshReferenceObject("budgetDocumentVersions");
+        return budgetDocument;
+    }
+
+    /**
+     * This method...
+     * @param budgetDocument
+     * @param isProposalBudget
+     * @param budget
+     * @param budgetParent
+     * @throws WorkflowException
+     */
+    private void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
+        Budget budget = budgetDocument.getBudget();
+        BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParent budgetParent = parentDocument.getBudgetParent();
+        boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
+
         if(!isProposalBudget){
             AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
             budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
@@ -204,9 +224,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             documentService.saveDocument(budgetDocument);
             documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         }
-        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        parentDocument.refreshReferenceObject("budgetDocumentVersions");
-        return budgetDocument;
     }
     
     /**
@@ -233,7 +250,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             throw new RuntimeException(e);
         }
         
-        // jira 1365 re-open issue
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
         for(BudgetPeriod budgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
@@ -257,8 +273,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             }
         }
         
-        documentService.saveDocument(budgetDocument);
-        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList<Object>());
+        saveBudgetDocument(budgetDocument);
         return budgetDocument;
     }
     

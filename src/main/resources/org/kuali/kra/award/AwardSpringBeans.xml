@@ -250,6 +250,117 @@
 	<bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+
+		<!-- Award Printing Service Configuration Start -->
+		<bean id="awardDeltaXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+			<property name="documentService">
+				<ref bean="documentService" />
+			</property>
+			<property name="versionHistoryService">
+				<ref bean="versionHistoryService" />
+			</property>
+		</bean>
+		<bean id="awardNoticeXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+			<property name="documentService">
+				<ref bean="documentService" />
+			</property>
+			<property name="versionHistoryService">
+				<ref bean="versionHistoryService" />
+			</property>
+		</bean>
+		<bean id="awardTemplateXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+		</bean>
+		<bean id="awardMoneyAndEndDatesHistoryXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+		</bean>
+		<bean id="awardBudgetHierarchyXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHierarchyXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+		</bean>
+		<bean id="awardBudgetHistoryTransactionXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHistoryTransactionXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+		</bean>
+	
+	
+		<bean id="awardTemplatePrint"
+			class="org.kuali.kra.award.printing.print.AwardTemplatePrint">
+			<property name="xmlStream" ref="awardTemplateXmlStream" />
+		</bean>
+		<bean id="awardDeltaPrint"
+			class="org.kuali.kra.award.printing.print.AwardDeltaPrint">
+			<property name="xmlStream" ref="awardDeltaXmlStream" />
+		</bean>
+		<bean id="awardNoticePrint"
+			class="org.kuali.kra.award.printing.print.AwardNoticePrint">
+			<property name="xmlStream" ref="awardNoticeXmlStream" />
+		</bean>
+		<bean id="moneyAndEndDatesHistoryPrint"
+			class="org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint">
+			<property name="xmlStream"
+				ref="awardMoneyAndEndDatesHistoryXmlStream" />
+		</bean>
+		<bean id="awardBudgetHierarchyPrint"
+			class="org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint">
+			<property name="xmlStream" ref="awardBudgetHierarchyXmlStream" />
+		</bean>
+		<bean id="awardBudgetHistoryTransactionPrint"
+			class="org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint">
+			<property name="xmlStream"
+				ref="awardBudgetHistoryTransactionXmlStream" />
+		</bean>
+	
+		<bean id="awardPrintingService"
+			class="org.kuali.kra.award.printing.service.impl.AwardPrintingServiceImpl">
+			<property name="awardDeltaPrint" ref="awardDeltaPrint" />
+			<property name="awardNoticePrint" ref="awardNoticePrint" />
+			<property name="awardTemplatePrint" ref="awardTemplatePrint" />
+			<property name="moneyAndEndDatesHistoryPrint"
+				ref="moneyAndEndDatesHistoryPrint" />
+			<property name="awardBudgetHierarchyPrint"
+				ref="awardBudgetHierarchyPrint" />
+			<property name="awardBudgetHistoryTransactionPrint"
+				ref="awardBudgetHistoryTransactionPrint" />
+			<property name="printingService" ref="printingService" />
+		</bean>
+		<!-- Award Printing Service Configuration End -->
 	
 	<bean id="awardTransactionLookupService" class="org.kuali.kra.award.lookup.AwardTransactionLookupServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

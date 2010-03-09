@@ -215,7 +215,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			long transactionId) {
 		org.kuali.kra.award.home.AwardAmountInfo awardAmountInfo = null;
 		for (AwardAmountInfo awardAmount : award.getAwardAmountInfos()) {
-			if (awardAmount.getTransactionId().longValue() == transactionId) {
+			if (awardAmount.getTransactionId()!=null && awardAmount.getTransactionId().longValue() == transactionId) {
 				awardAmountInfo = awardAmount;
 				break;
 			}

@@ -16,6 +16,7 @@
 package org.kuali.kra.printing.service;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -23,19 +24,38 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 /**
  * 
- * This class provides the API for KC Printing. It will take any KC <code>Printable</code> and return the printable PDF form 
- * of that Printable in an OutputStream which can be decorated how the implementing print consumer requires.
+ * This class provides the API for KC Printing. It will take any KC
+ * <code>Printable</code> and return the printable PDF form of that Printable
+ * in an OutputStream which can be decorated how the implementing print consumer
+ * requires.
  * 
  */
-public interface PrintingService {    
-    
-    /**
-     * 
-     * This method invokes the KC printable architecture for reports, notifications, docs and bos. 
-     * It will take raw KC XML from bo/docs and perform the XSLT to generate XML-FO,
-     * and will render the Printable XML-FO as a PDF OutputStream.
-     * @throws PrintingException 
-     */
-    public AttachmentDataSource print(Printable printableArtifact) throws PrintingException;
+public interface PrintingService {
+	public int WHITESPACE_LENGTH_76 = 76;
+	public int WHITESPACE_LENGTH_60 = 60;
+
+	/**
+	 * 
+	 * This method invokes the KC printable architecture for reports,
+	 * notifications, docs and bos. It will take raw KC XML from bo/docs and
+	 * perform the XSLT to generate XML-FO, and will render the Printable XML-FO
+	 * as a PDF OutputStream.
+	 * 
+	 * @throws PrintingException
+	 */
+	public AttachmentDataSource print(Printable printableArtifact)
+			throws PrintingException;
+
+	/**
+	 * 
+	 * This method invokes the KC printable architecture for reports,
+	 * notifications, docs and bos. It will take raw KC XML from bo/docs and
+	 * perform the XSLT to generate XML-FO, and will render the {@link List} of
+	 * Printable XML-FO as a PDF OutputStream.
+	 * 
+	 * @throws PrintingException
+	 */
+	public AttachmentDataSource print(List<Printable> printableArtifactList)
+			throws PrintingException;
 
 }

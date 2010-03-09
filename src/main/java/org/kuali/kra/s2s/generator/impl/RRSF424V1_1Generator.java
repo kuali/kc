@@ -214,15 +214,19 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 				budget.setTotalIndirectCost(fundsRequested);
 				budget.setTotalCost(totalCost);
 			}
+
+
 			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
 			BigDecimal totalProjectIncome = BigDecimal.ZERO;
+
 			for (BudgetProjectIncome budgetProjectIncome : budget
 					.getBudgetProjectIncomes()) {
 				totalProjectIncome = totalProjectIncome.add(budgetProjectIncome
 						.getProjectIncome().bigDecimalValue());
 			}
+
 			funding = EstimatedProjectFunding.Factory.newInstance();
 			funding.setTotalEstimatedAmount(budget.getTotalCost()
 					.bigDecimalValue());

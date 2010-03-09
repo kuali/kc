@@ -184,4 +184,5 @@ public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
+
 }

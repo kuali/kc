@@ -37,6 +37,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetExpenseRule;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -152,7 +153,7 @@ public class BudgetExpensesAction extends BudgetAction {
             budgetCalculationService.calculateBudgetPeriod(budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
             
             budgetCalculationService.populateCalculatedAmount(budget, newBudgetLineItem);
-            BudgetLineItem newLineItemToAdd = new BudgetLineItem();
+            BudgetLineItem newLineItemToAdd = budgetPeriod.getNewBudgetLineItem();
             budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex, newLineItemToAdd);
             
             populateTabState(budgetForm, budgetService.getBudgetExpensePanelName(budgetPeriod, newBudgetLineItem));
@@ -245,12 +246,14 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
         try{
-            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, Constants.BUDGET_SALARY_REPORT);
+            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
             streamToResponse(dataStream,response);
         }catch(Exception ex){
-            LOG.warn(ex);
+            ex.printStackTrace();
+            LOG.error(ex);
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return null;
     }
     
     /**

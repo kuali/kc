@@ -150,34 +150,32 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
         
     }
 
-    private BudgetPersonnelDetails getPersonnelLineItem(BudgetPeriod bp, int lineItemNumber, 
-            String costElement,Date startDate,Date endDate,
-            double lineItemCost,double costSharingAmount, 
-            int personNumber,int personSequenceNumber,String personId,String jobCode,double effort,double charged) {
-        BudgetPersonnelDetails bli = new BudgetPersonnelDetails();
-//        bli.setProposalNumber(bp.getProposalNumber());
-//        bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
-        bli.setBudgetId(bp.getBudgetId());
-        bli.setBudgetPeriod(bp.getBudgetPeriod());
-        bli.setStartDate(startDate);
-        bli.setEndDate(endDate);
-        bli.setApplyInRateFlag(true);
-        bli.setOnOffCampusFlag(true);
-        bli.setLineItemNumber(lineItemNumber);
-        bli.setBudgetCategoryCode("1");
-        bli.setCostElement(costElement);
-        bli.setLineItemCost(new BudgetDecimal(lineItemCost));
-        bli.setCostSharingAmount(new BudgetDecimal(costSharingAmount));
-        bli.setUpdateTimestamp(bp.getUpdateTimestamp());
-        bli.setUpdateUser(bp.getUpdateUser());
-        bli.setPersonNumber(personNumber);
-        bli.setPersonSequenceNumber(personSequenceNumber);
-        bli.setPersonId(personId);
-        bli.setJobCode(jobCode);
-        bli.setPercentEffort(new BudgetDecimal(effort));
-        bli.setPercentCharged(new BudgetDecimal(charged));
-        return bli;
-    }
+//    private BudgetPersonnelDetails getPersonnelLineItem(BudgetPeriod bp, int lineItemNumber, 
+//            String costElement,Date startDate,Date endDate,
+//            double lineItemCost,double costSharingAmount, 
+//            int personNumber,int personSequenceNumber,String personId,String jobCode,double effort,double charged) {
+//        BudgetPersonnelDetails bli = new BudgetPersonnelDetails();
+//        bli.setBudgetId(bp.getBudgetId());
+//        bli.setBudgetPeriod(bp.getBudgetPeriod());
+//        bli.setStartDate(startDate);
+//        bli.setEndDate(endDate);
+//        bli.setApplyInRateFlag(true);
+//        bli.setOnOffCampusFlag(true);
+//        bli.setLineItemNumber(lineItemNumber);
+//        bli.setBudgetCategoryCode("1");
+//        bli.setCostElement(costElement);
+//        bli.setLineItemCost(new BudgetDecimal(lineItemCost));
+//        bli.setCostSharingAmount(new BudgetDecimal(costSharingAmount));
+//        bli.setUpdateTimestamp(bp.getUpdateTimestamp());
+//        bli.setUpdateUser(bp.getUpdateUser());
+//        bli.setPersonNumber(personNumber);
+//        bli.setPersonSequenceNumber(personSequenceNumber);
+//        bli.setPersonId(personId);
+//        bli.setJobCode(jobCode);
+//        bli.setPercentEffort(new BudgetDecimal(effort));
+//        bli.setPercentCharged(new BudgetDecimal(charged));
+//        return bli;
+//    }
 
     private void populateDummyRates(Budget bd) {
         List<BudgetRate> budgetRates = bd.getBudgetRates();
@@ -234,9 +232,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, 
                 String costElement,Date startDate,Date endDate,
                 double lineItemCost,double costSharingAmount) {
-        BudgetLineItem bli = new BudgetLineItem();
-//        bli.setProposalNumber(bp.getProposalNumber());
-//        bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
+        BudgetLineItem bli = bp.getNewBudgetLineItem();
         bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(startDate);

@@ -28,22 +28,22 @@ public abstract class BudgetAssociate extends KraPersistableBusinessObjectBase i
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3219654486879418421L;
-    private Budget budget;
+//    private Budget budget;
     private Long budgetId;
     /**
      * Gets the budget attribute. 
      * @return Returns the budget.
      */
-    public Budget getBudget() {
-        return budget;
-    }
+//    public Budget getBudget() {
+//        return budget;
+//    }
     /**
      * Sets the budget attribute value.
      * @param budget The budget to set.
      */
-    public void setBudget(Budget budget) {
-        this.budget = budget;
-    }
+//    public void setBudget(Budget budget) {
+//        this.budget = budget;
+//    }
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {

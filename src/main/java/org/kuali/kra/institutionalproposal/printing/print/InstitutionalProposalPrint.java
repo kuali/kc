@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.printing.print;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -55,30 +56,11 @@ public class InstitutionalProposalPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public ArrayList<Source> getXSLT() {
+	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 						.getInstitutionalProposalPrintType());
 		return sourceList;
 	}
-
-//	/**
-//	 * This method generates the XML that confirms to Institute Proposal Report
-//	 * XSD returns it as {@link InputStream}
-//	 * 
-//	 * @return {@link InputStream} of generated XML
-//	 * @throws PrintingException
-//	 *             in case of any errors occur during XML generation
-//	 */
-//	public Map<String, byte[]> renderXML() throws PrintingException {
-//		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
-//		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-//				getDocument(), getReportParameters());
-//		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-//			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey)
-//					.newInputStream());
-//		}
-//		return xmlStreamMap;
-//	}
 
 }

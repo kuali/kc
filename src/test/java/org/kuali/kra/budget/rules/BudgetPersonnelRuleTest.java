@@ -160,17 +160,17 @@ public class BudgetPersonnelRuleTest {
      */
     private BudgetDocument getBudgetDoc() {
         BudgetDocument bdoc = new BudgetDocument();
-        Budget doc = bdoc.getBudget();
+        Budget budget = bdoc.getBudget();
         
         List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
         BudgetPeriod period = new BudgetPeriod();
         
         List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
-        BudgetLineItem lineItem = new BudgetLineItem();
+        BudgetLineItem lineItem = budget.getNewBudgetLineItem();
         lineItem.setLineItemSequence(1);
         
         List<BudgetPersonnelDetails> lineItemDetails = new ArrayList<BudgetPersonnelDetails>();
-        BudgetPersonnelDetails details = new BudgetPersonnelDetails();
+        BudgetPersonnelDetails details = lineItem.getNewBudgetPersonnelLineItem();
         details.setLineItemSequence(1);
         details.setPersonSequenceNumber(1);
         lineItemDetails.add(details);
@@ -200,10 +200,10 @@ public class BudgetPersonnelRuleTest {
         
         persons.add(person);
         
-        doc.setBudgetPeriods(periods);
-        doc.setBudgetPersons(persons);
+        budget.setBudgetPeriods(periods);
+        budget.setBudgetPersons(persons);
         bdoc.setParentDocumentKey("1234");
-        doc.setBudgetVersionNumber(1);
+        budget.setBudgetVersionNumber(1);
         return bdoc;
     }
 }

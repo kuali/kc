@@ -223,7 +223,7 @@ public class BudgetSummaryAction extends BudgetAction {
                 new AddBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), newBudgetPeriod))) {
             budget.getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
             /* set new period and calculate all periods */
-            budgetForm.setNewBudgetPeriod(new BudgetPeriod());
+            budgetForm.setNewBudgetPeriod(budget.getNewBudgetPeriod());
             // TODO : per conversation with Geo. comment it out for now.
             // calculate should get called only when you press calculate or while saving
             // budget.getBudgetSummaryService().calculateBudget(budget);
