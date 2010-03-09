@@ -64,7 +64,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewComments}"
                                                        property="actionHelper.protocolPermitDataAnalysisBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="PermitDataAnalysis" />
+                                                       actionName="PermitDataAnalysis"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 
