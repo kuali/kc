@@ -82,20 +82,22 @@
 	                <td valign="middle">
 	                	<div align="center">
 	                		<input type="hidden" name="sponsor_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
-	                		${awardContact.fullName}&nbsp;
+	                		<c:choose>
+	                		    <c:when test="${empty awardContact.fullName}">
+	                		        ${awardContact.contactOrganizationName}&nbsp;
+	                		    </c:when>
+	                		    <c:otherwise>
+	                	            ${awardContact.fullName}&nbsp;
+	                		    </c:otherwise>
+	                		</c:choose>
+	                		
 	                		<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-							${awardContact.contactOrganizationName}&nbsp;
-							<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
-						</div>
-					</td>
-	                <td valign="middle">
-	                	<div align="center">
 	                		<kul:htmlControlAttribute property="sponsorContactsBean.sponsorContacts[${awardContactRowStatus.index}].contactRoleCode" 
-	                									attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" />
+	                									attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" readOnlyAlternateDisplay ="${awardContact.contactRole.description}"/>
 	                	</div>
 					</td>
 					<td valign="middle">
