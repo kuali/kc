@@ -174,12 +174,16 @@ public class MedusaServiceImpl implements MedusaService {
         return awards;
     }
     
-    private Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal ip) {
-        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
+    private Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
+        //find any dev prop linked to any version of this inst prop
         Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
-        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-            proposalAdminDetail.refreshReferenceObject("developmentProposal");
-            devProposals.add(proposalAdminDetail.getDevelopmentProposal());
+        Collection<InstitutionalProposal> proposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", instProposal.getProposalNumber()));
+        for (InstitutionalProposal ip : proposalVersions) {
+            Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
+            for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+                proposalAdminDetail.refreshReferenceObject("developmentProposal");
+                devProposals.add(proposalAdminDetail.getDevelopmentProposal());
+            }
         }
         return devProposals;
     }
