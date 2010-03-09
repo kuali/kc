@@ -64,7 +64,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean.reviewComments}"
                                                        property="actionHelper.protocolCloseEnrollmentBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="CloseEnrollment" />
+                                                       actionName="CloseEnrollment"
+                                                       allowReadOnly="${true}" />
                    </td>
                 </tr>
                 

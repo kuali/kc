@@ -20,6 +20,7 @@
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>
+<%@ attribute name="allowReadOnly" required="true" %>
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
@@ -83,6 +84,7 @@
                                         
                 <c:forEach var="comment" items="${bean.comments}" varStatus="status">
                     <tr>
+                    	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
                         <th>${status.index + 1}</th>
 
                         <c:choose>
@@ -92,17 +94,26 @@
                                 </td>
                                 <td>
                                     <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
-                                                              attributeEntry="${minutesAttributes.minuteEntry}" />
-                                    <kul:expandedTextArea textAreaFieldName="${property}.comments[${status.index}].minuteEntry"
+                                                              attributeEntry="${minutesAttributes.minuteEntry}"
+                                                              readOnly="${readOnly}" />
+                                    <c:choose>
+	                            		<c:when test="${!readOnly}">
+                                    		<kul:expandedTextArea textAreaFieldName="${property}.comments[${status.index}].minuteEntry"
                                                           action="${action}"
                                                           textAreaLabel="${minutesAttributes.minuteEntry.label}" />
+                                        </c:when>
+                                   	</c:choose>
                                 </td>
                             </c:when>
                             <c:otherwise>
                                 <td style="text-align:center;">
                                     ${comment.protocolContingencyCode}
-                                    <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
+                                    <c:choose>
+	                            		<c:when test="${!readOnly}">
+                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
                                                 fieldConversions="protocolContingencyCode:${property}.comments[${status.index}].protocolContingencyCode" />
+                                        </c:when>
+                                    </c:choose>
                                 </td>
                                 <td>
                                     ${comment.minuteEntry}
@@ -112,18 +123,23 @@
                                                 
                         <td style="text-align:center; vertical-align:middle">
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
-                                                      attributeEntry="${minutesAttributes.privateCommentFlag}" />
+                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
+                                                      readOnly="${readOnly}" />
                         </td>
                                                 
                         <td>
                             <div align="center">&nbsp;
-                                <nobr>
-                                <html:image property="methodToCall.moveUp${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
+                            	<nobr>
+                            	 	<html:image property="methodToCall.moveUp${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
-                                <html:image property="methodToCall.moveDown${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
+                                	<html:image property="methodToCall.moveDown${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
-                                <html:image property="methodToCall.delete${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
-                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+	                            	<c:choose>
+	                            		<c:when test="${!readOnly}">
+			                                <html:image property="methodToCall.delete${actionName}ReviewComment.line${status.index}.anchor${tabKey}"
+			                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+		                                </c:when>
+	                                </c:choose>
                                 </nobr>
                             </div>
                         </td>

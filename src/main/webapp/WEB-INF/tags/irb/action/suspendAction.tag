@@ -64,7 +64,8 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendBean.reviewComments}"
                                                        property="actionHelper.protocolSuspendBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Suspend" />
+                                                       actionName="Suspend" 
+                                                       allowReadOnly="${true}"/>
                    </td>
                 </tr>
                 

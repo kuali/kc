@@ -355,4 +355,13 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         }
         return isChanged;
     }
+    
+    /**
+     * 
+     * This method returns true if the object has been saved to the database, and returns false if it has not.
+     * @return a boolean
+     */
+    public boolean isPersisted() {
+        return this.commScheduleMinutesId != null;
+    }
 }
