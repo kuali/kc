@@ -252,21 +252,22 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        if(pdForm.isAuditActivated()) {
-            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-                pdForm.getDocument());
-    
-            if (!valid) {
-                // set up error message to go to validate panel
-                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-                if(errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
-                        + (errorBudgetVersion-1) +"].budgetStatus",
-                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-                }
-                return mapping.findForward(Constants.MAPPING_BASIC);
-            }
-        }
+        // kracoeus-3663 : message should not be displayed.  should go back to pd actions page.
+//        if(pdForm.isAuditActivated()) {
+//            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+//                pdForm.getDocument());
+//    
+//            if (!valid) {
+//                // set up error message to go to validate panel
+//                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
+//                if(errorBudgetVersion != -1) {
+//                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
+//                        + (errorBudgetVersion-1) +"].budgetStatus",
+//                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+//                }
+//                return mapping.findForward(Constants.MAPPING_BASIC);
+//            }
+//        }
 
         this.setBudgetParentStatus(pdForm.getDocument());
         //this.setBudgetStatuses(pdForm.getDocument());
