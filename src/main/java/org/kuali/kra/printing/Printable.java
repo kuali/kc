@@ -16,10 +16,11 @@
 package org.kuali.kra.printing;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
+
 
 import org.kuali.kra.document.ResearchDocumentBase;
 
@@ -38,7 +39,7 @@ public interface Printable extends Serializable {
 	 * will be converted to PDF. Note that multiple transforms are possible on
 	 * this data.
 	 */
-	public ArrayList<Source> getXSLT();
+	public List<Source> getXSLT();
 
 	/**
 	 * 
@@ -55,4 +56,12 @@ public interface Printable extends Serializable {
 	 * @return ResearchDocument
 	 */
 	public ResearchDocumentBase getDocument();
+	
+	/**
+	 * This method will return the PDF attachments specific to the printable.
+	 * During printing the attachments will be added as bookmarks to the output.
+	 * The Key in the map is used as the name of the bookmark.
+	 * @return Map of Attachment pdf bytes with bookmark names.
+	 */
+	public Map<String, byte[]> getAttachments();
 }

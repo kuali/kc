@@ -40,6 +40,7 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 	private RateType rateType;
 
 	private Long budgetPeriodId;
+    private Long budgetLineItemId;
 	
 	public Long getBudgetPeriodId() {
         return budgetPeriodId;
@@ -185,6 +186,22 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
      */
     public void setRateNumber(Integer rateNumber) {
         this.rateNumber = rateNumber;
+    }
+
+    /**
+     * Gets the budgetLineItemId attribute. 
+     * @return Returns the budgetLineItemId.
+     */
+    public Long getBudgetLineItemId() {
+        return budgetLineItemId;
+    }
+
+    /**
+     * Sets the budgetLineItemId attribute value.
+     * @param budgetLineItemId The budgetLineItemId to set.
+     */
+    public void setBudgetLineItemId(Long budgetLineItemId) {
+        this.budgetLineItemId = budgetLineItemId;
     }
 
 }

@@ -32,6 +32,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
@@ -199,10 +200,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
      */
     public Budget getBudget(){
         if(budgets.isEmpty()){
-//            Budget newBudget = ProposalDevelopmentDocument.DOCUMENT_TYPE_CODE.equals(parentDocumentTypeCode)?
-//                        new Budget():new AwardBudgetExt();
-//            budgets.add(newBudget);
-            budgets.add(new Budget());
+            budgets.add(new ProposalDevelopmentBudgetExt());
         }
         return budgets.get(0);
     }

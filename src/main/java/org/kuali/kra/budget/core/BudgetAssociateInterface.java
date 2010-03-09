@@ -17,5 +17,5 @@ package org.kuali.kra.budget.core;
 
 public interface BudgetAssociateInterface {
     public Long getBudgetId();
-    public Budget getBudget();
+//    public Budget getBudget();
 }

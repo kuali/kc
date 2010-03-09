@@ -32,6 +32,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      */
     private static final long serialVersionUID = 8356817148151906918L;
 
+    private Long budgetLineItemId;
     private Long budgetPeriodId;
     
     private Integer budgetPeriod;
@@ -296,6 +297,22 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     }
     public void setValidToApplyInRate(boolean validToApplyInRate) {
         this.validToApplyInRate = validToApplyInRate;
+    }
+
+    /**
+     * Gets the budgetLineItemId attribute. 
+     * @return Returns the budgetLineItemId.
+     */
+    public Long getBudgetLineItemId() {
+        return budgetLineItemId;
+    }
+
+    /**
+     * Sets the budgetLineItemId attribute value.
+     * @param budgetLineItemId The budgetLineItemId to set.
+     */
+    public void setBudgetLineItemId(Long budgetLineItemId) {
+        this.budgetLineItemId = budgetLineItemId;
     }
 
 }

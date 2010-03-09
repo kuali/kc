@@ -25,6 +25,9 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
      */
     private static final long serialVersionUID = -6003003851261499575L;
     private BudgetDecimal baseCost;
+    private Long budgetRateAndBaseId;
+    private Long budgetLineItemCalculatedAmountId;
+    private Long budgetLineItemId;
 
 
 	public BudgetDecimal getBaseCost() {
@@ -43,5 +46,53 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 		hashMap.put("baseCost", getBaseCost());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetRateAndBaseId attribute. 
+     * @return Returns the budgetRateAndBaseId.
+     */
+    public Long getBudgetRateAndBaseId() {
+        return budgetRateAndBaseId;
+    }
+
+    /**
+     * Sets the budgetRateAndBaseId attribute value.
+     * @param budgetRateAndBaseId The budgetRateAndBaseId to set.
+     */
+    public void setBudgetRateAndBaseId(Long budgetRateAndBaseId) {
+        this.budgetRateAndBaseId = budgetRateAndBaseId;
+    }
+
+    /**
+     * Gets the budgetLineItemCalculatedAmountId attribute. 
+     * @return Returns the budgetLineItemCalculatedAmountId.
+     */
+    public Long getBudgetLineItemCalculatedAmountId() {
+        return budgetLineItemCalculatedAmountId;
+    }
+
+    /**
+     * Sets the budgetLineItemCalculatedAmountId attribute value.
+     * @param budgetLineItemCalculatedAmountId The budgetLineItemCalculatedAmountId to set.
+     */
+    public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
+        this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
+    }
+
+    /**
+     * Gets the budgetLineItemId attribute. 
+     * @return Returns the budgetLineItemId.
+     */
+    public Long getBudgetLineItemId() {
+        return budgetLineItemId;
+    }
+
+    /**
+     * Sets the budgetLineItemId attribute value.
+     * @param budgetLineItemId The budgetLineItemId to set.
+     */
+    public void setBudgetLineItemId(Long budgetLineItemId) {
+        this.budgetLineItemId = budgetLineItemId;
+    }
 
 }

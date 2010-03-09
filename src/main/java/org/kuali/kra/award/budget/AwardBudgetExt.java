@@ -18,7 +18,11 @@ package org.kuali.kra.award.budget;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemExt;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.AwardBudgetPeriodExt;
 
 public class AwardBudgetExt extends Budget { 
     
@@ -29,14 +33,21 @@ public class AwardBudgetExt extends Budget {
 
     private String awardBudgetStatusCode; 
     private String awardBudgetTypeCode; 
+    private BudgetDecimal obligatedAmount;
     
     private AwardBudgetStatus awardBudgetStatus; 
     private AwardBudgetType awardBudgetType; 
     
     public AwardBudgetExt() { 
-
+        super();
     } 
-    
+    public AwardBudgetPeriodExt getNewBudgetPeriod(){
+        return new AwardBudgetPeriodExt();
+    }
+    public BudgetLineItem getNewBudgetLineItem() {
+        return new AwardBudgetLineItemExt();
+    }
+
     public String getAwardBudgetStatusCode() {
         return awardBudgetStatusCode;
     }
@@ -96,6 +107,22 @@ public class AwardBudgetExt extends Budget {
         Award award = (Award)getBudgetDocument().getParentDocument().getBudgetParent();
         return ((award.getSpecialEbRateOffCampus()!=null && award.getSpecialEbRateOffCampus().isPositive())||
                  (award.getSpecialEbRateOnCampus()!=null && award.getSpecialEbRateOnCampus().isPositive()))?true:false;
+    }
+
+    /**
+     * Gets the obligatedAmount attribute. 
+     * @return Returns the obligatedAmount.
+     */
+    public BudgetDecimal getObligatedAmount() {
+        return obligatedAmount;
+    }
+
+    /**
+     * Sets the obligatedAmount attribute value.
+     * @param obligatedAmount The obligatedAmount to set.
+     */
+    public void setObligatedAmount(BudgetDecimal obligatedAmount) {
+        this.obligatedAmount = obligatedAmount;
     }
     
 }

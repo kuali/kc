@@ -96,6 +96,7 @@ public class Budget extends KraPersistableBusinessObjectBase {
     private Integer budgetVersionNumber;
     private Long budgetId;
     private BudgetDocument budgetDocument;
+//    private String documentNumber;
     private String comments;
     private BudgetDecimal costSharingAmount;
     private String budgetJustification;
@@ -544,12 +545,12 @@ public class Budget extends KraPersistableBusinessObjectBase {
 
     public List<BudgetPeriod> getBudgetPeriods() {
         BudgetDocument budgetDocument = getBudgetDocument();
-        BudgetParentDocument proposal = budgetDocument==null?null:budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument==null?null:budgetDocument.getParentDocument();
         /* check for new budget version - if new, generate budget periods */
         //not sure we need to set this here... need to move this some other place
-        if(proposal != null) {
-            setStartDate(proposal.getBudgetParent().getRequestedStartDateInitial());
-            setEndDate(proposal.getBudgetParent().getRequestedEndDateInitial()); 
+        if(parentDocument != null) {
+            setStartDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
+            setEndDate(parentDocument.getBudgetParent().getRequestedEndDateInitial()); 
         }
         if(budgetPeriods.isEmpty() && startDate != null) {
             getBudgetSummaryService().generateBudgetPeriods(this,budgetPeriods);
@@ -646,7 +647,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     public BudgetPeriod getBudgetPeriod(int index) {
         while (getBudgetPeriods().size() <= index) {
-            BudgetPeriod budgetPeriod = new BudgetPeriod();
+            BudgetPeriod budgetPeriod = getNewBudgetPeriod();
             budgetPeriod.setBudget(this);
             getBudgetPeriods().add(budgetPeriod);
         }
@@ -2112,6 +2113,30 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public boolean getEbRatesNonEditable() {
         return false;
     }
+
+    public BudgetPeriod getNewBudgetPeriod() {
+        return new BudgetPeriod();
+    }
+    public BudgetLineItem getNewBudgetLineItem() {
+        return new BudgetLineItem();
+    }
+    
+
+//    /**
+//     * Gets the documentNumber attribute. 
+//     * @return Returns the documentNumber.
+//     */
+//    public String getDocumentNumber() {
+//        return documentNumber;
+//    }
+//
+//    /**
+//     * Sets the documentNumber attribute value.
+//     * @param documentNumber The documentNumber to set.
+//     */
+//    public void setDocumentNumber(String documentNumber) {
+//        this.documentNumber = documentNumber;
+//    }
     
     
 }

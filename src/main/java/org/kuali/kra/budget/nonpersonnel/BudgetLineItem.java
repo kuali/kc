@@ -65,9 +65,17 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
      */
     public BudgetPersonnelDetails getBudgetPersonnelDetails(int index) {
         while (getBudgetPersonnelDetailsList().size() <= index) {
-            getBudgetPersonnelDetailsList().add(new BudgetPersonnelDetails());
+            getBudgetPersonnelDetailsList().add(getNewBudgetPersonnelLineItem());
         }
         return getBudgetPersonnelDetailsList().get(index);
+    }
+    /**
+     * 
+     * This method is to create new BudgetpersonnelDetails object
+     * @return
+     */
+    public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
+        return new BudgetPersonnelDetails();
     }
     /**
      * Gets the budgetLineItemCalculatedAmounts attribute. 
@@ -191,6 +199,9 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         else if (!getLineItemNumber().equals(other.getLineItemNumber()))
             return false;
         return true;
+    }
+    public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
+        return new BudgetLineItemCalculatedAmount();
     }
 
 }

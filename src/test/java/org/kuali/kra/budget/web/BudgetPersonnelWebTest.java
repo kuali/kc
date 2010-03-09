@@ -37,12 +37,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  */
-/*@PerTestUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERIOD_TYPE.sql", delimiter = ";")
-            })
-    )*/
 public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private static final String PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String EXPENSES_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.expenses.x";

@@ -25,6 +25,8 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
      */
     private static final long serialVersionUID = 3100896964798965084L;
     private Integer personNumber;
+    private Long budgetPersonnelCalculatedAmountId;
+    private Long budgetPersonnelLineItemId;
 
 	public Integer getPersonNumber() {
 		return personNumber;
@@ -41,4 +43,36 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
 		hashMap.put("personNumber", getPersonNumber());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetPersonnelCalculatedAmountId attribute. 
+     * @return Returns the budgetPersonnelCalculatedAmountId.
+     */
+    public Long getBudgetPersonnelCalculatedAmountId() {
+        return budgetPersonnelCalculatedAmountId;
+    }
+
+    /**
+     * Sets the budgetPersonnelCalculatedAmountId attribute value.
+     * @param budgetPersonnelCalculatedAmountId The budgetPersonnelCalculatedAmountId to set.
+     */
+    public void setBudgetPersonnelCalculatedAmountId(Long budgetPersonnelCalculatedAmountId) {
+        this.budgetPersonnelCalculatedAmountId = budgetPersonnelCalculatedAmountId;
+    }
+
+    /**
+     * Gets the budgetPersonnelLineItemId attribute. 
+     * @return Returns the budgetPersonnelLineItemId.
+     */
+    public Long getBudgetPersonnelLineItemId() {
+        return budgetPersonnelLineItemId;
+    }
+
+    /**
+     * Sets the budgetPersonnelLineItemId attribute value.
+     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
+     */
+    public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
+        this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
+    }
 }

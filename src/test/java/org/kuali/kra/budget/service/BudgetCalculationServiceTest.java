@@ -311,7 +311,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
 
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, String costElement, double lineItemCost,
             double costSharingAmount) {
-        BudgetLineItem bli = new BudgetLineItem();
+        BudgetLineItem bli = bp.getNewBudgetLineItem();
         bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(bp.getStartDate());
@@ -331,7 +331,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
 
     private BudgetLineItemCalculatedAmount getLineItemCalAmt(BudgetLineItem bli, String rateClass, String rateType,
             double calculatedCost) {
-        BudgetLineItemCalculatedAmount BliCalAmt = new BudgetLineItemCalculatedAmount();
+        BudgetLineItemCalculatedAmount BliCalAmt = (BudgetLineItemCalculatedAmount)bli.getNewBudgetLineItemCalculatedAmount();
         BliCalAmt.setBudgetId(bli.getBudgetId());
         BliCalAmt.setBudgetPeriod(bli.getBudgetPeriod());
         BliCalAmt.setRateClassCode(rateClass);

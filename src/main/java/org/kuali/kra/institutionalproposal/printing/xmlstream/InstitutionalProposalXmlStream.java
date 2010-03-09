@@ -334,23 +334,14 @@ public class InstitutionalProposalXmlStream extends
 	private IPSchoolInfoType getSchoolInfoType() {
 		IPSchoolInfoType schoolInfoType = IPSchoolInfoType.Factory
 				.newInstance();
-		try {
-		    String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		    if (schoolName != null) {
-	            schoolInfoType.setSchoolName(schoolName);
-	        }
-		} catch (IllegalArgumentException ex) {
-		    LOG.warn("Unable to find system parameter " + SCHOOL_NAME);
-	    }
-		try {
-		    String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
-		    if (schoolAcronym != null) {
-	            schoolInfoType.setAcronym(schoolAcronym);
-	        }
-		} catch (IllegalArgumentException ex) {
-		    LOG.warn("Unable to find system parameter " + SCHOOL_ACRONYM);
+		String schoolName = getIPParameterValue(SCHOOL_NAME);
+		String schoolAcronym = getIPParameterValue(SCHOOL_ACRONYM);
+		if (schoolName != null) {
+			schoolInfoType.setSchoolName(schoolName);
 		}
-		
+		if (schoolAcronym != null) {
+			schoolInfoType.setAcronym(schoolAcronym);
+		}
 		return schoolInfoType;
 	}
 
@@ -983,5 +974,13 @@ public class InstitutionalProposalXmlStream extends
 			InstitutionalProposalPersonService institutionalProposalPersonService) {
 		this.institutionalProposalPersonService = institutionalProposalPersonService;
 	}
-
+	private String getIPParameterValue(String param) {
+		String value = null;
+		try {
+			value = PrintingUtils.getParameterValue(param);
+		} catch (Exception e) {
+			//TODO Log Exception
+		}
+		return value;
+	}
 }

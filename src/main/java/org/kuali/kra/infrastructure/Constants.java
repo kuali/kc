@@ -552,4 +552,6 @@ public interface Constants {
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE = "DocumentType";
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME = "customAttributeDocumentType";
 
+    //WHITE SPACE 
+    public char SPACE_SEPARATOR = 32;
 }
