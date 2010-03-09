@@ -167,7 +167,7 @@ public class BudgetForm extends BudgetVersionFormBase {
         navList.toArray(list);
         this.setHeaderNavigationTabs(list);
         Budget budget = getDocument().getBudget();
-        BudgetPeriod newBudgetPeriod =  new BudgetPeriod();
+        BudgetPeriod newBudgetPeriod =  budget.getNewBudgetPeriod();
         newBudgetPeriod.setBudget(budget);
         setNewBudgetPeriod(newBudgetPeriod);
         
@@ -177,7 +177,7 @@ public class BudgetForm extends BudgetVersionFormBase {
         newBudgetCostShare = new BudgetCostShare();
         newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
         newBudgetLineItems = new ArrayList<BudgetLineItem>();
-        newPersonnelLineItem = new BudgetLineItem();          
+        newPersonnelLineItem = budget.getNewBudgetLineItem();          
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();

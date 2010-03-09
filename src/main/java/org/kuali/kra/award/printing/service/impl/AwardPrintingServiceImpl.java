@@ -17,12 +17,17 @@ package org.kuali.kra.award.printing.service.impl;
 
 import java.util.Map;
 
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint;
+import org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint;
 import org.kuali.kra.award.printing.print.AwardDeltaPrint;
 import org.kuali.kra.award.printing.print.AwardNoticePrint;
 import org.kuali.kra.award.printing.print.AwardTemplatePrint;
+import org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
@@ -41,6 +46,9 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	private AwardDeltaPrint awardDeltaPrint;
 	private AwardNoticePrint awardNoticePrint;
 	private AwardTemplatePrint awardTemplatePrint;
+	private MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint;
+	private AwardBudgetHierarchyPrint awardBudgetHierarchyPrint;
+	private AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint;
 	private PrintingService printingService;
 
 	/**
@@ -76,11 +84,36 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 		} else if (reportName.equals(AwardPrintType.AWARD_TEMPLATE
 				.getAwardPrintType())) {
 			printable = getAwardTemplatePrint();
+		} else if (reportName.equals(AwardPrintType.MONEY_AND_END_DATES_HISTORY
+				.getAwardPrintType())) {
+			printable = getMoneyAndEndDatesHistoryPrint();
+		} else if (reportName.equals(AwardPrintType.AWARD_BUDGET_HIERARCHY
+				.getAwardPrintType())) {
+			printable = getAwardBudgetHierarchyPrint();
+		} else if (reportName
+				.equals(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
+						.getAwardPrintType())) {
+			printable = getAwardBudgetHistoryTransactionPrint();
 		}
-		printable.setDocument(awardDocument);
-		printable.setReportParameters(reportParameters);
-		source = getPrintingService().print(printable);
+		if (printable != null) {
+			printable.setDocument(awardDocument);
+			printable.setReportParameters(reportParameters);
+			source = getPrintingService().print(printable);
+			source.setFileName(getReportName(awardDocument, reportName));
+			source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+		}
 		return source;
+	}
+
+	private String getReportName(ResearchDocumentBase researchDoc,
+			String reportName) {
+		AwardDocument awardDoc = ((AwardDocument) researchDoc);
+		String awardNumber = awardDoc.getAward().getAwardNumber();
+
+		StringBuilder reportFullName = new StringBuilder(awardNumber).append(
+				"_").append(reportName.replace(' ', '_')).append(
+				Constants.PDF_FILE_EXTENSION);
+		return reportFullName.toString();
 	}
 
 	/**
@@ -134,6 +167,54 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 
 	public void setAwardTemplatePrint(AwardTemplatePrint awardTemplatePrint) {
 		this.awardTemplatePrint = awardTemplatePrint;
+	}
+
+	/**
+	 * @return the moneyAndEndDatesHistoryPrint
+	 */
+	public MoneyAndEndDatesHistoryPrint getMoneyAndEndDatesHistoryPrint() {
+		return moneyAndEndDatesHistoryPrint;
+	}
+
+	/**
+	 * @param moneyAndEndDatesHistoryPrint
+	 *            the moneyAndEndDatesHistoryPrint to set
+	 */
+	public void setMoneyAndEndDatesHistoryPrint(
+			MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint) {
+		this.moneyAndEndDatesHistoryPrint = moneyAndEndDatesHistoryPrint;
+	}
+
+	/**
+	 * @return the awardBudgetHierarchyPrint
+	 */
+	public AwardBudgetHierarchyPrint getAwardBudgetHierarchyPrint() {
+		return awardBudgetHierarchyPrint;
+	}
+
+	/**
+	 * @param awardBudgetHierarchyPrint
+	 *            the awardBudgetHierarchyPrint to set
+	 */
+	public void setAwardBudgetHierarchyPrint(
+			AwardBudgetHierarchyPrint awardBudgetHierarchyPrint) {
+		this.awardBudgetHierarchyPrint = awardBudgetHierarchyPrint;
+	}
+
+	/**
+	 * @return the awardBudgetHistoryTransactionPrint
+	 */
+	public AwardBudgetHistoryTransactionPrint getAwardBudgetHistoryTransactionPrint() {
+		return awardBudgetHistoryTransactionPrint;
+	}
+
+	/**
+	 * @param awardBudgetHistoryTransactionPrint
+	 *            the awardBudgetHistoryTransactionPrint to set
+	 */
+	public void setAwardBudgetHistoryTransactionPrint(
+			AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint) {
+		this.awardBudgetHistoryTransactionPrint = awardBudgetHistoryTransactionPrint;
 	}
 
 }

@@ -186,6 +186,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
 
     @Override
     protected AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance() {
-        return new BudgetLineItemCalculatedAmount();
+        return bli.getNewBudgetLineItemCalculatedAmount();
     }
 }

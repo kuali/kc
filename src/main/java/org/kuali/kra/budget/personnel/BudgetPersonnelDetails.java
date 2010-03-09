@@ -24,11 +24,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriodType;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
-    
+    private Long budgetPersonnelLineItemId;
     private Integer personNumber;
 	private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
 	private String jobCode;
@@ -260,6 +261,28 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         } 
         
         return result;
+    }
+    /**
+     * Gets the budgetPersonnelLineItemId attribute. 
+     * @return Returns the budgetPersonnelLineItemId.
+     */
+    public Long getBudgetPersonnelLineItemId() {
+        return budgetPersonnelLineItemId;
+    }
+    /**
+     * Sets the budgetPersonnelLineItemId attribute value.
+     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
+     */
+    public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
+        this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
+    }
+    /**
+     * 
+     * This method creates new instance of BudgetPersonnelCalculatedAmount
+     * @return
+     */
+    public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
+        return new BudgetPersonnelCalculatedAmount();
     }
     
 }

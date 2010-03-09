@@ -25,6 +25,7 @@ import noNamespace.AwardTransactionType;
 import noNamespace.SchoolInfoType2;
 import noNamespace.AwardType.AwardTransactionInfo;
 
+import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -46,12 +47,14 @@ import org.kuali.rice.kns.service.DateTimeService;
  */
 public abstract class AwardBudgetBaseStream implements XmlStream {
 
+	private static final Logger LOG = Logger.getLogger(AwardBudgetBaseStream.class);
+
 	protected BusinessObjectService businessObjectService = null;
 	protected DateTimeService dateTimeService = null;
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 	protected static final String AWARD_NUMBER_PARAMETER = "awardNumber";
-
+	protected static final String DOCUMENT_NUMBER = "documentNumber";
 	/**
 	 * <p>
 	 * This method will set the values to award transaction info xml object
@@ -119,14 +122,18 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 			String timeAndMoneyDocNumber) {
 		AwardAmountTransaction awardAmountTransaction = null;
 		Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
-		// Time Money Doc number - to be fixed
-		timeAndMoneyMap.put("", timeAndMoneyDocNumber);
+		// TODO Time Money Doc number - to be fixed
+		timeAndMoneyMap.put(DOCUMENT_NUMBER, timeAndMoneyDocNumber);
 		List<TimeAndMoneyDocument> timeAndMoneyDocs = (List<TimeAndMoneyDocument>) businessObjectService
 				.findMatching(TimeAndMoneyDocument.class, timeAndMoneyMap);
 		if (timeAndMoneyDocs != null && !timeAndMoneyDocs.isEmpty()) {
-			TimeAndMoneyDocument andMoneyDocument = timeAndMoneyDocs.get(0);
-			awardAmountTransaction = andMoneyDocument
-					.getNewAwardAmountTransaction();
+			TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocs.get(0);
+			List<AwardAmountTransaction> awardAmountTransactionList = timeAndMoneyDocument
+					.getAwardAmountTransactions();
+			if (awardAmountTransactionList != null
+					&& !awardAmountTransactionList.isEmpty()) {
+				awardAmountTransaction = awardAmountTransactionList.get(0);
+			}
 		}
 		return awardAmountTransaction;
 	}
@@ -141,8 +148,8 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	 */
 	protected SchoolInfoType2 getSchoolInfoType() {
 		SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
-		String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
+		String schoolName = getAwardParameterValue(SCHOOL_NAME);
+		String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
 		if (schoolName != null) {
 			schoolInfoType.setSchoolName(schoolName);
 		}
@@ -167,5 +174,15 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
+	}
+
+	private String getAwardParameterValue(String param) {
+		String value = null;
+		try {
+			value = PrintingUtils.getParameterValue(param);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return value;
 	}
 }

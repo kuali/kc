@@ -138,7 +138,7 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
         bli.setApplyInRateFlag(new Boolean(true));
         bli.setOnOffCampusFlag(new Boolean(true));
         
-        BudgetPersonnelDetails user1Geoff = new BudgetPersonnelDetails();
+        BudgetPersonnelDetails user1Geoff = bli.getNewBudgetPersonnelLineItem();
         user1Geoff.setBudgetPeriod(bp.getBudgetPeriod());
         user1Geoff.setBudgetId(bp.getBudgetId());
         user1Geoff.setPercentEffort(new BudgetDecimal("100.00"));
@@ -245,7 +245,7 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
 
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, 
                 String costElement,Date startDate,Date endDate) {
-        BudgetLineItem bli = new BudgetLineItem();
+        BudgetLineItem bli = bp.getNewBudgetLineItem();
         bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(startDate);

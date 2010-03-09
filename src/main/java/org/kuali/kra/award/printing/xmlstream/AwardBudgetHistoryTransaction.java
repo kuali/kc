@@ -46,8 +46,8 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 public class AwardBudgetHistoryTransaction extends AwardBudgetBaseStream {
 
 	private static final String AWARD_AMOUNT_INFO_MODIFIED_VALUE = "1";
-	private final String AWARD_NUMBER = "awardNumber";
-	private final String TRANSACTION_ID = "transactionId";
+	private static final String AWARD_NUMBER = "awardNumber";
+	private static final String TRANSACTION_ID = "transactionId";
 	private VersionHistoryService versionHistoryService;
 
 	/**

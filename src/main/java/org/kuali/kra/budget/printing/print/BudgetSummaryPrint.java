@@ -15,17 +15,13 @@
  */
 package org.kuali.kra.budget.printing.print;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.transform.Source;
 
-import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -53,28 +49,12 @@ public class BudgetSummaryPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public ArrayList<Source> getXSLT() {
+	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(BudgetPrintType.BUDGET_SUMMARY_REPORT
 						.getBudgetPrintType());
 		return sourceList;
 	}
 
-//	/**
-//	 * This method generates the XML that conforms to summary Report XSD returns
-//	 * it as {@link InputStream}
-//	 * 
-//	 * @return {@link InputStream} of generated XML
-//	 * @throws PrintingException
-//	 *             in case of any errors occur during XML generation
-//	 */
-//	public Map<String, byte[]> renderXML() throws PrintingException {
-//		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
-//		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-//				getDocument(), getReportParameters());
-//		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-//			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey).newInputStream());
-//		}
-//		return xmlStreamMap;
-//	}
+
 }

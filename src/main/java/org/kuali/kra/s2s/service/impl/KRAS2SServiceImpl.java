@@ -46,6 +46,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -807,7 +808,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 */
 	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException {
+			throws S2SException,PrintingException {
 		return printService.printForm(pdDoc);
 	}
 

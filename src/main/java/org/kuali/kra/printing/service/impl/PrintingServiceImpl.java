@@ -19,11 +19,13 @@ import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Result;
@@ -86,40 +88,42 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @throws PrintingException
 	 *             in case of any errors occur during printing process
 	 */
-	public AttachmentDataSource print(Printable printableArtifact)
+	private Map<String, byte[]> getPrintBytes(Printable printableArtifact)
 			throws PrintingException {
-		PrintableAttachment printablePdf = null;
-
 		try {
-			ArrayList<ByteArrayOutputStream> pdfBaosList = new ArrayList<ByteArrayOutputStream>();
 			Map<String, byte[]> streamMap = printableArtifact.renderXML();
-			String[] bookmarks = new String[streamMap.size()];
-			int i = 0;
-            TransformerFactory factory = TransformerFactory.newInstance();
-            FopFactory fopFactory = FopFactory.newInstance();
-			for (Source source : printableArtifact.getXSLT()) {
-                StreamSource xslt = (StreamSource) source;
-                Transformer transformer = factory.newTransformer(xslt);
-				for (Map.Entry<String, byte[]> xml : streamMap.entrySet()) {
-					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					ByteArrayInputStream inputStream = new ByteArrayInputStream(xml.getValue());
-					Source src = new StreamSource(inputStream);
-                    Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,outputStream);
-					Result res = new SAXResult(fop.getDefaultHandler());
-					transformer.transform(src, res);
-					pdfBaosList.add(outputStream);
-					bookmarks[i] = xml.getKey();
-					i++;
+			Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
+
+			TransformerFactory factory = TransformerFactory.newInstance();
+			FopFactory fopFactory = FopFactory.newInstance();
+
+			// Apply all the style sheets to the xml document and generate the
+			// PDF bytes
+			if (printableArtifact.getXSLT() != null) {
+				for (Source source : printableArtifact.getXSLT()) {
+					StreamSource xslt = (StreamSource) source;
+					Transformer transformer = factory.newTransformer(xslt);
+					for (Map.Entry<String, byte[]> xmlData : streamMap
+							.entrySet()) {
+						ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+						ByteArrayInputStream inputStream = new ByteArrayInputStream(
+								xmlData.getValue());
+						Source src = new StreamSource(inputStream);
+						Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
+								outputStream);
+						Result res = new SAXResult(fop.getDefaultHandler());
+						transformer.transform(src, res);
+						pdfByteMap.put(xmlData.getKey(), outputStream
+								.toByteArray());
+					}
 				}
 			}
-			printablePdf = new PrintableAttachment();
-			printablePdf.setContent(mergePdfBytes(pdfBaosList
-					.toArray(new ByteArrayOutputStream[0]), bookmarks));
-			StringBuilder fileName = new StringBuilder();
-			fileName.append(getReportName());
-			fileName.append(Constants.PDF_FILE_EXTENSION);
-			printablePdf.setFileName(fileName.toString());
-			printablePdf.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+
+			// Add all the attachments.
+			if (printableArtifact.getAttachments() != null) {
+				pdfByteMap.putAll(printableArtifact.getAttachments());
+			}
+			return pdfByteMap;
 		} catch (FOPException e) {
 			LOG.error(e.getMessage(), e);
 			throw new PrintingException(e.getMessage(), e);
@@ -130,33 +134,81 @@ public class PrintingServiceImpl implements PrintingService {
 			LOG.error(e.getMessage(), e);
 			throw new PrintingException(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * This method receives a {@link Printable} object, generates XML for it,
+	 * transforms into PDF after applying style-sheet and returns the PDF bytes
+	 * as {@link AttachmentDataSource}
+	 * 
+	 * @param printableArtifact
+	 *            to be printed
+	 * @return {@link AttachmentDataSource} PDF bytes
+	 * @throws PrintingException
+	 *             in case of any errors occur during printing process
+	 */
+	public AttachmentDataSource print(Printable printableArtifacts)
+			throws PrintingException {
+		List<Printable> printables = new ArrayList<Printable>();
+		printables.add(printableArtifacts);
+		return print(printables);
+	}
+
+	/**
+	 * This method receives a {@link List} of {@link Printable} object,
+	 * generates XML for it, transforms into PDF after applying style-sheet and
+	 * returns the PDF bytes as {@link AttachmentDataSource}
+	 * 
+	 * @param List
+	 *            of printableArtifact to be printed
+	 * @return {@link AttachmentDataSource} PDF bytes
+	 * @throws PrintingException
+	 *             in case of any errors occur during printing process
+	 */
+	public AttachmentDataSource print(List<Printable> printableArtifactList)
+			throws PrintingException {
+		PrintableAttachment printablePdf = null;
+		List<String> bookmarksList = new ArrayList<String>();
+		List<byte[]> pdfBaosList = new ArrayList<byte[]>();
+		for (Printable printableArtifact : printableArtifactList) {
+			Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
+			for (String bookmark : printBytes.keySet()) {
+				bookmarksList.add(bookmark);
+				pdfBaosList.add(printBytes.get(bookmark));
+			}
+		}
+		printablePdf = new PrintableAttachment();
+		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList);
+		printablePdf.setContent(mergedPdfBytes);
+		StringBuilder fileName = new StringBuilder();
+		fileName.append(getReportName());
+		fileName.append(Constants.PDF_FILE_EXTENSION);
+		printablePdf.setFileName(fileName.toString());
+		printablePdf.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 		return printablePdf;
 	}
 
 	private String getReportName() {
-		// TODO: need to get the report name
 		return new java.util.Date().toString();
 	}
 
 	/**
-	 * @param byteArrayOutputStream
-	 * @param bookmarks
+	 * @param pdfBytesList
+	 *            List containing the PDF data bytes
+	 * @param bookmarksList
+	 *            List of bookmarks corresponding to the PDF bytes.
 	 * @return
 	 * @throws PrintingException
 	 */
-	private byte[] mergePdfBytes(ByteArrayOutputStream byteArrayOutputStream[],
-			String bookmarks[]) throws PrintingException {
+	private byte[] mergePdfBytes(List<byte[]> pdfBytesList,
+			List<String> bookmarksList) throws PrintingException {
 		Document document = null;
 		PdfWriter writer = null;
 		ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
-		byte fileBytes[];
 		int totalNumOfPages = 0;
-		PdfReader[] pdfReaderArr = new PdfReader[byteArrayOutputStream.length];
-		for (int count = 0; count < byteArrayOutputStream.length; count++) {
-			if (byteArrayOutputStream[count] == null) {
-				continue;
-			}
-			fileBytes = byteArrayOutputStream[count].toByteArray();
+		PdfReader[] pdfReaderArr = new PdfReader[pdfBytesList.size()];
+		int pdfReaderCount = 0;
+		for (byte[] fileBytes : pdfBytesList) {
 			PdfReader reader;
 			try {
 				reader = new PdfReader(fileBytes);
@@ -164,7 +216,8 @@ public class PrintingServiceImpl implements PrintingService {
 				LOG.error(e.getMessage(), e);
 				throw new PrintingException(e.getMessage(), e);
 			}
-			pdfReaderArr[count] = reader;
+			pdfReaderArr[pdfReaderCount] = reader;
+			pdfReaderCount = pdfReaderCount + 1;
 			totalNumOfPages += reader.getNumberOfPages();
 		}
 		Calendar calendar = dateTimeService.getCurrentCalendar();
@@ -173,11 +226,11 @@ public class PrintingServiceImpl implements PrintingService {
 		footerPhStr.append(" of ");
 		footerPhStr.append(totalNumOfPages);
 		footerPhStr
-				.append("                                                                            ");
+				.append(getWhitespaceString(WHITESPACE_LENGTH_76));
 		footerPhStr
-				.append("                                                                            ");
+				.append(getWhitespaceString(WHITESPACE_LENGTH_76));
 		footerPhStr
-				.append("                                                            ");
+				.append(getWhitespaceString(WHITESPACE_LENGTH_60));
 		footerPhStr.append(dateString);
 		Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL,
 				Color.BLACK);
@@ -187,9 +240,6 @@ public class PrintingServiceImpl implements PrintingService {
 		footer.setAlignment(Element.ALIGN_BASELINE);
 		footer.setBorderWidth(0f);
 		for (int count = 0; count < pdfReaderArr.length; count++) {
-			if (byteArrayOutputStream[count] == null) {
-				continue;
-			}
 			PdfReader reader = pdfReaderArr[count];
 			int nop = reader.getNumberOfPages();
 
@@ -219,7 +269,7 @@ public class PrintingServiceImpl implements PrintingService {
 
 				PdfOutline root = cb.getRootOutline();
 				if (pageCount == 1) {
-					String pageName = bookmarks[count];
+					String pageName = bookmarksList.get(count);
 					cb.addOutline(new PdfOutline(root, new PdfDestination(
 							PdfDestination.FITH), pageName), pageName);
 				}
@@ -230,7 +280,10 @@ public class PrintingServiceImpl implements PrintingService {
 				document.close();
 				return mergedPdfReport.toByteArray();
 			} catch (Exception e) {
-				LOG.error("Exception occured because the generated PDF document has no pages",e);
+				LOG
+						.error(
+								"Exception occured because the generated PDF document has no pages",
+								e);
 			}
 		}
 		return null;
@@ -271,5 +324,11 @@ public class PrintingServiceImpl implements PrintingService {
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
 	}
-
+	private String getWhitespaceString(int length) {
+		StringBuffer sb = new StringBuffer();
+		char[] whiteSpace = new char[length];
+		Arrays.fill(whiteSpace, Constants.SPACE_SEPARATOR);
+		sb.append(whiteSpace);
+		return sb.toString();
+	}
 }

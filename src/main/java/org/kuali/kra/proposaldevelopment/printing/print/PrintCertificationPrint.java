@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.printing.print;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -54,7 +55,7 @@ public class PrintCertificationPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public ArrayList<Source> getXSLT() {
+	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(ProposalDevelopmentPrintingServiceImpl.PRINT_CERTIFICATION_REPORT);
 		return sourceList;

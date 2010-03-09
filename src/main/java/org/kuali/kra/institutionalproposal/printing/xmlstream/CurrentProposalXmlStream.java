@@ -54,7 +54,7 @@ public class CurrentProposalXmlStream extends InstitutionalProposalBaseStream {
 			awards = getAwardForCurrentAwardNumber(institutionalProposal
 					.getCurrentAwardNumber());
 		}
-		CurrentSupport[] currentSupports = getCurrentSupportProposals(awards,
+		CurrentSupport[] currentSupports = getCurrentSupportInformation(awards,
 				reportParameters);
 		if (personName != null) {
 			currentAndPendingSupport.setPersonName(personName);
@@ -67,10 +67,10 @@ public class CurrentProposalXmlStream extends InstitutionalProposalBaseStream {
 	}
 
 	/*
-	 * This method will set the values to current support proposal xml object
+	 * This method will set the values to current support information xml object
 	 * and finally returns a array of currentSupport xml objects
 	 */
-	private CurrentSupport[] getCurrentSupportProposals(List<Award> awards,
+	private CurrentSupport[] getCurrentSupportInformation(List<Award> awards,
 			Map<String, Object> reportParameters) {
 		List<CurrentSupport> currentSupports = new ArrayList<CurrentSupport>();
 		String persionId = getPersonIdFromReportParams(reportParameters);

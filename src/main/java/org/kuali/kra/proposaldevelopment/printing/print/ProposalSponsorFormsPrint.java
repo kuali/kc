@@ -33,7 +33,9 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -46,11 +48,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * streaming etc.
  * 
  */
-public class PrintProposalSponsorForms extends AbstractPrint {
-
+public class ProposalSponsorFormsPrint extends AbstractPrint {
+	private static final String LOCAL_PRINT_FORM_SPONSOR_CODE ="LOCAL_PRINT_FORM_SPONSOR_CODE";
     private BusinessObjectService businessObjectService;
     private ResearchAndRelatedXmlStream researchAndRelatedXmlStream;
-	/**
+	private ProposalDevelopmentXmlStream proposalDevelopmentXmlStream;
+    /**
 	 * Fetches the {@link ResearchDocumentBase}
 	 * 
 	 * @return {@link ResearchDocumentBase} document
@@ -65,7 +68,7 @@ public class PrintProposalSponsorForms extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public ArrayList<Source> getXSLT() {
+	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = new ArrayList<Source>(); 
 		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
@@ -79,54 +82,6 @@ public class PrintProposalSponsorForms extends AbstractPrint {
 		return sourceList;
 	}
 
-    /**
-     * Prints the proposal sponsor forms by passing the given proposal
-     * information to {@link ProposalPrintReader}
-     * 
-     * @param proposalNumber
-     *            proposal number.
-     * @param sponsorFormTemplates
-     *            list of SponsorFormTemplate.
-     * @return byte array of forms corresponding to the proposal number and
-     *         SponsorFormTemplate objects.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.PrintService#printProposalSponsorForms(java.lang.String,
-     *      java.util.List)
-     */
-    public byte[] printProposalSponsorForms(String proposalNumber,
-            List<SponsorFormTemplate> sponsorFormTemplates) throws S2SException {
-        // List<Map<String, Object>> listData = new ArrayList<Map<String,
-        // Object>>();
-        // for (SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates)
-        // {
-        // SponsorTemplateBean coeusSponsorTemplate = new SponsorTemplateBean();
-        // try {
-        // BeanUtils.copyProperties(coeusSponsorTemplate, sponsorFormTemplate);
-        // }
-        // catch (IllegalAccessException e) {
-        // LOG.error(e.getMessage(), e);
-        // throw new S2SException(e);
-        // }
-        // catch (InvocationTargetException e) {
-        // LOG.error(e.getMessage(), e);
-        // throw new S2SException(e);
-        // }
-        // listData.add(getproposalSponsorMap(proposalNumber,
-        // sponsorFormTemplate, coeusSponsorTemplate));
-        // }
-        // Map<String, List<Map<String, Object>>> map = new HashMap<String,
-        // List<Map<String, Object>>>();
-        // map.put(KEY_PRINT_PROPOSAL, listData);
-        // ProposalPrintReader proposalPrintReader = new ProposalPrintReader();
-        // try {
-        // return proposalPrintReader.read(map).getDocumentData();
-        // }
-        // catch (CoeusException e) {
-        // LOG.error(e.getMessage(), e);
-        // return null;
-        // }
-        throw new RuntimeException("Unsupported functionality");
-    }
 
     /**
      * Gets the researchAndRelatedXmlStream attribute. 
@@ -144,6 +99,7 @@ public class PrintProposalSponsorForms extends AbstractPrint {
         this.researchAndRelatedXmlStream = researchAndRelatedXmlStream;
     }
 
+    
     /**
      * Gets the businessObjectService attribute. 
      * @return Returns the businessObjectService.
@@ -159,5 +115,35 @@ public class PrintProposalSponsorForms extends AbstractPrint {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+	public ProposalDevelopmentXmlStream getProposalDevelopmentXmlStream() {
+		return proposalDevelopmentXmlStream;
+	}
+
+	public void setProposalDevelopmentXmlStream(
+			ProposalDevelopmentXmlStream proposalDevelopmentXmlStream) {
+		this.proposalDevelopmentXmlStream = proposalDevelopmentXmlStream;
+	}
 	
+	@Override
+	public Map<String, byte[]> renderXML() throws PrintingException {
+		ProposalDevelopmentDocument pdDoc=(ProposalDevelopmentDocument) document;
+		if (pdDoc.getDevelopmentProposal().getSponsorCode().equals(getProposalParameterValue(LOCAL_PRINT_FORM_SPONSOR_CODE))){
+			setXmlStream(proposalDevelopmentXmlStream);
+		} else {
+			setXmlStream(researchAndRelatedXmlStream);
+		}
+			
+		return super.renderXML();
+	}
+	
+	private String getProposalParameterValue(String param) {
+		String value = null;
+		try {
+			value = PrintingUtils.getParameterValue(param);
+		} catch (Exception e) {
+			//TODO Log Exception
+		}
+		return value;
+	}
 }

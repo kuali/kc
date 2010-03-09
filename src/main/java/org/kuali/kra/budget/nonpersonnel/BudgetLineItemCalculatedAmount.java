@@ -20,10 +20,15 @@ import java.util.LinkedHashMap;
 
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
-	/**
+	private Long budgetLineItemCalculatedAmountId;
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1755216989884993632L;
+    
+    public BudgetLineItemCalculatedAmount(){
+        
+    }
 
     @SuppressWarnings("unchecked")
     @Override 
@@ -41,5 +46,23 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
 		hashMap.put("calculatedCostSharing", getCalculatedCostSharing());
 		return hashMap;
 	}
+
+
+    /**
+     * Gets the budgetLineItemCalculatedAmountId attribute. 
+     * @return Returns the budgetLineItemCalculatedAmountId.
+     */
+    public Long getBudgetLineItemCalculatedAmountId() {
+        return budgetLineItemCalculatedAmountId;
+    }
+
+
+    /**
+     * Sets the budgetLineItemCalculatedAmountId attribute value.
+     * @param budgetLineItemCalculatedAmountId The budgetLineItemCalculatedAmountId to set.
+     */
+    public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
+        this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
+    }
 
 }

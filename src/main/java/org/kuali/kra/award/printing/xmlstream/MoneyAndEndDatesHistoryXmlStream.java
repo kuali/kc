@@ -21,7 +21,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
@@ -118,34 +117,63 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 	private void setMoneyHistoryInfos(List<AmountInfoType> amountInfoTypes,
 			AwardAmountInfo awardAmountInfo, int rowNo) {
 		AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
-		amountInfoType.setObligatedChange(awardAmountInfo.getObligatedChange()
-				.bigDecimalValue());
-		amountInfoType.setAnticipatedChange(awardAmountInfo
-				.getAnticipatedChange().bigDecimalValue());
-		amountInfoType.setAmtObligatedToDate(awardAmountInfo
-				.getAmountObligatedToDate().bigDecimalValue());
-		amountInfoType.setObligatedDistributableAmt(awardAmountInfo
-				.getObliDistributableAmount().bigDecimalValue());
-		amountInfoType.setAnticipatedTotalAmt(awardAmountInfo
-				.getAnticipatedTotalAmount().bigDecimalValue());
-		amountInfoType.setAnticipatedDistributableAmt(awardAmountInfo
-				.getAntDistributableAmount().bigDecimalValue());
-		amountInfoType.setObligationExpirationDate(dateTimeService
-				.getCalendar(awardAmountInfo.getObligationExpirationDate()));
-		amountInfoType.setCurrentFundEffectiveDate(dateTimeService
-				.getCalendar(awardAmountInfo.getCurrentFundEffectiveDate()));
-		amountInfoType.setFinalExpirationDate(dateTimeService
-				.getCalendar(awardAmountInfo.getFinalExpirationDate()));
-		amountInfoType.setObligatedChangeDirect(new BigDecimal(awardAmountInfo
-				.getObligatedChangeDirect()));
-		amountInfoType.setObligatedChangeIndirect(new BigDecimal(
-				awardAmountInfo.getObligatedChangeIndirect()));
-		amountInfoType.setAnticipatedChangeDirect(new BigDecimal(
-				awardAmountInfo.getAnticipatedChangeDirect()));
-		amountInfoType.setAnticipatedChangeIndirect(new BigDecimal(
-				awardAmountInfo.getAnticipatedChangeIndirect()));
-		String enableAwdAntOblDirectIndirectCost = PrintingUtils
-				.getParameterValue(AwardDocument.class, OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
+		if (awardAmountInfo.getObligatedChange() != null) {
+			amountInfoType.setObligatedChange(awardAmountInfo
+					.getObligatedChange().bigDecimalValue());
+		}
+		if (awardAmountInfo.getAnticipatedChange() != null) {
+			amountInfoType.setAnticipatedChange(awardAmountInfo
+					.getAnticipatedChange().bigDecimalValue());
+		}
+		if (awardAmountInfo.getAmountObligatedToDate() != null) {
+			amountInfoType.setAmtObligatedToDate(awardAmountInfo
+					.getAmountObligatedToDate().bigDecimalValue());
+		}
+		if (awardAmountInfo.getObliDistributableAmount() != null) {
+			amountInfoType.setObligatedDistributableAmt(awardAmountInfo
+					.getObliDistributableAmount().bigDecimalValue());
+		}
+		if (awardAmountInfo.getAnticipatedTotalAmount() != null) {
+			amountInfoType.setAnticipatedTotalAmt(awardAmountInfo
+					.getAnticipatedTotalAmount().bigDecimalValue());
+		}
+		if (awardAmountInfo.getAntDistributableAmount() != null) {
+			amountInfoType.setAnticipatedDistributableAmt(awardAmountInfo
+					.getAntDistributableAmount().bigDecimalValue());
+		}
+		if (awardAmountInfo.getObligationExpirationDate() != null) {
+			amountInfoType
+					.setObligationExpirationDate(dateTimeService
+							.getCalendar(awardAmountInfo
+									.getObligationExpirationDate()));
+		}
+		if (awardAmountInfo.getCurrentFundEffectiveDate() != null) {
+			amountInfoType
+					.setCurrentFundEffectiveDate(dateTimeService
+							.getCalendar(awardAmountInfo
+									.getCurrentFundEffectiveDate()));
+		}
+		if (awardAmountInfo.getFinalExpirationDate() != null) {
+			amountInfoType.setFinalExpirationDate(dateTimeService
+					.getCalendar(awardAmountInfo.getFinalExpirationDate()));
+		}
+		if (awardAmountInfo.getObligatedChangeDirect() != null) {
+			amountInfoType.setObligatedChangeDirect(new BigDecimal(
+					awardAmountInfo.getObligatedChangeDirect()));
+		}
+		if (awardAmountInfo.getObligatedChangeIndirect() != null) {
+			amountInfoType.setObligatedChangeIndirect(new BigDecimal(
+					awardAmountInfo.getObligatedChangeIndirect()));
+		}
+		if (awardAmountInfo.getAnticipatedChangeDirect() != null) {
+			amountInfoType.setAnticipatedChangeDirect(new BigDecimal(
+					awardAmountInfo.getAnticipatedChangeDirect()));
+		}
+		if (awardAmountInfo.getAnticipatedChangeIndirect() != null) {
+			amountInfoType.setAnticipatedChangeIndirect(new BigDecimal(
+					awardAmountInfo.getAnticipatedChangeIndirect()));
+		}
+		String enableAwdAntOblDirectIndirectCost = getAwardParameterValue(OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT);
 		amountInfoType
 				.setEnableAwdAntOblDirectIndirectCost(enableAwdAntOblDirectIndirectCost);
 		amountInfoType.setTreeLevel(rowNo);
@@ -160,14 +188,17 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 			String timeAndMoneyDocNumber) {
 		AwardAmountTransaction awardAmountTransaction = null;
 		Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
-		// Time Money Doc number - to be fixed
-		timeAndMoneyMap.put("", timeAndMoneyDocNumber);
+		timeAndMoneyMap.put(DOCUMENT_NUMBER, timeAndMoneyDocNumber);
 		List<TimeAndMoneyDocument> timeAndMoneyDocs = (List<TimeAndMoneyDocument>) businessObjectService
 				.findMatching(TimeAndMoneyDocument.class, timeAndMoneyMap);
 		if (timeAndMoneyDocs != null && !timeAndMoneyDocs.isEmpty()) {
-			TimeAndMoneyDocument andMoneyDocument = timeAndMoneyDocs.get(0);
-			awardAmountTransaction = andMoneyDocument
-					.getNewAwardAmountTransaction();
+			TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocs.get(0);
+			List<AwardAmountTransaction> awardAmountTransactionList = timeAndMoneyDocument
+					.getAwardAmountTransactions();
+			if (awardAmountTransactionList != null
+					&& !awardAmountTransactionList.isEmpty()) {
+				awardAmountTransaction = awardAmountTransactionList.get(0);
+			}
 		}
 		return awardAmountTransaction;
 	}
@@ -205,5 +236,4 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		}
 		return awardHeaderType;
 	}
-
 }

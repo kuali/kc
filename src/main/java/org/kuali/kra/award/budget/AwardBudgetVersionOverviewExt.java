@@ -17,6 +17,7 @@ package org.kuali.kra.award.budget;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 
 /**
@@ -29,6 +30,7 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     private static final long serialVersionUID = -8402075117207933626L;
     private String awardBudgetStatusCode; 
     private String awardBudgetTypeCode; 
+    private BudgetDecimal obligatedAmount;
     
     private AwardBudgetStatus awardBudgetStatus; 
     private AwardBudgetType awardBudgetType; 
@@ -76,6 +78,22 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
         hashMap.put("awardBudgetStatusCode", this.getAwardBudgetStatusCode());
         hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
         return hashMap;
+    }
+
+    /**
+     * Gets the obligatedAmount attribute. 
+     * @return Returns the obligatedAmount.
+     */
+    public BudgetDecimal getObligatedAmount() {
+        return obligatedAmount;
+    }
+
+    /**
+     * Sets the obligatedAmount attribute value.
+     * @param obligatedAmount The obligatedAmount to set.
+     */
+    public void setObligatedAmount(BudgetDecimal obligatedChangeAmount) {
+        this.obligatedAmount = obligatedChangeAmount;
     }
  
 }

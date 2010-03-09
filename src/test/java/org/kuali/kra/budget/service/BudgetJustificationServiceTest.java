@@ -115,7 +115,7 @@ public class BudgetJustificationServiceTest {
         for(BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
             int i = 1;        
             for (String costElementCode: costElementMap.keySet()) {  
-                BudgetLineItem lineItem = new BudgetLineItem();
+                BudgetLineItem lineItem = budgetPeriod.getNewBudgetLineItem();
                 lineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());        
                 lineItem.setBudgetJustification(String.format("Line Item %d justification", i++));
                 lineItem.setCostElement(costElementCode);

@@ -421,8 +421,15 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        AwardPrintingService awardPrintService = KraServiceLocator
+                .getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument(),
+                AwardPrintType.AWARD_BUDGET_HIERARCHY.getAwardPrintType(),
+                reportParameters);
+        streamToResponse(dataStream, response);
+        return null;
     }
 
     public ActionForward printHierarchyModification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -432,21 +439,45 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     public ActionForward printBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
+//        Map<String, Object> reportParameters = new HashMap<String, Object>();
+//        AwardPrintingService awardPrintService = KraServiceLocator
+//                .getService(AwardPrintingService.class);
+//        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+//                awardForm.getAwardDocument(), AwardPrintType.AWARD_TEMPLATE
+//                        .getAwardPrintType(), reportParameters);
+//        streamToResponse(dataStream, response);
+//        return null;
         //TODO: Add printing service call here
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
     public ActionForward printTimeMoneyHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        AwardPrintingService awardPrintService = KraServiceLocator
+                .getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument(),
+                AwardPrintType.MONEY_AND_END_DATES_HISTORY.getAwardPrintType(),
+                reportParameters);
+        streamToResponse(dataStream, response);
+        return null;
     }
 
     public ActionForward printTransactionDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        //TODO: Add printing service call here
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
+                .getAwardPrintParameter(), awardForm.getIndexOfAwardAmountInfoWithHighestTransactionId());
+        AwardPrintingService awardPrintService = KraServiceLocator
+                .getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument(),
+                AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
+                        .getAwardPrintType(), reportParameters);
+        streamToResponse(dataStream, response);
+        return null;
     }
 
     public AwardNumberService getAwardNumberService(){

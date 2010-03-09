@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Eric Copen (Northrop Grumman IT) -->
+<!--************************************************************************************************-->
+<!-- TITLE:    US Department of Education Form 524, Budget Information,                   -->
+<!--               Non-Construction Programs                                                                    -->
+<!-- DATE:     Nov 13, 2003                                                                                          -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!-- COMMENTS: This schema conforms to OMB Control Number: 1890-0004.          -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                Nov 13, 2003, By David Xia. The schema has be completely rewirtten -->
+<!--                to confirm to XSL and XSL.FO                                                                -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/ED_524_Budget-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ED_524_Budget="http://apply.grants.gov/forms/ED_524_Budget-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<!-- Import Schemas -->
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:simpleType name="OtherApprovingFederalAgencyDataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ApprovingFederalAgencyDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ED"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ED524_Budget">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="LEGAL_NAME" type="glob:StringMin1Max120Type" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalSuppliesTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalContractualTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalConstructionTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalOtherTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalPersonnelTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalFringeTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTravelTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalEquipmentTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalDirectTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalIndirectTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTrainingTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFederalTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="IndirectCost" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IsIndirectCostRateAgreementApproved" type="ED_524_Budget:IsIndirectCostRateAgreementApprovedDataType" minOccurs="0"/>
+							<xs:element name="IndirectCostRateAgreementFromDate" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:date">
+											<xs:attribute name="IsIndirectCostRateAgreementApproved" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IndirectCostRateAgreementToDate" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:date">
+											<xs:attribute name="IsIndirectCostRateAgreementApproved" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ApprovingFederalAgency" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="ED_524_Budget:ApprovingFederalAgencyDataType">
+											<xs:attribute name="IsIndirectCostRateAgreementApproved" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OtherApprovingFederalAgency" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="ED_524_Budget:OtherApprovingFederalAgencyDataType">
+											<xs:attribute name="ApprovingFederalAgency" type="ED_524_Budget:ApprovingFederalAgencyDataType" use="required" fixed="Other"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RestrictedIndirectCostRate" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="60"/>
+										<xs:enumeration value="Is included in your approved Indirect Cost Rate Agreement?"/>
+										<xs:enumeration value="Complies with 34 CFR 76.564(c)(2)?"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BudgetNonFederalConstructionFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectFirstYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalConstructionSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectSecondYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalConstructionThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectThirdYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalConstructionFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectFourthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalConstructionFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectFifthYearAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalSuppliesTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalContractualTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalConstructionTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalOtherTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalPersonnelTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalFringeTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTravelTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalEquipmentTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalDirectTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalIndirectTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTrainingTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetNonFederalTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute ref="globLib:FormVersion" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="IsIndirectCostRateAgreementApprovedDataType">
+		<xs:restriction base="globLib:YesNoDataType"/>
+	</xs:simpleType>
+</xs:schema>

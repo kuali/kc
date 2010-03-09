@@ -54,7 +54,8 @@ public class BudgetPeriod extends BudgetAssociate {
     private Date oldStartDate;
     
     private BudgetModular budgetModular;
-
+    private Budget budget;
+    
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
 	public BudgetPeriod(){
@@ -168,12 +169,16 @@ public class BudgetPeriod extends BudgetAssociate {
      */
     public BudgetLineItem getBudgetLineItem(int index) {
         while (getBudgetLineItems().size() <= index) {
-            getBudgetLineItems().add(new BudgetLineItem());
+            getBudgetLineItems().add(getNewBudgetLineItem());
         }
         return getBudgetLineItems().get(index);
     }
     
-	public BudgetModular getBudgetModular() {
+	public BudgetLineItem getNewBudgetLineItem() {
+        return new BudgetLineItem();
+    }
+
+    public BudgetModular getBudgetModular() {
         return budgetModular;
     }
 
@@ -385,5 +390,21 @@ public class BudgetPeriod extends BudgetAssociate {
 
         return this.getSumDirectCostAmountFromLineItems().add(
             this.getSumIndirectCostAmountFromLineItems());
+    }
+
+    /**
+     * Gets the budget attribute. 
+     * @return Returns the budget.
+     */
+    public Budget getBudget() {
+        return budget;
+    }
+
+    /**
+     * Sets the budget attribute value.
+     * @param budget The budget to set.
+     */
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 }
