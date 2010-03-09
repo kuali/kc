@@ -20,6 +20,7 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicati
 
 import java.util.List;
 
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -96,7 +97,7 @@ public interface S2SService {
 	 * @throws S2SException
 	 */
 	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException;
+			throws S2SException,PrintingException;
 
 	/**
 	 * 

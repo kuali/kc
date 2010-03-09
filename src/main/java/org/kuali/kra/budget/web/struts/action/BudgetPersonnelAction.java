@@ -254,10 +254,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                     openTabLineItemIndex = newBudgetLineItem.getLineItemNumber();
                 }
                 
-                BudgetLineItem newLineItemToAdd = new BudgetLineItem();
+                BudgetLineItem newLineItemToAdd = budget.getNewBudgetLineItem();
                 budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex, newLineItemToAdd);
                 request.setAttribute("openTabLineItemIndex", openTabLineItemIndex);
-                budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
+                budgetForm.setNewBudgetPersonnelDetails(newLineItemToAdd.getNewBudgetPersonnelLineItem());
             }
         }       
         
@@ -287,7 +287,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.addBudgetPersonnelDetails(budgetForm.getDocument(), budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetails);
             updatePersonnelBudgetRate(newBudgetLineItem);
-            budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
+            budgetForm.setNewBudgetPersonnelDetails(newBudgetLineItem.getNewBudgetPersonnelLineItem());
         }        
     }  
     

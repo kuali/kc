@@ -250,7 +250,7 @@ public class LineItemCalculatorTest extends KraTestBase {
 
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         
-        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, bli,1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,50.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli);
         bcs.calculateBudgetLineItem(bd,bpli);
@@ -276,7 +276,7 @@ public class LineItemCalculatorTest extends KraTestBase {
             errors.add(e.getMessage());
         }
         
-        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, bli,1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli1);
 
@@ -353,11 +353,11 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         
-        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp,bli, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli);
         
-        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, bli,1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli1);
         List<String> errors = new ArrayList<String>();
@@ -407,10 +407,10 @@ public class LineItemCalculatorTest extends KraTestBase {
         }
     }
 
-    private BudgetPersonnelDetails getPersonnelLineItem(BudgetPeriod bp, int lineItemNumber, 
+    private BudgetPersonnelDetails getPersonnelLineItem(BudgetPeriod bp, BudgetLineItem bli2, int lineItemNumber, 
             String costElement,Date startDate,Date endDate,
             double lineItemCost,double costSharingAmount, int personNumber,int personSequenceNumber,String personId,String jobCode,double effort,double charged) {
-        BudgetPersonnelDetails bli = new BudgetPersonnelDetails();
+        BudgetPersonnelDetails bli = bli2.getNewBudgetPersonnelLineItem();
         bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(startDate);
@@ -486,7 +486,7 @@ public class LineItemCalculatorTest extends KraTestBase {
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, 
                 String costElement,Date startDate,Date endDate,
                 double lineItemCost,double costSharingAmount) {
-        BudgetLineItem bli = new BudgetLineItem();
+        BudgetLineItem bli = bp.getNewBudgetLineItem();
         bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(startDate);

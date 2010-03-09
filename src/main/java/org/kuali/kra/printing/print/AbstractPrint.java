@@ -39,6 +39,7 @@ public abstract class AbstractPrint implements Printable {
 	private XmlStream xmlStream;
 	protected ResearchDocumentBase document;
 	private Map<String, Object> reportParameters;
+	private Map<String, byte[]> attachments;
 
 	/**
 	 * @return the xmlStream
@@ -82,46 +83,56 @@ public abstract class AbstractPrint implements Printable {
 	public void setReportParameters(Map<String, Object> reportParameters) {
 		this.reportParameters = reportParameters;
 	}
-    protected byte[] getBytes(XmlObject xmlObject) {
-//        InputStream xmlStream = null;
-        byte[] xmlBytes = null;
-//        try {
-            String xmlString = xmlObject.xmlText();
-            xmlBytes = xmlString.getBytes();
-//            xmlStream = xmlObject.newInputStream();
-//            if(xmlStream!=null){
-//                xmlBytes = new byte[xmlStream.available()];
-//                xmlStream.read(xmlBytes);
-//            }
-//        }catch (IOException e) {
-//            
-//        }finally{
-//            try {
-//                if(xmlStream!=null){
-//                    xmlStream.close();
-//                }
-//            }catch (IOException e) {
-//                //do nothing
-//            }
-//        }
-        return xmlBytes;
-    }
-    /**
-     * This method generates the XML that conforms to Delta Report XSD returns
-     * it as {@link InputStream}
-     * 
-     * @return {@link InputStream} of generated XML
-     * @throws PrintingException
-     *             in case of any errors occur during XML generation
-     */
-    public Map<String, byte[]> renderXML() throws PrintingException {
-        Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
-        Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-                getDocument(), getReportParameters());
-        for (String xmlObjectKey : xmlObjectMap.keySet()) {
-            xmlStreamMap.put(xmlObjectKey, getBytes(xmlObjectMap.get(xmlObjectKey)));
-        }
-        return xmlStreamMap;
-    }
 
+	public Map<String, byte[]> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Map<String, byte[]> attachments) {
+		this.attachments = attachments;
+	}
+
+	protected byte[] getBytes(XmlObject xmlObject) {
+		// InputStream xmlStream = null;
+		byte[] xmlBytes = null;
+		// try {
+		String xmlString = xmlObject.xmlText();
+		xmlBytes = xmlString.getBytes();
+		// xmlStream = xmlObject.newInputStream();
+		// if(xmlStream!=null){
+		// xmlBytes = new byte[xmlStream.available()];
+		// xmlStream.read(xmlBytes);
+		// }
+		// }catch (IOException e) {
+		//            
+		// }finally{
+		// try {
+		// if(xmlStream!=null){
+		// xmlStream.close();
+		// }
+		// }catch (IOException e) {
+		// //do nothing
+		// }
+		// }
+		return xmlBytes;
+	}
+
+	/**
+	 * This method generates the XML that conforms to Delta Report XSD returns
+	 * it as {@link InputStream}
+	 * 
+	 * @return {@link InputStream} of generated XML
+	 * @throws PrintingException
+	 *             in case of any errors occur during XML generation
+	 */
+	public Map<String, byte[]> renderXML() throws PrintingException {
+		Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
+		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
+				getDocument(), getReportParameters());
+		for (String xmlObjectKey : xmlObjectMap.keySet()) {
+			xmlStreamMap.put(xmlObjectKey, getBytes(xmlObjectMap
+					.get(xmlObjectKey)));
+		}
+		return xmlStreamMap;
+	}
 }

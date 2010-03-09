@@ -135,7 +135,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
 
     @Override
     protected AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance() {
-        return new BudgetPersonnelCalculatedAmount();
+        return budgetPersonnelLineItem.getNewBudgetPersonnelCalculatedAmount();
     }
 
     @Override

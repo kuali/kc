@@ -1,3 +1,19 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
@@ -32,6 +48,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
+/**
+ * This class generates XML that confirms with the XSD related to Print
+ * Certification Report. The data for XML is derived from
+ * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * 
+ */
 public class PrintCertificationXmlStream extends ProposalBaseStream {
 
 	private static final String NSF_SPONSOR_CODE = "000100";
@@ -52,6 +74,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private static final String SPONSOR_TYPE_NONFED = "NONFED";
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
+	private static final String KEY_ROLODEX_ID = "rolodexId";
 	private static final String STATEMENT_CONFLICT = "I have indicated whether or not there is any potential for a real or perceived conflict of interest as defined in MIT Policies and Procedures, 4.4:  http://web.mit.edu/afs/athena.mit.edu/org/p/policies/4.4.html";
 	private static final String STATEMENT_CERTIFICATION_NOT_NEEDED = "Certification is not needed";
 	private static final String STATEMENT_NIH_PROPOSAL = "For NSF & NIH proposals, only: I have submitted the required financial conflict of interest documentation to the Director, Office of Sponsored Programs: http://web.mit.edu/osp/www/resources_policy.htm";
@@ -75,9 +98,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	public Map<String, XmlObject> generateXmlStream(
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		ProposalDevelopmentDocument proposalDevDocument = (ProposalDevelopmentDocument) document;
-
-		DevelopmentProposal developmentProposal = proposalDevDocument
+		ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;
+		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		for (ProposalPerson proposalPerson : developmentProposal
 				.getProposalPersons()) {
@@ -88,8 +110,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 			printCertification = getPrintCertification(developmentProposal,
 					proposalPerson);
 			printCertDocument.setPrintCertification(printCertification);
-			xmlObjectList.put(proposalPerson.getPerson().getFullName(),
-					printCertDocument);
+			xmlObjectList.put(getPersonName(proposalPerson), printCertDocument);
 		}
 		return xmlObjectList;
 	}
@@ -106,17 +127,15 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		printCertification.setProposalNumber(developmentProposal
 				.getProposalNumber());
 		printCertification.setProposalTitle(developmentProposal.getTitle());
-		Investigator investigator = getInvestigator(proposalPerson);
-		printCertification.setInvestigator(investigator);
+		printCertification.setInvestigator(getInvestigator(proposalPerson));
 		Sponsor sponsor = getSponsor(developmentProposal.getSponsorCode(),
 				developmentProposal.getPrimeSponsorCode(), developmentProposal
 						.getSponsorName(), developmentProposal.getSponsor());
 		printCertification.setSponsor(sponsor);
-		PCschoolInfoType schoolInfoType = getSchoolInfoType();
-		printCertification.setSchoolInfo(schoolInfoType);
-		OrganizationType organizationType = getOrganizationType(developmentProposal
-				.getApplicantOrganization());
-		printCertification.setOrganizationInfo(organizationType);
+		printCertification.setSchoolInfo(getSchoolInfoType());
+		printCertification
+				.setOrganizationInfo(getOrganizationType(developmentProposal
+						.getApplicantOrganization()));
 		Certification[] certifications = getCertifications(proposalPerson
 				.getProposalPersonYnqs(), developmentProposal.getSponsor()
 				.getSponsorTypeCode(), developmentProposal.getSponsorCode(),
@@ -261,17 +280,17 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		Organization organization = proposalSite.getOrganization();
 		if (organizationId != null) {
 			organizationType.setOrganizationID(organizationId);
-		}
-		if (organization != null && organization.getOrganizationName() != null) {
-			organizationType.setOrganizationName(organization
-					.getOrganizationName());
-		}
-		if (organization != null && rolodex != null) {
-			String contactName = rolodex.getOrganization();
-			if (contactName != null
-					&& !contactName.equalsIgnoreCase(organization
-							.getOrganizationName())) {
-				organizationType.setContactName(contactName);
+			if (organization.getOrganizationName() != null) {
+				organizationType.setOrganizationName(organization
+						.getOrganizationName());
+			}
+			if (rolodex != null) {
+				String contactName = rolodex.getOrganization();
+				if (contactName != null
+						&& !contactName.equalsIgnoreCase(organization
+								.getOrganizationName())) {
+					organizationType.setContactName(contactName);
+				}
 			}
 		}
 		setRolodexDetailsToOrganizationType(organizationType, rolodex);
@@ -323,8 +342,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private PCschoolInfoType getSchoolInfoType() {
 		PCschoolInfoType schoolInfoType = PCschoolInfoType.Factory
 				.newInstance();
-		String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
+		String schoolName = getCertificationParameterValue(SCHOOL_NAME);
+		String schoolAcronym = getCertificationParameterValue(SCHOOL_ACRONYM);
 		if (schoolName != null) {
 			schoolInfoType.setSchoolName(schoolName);
 		}
@@ -341,7 +360,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private Investigator getInvestigator(ProposalPerson proposalPerson) {
 		Investigator investigator = Investigator.Factory.newInstance();
 		investigator.setPersonID(proposalPerson.getPersonId());
-		investigator.setPersonName(proposalPerson.getPerson().getFullName());
+		investigator.setPersonName(getPersonName(proposalPerson));
 		investigator.setPrincipalInvFlag(proposalPerson
 				.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE));
 		return investigator;
@@ -420,5 +439,34 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 			}
 		}
 		return available;
+	}
+
+	/*
+	 * This method returns the full name of the person in the given
+	 * ProposalPerson
+	 */
+	private String getPersonName(ProposalPerson proposalPerson) {
+		String personName = null;
+		if (proposalPerson.getPerson() != null) {
+			personName = proposalPerson.getPerson().getFullName();
+		} else {
+			Map<String, String> conditionMap = new HashMap<String, String>();
+			conditionMap.put(KEY_ROLODEX_ID, proposalPerson.getRolodexId()
+					.toString());
+			Rolodex rolodex = (Rolodex) businessObjectService.findByPrimaryKey(
+					Rolodex.class, conditionMap);
+			if (rolodex != null) {
+				personName = rolodex.getFullName();
+			}
+		}
+		return personName;
+	}
+	private String getCertificationParameterValue(String param){
+		String value=null;
+		try{
+			value = PrintingUtils.getParameterValue(param);
+		}catch (Exception e) {
+		}
+		return value;
 	}
 }

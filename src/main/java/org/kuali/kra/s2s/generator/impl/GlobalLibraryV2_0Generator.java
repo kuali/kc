@@ -353,7 +353,7 @@ public class GlobalLibraryV2_0Generator {
 			if (email != null && !email.equals("")) {
 				contactPerson.setEmail(email);
 			}
-			String title = person.getDirectoryTitle();
+			String title = person.getPrimaryTitle();
 			if (title != null && !title.equals("")) {
 				contactPerson.setTitle(title);
 			}

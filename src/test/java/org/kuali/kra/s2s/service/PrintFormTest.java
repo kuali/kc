@@ -31,6 +31,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -113,6 +114,8 @@ public class PrintFormTest extends KraTestBase {
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
+        }catch(PrintingException pe){
+        	LOG.error(pe.getMessage());
         }
 
 

@@ -148,7 +148,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
         budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
         for(int i=0;i<budgetCategoryTypes.size();i++){
-            budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+            budgetForm.getNewBudgetLineItems().add(budget.getNewBudgetLineItem());
         }
         budget.setBudgetCategoryTypeCodes(budgetCategoryTypes);
         
@@ -211,7 +211,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
             budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
             for(int i=0;i<budgetCategoryTypes.size();i++){
-                budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+                budgetForm.getNewBudgetLineItems().add(budget.getNewBudgetLineItem());
             }
             budget.setBudgetCategoryTypeCodes(budgetCategoryTypes);
             request.setAttribute("fromPersonnelBudget"+budgetForm.getViewBudgetPeriod()+""+selectedBudgetLineItemIndex, true);

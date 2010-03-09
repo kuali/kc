@@ -1152,7 +1152,7 @@ public class PrintingTestUtils {
 		firstPeriod.setBudget(budget);
 		// BudgetLineItems
 		List<BudgetLineItem> budgetLineItemList = new ArrayList<BudgetLineItem>();
-		BudgetLineItem budgetLineItem = new BudgetLineItem();
+		BudgetLineItem budgetLineItem = budget.getNewBudgetLineItem();
 		budgetLineItem.setBudgetId(new Long(1));
 		budgetLineItem.setBudgetPeriod(firstPeriod.getBudgetPeriod());
 		budgetLineItem.setLineItemNumber(1);
@@ -1177,7 +1177,7 @@ public class PrintingTestUtils {
 		costElementBO.setOnOffCampusFlag(false);
 		// BudgetLineItemCalculatedAmount
 		List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1191,7 +1191,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount.setRateType(rateType);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount);
 
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount1 = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount1 = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount1.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount1.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1204,7 +1204,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount1.setRateClass(rateClass1);
 		budgetLineItemCalcAmount1.setRateType(rateType1);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount1);
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount2 = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount2 = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount2.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount2.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1217,7 +1217,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount2.setRateClass(rateClass2);
 		budgetLineItemCalcAmount2.setRateType(rateType2);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount2);
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount3 = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount3 = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount3.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount3.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1230,7 +1230,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount3.setRateClass(rateClass3);
 		budgetLineItemCalcAmount3.setRateType(rateType3);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount3);
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount4 = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount4 = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount4.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount4.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1243,7 +1243,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount4.setRateClass(rateClass4);
 		budgetLineItemCalcAmount4.setRateType(rateType4);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount4);
-		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount5 = new BudgetLineItemCalculatedAmount();
+		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount5 = (BudgetLineItemCalculatedAmount)budgetLineItem.getNewBudgetLineItemCalculatedAmount();
 		budgetLineItemCalcAmount5.setBudgetId(budgetLineItem.getBudgetId());
 		budgetLineItemCalcAmount5.setBudgetPeriod(budgetLineItem
 				.getBudgetPeriod());
@@ -1278,7 +1278,7 @@ public class PrintingTestUtils {
 
 		// BudgetPersonnelDetails
 		List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-		BudgetPersonnelDetails budgetPersDetails = new BudgetPersonnelDetails();
+		BudgetPersonnelDetails budgetPersDetails = budgetLineItem.getNewBudgetPersonnelLineItem();
 		budgetPersDetails.setBudgetId(new Long(1));
 		budgetPersDetails.setStartDate(java.sql.Date.valueOf("2007-06-01"));
 		budgetPersDetails.setEndDate(java.sql.Date.valueOf("2007-06-30"));
@@ -1309,7 +1309,7 @@ public class PrintingTestUtils {
 
 		// BudgetPersonnelCalculatedAmount
 		List<BudgetPersonnelCalculatedAmount> budgetPersCalcAmountList = new ArrayList<BudgetPersonnelCalculatedAmount>();
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1329,7 +1329,7 @@ public class PrintingTestUtils {
 				.setCalculatedCostSharing(new BudgetDecimal(345.45));
 		budgetPersCalcAmountList.add(budgetPersCalcAmount);
 
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount1 = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount1 = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount1.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount1.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1349,7 +1349,7 @@ public class PrintingTestUtils {
 				.setCalculatedCostSharing(new BudgetDecimal(345.45));
 		budgetPersCalcAmountList.add(budgetPersCalcAmount1);
 
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount2 = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount2 = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount2.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount2.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1369,7 +1369,7 @@ public class PrintingTestUtils {
 				.setCalculatedCostSharing(new BudgetDecimal(345.45));
 		budgetPersCalcAmountList.add(budgetPersCalcAmount2);
 
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount3 = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount3 = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount3.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount3.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1389,7 +1389,7 @@ public class PrintingTestUtils {
 				.setCalculatedCostSharing(new BudgetDecimal(345.45));
 		budgetPersCalcAmountList.add(budgetPersCalcAmount3);
 
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount4 = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount4 = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount4.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount4.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1409,7 +1409,7 @@ public class PrintingTestUtils {
 				.setCalculatedCostSharing(new BudgetDecimal(345.45));
 		budgetPersCalcAmountList.add(budgetPersCalcAmount4);
 
-		BudgetPersonnelCalculatedAmount budgetPersCalcAmount5 = new BudgetPersonnelCalculatedAmount();
+		BudgetPersonnelCalculatedAmount budgetPersCalcAmount5 = (BudgetPersonnelCalculatedAmount)budgetPersDetails.getNewBudgetPersonnelCalculatedAmount();
 		budgetPersCalcAmount5.setBudgetId(budgetPersDetails.getBudgetId());
 		budgetPersCalcAmount5.setBudgetPeriod(budgetPersDetails
 				.getBudgetPeriod());
@@ -1452,7 +1452,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase.setRateNumber(10);
 		budgetPersRateAndBase.setStartDate(java.sql.Date.valueOf("2007-06-01"));
 		budgetPersRateAndBase.setEndDate(java.sql.Date.valueOf("2007-06-30"));
-		budgetPersRateAndBase.setBudget(budget);
+		budgetPersRateAndBase.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase);
 
 		// BudgetRateAndBase
@@ -1605,7 +1605,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase1
 				.setStartDate(java.sql.Date.valueOf("2009-06-01"));
 		budgetPersRateAndBase1.setEndDate(java.sql.Date.valueOf("2009-06-30"));
-		budgetPersRateAndBase1.setBudget(budget);
+		budgetPersRateAndBase1.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase1);
 
 		BudgetPersonnelRateAndBase budgetPersRateAndBase2 = new BudgetPersonnelRateAndBase();
@@ -1629,7 +1629,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase2
 				.setStartDate(java.sql.Date.valueOf("2009-06-01"));
 		budgetPersRateAndBase2.setEndDate(java.sql.Date.valueOf("2009-06-30"));
-		budgetPersRateAndBase2.setBudget(budget);
+		budgetPersRateAndBase2.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase2);
 
 		BudgetPersonnelRateAndBase budgetPersRateAndBase3 = new BudgetPersonnelRateAndBase();
@@ -1653,7 +1653,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase3
 				.setStartDate(java.sql.Date.valueOf("2009-06-01"));
 		budgetPersRateAndBase3.setEndDate(java.sql.Date.valueOf("2009-06-30"));
-		budgetPersRateAndBase3.setBudget(budget);
+		budgetPersRateAndBase3.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase3);
 
 		BudgetPersonnelRateAndBase budgetPersRateAndBase4 = new BudgetPersonnelRateAndBase();
@@ -1677,7 +1677,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase4
 				.setStartDate(java.sql.Date.valueOf("2009-06-01"));
 		budgetPersRateAndBase4.setEndDate(java.sql.Date.valueOf("2009-06-30"));
-		budgetPersRateAndBase4.setBudget(budget);
+		budgetPersRateAndBase4.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase4);
 
 		BudgetPersonnelRateAndBase budgetPersRateAndBase5 = new BudgetPersonnelRateAndBase();
@@ -1701,7 +1701,7 @@ public class PrintingTestUtils {
 		budgetPersRateAndBase5
 				.setStartDate(java.sql.Date.valueOf("2009-06-01"));
 		budgetPersRateAndBase5.setEndDate(java.sql.Date.valueOf("2009-06-30"));
-		budgetPersRateAndBase5.setBudget(budget);
+		budgetPersRateAndBase5.setBudgetId(budget.getBudgetId());
 		budgetPersRateAndBaseList.add(budgetPersRateAndBase5);
 
 		budgetPersDetails

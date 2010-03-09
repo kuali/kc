@@ -24,6 +24,10 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3822394019599765292L;
+    private Long budgetPersonnelRateAndBaseId;
+    private Long budgetPersonnelCalculatedAmountId;
+    private Long budgetPersonnelLineItemId;
+    
     private String personId;
     private Integer personNumber;
     private BudgetDecimal salaryRequested;
@@ -77,6 +81,48 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
      */
     public void setPersonId(String personId) {
         this.personId = personId;
+    }
+    /**
+     * Gets the budgetPersonnelCalculatedAmountId attribute. 
+     * @return Returns the budgetPersonnelCalculatedAmountId.
+     */
+    public Long getBudgetPersonnelCalculatedAmountId() {
+        return budgetPersonnelCalculatedAmountId;
+    }
+    /**
+     * Sets the budgetPersonnelCalculatedAmountId attribute value.
+     * @param budgetPersonnelCalculatedAmountId The budgetPersonnelCalculatedAmountId to set.
+     */
+    public void setBudgetPersonnelCalculatedAmountId(Long budgetPersonnelCalculatedAmountId) {
+        this.budgetPersonnelCalculatedAmountId = budgetPersonnelCalculatedAmountId;
+    }
+    /**
+     * Gets the budgetPersonnelLineItemId attribute. 
+     * @return Returns the budgetPersonnelLineItemId.
+     */
+    public Long getBudgetPersonnelLineItemId() {
+        return budgetPersonnelLineItemId;
+    }
+    /**
+     * Sets the budgetPersonnelLineItemId attribute value.
+     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
+     */
+    public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
+        this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
+    }
+    /**
+     * Gets the budgetPersonnelRateAndBaseId attribute. 
+     * @return Returns the budgetPersonnelRateAndBaseId.
+     */
+    public Long getBudgetPersonnelRateAndBaseId() {
+        return budgetPersonnelRateAndBaseId;
+    }
+    /**
+     * Sets the budgetPersonnelRateAndBaseId attribute value.
+     * @param budgetPersonnelRateAndBaseId The budgetPersonnelRateAndBaseId to set.
+     */
+    public void setBudgetPersonnelRateAndBaseId(Long budgetPersonnelRateAndBaseId) {
+        this.budgetPersonnelRateAndBaseId = budgetPersonnelRateAndBaseId;
     }
 
 }

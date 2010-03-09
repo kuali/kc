@@ -29,7 +29,7 @@ public abstract class InstitutionalProposalBaseStream implements XmlStream {
 	protected DateTimeService dateTimeService;
 	protected BusinessObjectService businessObjectService = null;
 	protected String personName;
-	protected static final String PERSON_ID = "personId";
+	public static final String PERSON_ID = "personId";
 	
 	protected static final int PROPOSAL_TYPE_NEW = 1;
 	protected static final int PROPOSAL_TYPE_CONTINUATION = 2;

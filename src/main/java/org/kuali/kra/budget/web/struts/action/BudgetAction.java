@@ -325,7 +325,7 @@ public class BudgetAction extends BudgetActionBase {
             String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
-                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                BudgetLineItem newBudgetLineItem = budget.getNewBudgetLineItem();
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
             }
         }
@@ -344,7 +344,7 @@ public class BudgetAction extends BudgetActionBase {
             String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && !StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
-                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                BudgetLineItem newBudgetLineItem = budget.getNewBudgetLineItem();
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
             }
         }

@@ -31,6 +31,7 @@ import noNamespace.TemplateDocument;
 import noNamespace.ReportTermDetailsType.MailCopies;
 import noNamespace.TemplateDocument.Template;
 
+import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -60,6 +61,9 @@ import org.kuali.rice.kns.service.DateTimeService;
  * 
  */
 public class AwardTemplateXmlStream implements XmlStream {
+	
+	private static final Logger LOG = Logger.getLogger(AwardTemplateXmlStream.class);
+	
 	private BusinessObjectService businessObjectService = null;
 	private DateTimeService dateTimeService = null;
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
@@ -83,7 +87,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 		Award award = awardDocument.getAward();
 		TemplateDocument templateDocument = TemplateDocument.Factory
 				.newInstance();
-		if (award != null && award.getAwardTemplate() != null) {
+		if (award.getAwardTemplate() != null) {
 			templateDocument.setTemplate(getTemplate(award.getAwardTemplate()));
 		}
 		awardTemplateXmlStream.put(AwardPrintType.AWARD_TEMPLATE
@@ -299,8 +303,12 @@ public class AwardTemplateXmlStream implements XmlStream {
 			contactType = ContactType.Factory.newInstance();
 			org.kuali.kra.award.home.ContactType type = awardTemplateContact
 					.getContactType();
-			String contactTypeCode = type.getContactTypeCode();
-			String description = type.getDescription();
+			String contactTypeCode = null;
+			String description =null;
+			if (type != null) {
+				contactTypeCode = type.getContactTypeCode();
+				description= type.getDescription();
+			}
 			if (contactTypeCode != null) {
 				contactType
 						.setContactTypeCode(Integer.valueOf(contactTypeCode));
@@ -353,8 +361,8 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 */
 	private SchoolInfoType getSchoolInfoType() {
 		SchoolInfoType schoolInfoType = SchoolInfoType.Factory.newInstance();
-		String schoolName = PrintingUtils.getParameterValue(SCHOOL_NAME);
-		String schoolAcronym = PrintingUtils.getParameterValue(SCHOOL_ACRONYM);
+		String schoolName = getAwardParameterValue(SCHOOL_NAME);
+		String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
 		if (schoolName != null) {
 			schoolInfoType.setSchoolName(schoolName);
 		}
@@ -379,5 +387,15 @@ public class AwardTemplateXmlStream implements XmlStream {
 
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
+	}
+
+	private String getAwardParameterValue(String param) {
+		String value = null;
+		try {
+			value = PrintingUtils.getParameterValue(param);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return value;
 	}
 }

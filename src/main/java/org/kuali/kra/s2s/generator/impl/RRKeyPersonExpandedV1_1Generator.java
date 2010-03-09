@@ -242,12 +242,12 @@ public class RRKeyPersonExpandedV1_1Generator extends RRKeyPersonExpandedBaseGen
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.OTHER_SPECIFY);
                     OtherProjectRoleCategory otherProjectRole = OtherProjectRoleCategory.Factory.newInstance();
                     String otherRole;
-                    if (keyPerson.getRole().getDescription() != null) {
-                        if (keyPerson.getRole().getDescription().length() > ROLE_DESCRIPTION_MAX_LENGTH) {
-                            otherRole = keyPerson.getRole().getDescription().substring(0, ROLE_DESCRIPTION_MAX_LENGTH);
+                    if (keyPerson.getProjectRole() != null) {
+                        if (keyPerson.getProjectRole().length() > ROLE_DESCRIPTION_MAX_LENGTH) {
+                            otherRole = keyPerson.getProjectRole().substring(0, ROLE_DESCRIPTION_MAX_LENGTH);
                         }
                         else {
-                            otherRole = keyPerson.getRole().getDescription();
+                            otherRole = keyPerson.getProjectRole();
                         }
                     }
                     else {
