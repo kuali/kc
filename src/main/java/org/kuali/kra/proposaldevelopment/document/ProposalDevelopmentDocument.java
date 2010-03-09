@@ -161,6 +161,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         if (bp.isParent()) {
             try {
                 hierarchyService.routeHierarchyChildren( this, dto );
+             
             }
             catch (ProposalHierarchyException e) {
                throw new RuntimeException( "ProposalHierarchyException thrown while routing children.", e );

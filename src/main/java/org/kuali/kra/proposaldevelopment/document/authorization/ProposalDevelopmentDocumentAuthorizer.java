@@ -304,7 +304,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     protected boolean canAcknowledge( Document document, Person user ) {
-        return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
     }
     
     
