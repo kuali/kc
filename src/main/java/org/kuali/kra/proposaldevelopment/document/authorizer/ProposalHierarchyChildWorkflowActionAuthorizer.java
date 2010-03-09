@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -38,18 +39,26 @@ public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuth
     public boolean isAuthorized(String username, ProposalTask task) {
         boolean authorized = true;
         ProposalDevelopmentDocument doc = task.getDocument();
-
+        
         if( doc.getDevelopmentProposal().isChild() ) {
             try {
                 KualiWorkflowDocument parentWDoc  = KraServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
-                if( !parentWDoc.stateIsInitiated() ) authorized = false;
-            }
-            catch (ProposalHierarchyException e) {
+                if( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION)) {
+                    if( (!parentWDoc.isAcknowledgeRequested()) || parentWDoc.stateIsInitiated() ) authorized = false; 
+                } else if ( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION) ) {
+                    if( !parentWDoc.stateIsInitiated()  ) authorized = false;
+                }
+            } catch (ProposalHierarchyException e) {
                 LOG.error( String.format( "Could not find parent workflow document for proposal document number:%s, which claims to be a child. Returning false.",doc.getDocumentHeader().getDocumentNumber()),e);
                 authorized = false;
             }
         }
         
+         
         return authorized;
     }
+
+
+
+
 }
