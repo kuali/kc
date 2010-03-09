@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -52,13 +55,33 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     @SuppressWarnings("unchecked")
     public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Award award = getAward(awardId);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(AWARD_COMMENT_TYPE_CODE, awardCommentTypeCode);
-        queryMap.put(AWARD_ID, awardId);
-        List<AwardComment> awardCommentHistory = (List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap);
-        return awardCommentHistory;
+        queryMap.put("awardNumber", award.getAwardNumber());
+        return filterAwardComment((List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap), award.getSequenceNumber());
     }
 
+    private Award getAward(String awardId) {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(AWARD_ID, awardId);
+        return (Award)getBusinessObjectService().findByPrimaryKey(Award.class, queryMap);
+        
+    }
+    
+    private List<AwardComment> filterAwardComment(List<AwardComment> results, Integer sequenceNum) {
+        List<AwardComment> returnList = new ArrayList<AwardComment>();
+        List<String> comments = new ArrayList<String>();
+        for (AwardComment awardComment : results) {
+            if (sequenceNum >= awardComment.getSequenceNumber() 
+                    && !comments.contains(awardComment.getComments())) {
+                returnList.add(awardComment);
+                comments.add(awardComment.getComments());
+            }
+        }
+        return returnList;
+    }
+        
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
      *
