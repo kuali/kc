@@ -58,6 +58,14 @@ public interface CommitteeScheduleService {
     
     /**
      * 
+     * This method returns a list of minutes based on a protocol submission ID
+     * @param submissionID
+     * @return
+     */
+    public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID);
+    
+    /**
+     * 
      * This method returns a list of minutes based on a schedule ID
      * @param scheduleId
      * @return

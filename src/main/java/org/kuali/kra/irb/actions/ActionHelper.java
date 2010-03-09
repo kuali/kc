@@ -49,6 +49,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
@@ -176,6 +177,9 @@ public class ActionHelper implements Serializable {
         } catch (Exception e) {
             
         }
+        
+        ProtocolSubmission currentSubmission = form.getProtocolDocument().getProtocol().getProtocolSubmission();
+        
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
         protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
@@ -199,18 +203,18 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
-        protocolExpediteApprovalBean = buildProtocolGenericActionBean(EXPEDITE_APPROVAL_BEAN_TYPE, protocolActions);
+        protocolExpediteApprovalBean = buildProtocolGenericActionBean(EXPEDITE_APPROVAL_BEAN_TYPE, protocolActions, currentSubmission);
         
         protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol());
         
-        protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions);
-        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions);
-        protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions);
-        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(SUSPEND_BY_DSMB_BEAN_TYPE, protocolActions);
-        protocolCloseBean = buildProtocolGenericActionBean(CLOSE_BEAN_TYPE, protocolActions);
-        protocolExpireBean = buildProtocolGenericActionBean(EXPIRE_BEAN_TYPE, protocolActions);
-        protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions);
-        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions);
+        protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(SUSPEND_BY_DSMB_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolCloseBean = buildProtocolGenericActionBean(CLOSE_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolExpireBean = buildProtocolGenericActionBean(EXPIRE_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = new AdminCorrectionBean();
         committeeDecision = new CommitteeDecision();
@@ -225,9 +229,9 @@ public class ActionHelper implements Serializable {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions) throws Exception {
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
-        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions);
+        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions, currentSubmission);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -240,7 +244,7 @@ public class ActionHelper implements Serializable {
     
     private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol) throws Exception{
         ProtocolApproveBean bean = new ProtocolApproveBean();
-        ProtocolAction protocolAction = findProtocolAction(APPROVE_BEAN_TYPE, protocol.getProtocolActions());
+        ProtocolAction protocolAction = findProtocolAction(APPROVE_BEAN_TYPE, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -253,7 +257,7 @@ public class ActionHelper implements Serializable {
         return bean;
     }
 
-    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions) throws Exception {
+    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
         String actionTypeCode;
         switch(beanType) {
             case EXPEDITE_APPROVAL_BEAN_TYPE:
@@ -291,7 +295,8 @@ public class ActionHelper implements Serializable {
                 throw new Exception("Invalid bean type provided");
         }
         for (ProtocolAction pa : protocolActions) {
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)) {
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
+                    && ( pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
                 return pa;
             }
         }
@@ -309,7 +314,7 @@ public class ActionHelper implements Serializable {
     private void addReviewerCommentsToBean(ReviewerCommentsContainer commentContainer, ProtocolForm form) {
         try {
             CommitteeScheduleService scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
-            List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocol(form.getProtocolDocument().getProtocol().getProtocolId());
+            List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
             ReviewComments comments = commentContainer.getReviewComments();
             comments.setComments(minutes);
             commentContainer.setReviewComments(comments);
