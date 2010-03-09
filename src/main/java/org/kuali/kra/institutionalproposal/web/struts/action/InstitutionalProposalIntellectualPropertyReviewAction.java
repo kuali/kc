@@ -38,6 +38,8 @@ public class InstitutionalProposalIntellectualPropertyReviewAction extends Insti
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // reload so the new inp comment can be refreshed from DB
+        super.reload(mapping, form, request, response);
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
     
