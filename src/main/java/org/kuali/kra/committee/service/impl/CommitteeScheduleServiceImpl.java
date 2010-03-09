@@ -68,6 +68,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     private static final String SCHEDULE_ID_FIELD = "SCHEDULE_ID_FK";
     private static final String COMM_SCHEDULE_MINUTES_FIELD = "COMM_SCHEDULE_MINUTES_ID";
     private static final String ENTRY_NUMBER_FIELD = "ENTRY_NUMBER";
+    private static final String SUBMISSION_ID_FIELD = "SUBMISSION_ID_FK";
     
     private BusinessObjectService businessObjectService;
 
@@ -330,5 +331,16 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         }else{
             return null;
         }
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.committee.service.CommitteeScheduleService#getMinutesByProtocolSubmission(java.lang.Long)
+     */
+    public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID){
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(SUBMISSION_ID_FIELD, submissionID);
+        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
+        return minutes;
     }
 }

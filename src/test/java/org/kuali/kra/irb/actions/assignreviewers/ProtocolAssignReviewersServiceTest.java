@@ -130,6 +130,7 @@ public class ProtocolAssignReviewersServiceTest extends KraTestBase {
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         ProtocolSubmission submission2 = protocolAssignReviewersService.getCurrentSubmission(protocolDocument.getProtocol());
+        submission2.setSubmissionId(submission.getSubmissionId());
         assertEquals(submission, submission2);
     }
     
@@ -163,6 +164,7 @@ public class ProtocolAssignReviewersServiceTest extends KraTestBase {
         submission.setProtocol(protocol);
         submission.setProtocolId(protocol.getProtocolId());
         submission.setProtocolNumber(protocol.getProtocolNumber());
+        submission.setSubmissionId(new Long(1));
         submission.setSubmissionNumber(1);
         submission.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
         submission.setSubmissionStatusCode(statusCode);
