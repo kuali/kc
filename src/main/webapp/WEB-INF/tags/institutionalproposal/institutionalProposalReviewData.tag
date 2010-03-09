@@ -45,7 +45,7 @@
     </tr>
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.ipReviewer}" /></th>
-        <td><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.person.fullName}" /></td>
+        <td><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.ipReviewer}" /></td>
         <th align="right">&nbsp;</th>
         <td>&nbsp;</td>
     </tr>
