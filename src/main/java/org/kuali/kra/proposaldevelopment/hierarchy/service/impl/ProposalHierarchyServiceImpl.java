@@ -1214,7 +1214,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
       //1. reject the parent.
         try {
-            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS) );
+            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
@@ -1241,7 +1241,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if( !pbo.isInHierarchy() ) {
             rejectProposal( pDoc, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         } else if ( pbo.isParent() ) {
-            rejectProposalHierarchy( pDoc, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason), principalName );
+            rejectProposalHierarchy( pDoc, reason, principalName );
         } else {
             //it is a child or in some unknown state, either way we do not support rejecting it.
             throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
@@ -1357,12 +1357,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         workdoc.updateAppDocStatus(getHierarchyChildRouteStatus( dto.getOldRouteStatus(), dto.getNewRouteStatus() ));
 
                         if( !workdoc.stateIsEnroute() ) {
-                            workdoc.routeDocument(HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION);
+                            workdoc.routeDocument(renderMessage( HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION ));
 
                         } else {
                             //this means the status change is actually in the form of an approve action on a document that was moved back to the initial node.
                             //we need to do an approval.
-                            workdoc.approve(HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION);
+                            workdoc.approve(renderMessage( HIERARCHY_ROUTING_PARENT_RESUBMITTED_ANNOTATION ));
                             workdoc.updateAppDocStatus(renderMessage( HIERARCHY_CHILD_ENROUTE_APPSTATUS ) );
                         }
 

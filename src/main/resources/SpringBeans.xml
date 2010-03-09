@@ -753,6 +753,11 @@
                     <property name="taskName" value="hierarchyChildWorkflowAction" />
                 </bean>
                 
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalHierarchyChildWorkflowActionAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="hierarchyChildAcknowledgeAction" />
+                </bean>
+             
+                
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="rejectProposal" />
                     <property name="requiresWritableDoc" value="true"/>
@@ -987,7 +992,7 @@
                 
                 <entry key="acknowledge">
                	 	<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                        <property name="taskName" value="hierarchyChildAcknowledgeAction" />
                     </bean>
                 </entry>
                 
