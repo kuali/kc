@@ -204,6 +204,7 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         final BudgetDocument budgetDoc = budgetForm.getDocument();
+        fixDocHeaderVersion(budgetDoc);
 
         getBudgetSummaryService().calculateBudget(budgetDoc.getBudget());
 
@@ -212,6 +213,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
         getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
         refreshBudgetDocumentVersion(savedBudgetDoc);
+        
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
             forward = this.getReturnToProposalForward(budgetForm);
@@ -231,6 +233,30 @@ public class BudgetAction extends BudgetActionBase {
 
     private void refreshBudgetDocumentVersion(BudgetDocument savedBudgetDoc) {
         savedBudgetDoc.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+    }
+    
+    /**
+     * Load the document again and ensure that the document header version is the same to avoid optimistic lock exceptions
+     * given that the proposal might save this doc header.
+     * @param budgetDoc
+     * @throws WorkflowException
+     */
+    private void fixDocHeaderVersion(BudgetDocument budgetDoc) throws WorkflowException {
+        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument updatedDoc = (BudgetDocument) docService.getByDocumentHeaderId(budgetDoc.getDocumentNumber());
+        budgetDoc.getDocumentHeader().setVersionNumber(updatedDoc.getDocumentHeader().getVersionNumber());
+        //update all budget versions doc headers as we will try to save them all and can be saved by proposal under separate lock as well
+        for (int i = 0; i < budgetDoc.getParentDocument().getBudgetDocumentVersions().size(); i++) {
+            BudgetDocumentVersion bdVersion = budgetDoc.getParentDocument().getBudgetDocumentVersion(i);
+            BudgetDocumentVersion updatedVersion = updatedDoc.getParentDocument().getBudgetDocumentVersion(i);
+            if (bdVersion != null && updatedVersion != null) {
+                System.out.println("My version " + bdVersion.getDocumentNumber() + " = " + bdVersion.getDocumentHeader().getVersionNumber());
+                System.out.println("Other ver " + updatedVersion.getDocumentNumber() + " = " + updatedVersion.getDocumentHeader().getVersionNumber());
+                if (bdVersion.getDocumentHeader().getVersionNumber() < updatedVersion.getDocumentHeader().getVersionNumber()) {
+                    bdVersion.getDocumentHeader().setVersionNumber(updatedVersion.getDocumentHeader().getVersionNumber());
+                }
+            }
+        }
     }
 
 
