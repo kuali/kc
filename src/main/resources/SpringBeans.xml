@@ -1671,6 +1671,9 @@
 		<property name="proposalStateService">
 			<ref bean = "proposalStateService"/>
 		</property>
+		<property name = "configurationService">
+			<ref bean = "kualiConfigurationService"/>
+		</property>
 	</bean>
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
