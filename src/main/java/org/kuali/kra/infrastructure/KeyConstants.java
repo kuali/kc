@@ -327,6 +327,9 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED = "error.required";
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE = "error.awardPaymentSchedule.notunique";
     public static final String ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL = "error.schedule.generation.freq.base.is.null";
+    //Award Payment Invoices
+    public static final String ERROR_AWARD_INVALID_BASIS_OF_PAYMENT_FOR_AWARD_TYPE="error.award.paymentsAndInvoices.invalidBasisOfPaymentForAwardType";
+    
     
     //Time & Money - Transactions
     public static final String ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE = "error.awardPendingTransaction.notunique";
@@ -435,6 +438,8 @@ public final class KeyConstants {
     public static final String INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE = "invalid.frequency.for.reportClass.and.type";
     public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "invalid.frequencyBase.for.frequency";
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
+    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "invalid.award.payment.invoice.comment.comment.not.allowed";
+    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "invalid.award.payment.invoice.comment.required";
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
