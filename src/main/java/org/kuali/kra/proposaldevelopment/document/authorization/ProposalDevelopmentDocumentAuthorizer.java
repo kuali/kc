@@ -114,7 +114,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             editModes.add("modifyProposal");
         }
         
-        if (canExecuteTask(userId, doc, TaskName.ADD_BUDGET) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
                 
@@ -122,7 +122,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             editModes.add("openBudgets");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_BUDGET) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.MODIFY_BUDGET)) {
             editModes.add("modifyProposalBudget");
         }
                 
@@ -130,11 +130,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             editModes.add("modifyPermissions");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.ADD_NARRATIVE) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.ADD_NARRATIVE)) {
             editModes.add("addNarratives");
         }
                    
-        if (canExecuteTask(userId, doc, TaskName.CERTIFY) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
             editModes.add("certify");
         }
                 
@@ -142,7 +142,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             editModes.add("printProposal");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.ALTER_PROPOSAL_DATA) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.ALTER_PROPOSAL_DATA)) {
             editModes.add("alterProposalData");
         }
                 
@@ -153,7 +153,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(userId, doc, TaskName.SUBMIT_TO_SPONSOR)) {
             editModes.add("submitToSponsor");
         }
-        if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+        if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
         setNarrativePermissions(userId, doc, editModes);
@@ -166,13 +166,13 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             if (narrative.getDownloadAttachment(userId)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getReplaceAttachment(userId)) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
@@ -183,13 +183,13 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             if (narrative.getDownloadAttachment(userId)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getReplaceAttachment(userId) ) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(userId) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
