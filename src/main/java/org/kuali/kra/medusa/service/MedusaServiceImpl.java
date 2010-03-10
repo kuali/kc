@@ -238,8 +238,18 @@ public class MedusaServiceImpl implements MedusaService {
         Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("devProposalNumber", devProposal.getProposalNumber()));
         Collection<InstitutionalProposal> instProposals = new ArrayList<InstitutionalProposal>();
         for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+            //find the newest version of the institutional proposal that is linked
             proposalAdminDetail.refreshReferenceObject("institutionalProposal");
-            instProposals.add(proposalAdminDetail.getInstitutionalProposal());
+            Collection<InstitutionalProposal> propVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", proposalAdminDetail.getInstitutionalProposal().getProposalNumber()));
+            InstitutionalProposal highestVersion = null;
+            for (InstitutionalProposal curVersion : propVersions) {
+                if (highestVersion == null) {
+                    highestVersion = curVersion;
+                } else if (curVersion.getSequenceNumber() > highestVersion.getSequenceNumber()){
+                    highestVersion = curVersion;
+                }
+            }
+            instProposals.add(highestVersion);
         }
         return instProposals;        
     }    
