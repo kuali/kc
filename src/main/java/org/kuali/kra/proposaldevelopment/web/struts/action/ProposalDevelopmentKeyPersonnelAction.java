@@ -42,13 +42,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
@@ -57,6 +57,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
@@ -547,6 +548,28 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
     /**
      * Removes the Certification Question for the keyperson 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward printCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getDocument();
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        Map<String,Object> reportParameters = new HashMap<String,Object>();
+        reportParameters.put(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
+        AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(document, 
+                ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT, reportParameters);
+        streamToResponse(dataStream, response);
+        return null;
+    }
+
+    /**
+     * Prints the Certification Questions for the keyperson 
      * @param mapping
      * @param form
      * @param request

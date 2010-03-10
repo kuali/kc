@@ -49,7 +49,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -63,7 +62,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
-import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -71,7 +69,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
@@ -853,9 +850,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
         printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
         Map<String,Object> reportParameters = new HashMap<String,Object>();
-        reportParameters.put(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES, printFormTemplates);
+        reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
         AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument, 
-                ProposalDevelopmentPrintingServiceImpl.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
+                ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
         streamToResponse(dataStream, response);
         return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);
 //        
@@ -867,31 +864,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 //        }
 //        return actionForward;
     }
-    public void streamToResponse(AttachmentDataSource attachmentDataSource,
-            HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-
-            WebUtils
-                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
-
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                // LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
-    }
-
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
         
         

@@ -34,7 +34,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream;
 import org.kuali.kra.s2s.S2SException;
@@ -70,7 +70,7 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = new ArrayList<Source>(); 
-		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
+		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
 		    Map<String,Object> htData = new HashMap<String,Object>();
 		    htData.put("sponsorCode", sponsorFormTemplate.getSponsorCode());

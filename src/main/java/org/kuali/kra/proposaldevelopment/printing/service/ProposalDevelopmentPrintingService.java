@@ -36,7 +36,12 @@ import org.kuali.kra.s2s.S2SException;
  */
 public interface ProposalDevelopmentPrintingService {
 
-	/**
+	public static final String PRINT_CERTIFICATION_REPORT = "Print Certification";
+    public static final String PRINT_PROPOSAL_SPONSOR_FORMS = "Print Proposal Sponsor Forms";
+    public static final String SELECTED_TEMPLATES = "Selected Templates";
+    public static final String PRINT_CERTIFICATION_PERSON = "Print Certification Person";
+
+    /**
 	 * This method generates the required report and returns the PDF stream as
 	 * {@link AttachmentDataSource}
 	 * 

@@ -28,7 +28,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 
 /**
  * This class provides the implementation for printing Print Certification
@@ -57,7 +57,7 @@ public class PrintCertificationPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = PrintingUtils
-				.getXSLTforReport(ProposalDevelopmentPrintingServiceImpl.PRINT_CERTIFICATION_REPORT);
+				.getXSLTforReport(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT);
 		return sourceList;
 	}
 
