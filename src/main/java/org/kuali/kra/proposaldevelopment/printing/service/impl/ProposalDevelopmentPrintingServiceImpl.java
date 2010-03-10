@@ -50,8 +50,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
-	public static final String PRINT_CERTIFICATION_REPORT = "Print Certification";
-	public static final String PRINT_PROPOSAL_SPONSOR_FORMS = "Print Proposal Sponsor Forms";
 	private PrintCertificationPrint printCertificationPrint;
 	private ProposalSponsorFormsPrint proposalSponsorFormsPrint;
 	private PrintingService printingService;
@@ -59,7 +57,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	private BusinessObjectService businessObjectService;
 	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
 	private static final String PAGE_NUMBER_DB_KEY = "pageNumber";
-	public static final String SELECTED_TEMPLATES = "Selected Templates";
 
 	/**
 	 * This method generates the required report and returns the PDF stream as

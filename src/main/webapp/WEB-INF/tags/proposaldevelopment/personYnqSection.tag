@@ -69,5 +69,9 @@
                     <span class="fineprint"></span> </td>
                   </tr>
     </c:forEach>
-
+					<tr>
+						<th colspan="3" align="center">
+							<html:image property="methodToCall.printCertification.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" title="Print Certification" alt="Print Certification" styleClass="tinybutton" onclick="excludeSubmitRestriction=true" />
+						</th>
+					</tr>
                 </tbody>

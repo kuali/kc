@@ -27,8 +27,6 @@ import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ATTACHME
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +46,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -78,7 +75,6 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -241,32 +237,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
         narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
         return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
-    }
-    /**
-     * 
-     * Handy method to stream the byte array to response object
-     * @param attachmentDataSource
-     * @param response
-     * @throws Exception
-     */
-    @Override
-    protected void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
-        byte[] xbts = attachmentDataSource.getContent();
-        ByteArrayOutputStream baos = null;
-        try{
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
-                }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
     }
 
     /**
