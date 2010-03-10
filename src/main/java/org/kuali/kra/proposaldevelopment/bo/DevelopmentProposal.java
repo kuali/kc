@@ -1775,14 +1775,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return proposalState;
     }
 
+    @Deprecated
     public Integer getPostSubmissionStatusCode() {
         return postSubmissionStatusCode;
     }
 
+    @Deprecated
     public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
         this.postSubmissionStatusCode = postSubmissionStatusCode;
     }
-
 
     public ProposalDevelopmentDocument getProposalDocument() {
         return proposalDocument;
