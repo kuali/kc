@@ -563,10 +563,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         GlobalVariables.getErrorMap().addToErrorPath(AWARD_ERROR_PATH);        
         
         AwardDocument awardDocument = (AwardDocument) document;
-        for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTermItems()){
+        for (AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()) {
             retval &= evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
-            retval &= evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
-            retval &= evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
+            if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
+                retval &= evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
+            }
+            if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
+                retval &= evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
+            }
             retval &= evaluateBusinessRuleForRecipients(awardReportTerm, i);
             i++;
         }
@@ -846,9 +850,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             }
         }
         if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate() != null 
-                && award.getObligationExpirationDate() != null) {
+                && award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getObligationExpirationDate() != null) {
             if (award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getCurrentFundEffectiveDate().after(
-                    award.getObligationExpirationDate())) {
+                    award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getObligationExpirationDate())) {
                 success = false;
                 errorMap.putError("awardAmountInfos["+award.getIndexOfLastAwardAmountInfo()+"].obligationExpirationDate", KeyConstants.ERROR_END_DATE_PRIOR_START_DATE,
                         new String[] {"Obligation End Date", "Obligation Start Date"});
