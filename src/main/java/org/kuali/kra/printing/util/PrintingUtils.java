@@ -33,7 +33,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -167,7 +167,7 @@ public class PrintingUtils {
 						.getInstitutionalProposalPrintType())) {
 			xsl = XSL_INSTITUTIONAL_PROPOSAL_REPORT;
 		} else if (reportType
-				.equals(ProposalDevelopmentPrintingServiceImpl.PRINT_CERTIFICATION_REPORT)) {
+				.equals(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT)) {
 			xsl = XSL_PRINT_CERTIFICATION;
 		}
 
