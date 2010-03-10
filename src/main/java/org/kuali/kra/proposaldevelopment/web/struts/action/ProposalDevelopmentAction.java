@@ -232,6 +232,21 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     /**
      * 
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        super.saveOnClose(form);
+        final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+       
+        updateProposalDocument(proposalDevelopmentForm);
+        
+        doc.getDevelopmentProposal().updateProposalNumbers();
+    }    
+
+    /**
+     * 
      * This method attempts to deal with the multiple pessimistic locks that can be on the proposal development document
      * Proposal, Narratives, and Budget must all be treated separately and therefore the other portions of the document,
      * outside of the one currently being saved, must be updated from the database to make sure the sessions do not stomp
@@ -570,7 +585,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     protected KeyPersonnelService getKeyPersonnelService() {
         return KraServiceLocator.getService(KeyPersonnelService.class);
-    }
+    }   
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)

@@ -613,7 +613,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @throws Exception 
      */
     protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        // do nothing
+        if (isInitialSave(getDocumentStatus(form.getDocument()))) {
+            initialDocumentSave(form); 
+        } 
     }
 
     /**
