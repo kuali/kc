@@ -128,7 +128,7 @@
 		<property name="shortLabel" value="Preparer" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -146,7 +146,7 @@
 		<property name="shortLabel" value="Invoice ID" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -164,7 +164,7 @@
 		<property name="shortLabel" value="Comments" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -180,9 +180,9 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Status" />
 		<property name="shortLabel" value="Status" />
-		<property name="maxLength" value="50" />
+		<property name="maxLength" value="5" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
