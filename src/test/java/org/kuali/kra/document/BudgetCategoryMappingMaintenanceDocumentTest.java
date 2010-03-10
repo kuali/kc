@@ -82,34 +82,35 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
      * We can not change anything.
      * @throws Exception
      */
-    @Test
-    public void testEditBudgetCategoryMappingMaintenanceDocument() throws Exception {
-        HtmlPage budgetCategoryMappingMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Budget Category Mapping");
-        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"mappingName","NSF_194");
-        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"budgetCategoryCode","10");
-        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"targetCategoryCode","39");
-        HtmlPage searchPage = clickOn(budgetCategoryMappingMaintenanceLookupPage, "search");
-        
-        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Budget Category Mapping Maintenance Document");
-        String documentNumber = getFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
-
-        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Budget Category Mapping - edit test");
-
-                
-        HtmlPage routedPage = clickOn(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Budget Category Mapping Maintenance Document");
-        
-        assertContains(routedPage, "Document was successfully submitted.");
-        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
-        assertNotNull(document.getDocumentNumber());
-        assertNotNull(document.getDocumentHeader());
-        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
-        BudgetCategoryMapping budgetCategoryMapping = (BudgetCategoryMapping)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(budgetCategoryMapping.getBudgetCategoryCode(),"10");
-        assertEquals(budgetCategoryMapping.getTargetCategoryCode(),"39");
-        assertEquals(budgetCategoryMapping.getMappingName(),"NSF_194");
-
-    }
+    // removed 'edit'
+//    @Test
+//    public void testEditBudgetCategoryMappingMaintenanceDocument() throws Exception {
+//        HtmlPage budgetCategoryMappingMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Budget Category Mapping");
+//        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"mappingName","NSF_194");
+//        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"budgetCategoryCode","10");
+//        setFieldValue(budgetCategoryMappingMaintenanceLookupPage,"targetCategoryCode","39");
+//        HtmlPage searchPage = clickOn(budgetCategoryMappingMaintenanceLookupPage, "search");
+//        
+//        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
+//        HtmlPage budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Budget Category Mapping Maintenance Document");
+//        String documentNumber = getFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
+//
+//        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Budget Category Mapping - edit test");
+//
+//                
+//        HtmlPage routedPage = clickOn(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Budget Category Mapping Maintenance Document");
+//        
+//        assertContains(routedPage, "Document was successfully submitted.");
+//        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+//        assertNotNull(document.getDocumentNumber());
+//        assertNotNull(document.getDocumentHeader());
+//        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
+//        BudgetCategoryMapping budgetCategoryMapping = (BudgetCategoryMapping)document.getNewMaintainableObject().getBusinessObject();
+//        assertEquals(budgetCategoryMapping.getBudgetCategoryCode(),"10");
+//        assertEquals(budgetCategoryMapping.getTargetCategoryCode(),"39");
+//        assertEquals(budgetCategoryMapping.getMappingName(),"NSF_194");
+//
+//    }
 
 
     @Test
