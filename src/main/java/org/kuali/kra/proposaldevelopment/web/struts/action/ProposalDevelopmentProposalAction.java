@@ -60,6 +60,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
@@ -87,6 +88,20 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+    }
+    
+    @Override
+    public void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        super.saveOnClose(form);
+        final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        
+        //required for save, particularly if the proposal has not yet been saved
+        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
+                doc);
+        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
+                doc);
+        
     }
 
     @Override
