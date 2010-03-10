@@ -107,6 +107,8 @@ public class AwardReportTermRuleImplTest {
 
     @Test
     public final void testEvaluateRuleForDistribution() {
+        awardReportTerm.setFrequencyBaseCode("5");
+        awardReportTerm.setFrequencyCode("5");
         awardReportTerm.setOspDistributionCode("5");
         Assert.assertTrue(awardReportTermRule.isDistributionFieldComplete(awardReportTerm));
         awardReportTerm.setOspDistributionCode(null);

@@ -17,6 +17,7 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -38,6 +39,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String FREQUENCY_BASE_CODE_ERROR_PARM = "Frequency Base (Frequency Base)";
     private static final String DISTRIBUTION_ERROR_PARM = "OSP File Copy  (OSP File Copy )";
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
+    private static final String EMPTY_CODE = "-1";
 
     /**
      * 
@@ -100,10 +102,10 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         
         boolean itemValid = isReportCodeFieldComplete(awardReportTermItem);
         
-        itemValid &= isFrequencyCodeFieldComplete(awardReportTermItem);
-        itemValid &= isFrequencyBaseCodeFieldComplete(awardReportTermItem);
+//        itemValid &= isFrequencyCodeFieldComplete(awardReportTermItem);
+//        itemValid &= isFrequencyBaseCodeFieldComplete(awardReportTermItem);
         itemValid &= isDistributionFieldComplete(awardReportTermItem);
-        
+        itemValid &= isFrequencyManadatory(awardReportTermItem);
         return itemValid;
     }
     
@@ -147,14 +149,35 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    protected boolean isDistributionFieldComplete(AwardReportTerm awardReportTermItem){
-        boolean itemValid = awardReportTermItem.getOspDistributionCode() != null;
-        
-        if(!itemValid) {            
+    protected boolean isDistributionFieldComplete(AwardReportTerm awardReportTermItem) {
+        boolean itemValid = true;
+        if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode()) && frequencyExist(awardReportTermItem)
+                && frequencyBaseExist(awardReportTermItem)) {
             reportError(AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
+            itemValid = false;
         }
-        
+
         return itemValid;
     }
       
+    private boolean frequencyExist(AwardReportTerm awardReportTermItem) {
+        return StringUtils.isNotBlank(awardReportTermItem.getFrequencyCode()) 
+            && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyCode());
+    }
+ 
+    private boolean frequencyBaseExist(AwardReportTerm awardReportTermItem) {
+        return StringUtils.isNotBlank(awardReportTermItem.getFrequencyBaseCode()) 
+            && !EMPTY_CODE.equals(awardReportTermItem.getFrequencyBaseCode());
+    }
+
+    protected boolean isFrequencyManadatory(AwardReportTerm awardReportTermItem) {
+        boolean itemValid = true;
+        if (StringUtils.isNotBlank(awardReportTermItem.getOspDistributionCode()) && !frequencyExist(awardReportTermItem)) {
+            reportError(AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
+            itemValid = false;
+        }
+
+        return itemValid;
+    }
+
 }

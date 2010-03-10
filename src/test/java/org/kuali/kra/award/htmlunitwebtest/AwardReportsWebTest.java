@@ -111,13 +111,24 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testAwardReportsAddRequiredness() throws Exception{
-        final HtmlForm form1 = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
+        HtmlForm form1 = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
         String completeButtonName1=getImageTagName(paymentReportsAndTermsPage, METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL);        
-        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        setFieldValue(paymentReportsAndTermsPage, OSP_DISTRIBUTION_CODE_0, "1");
+        HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
         HtmlPage awardPaymentReportsAndTermsPageAfterAdd = (HtmlPage) button1.click();
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,REPORT_CODE_MANDATORY_ERROR_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE);
-        assertContains(awardPaymentReportsAndTermsPageAfterAdd,FREQUENCY_BASE_CODE_MANDATORY_ERROR_MESSAGE);
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, OSP_DISTRIBUTION_CODE_0, "");
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, REPORT_CODE_0, "5");
+        awardPaymentReportsAndTermsPageAfterAdd = clickOn(awardPaymentReportsAndTermsPageAfterAdd, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, FREQUENCY_CODE_0, "14");        
+        awardPaymentReportsAndTermsPageAfterAdd = clickOn(awardPaymentReportsAndTermsPageAfterAdd, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, FREQUENCY_BASE_CODE_0, "2");
+
+        form1 = (HtmlForm) awardPaymentReportsAndTermsPageAfterAdd.getForms().get(0);        
+        completeButtonName1=getImageTagName(awardPaymentReportsAndTermsPageAfterAdd, METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL);        
+        button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        awardPaymentReportsAndTermsPageAfterAdd = (HtmlPage) button1.click();
         assertContains(awardPaymentReportsAndTermsPageAfterAdd,OSP_DISTRIBUTION_CODE_MANDATORY_ERROR_MESSAGE);
         
         //Due date no longer required - is this right?
