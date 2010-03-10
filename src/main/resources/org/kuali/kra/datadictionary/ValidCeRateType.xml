@@ -138,6 +138,7 @@
 
   <bean id="ValidCeRateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Valid Ce Rate Types Lookup" />
+       <property name="lookupableID" value="noEditLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
