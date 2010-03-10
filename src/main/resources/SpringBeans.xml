@@ -169,6 +169,7 @@
 				<value>proposalDevelopmentLookupable</value>
 				<value>unitAdministratorLookupable</value>
 				<value>customAttributeDocumentLookupable</value>
+				<value>noEditLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -1947,5 +1948,15 @@
 	<bean id="customAttributeDocumentLookupableHelperService" class="org.kuali.kra.lookup.CustomAttributeLookupHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
  	</bean>
+
+	<bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="noEditLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService"> 
+  	</bean>		
 
 </beans>
