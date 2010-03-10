@@ -18,7 +18,7 @@
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
 
 <kra:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedEquipmentItemCount}" defaultOpen="false" 
-				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,${docAward}.approvedEquipmentItems*" >
+				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,${docAward}.approvedEquipmentItems*,approvedEquipmentItems" >
 	<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />	
 	
 	<kra:softError softErrorKey="approvedEquipmentItems" />
