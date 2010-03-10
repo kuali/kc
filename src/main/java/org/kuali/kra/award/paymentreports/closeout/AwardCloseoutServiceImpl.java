@@ -81,15 +81,20 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
             } else {
                 Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
                 for (AwardReportTerm awardReportTerm : awardReportTerms) {
-                    dateCalculatedUsingFrequency = getCalculatedDueDate(finalExpirationDate, awardReportTerm, calendar);                    
-                    if (dateCalculatedUsingFrequencyOld != null && dateCalculatedUsingFrequencyOld != dateCalculatedUsingFrequency) {
-                        allDueDatesAreEqual = false;
-                        break;
+                    if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
+                        dateCalculatedUsingFrequency = getCalculatedDueDate(finalExpirationDate, awardReportTerm, calendar);
+                        if (dateCalculatedUsingFrequencyOld != null
+                                && dateCalculatedUsingFrequencyOld != dateCalculatedUsingFrequency) {
+                            allDueDatesAreEqual = false;
+                            break;
+                        }
+                        dateCalculatedUsingFrequencyOld = dateCalculatedUsingFrequency;
                     }
-                    dateCalculatedUsingFrequencyOld = dateCalculatedUsingFrequency;
                 }
-                updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual
-                                        , closeoutReportTypeCode);
+               if (dateCalculatedUsingFrequency != null) {
+                    updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual,
+                            closeoutReportTypeCode);
+                }
             }
         }
         
