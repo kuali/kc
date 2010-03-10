@@ -81,33 +81,34 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
      * Can't edit any field because all are PKs.
      * @throws Exception
      */
-    @Test
-    public void testEditValidCeRateTypeMaintenanceDocument() throws Exception {
-        HtmlPage validCeRateTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Cost Element Rate Type");
-        setFieldValue(validCeRateTypeMaintenanceLookupPage,"costElement","421925");
-        setFieldValue(validCeRateTypeMaintenanceLookupPage,"rateClassCode","10");
-        setFieldValue(validCeRateTypeMaintenanceLookupPage,"rateTypeCode","1");
-        HtmlPage searchPage = clickOn(validCeRateTypeMaintenanceLookupPage, "search");
-        
-        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
-        HtmlPage validCeRateTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Valid Cost Element Rate Types Maintenance Document");
-        String documentNumber = getFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
-
-        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - edit test");
-                
-        HtmlPage routedPage = clickOn(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Valid Cost Element Rate Types Maintenance Document");
-        
-        assertContains(routedPage, "Document was successfully submitted.");
-        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
-        assertNotNull(document.getDocumentNumber());
-        assertNotNull(document.getDocumentHeader());
-        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
-        ValidCeRateType validCeRateType = (ValidCeRateType)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(validCeRateType.getRateClassCode(),"10");
-        assertEquals(validCeRateType.getRateTypeCode(),"1");
-        assertEquals(validCeRateType.getCostElement(),"421925");
-
-    }
+ // Remove 'Edit' button   
+//    @Test
+//    public void testEditValidCeRateTypeMaintenanceDocument() throws Exception {
+//        HtmlPage validCeRateTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Cost Element Rate Type");
+//        setFieldValue(validCeRateTypeMaintenanceLookupPage,"costElement","421925");
+//        setFieldValue(validCeRateTypeMaintenanceLookupPage,"rateClassCode","10");
+//        setFieldValue(validCeRateTypeMaintenanceLookupPage,"rateTypeCode","1");
+//        HtmlPage searchPage = clickOn(validCeRateTypeMaintenanceLookupPage, "search");
+//        
+//        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
+//        HtmlPage validCeRateTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Valid Cost Element Rate Types Maintenance Document");
+//        String documentNumber = getFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
+//
+//        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - edit test");
+//                
+//        HtmlPage routedPage = clickOn(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Valid Cost Element Rate Types Maintenance Document");
+//        
+//        assertContains(routedPage, "Document was successfully submitted.");
+//        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+//        assertNotNull(document.getDocumentNumber());
+//        assertNotNull(document.getDocumentHeader());
+//        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
+//        ValidCeRateType validCeRateType = (ValidCeRateType)document.getNewMaintainableObject().getBusinessObject();
+//        assertEquals(validCeRateType.getRateClassCode(),"10");
+//        assertEquals(validCeRateType.getRateTypeCode(),"1");
+//        assertEquals(validCeRateType.getCostElement(),"421925");
+//
+//    }
 
 
     @Test
