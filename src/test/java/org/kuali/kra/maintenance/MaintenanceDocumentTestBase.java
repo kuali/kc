@@ -87,13 +87,13 @@ public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
     protected String getAnchorName(HtmlPage page, String actionName) {
         int idx1 = page.asXml().indexOf("<form");
         idx1 = page.asXml().indexOf("maintenance.do?", idx1);
-        if (actionName.equalsIgnoreCase("copy")) {
+        if (actionName.equalsIgnoreCase("copy") && page.asXml().indexOf("methodToCall=edit", idx1) > 0) {
             // next maintenance.do.  Link is in 'edit' then 'copy' order
+            // some pages may not have 'edit'
             idx1 = page.asXml().indexOf("maintenance.do?", idx1+1);
         }
         int idx2 = page.asXml().indexOf("\"", idx1);
         return page.asXml().substring(idx1, idx2).replace("&amp;", "&");
     }
-
 
 }
