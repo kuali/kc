@@ -18,9 +18,12 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -87,5 +90,31 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<UnitAdministrator> searchResults = (List<UnitAdministrator>)super.getSearchResults(fieldValues);
+        if (!searchResults.isEmpty()) {
+            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
+                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
+            }
+        }
+        return searchResults;
+    }
+
+    /*
+     * This method is primarily to match person username.
+     * kcperson is not in unitadministrator table, so generic getsearchresults is not working properly.
+     */
+    private List<UnitAdministrator> filterSearchResults(List<UnitAdministrator> searchResults, String userName) {
+        List<UnitAdministrator> filteredList = new ArrayList<UnitAdministrator>();
+        
+        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
+        for (UnitAdministrator unitAdministrator : searchResults) {
+            if (unitAdministrator.getPerson().getUserName().toUpperCase().matches(regexp)) {
+                filteredList.add(unitAdministrator);
+            }
+        }
+        return filteredList;
+    }
     
 }
