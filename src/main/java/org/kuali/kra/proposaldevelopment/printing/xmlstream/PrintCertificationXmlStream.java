@@ -47,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 
 /**
  * This class generates XML that confirms with the XSD related to Print
@@ -101,16 +102,15 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		for (ProposalPerson proposalPerson : developmentProposal
-				.getProposalPersons()) {
-			PrintCertificationDocument printCertDocument = PrintCertificationDocument.Factory
-					.newInstance();
-			PrintCertification printCertification = PrintCertification.Factory
-					.newInstance();
-			printCertification = getPrintCertification(developmentProposal,
-					proposalPerson);
-			printCertDocument.setPrintCertification(printCertification);
-			xmlObjectList.put(getPersonName(proposalPerson), printCertDocument);
+		ProposalPerson personToPrint = (ProposalPerson) reportParameters.get(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON);
+		for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
+		    if (personToPrint == null || personToPrint.equals(proposalPerson)) {
+    			PrintCertificationDocument printCertDocument = PrintCertificationDocument.Factory.newInstance();
+    			PrintCertification printCertification = PrintCertification.Factory.newInstance();
+    			printCertification = getPrintCertification(developmentProposal, proposalPerson);
+    			printCertDocument.setPrintCertification(printCertification);
+    			xmlObjectList.put(getPersonName(proposalPerson), printCertDocument);
+		    }
 		}
 		return xmlObjectList;
 	}

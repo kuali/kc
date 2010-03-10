@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -40,11 +39,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
@@ -57,7 +54,6 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
@@ -75,8 +71,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -731,7 +725,34 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }
         return mtcReturn;
-    }    
+    }
+
+    /**
+     * 
+     * Handy method to stream the byte array to response object
+     * @param attachmentDataSource
+     * @param response
+     * @throws Exception
+     */
+    @Override
+    protected void streamToResponse(AttachmentDataSource attachmentDataSource, HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
