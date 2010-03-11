@@ -51,8 +51,6 @@ public interface ProposalHierarchyService {
     public static final String HIERARCHY_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.processed";
     public static final String HIERARCHY_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.final";
     
-    
-    
     public static final String HIERARCHY_ROUTING_PARENT_DISAPPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentDisapproved";
     public static final String HIERARCHY_ROUTING_PARENT_APPROVED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentApproved";
     public static final String HIERARCHY_ROUTING_PARENT_CANCELLED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentCanceled";
@@ -185,14 +183,12 @@ public interface ProposalHierarchyService {
     public String getProposalDevelopmentInitialNodeName();
 
     /**
-     * Calculate the proposal state type cope for a proposal.
-     * 
-     * @param proposalDevelopmentDocument the proposal document to calculate the state for.
-     * @param isRouteStatusChanged boolean - is the route status changing?
-     * @return String route status code.
+     * Is the document on the initial route node? 
+     * @return The initial node name of the ProposalDevelopmentDocument obtained directly from KEW.
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean routeStatusChanged );
-
+    public boolean isProposalOnInitialRouteNode( ProposalDevelopmentDocument document );
+    
+    
     /**
      * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 
      * @param proposalDevelopmentDocument The heirarchy being routed.

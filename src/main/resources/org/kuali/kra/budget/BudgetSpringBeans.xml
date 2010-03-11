@@ -390,7 +390,11 @@
 	</bean>
 	<!-- Budget Service Configuration End -->
   	
-	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
+	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl">
+		<property name = "proposalHierarchyService">
+			<ref bean = "proposalHierarchyService"/>
+		</property>
+	</bean>
     <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
     
 </beans>
