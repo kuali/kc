@@ -309,6 +309,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
             name.append(this.getLastName());
             name.append(", ");
         }
+        
+        if (this.getPrefix() != null) {
+            name.append(this.getPrefix());
+            name.append(" ");
+        }
 
         if (this.getFirstName() != null) {
             name.append(this.getFirstName());

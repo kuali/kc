@@ -42,10 +42,14 @@
 	        <td width="5%" valign="middle" class="infoline">
 	        <div align="center">
 	        	<kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
-	        	<c:out value="${KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodex.organization}" />
+	        	<c:choose><c:when test="${not empty KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodex.fullName}">
+	        	  <c:out value="${KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodex.fullName}"/>
+	        	</c:when><c:otherwise>
+	        	  <c:out value="${KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodex.organization}" />
+	        	</c:otherwise></c:choose>
 	        	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId" anchor="${tabKey}" lookupParameters="awardReportsBean.newAwardReportTermRecipient[${index}].rolodexId:rolodexId" />
 	        	<c:if test="${not empty KualiForm.awardReportsBean.newAwardReportTermRecipients[index].rolodexId}" >
-	            	<html:image property="methodToCall.clearRolodex.line-1.awardReportTerm${index}.anchor${currentTabIndex}"
+	            	<html:image property="methodToCall.clearRolodex.line1.awardReportTerm${index}.anchor${currentTabIndex}"
 	                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
 	            </c:if>
 	        </div>
@@ -77,7 +81,11 @@
 	        <td width="5%" valign="middle">
 	        <div align="center">
 	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients[${status.index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
-	            <c:out value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.organization}" />
+	        	<c:choose><c:when test="${not empty KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.fullName}">
+	        	  <c:out value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.fullName}"/>
+	        	</c:when><c:otherwise>
+	        	  <c:out value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].rolodex.organization}" />
+	        	</c:otherwise></c:choose>	            
 	            <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients[${status.index}].rolodexId:rolodexId" anchor="${tabKey}" />
 	        </div>
 	        </td>					                
