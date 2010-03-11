@@ -144,8 +144,15 @@
 				        	<div align="center">
 				        		<c:set var="deleteEnabled" value ="${isLastAward && KualiForm.document.editable}" />
 				        		<c:if test="${ deleteEnabled && !readOnly}">
-									<html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+				        		  <c:choose>
+				        		      <c:when test="${fundingProposal.persisted}">
+				        		          <img class='nobord' src='${ConfigProperties.kr.externalizable.images.url}tinybutton-delete2.gif' styleClass='tinybutton'/>
+				        		      </c:when>
+				        		      <c:otherwise>
+									       <html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
+									       src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+									  </c:otherwise>
+							     </c:choose>
 								</c:if>
 								<c:if test="${ !deleteEnabled || readOnly}">
 									&nbsp;
