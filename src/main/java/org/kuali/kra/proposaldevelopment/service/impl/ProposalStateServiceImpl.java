@@ -20,15 +20,19 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+
 /**
  * Proposal State Service Implementation.
  */
 public class ProposalStateServiceImpl implements ProposalStateService {
     
+    private ProposalHierarchyService proposalHierarchyService;
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalStateService#getProposalStateTypeCode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, boolean)
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
         String proposalStateTypeCode = null;
         KualiWorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
         
@@ -36,6 +40,8 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             proposalStateTypeCode = computeProposalStateForInitiated(proposalDevelopmentDocument);
         } else if (wd.stateIsSaved()) {
             proposalStateTypeCode = computeProposalStateForSaved(proposalDevelopmentDocument);
+        } else if( isRejectAction && wd.stateIsEnroute()  ) {
+            proposalStateTypeCode = computeProposalStateForRejected( proposalDevelopmentDocument );
         } else if (wd.stateIsEnroute()) {
             proposalStateTypeCode = computeProposalStateForEnRoute(proposalDevelopmentDocument);
         } else if (wd.stateIsApproved()) {
@@ -116,7 +122,19 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             return ProposalState.DISAPPROVED;
         }
     }
-
+   
+    /**
+     * Compute the proposal state when the proposal has been rejected ( sent to initial node ).
+     * @param proposalDevelopmentDocument the proposal development document
+     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
+     * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
+     */
+    private String computeProposalStateForRejected(ProposalDevelopmentDocument proposalDevelopmentDocument ) {
+        return ProposalState.REVISIONS_REQUESTED;
+    }
+   
+    
+   
     /**
      * Compute the proposal state when the proposal is in the workflow CANCELED state.
      * @param proposalDevelopmentDocument the proposal development document
@@ -143,6 +161,14 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      */
     private boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag();
+    }
+
+    public ProposalHierarchyService getProposalHierarchyService() {
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
+        this.proposalHierarchyService = proposalHierarchyService;
     } 
     
 }

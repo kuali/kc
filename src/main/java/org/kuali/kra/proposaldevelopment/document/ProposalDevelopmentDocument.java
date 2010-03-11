@@ -16,10 +16,8 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
@@ -37,47 +35,32 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.kew.actions.MovePoint;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
-import org.kuali.rice.kew.dto.DTOConverter;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.service.WorkflowDocumentService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.mortbay.log.Log;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
@@ -175,7 +158,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         
             
-        bp.setProposalStateTypeCode( hierarchyService.getProposalStateTypeCode( this, true ) );
+        bp.setProposalStateTypeCode( KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode( this, true, false ) );
         
     }
 
@@ -190,12 +173,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         if( LOG.isDebugEnabled() ) {
             LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
         }
+        ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
         
         if( StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) ) {
-            ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
             try {
             
-                if( ArrayUtils.contains( getDocumentHeader().getWorkflowDocument().getNodeNames(), hService.getProposalDevelopmentInitialNodeName() )) {
+                if( hService.isProposalOnInitialRouteNode(this) ) {
                     DocumentRouteStatusChangeDTO dto = new DocumentRouteStatusChangeDTO();
                     dto.setAppDocId(getDocumentNumber());
                     dto.setDocumentEventCode("REJECTED_APPROVED");
@@ -218,18 +201,24 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     throw new RuntimeException( String.format( "WorkflowException trying to re-submit rejected parent:%s", getDocumentNumber() ),we);
             }
         }
-        
-        
-        //if it is a child and is being canceled, remove it from the hierarchy.
+       
+        String pCode = getDevelopmentProposal().getProposalStateTypeCode();
+        getDevelopmentProposal().setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, hService.isProposalOnInitialRouteNode(this)));
+        if( !StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode() )) {
+            getDevelopmentProposal().refresh();
+            KraServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
+        }
+      
         if( getDevelopmentProposal().isChild() && StringUtils.equals(KEWConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken() )) {
-            ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
             try {
                 hService.removeFromHierarchy(this.getDevelopmentProposal() );
+                
             } catch (ProposalHierarchyException e) {
                 throw new RuntimeException( String.format( "COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber() ) );
             }
         }
         
+       
         
         if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
             InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
