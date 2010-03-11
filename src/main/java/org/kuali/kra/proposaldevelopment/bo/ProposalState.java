@@ -35,6 +35,7 @@ public class ProposalState extends KraPersistableBusinessObjectBase {
 	public static final String DISAPPROVED_POST_SUBMISSION = "9";
 	public static final String CANCELED = "10";
 	public static final String DOCUMENT_ERROR = "11";
+	public static final String REVISIONS_REQUESTED="12";
 	
     private String stateTypeCode;
 	private String description;

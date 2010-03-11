@@ -60,7 +60,7 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testInitiated() {
-        runTest(INITIATED, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);  
+        runTest(INITIATED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);  
     }
     
     /**
@@ -69,8 +69,8 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testSaved() {
-        runTest(SAVED, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);
-        runTest(SAVED, true, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED);
+        runTest(SAVED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);
+        runTest(SAVED, true, false, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED);
     }
     
     /**
@@ -79,8 +79,9 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testEnroute() {
-        runTest(ENROUTE, false, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING);
-        runTest(ENROUTE, true, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING_SUBMITTED);
+        runTest(ENROUTE, false, false, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING );
+        runTest(ENROUTE, true, false, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING_SUBMITTED );
+        runTest(ENROUTE, true, true, ProposalState.REVISIONS_REQUESTED, ProposalState.REVISIONS_REQUESTED );
     }
     
     /**
@@ -92,8 +93,8 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testApproved() {
-        runTest(APPROVED, false, ProposalState.APPROVAL_GRANTED, ProposalState.APPROVAL_GRANTED);
-        runTest(APPROVED, true, ProposalState.APPROVED_AND_SUBMITTED, ProposalState.APPROVED_POST_SUBMISSION);
+        runTest(APPROVED, false, false, ProposalState.APPROVAL_GRANTED, ProposalState.APPROVAL_GRANTED);
+        runTest(APPROVED, true, false, ProposalState.APPROVED_AND_SUBMITTED, ProposalState.APPROVED_POST_SUBMISSION);
     }
    
     /**
@@ -106,8 +107,8 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testDisapproved() {
-        runTest(DISAPPROVED, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED);
-        runTest(DISAPPROVED, true, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED_POST_SUBMISSION);
+        runTest(DISAPPROVED, false, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED);
+        runTest(DISAPPROVED, true, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED_POST_SUBMISSION);
     }
     
     /**
@@ -115,8 +116,8 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testCanceled() {
-        runTest(CANCELED, false, ProposalState.CANCELED, ProposalState.CANCELED);
-        runTest(CANCELED, true, ProposalState.CANCELED, ProposalState.CANCELED);
+        runTest(CANCELED, false, false, ProposalState.CANCELED, ProposalState.CANCELED);
+        runTest(CANCELED, true, false, ProposalState.CANCELED, ProposalState.CANCELED);
     }
     
     /**
@@ -124,9 +125,10 @@ public class ProposalStateServiceTest extends KraTestBase {
      */
     @Test
     public void testException() {
-        runTest(EXCEPTION, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR);
-        runTest(EXCEPTION, true, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR);
+        runTest(EXCEPTION, false, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR);
+        runTest(EXCEPTION, true, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR );
     }
+    
     
     /**
      * Verify that a proposal with the given workflow state and submit to sponsor state,
@@ -135,17 +137,20 @@ public class ProposalStateServiceTest extends KraTestBase {
      * value is when the route status has changed.
      * @param workflowState the current workflow state of the proposal
      * @param isSubmitted has the proposal been submitted to the sponsor?
+     * @param isRejected has the proposal been rejected? ( Revisions Requested ).
      * @param expectedState1 the first expected proposal state value
      * @param expectedState2 the second expected proposal state value
+     *  
      */
-    private void runTest(int workflowState, boolean isSubmitted, String expectedState1, String expectedState2) {
+    private void runTest(int workflowState, boolean isSubmitted, boolean isRejected, String expectedState1, String expectedState2 ) {
         ProposalDevelopmentDocument doc = createProposalDevelopmentDocument(workflowState, isSubmitted);
         
-        String state = service.getProposalStateTypeCode(doc, false);
+        String state = service.getProposalStateTypeCode(doc, false, isRejected );
         assertEquals("Proposal State", expectedState1, state);
         
-        state = service.getProposalStateTypeCode(doc, true);
-        assertEquals("Proposal State", expectedState2, state);
+        state = service.getProposalStateTypeCode(doc, true, isRejected);
+        assertEquals("Proposal State", expectedState2, state );
+        
     }
     
     /**
@@ -191,7 +196,7 @@ public class ProposalStateServiceTest extends KraTestBase {
                 case ENROUTE:
                     atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
                     atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(true));
+                    atLeast(2).of(mock).stateIsEnroute(); will(returnValue(true));
                     break;
                     
                 case APPROVED:
@@ -226,6 +231,7 @@ public class ProposalStateServiceTest extends KraTestBase {
                     atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(false));
                     atLeast(1).of(mock).stateIsCanceled(); will(returnValue(false));
                     break;
+                
             }
         }});
     }

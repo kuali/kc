@@ -22,6 +22,8 @@ import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
@@ -357,10 +359,11 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can approve the document; otherwise false
      */
     protected boolean canApprove(Document document, Person user) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return workflowDocument.getRouteHeader().isApproveRequested() 
-                && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_APPROVED_CD)
-                && workflowDocument.stateIsEnroute();  
+        WorkflowDocument workDoc = getWorkflowDocument( document, user );
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        return (  workDoc.getRouteHeader().isApproveRequested() ) 
+            && workDoc.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_APPROVED_CD )
+            && workDoc.stateIsEnroute(); 
     }
     
     /**
@@ -372,7 +375,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     protected boolean canDisapprove(Document document, Person user) {
         //KRACOEUS-3548:  This used to just return true.  Altered so that it returns true only if there
         //is an approval requested and workflow believes that a disapprove is allowed. 
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = getWorkflowDocument( document, user );
         return workflowDocument.getRouteHeader().isApproveRequested() 
                 && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_DENIED_CD)
                 && workflowDocument.stateIsEnroute();
@@ -620,4 +623,30 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         return KEWConstants.ROUTE_HEADER_FINAL_CD.equals(
                 document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
     }
+    
+    /**
+     * Get the workflow document.  This should be as simple as document.getDocumentHeader().getWorkflowDocument(), 
+     * but that does not currently produce a worklflow document with the isXXXXResqueted populated correctly for
+     * ad hoc users.
+     * 
+     * KRACOEUS-3678,3677:  KualiWorkflowDocument is not returning true for ad-hoc users when the instance 
+     * is from the document.getDocumentHeader().getWorkflowDocument() method 
+     * hack is to get WorkflowDocument from the WorkflowDocument constructor directly.
+     * 
+     * @param document
+     * @param user
+     * @return
+     */
+    private WorkflowDocument getWorkflowDocument( Document document, Person user ) {
+            try {
+                WorkflowDocument workDoc = new WorkflowDocument(user.getPrincipalId(), document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
+                return workDoc;
+            }
+            catch (WorkflowException e) {
+              throw new RuntimeException( String.format( "Could not load WorkflowDocument for document %s",document.getDocumentNumber() ) );
+            }
+    }
+    
+    
+    
 }
