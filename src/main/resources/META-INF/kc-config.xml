@@ -16,7 +16,7 @@
 <config>
 <!--KC Modification Start-->
 	<param name="environment">${build.environment}</param>
-	<param name="environment" override="false">dev</param>
+	<param name="build.environment" override="false">dev</param>
 	<param name="version">${build.version}</param>
 
 	<param name="module.name">kc</param>
