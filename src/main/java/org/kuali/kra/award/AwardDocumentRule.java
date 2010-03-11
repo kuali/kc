@@ -130,6 +130,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
     private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
+    private static final String AWARD_ERROR_PATH_PREFIX_NOARRAY = "document.award";
 
     /**
      * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule
@@ -291,7 +292,11 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
+        
+        errorMap.addToErrorPath(AWARD_ERROR_PATH_PREFIX_NOARRAY);
         retval &= processSpecialReviewBusinessRule(document);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH_PREFIX_NOARRAY);
+        
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         
@@ -432,12 +437,12 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         int i = 0;
 
         for (AwardSpecialReview awardSpecialReview : awardDocument.getAward().getSpecialReviews()) {
-            errorMap.addToErrorPath("awardSpecialReview[" + i + "]");
+            errorMap.addToErrorPath("specialReview[" + i + "]");
             AwardSpecialReviewRule specialReviewRule = new AwardSpecialReviewRule();
             valid &= specialReviewRule.processValidSpecialReviewBusinessRules(awardSpecialReview, "documentExemptNumbers[" + i + "]");
             valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(awardSpecialReview);
             
-            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            errorMap.removeFromErrorPath("specialReview[" + i + "]");
             i++;
         }
         return valid;
