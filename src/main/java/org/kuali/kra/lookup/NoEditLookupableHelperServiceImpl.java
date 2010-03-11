@@ -18,6 +18,12 @@ package org.kuali.kra.lookup;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
+/**
+ * 
+ * This class is to set the allowsMaintenanceEditAction to false, so the 'edit' action
+ * will not be created in search result list.  currently Budget5categorymapping & validceratetype are 
+ * using this as lookupable.
+ */
 public class NoEditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     @Override
