@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -42,7 +36,6 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -54,21 +47,10 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action class for the Proposal Development Budget Versions page
@@ -263,22 +245,21 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        // kracoeus-3663 : message should not be displayed.  should go back to pd actions page.
-//        if(pdForm.isAuditActivated()) {
-//            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-//                pdForm.getDocument());
-//    
-//            if (!valid) {
-//                // set up error message to go to validate panel
-//                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-//                if(errorBudgetVersion != -1) {
-//                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
-//                        + (errorBudgetVersion-1) +"].budgetStatus",
-//                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-//                }
-//                return mapping.findForward(Constants.MAPPING_BASIC);
-//            }
-//        }
+        if(pdForm.isAuditActivated()) {
+            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+                pdForm.getDocument());
+    
+            if (!valid) {
+                // set up error message to go to validate panel
+                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
+                if(errorBudgetVersion != -1) {
+                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
+                        + (errorBudgetVersion-1) +"].budgetStatus",
+                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+                }
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+        }
 
         this.setBudgetParentStatus(pdForm.getDocument());
         //this.setBudgetStatuses(pdForm.getDocument());
