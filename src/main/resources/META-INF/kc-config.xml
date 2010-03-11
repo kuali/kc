@@ -15,7 +15,8 @@
 -->
 <config>
 <!--KC Modification Start-->
-	<param name="environment">${environment}</param>
+	<param name="environment">${build.environment}</param>
+	<param name="environment" override="false">dev</param>
 	<param name="version">${build.version}</param>
 
 	<param name="module.name">kc</param>
@@ -31,7 +32,6 @@
 
 <!--  add this here too to override what might have been set from common-config-defaults and common-config-locations.xml :-) -->
 <!--KC Modification Start-->
-	<param name="environment">${environment}</param>
 	<param name="version">${build.version}</param>
 
 	<param name="module.name">kc</param>
