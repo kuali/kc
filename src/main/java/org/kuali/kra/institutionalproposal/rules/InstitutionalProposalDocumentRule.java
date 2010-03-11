@@ -84,7 +84,11 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
+        
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processSpecialReviewBusinessRule(document);
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
@@ -214,12 +218,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         int i = 0;
 
         for (InstitutionalProposalSpecialReview propSpecialReview : institutionalProposalDocument.getInstitutionalProposal().getSpecialReviews()) {
-            errorMap.addToErrorPath("propSpecialReview[" + i + "]");
+            errorMap.addToErrorPath("institutionalProposal.specialReview[" + i + "]");
             InstitutionalProposalSpecialReviewRule specialReviewRule = new InstitutionalProposalSpecialReviewRule();
             valid &= specialReviewRule.processValidSpecialReviewBusinessRules(propSpecialReview, "documentExemptNumbers[" + i + "]");
             valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(propSpecialReview);
             
-            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            errorMap.removeFromErrorPath("institutionalProposal.specialReview[" + i + "]");
             i++;
         }
         return valid;
