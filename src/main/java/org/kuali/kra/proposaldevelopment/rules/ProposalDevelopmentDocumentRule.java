@@ -126,7 +126,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
-        GlobalVariables.getErrorMap().addToErrorPath("document");
+        GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
         
         // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
         final boolean VALIDATION_REQUIRED = true;
@@ -139,7 +139,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
     }
