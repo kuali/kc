@@ -15,21 +15,27 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class ModifyBudgetPermission extends ProposalAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
-
-        ProposalDevelopmentDocument doc = task.getDocument();
-
         boolean hasPermission = false;
-        if (!kraWorkflowService.isInWorkflow(doc)) {
-            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET);
-        }
+        ProposalHierarchyService proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        ProposalDevelopmentDocument doc = task.getDocument();
+        KualiWorkflowDocument wfd = doc.getDocumentHeader().getWorkflowDocument();
+        boolean rejectedDocument = (StringUtils.equals(proposalHierarchyService.getProposalDevelopmentInitialNodeName(), wfd.getCurrentRouteNodeNames()));
+
+        hasPermission = ( (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
+                hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET));
+
         return hasPermission;
     }
 }
