@@ -48,7 +48,7 @@ public class RejectProposalAuthorizer extends ProposalAuthorizer {
             LOG.error( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we);
             throw new IllegalStateException( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we );
         }
-        return (!workDoc.getRouteHeader().isCompleteRequested()) && (!ArrayUtils.contains(currentNodes, KraServiceLocator.getService(ProposalHierarchyService.class).getProposalDevelopmentInitialNodeName() )) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
+        return (!workDoc.getRouteHeader().isCompleteRequested()) && (! KraServiceLocator.getService(ProposalHierarchyService.class).isProposalOnInitialRouteNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
     }
     
     

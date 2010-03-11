@@ -9,3 +9,4 @@ insert into proposal_state (state_type_code,description,update_timestamp,update_
 insert into proposal_state (state_type_code,description,update_timestamp,update_user) values('9','Disapproved Post-Submission',sysdate,'kradev');
 insert into proposal_state (state_type_code,description,update_timestamp,update_user) values('10','Canceled',sysdate,'kradev');
 insert into proposal_state (state_type_code,description,update_timestamp,update_user) values('11','Document Error Occurred',sysdate,'kradev');
+insert into proposal_state (state_type_code,description,update_timestamp,update_user) values('12','Revisions Requested',sysdate,'kradev');

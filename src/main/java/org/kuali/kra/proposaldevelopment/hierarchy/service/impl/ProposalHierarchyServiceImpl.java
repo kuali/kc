@@ -1239,7 +1239,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(getDevelopmentProposal(proposalNumber).getProposalDocument().getDocumentNumber());
         if( !pbo.isInHierarchy() ) {
-            rejectProposal( pDoc, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
+            rejectProposal( pDoc, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         } else if ( pbo.isParent() ) {
             rejectProposalHierarchy( pDoc, reason, principalName );
         } else {
@@ -1259,15 +1259,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return p.getInitialRouteNode().getRouteNodeName();
     }
     
-    
     /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalStateTypeCode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, boolean)
+     * 
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#isProposalOnInitialRouteNode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    public String getProposalStateTypeCode( ProposalDevelopmentDocument proposal, boolean isRouteStatusChanged ) {
-        //for now defer to the proposalStateService for all proposals.
-        return proposalStateService.getProposalStateTypeCode(proposal, isRouteStatusChanged);
+    public boolean isProposalOnInitialRouteNode( ProposalDevelopmentDocument document ) {
+        boolean ret = false;
+        try {
+            if( ArrayUtils.contains(document.getDocumentHeader().getWorkflowDocument().getNodeNames(), getProposalDevelopmentInitialNodeName())) ret = true;
+        } catch ( WorkflowException we ) {
+            throw new RuntimeException( String.format( "Could not get node names for document: %s", document.getDocumentNumber()), we );
+        }
+        return ret;
     }
-
     
     /**
      * Based on the hierarchy, and route status change of the parent, calculate what route action should be taken on the children.
@@ -1355,7 +1359,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
                         workdoc = new WorkflowDocument(child.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), child.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
                         workdoc.updateAppDocStatus(getHierarchyChildRouteStatus( dto.getOldRouteStatus(), dto.getNewRouteStatus() ));
-
                         if( !workdoc.stateIsEnroute() ) {
                             workdoc.routeDocument(renderMessage( HIERARCHY_ROUTING_PARENT_SUBMITTED_ANNOTATION ));
 
