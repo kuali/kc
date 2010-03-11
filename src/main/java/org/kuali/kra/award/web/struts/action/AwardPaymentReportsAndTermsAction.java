@@ -60,6 +60,18 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public AwardPaymentReportsAndTermsAction() {
         sponsorTermActionHelper = new SponsorTermActionHelper();
     }
+    
+    /**
+     * Clear rolodex entry from recipients
+     * 
+     */
+    public ActionForward clearRolodex(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) 
+    throws Exception {
+        ((AwardForm)form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodexId(null);
+        ((AwardForm)form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodex(null);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
 
     public ActionForward addPaymentScheduleItem(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
@@ -630,5 +642,4 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
     }
-    
 }
