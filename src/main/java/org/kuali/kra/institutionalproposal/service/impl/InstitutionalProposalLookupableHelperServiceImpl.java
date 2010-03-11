@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +97,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         if (lookupIsFromAward(fieldValues)) {
             filterAlreadyLinkedProposals(searchResults, fieldValues);
             filterApprovedPendingSubmitProposals(searchResults);
+            filterInvalidProposalStatus(searchResults);
         }
         
         return searchResults;
@@ -162,6 +164,23 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
         for (int j = 0; j < searchResults.size(); j++) {
             if (isDevelopmentProposalAppPendingSubmitted((InstitutionalProposal) searchResults.get(j))) {
+                removeResults.add(searchResults.get(j));
+            }
+        }
+        if (!removeResults.isEmpty()) {
+            searchResults.removeAll(removeResults);
+        }
+    }
+
+    /*
+     * This method is to filter for valid status codes of 1,2,6
+     */
+    private void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
+        List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
+        String[] validStatuses = new String[] {"1","2","6"};        
+        List<String> validCodesToFilter = Arrays.asList(validStatuses);   
+        for (int j = 0; j < searchResults.size(); j++) {
+            if (!validCodesToFilter.contains(((InstitutionalProposal) searchResults.get(j)).getStatusCode().toString())) {
                 removeResults.add(searchResults.get(j));
             }
         }
