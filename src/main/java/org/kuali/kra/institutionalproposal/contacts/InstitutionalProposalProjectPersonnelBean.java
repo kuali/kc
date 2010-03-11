@@ -69,7 +69,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
             if(institutionalProposalPerson.isPrincipalInvestigator()) {
                 institutionalProposalPerson.getUnits().add(new InstitutionalProposalPersonUnit(institutionalProposalPerson, getInstitutionalProposal().getLeadUnit(), true));
             } else {
-                if(institutionalProposalPerson.isEmployee()) {
+                if(institutionalProposalPerson.isEmployee() && !institutionalProposalPerson.isKeyPerson()) {
                     institutionalProposalPerson.getUnits().add(new InstitutionalProposalPersonUnit(institutionalProposalPerson, institutionalProposalPerson.getPerson().getUnit(), false));
                 }
             }

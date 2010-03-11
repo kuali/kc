@@ -65,7 +65,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             if(awardPerson.isPrincipalInvestigator()) {
                 awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
             } else {
-                if(awardPerson.isEmployee()) {
+                if(awardPerson.isEmployee() && !awardPerson.isKeyPerson()) {
                     awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
                 }
             }
