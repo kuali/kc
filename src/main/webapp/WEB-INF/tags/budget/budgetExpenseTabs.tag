@@ -20,7 +20,7 @@
 <kra-b:budgetExpenseBudgetOverview /> 
     	   			   	
 <c:forEach var="budgetCategoryTypeCode" items="${KualiForm.document.budget.budgetCategoryTypeCodes}" varStatus="catCodes">
-	<c:if test="${budgetCategoryTypeCode.key != 'H' || (KualiForm.document.proposalBudgetFlag && KualiForm.document.parentDocument.developmentProposal.parent) }" >
+	<!-- c:if test="${budgetCategoryTypeCode.key != 'H' || (KualiForm.document.proposalBudgetFlag && KualiForm.document.parentDocument.developmentProposal.parent) }" -->
 		<kra-b:budgetDetailed budgetCategoryTypeCodeKey="${budgetCategoryTypeCode.key}" budgetCategoryTypeCodeLabel="${budgetCategoryTypeCode.label}" catCodes="${catCodes.index}"/>
-	</c:if>
+	<!--/c:if-->
 </c:forEach>
