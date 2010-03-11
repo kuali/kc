@@ -45,7 +45,7 @@
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
 					<kul:htmlControlAttribute property="unitContactsBean.newInstitutionalProposalContact.fullName" 
-      							attributeEntry="${institutionalProposalContactAttributes.fullName}" readOnly="false"/>
+      							attributeEntry="${institutionalProposalContactAttributes.fullName}" readOnly="true"/>
       				<label>
       					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
  									lookupParameters="unitContactsBean.personId:personId"/>

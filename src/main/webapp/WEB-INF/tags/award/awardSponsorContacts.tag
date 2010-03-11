@@ -44,7 +44,7 @@
 				<td nowrap class="grid" class="infoline">
                     Non-employee ID:
 					<kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.rolodex.fullName" 
-      								attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
+      								attributeEntry="${awardContactAttributes.fullName}" readOnly="true"/>
   					<label>
   						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
   									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
