@@ -593,10 +593,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-                if (parentDocument.getBudgetParent().getBudgetStatus()!= null 
-                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
+//                if (parentDocument.getBudgetParent().getBudgetStatus()!= null 
+//                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
-                }
+//                }
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
@@ -626,6 +626,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
                     && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+            }
+            if (!valid) {
+                break;
             }
         }
 
