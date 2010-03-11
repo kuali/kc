@@ -22,6 +22,11 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
+/**
+ * Represents the relationship between an Award and a funding Institutional Proposal.
+ * The relationship is maintained from both modules, so it has to be treated specially in various 
+ * parts of the application, such as versioning.
+ */
 public class AwardFundingProposal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
     private static final long serialVersionUID = -8135146676358083314L;
     
@@ -32,6 +37,8 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
     // for OJB
     private Long awardId;
     private Long proposalId;
+    
+    private boolean active;
 
     /**
      * Constructs a AwardFundingProposal.java.
@@ -39,6 +46,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
     public AwardFundingProposal() {
         
     }
+    
     /**
      * Constructs a AwardFundingProposal.java.
      * @param award
@@ -48,6 +56,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
         this();
         setAward(award);
         setProposal(proposal);
+        setActive(true);
     }
     
     /**
@@ -160,6 +169,14 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
         this.proposalId = proposalId;
     }
     
+    public boolean isActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -187,6 +204,14 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
     public void resetPersistenceState() {
         awardFundingProposalId = null;
         versionNumber = null;
+    }
+    
+    /**
+     * True if this entity has ever been persisted (even if there are unpersisted in-memory modifications).
+     * @return boolean
+     */
+    public boolean isPersisted() {
+        return this.getAwardFundingProposalId() != null;
     }
 
     /**
