@@ -58,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -69,6 +70,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
+import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
@@ -152,14 +154,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             forward = super.approve(mapping, form, request, response);
         }
         
-        boolean autogenerateInstitutionalProposal = getParameterService().getIndicatorParameter(
-                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
-                KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
-        if (autogenerateInstitutionalProposal && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
-                
+        if (autogenerateInstitutionalProposal() && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
+            if (ProposalType.REVISION_TYPE_CODE.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
                 GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                         proposalDevelopmentDocument.getInstitutionalProposalNumber());
             } else {
@@ -544,8 +541,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())
-                && proposalDevelopmentForm.getResubmissionOption() == null) {
+        if (requiresResubmissionPrompt(proposalDevelopmentForm)) {
             return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
         }
 
@@ -564,6 +560,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.setResubmissionOption(null);
         proposalDevelopmentForm.setInstitutionalProposalToVersion(null);
         return forward;      
+    }
+    
+    private boolean requiresResubmissionPrompt(ProposalDevelopmentForm proposalDevelopmentForm) {
+        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
+        return (ProposalType.RESUBMISSION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
+            || ProposalType.REVISION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
+            || isSubmissionChangeCorrected(developmentProposal))
+            && proposalDevelopmentForm.getResubmissionOption() == null;
+    }
+    
+    private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getS2sOpportunity() != null) {
+            return S2sSubmissionType.CHANGE_CORRECTED_CODE.equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+        }
+        return false;
     }
     
     /**
@@ -696,7 +707,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         documentService.saveDocument(proposalDevelopmentDocument);
         
-        if (true) { // If param is set
+        if (autogenerateInstitutionalProposal()) {
             generateInstitutionalProposal(proposalDevelopmentForm);
         }
         
@@ -772,14 +783,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         businessObjectService.save(proposalAdminDetails);
     }
-    
-    private String getRevisionProposalTypeCode() {
-        return "4";
-//        return this.getParameterService().getParameterValue(
-//                ProposalDevelopmentDocument.class,
-//                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-    }
-    
     
     /**
      * Submit a proposal to Grants.gov.
@@ -1287,6 +1290,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         GlobalVariables.getMessageMap().getWarningMessages().clear();
         GlobalVariables.getMessageMap().getInfoMessages().clear();
         return confirm(question, yesMethodName, "hierarchyActionCanceled");
+    }
+    
+    private boolean autogenerateInstitutionalProposal() {
+        return getParameterService().getIndicatorParameter(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
 }
     
