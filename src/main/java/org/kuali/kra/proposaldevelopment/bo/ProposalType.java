@@ -20,7 +20,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalType  extends KraPersistableBusinessObjectBase {
-
+    
+    public static final String RESUBMISSION_TYPE_CODE = "2";
+    public static final String REVISION_TYPE_CODE = "5";
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7629520657077311450L;
+    
     private String proposalTypeCode;
     private String description;
 
