@@ -84,7 +84,8 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
                     if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
                         dateCalculatedUsingFrequency = getCalculatedDueDate(finalExpirationDate, awardReportTerm, calendar);
                         if (dateCalculatedUsingFrequencyOld != null
-                                && dateCalculatedUsingFrequencyOld != dateCalculatedUsingFrequency) {
+                                && !dateCalculatedUsingFrequencyOld.equals(dateCalculatedUsingFrequency)) {
+                                //&& dateCalculatedUsingFrequencyOld != dateCalculatedUsingFrequency) {
                             allDueDatesAreEqual = false;
                             break;
                         }
