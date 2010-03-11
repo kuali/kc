@@ -29,7 +29,7 @@
         <property name="lookupDefinition" >
             <ref bean="CloseoutReportType-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="awardCloseoutId" />
+        <property name="titleAttribute" value="closeoutReportCode" />
         <property name="attributes" >
             <list>                
                 <ref bean="CloseoutReportType-closeoutReportCode" />
@@ -46,36 +46,21 @@
         <property name="name" value="closeoutReportCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Closeout Report Code" />
-        <property name="shortLabel" value="Award Id" />
-        <property name="maxLength" value="22" />
+        <property name="shortLabel" value="Closeout Report Code" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Closeout Report Code" />
         <property name="description" value="Closeout Report Code" />
     </bean>
     
     <bean id="CloseoutReportType-description" parent="CloseoutReportType-description-parentBean" />
-	<bean id="CloseoutReportType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
-	</bean>
+	<bean id="CloseoutReportType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
     <bean id="CloseoutReportType-versionNumber" parent="CloseoutReportType-versionNumber-parentBean" />
     <bean id="CloseoutReportType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -84,11 +69,11 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="CloseoutReportType-inquiryDefinition" parent="CloseoutReportType-inquiryDefinition-parentBean" />
     <bean id="CloseoutReportType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Award Closeout Id" />
+        <property name="title" value="Closeout Report Code" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Award Closeout Id" />
+                    <property name="title" value="Closeout Report Code" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>                            
@@ -106,7 +91,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="CloseoutReportType-lookupDefinition" parent="CloseoutReportType-lookupDefinition-parentBean" />
     <bean id="CloseoutReportType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Award Closeout Lookup" />
+        <property name="title" value="Closeout Report Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
         <property name="defaultSort" >
