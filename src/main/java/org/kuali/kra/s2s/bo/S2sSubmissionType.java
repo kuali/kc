@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
+    
+    public static final String CHANGE_CORRECTED_CODE = "3";
+    
 	private String s2sSubmissionTypeCode;
 	private String description;
 	private String sortId;
