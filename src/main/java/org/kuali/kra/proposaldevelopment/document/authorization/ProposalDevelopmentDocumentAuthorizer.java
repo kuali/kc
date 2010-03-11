@@ -82,7 +82,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
 	            if (editModes.contains("addBudget")) {
 	                editModes.add("modifyCompletedBudgets");
 	            }
-        	    editModes.remove("modifyBudgets");
+        	    editModes.remove("modifyProposalBudget");
             	editModes.remove("addBudget");
         	}
         }

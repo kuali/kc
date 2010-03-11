@@ -141,10 +141,12 @@
 		            <td class="tab-subhead">
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
-		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
 			          		<c:choose>
 			    				<c:when test="${proposalBudgetFlag}">
-				            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
+				            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}"/>
+				            		<c:if test="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}">
+				            			<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
+				            		</c:if>
 			    				</c:when>
 			    				<c:otherwise>
 				            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
