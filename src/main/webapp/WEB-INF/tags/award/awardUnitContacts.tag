@@ -46,7 +46,7 @@
 				<td nowrap class="grid" class="infoline">
 				    Employee User Name:
 					<kul:htmlControlAttribute property="unitContactsBean.newAwardContact.fullName" 
-      							attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
+      							attributeEntry="${awardContactAttributes.fullName}" readOnly="true"/>
       				<label>
       					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
  									lookupParameters="unitContactsBean.personId:personId"/>
