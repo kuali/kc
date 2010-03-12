@@ -73,12 +73,12 @@
 					</td>
 					<td width="9%" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newAwardFandaRate.startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
+	                	<kul:htmlControlAttribute property="newAwardFandaRate.startDate" attributeEntry="${awardFandaRateAttributes.startDate}" />
 	                	</div>
 					</td>
 	                <td width="9%" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newAwardFandaRate.endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
+	                	<kul:htmlControlAttribute property="newAwardFandaRate.endDate" attributeEntry="${awardFandaRateAttributes.endDate}" />
 	                	</div>
 					</td>
 					<td width="9%" valign="middle" class="infoline">
@@ -132,12 +132,12 @@
 						</td>
 						<td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].startDate" attributeEntry="${awardFandaRateAttributes.startDate}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].endDate" attributeEntry="${awardFandaRateAttributes.endDate}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
@@ -210,7 +210,6 @@
 	        			<td class="infoline" colspan="10">
 	            	 		<div align="left">
 	            	  	 		<kul:htmlControlAttribute property="document.award.awardFandaRateComment.comments" attributeEntry="${awardFandaRateCommentAttributes.comments}"/>
-	            	  	 		<kul:expandedTextArea textAreaFieldName="document.award.awardFandaRateComment.comments" action="${action}" textAreaLabel="${awardFandaRateCommentAttributes.comments.label}" />
 	            	 		</div>
 	            		</td>            
 	        		</tr>
@@ -250,7 +249,6 @@
 		    		<td class="infoline" colspan="10">
 		        	 	<div align="left">
 		        	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardBenefitsRateComment.comments" attributeEntry="${awardBenefitsRateCommentAttributes.comments}"/>
-		        	  	 	<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardBenefitsRateComment.comments" action="${action}" textAreaLabel="${awardBenefitsRateCommentAttributes.comments.label}" />
 		        	 	</div>
 		        	</td>            
 		    	</tr>

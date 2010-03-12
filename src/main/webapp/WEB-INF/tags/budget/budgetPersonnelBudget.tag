@@ -40,13 +40,13 @@
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.startDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].startDate" attributeEntry="${budgetLineItemAttributes.startDate}" datePicker="true" readOnly="true"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].startDate" attributeEntry="${budgetLineItemAttributes.startDate}"  readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budget.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].underrecoveryAmount}"/></div></td>
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.endDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}" datePicker="true" readOnly="true"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}"  readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costSharingAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budget.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costSharingAmount}"/></div></td>
     	</tr>
@@ -203,9 +203,9 @@
 	        				<table cellpadding=0 cellspacing=0 summary="">
 					        	<tr>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.startDate}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].startDate" attributeEntry="${budgetPersonnelDetailsAttributes.startDate}" datePicker="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].startDate" attributeEntry="${budgetPersonnelDetailsAttributes.startDate}" /></div></td>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.endDate}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].endDate" attributeEntry="${budgetPersonnelDetailsAttributes.endDate}" datePicker="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].endDate" attributeEntry="${budgetPersonnelDetailsAttributes.endDate}" /></div></td>
 					        	</tr>
 					        	<tr>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.salaryRequested}" noColon="true" /></div></th>

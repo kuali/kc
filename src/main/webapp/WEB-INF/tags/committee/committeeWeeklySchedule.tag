@@ -53,7 +53,7 @@
 	    Ending on
 	    
 	    <kul:htmlControlAttribute property="committeeHelper.scheduleData.weeklySchedule.scheduleEndDate" 
-	                								datePicker="true" attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
+	                								 attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
 	    </span>                        
     </div>
 <%-- END Weekly --%>

@@ -37,7 +37,7 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private HtmlPage personnelPage;
     
     private static final String PRINCIPAL_INVESTIGATOR_NAME = "Nicholas Majors";
-    private static final String PERSONNEL_TAB_PAGE = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
+    private static final String PERSONNEL_TAB_PAGE = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel";
     private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
     private static final String CO_INVESTIGATOR_PERSON_ID = "10000000004";

@@ -31,6 +31,7 @@
 </c:if>
 <kul:fieldShowLookupIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
 <kul:fieldShowDirectInquiryIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
+<kul:fieldShowExpandedTextareaIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
 <c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
 <kul:fieldShowHelpIcon isReadOnly="${isReadOnly}" field="${field}" />
 </c:if>

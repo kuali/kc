@@ -15,8 +15,8 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="keyMatch" required="true"%>
-<%@ attribute name="auditMatch" required="false"%>
+<%@ attribute name="keyMatch" required="true" description="A concatenated String with properties to match error keys with, each seperated by a comma." %>
+<%@ attribute name="auditMatch" required="false" description="Audit information which errors should be matched against if no errors were matched by keyMatch." %>
 
 <c:set var="hasErrors" value="false" scope="request" />
 

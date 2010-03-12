@@ -102,7 +102,7 @@
 					<%-- removed for 3219 --%>
 					<%--
 					<c:if test="${ KualiForm.hasReturnableRow }" >
-						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
+						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults" alt="Return selected results" title="Return selected results"/>
 					</c:if>
 					--%>
 					

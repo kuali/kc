@@ -38,7 +38,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.closeoutDate}" scope="col" />
 				<td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].closeoutDate" attributeEntry="${awardAttributes.closeoutDate}" datePicker="true"  />
+                		<kul:htmlControlAttribute property="document.awardList[0].closeoutDate" attributeEntry="${awardAttributes.closeoutDate}" />
 					</div>
 				</td>
         	</tr>
@@ -67,12 +67,12 @@
 				</td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="awardCloseoutBean.newAwardCloseout.dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="awardCloseoutBean.newAwardCloseout.dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
                 	</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="awardCloseoutBean.newAwardCloseout.finalSubmissionDate" attributeEntry="${awardCloseoutAttributes.finalSubmissionDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="awardCloseoutBean.newAwardCloseout.finalSubmissionDate" attributeEntry="${awardCloseoutAttributes.finalSubmissionDate}" />
                 	</div>
 				</td>                
 				<td class="infoline">
@@ -100,7 +100,7 @@
 					<div align="center">																		
 						<c:choose>
 							<c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
-								<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" datePicker="true" />
+								<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
 							</c:when>
 							<c:otherwise>
 								<c:choose>
@@ -117,7 +117,7 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].finalSubmissionDate" attributeEntry="${awardCloseoutAttributes.finalSubmissionDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].finalSubmissionDate" attributeEntry="${awardCloseoutAttributes.finalSubmissionDate}" />
 					</div>
 				  </td>                  
 				  <td class="infoline">

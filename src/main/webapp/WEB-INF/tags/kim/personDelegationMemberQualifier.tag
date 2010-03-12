@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ tag body-content="empty" %>
-<%@ attribute name="delegationMemberIdx" required="true" %>
+<%@ attribute name="delegationMemberIdx" required="true" description="The index of the delegation member information on the IdentityManagementPersonDocument to display qualifiers for." %>
 
 <c:set var="delegationMember" value="${KualiForm.document.delegationMembers[delegationMemberIdx]}"/>
 <c:set var="delegationMemberAttributes" value="${DataDictionary.RoleDocumentDelegationMember.attributes}" />

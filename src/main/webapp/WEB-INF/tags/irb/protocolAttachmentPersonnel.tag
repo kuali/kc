@@ -129,7 +129,6 @@
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentPersonnel.description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}"/>
-	                		<kul:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentPersonnel.description" action="${action}" textAreaLabel="${protocolAttachmentPersonnelAttributes.description.label}" />
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">

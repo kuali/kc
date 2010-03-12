@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="isLookup" required="true" description="(laran) Is the view a lookup? Not sure exactly why it's important." %>
+<%@ attribute name="isLookup" required="true" description="Whether the default label is for a field on a lookup or not." %>
 <%@ attribute name="isRequired" required="true" description="Is the field a required field?" %>
 <%@ attribute name="isReadOnly" required="true" description="Is the field read only?" %>
 <%@ attribute name="cellWidth" required="true" description="How wide should the label cell be?" %>

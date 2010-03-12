@@ -53,7 +53,7 @@
 				</td>				                
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.dueDate" attributeEntry="${awardPaymentScheduleAttributes.dueDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.dueDate" attributeEntry="${awardPaymentScheduleAttributes.dueDate}" />
                 	</div>
 				</td>
 				<td align="left" valign="middle" class="infoline">
@@ -68,7 +68,7 @@
 				</td>
 				<td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" />
                 	</div>
 				</td>                
                 <td align="left" valign="middle" class="infoline">
@@ -119,7 +119,7 @@
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">

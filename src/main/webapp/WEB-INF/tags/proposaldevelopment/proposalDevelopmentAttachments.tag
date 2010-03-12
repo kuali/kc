@@ -94,13 +94,11 @@ internal attachements.  We are just going to loop through the narratives and see
 	                <td align="left" valign="middle">
 	                	<c:set var="textAreaFieldName" value="newNarrative.comments" />
 	                	<kul:htmlControlAttribute property="newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
-	                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.comments.label}" />
 					</td>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" /></div></th>
 	                <td align="left" valign="middle">
 	                	<c:set var="textAreaFieldName" value="newNarrative.moduleTitle" />
 	                	<kul:htmlControlAttribute property="newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-	                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 					</td>
 	          	</tr>
 	          	<tr>
@@ -188,13 +186,11 @@ internal attachements.  We are just going to loop through the narratives and see
 			                <td align="left" valign="middle">
 			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].comments" attributeEntry="${narrativeAttributes.comments}" />
 			                	<c:set var="textAreaFieldName" value="document.developmentProposalList[0].narrative[${status.index}].comments" />
-			                	<kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" /></div></th>
 			                <td align="left" valign="middle">
 			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
 			                	<c:set var="textAreaFieldName" value="document.developmentProposalList[0].narrative[${status.index}].moduleTitle" />
-			                	<kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          	</tr>
 			          	<tr>
