@@ -36,6 +36,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEvent;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KeywordsService;
@@ -43,6 +45,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -72,12 +75,20 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      * @return mapping forward
      * @throws Exception
      */
-    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        if (applyRules(new InstitutionalProposalNoteAddEvent(Constants.EMPTY_STRING, ((InstitutionalProposalForm) form)
+                .getDocument(), ((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean()
+                .getNewInstitutionalProposalNotepad(), ErrorType.HARDERROR))) {
+            institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
+    private boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
+
     /**
      * This method is used to update notedPad values
      * 
