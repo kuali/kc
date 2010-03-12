@@ -68,21 +68,21 @@
 				</td>
                 <td align="left" valign="middle" class="infoline">
                     <nobr>
-                	<div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true"/>
+                	<div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" />
                     </nobr>
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                     <nobr>
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" />
                     </nobr>
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
                 	<nobr>
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" />
                     </nobr>
                     </div>
                 </td>
@@ -99,7 +99,6 @@
                 <div align="center">
                     <nobr>
                 	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" />
                     </nobr>
                 </div>
                 </td>
@@ -132,13 +131,13 @@
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}"  /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}"  /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}"  /></div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
@@ -175,7 +174,6 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" readOnly="${readOnly}"/>
 	                </div>
 	                </td>
 					<td>

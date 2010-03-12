@@ -59,12 +59,10 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeDescription}" /></div></th>
                 <td>
                     <kra:kraControlAttribute property="document.committeeList[0].committeeDescription" attributeEntry="${committeeAttributes.committeeDescription}" />
-                    <kul:expandedTextArea textAreaFieldName="document.committeeList[0].committeeDescription" action="${action}" textAreaLabel="${committeeAttributes.committeeDescription.label}" readOnly="${readOnly}"/>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.scheduleDescription}" /></div></th>
                 <td align="left" valign="middle">
                 	<kra:kraControlAttribute property="document.committeeList[0].scheduleDescription" attributeEntry="${committeeAttributes.scheduleDescription}" />
-                    <kul:expandedTextArea textAreaFieldName="document.committeeList[0].scheduleDescription" action="${action}" textAreaLabel="${committeeAttributes.scheduleDescription.label}" readOnly="${readOnly}"/>
                 </td>
             </tr>
             

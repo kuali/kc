@@ -66,17 +66,17 @@
 				</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
-                	<div align="center"><kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" datePicker="true"/>
+                	<div align="center"><kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" />
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" />
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" />
                </div>
                 </td>
                 
@@ -88,7 +88,6 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
                 </div>
                 </td>
 				<td class="infoline">
@@ -120,13 +119,13 @@
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" /></div>
 	                </td>
  
                 <td align="left" valign="middle" class="infoline">
@@ -139,8 +138,6 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
-                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
-	                
 	                </div>
 	                </td>
 					<td>

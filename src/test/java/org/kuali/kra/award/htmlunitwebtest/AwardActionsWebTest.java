@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This is the integration test for Award Actions Page.
  */
 public class AwardActionsWebTest extends AwardWebTestBase {
-protected static final String ACTIONS_LINK_NAME = "awardActions.x";
+protected static final String ACTIONS_LINK_NAME = "awardActions";
     
     protected HtmlPage awardActionsPage; 
     

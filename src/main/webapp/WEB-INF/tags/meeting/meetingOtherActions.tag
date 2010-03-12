@@ -41,7 +41,6 @@
 	            <td align="left" valign="middle" class="infoline" width="65%">
 	               	<div align="left">
 	               	    <kul:htmlControlAttribute property="meetingHelper.newOtherAction.itemDesctiption" attributeEntry="${commScheduleActItemAttributes.itemDesctiption}" readOnly="false" />
-                        <kul:expandedTextArea textAreaFieldName="meetingHelper.newOtherAction.itemDesctiption" action="meetingManagement" textAreaLabel="${commScheduleActItemAttributes.itemDesctiption.label}" readOnly="false" />
 	               	</div>
 	            </td>
 	

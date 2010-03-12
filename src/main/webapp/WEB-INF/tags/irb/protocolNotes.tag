@@ -56,8 +56,6 @@
 		            <td width="1000" class="infoline">
 		            	<div align="left">
 	            	    	<kul:htmlControlAttribute property="notepadHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"/>
-	            	    	<kul:expandedTextArea textAreaFieldName="notepadHelper.newProtocolNotepad.comments" action="protocolHome" textAreaLabel="${protocolNotesAttributes.comments.label}" />
-	            	    	
 	            	  	</div>
 		            </td>
 		            <td class="infoline">

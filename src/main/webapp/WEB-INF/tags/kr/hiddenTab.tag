@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="forceOpen" required="true" %>
+<%@ attribute name="forceOpen" required="true" description="Whether the hidden tab should be considered open or not." %>
 
 
 <%-- maintain tabstate --%>

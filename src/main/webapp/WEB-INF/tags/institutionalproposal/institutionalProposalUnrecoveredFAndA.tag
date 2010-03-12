@@ -156,7 +156,6 @@
             <td class="infoline">
                 <div align="left">
                     <kul:htmlControlAttribute property="document.institutionalProposalList[0].unrecoveredFandAComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
-                    <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].unrecoveredFandAComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
                 </div>
             </td>
         </table>

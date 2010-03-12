@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="methodToCall" required="true"%>
+<%@ attribute name="methodToCall" required="true" description="A name of the methodToCall for this invisibly rendered button (typically used for the default action)." %>
 
 <c:set var="methodToCallParam" value="methodToCall.${methodToCall}" />
 

@@ -65,7 +65,6 @@
                             <td style="border:none;">
 
 								<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
-                                <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" readOnly="${readOnly}"/>
                             </td>
                         </tr>
                     </table>
@@ -107,10 +106,10 @@
                         <kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" />
                     </td>
                     <td class="infoline" style="text-align:center;">
-						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}" datePicker="true" />
+						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}"  />
                     </td>
                     <td class="infoline" style="text-align:center;">
-                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}" datePicker="true" />
+                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}"  />
                     </td>
                     <td class="infoline" rowspan="2" style="text-align:center;">
                         <div align=center>
@@ -128,7 +127,6 @@
                             <tr>
                                 <td style="border:none; background:none;">
                                 	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" />
-                                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName1}" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" />
                                 </td>
                             </tr>
 

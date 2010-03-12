@@ -64,7 +64,6 @@
                     <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolReOpenEnrollmentRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        <kul:expandedTextArea textAreaFieldName="${textReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

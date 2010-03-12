@@ -38,7 +38,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.approvalDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.approvalDate" attributeEntry="${attributes.approvalDate}"  />
                         </nobr>
                     </td>
                 </tr>
@@ -54,7 +54,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textGrantExemptionComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -69,7 +68,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolGrantExemptionBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>

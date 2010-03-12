@@ -14,8 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="includeDocumentHeaderFields" required="false" %>
-<%@ attribute name="includeEditMode" required="false" %>
+<%@ attribute name="includeDocumentHeaderFields" required="false" description="Whether to include the document number as a hidden field." %>
+<%@ attribute name="includeEditMode" required="false" description="Whether to include the current edit modes as hidden fields." %>
 
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />

@@ -48,9 +48,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
 //public abstract class CommitteeWebTestBase extends IrbWebTestBase {
     
-    protected static final String COMMITTEE_LINK_NAME = "committee.x";
-    protected static final String SCHEDULE_LINK_NAME = "committeeSchedule.x";
-    protected static final String MEMBERS_LINK_NAME = "committeeMembership.x";
+    protected static final String COMMITTEE_LINK_NAME = "committee";
+    protected static final String SCHEDULE_LINK_NAME = "committeeSchedule";
+    protected static final String MEMBERS_LINK_NAME = "committeeMembership";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String COMMITTEE_TYPE_CODE_ID = "document.committeeList[0].committeeTypeCode";

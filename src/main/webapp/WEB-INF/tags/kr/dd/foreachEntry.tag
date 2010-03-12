@@ -17,8 +17,8 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="map" required="true" type="java.util.Map" %>
-<%@ attribute name="valueVar" required="true" rtexprvalue="false" %>
+<%@ attribute name="map" required="true" type="java.util.Map" description="The Map to iterate they keys over." %>
+<%@ attribute name="valueVar" required="true" rtexprvalue="false" description="The name of the variable to put the values in the map attribute into, as the Map is iterated over." %>
 <%@ variable name-from-attribute="valueVar" alias="valueHolder" scope="NESTED" %>
 
 <c:forEach items='${map}' var='mapEntry' >

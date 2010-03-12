@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="afflnIdx" required="true" %>
+<%@ attribute name="afflnIdx" required="true" description="In the array of affiliations on the IdentityManagementPersonDocument, the index of the affiliation to display employee information records for." %>
 <c:set var="docEmploymentInfoAttributes" value="${DataDictionary.PersonDocumentEmploymentInfo.attributes}" />
 
 <kul:subtab lookedUpCollectionName="empInfo" width="${tableWidth}" subTabTitle="Employment Information">      

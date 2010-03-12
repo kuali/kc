@@ -549,16 +549,16 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
         
-        HtmlImageInput selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;false;::).x", null, null);
+        HtmlImageInput selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;false;::)", null, null);
         if (selectAllBtn == null) {
-            selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::).x", null, null);
+            selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::)", null, null);
         }
         HtmlPage selectedPage = (HtmlPage) selectAllBtn.click();
         setCheckboxes(selectedPage);
 
-        HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;false;::).x", null, null);
+        HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;false;::)", null, null);
         if (returnAllBtn == null) {
-            returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;true;::).x", null, null);            
+            returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;true;::)", null, null);            
         }
         HtmlPage returnPage = (HtmlPage) returnAllBtn.click();
 
@@ -887,12 +887,12 @@ public abstract class KraWebTestBase extends KraTestBase {
 
         HtmlPage textPage = clickOn(btn);
 
-        assertEquals(getFieldValue(textPage, textAreaId), text1);
+        assertEquals(text1, getFieldValue(textPage, textAreaId));
 
         setFieldValue(textPage, textAreaId, text2);
         HtmlPage returnPage = clickOn(textPage, "return");
 
-        assertEquals(getFieldValue(returnPage, textAreaId), text2);
+        assertEquals(text2, getFieldValue(returnPage, textAreaId));
 
         webClient.setJavaScriptEnabled(javascriptEnabled);
 

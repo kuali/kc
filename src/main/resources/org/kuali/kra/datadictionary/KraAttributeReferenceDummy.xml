@@ -31,6 +31,9 @@
   </bean>
 
 <!-- Attribute Definitions -->
+  <bean id="TextareaControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.TextareaControlDefinition"
+		abstract="true" p:expandedTextArea="true" />
 
 
   <bean id="KraAttributeReferenceDummy-description" parent="KraAttributeReferenceDummy-description-parentBean" />

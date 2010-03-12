@@ -15,15 +15,15 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="keyMatch" required="false"%>
+<%@ attribute name="keyMatch" required="false" description="A concatenated String, splittable by a comma, of the properties which should have their errors displayed by this tag."%>
 <%@ attribute name="displayRemaining" required="false"
               description="If the keyMatch attribute is not given,
               display any errors that have not been displayed already.
               This is a failsafe for incorrect error paths, and helps with maintenance.
               It can only be used with a KualiForm." %>
-<%@ attribute name="errorTitle" required="false"%>
-<%@ attribute name="warningTitle" required="false"%>
-<%@ attribute name="infoTitle" required="false"%>
+<%@ attribute name="errorTitle" required="false" description="The text to display above the rendered errors." %>
+<%@ attribute name="warningTitle" required="false" description="The text to display above the rendered warnings." %>
+<%@ attribute name="infoTitle" required="false" description="The text to display above the rendered information messages." %>
 
 <%-- set generic error title if one was not given --%>
 <c:if test="${empty errorTitle}">

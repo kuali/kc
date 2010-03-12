@@ -39,7 +39,7 @@
                     <th width="30%"><div align="right">Date:</div></th>
                     <td width="70%">
                 	     <kul:htmlControlAttribute property="committeeHelper.scheduleData.scheduleStartDate" 
-	                	                           datePicker="true" attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
+	                	                            attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
                     </td>
                 </tr>  
 
@@ -159,13 +159,13 @@
 
                         <td valign="middle" class="nobord" style="background-color:none">From<br>
                           <kul:htmlControlAttribute property="committeeHelper.scheduleData.filterStartDate" 
-	                								datePicker="true"
+	                								
 	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
 	                								readOnly="false" />
 	                								
                         <td valign="middle" class="nobord" style="background-color:none">To</span><br>
                           <kul:htmlControlAttribute property="committeeHelper.scheduleData.filerEndDate" 
-	                								datePicker="true"
+	                								
 	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
 	                								readOnly="false" />
 	                								                        
@@ -206,7 +206,7 @@
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
 	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].scheduledDate" 
-	                								datePicker="true"	attributeEntry="${committeeScheduleAttributes.scheduledDate}"  /> </div>
+	                									attributeEntry="${committeeScheduleAttributes.scheduledDate}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
@@ -218,7 +218,7 @@
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
 	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].protocolSubDeadline" 
-	                									datePicker="true"	attributeEntry="${committeeScheduleAttributes.protocolSubDeadline}"  /> </div>
+	                										attributeEntry="${committeeScheduleAttributes.protocolSubDeadline}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">

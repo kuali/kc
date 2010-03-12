@@ -14,10 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="boClassName" required="true" %>
-<%@ attribute name="inquiryParameters" required="false" %>
-<%@ attribute name="anchor" required="false" %>
-<%@ attribute name="tabindexOverride" required="false" %>
+<%@ attribute name="boClassName" required="true" description="The class of the business object to create the inquiry for." %>
+<%@ attribute name="inquiryParameters" required="false" description="The keys of the business object to display." %>
+<%@ attribute name="anchor" required="false" description="The HTML named anchor of the button rendered." %>
+<%@ attribute name="tabindexOverride" required="false" description="The overridden tab index of the button rendered." %>
 
 <c:choose>
   <c:when test="${!empty tabindexOverride}">

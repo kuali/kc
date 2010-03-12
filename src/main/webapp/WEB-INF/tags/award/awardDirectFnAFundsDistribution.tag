@@ -63,12 +63,12 @@
             	<th align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
+            	  	 	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" />
             	 	</div>
             	</td>
 	            <td class="infoline">
 	              	<div align="center">
-	            		<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
+	            		<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" />
 	              	</div>
 	            </td>
 	            <td class="infoline">
@@ -96,12 +96,12 @@
 					</th>
 					<td width="17%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" />
 					</div>
 					</td>
 	                <td width="17%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" />
 					</div>
 	                </td>
 	                <td width="20%" valign="right">                	

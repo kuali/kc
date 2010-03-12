@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class loads the Award SpecialReview tab page
  */
 public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
-    protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms.x";
+    protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms";
     private static final Log LOG = LogFactory.getLog(AwardPaymentsAndTermsWebTest.class);
     
     protected HtmlPage paymentReportsAndTermsPage;

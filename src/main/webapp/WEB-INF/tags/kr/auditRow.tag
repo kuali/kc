@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="tabTitle" required="true" %>
-<%@ attribute name="defaultOpen" required="true" %>
-<%@ attribute name="totalErrors" required="true" %>
-<%@ attribute name="category" required="true" %>
+<%@ attribute name="tabTitle" required="true" description="The title of the tab the group of audit errors are being displayed on." %>
+<%@ attribute name="defaultOpen" required="true" description="Whether the tab the group of audit errors is displayed on should be rendered as open as an initial state." %>
+<%@ attribute name="totalErrors" required="true" description="The total number of audit errors the tab will be displaying." %>
+<%@ attribute name="category" required="true" description="The category of the cluster of audit errors being displayed, here used to create a unique tab key." %>
 
 <c:set var="tabKeyName" value="${tabTitle}${category}" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabKeyName)}"/>

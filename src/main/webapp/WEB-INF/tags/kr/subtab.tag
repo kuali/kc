@@ -23,11 +23,11 @@
               description="The show/hide button alt text and title (must not contain HTML tags or quotes)." %>
 <%@ attribute name="noShowHideButton" required="false"
               description="Boolean to hide the show/hide button (but the row is displayed anyway)." %>
-<%@ attribute name="highlightTab" required="false" %>
-<%@ attribute name="boClassName" required="false" %>
+<%@ attribute name="highlightTab" required="false" description="Whether the tab should be highlighted with the orange asterisk icon." %>
+<%@ attribute name="boClassName" required="false" description="If present, renders a multiple value lookup icon at the top of the sub-tab collection." %>
 <%@ attribute name="lookedUpBODisplayName" required="false" description="this value is the human readable name of the BO being looked up" %>
 <%@ attribute name="lookedUpCollectionName" required="false" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
-<%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
+<%@ attribute name="useCurrentTabIndexAsKey" required="false" description="Whether to use the current tab index as the current tab key, or (if this is false) generate a new one." %>
 
 <table class="datatable" cellpadding="0" cellspacing="0" align="center"
        style="width: ${width}; text-align: left; margin-left: auto; margin-right: auto;">

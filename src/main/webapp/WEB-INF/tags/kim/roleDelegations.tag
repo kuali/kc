@@ -57,7 +57,7 @@
                 <div align="center">
 					<!-- Combo of role members -->
 					<c:if test="${KualiForm.delegationMemberRoleMemberId ne ''}" >
-						<c:set var="jumpToRoleMemberAnchorName" value="methodToCall.jumpToRoleMember.dmrmi${KualiForm.delegationMemberRoleMemberId}.x" />
+						<c:set var="jumpToRoleMemberAnchorName" value="methodToCall.jumpToRoleMember.dmrmi${KualiForm.delegationMemberRoleMemberId}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, jumpToRoleMemberAnchorName)}
 						<input type="submit" tabindex="${tabindex}" name="${jumpToRoleMemberAnchorName}" value="${KualiForm.delegationMember.roleMemberNamespaceCode}&nbsp;${KualiForm.delegationMember.roleMemberName}"/>
 					</c:if>
@@ -148,7 +148,7 @@
 				</th>
 	            <td align="left" valign="middle">
 	               	<div align="center">
-						<c:set var="jumpToRoleMemberAnchorName" value="methodToCall.jumpToRoleMember.dmrmi${KualiForm.document.delegationMembers[statusMember.index].roleMemberId}.x" />
+						<c:set var="jumpToRoleMemberAnchorName" value="methodToCall.jumpToRoleMember.dmrmi${KualiForm.document.delegationMembers[statusMember.index].roleMemberId}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, jumpToRoleMemberAnchorName)}
 						<input type="submit" tabindex="${tabindex}" name="${jumpToRoleMemberAnchorName}" value="${KualiForm.document.delegationMembers[statusMember.index].roleMemberNamespaceCode}&nbsp;${KualiForm.document.delegationMembers[statusMember.index].roleMemberName}"/>
 					</div>

@@ -59,9 +59,6 @@
                             <c:when test="${empty bean.newComment.protocolContingencyCode}">
                                 <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
                                                           attributeEntry="${minutesAttributes.minuteEntry}" />
-                               <kul:expandedTextArea textAreaFieldName="${property}.newComment.minuteEntry" 
-                                                     action="${action}"
-                                                     textAreaLabel="${minutesAttributes.minuteEntry.label}" />
                             </c:when>
                             <c:otherwise>
                                 ${bean.newComment.minuteEntry}
@@ -94,15 +91,7 @@
                                 </td>
                                 <td>
                                     <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
-                                                              attributeEntry="${minutesAttributes.minuteEntry}"
-                                                              readOnly="${readOnly}" />
-                                    <c:choose>
-	                            		<c:when test="${!readOnly}">
-                                    		<kul:expandedTextArea textAreaFieldName="${property}.comments[${status.index}].minuteEntry"
-                                                          action="${action}"
-                                                          textAreaLabel="${minutesAttributes.minuteEntry.label}" />
-                                        </c:when>
-                                   	</c:choose>
+                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
                                 </td>
                             </c:when>
                             <c:otherwise>

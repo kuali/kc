@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"%>
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field to render radio button options for." %>
 
 ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 <c:forEach items="${field.fieldValidValues}" var="radio">

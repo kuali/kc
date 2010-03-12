@@ -240,31 +240,22 @@ function resizeTheRouteLogFrame() {
   window.open(baseUrl+"/kr/directInquiry.do?"+queryString, "_blank", "width=640, height=600, scrollbars=yes");
 }
  
-function textAreaPop(textAreaName, htmlFormAction, textAreaLabel, docFormKey, textAreaReadOnly) {
+function textAreaPop(textAreaName, htmlFormAction, textAreaLabel, docFormKey, textAreaReadOnly, textAreaMaxLength) {
 	
 	if (textAreaReadOnly === null || textAreaReadOnly === undefined) {
 		textAreaReadOnly = false;
 	}
 	
+	if (textAreaMaxLength === null || textAreaMaxLength === undefined) {
+		textAreaMaxLength = "";
+	}
+	
 	var documentWebScope="session"
-	url=window.location.href
-	pathname=window.location.pathname
-	idx1=url.indexOf(pathname);
-	idx2=url.indexOf("/",idx1+1);
-	baseUrl=url.substr(0,idx2)
-	window.open(baseUrl+"/updateTextArea.do?textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&textAreaReadOnly="+textAreaReadOnly, "_blank", "width=650, height=650, scrollbars=yes");
+	window.open("updateTextArea.do?textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&textAreaReadOnly="+textAreaReadOnly+"&textAreaMaxLength="+textAreaMaxLength, "_blank", "width=650, height=650, scrollbars=yes");
 }
 
-var textAreaFieldName;
-function setTextArea() {
-  passData=document.location.search.substring(1);
-  var idx=passData.indexOf("&textAreaFieldName=");
-  var idx2=passData.indexOf("&htmlFormAction=");
-  textAreaFieldName=passData.substring(idx+19,idx2);
-  var ta = window.opener.document.getElementsByName(textAreaFieldName)[0];
-  text = ta.value;
-  document.getElementsByName(textAreaFieldName)[0].value = text;
-  
+function setTextArea(textAreaName) {
+  document.getElementById(textAreaName).value = window.opener.document.getElementById(textAreaName).value; 
 }
 
 function textLimit(taElement, maxlen) 
@@ -276,8 +267,8 @@ function textLimit(taElement, maxlen)
     } 
 } 
 
-function postValueToParentWindow() {
-  opener.document.getElementsByName(textAreaFieldName)[0].value = document.getElementsByName(textAreaFieldName)[0].value;
+function postValueToParentWindow(textAreaName) {
+  window.opener.document.getElementById(textAreaName).value = document.getElementById(textAreaName).value; 
   self.close();
 }
 

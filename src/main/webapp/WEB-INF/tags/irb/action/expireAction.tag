@@ -39,7 +39,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolExpireBean.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textExpireComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -54,7 +53,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpireBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpireBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>

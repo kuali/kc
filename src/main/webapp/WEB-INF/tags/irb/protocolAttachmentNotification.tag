@@ -78,7 +78,7 @@
 				</th>
          		<td align="left" valign="middle">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" />
 	            	</div>
 				</td>
          	</tr>
@@ -91,7 +91,6 @@
          		<td align="left" valign="middle">
                 	<div align="left">
                 		<kul:htmlControlAttribute property="attachmentsHelper.newAttachmentNotification.comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}"/>
-                		<kul:expandedTextArea textAreaFieldName="attachmentsHelper.newAttachmentNotification.comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}" />
 	            	</div>
 				</td>
          	</tr>
@@ -136,7 +135,7 @@
 					</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentNotifications[${itrStatus.index}].actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" datePicker="true" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentNotifications[${itrStatus.index}].actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}"  readOnly="true"/>
 		            	</div>
 					</td>
 					<td rowspan="2">

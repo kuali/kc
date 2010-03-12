@@ -15,32 +15,32 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="docTitle" required="true" %>
-<%@ attribute name="transactionalDocument" required="true" %>
-<%@ attribute name="showDocumentInfo" required="false" %>
-<%@ attribute name="headerMenuBar" required="false" %>
-<%@ attribute name="headerTitle" required="false" %>
-<%@ attribute name="htmlFormAction" required="false" %>
-<%@ attribute name="renderMultipart" required="false" %>
-<%@ attribute name="showTabButtons" required="false" %>
-<%@ attribute name="extraTopButtons" required="false" type="java.util.List" %>
-<%@ attribute name="headerDispatch" required="false" %>
+<%@ attribute name="docTitle" required="true" description="The title to display for the page." %>
+<%@ attribute name="transactionalDocument" required="true" description="The name of the document type this document page is rendering." %>
+<%@ attribute name="showDocumentInfo" required="false" description="Boolean value of whether to display the Document Type name and document type help on the page." %>
+<%@ attribute name="headerMenuBar" required="false" description="HTML text for menu bar to display at the top of the page." %>
+<%@ attribute name="headerTitle" required="false" description="The title of this page which will be displayed in the browser's header bar.  If left blank, docTitle will be used instead." %>
+<%@ attribute name="htmlFormAction" required="false" description="The URL that the HTML form rendered on this page will be posted to." %>
+<%@ attribute name="renderMultipart" required="false" description="Boolean value of whether the HTML form rendred on this page will be encoded to accept multipart - ie, uploaded attachment - input." %>
+<%@ attribute name="showTabButtons" required="false" description="Whether to show the show/hide all tabs buttons." %>
+<%@ attribute name="extraTopButtons" required="false" type="java.util.List" description="A List of org.kuali.rice.kns.web.ui.ExtraButton objects to display at the top of the page." %>
+<%@ attribute name="headerDispatch" required="false" description="Overrides the header navigation tab buttons to go directly to the action given here." %>
 <%@ attribute name="lookup" required="false"
 	description="indicates whether the lookup page specific page should be shown"%>
 
 <%-- for non-lookup pages --%>
-<%@ attribute name="headerTabActive" required="false" %>
+<%@ attribute name="headerTabActive" required="false" description="The name of the active header tab, if header navigation is used." %>
 <%@ attribute name="feedbackKey" required="false"
 	description="application resources key that contains feedback contact address only used when lookup attribute is false"%>
-<%@ attribute name="defaultMethodToCall" required="false" %>
-<%@ attribute name="errorKey" required="false" %>
-<%@ attribute name="auditCount" required="false" %>
+<%@ attribute name="defaultMethodToCall" required="false" description="The name of default methodToCall on the action for this page." %>
+<%@ attribute name="errorKey" required="false" description="If present, this is the key which will be used to match errors that need to be rendered at the top of the page." %>
+<%@ attribute name="auditCount" required="false" description="The number of audit errors displayed on this page." %>
 <%@ attribute name="additionalScriptFiles" required="false"
-	type="java.util.List"%>
-<%@ attribute name="documentWebScope" required="false" %>
-<%@ attribute name="maintenanceDocument" required="false"%>
-<%@ attribute name="sessionDocument" required="false"%>
-<%@ attribute name="renderRequiredFieldsLabel" required = "false" %>
+	type="java.util.List" description="A List of JavaScript file names to have included on the page." %>
+<%@ attribute name="documentWebScope" required="false" description="The scope this page - which is hard coded to session, making this attribute somewhat useless." %>
+<%@ attribute name="maintenanceDocument" required="false" description="Boolean value of whether this page is rendering a maintenance document." %>
+<%@ attribute name="sessionDocument" required="false" description="Unused." %>
+<%@ attribute name="renderRequiredFieldsLabel" required = "false" description="Boolean value of whether to include a helpful note that the asterisk represents a required field - good for accessibility." %>
 
 
 <%-- Is the screen an inquiry? --%>
@@ -337,7 +337,7 @@
                                         <c:otherwise><dt></c:otherwise>
                                     </c:choose>
                                     <span class="tabright ${currentTab ? 'tabcurrent' : ''}">
-                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="true" />
+                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}"  alt="${headerTab.headerTabDisplayName}" disabled="true" />
                                     </span></dt>
                                 </c:forEach>
                             </c:when>
@@ -346,7 +346,7 @@
                                     <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" /> <!-- ${headerTab.headerTabNavigateTo}; ${headerTabActive}; ${currentTab} -->
                                     <c:choose><c:when test="${currentTab}"><dt class="licurrent"></c:when><c:otherwise><dt></c:otherwise></c:choose>
                                     <span class="tabright ${currentTab ? 'tabcurrent' : ''}">
-                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}"  />
+                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}"  />
                                     </span></dt>
                                 </c:forEach>
                             </c:otherwise>
