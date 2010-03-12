@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="auditCount" required="false" %>
+<%@ attribute name="auditCount" required="false" description="The number of audit errors displayed on the page or section including this tag." %>
 
 <c:if test="${empty auditCount}">
   <c:set var="auditCount" value="0" />

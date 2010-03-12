@@ -60,12 +60,12 @@
     	</th>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateInitial" attributeEntry="${institutionalProposalAttributes.requestedStartDateInitial}" datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateInitial" attributeEntry="${institutionalProposalAttributes.requestedStartDateInitial}" />
 			</div>
 		</td>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateTotal" attributeEntry="${institutionalProposalAttributes.requestedStartDateTotal}"datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedStartDateTotal" attributeEntry="${institutionalProposalAttributes.requestedStartDateTotal}"/>
 			</div>
 		</td>
   	</tr>
@@ -75,12 +75,12 @@
     	</th>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateInitial" attributeEntry="${institutionalProposalAttributes.requestedEndDateInitial}" datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateInitial" attributeEntry="${institutionalProposalAttributes.requestedEndDateInitial}" />
 			</div>
 		</td>
     	<td>
     		<div align="right">
-				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateTotal" attributeEntry="${institutionalProposalAttributes.requestedEndDateTotal}"datePicker="true"/>
+				<kul:htmlControlAttribute property="document.institutionalProposalList[0].requestedEndDateTotal" attributeEntry="${institutionalProposalAttributes.requestedEndDateTotal}"/>
 			</div>
 		</td>
   	</tr>

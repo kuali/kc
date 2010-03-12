@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ tag body-content="empty" %>
 
-<%@ attribute name="property" required="true" %>
+<%@ attribute name="property" required="true" description="A control which renders a property as both a hidden field and as a property." %>
 
 <%-- This tag is from textAttribute.tag -r 1.3's isLabel attribute.
 When I refactored testAttribute.tag and textareaAttribute.tag into htmlControlAttribute.tag

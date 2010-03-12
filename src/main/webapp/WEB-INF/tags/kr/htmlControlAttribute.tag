@@ -14,15 +14,16 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="property" required="true" %>
-<%@ attribute name="attributeEntry" required="true" type="java.util.Map" %>
-<%@ attribute name="onblur" required="false" %>
-<%@ attribute name="readOnly" required="false" %>
-<%@ attribute name="datePicker" required="false" %>
-<%@ attribute name="disabled" required="false" %>
-<%@ attribute name="onchange" required="false" %>
-<%@ attribute name="onclick" required="false" %>
-<%@ attribute name="tabindexOverride" required="false" %>
+<%@ attribute name="property" required="true" description="The property being rendered." %>
+<%@ attribute name="attributeEntry" required="true" type="java.util.Map" description="The Map of data dictionary attributes about the property to render a control for." %>
+<%@ attribute name="onblur" required="false" description="If set, this will be used as the onblur method on the control." %>
+<%@ attribute name="readOnly" required="false" description="Whether this control should be rendered as read only (ie, not a control but rather text) or not." %>
+<%@ attribute name="datePicker" required="false" description="Whether this control should be rendered with a date picker." %>
+<%@ attribute name="expandedTextArea" required="false" description="whether to render an expanded textarea control.  Only applicable for textareas. "%>
+<%@ attribute name="disabled" required="false" description="Whether this control should be rendered as disabled or not." %>
+<%@ attribute name="onchange" required="false" description="If set, this will be used as the onchange method on the control." %>
+<%@ attribute name="onclick" required="false" description="If set, this will be used as the onclick method on the control." %>
+<%@ attribute name="tabindexOverride" required="false" description="If set, this will be used as the text index on the control." %>
 <%@ attribute name="readOnlyBody" required="false"
               description="when readOnly, use the tag body instead of a written hidden field.
               This allows mixing in module-specific inquiries." %>
@@ -44,9 +45,9 @@
 <%@ attribute name="accessibilityHint" required="false"
         description="Use this to attach further information to the title attribute of a field
         if present"%>
-<%@ attribute name="forceRequired" required="false" %>
-<%@ attribute name="kimTypeId" required="false" %>
-<!-- Do not remove session check in this tag file since it is used by other type of files (not MD or TD) -->
+<%@ attribute name="forceRequired" required="false" description="Whether this control should be rendered as required, no matter the information from the data dictionary about the required state of the attribute." %>
+<%@ attribute name="kimTypeId" required="false" description="If the rendered attribute is a KIM attribute, the ID of the type of that KIM attribute." %>
+<%-- Do not remove session check in this tag file since it is used by other type of files (not MD or TD) --%>
 <c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
 <c:if test="${empty readOnly}">
     <c:set var="readOnly" value="false"/>
@@ -86,13 +87,6 @@
 
 <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 
-<%-- KC modification Start --%>
-<%--These multi-select attributes are control specific and really should be defined in the DataDictionary files as control attributes--%>
-<%@ attribute name="isMultiSelect" required="false" type="java.lang.Boolean"
-			  description="When (attributeEntry.control.select == true), this attribute specifies whether to use a multi-select style control."%>
-<%@ attribute name="multiSelectSize" required="false" type="java.lang.Integer"
-			  description="When (attributeEntry.control.select == true && isMultiSelect == true), this attribute specifies the size of the control and is required for multi-select types."%>
-<%-- KC modification End --%>
 
 <c:set var="disableField" value="false" />
 <c:if test="${disabled}">
@@ -266,23 +260,34 @@
                            styleClass="${styleClass}" />
     </c:when>
   </c:choose>
-  <!-- error icon -->
+  <%-- error icon --%>
   <c:if test="${hasErrors}">
 	 		<kul:fieldShowErrorIcon />
   </c:if>
-  <!-- datePicker icon -->
-  	<c:if test="${attributeEntry.control.text == true && datePicker==true}">
+  <%-- datePicker icon --%>
+  	<c:if test="${attributeEntry.control.text == true && (datePicker == true || (attributeEntry.control.datePicker == true && datePicker != false))}">
         <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;"
              title="Date selector" alt="Date selector"
              onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
              <script type="text/javascript">
+             	//<![CDATA[
              	Calendar.setup(
                           {
                             inputField : "${property}", // ID of the input field
                             ifFormat : "%m/%d/%Y", // the date format
                             button : "${property}_datepicker" // ID of the button
                           }
-                  );
+                );
+                //]]>
               </script>
     </c:if>
+</c:if>
+<%-- always display even when readOnly --%>
+<%-- expanded textarea icon --%>
+<c:if test="${attributeEntry.control.textarea == true && (expandedTextArea == true || (attributeEntry.control.expandedTextArea == true && expandedTextArea != false))}">
+	<%-- so that the JS can grab the value from the opener...got to be a better way to do this...--%>
+	<c:if test="${readOnly}">
+		<html:hidden property="${property}" write="false" styleId="${property}" />
+	</c:if>
+	<kul:expandedTextArea textAreaFieldName="${property}" action="${fn:substringBefore(fn:substring(requestScope['org.apache.struts.taglib.html.FORM'].action, 1, -1),'.do')}" textAreaLabel="${attributeEntry.label}" disabled="${disabled}" title="${attributeEntry.label}" readOnly="${readOnly}" maxLength="${attributeEntry.maxLength}"/>
 </c:if>

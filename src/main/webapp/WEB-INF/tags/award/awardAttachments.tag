@@ -88,7 +88,6 @@
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="awardAttachmentFormBean.newAttachment.description" attributeEntry="${awardAttachmentAttributes.description}"/>
-	                		<kul:expandedTextArea textAreaFieldName="awardAttachmentFormBean.newAttachment.description" action="${action}" textAreaLabel="${awardAttachmentAttributes.description.label}" />
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">

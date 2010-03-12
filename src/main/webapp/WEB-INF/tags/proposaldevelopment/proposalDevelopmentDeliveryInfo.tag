@@ -105,7 +105,6 @@
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].mailDescription" attributeEntry="${proposalDevelopmentAttributes.mailDescription}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.mailDescription.label}" />
                 </td>
             </tr>
         </table>

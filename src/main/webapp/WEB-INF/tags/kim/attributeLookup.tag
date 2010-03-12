@@ -14,9 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="attributeDefinitions" required="true" type="org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap" %>
-<%@ attribute name="pathPrefix" required="true" %>
-<%@ attribute name="attr" required="true" type="org.kuali.rice.kns.datadictionary.KimDataDictionaryAttributeDefinition" %>
+<%@ attribute name="attributeDefinitions" required="true" type="org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap" description="The map of KIM Attribute Definition names to data dictionary attribute definitions." %>
+<%@ attribute name="pathPrefix" required="true" description="The prefix of values that are returned.  For instance, if the pathPrefix is \"document\" and the lookup is on organizationCode, the lookup will populate document.organizationCode in the form." %>
+<%@ attribute name="attr" required="true" type="org.kuali.rice.kns.datadictionary.KimDataDictionaryAttributeDefinition" description="The data dictionary definition of the attribute this lookup will help populate." %>
      		         <%--  handling multiple lookup --%>
      		          <c:set var="fieldConversion" value=""/>
      		          <c:set var="params" value=""/>

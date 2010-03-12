@@ -49,8 +49,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
         )
 public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     
-    protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
-    protected static final String DISTRIBUTION_LINK_NAME = "distribution.x";
+    protected static final String CUSTOM_DATA_LINK_NAME = "customData";
+    protected static final String DISTRIBUTION_LINK_NAME = "distribution";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String DOCUMENT_STATUS_CODE = "document.institutionalProposal.statusCode";

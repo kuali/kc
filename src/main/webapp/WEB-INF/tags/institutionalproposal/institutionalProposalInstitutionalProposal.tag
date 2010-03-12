@@ -134,7 +134,6 @@
         		<tr>
             		<td style="border:none; width:100%;">
             			<kul:htmlControlAttribute property="document.institutionalProposalList[0].title" attributeEntry="${institutionalProposalAttributes.title}" />
-                    	<kul:expandedTextArea textAreaFieldName="document.institutionalProposal.title" action="institutionalProposalHome" textAreaLabel="${institutionalProposalAttributes.title.label}" />
         			</td>
             	</tr>
         	</table>
@@ -151,7 +150,6 @@
         <td class="infoline">
              <div align="left">
                  <kul:htmlControlAttribute property="document.institutionalProposalList[0].summaryComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
-                 <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].summaryComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
              </div>
         </td>
     </table>

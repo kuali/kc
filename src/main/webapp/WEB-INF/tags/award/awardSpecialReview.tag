@@ -71,17 +71,17 @@
 				</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
-                	<div align="center"><kul:htmlControlAttribute property="newSpecialReview.applicationDate" attributeEntry="${awardSpecialReviewAttributes.applicationDate}" datePicker="true"/>
+                	<div align="center"><kul:htmlControlAttribute property="newSpecialReview.applicationDate" attributeEntry="${awardSpecialReviewAttributes.applicationDate}" />
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newSpecialReview.approvalDate" attributeEntry="${awardSpecialReviewAttributes.approvalDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newSpecialReview.approvalDate" attributeEntry="${awardSpecialReviewAttributes.approvalDate}" />
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newSpecialReview.expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newSpecialReview.expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" />
                </div>
                 </td>
                 
@@ -96,7 +96,6 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                 	<kul:htmlControlAttribute property="newSpecialReview.comments" attributeEntry="${awardSpecialReviewAttributes.comments}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
                 </div>
                 </td>
 				<td class="infoline">
@@ -129,13 +128,13 @@
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].applicationDate" attributeEntry="${awardSpecialReviewAttributes.applicationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].applicationDate" attributeEntry="${awardSpecialReviewAttributes.applicationDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].approvalDate" attributeEntry="${awardSpecialReviewAttributes.approvalDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].approvalDate" attributeEntry="${awardSpecialReviewAttributes.approvalDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
@@ -169,8 +168,6 @@
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.award.specialReview[${status.index}].comments" attributeEntry="${awardSpecialReviewAttributes.comments}" />
-                        <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${awardSpecialReviewAttributes.comments.label}" />
-	                
 	                </div>
 	                </td>
 					<td>

@@ -38,7 +38,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.approvalDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.approvalDate" attributeEntry="${attributes.approvalDate}"  />
                         </nobr>
                     </td>
                 </tr>
@@ -53,7 +53,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.expirationDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.expirationDate" attributeEntry="${attributes.approvalDate}"  />
                         </nobr>
                     </td>
                 </tr>
@@ -69,7 +69,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textApproveComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -84,7 +83,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolApproveBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>

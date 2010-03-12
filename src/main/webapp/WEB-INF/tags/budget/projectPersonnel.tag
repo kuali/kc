@@ -118,7 +118,7 @@
               	</td>
               	<td>
               		<div align="center">
-						<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
+						<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}"  />
                   	</div>
                 </td>
               	<td>

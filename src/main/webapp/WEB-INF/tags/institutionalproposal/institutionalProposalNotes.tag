@@ -56,8 +56,6 @@
 	            <td width="1000" class="infoline">
 	            	<div align="left">
             	    	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.comments" attributeEntry="${institutionalProposalNotesAttributes.comments}"/>
-            	    	<kul:expandedTextArea textAreaFieldName="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.comments" action="institutionalProposalHome" textAreaLabel="${institutionalProposalNotesAttributes.comments.label}" />
-            	    	
             	  	</div>
 	            </td>
 	            <td class="infoline">

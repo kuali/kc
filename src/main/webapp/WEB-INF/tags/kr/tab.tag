@@ -15,35 +15,36 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="tabTitle" required="false" %>
-<%@ attribute name="spanForLongTabTitle" required="false" %>
-<%@ attribute name="tabDescription" required="false" %>
-<%@ attribute name="defaultOpen" required="true" %>
+<%@ attribute name="tabTitle" required="false" description="The label to render for the tab." %>
+<%@ attribute name="spanForLongTabTitle" required="false" description="If true, sets the CSS class for the title such that it will display over multiple columns" %>
+<%@ attribute name="tabDescription" required="false" description="An explanatory description which will be rendered on the tab." %>
+<%@ attribute name="defaultOpen" required="true" description="Whether the tab should default to rendering as open." %>
+<%@ attribute name="tabErrorKey" required="false" description="The property key this tab should display errors associated with." %>
 <%--KC MODIFICATION START--%>
-<%@ attribute name="tabErrorKey" required="false" description="The error path for errors whose message should be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
 <%@ attribute name="innerTabErrorKey" required="false" description="The error path for errors whose message should not be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
 <%--KC MODIFICATION END--%>
-<%@ attribute name="auditCluster" required="false" %>
-<%@ attribute name="tabAuditKey" required="false" %>
-<%@ attribute name="tabItemCount" required="false" %>
-<%@ attribute name="leftSideHtmlProperty" required="false" %>
-<%@ attribute name="leftSideHtmlAttribute" required="false" type="java.util.Map"%>
-<%@ attribute name="leftSideHtmlDisabled" required="false" %>
-<%@ attribute name="rightSideHtmlProperty" required="false" %>
-<%@ attribute name="rightSideHtmlAttribute" required="false" type="java.util.Map"%>
-<%@ attribute name="transparentBackground" required="false" %>
-<%@ attribute name="highlightTab" required="false" %>
-<%@ attribute name="extraButtonSource" required="false" %>
-<%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
-<%@ attribute name="hidden" required="false" %>
-<%@ attribute name="useRiceAuditMode" required="false" %>
+<%@ attribute name="auditCluster" required="false" description="The error audit cluster associated with this page." %>
+<%@ attribute name="tabAuditKey" required="false" description="The property key this tab should display audit errors associated with." %>
+<%@ attribute name="tabItemCount" required="false" description="Expands the title to display this count alongside." %>
+<%@ attribute name="leftSideHtmlProperty" required="false" description="The property name of an attribute to display at the left side of the tab. Used with leftSideHtmlAttribute." %>
+<%@ attribute name="leftSideHtmlAttribute" required="false" type="java.util.Map" description="The data dictionary entry for an attribute to display at the left side of the tab.  Used with leftSideHtmlProperty." %>
+<%@ attribute name="leftSideHtmlDisabled" required="false" description="If leftSideHtmlProperty and leftSideHtmlAttribute have been utilized, whether to display the left hand attribute as disabled." %>
+<%@ attribute name="rightSideHtmlProperty" required="false" description="The property name of an attribute to display at the right side of the tab. Used with rightSideHtmlAttribute." %>
+<%@ attribute name="rightSideHtmlAttribute" required="false" type="java.util.Map" description="The data dictionary entry for an attribute to display at the right side of the tab.  Used with rightSideHtmlProperty." %>
+<%@ attribute name="transparentBackground" required="false" description="Whether the tab should render as having the background transparent around the corners of the tab." %>
+<%@ attribute name="highlightTab" required="false" description="Whether the tab should be highlighted with the orange asterisk icon." %>
+<%@ attribute name="extraButtonSource" required="false" description="The image source for an extra button to display on the tab." %>
+<%@ attribute name="useCurrentTabIndexAsKey" required="false" description="Whether to use the current tab index as the current tab key, or (if this is false) generate a new one." %>
+<%@ attribute name="hidden" required="false" description="Renders the tab as closed." %>
+<%@ attribute name="useRiceAuditMode" required="false" description="If present and tabAuditKey is not present, renders all the audit errors in the audit cluster." %>
+<%@ attribute name="midTabClassReplacement" required="false" description="Text to use as a replacement for the show/hide buttons rendering." %>
+<%@ attribute name="boClassName" required="false" description="If present, makes the tab title an inquiry link using the business object class declared here.  Used with the keyValues attribute." %>
+<%@ attribute name="keyValues" required="false" description="If present, makes the tab title an inquiry link using the primary key values declared here.  Used with the boClassName attribute." %>
+
 <!-- KC MODIFICATION -->
 <%@ attribute name="alwaysOpen" required="false" %>
 <%@ variable name-given="tabKey" scope="NESTED" %>
 <!-- END KC MODIFICATION -->
-<%@ attribute name="midTabClassReplacement" required="false" %>
-<%@ attribute name="boClassName" required="false" %>
-<%@ attribute name="keyValues" required="false" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>

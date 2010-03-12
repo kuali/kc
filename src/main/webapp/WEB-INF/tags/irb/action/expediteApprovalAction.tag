@@ -38,7 +38,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.approvalDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.approvalDate" attributeEntry="${attributes.approvalDate}"  />
                         </nobr>
                     </td>
                 </tr>
@@ -53,7 +53,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.expirationDate" attributeEntry="${attributes.approvalDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.expirationDate" attributeEntry="${attributes.approvalDate}"  />
                         </nobr>
                     </td>
                 </tr>
@@ -69,7 +69,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textExpediteApprovalComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -84,7 +83,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>

@@ -48,6 +48,6 @@
 	<hr size="1" noshade>
 	Ending on
 	<kul:htmlControlAttribute property="committeeHelper.scheduleData.yearlySchedule.scheduleEndDate" 
-	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />  
+	                									attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />  
 	</span>
 </div>

@@ -14,8 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="documentTypeName" required="true" %>
-<%@ attribute name="categories" required="true" %>
+<%@ attribute name="documentTypeName" required="true" description="The name of the document type displayed by the page rendering this tag; used to lookup the document type level help icon rendered on this page." %>
+<%@ attribute name="categories" required="true" description="The categories of audit error clusters this tag should render errors for." %>
 
 <div align="right">
 	<kul:help documentTypeName="${documentTypeName}" pageName="${RiceConstants.AUDIT_MODE_HEADER_TAB}" altText="page help"/>

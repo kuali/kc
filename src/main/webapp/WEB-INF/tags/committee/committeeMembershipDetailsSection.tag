@@ -31,7 +31,7 @@
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.termStartDate" 
                                                           attributeEntry="${committeeMembershipAttributes.termStartDate}" 
-                                                          datePicker="true"
+                                                          
                                                           readOnly="${readOnly}" />
                             </td>
                         </tr>
@@ -60,7 +60,7 @@
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.termEndDate" 
                                                           attributeEntry="${committeeMembershipAttributes.termEndDate}"
-                                                          datePicker="true"
+                                                          
                                                           readOnly="${readOnly}" />
                             </td>
                         <tr>
@@ -73,9 +73,6 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.contactNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.contactNotes}" 
                                                           readOnly="${readOnly}" />
-                                <kul:expandedTextArea textAreaFieldName="${committeeMembership}.contactNotes" 
-                                                      action="${action}" 
-                                                      textAreaLabel="${committeeMembershipAttributes.contactNotes.label}" readOnly="${readOnly}"/>
                             </td>
                             <th>
                                 <div align="right">
@@ -86,9 +83,6 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.trainingNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.trainingNotes}"
                                                           readOnly="${readOnly}" />
-                                <kul:expandedTextArea textAreaFieldName="${committeeMembership}.trainingNotes" 
-                                                      action="${action}"
-                                                      textAreaLabel="${committeeMembershipAttributes.trainingNotes.label}" readOnly="${readOnly}"/>
                             </td>
                         </tr>
                     </table>

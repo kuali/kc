@@ -98,7 +98,6 @@
 	                    <div id="meetingHelper.newCommitteeScheduleMinute.minuteEntry.div" align="left">
 	               	        <div align="left">
 	               	            <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" readOnly="false" />
-                                <kul:expandedTextArea textAreaFieldName="meetingHelper.newCommitteeScheduleMinute.minuteEntry" action="meetingManagement" textAreaLabel="${committeeScheduleMinuteAttributes.minuteEntry.label}" readOnly="false"/>
 	               	        </div>
 	                    </div>	
 	                </td>
@@ -155,7 +154,6 @@
 					</td>
 	                <td align="left" valign="middle" colspan="2">
 	               		  <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" readOnly="false" />
-		                  <kul:expandedTextArea textAreaFieldName="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntry" action="meetingManagement" textAreaLabel="${committeeScheduleMinuteAttributes.minuteEntry.label}" readOnly="false"/>
 					</td>
 	                <td align="left" valign="middle" class="infoline" width="20%">
 	               	    <div align="center">

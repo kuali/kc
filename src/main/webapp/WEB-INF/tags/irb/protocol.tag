@@ -38,7 +38,6 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocolList[0].title" attributeEntry="${protocolAttributes.title}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.title.label}" />
                 </td>
             </tr>
 <%--             
@@ -46,28 +45,27 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.description}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
                 </td>
             </tr>
  --%>            
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.applicationDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocolList[0].applicationDate" attributeEntry="${protocolAttributes.applicationDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].applicationDate" attributeEntry="${protocolAttributes.applicationDate}"  />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.approvalDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}"  />
                 </td>
             </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.expirationDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}"  />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.lastApprovalDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}"  />
                 </td>
             </tr>
 <%--             

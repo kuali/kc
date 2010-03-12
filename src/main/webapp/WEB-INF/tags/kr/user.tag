@@ -15,25 +15,25 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="userIdFieldName" required="true" %>
-<%@ attribute name="universalIdFieldName" required="true" %>
-<%@ attribute name="userNameFieldName" required="true" %>
-<%@ attribute name="userId" required="true" %>
-<%@ attribute name="universalId" required="true" %>
-<%@ attribute name="userName" required="true" %>
+<%@ attribute name="userIdFieldName" required="true" description="The name of the property which will be populated with the principal name." %>
+<%@ attribute name="universalIdFieldName" required="true" description="The name of the field which will be populated with the principal id." %>
+<%@ attribute name="userNameFieldName" required="true" description="The field which will be populated with the principal name, for displaying." %>
+<%@ attribute name="userId" required="true" description="The passed in principal name." %>
+<%@ attribute name="universalId" required="true" description="The passed in principal id." %>
+<%@ attribute name="userName" required="true" description="The passed in principal name, for display." %>
 
-<%@ attribute name="label" required="false" %>
-<%@ attribute name="fieldConversions" required="false" %>
-<%@ attribute name="lookupParameters" required="false" %>
-<%@ attribute name="referencesToRefresh" required="false" %>
+<%@ attribute name="label" required="false" description="The label to be shown on the linked lookup screen." %>
+<%@ attribute name="fieldConversions" required="false" description="Pre-set values to populate within the lookup form." %>
+<%@ attribute name="lookupParameters" required="false" description="On return from lookup, these parameters describe which attributes of the business object to populate in the lookup parent." %>
+<%@ attribute name="referencesToRefresh" required="false" description="On return from the lookup, the references on the parent business object which will be refreshed." %>
 
-<%@ attribute name="renderOtherFields" required="false" %>
+<%@ attribute name="renderOtherFields" required="false" description="If true, renders the principal id and the principal name as hidden fields." %>
 
-<%@ attribute name="hasErrors" required="false" %>
-<%@ attribute name="readOnly" required="false" %>
-<%@ attribute name="onblur" required="false" %>
+<%@ attribute name="hasErrors" required="false" description="Whether an error icon should be displayed by the field or not." %>
+<%@ attribute name="readOnly" required="false" description="Whether this field should be displayed as read only or not." %>
+<%@ attribute name="onblur" required="false" description="Javascript code which will be executed with the input field's onblur event is triggered." %>
 
-<%@ attribute name="helpLink" required="false" %>
+<%@ attribute name="helpLink" required="false" description="HTML - not just a URL - to be displayed next to the input field, presumably linking to a help resource." %>
 
 <%@ attribute name="highlight" required="false"
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %> 

@@ -14,10 +14,6 @@
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.question" 
                                           attributeEntry="${DataDictionary.Question.attributes.question}" />
-                <kul:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.question" 
-                                      action="maintenance" 
-                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
-                                      readOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -72,10 +68,6 @@
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.explanation" 
                                           attributeEntry="${DataDictionary.Question.attributes.explanation}" />
-                <kul:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.explanation" 
-                                      action="maintenance" 
-                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
-                                      readOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -85,10 +77,6 @@
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.policy" 
                                           attributeEntry="${DataDictionary.Question.attributes.policy}" />
-                <kul:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.policy" 
-                                      action="maintenance" 
-                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
-                                      readOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -98,10 +86,6 @@
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.regulation" 
                                           attributeEntry="${DataDictionary.Question.attributes.regulation}" />
-                <kul:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.regulation" 
-                                      action="maintenance" 
-                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
-                                      readOnly="${readOnly}" />
             </td>
         </tr>
     </table>

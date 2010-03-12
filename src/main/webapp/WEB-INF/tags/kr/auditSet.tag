@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="category" required="true" %>
+<%@ attribute name="category" required="true" description="The category of the cluster of audit errors to display in this tag." %>
 
 <c:set var="found" value="${false}"/>
     <tr><td colspan="4" class="subhead">${category}</td></tr>

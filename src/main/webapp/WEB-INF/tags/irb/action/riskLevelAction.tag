@@ -47,13 +47,13 @@
                     
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.newRiskLevel.dateAssigned" attributeEntry="${attributes.dateAssigned}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.newRiskLevel.dateAssigned" attributeEntry="${attributes.dateAssigned}"  />
                         </nobr>
                     </td>
                 
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.newRiskLevel.dateUpdated" attributeEntry="${attributes.dateUpdated}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.newRiskLevel.dateUpdated" attributeEntry="${attributes.dateUpdated}"  />
                         </nobr>
                     </td>
                     
@@ -64,7 +64,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.newRiskLevel.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                     
@@ -88,13 +87,13 @@
                         
                         <td>
                             <nobr>
-                                <kul:htmlControlAttribute property="${riskLevelPath}.dateAssigned" attributeEntry="${attributes.dateAssigned}" datePicker="true" />
+                                <kul:htmlControlAttribute property="${riskLevelPath}.dateAssigned" attributeEntry="${attributes.dateAssigned}"  />
                             </nobr>
                         </td>
                 
                        <td>
                             <nobr>
-                                <kul:htmlControlAttribute property="${riskLevelPath}.dateUpdated" attributeEntry="${attributes.dateUpdated}" datePicker="true" />
+                                <kul:htmlControlAttribute property="${riskLevelPath}.dateUpdated" attributeEntry="${attributes.dateUpdated}"  />
                             </nobr>
                         </td>
                     
@@ -105,7 +104,6 @@
                         <td>
                             <nobr>
                                 <kul:htmlControlAttribute property="${riskLevelPath}.comments" attributeEntry="${attributes.comments}" />
-                                <kul:expandedTextArea textAreaFieldName="${riskLevelPath}.comments" action="${action}" textAreaLabel="${attributes.comments.label}" />
                             </nobr>
                         </td>
                     

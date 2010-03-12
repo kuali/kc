@@ -108,8 +108,7 @@
                  <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailDescription}"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.institutionalProposal.mailDescription" attributeEntry="${institutionalProposalAttributes.mailDescription}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${institutionalProposalAttributes.mailDescription.label}" />
-                </td> --%>
+                </td>  --%>
             </tr>
         </table>
     </div>
@@ -122,7 +121,6 @@
             <td class="infoline">
                 <div align="left">
                     <kul:htmlControlAttribute property="document.institutionalProposalList[0].deliveryComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
-                    <kul:expandedTextArea textAreaFieldName="document.institutionalProposalList[0].deliveryComment.comments" action="${action}" textAreaLabel="${institutionalProposalCommentAttributes.comments.label}" />
                 </div>
             </td>
         </table>

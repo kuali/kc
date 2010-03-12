@@ -65,7 +65,6 @@
 					</td>
 	                <td class="infoline">
 	                	<kul:htmlControlAttribute property="newInstituteAttachment.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-	                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 					</td>
 	                
 	                <td class="infoline">
