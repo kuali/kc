@@ -65,7 +65,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=(KraServiceLocator.getService(ProposalHierarchyService.class).isProposalOnInitialRouteNode(doc) && wfd.getRouteHeader().isApproveRequested());
+            boolean hasBeenRejected=(KraServiceLocator.getService(ProposalHierarchyService.class).isProposalOnInitialRouteNode(doc));
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
