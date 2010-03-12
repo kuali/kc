@@ -42,7 +42,6 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -321,11 +320,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     AwardHierarchy copyAwardAndDescendantsAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
+        List<AwardHierarchy> sourceChildren = new ArrayList<AwardHierarchy>(sourceNode.getChildren()); 
         AwardHierarchy newBranchNode = new AwardHierarchy(targetParentNode.getRoot(), targetParentNode, newAwardNumber, sourceNode.getOriginatingAwardNumber());
         Award newBranchAward = copyAward(sourceNode.getAward(), newAwardNumber);
         targetParentNode.getChildren().add(newBranchNode);
         newBranchNode.setAward(newBranchAward);
-        for(AwardHierarchy childNode: sourceNode.getChildren()) {
+        for(AwardHierarchy childNode: sourceChildren) {
             copyNodeRecursively(childNode, newBranchNode, targetParentNode.getRoot());
         }
         return newBranchNode;
