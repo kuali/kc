@@ -732,17 +732,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     versionNumber,
                     proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
             
-            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), findInstProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()));
+            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
         } else {
             String proposalNumber = createInstitutionalProposal(
                     proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
-            BusinessObjectService service = KraServiceLocator.getService(BusinessObjectService.class);
-            Collection<InstitutionalProposal> ips = service.findMatching(InstitutionalProposal.class, getFieldValues(proposalNumber, "proposalNumber"));
-            Long proposalId = ((InstitutionalProposal) ips.toArray()[0]).getProposalId();
-            
-            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalId);
+            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalNumber));
         }
+    }
+    
+    private Long getActiveProposalId(String proposalNumber) {
+        BusinessObjectService service = KraServiceLocator.getService(BusinessObjectService.class);
+        Collection<InstitutionalProposal> ips = service.findMatching(InstitutionalProposal.class, getFieldValues(proposalNumber, "proposalNumber"));
+        Long proposalId = ((InstitutionalProposal) ips.toArray()[0]).getProposalId();
+        return proposalId;
     }
 
     /**
@@ -754,7 +757,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private Long findInstProposalNumber(String devProposalNumber) {
         Long instProposalId = null;
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues(devProposalNumber, null));
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues(devProposalNumber, "devProposalNumber"));
         
         for(Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();){
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
