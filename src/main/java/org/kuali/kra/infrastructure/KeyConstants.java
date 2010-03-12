@@ -591,6 +591,9 @@ public final class KeyConstants {
     public static final String ERROR_UNAUTHORIZED_LEAD_UNIT = "error.proposalLog.unauthorizedLeadUnit";
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
     public static final String ERROR_MISSING_SPONSOR_CODE = "error.proposalLog.noSponsorCode";
+    
+    // Institutional Proposal Actions
+    public static final String QUESTION_UNLOCK_FUNDED_AWARDS = "question.unlock.fundedAwards";
 
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";

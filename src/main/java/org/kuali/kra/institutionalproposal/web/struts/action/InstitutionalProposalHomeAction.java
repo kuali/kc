@@ -293,6 +293,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         
         for (AwardFundingProposal awardFundingProposal : newInstProp.getAwardFundingProposals()) {
             awardFundingProposal.setAwardFundingProposalId(null);
+            awardFundingProposal.setActive(false);
         }
     }
  

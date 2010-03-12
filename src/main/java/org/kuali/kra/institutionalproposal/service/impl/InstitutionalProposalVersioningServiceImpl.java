@@ -35,11 +35,6 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     
-//    public InstitutionalProposal createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion)
-//    throws VersionException {
-//        return versioningService.createNewVersion(currentProposalVersion);
-//    }
-    
     public IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview)
     throws VersionException {
         return versioningService.createNewVersion(intellectualPropertyReview);
@@ -48,6 +43,7 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
     public void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus) {
         if (versionStatus.equals(VersionStatus.ACTIVE)) {
             archiveCurrentActiveProposal(proposalToUpdate.getProposalNumber());
+            proposalToUpdate.activateFundingProposals();
         }
         proposalToUpdate.setProposalSequenceStatus(versionStatus.toString());
         businessObjectService.save(proposalToUpdate);
@@ -68,6 +64,7 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
             // There should only be one active version at a time
             InstitutionalProposal proposalToArchive = results.get(0);
             proposalToArchive.setProposalSequenceStatus(VersionStatus.ARCHIVED.toString());
+            proposalToArchive.deactivateFundingProposals();
             businessObjectService.save(proposalToArchive);
         }
     }
