@@ -151,6 +151,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         managedLists.add(institutionalProposal.getInstitutionalProposalScienceKeywords());
         managedLists.add(institutionalProposal.getInstitutionalProposalCostShares());
         managedLists.add(institutionalProposal.getInstitutionalProposalUnrecoveredFandAs());
+        managedLists.add(institutionalProposal.getAwardFundingProposals());
         
         // For project personnel 
         List<InstitutionalProposalPersonUnit> units = new ArrayList<InstitutionalProposalPersonUnit>();

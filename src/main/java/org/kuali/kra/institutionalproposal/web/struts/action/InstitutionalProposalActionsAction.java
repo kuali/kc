@@ -28,22 +28,27 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.fundedawards.FundedAwardsBean;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalBaseStream;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
  * This class...
  */
-public class InstitutionalProposalActionsAction extends
-		InstitutionalProposalAction implements AuditModeAction {
+public class InstitutionalProposalActionsAction extends InstitutionalProposalAction implements AuditModeAction {
+    
+    private static final String CONFIRM_UNLOCK_SELECTED = "confirmUnlockSelected";
+    private static final String CONFIRM_UNLOCK_SELECTED_KEY = "confirmUnlockSelectedKey";
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
 	public ActionForward activate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -58,8 +63,51 @@ public class InstitutionalProposalActionsAction extends
 		return new AuditActionHelper().setAuditMode(mapping,
 				(InstitutionalProposalForm) form, false);
 	}
-
-	/**
+    
+    /** {@inheritDoc} */
+    public ActionForward unlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        return confirm(buildUnlockSelectedConfirmationQuestion(mapping, form, request, response), CONFIRM_UNLOCK_SELECTED, "");
+    }
+    
+    /** {@inheritDoc} */
+    public ActionForward confirmUnlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        new FundedAwardsBean((InstitutionalProposalForm) form).removeUnlockedAwards();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /** {@inheritDoc} */
+    public ActionForward selectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        new FundedAwardsBean((InstitutionalProposalForm) form).selectAllFundedAwards();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /** {@inheritDoc} */
+    public ActionForward deselectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        ((InstitutionalProposalForm) form).setSelectedAwardFundingProposals(new String[0]);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Prepare proposal summary report.
+     * {@inheritDoc}
+     */
+    public ActionForward printProposalSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalPrintingService ipPrintingService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
+        AttachmentDataSource dataStream = ipPrintingService.printInstitutionalProposalReport(
+                ipForm.getInstitutionalProposalDocument(), 
+                InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT.getInstitutionalProposalPrintType(), 
+                new HashMap<String, Object>());
+        streamToResponse(dataStream, response);
+        return null;
+    }
+    
+    /**
 	 * Prepare current report (i.e. Awards that selected person is on)
 	 * {@inheritDoc}
 	 */
@@ -118,7 +166,7 @@ public class InstitutionalProposalActionsAction extends
 		streamToResponse(dataStream.getContent(), null, null, response);
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
-
+	
 	/**
 	 * Prepare pending report (i.e. InstitutionalProposals that selected person
 	 * is on) {@inheritDoc}
@@ -140,4 +188,22 @@ public class InstitutionalProposalActionsAction extends
 		streamToResponse(dataStream.getContent(), null, null, response);
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
+    
+    /**
+     * 
+     * This method is to build the confirmation question for unlocking funded awards.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param deletePeriod
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildUnlockSelectedConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_UNLOCK_SELECTED_KEY,
+                KeyConstants.QUESTION_UNLOCK_FUNDED_AWARDS);
+    }
+    
 }
