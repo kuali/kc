@@ -28,8 +28,10 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveC
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
 import org.kuali.rice.kns.document.Document;
@@ -39,7 +41,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class...
  */
-public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase implements SpecialReviewRule<InstitutionalProposalSpecialReview>{
+public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase implements SpecialReviewRule<InstitutionalProposalSpecialReview>
+                                                                              , BusinessRuleInterface {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String INSTITUTIONAL_PROPOSAL_ERROR_PATH = "institutionalProposalList[0]";
@@ -257,6 +260,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalRuleImpl().processInstitutionalProposalRules(event);
         return valid;
+    }
+
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
     }    
     
 

@@ -128,6 +128,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Comments" />
         <property name="shortLabel" value="Note Text" />
+        <property name="required" value="true" />
         <property name="maxLength" value="4000" />
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
