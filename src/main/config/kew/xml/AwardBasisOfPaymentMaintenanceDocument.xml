@@ -5,7 +5,7 @@
 			<name>AwardBasisOfPaymentMaintenanceDocument</name>
 			<description>Create a New Award Basis Of Payment</description>
 			<label>Award Basis Of Payment</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>KcAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

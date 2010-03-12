@@ -29,11 +29,7 @@
 			</list>
 		</property>
 		
-		
-		
-		
-		
-		<property name="documentTypeName" value="Basis Of Payment Maintenance Document"/>
+		<property name="documentTypeName" value="AwardBasisOfPaymentMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
