@@ -78,7 +78,6 @@
 				</td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute property="newPropPersonBio.description" attributeEntry="${propPersonBioAttributes.description}" />
-                    <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${propPersonBioAttributes.description.label}" />
 				</td>
                 
                 <td class="infoline">

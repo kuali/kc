@@ -11,13 +11,13 @@
                 <th class="infoline"><nobr>&nbsp;&nbsp;&nbsp;&nbsp;View Action Date Range:</nobr></th>
                 <td class="infoline"> 
                     <nobr>&nbsp;Beginning On&nbsp;
-                       <kul:htmlControlAttribute property="actionHelper.historyDateRangeFilter.beginningOn" attributeEntry="${dateRangeFilterAttributes.beginningOn}" datePicker="true" />
+                       <kul:htmlControlAttribute property="actionHelper.historyDateRangeFilter.beginningOn" attributeEntry="${dateRangeFilterAttributes.beginningOn}"  />
                 	   &nbsp;
                 	</nobr>
                 </td>
                 <td class="infoline"> 
                     <nobr>&nbsp;Ending On&nbsp;
-                       <kul:htmlControlAttribute property="actionHelper.historyDateRangeFilter.endingOn" attributeEntry="${dateRangeFilterAttributes.endingOn}" datePicker="true" />
+                       <kul:htmlControlAttribute property="actionHelper.historyDateRangeFilter.endingOn" attributeEntry="${dateRangeFilterAttributes.endingOn}"  />
                 		&nbsp;
                 	</nobr>
                 </td>

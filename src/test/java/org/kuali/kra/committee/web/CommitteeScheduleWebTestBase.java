@@ -46,7 +46,7 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
     
     private static final String SCHEDULEDATA_PLACE = "committeeHelper.scheduleData.place";
     
-    private static final String METHODTOCALL_SAVE = "methodToCall.headerTab.headerDispatch.save.navigateTo.committeeSchedule.x";
+    private static final String METHODTOCALL_SAVE = "methodToCall.headerTab.headerDispatch.save.navigateTo.committeeSchedule";
     
     private static final String TIME_10_10 = "10:10";
     

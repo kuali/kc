@@ -37,7 +37,7 @@
             	<th width="250" align="right" scope="row"><div align="right">Effective Date:</div></th>
             	<td>
             	  	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardEffectiveDate" attributeEntry="${awardAttributes.preAwardEffectiveDate}" datePicker="true"/>
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardEffectiveDate" attributeEntry="${awardAttributes.preAwardEffectiveDate}" />
             	 	</div>
             	</td>
              </tr>
@@ -46,7 +46,6 @@
         	 	<td class="infoline">
             	 	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	 <kul:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
@@ -74,7 +73,7 @@
             	<th width="250" align="right" scope="row"><div align="right">Effective Date:</div></th>
             	<td>
             	  	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardInstitutionalEffectiveDate" attributeEntry="${awardAttributes.preAwardInstitutionalEffectiveDate}" datePicker="true"/>
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardInstitutionalEffectiveDate" attributeEntry="${awardAttributes.preAwardInstitutionalEffectiveDate}" />
             	 	</div>
             	</td>
              </tr>
@@ -83,7 +82,6 @@
         	 	<td class="infoline">
             	 	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>

@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="boClassName" required="true" %>
-<%@ attribute name="lookupParameters" required="false" %>
-<%@ attribute name="tabindexOverride" required="false" %>
-<%@ attribute name="anchor" required="false" %>
+<%@ attribute name="boClassName" required="true" description="The name of the class to look up instances of in the linked lookup." %>
+<%@ attribute name="lookupParameters" required="false" description="On return from lookup, these parameters describe which attributes of the business object to populate in the lookup parent." %>
+<%@ attribute name="tabindexOverride" required="false" description="Overrides the tab index of this lookup icon." %>
+<%@ attribute name="anchor" required="false" description="If present, on return from lookup, the page will be scrolled to the named anchor specified by this attribute." %>
 <%@ attribute name="lookedUpBODisplayName" required="false" description="this value is the human readable name of the BO being looked up" %>
 <%@ attribute name="lookedUpCollectionName" required="true" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
 

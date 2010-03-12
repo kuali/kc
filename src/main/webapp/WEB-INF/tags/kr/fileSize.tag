@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ tag body-content="scriptless" %>
-<%@ attribute name="byteSize" required="true" %>
+<%@ attribute name="byteSize" required="true" description="The size, in bytes, to display as a file size." %>
 
 <%@ variable name-given="fileSize" scope="NESTED" %>
 <%@ variable name-given="fileSizeUnits" scope="NESTED" %>

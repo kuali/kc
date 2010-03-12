@@ -18,7 +18,7 @@
 <%@ attribute name="selectedTab" required="true"%>
 
 <div id="tabs" class="tabposition">
-    <ul>     
+	<ul>
 	<%-- Researcher Menu --%>
 	<c:if test='${selectedTab == "portalResearcherBody"}'>
         <li class="red"><a class="red" href="portal.do?selectedTab=portalResearcherBody" title="Researcher">Researcher</a></li>
@@ -62,7 +62,8 @@
     </c:if> 
     <c:if test='${selectedTab != "portalSystemAdminBody"}'>
         <li class="green"><a class="green" href="portal.do?selectedTab=portalSystemAdminBody" title="System Admin">System Admin</a></li>
-    </c:if>    
-    
-    </ul>
-  </div>
+    </c:if>
+
+	
+	</ul>
+</div>

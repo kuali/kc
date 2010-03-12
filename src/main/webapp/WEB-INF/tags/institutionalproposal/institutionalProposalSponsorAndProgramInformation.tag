@@ -66,7 +66,7 @@
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineDate" attributeEntry="${institutionalProposalAttributes.deadlineDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineDate" attributeEntry="${institutionalProposalAttributes.deadlineDate}"  />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineType}" /></div></th>
                 <td>

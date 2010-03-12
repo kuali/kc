@@ -150,7 +150,7 @@
 			</td>                
             <td nowrap width="13%" valign="middle" class="infoline">
             <div align="center">
-                <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTerms[${index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
+                <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTerms[${index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}"  />
             </div>
 			</td>                
 			<td class="infoline">
@@ -250,7 +250,7 @@
 			</td>	                
 	        <td nowrap width="10%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${status.index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${status.index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}"  />
 			</div>
 			</td>
 			</td>

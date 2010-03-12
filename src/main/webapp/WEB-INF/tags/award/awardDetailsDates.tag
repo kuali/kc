@@ -41,13 +41,12 @@
 		</td>
 		<td width="100">
 			<div align="center">
-    			<kul:htmlControlAttribute property="document.awardList[0].noticeDate" attributeEntry="${awardAttributes.noticeDate}" datePicker="true"/>
+    			<kul:htmlControlAttribute property="document.awardList[0].noticeDate" attributeEntry="${awardAttributes.noticeDate}" />
 			</div>
 		</td>
     	<td width="1000">
     		<div align="center">
     			<kul:htmlControlAttribute property="document.awardList[0].awardCurrentActionComments.comments" attributeEntry="${awardCurrentActionCommentAttributes.comments}" />
-    			<kul:expandedTextArea textAreaFieldName="document.awardList[0].awardCurrentActionComments.comments" action="awardHome" textAreaLabel="${awardCurrentActionCommentAttributes.comments.label}" />
 			</div>
 		</td>
   	</tr>
@@ -82,7 +81,7 @@
   	</tr>
   	<tr>
     	<th>
-    		<div align="right">Version:</div>
+    		<div align="right">*Version:</div>
       	</th>
     	<td>${KualiForm.awardDocument.award.sequenceNumber}</td>
     	<th>
@@ -133,7 +132,6 @@
         		<tr>
             		<td style="border:none; width:100%;">
             			<kul:htmlControlAttribute property="document.awardList[0].title" attributeEntry="${awardAttributes.title}" />
-                    	<kul:expandedTextArea textAreaFieldName="document.awardList[0].title" action="awardHome" textAreaLabel="${awardAttributes.title.label}" />
         			</td>
             	</tr>
         	</table>
@@ -300,13 +298,13 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" />
 		</td>
         <th>
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}"/>
         </td>
     </tr>
     <tr>
@@ -314,13 +312,13 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}"/>
         </td>
         <th>
         	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
         </th>
         <td align="left" valign="middle">
-            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" datePicker="true" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}"/>
         </td>
     </tr>
     <tr>
@@ -328,7 +326,7 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
         </th>
         <td align="left" valign="middle">
-            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" datePicker="true" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" />
         </td>
         <th>
             &nbsp;

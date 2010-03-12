@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="cluster" required="false"%>
-<%@ attribute name="keyMatch" required="false"%>
-<%@ attribute name="isLink" required="true"%>
-<%@ attribute name="includesTitle" required="false"%>
+<%@ attribute name="cluster" required="false" description="A cluster of audit errors to render." %>
+<%@ attribute name="keyMatch" required="false" description="A concatenated String, splittable by a comma, of the properties which should have their errors displayed by this tag." %>
+<%@ attribute name="isLink" required="true" description="Boolean value of whether to display the errors as buttons." %>
+<%@ attribute name="includesTitle" required="false" description="Boolean value of whether to display a section header before the first error rendered." %>
 
 
 <c:forEach items="${AuditErrors}" var="auditCluster">

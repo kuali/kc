@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @SuppressWarnings("unchecked")
 public class AwardNotesAndAttachmentsWebTest extends AwardWebTestBase {
 
-    protected static final String NOTES_AND_ATTACHMENTS_LINK_NAME = "notesAndAttachments.x";
+    protected static final String NOTES_AND_ATTACHMENTS_LINK_NAME = "notesAndAttachments";
     HtmlPage awardNotesAndAttachmentsPage;
 
     /**

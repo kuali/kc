@@ -71,7 +71,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" datePicker="true"/>
+            	   	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -125,7 +125,7 @@
 	                </td>
 	                <td width="15%" valign="middle">
 					<div align="center">
-	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" datePicker="true"/>
+	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
 					</div>
 	                </td>
 	                <td width="15%" valign="right">
@@ -181,7 +181,6 @@
         	<td class="infoline">
             	 <div align="left">
             	  	 <kul:htmlControlAttribute property="document.awardList[0].awardCostShareComment.comments" attributeEntry="${awardCostShareCommentAttributes.comments}"/>
-            	  	 <kul:expandedTextArea textAreaFieldName="document.awardList[0].awardCostShareComment.comments" action="${action}" textAreaLabel="${awardCostShareCommentAttributes.comments.label}" />
             	 </div>
             </td>
         </table>

@@ -43,7 +43,7 @@
                                     <div align="center">
                                         <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].startDate" 
                                                                   attributeEntry="${membershipRoleAttributes.startDate}" 
-                                                                  datePicker="true" />
+                                                                   />
                                     </div>
                                 </td>
                                 
@@ -51,7 +51,7 @@
                                     <div align="center">
                                         <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].endDate" 
                                                                   attributeEntry="${membershipRoleAttributes.endDate}" 
-                                                                  datePicker="true" />
+                                                                   />
                                     </div>
                                 </td>
 
@@ -93,7 +93,7 @@
                                         <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].startDate" 
                                                                   attributeEntry="${membershipRoleAttributes.startDate}" 
                                                                   readOnly="${readOnly}"
-                                                                  datePicker="true" />
+                                                                   />
                                     </div>
                                 </td>
                                 <td align="left" valign="middle">
@@ -101,7 +101,7 @@
                                         <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].endDate" 
                                                                   attributeEntry="${membershipRoleAttributes.endDate}" 
                                                                   readOnly="${readOnly}"
-                                                                  datePicker="true" />
+                                                                   />
                                     </div>
                                 </td>
  

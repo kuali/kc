@@ -161,7 +161,7 @@
                     <td>
                         <kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.openingDate" 
                                                   attributeEntry="${s2sOpportunity.openingDate}" 
-                                                  datePicker="true"  readOnly="true"/>
+                                                    readOnly="true"/>
                     </td>
 
                    </tr>
@@ -175,7 +175,7 @@
                     <td>
                         <kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.closingDate" 
                                                   attributeEntry="${s2sOpportunity.closingDate}" 
-                                                  datePicker="true"  readOnly="true"/>
+                                                    readOnly="true"/>
                     </td>
                    </tr>
     

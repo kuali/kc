@@ -64,7 +64,6 @@
                     <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolCloseRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        <kul:expandedTextArea textAreaFieldName="${textCloseReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>

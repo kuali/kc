@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="mbrIdx" required="true" %>
+<%@ attribute name="mbrIdx" required="true" description="The index of the member in the list of members on the IdentityManagementRoleDocument to display role responsibility actions for." %>
 <c:set var="roleMember" value="${KualiForm.document.members[mbrIdx]}"/>
 <c:set var="docRoleRspActionAttributes" value="${DataDictionary.KimDocumentRoleResponsibilityAction.attributes}" />
 

@@ -44,7 +44,7 @@
                     <kul:htmlAttributeLabel attributeEntry="${committeeScheduleAttribute.meetingDate}" />
                 </th>
                 <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.meetingDate" datePicker="true" 
+                    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.meetingDate"  
                                               attributeEntry="${committeeScheduleAttribute.meetingDate}" /> 
                 </td>            
             </tr>
@@ -78,7 +78,7 @@
                     <kul:htmlAttributeLabel attributeEntry="${committeeScheduleAttribute.protocolSubDeadline}" />
                 </th>
                 <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.protocolSubDeadline" datePicker="true" 
+                    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.protocolSubDeadline"  
                                               attributeEntry="${committeeScheduleAttribute.protocolSubDeadline}" /> 
                 </td>            
             </tr>
@@ -131,7 +131,6 @@
                 <td align="left" valign="middle" colspan="3">
                     <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.comments" 
                                               attributeEntry="${committeeScheduleAttribute.comments}" /> 
-                    <kul:expandedTextArea textAreaFieldName="meetingHelper.committeeSchedule.comments" action="meetingManagement" textAreaLabel="${committeeScheduleAttribute.comments.label}" />
                 </td>
             </tr>
         </table>

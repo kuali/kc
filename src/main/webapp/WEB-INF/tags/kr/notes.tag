@@ -15,13 +15,12 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="notesBo" required="false" type="java.util.List" %>
-<%-- <%@ attribute name="propPrefix" required="false" %> --%>
-<%@ attribute name="noteType" required="false" type="java.lang.Enum" %>
-<%@ attribute name="displayTopicFieldInNotes" required="false" %>
-<%@ attribute name="attachmentTypesValuesFinderClass" required="false" %>
-<%@ attribute name="transparentBackground" required="false" %>
-<%@ attribute name="defaultOpen" required="false" %>
+<%@ attribute name="notesBo" required="false" type="java.util.List" description="The List of notes to display." %>
+<%@ attribute name="noteType" required="false" type="java.lang.Enum" description="An enumeration of note types to display." %>
+<%@ attribute name="displayTopicFieldInNotes" required="false" description="Whether to display the note topic column in the table of notes." %>
+<%@ attribute name="attachmentTypesValuesFinderClass" required="false" description="A finder class to give options for the types of attachments allowed as as note attachments on this document." %>
+<%@ attribute name="transparentBackground" required="false" description="Whether the tab should render as having the background transparent around the corners of the tab." %>
+<%@ attribute name="defaultOpen" required="false" description="Whether the tab for the notes is rendered as open." %>
 
 <c:set var="noteColSpan" value="6" />
 

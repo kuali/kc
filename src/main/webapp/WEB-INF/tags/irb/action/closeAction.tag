@@ -39,7 +39,6 @@
                     <td>
                         <nobr>
                             <kul:htmlControlAttribute property="actionHelper.protocolCloseBean.comments" attributeEntry="${attributes.comments}" />
-                            <kul:expandedTextArea textAreaFieldName="${textCloseComments}" action="${action}" textAreaLabel="${attributes.comments.label}" />
                         </nobr>
                     </td>
                 </tr>
@@ -54,7 +53,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolCloseBean.actionDate" attributeEntry="${attributes.actionDate}" datePicker="true" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolCloseBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>

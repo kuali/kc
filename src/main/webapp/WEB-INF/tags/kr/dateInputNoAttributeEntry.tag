@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="property" required="true" %>
-<%@ attribute name="size" required="true" %>
-<%@ attribute name="maxLength" required="true" %>
+<%@ attribute name="property" required="true" description="The property associated that should have a date input rendered for it." %>
+<%@ attribute name="size" required="true" description="The size of the HTML text field rendered for this date input." %>
+<%@ attribute name="maxLength" required="true" description="The maximum length of the input the HTML text field rendered for this date input will hold." %>
 
 <%@ attribute name="accessibilityHint" required="false"
         description="Use this to attach further information to the title attribute of a field

@@ -43,12 +43,12 @@
 			<c:forEach var="pageBeforeCurrent" begin="0" end="${pageNumber - 1}">
 				<c:if test="${empty buttonExtraParams}">				
 					<c:set var="nextPageBeforeValue" value="${pageBeforeCurrent + 1}" />
-					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}.x" />
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
 						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
 				</c:if>
 				<c:if test="${!empty buttonExtraParams}">
-					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}${buttonExtraParams}.x" />
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}${buttonExtraParams}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
 						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
 				</c:if>
@@ -58,12 +58,12 @@
 		<c:forEach var="pageAfterCurrent" begin="${pageNumber + 1}" end="${totalPages - 1}">
 		    <c:if test="${empty buttonExtraParams}">
 				<c:set var="nextPageAfterValue" value="${pageAfterCurrent + 1}" />		    
-					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}.x" />
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
 						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
 			</c:if>
 			<c:if test="${!empty buttonExtraParams}">
-					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}${buttonExtraParams}.x" />
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}${buttonExtraParams}" />
 			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
 						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
 			</c:if>

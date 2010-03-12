@@ -36,12 +36,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
-    protected static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "abstractsAttachments.x";
-    protected static final String ACTIONS_LINK_NAME = "actions.x";
-    protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
-    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
-    protected static final String GRANTS_GOV_LINK_NAME = "grantsGov.x";
-    protected static final String BUDGET_VERSIONS_LINK_NAME = "budgetVersions.x";
+    protected static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "abstractsAttachments";
+    protected static final String ACTIONS_LINK_NAME = "actions";
+    protected static final String PERMISSIONS_LINK_NAME = "permissions";
+    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel";
+    protected static final String GRANTS_GOV_LINK_NAME = "grantsGov";
+    protected static final String BUDGET_VERSIONS_LINK_NAME = "budgetVersions";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.developmentProposalList[0].sponsorCode";

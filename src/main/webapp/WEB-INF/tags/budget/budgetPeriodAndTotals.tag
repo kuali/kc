@@ -45,12 +45,12 @@
 
                 <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetPeriod.startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newBudgetPeriod.startDate" attributeEntry="${budgetPeriodAttributes.startDate}" />
                 	</div>
 				</td>
                 <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
                 	</div>
                 </td>
                 <td width="12%" valign="middle" class="infoline">                	
@@ -108,12 +108,12 @@
 					</th>
 	                <td width="10%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" />
 					</div>
 					</td>
 	                <td width="10%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
 					</div>
 	                </td>
 	                <td width="12%" valign="middle">                	

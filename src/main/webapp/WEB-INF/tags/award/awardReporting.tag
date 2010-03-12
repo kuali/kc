@@ -44,7 +44,7 @@
 					</th>                  
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].dueDate" attributeEntry="${awardReportingAttributes.dueDate}" datePicker="true"  readOnly="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].dueDate" attributeEntry="${awardReportingAttributes.dueDate}"   readOnly="true" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
@@ -59,7 +59,7 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].activityDate" attributeEntry="${awardReportingAttributes.activityDate}" datePicker="true"  readOnly="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportings[${status.index}].activityDate" attributeEntry="${awardReportingAttributes.activityDate}"   readOnly="true" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">

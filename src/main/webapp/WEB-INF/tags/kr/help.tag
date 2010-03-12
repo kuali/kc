@@ -14,16 +14,16 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="resourceKey" required="false"%>
-<%@ attribute name="businessObjectClassName" required="false"%>
-<%@ attribute name="attributeName" required="false"%>
-<%@ attribute name="documentTypeName" required="false"%>
-<%@ attribute name="pageName" required="false"%>
-<%@ attribute name="altText" required="false"%>
-<%@ attribute name="securityGroupName" required="false"%>
-<%@ attribute name="parameterName" required="false"%>
-<%@ attribute name="searchDocumentTypeName" required="false"%>
-<%@ attribute name="lookupBusinessObjectClassName" required="false"%>
+<%@ attribute name="resourceKey" required="false" description="The resource key to use as help text." %>
+<%@ attribute name="businessObjectClassName" required="false" description="The class of the business object the help text is assoicated with." %>
+<%@ attribute name="attributeName" required="false" description="The name of the attribute which will have help text rendered for it; requires to be used in conjunction with the businessObjectClassName attribute." %>
+<%@ attribute name="documentTypeName" required="false" description="The name of the document type to show help text for." %>
+<%@ attribute name="pageName" required="false" description="The page of a specific document to show a help icon for." %>
+<%@ attribute name="altText" required="false" description="The alternate text for the help icon." %>
+<%@ attribute name="securityGroupName" required="false" description="The name of the security group to be used with the parameter name attribute; together, the found parameter has the URL for the help text." %>
+<%@ attribute name="parameterName" required="false" description="The name of the parameter which will be used with the securityGroup name attribute; together, the found parameter has the URL for the help text." %>
+<%@ attribute name="searchDocumentTypeName" required="false" description="The document type name of a document being looked up to display help for." %>
+<%@ attribute name="lookupBusinessObjectClassName" required="false" description="The business object looked up on the lookup page, which needs to have specific help displayed for it." %>
 
 <%--
   this tag is formatted to prevent any spaces occuring between the <a>/</a> tags and the <img> tag representing the help icon.  Internet

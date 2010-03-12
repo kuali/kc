@@ -73,13 +73,13 @@
             <td class="infoline">
             	<div align="center">
         	    	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.startDate" 
-        	    								attributeEntry="${approvedForeignTravelAttributes.startDate}" datePicker="true" />
+        	    								attributeEntry="${approvedForeignTravelAttributes.startDate}" />
         	  	</div>
             </td>
             <td class="infoline">
             	<div align="center">
         	    	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.endDate" 
-        	    								attributeEntry="${approvedForeignTravelAttributes.endDate}" datePicker="true"/>
+        	    								attributeEntry="${approvedForeignTravelAttributes.endDate}" />
         	  	</div>
             </td>
             <td class="infoline">

@@ -15,15 +15,15 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="transactionalDocument" required="true" %>
-<%@ attribute name="saveButtonOverride" required="false" %>
-<%@ attribute name="suppressRoutingControls" required="false" %>
-<%@ attribute name="suppressCancelButton" required="false" %>
-<%@ attribute name="extraButtonSource" required="false" %>
-<%@ attribute name="extraButtonProperty" required="false" %>
-<%@ attribute name="extraButtonAlt" required="false" %>
-<%@ attribute name="extraButtons" required="false" type="java.util.List" %>
-<%@ attribute name="viewOnly" required="false" %>
+<%@ attribute name="transactionalDocument" required="true" description="Boolean value of whether this is a transactional document the buttons are being displayed on or not." %>
+<%@ attribute name="saveButtonOverride" required="false" description="Overrides the methodToCall for the save button." %>
+<%@ attribute name="suppressRoutingControls" required="false" description="Boolean value of whether any buttons which result in routing - Submit, Approve, etc - should be displayed." %>
+<%@ attribute name="suppressCancelButton" required="false" description="Boolean value of whether the cancel button should be displayed." %>
+<%@ attribute name="extraButtonSource" required="false" description="The image src of a single extra button." %>
+<%@ attribute name="extraButtonProperty" required="false" description="The methodToCall property of a single extra button." %>
+<%@ attribute name="extraButtonAlt" required="false" description="The alt description of a single extra button." %>
+<%@ attribute name="extraButtons" required="false" type="java.util.List" description="A List of org.kuali.rice.kns.web.ui.ExtraButton objects to render before the standard button." %>
+<%@ attribute name="viewOnly" required="false" description="Boolean value of whether this document is view only, which means in effect the save button would be suppressed." %>
 
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
