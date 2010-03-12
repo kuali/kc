@@ -755,7 +755,7 @@
         <property name="shortLabel" value="Initial Contract Admin" />
         <property name="maxLength" value="30" />
         <property name="validationPattern" >
-             <bean p:allowWhitespace="true" parent="AlphaNumericValidationPattern" />
+             <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
