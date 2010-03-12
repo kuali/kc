@@ -86,9 +86,9 @@
       <td style="text-align:right;"><fmt:formatNumber type="currency" value="${node.bo.totalDirectCostTotal}"/></td>
     </tr>
     <tr>
-      <th style="text-align:right;">Total Indirect Cost:</th>
-      <td style="text-align:right;"><fmt:formatNumber type="currency" value="${node.bo.totalDirectCostInitial}"/></td>
-      <td style="text-align:right;"><fmt:formatNumber type="currency" value="${node.bo.totalDirectCostTotal}"/></td>
+      <th style="text-align:right;">Total F&A Cost:</th>
+      <td style="text-align:right;"><fmt:formatNumber type="currency" value="${node.bo.totalIndirectCostInitial}"/></td>
+      <td style="text-align:right;"><fmt:formatNumber type="currency" value="${node.bo.totalIndirectCostTotal}"/></td>
     </tr>
     <tr>
       <th style="text-align:right;">Total All Cost:</th>
