@@ -40,6 +40,8 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -186,7 +188,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         ipReviewActivityIndicator = "A";
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
-        setInitialContractAdmin("Bruno");
         //setProposalNumber("1");
         setTotalDirectCostInitial(new KualiDecimal(0));
         setTotalDirectCostTotal(new KualiDecimal(0));
@@ -210,6 +211,29 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         awardFundingProposals = new ArrayList<AwardFundingProposal>();
         institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
         proposalComments = new ArrayList<InstitutionalProposalComment>();
+    }
+    
+    public void setDefaultInitialContractAdmin() {
+        if (!StringUtils.isBlank(getUnitNumber())) {
+            List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
+            for (UnitAdministrator unitAdministrator : unitAdministrators) {
+                if (UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE.equals(unitAdministrator.getUnitAdministratorTypeCode())) {
+                    this.setInitialContractAdmin(unitAdministrator.getPersonId());
+                }
+            }
+        }
+    }
+    
+    public void deactivateFundingProposals() {
+        for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
+            fundingProposal.setActive(false);
+        }
+    }
+    
+    public void activateFundingProposals() {
+        for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
+            fundingProposal.setActive(true);
+        }
     }
     
     /**
@@ -976,6 +1000,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public List<AwardFundingProposal> getAwardFundingProposals() {
         return awardFundingProposals;
     }
+    
+    public AwardFundingProposal getAwardFundingProposal(int index) {
+        return getAwardFundingProposals().get(index);
+    }
 
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
@@ -1450,12 +1478,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setDeadlineDate(proposalLog.getDeadlineDate());
         this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
         this.setFiscalYear(proposalLog.getFiscalYear().toString());
-        this.setStatusCode(Integer.parseInt(proposalLog.getLogStatus()));
         this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
         this.setSponsorCode(proposalLog.getSponsorCode());
         this.setTitle(proposalLog.getTitle());
         this.setLeadUnit(getUnitService().getUnit(proposalLog.getLeadUnit()));
         this.setLeadUnitNumber(proposalLog.getLeadUnit());
+        this.setDefaultInitialContractAdmin();
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (proposalLog.getPerson() != null) {
             ipPerson.setPerson(proposalLog.getPerson());
@@ -1516,6 +1544,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setNsfCodeBo(NsfCode nsfCodeBo) {
         this.nsfCodeBo = nsfCodeBo;
+    }
+    
+    public KcPerson getInitialContractAdminUser() {
+        if (!StringUtils.isBlank(this.getInitialContractAdmin())) {
+            return this.getKcPersonService().getKcPersonByPersonId(this.getInitialContractAdmin());
+        }
+        return null;
     }
     
     /* Comments methods. ORM treats comments as a list, so we lazy-copy them to a map for faster access from the getters. */

@@ -23,6 +23,9 @@ import org.kuali.kra.award.home.ContactRole;
  * This class models the UnitAdministratorType
  */
 public class UnitAdministratorType extends KraPersistableBusinessObjectBase implements ContactRole {
+    
+    public static final String OSP_ADMINISTRATOR_TYPE_CODE = "2";
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -118,6 +121,4 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
         this.defaultGroupFlag = defaultGroupFlag;
     }
 
-    
-    
 }
