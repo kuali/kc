@@ -110,6 +110,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         String reversedAwardNumber = StringUtils.reverse(awardNumber);                
         int index = Integer.parseInt(StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf(ZERO)));
         ActionForward forward = null;
+        AwardHierarchy newRootNode = null;
         
         if(awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio()!=null){
             String radio = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio();
@@ -117,25 +118,22 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardHierarchy targetNode = findTargetNode(request, awardForm);            
             if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_NEW_OPTION)){
                 if(copyDescendants!=null && copyDescendants){
-                    AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
-                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
+                    newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
                 }else{
-                    AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
-                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);    
+                    newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
                 }
+                forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);    
             }else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)){
                 String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardPanelTargetAward();
                 if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                     if(copyDescendants!=null && copyDescendants){    
                         if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
-                            awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
+                            newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                         }
-                        forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                     }else{
-                        AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
-                        //populateAwardHierarchy(awardForm); 
-                        forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode); 
+                        newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                     }    
+                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode); 
                 }else{
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
