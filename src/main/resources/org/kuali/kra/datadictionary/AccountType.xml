@@ -60,23 +60,9 @@
 	</bean>
 
 	<bean id="AccountType-description" parent="AccountType-description-parentBean" />
-	<bean id="AccountType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" 
-				p:allowWhitespace="true" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
-	</bean>
+	<bean id="AccountType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+        <property name="required" value="true" />
+    </bean>
 
 	<bean id="AccountType-versionNumber" parent="AccountType-versionNumber-parentBean" />
 	<bean id="AccountType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
