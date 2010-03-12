@@ -183,14 +183,17 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
         doBaseFieldsDataFeed(institutionalProposal, developmentProposal);
         
+        institutionalProposal.getProjectPersons().clear();
         for (ProposalPerson pdPerson : developmentProposal.getProposalPersons()) {
             institutionalProposal.add(generateInstitutionalProposalPerson(pdPerson));
         }
         
+        institutionalProposal.getSpecialReviews().clear();
         for (ProposalSpecialReview dpSpecialReview : developmentProposal.getPropSpecialReviews()) {
             institutionalProposal.addSpecialReview(generateIpSpecialReview(dpSpecialReview));
         }
         
+        institutionalProposal.getInstitutionalProposalScienceKeywords().clear();
         for (PropScienceKeyword dpKeyword : developmentProposal.getPropScienceKeywords()) {
             institutionalProposal.addKeyword(dpKeyword.getScienceKeyword());
         }
@@ -230,6 +233,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setOpportunity(developmentProposal.getProgramAnnouncementNumber());
         institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());
         institutionalProposal.setLeadUnitNumber(developmentProposal.getUnitNumber());
+        institutionalProposal.setDefaultInitialContractAdmin();
         if (developmentProposal.getRolodex() != null) {
             institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
         }
@@ -311,6 +315,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
         
         // Cost Shares (from Budget)
+        institutionalProposal.getInstitutionalProposalCostShares().clear();
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
             ipCostShare.setCostShareTypeCode(getDefaultCostShareTypeCode());
@@ -322,6 +327,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
         
         // Unrecovered F and As (from Budget)
+        institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().clear();
         for (BudgetUnrecoveredFandA budgetUfa : budget.getBudgetUnrecoveredFandAs()) {
             InstitutionalProposalUnrecoveredFandA ipUfa = new InstitutionalProposalUnrecoveredFandA();
             ipUfa.setApplicableIndirectcostRate(new KualiDecimal(budgetUfa.getApplicableRate().bigDecimalValue()));
