@@ -100,7 +100,9 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.initialContractAdmin}" /></div>
     	</th>
     	<td>
-    		${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdmin}&nbsp;
+    	    <kul:inquiry boClassName="org.kuali.kra.bo.KcPerson" keyValues="personId=${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdmin}" render="true">
+    	       <c:out value="${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdminUser.userName}" />
+    	   </kul:inquiry>&nbsp;
 		</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.createTimeStamp}" /></div>
