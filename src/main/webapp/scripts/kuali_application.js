@@ -2141,6 +2141,36 @@ function showAllPanels() {
 	expandAll('true', false); 
 }
 
+function selectAllFundedAwards(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if (e.type == 'checkbox') {
+	  	if (e.name == 'selectedAwardFundingProposals') {
+ 		    if (e.disabled == false) {
+ 		    	e.checked = true;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
+function unselectAllFundedAwards(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'selectedAwardFundingProposals') {
+ 		    if (e.disabled == false) {
+ 		    	e.checked = false;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
 /*
  * get standard review comment for meeting from ProtocolContingency table
  */

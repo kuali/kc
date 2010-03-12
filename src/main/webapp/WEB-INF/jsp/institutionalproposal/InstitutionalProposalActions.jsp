@@ -28,6 +28,7 @@
   	headerTabActive="actions">
 
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
+<kra-ip:institutionalProposalFundedAwards />
 <kul:adHocRecipients />
 <kra-ip:institutionalProposalPrint />
 <kul:routeLog /> 

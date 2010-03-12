@@ -89,6 +89,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     /* Populated from Proposal Log lookup for Proposal creation */
     private String proposalNumber;
     
+    private transient String[] selectedAwardFundingProposals;
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -463,4 +465,13 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }
+
+    public String[] getSelectedAwardFundingProposals() {
+        return selectedAwardFundingProposals;
+    }
+
+    public void setSelectedAwardFundingProposals(String[] selectedAwardFundingProposals) {
+        this.selectedAwardFundingProposals = selectedAwardFundingProposals;
+    }
+    
 }
