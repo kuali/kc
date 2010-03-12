@@ -47,26 +47,16 @@
 			<bean parent="NumericValidationPattern"/>
 		</property>
 		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
+			<bean p:size="3" parent="TextControlDefinition"/>
 		</property>
 		<property name="summary" value="Method Of Payment Code"/>
 		<property name="description" value="Method Of Payment Code"/>
 	</bean>
 
 	<bean id="AwardMethodOfPayment-description" parent="AwardMethodOfPayment-description-parentBean"/>
-	<bean abstract="true" id="AwardMethodOfPayment-description-parentBean" parent="AttributeDefinition">
-		<property name="name" value="description"/>
-		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Description"/>
-		<property name="shortLabel" value="Description"/>
-		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
-		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
-		</property>
-		<property name="summary" value="Description"/>
-		<property name="description" value="Description"/>
-	</bean>
+	<bean id="AwardMethodOfPayment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+        <property name="required" value="true" />
+    </bean>
 
 	<bean id="AwardMethodOfPayment-versionNumber" parent="AwardMethodOfPayment-versionNumber-parentBean"/>
 	<bean abstract="true" id="AwardMethodOfPayment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">

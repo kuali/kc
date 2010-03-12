@@ -37,7 +37,7 @@
 	<!-- Attribute Definitions -->
 	
 	<bean id="AwardBasisOfPayment-basisOfPaymentCode" parent="AwardBasisOfPayment-basisOfPaymentCode-parentBean"/>
-	<bean abstract="true" id="AwardBasisOfPayment-basisOfPaymentCode-parentBean" parent="AttributeDefinition">
+	<bean id="AwardBasisOfPayment-basisOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="basisOfPaymentCode"/>
 		<property name="forceUppercase" value="false"/>
 		<property name="label" value="Basis Of Payment Code"/>
@@ -47,25 +47,15 @@
 			<bean parent="NumericValidationPattern"/>
 		</property>
 		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
+			<bean p:size="3" parent="TextControlDefinition"/>
 		</property>
 		<property name="summary" value="Basis Of Payment Code"/>
 		<property name="description" value="Basis Of Payment Code"/>
 	</bean>
 
 	<bean id="AwardBasisOfPayment-description" parent="AwardBasisOfPayment-description-parentBean"/>
-	<bean abstract="true" id="AwardBasisOfPayment-description-parentBean" parent="AttributeDefinition">
-		<property name="name" value="description"/>
-		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Description"/>
-		<property name="shortLabel" value="Description"/>
-		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
-		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
-		</property>
-		<property name="summary" value="Description"/>
-		<property name="description" value="Description"/>
+	<bean id="AwardBasisOfPayment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+        <property name="required" value="true" />
 	</bean>
 
 	<bean id="AwardBasisOfPayment-versionNumber" parent="AwardBasisOfPayment-versionNumber-parentBean"/>
