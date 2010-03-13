@@ -696,9 +696,6 @@
           $("#listcontent00").slideToggle(300);
       }
   );  
-  
-  function hasFormAlreadyBeenSubmitted() {
-  }
 
   $(document).ready(function(){
       loadFirstLevel();
