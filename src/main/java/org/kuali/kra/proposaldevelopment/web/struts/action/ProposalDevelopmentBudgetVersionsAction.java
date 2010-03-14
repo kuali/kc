@@ -245,7 +245,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        if(pdForm.isAuditActivated()) {
+//        if(pdForm.isAuditActivated()) {
+        // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors 
             valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
                 pdForm.getDocument());
     
@@ -253,13 +254,13 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 // set up error message to go to validate panel
                 final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
                 if(errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
-                        + (errorBudgetVersion-1) +"].budgetStatus",
+                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[" + (errorBudgetVersion-1) 
+                    		+"].budgetVersionOverview.budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
                 }
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
-        }
+//        }
 
         this.setBudgetParentStatus(pdForm.getDocument());
         //this.setBudgetStatuses(pdForm.getDocument());
