@@ -41,7 +41,7 @@
 <c:if test="${proposalBudgetFlag}">
 	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
 </c:if>
-<kul:tabTop tabTitle="Budget Versions ${projectDatesString}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}">
+<kul:tabTop tabTitle="Budget Versions ${projectDatesString}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*">
 
 	<div class="tab-container" align="center">
 
@@ -143,10 +143,11 @@
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
 			          		<c:choose>
 			    				<c:when test="${proposalBudgetFlag}">
+		            		        <html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
 				            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}"/>
-				            		<c:if test="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}">
+				            	<%--	<c:if test="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}">
 				            			<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-				            		</c:if>
+				            		</c:if> --%>
 			    				</c:when>
 			    				<c:otherwise>
 				            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
