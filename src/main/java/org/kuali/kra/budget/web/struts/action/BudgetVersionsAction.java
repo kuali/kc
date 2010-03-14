@@ -30,12 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -43,13 +40,13 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
+import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -260,7 +257,8 @@ public class BudgetVersionsAction extends BudgetAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        if(budgetForm.isAuditActivated()) {
+//        if(budgetForm.isAuditActivated()) {
+            // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors 
             try {
                 valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(parentDocument);
             } catch (Exception ex) {
@@ -276,10 +274,10 @@ public class BudgetVersionsAction extends BudgetAction {
                 }
                 GlobalVariables
                     .getErrorMap()
-                        .putError("document.proposal.developmentProposalList[0].budgetVersionOverview["+(budgetVersionNumber.intValue() - 1)+"].budgetStatus",
+                        .putError("document.parentDocument.budgetDocumentVersion["+(budgetVersionNumber.intValue() - 1)+"].budgetVersionOverview.budgetStatus",
                                     KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             } 
-        }
+//        }
         
         if (budgetForm.isSaveAfterCopy()) {
             List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
