@@ -123,13 +123,15 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     protected List<Date> getDates(AwardReportTerm awardReportTerm, Map<String, java.util.Date> mapOfDates, int index) throws ParseException {
         List<Date> dates = new ArrayList<Date>();        
         java.util.Date startDate;
-        java.util.Date endDate;
+        java.util.Date endDate = null;
         Calendar calendar = new GregorianCalendar();
         
         startDate = getStartDate(awardReportTerm, mapOfDates);
-        endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
+        if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
+            endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
+        }
         
-        if(startDate != null){
+        if(startDate != null && endDate != null){
             if(endDate.before(startDate)){
                 throw new RuntimeException("End Date is Before Start Date");
             }

@@ -57,7 +57,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      *
      * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService#updateCloseoutDueDatesBeforeSave(Award)
      */
-    public void updateCloseoutDueDatesBeforeSave(Award award) {
+    public void updateCloseoutDueDatesBeforeSaveOrg(Award award) {
         Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                
         Date finalExpirationDate = award.getAwardAmountInfos().get(0).getFinalExpirationDate();
         java.util.Date dateCalculatedUsingFrequency;
@@ -137,8 +137,9 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      */
     protected void updateCloseoutDueDate(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue,
             java.util.Date dateCalculatedUsingFrequency, boolean allDueDatesAreEqual, String closeoutReportTypeCode) {
-        if (allDueDatesAreEqual && dateCalculatedUsingFrequency.equals(dateCalculatedUsingFinalInvoiceDue)) {
-            closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFinalInvoiceDue.getTime()));
+        //if (allDueDatesAreEqual && dateCalculatedUsingFrequency.equals(dateCalculatedUsingFinalInvoiceDue)) {
+        if (allDueDatesAreEqual) {
+            closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFrequency.getTime()));
         } else {
             closeoutDueDates.put(closeoutReportTypeCode, MULTIPLE);
         }
@@ -250,6 +251,67 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+    
+    public void updateCloseoutDueDatesBeforeSave(Award award) {
+        Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                
+        Date finalExpirationDate = award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate();
+        java.util.Date dateCalculatedUsingFrequency;
+        java.util.Date dateCalculatedUsingFrequencyOld;
+        boolean allDueDatesAreEqual;
+        String closeoutReportTypeCode;
+        
+        //java.util.Date dateCalculatedUsingFinalInvoiceDue = getDateCalculatedUsingFinalInvoiceDue(award, finalExpirationDate).getTime();
+        
+        refreshAwardReportTerms(award.getAwardReportTermItems());
+                
+        for (KeyLabelPair kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
+            closeoutReportTypeCode = kl.getKey().toString();
+            allDueDatesAreEqual = true;
+            dateCalculatedUsingFrequency = null;
+            dateCalculatedUsingFrequencyOld = null;
+            List<AwardReportTerm> awardReportTerms = filterAwardReportTerms(award.getAwardReportTermItems(), closeoutReportTypeCode);
+            if (awardReportTerms.size() == 0) {
+                closeoutDueDates.put(closeoutReportTypeCode, null);
+                //updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, closeoutReportTypeCode);
+            } else {
+                Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
+                java.util.Date dueDate = null;
+                if ("1".equals(closeoutReportTypeCode)) {
+                    dueDate = calendar.getTime();
+                }
+                for (AwardReportTerm awardReportTerm : awardReportTerms) {
+                    //if (StringUtils.isNotBlank((awardReportTerm.getFrequencyCode()))) {
+                    dateCalculatedUsingFrequency = getCloseoutDueDate(finalExpirationDate, awardReportTerm, calendar);                    
+                    if (dueDate != null && !dueDate.equals(dateCalculatedUsingFrequency)) {
+                        allDueDatesAreEqual = false;
+                        break;
+                    }
+                    dueDate = dateCalculatedUsingFrequency;
+                    //}
+                }
+                if (dateCalculatedUsingFrequency != null) {
+                    updateCloseoutDueDate(closeoutDueDates, finalExpirationDate, dateCalculatedUsingFrequency, allDueDatesAreEqual,
+                            closeoutReportTypeCode);
+                }
+            }
+        }
+        
+        assignedDueDatesOnAwardCloseouts(award.getAwardCloseoutItems(), closeoutDueDates);
+
+    }
+
+    protected java.util.Date getCloseoutDueDate(Date finalExpirationDate, AwardReportTerm awardReportTerm, Calendar calendar) {
+        java.util.Date dueDate = calendar.getTime();
+        if (awardReportTerm.getDueDate() != null) {
+            dueDate =  awardReportTerm.getDueDate();
+        } else if (awardReportTerm.getFrequency() != null && awardReportTerm.getFrequency().getNumberOfMonths() != null) {
+            // don't want to change calendar's value
+            dueDate = getCalculatedDueDate(finalExpirationDate, awardReportTerm, (Calendar)calendar.clone());
+        }
+        
+        return dueDate;
+    }
+
 }
 
 
