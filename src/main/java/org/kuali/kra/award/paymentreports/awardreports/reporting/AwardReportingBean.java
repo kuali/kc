@@ -98,7 +98,9 @@ public class AwardReportingBean implements Serializable {
         getAward().getAwardReportTermItems().get(index).setAwardReportings(new ArrayList<AwardReporting>());
         
         if(dates.size() == 0){
-            GlobalVariables.getMessageMap().putError("document.awardList[0].awardReportTermItems["+ index + "].frequencyBaseCode", KeyConstants.ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL);
+         //   GlobalVariables.getMessageMap().putError("document.awardList[0].awardReportTermItems["+ index + "].frequencyBaseCode", KeyConstants.ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL);
+            newAwardReporting = new AwardReporting();
+            getAward().getAwardReportTermItems().get(index).getAwardReportings().add(newAwardReporting);
         }
         
         for(Date date: dates){
