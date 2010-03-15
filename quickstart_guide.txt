@@ -13,7 +13,7 @@ Requirements:
    (NOTE: This is what is often referred to as the external kc-config.xml, whereas the internal kc-config.xml is located within the webapp)
    (ADDITIONAL NOTE: If you are upgrading and have an existing kc-config.xml in this location, please replace it, as new parameters are often added)
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\pre
-	* To use a different directory, open kra-pre.war and edit the "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config.xml.
+	* To use a different directory, open kc-pre.war and edit the "alt.config.location" parameter in /WEB-INF/classes/META-INF/kc-config.xml.
 	* You SHOULD also be able to pass a java parameter of alt.config.location to your j2ee container (not guaranteed to work)
 	(NOTE: This file is the internal kc-config.xml and also contains the "environment" parameter referenced in the external kc-config.xml file)
 
@@ -27,6 +27,6 @@ Requirements:
 
 5. Deploy kc-pre.war to your servlet container (see user guide for your particular servlet container).
 
-6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-pre, if not overridden).
+6. The KC application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-pre, if not overridden).
 
 7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
