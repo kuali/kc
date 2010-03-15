@@ -22,6 +22,7 @@
 <c:set var="action" value="budgetRates" />
 				  <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassType"/>
 				  <bean:define id="displayRow" name="KualiForm" property="${budgetRate}.displayLocation"/>
+				  <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
     			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
                   <tr>
                     <td width="10%" class="${tdClass}">
@@ -73,7 +74,11 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                    		<bean:define id="nonEditableRateFlag" name="KualiForm" property="${budgetRate}.nonEditableRateFlag"/>
+                    	    <c:choose><c:when test="${proposalBudgetFlag}">
+							  <c:set var="nonEditableRateFlag" value="No" />
+                    	    </c:when><c:otherwise>
+                    		  <bean:define id="nonEditableRateFlag" name="KualiForm" property="${budgetRate}.nonEditableRateFlag"/>
+                    		</c:otherwise></c:choose>
                     		<c:choose>
 							<c:when test="${nonEditableRateFlag == 'No'}">
                 				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
