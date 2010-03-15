@@ -494,6 +494,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
         newDoc.getDevelopmentProposal().setHierarchyParentProposalNumber(null);
         newDoc.getDevelopmentProposal().setHierarchyLastSyncHashCode(null);
+        
+        //update timestamp on abstracts to match doc creation time
+        for (ProposalAbstract curAbstract : newDoc.getDevelopmentProposal().getProposalAbstracts()) {
+            curAbstract.setTimestampDisplay(dateTimeService.getCurrentTimestamp());
+        }
     }
 
     /**
@@ -767,11 +772,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         setProposalAttachmentsToIncomplete(dest);
-        
-        //update timestamp on abstracts to match doc creation time
-        for (ProposalAbstract curAbstract : dest.getDevelopmentProposal().getProposalAbstracts()) {
-            curAbstract.setTimestampDisplay(dateTimeService.getCurrentTimestamp());
-        }
     }
     
     /**
