@@ -60,6 +60,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
+import org.kuali.kra.s2s.bo.S2sApplication;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
@@ -339,11 +340,12 @@ public class PrintServiceImpl implements PrintService {
 	 */
 	private List<Printable> getSubmittedPDFStream(
 			ProposalDevelopmentDocument pdDoc) throws S2SException {
-		GrantApplicationDocument submittedXml;
+		GrantApplicationDocument submittedDocument;
 		try {
-			submittedXml = GrantApplicationDocument.Factory
-					.parse(getLatestS2SAppSubmission(pdDoc).getS2sApplication()
-							.get(0).getApplication());
+		    S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
+		    String submittedApplication = findSubmittedXml(s2sAppSubmission);
+		    
+			submittedDocument = GrantApplicationDocument.Factory.parse(submittedApplication);
 		} catch (XmlException e) {
 			LOG.error(e.getMessage(), e);
 			throw new S2SException(e);
@@ -360,7 +362,7 @@ public class PrintServiceImpl implements PrintService {
 			XmlObject formFragment = null;
 			try {
 				info = new FormMappingLoader().getFormInfo(namespace);
-				formFragment = getFormObject(submittedXml, info);
+				formFragment = getFormObject(submittedDocument, info);
 				s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(info
 						.getNameSpace());
 			} catch (S2SGeneratorNotFoundException e) {
@@ -416,7 +418,12 @@ public class PrintServiceImpl implements PrintService {
 		return formPrintables;
 	}
 
-	/**
+	private String findSubmittedXml(S2sAppSubmission appSubmission) {
+	    S2sApplication s2sApplication = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, appSubmission.getProposalNumber());
+	    return s2sApplication.getApplication();
+    }
+
+    /**
 	 * This method is used to generate byte stream of forms
 	 * 
 	 * @param pdDoc
@@ -601,8 +608,7 @@ public class PrintServiceImpl implements PrintService {
 			if (s2sAppSubmission.getSubmissionNumber() != null
 					&& s2sAppSubmission.getSubmissionNumber().intValue() > submissionNo) {
 				s2sSubmission = s2sAppSubmission;
-				submissionNo = s2sAppSubmission.getSubmissionNumber()
-						.intValue();
+				submissionNo = s2sAppSubmission.getSubmissionNumber().intValue();
 			}
 		}
 		return s2sSubmission;
