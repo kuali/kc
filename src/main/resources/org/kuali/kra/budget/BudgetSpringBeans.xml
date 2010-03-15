@@ -83,7 +83,26 @@
 			<ref bean="budgetCalculationService"/>
 		</property>
 	</bean>
-	<bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
+
+    <bean id="budgetCommonServiceFactory" class="org.kuali.kra.budget.core.BudgetCommonServiceFactory" >
+		<property name="proposalBudgetService">
+			<ref bean="proposalBudgetService"/>
+		</property>
+		<property name="awardBudgetService">
+			<ref bean="awardBudgetService"/>
+		</property>
+    </bean>
+    
+    <bean id="proposalBudgetService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetServiceImpl" >
+		<property name="documentService">
+			<ref bean="documentService"/>
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
+    </bean>
+      			
+    <bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
@@ -106,6 +125,12 @@
 			<ref bean="budgetVersionRule"/>
 		</property>
 	</bean>
+	<bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+	</bean>
+
 	
 	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
 		<property name="businessObjectService">

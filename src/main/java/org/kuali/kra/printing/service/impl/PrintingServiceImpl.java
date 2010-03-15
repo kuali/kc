@@ -100,7 +100,9 @@ public class PrintingServiceImpl implements PrintingService {
 			// Apply all the style sheets to the xml document and generate the
 			// PDF bytes
 			if (printableArtifact.getXSLT() != null) {
+				int xslCount = 0;
 				for (Source source : printableArtifact.getXSLT()) {
+					xslCount++;
 					StreamSource xslt = (StreamSource) source;
 					Transformer transformer = factory.newTransformer(xslt);
 					for (Map.Entry<String, byte[]> xmlData : streamMap
@@ -113,7 +115,9 @@ public class PrintingServiceImpl implements PrintingService {
 								outputStream);
 						Result res = new SAXResult(fop.getDefaultHandler());
 						transformer.transform(src, res);
-						pdfByteMap.put(xmlData.getKey(), outputStream
+						String pdfMapKey = xmlData.getKey()
+								+ (xslCount == 1 ? "" : xslCount);
+						pdfByteMap.put(pdfMapKey, outputStream
 								.toByteArray());
 					}
 				}

@@ -552,6 +552,9 @@ public interface Constants {
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE = "DocumentType";
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME = "customAttributeDocumentType";
 
+    public static final Object PROPOSAL_BUDGET = "proposalBudget";
+    public static final Object AWARD_BUDGET = "awardBudget";
+
     //WHITE SPACE 
     public char SPACE_SEPARATOR = 32;
 }

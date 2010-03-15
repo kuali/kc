@@ -178,7 +178,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
 
         for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
             if (proposalAbstract.getAbstractTypeCode() != null
-                    && proposalAbstract.getAbstractDetails().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
+                    && proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
                 if (proposalAbstract.getAbstractDetails().length() > ABSTRACT_TYPE_CODE_MAX_LENGTH) {
                     sf424Short.setProjectDescription(proposalAbstract.getAbstractDetails().substring(0,
                             ABSTRACT_TYPE_CODE_MAX_LENGTH));

@@ -40,7 +40,6 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -194,6 +193,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);
 		funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
+
 		if (budget != null) {
 			if (budget.getModularBudgetFlag()) {
 				BudgetDecimal fundsRequested = BudgetDecimal.ZERO;

@@ -43,6 +43,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20; 
+    protected static final int SFLLL_OTHEREXPLANATORY = 86;
 
     /**
      * 

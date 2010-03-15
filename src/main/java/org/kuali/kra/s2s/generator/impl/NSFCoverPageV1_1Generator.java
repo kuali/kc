@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.grants.apply.forms.nsfCoverPageV11.DegreeTypeDataType;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage;
@@ -277,35 +280,25 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
      * 
      * @return AttachedFileDataType[] array of attachments based on the narrative type code.
      */
-    private AttachedFileDataType[] getAttachedFileDataTypes() {
-
-        int size = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
-                    size++;
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROPRIETARY_INFORMATION) {
-                    size++;
-                }
-            }
-        }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-        int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
-                    attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                    attachments++;
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROPRIETARY_INFORMATION) {
-                    attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                    attachments++;
-                }
-            }
-        }
-        return attachedFileDataTypes;
-    }
+	private AttachedFileDataType[] getAttachedFileDataTypes() {
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+				.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null) {
+				int narrativeTypeCode = Integer.parseInt(narrative
+						.getNarrativeTypeCode());
+				if (narrativeTypeCode == PERSONAL_DATA
+						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
+						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
+					attachedFileDataTypeList
+							.add(getAttachedFileType(narrative));
+				}
+			}
+		}
+		return attachedFileDataTypeList
+				.toArray(new AttachedFileDataType[attachedFileDataTypeList
+						.size()]);
+	}
 
     /**
      * This method creates {@link XmlObject} of type {@link NSFCoverPageDocument} by populating data from the given

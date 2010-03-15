@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
+package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 
 /**
  * This class...

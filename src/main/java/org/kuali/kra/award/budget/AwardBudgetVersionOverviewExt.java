@@ -36,7 +36,7 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     private AwardBudgetType awardBudgetType; 
     
     public AwardBudgetVersionOverviewExt() { 
-
+        super();
     } 
     
     public String getAwardBudgetStatusCode() {

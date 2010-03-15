@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemExt;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 
 /**
  * This class...
  */
-public class AwardBudgetPeriodExt extends BudgetPeriod {
+public class AwardBudgetLineItemCalculatedAmountExt extends BudgetLineItemCalculatedAmount {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -4306012301567173292L;
+    private static final long serialVersionUID = 8143479362083133558L;
     private BudgetDecimal obligatedAmount;
+
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
@@ -42,13 +43,4 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
-    /**
-     * 
-     * @see org.kuali.kra.budget.parameters.BudgetPeriod#getNewBudgetLineItem()
-     */
-    public BudgetLineItem getNewBudgetLineItem() {
-        return new AwardBudgetLineItemExt();
-    }
-
-
 }

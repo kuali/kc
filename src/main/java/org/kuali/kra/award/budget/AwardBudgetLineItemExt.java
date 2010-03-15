@@ -13,21 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
 /**
  * This class...
  */
-public class AwardBudgetLineItemCalculatedAmountExt extends BudgetLineItemCalculatedAmount {
+public class AwardBudgetLineItemExt extends BudgetLineItem {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 8143479362083133558L;
-    private Long budgetPersonnelLineItemId;
+    private static final long serialVersionUID = 6909566795823678487L;
     private BudgetDecimal obligatedAmount;
+    /**
+     * 
+     * This method is to create new BudgetpersonnelDetails object
+     * @return
+     */
+    public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
+        return new AwardBudgetPersonnelDetailsExt();
+    }
+    /**
+     * 
+     * @see org.kuali.kra.budget.nonpersonnel.BudgetLineItem#getNewBudgetLineItemCalculatedAmount()
+     */
+    public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
+        return new AwardBudgetLineItemCalculatedAmountExt();
+    }
 
     /**
      * Gets the obligatedAmount attribute. 
@@ -43,18 +60,5 @@ public class AwardBudgetLineItemCalculatedAmountExt extends BudgetLineItemCalcul
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
-    /**
-     * Gets the budgetPersonnelLineItemId attribute. 
-     * @return Returns the budgetPersonnelLineItemId.
-     */
-    public Long getBudgetPersonnelLineItemId() {
-        return budgetPersonnelLineItemId;
-    }
-    /**
-     * Sets the budgetPersonnelLineItemId attribute value.
-     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
-     */
-    public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
-        this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
-    }
+    
 }

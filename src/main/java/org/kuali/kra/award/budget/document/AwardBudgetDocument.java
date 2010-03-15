@@ -16,6 +16,8 @@
 package org.kuali.kra.award.budget.document;
 
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -28,10 +30,18 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
 
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
 
+    private BudgetDecimal obligatedTotal;
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3564659576355229703L;
+
+    @Override
+    public void initialize() {
+        Award award = getParentDocument().getBudgetParent();
+        getAwardBudget().setObligatedTotal(new BudgetDecimal(award.getObligatedTotal().bigDecimalValue()));
+    }
+    
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
      */
@@ -54,6 +64,22 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     
     public AwardBudgetExt getAwardBudget(){
         return (AwardBudgetExt)getBudget();
+    }
+
+    /**
+     * Gets the obligatedAmount attribute. 
+     * @return Returns the obligatedAmount.
+     */
+    public BudgetDecimal getObligatedTotal() {
+        return obligatedTotal;
+    }
+
+    /**
+     * Sets the obligatedAmount attribute value.
+     * @param obligatedAmount The obligatedAmount to set.
+     */
+    public void setObligatedTotal(BudgetDecimal obligatedTotal) {
+        this.obligatedTotal = obligatedTotal;
     }
 
 }

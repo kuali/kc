@@ -664,12 +664,15 @@ public final class KeyConstants {
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE = "error.correspondence.template.invalid.file.type";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
     public static final String AWARD_BUDGET_STATUS_SUBMITTED = "awardBudgetStatusSubmitted";
-    private static final String AWARD_BUDGET_STATUS_IN_PROGRESS = "awardBudgetStatusInProgress";
+    public static final String AWARD_BUDGET_STATUS_IN_PROGRESS = "awardBudgetStatusInProgress";
     public static final String AWARD_BUDGET_STATUS_REJECTED = "awardBudgetStatusRejected";
     public static final String AWARD_BUDGET_STATUS_POSTED = "awardBudgetStatusPosted";
     public static final String AWARD_BUDGET_STATUS_TO_BE_POSTED = "awardBudgetStatusToBePosted";
-    private static final String AWARD_BUDGET_STATUS_ERROR_IN_POSTING = "awardBudgetStatusErrorInPosting";
+    public static final String AWARD_BUDGET_STATUS_ERROR_IN_POSTING = "awardBudgetStatusErrorInPosting";
     public static final String AWARD_BUDGET_POST_ENABLED = "AWARD_BUDGET_POST_ENABLED";
+    public static final String AWARD_BUDGET_TYPE_NEW = "awardBudgetTypeNew";
+    public static final String AWARD_BUDGET_TYPE_REBUDGET = "awardBudgetTypeNew";
+    
     public static final String ERROR_END_DATE_PRIOR_START_DATE = "error.end.date.prior.start.date";
     public static final String ERROR_INVALID_UNITCONTACT_PERSON = "error.unitContact.invalid.person";
     public static final String ERROR_MISSING_UNITCONTACT_PERSON = "error.unitContact.missing.person";

@@ -13,17 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.budget.bo;
+package org.kuali.kra.proposaldevelopment.budget.service;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
-/**
- * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
- * Right now this is being used to represent extension class for Budget in repository.
- */
-public class ProposalDevelopmentBudgetExt extends Budget {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 8234453927894053540L;
+public interface ProposalBudgetService extends BudgetCommonService<DevelopmentProposal> {
+
 }

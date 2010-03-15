@@ -36,7 +36,9 @@
                 <ref bean="AwardBudgetExt-awardBudgetStatusCode" />
                 <ref bean="AwardBudgetExt-awardBudgetTypeCode" />
                 <ref bean="AwardBudgetExt-totalCostLimit" />
-                <ref bean="AwardBudgetExt-versionNumber" />
+                <ref bean="AwardBudgetExt-obligatedAmount" />
+                <ref bean="AwardBudgetExt-budgetInitiator" />
+                <ref bean="AwardBudgetExt-description" />
             </list>
         </property>
     </bean>
@@ -106,18 +108,63 @@
         <property name="summary" value="Award Budget Type Code" />
         <property name="description" value="Award Budget Type Code" />
     </bean>
+  <bean id="AwardBudgetExt-obligatedAmount" parent="AwardBudgetExt-obligatedAmount-parentBean"/>
+
+  <bean id="AwardBudgetExt-obligatedAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="obligatedAmount"/>
+    <property name="label" value="Obligated Amount"/>
+    <property name="shortLabel" value="Obligated Amount"/>
+    <property name="summary" value="Obligated amount from award amount info"/>
+    <property name="description" value="Obligated amount from award amount info"/>
+  </bean>
   <bean id="AwardBudgetExt-totalCostLimit" parent="AwardBudgetExt-totalCostLimit-parentBean"/>
 
   <bean id="AwardBudgetExt-totalCostLimit-parentBean" abstract="true" parent="Budget-totalCostLimit">
-    <property name="label" value="Budget Amount"/>
+    <property name="label" value="Budget Change Total Cost Limit"/>
     <property name="shortLabel" value="Budget Amount"/>
-    <property name="summary" value="Obligated Change amount"/>
-    <property name="description" value="Obligated change amount for budgeting"/>
+    <property name="summary" value="Budget Change Total Cost Limit"/>
+    <property name="description" value="Budget Change Total Cost Limit"/>
   </bean>
+  <bean id="AwardBudgetExt-budgetInitiator" parent="AwardBudgetExt-budgetInitiator-parentBean" />
 
-    <bean id="AwardBudgetExt-versionNumber" parent="AwardBudgetExt-versionNumber-parentBean" />
-    <bean id="AwardBudgetExt-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="AwardBudgetExt-budgetInitiator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetInitiator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Initiator" />
+    <property name="shortLabel" value="Initiator" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      	<bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Budget Intitiator" />
+    <property name="description" value="Budget Initiator" />
+  </bean>
+  
+  <bean id="AwardBudgetExt-description" parent="AwardBudgetExt-description-parentBean" />
+
+  <bean id="AwardBudgetExt-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+   		<bean parent="AnyCharacterValidationPattern"
+           	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="AwardBudgetExt-inquiryDefinition" parent="AwardBudgetExt-inquiryDefinition-parentBean" />
