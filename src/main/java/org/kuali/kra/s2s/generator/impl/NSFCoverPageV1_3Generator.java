@@ -227,7 +227,8 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
 				int narrativeTypeCode = Integer.parseInt(narrative
 						.getNarrativeTypeCode());
 				if (narrativeTypeCode == PERSONAL_DATA
-						|| narrativeTypeCode == PROPRIETARY_INFORMATION) {
+						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
+						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
 					attachedFileDataTypeList
 							.add(getAttachedFileType(narrative));
 				}

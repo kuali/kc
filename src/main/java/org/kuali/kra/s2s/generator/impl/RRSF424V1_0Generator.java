@@ -229,6 +229,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
 
+
 			BigDecimal totalProjectIncome = BigDecimal.ZERO;
 			for (BudgetProjectIncome budgetProjectIncome : budget
 					.getBudgetProjectIncomes()) {

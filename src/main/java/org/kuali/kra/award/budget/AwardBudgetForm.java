@@ -45,7 +45,10 @@ public class AwardBudgetForm extends BudgetForm {
         AwardBudgetDocument budgetDocument = new AwardBudgetDocument();
         this.setDocument(budgetDocument);
     }
-
+    public void initialize() {
+        super.initialize();
+        getBudgetDocument().initialize();
+    }
     /**
      * Gets the awardInMultipleNodeHierarchy attribute. 
      * @return Returns the awardInMultipleNodeHierarchy.

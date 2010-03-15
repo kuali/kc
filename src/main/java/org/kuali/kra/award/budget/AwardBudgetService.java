@@ -16,10 +16,10 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.core.BudgetCommonService;
 
-public interface AwardBudgetService {
+public interface AwardBudgetService extends BudgetCommonService<Award> {
 
     /**
      * 
@@ -45,15 +45,5 @@ public interface AwardBudgetService {
      * 
      */
     public void rebudget(AwardBudgetDocument awardBudgetDocument);
-    
-    /**
-     * 
-     */
-    public AwardBudgetDocument createNew(AwardDocument awardDocument,String versionName);
-    
-    /**
-     * 
-     */
-    public AwardBudgetDocument copy(AwardBudgetDocument awardBudgetDocument);
     
 }

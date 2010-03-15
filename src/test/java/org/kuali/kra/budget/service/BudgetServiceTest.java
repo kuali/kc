@@ -21,9 +21,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -39,7 +41,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class BudgetServiceTest extends KraTestBase {
     
-    BudgetService budgetService;
+    private BudgetService budgetService;
+    private BudgetCommonService budgetCommonService;
     private ProposalDevelopmentService proposalDevelopmentService;
     
     @Before
@@ -47,6 +50,7 @@ public class BudgetServiceTest extends KraTestBase {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         budgetService = getService(BudgetService.class);
+        budgetCommonService = getService(ProposalBudgetService.class);
         proposalDevelopmentService = getService(ProposalDevelopmentService.class);
     }
     
@@ -74,7 +78,7 @@ public class BudgetServiceTest extends KraTestBase {
         PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(pdDocument.getDocumentNumber(), pdDocument.getDocumentNumber()+"-BUDGET", currentSession.getPerson());
         pdDocument.addPessimisticLock(lock);
         
-        BudgetDocument budgetDocument = budgetService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        BudgetDocument budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
         // Verify that status is final
         assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
@@ -97,9 +101,9 @@ public class BudgetServiceTest extends KraTestBase {
         String testProposalNumber = pdDocument.getDevelopmentProposal().getProposalNumber();
         String testDocumentDescription = "Test Copy Budget Doc";
         
-        BudgetDocument budgetDocument = budgetService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        BudgetDocument budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
-        BudgetDocument copyBudgetDocument = budgetService.copyBudgetVersion(budgetDocument);
+        BudgetDocument copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
         
 //      //Verify that status is final
         assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());

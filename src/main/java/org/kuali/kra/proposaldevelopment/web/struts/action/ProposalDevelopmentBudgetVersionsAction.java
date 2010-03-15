@@ -27,6 +27,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -99,12 +102,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
 
-        BudgetDocument<DevelopmentProposal> budgetDocument = getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+        BudgetDocument<DevelopmentProposal> budgetDocument = 
+                getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
         pdForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
     }
     
+    @SuppressWarnings("unchecked")
     private BudgetService getBudgetService() {
         return KraServiceLocator.getService(BudgetService.class);
     }

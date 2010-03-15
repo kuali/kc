@@ -104,25 +104,30 @@ public class BudgetExpensesAction extends BudgetAction {
         else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
             GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
         }
-        else if (newBudgetLineItem.getCostSharingAmount() != null && newBudgetLineItem.getCostSharingAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
-        }
+//        else if (newBudgetLineItem.getCostSharingAmount() != null && newBudgetLineItem.getCostSharingAmount().isNegative()) {
+//            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
+//        }
         else if (newBudgetLineItem.getQuantity() != null && newBudgetLineItem.getQuantity().intValue()<0) {
             GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
         }
-        else if (newBudgetLineItem.getLineItemCost() != null && newBudgetLineItem.getLineItemCost().isNegative()) {
-            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
-        }
+//        else if (newBudgetLineItem.getLineItemCost() != null && newBudgetLineItem.getLineItemCost().isNegative()) {
+//            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
+//        }
         else{
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
             BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
-            List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
+            List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();//(List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
             BudgetPeriod budgetPeriod = null;
-            if(CollectionUtils.isNotEmpty(budgetPeriods)) {
-                budgetPeriod = budgetPeriods.get(0);
+            for (BudgetPeriod tempBudgetPeriod : budgetPeriods) {
+                if(tempBudgetPeriod.getBudgetPeriod().equals(budgetForm.getViewBudgetPeriod())){
+                    budgetPeriod = tempBudgetPeriod;
+                }
             }
+//            if(CollectionUtils.isNotEmpty(budgetPeriods)) {
+//                budgetPeriod = budgetPeriods.get(0);
+//            }
             
             BudgetCategory newBudgetCategory = new BudgetCategory();
             newBudgetCategory.setBudgetCategoryTypeCode(getSelectedBudgetCategoryType(request));
@@ -131,8 +136,6 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setBudgetCategory(newBudgetCategory);
             newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
             newBudgetLineItem.setEndDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
-//            newBudgetLineItem.setProposalNumber(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getProposalNumber());
-//            newBudgetLineItem.setBudgetVersionNumber(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetVersionNumber());
             newBudgetLineItem.setBudgetId(budget.getBudgetId());
             newBudgetLineItem.setLineItemNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             newBudgetLineItem.setApplyInRateFlag(true);
@@ -249,7 +252,6 @@ public class BudgetExpensesAction extends BudgetAction {
             AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
             streamToResponse(dataStream,response);
         }catch(Exception ex){
-            ex.printStackTrace();
             LOG.error(ex);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
