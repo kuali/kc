@@ -21,11 +21,11 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tabTop tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,costShareFormHelper.newAwardCostShare.*,document.awardList[0].awardCostShare*"
+<kul:tabTop tabTitle="Cost Sharing" defaultOpen="false" tabErrorKey="newAwardCostShare.*,costShareFormHelper.newAwardCostShare.*,document.awardList[0].awardCostShare*"
 			auditCluster="costShareAuditErrors" tabAuditKey="document.awardList[0].awardCostShares*">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Cost Share</span>
+    		<span class="subhead-left">Cost Sharing</span>
         </h3>
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
@@ -35,18 +35,18 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.fiscalYear}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.source}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.destination}" useShortLabel="true" noColon="true"/></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.verificationDate}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.commitmentAmount}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.costShareMet}" useShortLabel="true" noColon="true"/></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.verificationDate}" useShortLabel="true" noColon="true"/></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
 			
 			<c:if test="${!readOnly}">
 			<tr>
             	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
-            	<td class="infoline">
+            	<td class="infoline" style="white-space: nowrap;">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}" styleClass="amount"/>
+            	  	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}" styleClass="amount"/>%
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -70,11 +70,6 @@
             	  	</div>
 	            </td>
 	            <td class="infoline">
-	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
-            	  	</div>
-	            </td>
-	            <td class="infoline">
 	            	<div align="right">
             	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.commitmentAmount" attributeEntry="${awardCostShareAttributes.commitmentAmount}" styleClass="amount"/>
             	  	</div>
@@ -84,6 +79,11 @@
             	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costShareMet" attributeEntry="${awardCostShareAttributes.costShareMet}" styleClass="amount"/>
             	  	</div>
 	            </td>
+                <td class="infoline">
+                    <div align="center">
+                        <kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
+                    </div>
+                </td>
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addCostShare.anchor${tabKey}"
@@ -123,11 +123,6 @@
 	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].destination" attributeEntry="${awardCostShareAttributes.destination}"/>
 					</div>
 	                </td>
-	                <td width="15%" valign="middle">
-					<div align="center">
-	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
-					</div>
-	                </td>
 	                <td width="15%" valign="right">
 					<div align="right">
 	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].commitmentAmount" attributeEntry="${awardCostShareAttributes.commitmentAmount}" styleClass="amount"/>
@@ -138,6 +133,11 @@
 	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].costShareMet" attributeEntry="${awardCostShareAttributes.costShareMet}" styleClass="amount"/>
 					</div>
 	                </td>
+                    <td width="15%" valign="middle">
+                    <div align="center">
+                        <kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
+                    </div>
+                    </td>
 					<td width="10%">
 					<div align="center">&nbsp;
 					   <c:if test="${!readOnly}">
@@ -150,7 +150,7 @@
         	</c:forEach> 
           	<tr>
           		<th align="center" scope="row"><div>Total:</div></th>
-          		<th colspan="6" scope="row">&nbsp;</th>
+          		<th colspan="5" scope="row">&nbsp;</th>
           		<th align="right">
           			<div align="right">  		                		
 	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalCostShareCommitmentAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
@@ -161,24 +161,16 @@
 	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalCostShareMetAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
-	         	<th scope="row">&nbsp;</th>
+	         	<th colspan="2" align="center">
+                    <c:if test="${!readOnly}">
+    	         	    <html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
+                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+                   </c:if>
+	         	</th>
           	</tr>
           	
-        </table>
-   </div>
-   <c:if test="${!readOnly}">
-   <div class="tab-container" align="center">
-		<html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
-		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
-   </div>           
-   </c:if>
-   <div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Comments</span>
-        </h3>
-        <table>
-        	<th width="100" align="right" scope="row"><div align="center">Add:</div></th>
-        	<td class="infoline">
+        	<th width="100" align="right" scope="row"><div align="center">Comments:</div></th>
+        	<td colspan="9" class="infoline">
             	 <div align="left">
             	  	 <kul:htmlControlAttribute property="document.awardList[0].awardCostShareComment.comments" attributeEntry="${awardCostShareCommentAttributes.comments}"/>
             	 </div>
