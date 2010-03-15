@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.grants.apply.forms.nsfCoverPage12V12.NSFCoverPage12Document;
 import gov.grants.apply.forms.nsfCoverPage12V12.NSFCoverPage12Document.NSFCoverPage12;
 import gov.grants.apply.forms.nsfCoverPage12V12.NSFCoverPage12Document.NSFCoverPage12.NSFUnitConsideration;
@@ -233,33 +236,22 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 	 *         narrative type code.
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
-		int size = 0;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
-					size++;
-				} else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROPRIETARY_INFORMATION) {
-					size++;
+				int narrativeTypeCode = Integer.parseInt(narrative
+						.getNarrativeTypeCode());
+				if (narrativeTypeCode == PERSONAL_DATA
+						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
+						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
+					attachedFileDataTypeList.add(getAttachedFileType(narrative));
 				}
 			}
 		}
-
-		AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-		int attachments = 0;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
-					attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-					attachments++;
-				} else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROPRIETARY_INFORMATION) {
-					attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-					attachments++;
-				}
-			}
-		}
-		return attachedFileDataTypes;
+		return attachedFileDataTypeList
+		.toArray(new AttachedFileDataType[attachedFileDataTypeList
+		          						.size()]);
 	}
 
 	/**

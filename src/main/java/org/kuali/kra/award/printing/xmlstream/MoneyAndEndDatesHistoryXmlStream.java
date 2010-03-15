@@ -32,10 +32,7 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
 		initialize((AwardDocument) document);
-		if (award != null) {
-			awardNoticeDocument
-					.setAwardNotice(getAwardNotice(reportParameters));
-		}
+		awardNoticeDocument.setAwardNotice(getAwardNotice(reportParameters));
 		xmlObjectList.put(AwardPrintType.MONEY_AND_END_DATES_HISTORY
 				.getAwardPrintType(), awardNoticeDocument);
 		return xmlObjectList;
@@ -99,18 +96,24 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 			AwardAmountInfo awardAmountInfo, int rowNo) {
 		AwardAmountTransaction awardAmountTransaction = getAwardAmountTransaction(awardAmountInfo
 				.getTimeAndMoneyDocumentNumber());
-		AwardTransactionType awardTransactionType = AwardTransactionType.Factory
-				.newInstance();
-		awardTransactionType.setAwardNumber(award.getAwardNumber());
-		awardTransactionType.setTransactionTypeCode(awardAmountTransaction
-				.getTransactionTypeCode());
-		// TODO: need to set TransactionTypeDesc
-		// awardTransactionType.setTransactionTypeDesc(arg0);
-		awardTransactionType.setComments(awardAmountTransaction.getComments());
-		awardTransactionType.setNoticeDate(dateTimeService
-				.getCalendar(awardAmountTransaction.getNoticeDate()));
-		awardTransactionTypes.add(awardTransactionType);
-		awardTransactionType.setTreeLevel(rowNo);
+		
+		if (awardAmountTransaction != null) {
+			AwardTransactionType awardTransactionType = AwardTransactionType.Factory
+					.newInstance();
+
+			awardTransactionType.setAwardNumber(award.getAwardNumber());
+			awardTransactionType.setTransactionTypeCode(awardAmountTransaction
+					.getTransactionTypeCode());
+			// TODO: need to set TransactionTypeDesc
+			// awardTransactionType.setTransactionTypeDesc(arg0);
+			awardTransactionType.setComments(awardAmountTransaction
+					.getComments());
+			awardTransactionType.setNoticeDate(dateTimeService
+					.getCalendar(awardAmountTransaction.getNoticeDate()));
+			awardTransactionType.setTreeLevel(rowNo);
+			
+			awardTransactionTypes.add(awardTransactionType);
+		}
 
 	}
 

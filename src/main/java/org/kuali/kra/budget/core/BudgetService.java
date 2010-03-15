@@ -32,25 +32,18 @@ import org.kuali.rice.kew.exception.WorkflowException;
 /**
  * Budget Service interface
  */
-public interface BudgetService<T extends BudgetParent> {
+public interface BudgetService<T extends BudgetParent>  {
+    
     
     /**
-     * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
+     * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
+     * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
+     * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
      * 
-     * @param pdDoc
-     * @param documentDescription
-     * @return BudgetDocument
-     * @throws WorkflowException
+     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param versionName of the {@link BudgetVersionOverview}
      */
-    public BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> pdDoc, String documentDescription) throws WorkflowException;
-    
-    /**
-     * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
-     * @param budgetDocument
-     * @return BudgetDocument
-     * @throws WorkflowException
-     */
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+    public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException;
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
@@ -152,13 +145,6 @@ public interface BudgetService<T extends BudgetParent> {
      * @throws Exception
      */
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument) throws Exception;
-    /**
-     * Add a new Budget Version by name to a {@link BudgetParentDocument}
-     * 
-     * @param document instance to add {@link BudgetVersionOverview} to
-     * @param versionName of the {@link BudgetVersionOverview}
-     */
-    public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException;
 
     /**
      * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid

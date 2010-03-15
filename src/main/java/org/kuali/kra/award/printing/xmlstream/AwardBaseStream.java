@@ -954,7 +954,8 @@ public abstract class AwardBaseStream implements XmlStream {
 		if (award.getSequenceNumber() != null) {
 			awardTransactionType.setSequenceNumber(award.getSequenceNumber());
 		}
-		if (awardAmountInfo.getSequenceNumber() != null) {
+		if (awardAmountInfo != null
+				&& awardAmountInfo.getSequenceNumber() != null) {
 			awardTransactionType.setAmountSequenceNumber(awardAmountInfo
 					.getSequenceNumber());
 		}
@@ -2235,7 +2236,8 @@ public abstract class AwardBaseStream implements XmlStream {
 					&& prevAwardAmountInfo.getObligationExpirationDate() != null) {
 				obligationExpirationDateModified = END_ASTERISK_SPACE_INDICATOR;
 			}
-		} else if (prevAwardAmountInfo.getObligationExpirationDate() != null) {
+		} else if (prevAwardAmountInfo != null
+				&& prevAwardAmountInfo.getObligationExpirationDate() != null) {
 			obligationExpirationDateModified = END_ASTERISK_SPACE_INDICATOR;
 		}
 		return obligationExpirationDateModified;
@@ -2761,7 +2763,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the competing renewal description
 	 */
 	private String getCompetingRenewalDesc() {
-		String competingRenewalDesc = "";
+		String competingRenewalDesc = null;
 //		if (prevAward != null) {
 //			if ((award.getCompetingRenewalPrpslDue() != null && award
 //					.getCompetingRenewalPrpslDue().getDescription() != null)
@@ -2785,7 +2787,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the non competing constant description
 	 */
 	private String getNonCompetingContDesc() {
-		String nonCompetinContDesc = "";
+		String nonCompetinContDesc = null;
 //		if (prevAward != null) {
 //			if ((award.getNonCompetingContPrpslDue() != null && award
 //					.getNonCompetingContPrpslDue().getDescription() != null)

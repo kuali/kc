@@ -15,14 +15,18 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
+import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -31,28 +35,14 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * This class...
+ * This class is to process all basic services required for AwardBudget
  */
 public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#copy(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
-    public AwardBudgetDocument copy(AwardBudgetDocument awardBudgetDocument) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#createNew(org.kuali.kra.award.document.AwardDocument, java.lang.String)
-     */
-    public AwardBudgetDocument createNew(AwardDocument awardDocument, String versionName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /**
      * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
@@ -191,6 +181,68 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     public void setDocumentService(DocumentService documentservice) {
         this.documentService = documentservice;
+    }
+
+
+    /**
+     * 
+     * @see org.kuali.kra.budget.core.BudgetCommonService#getNewBudgetVersion(org.kuali.kra.budget.document.BudgetParentDocument, java.lang.String)
+     */
+    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument<Award> parentDocument, String documentDescription)
+            throws WorkflowException {
+        BudgetDocument<Award> budgetDocument;
+        Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
+        budgetDocument = (BudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
+        
+        budgetDocument.setParentDocument(parentDocument);
+        budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
+        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
+        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
+        
+        Budget budget = budgetDocument.getBudget();
+        budget.setBudgetVersionNumber(budgetVersionNumber);
+        budget.setBudgetDocument(budgetDocument);
+        
+        BudgetParent budgetParent = parentDocument.getBudgetParent();
+        budget.setStartDate(budgetParent.getRequestedStartDateInitial());
+        budget.setEndDate(budgetParent.getRequestedEndDateInitial());
+        budget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
+        budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+        budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+        budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
+        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
+        if(!success)
+            return null;
+
+        //Rates-Refresh Scenario-1
+        budget.setRateClassTypesReloaded(true);
+        
+        saveBudgetDocument(budgetDocument);
+        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        parentDocument.refreshReferenceObject("budgetDocumentVersions");
+        return budgetDocument;
+    }
+    /**
+     * This method...
+     * @param budgetDocument
+     * @param isProposalBudget
+     * @param budget
+     * @param budgetParent
+     * @throws WorkflowException
+     */
+    private void saveBudgetDocument(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+        Budget budget = budgetDocument.getBudget();
+        BudgetParentDocument<Award> parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParent budgetParent = parentDocument.getBudgetParent();
+        AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
+        budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+        budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
+        documentService.saveDocument(budgetDocument);
+    }
+
+    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+        return null;
     }
 
 }

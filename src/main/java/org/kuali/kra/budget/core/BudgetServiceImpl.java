@@ -109,6 +109,11 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return newBudgetDoc;
     }
 
+    private BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> parentDocument, String versionName) throws WorkflowException {
+        BudgetCommonService<T> budgetCommonService = BudgetCommonServiceFactory.createInstance(parentDocument);
+        return budgetCommonService.getNewBudgetVersion(parentDocument, versionName);
+    }
+
     /**
      * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
      * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
@@ -159,47 +164,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         this.budgetVersionRule = budgetVersionRule;
     }
     
-    /**
-     * @see org.kuali.kra.budget.core.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> parentDocument, String documentDescription) throws WorkflowException {
-        
-        BudgetDocument<T> budgetDocument;
-        boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
-        Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-        Class budgetDocumentClass = isProposalBudget? BudgetDocument.class:AwardBudgetDocument.class;
-        budgetDocument = (BudgetDocument) documentService.getNewDocument(budgetDocumentClass);
-        
-        budgetDocument.setParentDocument(parentDocument);
-        budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
-        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
-        
-        Budget budget = budgetDocument.getBudget();
-        budget.setBudgetVersionNumber(budgetVersionNumber);
-        budget.setBudgetDocument(budgetDocument);
-        
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
-        budget.setStartDate(budgetParent.getRequestedStartDateInitial());
-        budget.setEndDate(budgetParent.getRequestedEndDateInitial());
-        budget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
-        budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
-        budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
-        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
-        if(!success)
-            return null;
-
-        //Rates-Refresh Scenario-1
-        budget.setRateClassTypesReloaded(true);
-        
-        saveBudgetDocument(budgetDocument);
-        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        parentDocument.refreshReferenceObject("budgetDocumentVersions");
-        return budgetDocument;
-    }
 
     /**
      * This method...
@@ -217,8 +181,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
         if(!isProposalBudget){
             AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, AwardBudgetExt.AWARD_BUDGET_TYPE_NEW_PARAMETER));
+            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
             documentService.saveDocument(budgetDocument);
         }else{
             documentService.saveDocument(budgetDocument);
@@ -226,56 +190,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
     }
     
-    /**
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws FormatException 
-     * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
-     */
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException {
-        budgetDocument.toCopy();
-        budgetDocument.getBudget().setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
-        try {
-            Map<String, Object> objectMap = new HashMap<String, Object>();
-            fixProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
-            objectMap.clear();
-            fixProperty(budgetDocument.getBudget(), "setBudgetPeriodId", Long.class, null, objectMap);
-            objectMap.clear();
-            fixProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
-            objectMap.clear();
-            ObjectUtils.materializeAllSubObjects(budgetDocument);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        
-        //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
-        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
-        for(BudgetPeriod budgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
-            BudgetModular tmpObject = null;
-            if(budgetPeriod.getBudgetModular() != null) {
-                tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
-            }
-            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getVersionNumber() + budgetPeriod.getBudgetPeriod(), tmpObject);
-            budgetPeriod.setBudgetModular(null);
-        }
-
-        
-        budgetDocument.setVersionNumber(null);
-        
-        documentService.saveDocument(budgetDocument);
-        for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
-            if(tmpBudgetModular != null) {
-                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
-                tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
-            }
-        }
-        
-        saveBudgetDocument(budgetDocument);
-        return budgetDocument;
-    }
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);

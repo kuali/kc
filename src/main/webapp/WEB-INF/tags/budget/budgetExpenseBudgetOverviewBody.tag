@@ -16,7 +16,18 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
+<c:set var="awardBudgetPeriodAttributes" value="${DataDictionary.AwardBudgetPeriodExt.attributes}" />
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.Budget.attributes}" />
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
+<c:choose>
+	<c:when test="${proposalBudgetFlag}" >
+		<c:set var="budgetPeriodAttribute" value="${budgetPeriodAttributes}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="budgetPeriodAttribute" value="${awardBudgetPeriodAttributes}" />
+	</c:otherwise>
+</c:choose>
+
 <c:choose>
 	<c:when test="${!empty KualiForm.viewBudgetPeriod}" >
 		<c:set var="budgetPeriod" value="${KualiForm.viewBudgetPeriod}" />
@@ -52,15 +63,23 @@
     <table cellpadding=0 cellspacing=0 summary="">
 	    	<tr>
 	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}"  readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCostLimit}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" readOnly="true"/></div></td>
+	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" readOnly="true"/></div></td>
+	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttribute.totalCostLimit}" noColon="true" /></div></th>
+	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttribute.totalCostLimit}" readOnly="true"/></div></td>
 	    	</tr>
 	    	<tr>
 	    		<th width="25%"><div align="right"><a title="[Help] End Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=endDate">Period ${budgetPeriod} End Date</a></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}"  readOnly="true"/></div></td>
-	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalCostLimit}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${budgetDocumentAttributes.totalCostLimit}" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" readOnly="true"/></div></td>
+	    		<c:choose>
+					<c:when test="${proposalBudgetFlag}">
+			    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetDocumentAttributes.totalCostLimit}" noColon="true" /></div></th>
+			    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${budgetDocumentAttributes.totalCostLimit}" readOnly="true"/></div></td>
+		    		</c:when>
+		    		<c:otherwise>
+			    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetPeriodAttributes.obligatedAmount}" noColon="true" /></div></th>
+			    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].obligatedAmount" attributeEntry="${awardBudgetPeriodAttributes.obligatedAmount}" readOnly="true"/></div></td>
+		    		</c:otherwise>
+		    	</c:choose>
 	    	</tr>
 	    	<tr>
 				<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>          		
@@ -77,6 +96,7 @@
 	    	<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
 	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
+	    		<td colspan="2">&nbsp;</td>
 	    	</tr>
     </table>
     </div>        

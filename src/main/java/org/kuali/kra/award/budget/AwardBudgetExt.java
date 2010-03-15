@@ -20,23 +20,22 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.parameters.AwardBudgetPeriodExt;
 
 public class AwardBudgetExt extends Budget { 
     
 
     private static final long serialVersionUID = 1L;
 
-    public static final String AWARD_BUDGET_TYPE_NEW_PARAMETER = "AWARD_BUDGET_TYPE_NEW_PARAMETER";
-
     private String awardBudgetStatusCode; 
     private String awardBudgetTypeCode; 
-    private BudgetDecimal obligatedAmount;
-    
+    private BudgetDecimal obligatedTotal;
+    private BudgetDecimal obligatedAmount=BudgetDecimal.ZERO;
+    private BudgetDecimal totalCostLimit;
     private AwardBudgetStatus awardBudgetStatus; 
-    private AwardBudgetType awardBudgetType; 
+    private AwardBudgetType awardBudgetType;
+    private String description;
+    private String budgetInitiator;
     
     public AwardBudgetExt() { 
         super();
@@ -85,6 +84,8 @@ public class AwardBudgetExt extends Budget {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("budgetId", this.getBudgetId());
+        hashMap.put("obligatedTotal", this.getObligatedTotal());
+        hashMap.put("obligatedAmount", this.getObligatedAmount());
         hashMap.put("awardBudgetStatusCode", this.getAwardBudgetStatusCode());
         hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
         return hashMap;
@@ -110,19 +111,75 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
+     * Gets the obligatedTotal attribute. 
+     * @return Returns the obligatedTotal.
+     */
+    public BudgetDecimal getObligatedTotal() {
+        return obligatedTotal==null?BudgetDecimal.ZERO:obligatedTotal;
+    }
+
+    /**
+     * Sets the obligatedTotal attribute value.
+     * @param obligatedTotal The obligatedTotal to set.
+     */
+    public void setObligatedTotal(BudgetDecimal obligatedAmount) {
+        this.obligatedTotal = obligatedAmount;
+    }
+    /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount;
+        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
     }
-
     /**
      * Sets the obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
+    }
+    /**
+     * Gets the totoalCostLimit attribute. 
+     * @return Returns the totoalCostLimit.
+     */
+    public BudgetDecimal getTotalCostLimit() {
+        return getObligatedTotal().subtract(getObligatedAmount());
+    }
+    /**
+     * Sets the totoalCostLimit attribute value.
+     * @param totoalCostLimit The totoalCostLimit to set.
+     */
+    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+        this.totalCostLimit = totalCostLimit;
+    }
+    /**
+     * Gets the description attribute. 
+     * @return Returns the description.
+     */
+    public String getDescription() {
+        return description;
+    }
+    /**
+     * Sets the description attribute value.
+     * @param description The description to set.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    /**
+     * Gets the budgetInitiator attribute. 
+     * @return Returns the budgetInitiator.
+     */
+    public String getBudgetInitiator() {
+        return budgetInitiator;
+    }
+    /**
+     * Sets the budgetInitiator attribute value.
+     * @param budgetInitiator The budgetInitiator to set.
+     */
+    public void setBudgetInitiator(String budgetInitiator) {
+        this.budgetInitiator = budgetInitiator;
     }
     
 }

@@ -26,7 +26,6 @@
       <list>
         <ref bean="BudgetLineItem-budgetPeriod" />
         <ref bean="BudgetLineItem-lineItemNumber" />
-<!--        <ref bean="BudgetLineItem-proposalNumber" />-->
         <ref bean="BudgetLineItem-versionNumber" />
         <ref bean="BudgetLineItem-applyInRateFlag" />
         <ref bean="BudgetLineItem-basedOnLineItem" />
@@ -85,24 +84,6 @@
     <property name="summary" value="Line Item Number" />
     <property name="description" value="Line Item Number" />
   </bean>
-<!--  <bean id="BudgetLineItem-proposalNumber" parent="BudgetLineItem-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetLineItem-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="proposalNumber" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="Proposal Number" />-->
-<!--    <property name="shortLabel" value="Proposal Number" />-->
-<!--    <property name="maxLength" value="12" />-->
-<!--    <property name="validationPattern" >-->
-<!--      <bean parent="AlphaNumericValidationPattern" />-->
-<!--    </property>-->
-<!--    <property name="control" >-->
-<!--      <bean parent="TextControlDefinition"-->
-<!--            p:size="12" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Proposal Number" />-->
-<!--    <property name="description" value="Proposal Number" />-->
-<!--  </bean>-->
   <bean id="BudgetLineItem-versionNumber" parent="BudgetLineItem-versionNumber-parentBean" />
 
   <bean id="BudgetLineItem-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">

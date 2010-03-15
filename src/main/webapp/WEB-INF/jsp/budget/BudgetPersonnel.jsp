@@ -53,7 +53,11 @@
 	
 	<kul:panelFooter />
 	
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" extraButtons="${extraButtons}"  viewOnly="${KualiForm.editingMode['viewOnly']}" />	
+	<kul:documentControls 
+		transactionalDocument="true" 
+			suppressRoutingControls="true" 
+								extraButtons="${extraButtons}"  
+									viewOnly="${KualiForm.editingMode['viewOnly']}" />	
 	
 	<SCRIPT type="text/javascript">
 	var kualiForm = document.forms['KualiForm'];
