@@ -53,6 +53,6 @@ public class InstitutionalProposalDeliveryInfoWebTest extends InstitutionalPropo
         assertEquals("1111 Lockheed Way", addressLine2.asText());
         assertEquals("Orgn. 67-21, Building 107", addressLine3.asText());
         assertEquals("Sunnyvale", city.asText());
-        assertEquals("CA", state.asText());
+        assertEquals("CA - 94089", state.asText());
     }
 }
