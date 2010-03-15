@@ -217,9 +217,9 @@
         <property name="label" value="Transaction Id" />
         <property name="shortLabel" value="Transaction Id" />
         <property name="maxLength" value="10" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
+       	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />

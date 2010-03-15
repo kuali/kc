@@ -1146,6 +1146,9 @@
 		<field-descriptor name="obligatedTotalIndirect" column="OBLIGATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
+		</reference-descriptor>
 		<!-- 
 		<collection-descriptor name="awardBudgetInfo" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardBudgetInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="awardAmountInfoId"/>

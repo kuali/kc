@@ -52,6 +52,7 @@ public class AwardAmountInfo extends AwardAssociate {
     private KualiDecimal anticipatedTotalIndirect; 
     private KualiDecimal obligatedTotalDirect; 
     private KualiDecimal obligatedTotalIndirect; 
+    private Integer transactionDetailItemsLength;
      
     // private AwardBudgetInfo awardBudgetInfo; 
     // private AwardAmtFnaDistribution awardAmtFnaDistribution; 
@@ -246,6 +247,8 @@ public class AwardAmountInfo extends AwardAssociate {
     public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
+    
+    
 
 //    public AwardBudgetInfo getAwardBudgetInfo() {
 //        return awardBudgetInfo;
@@ -262,6 +265,22 @@ public class AwardAmountInfo extends AwardAssociate {
 //    public void setAwardAmtFnaDistribution(AwardAmtFnaDistribution awardAmtFnaDistribution) {
 //        this.awardAmtFnaDistribution = awardAmtFnaDistribution;
 //    }
+
+    /**
+     * Gets the transactionDetailItemsLength attribute. 
+     * @return Returns the transactionDetailItemsLength.
+     */
+    public Integer getTransactionDetailItemsLength() {
+        return transactionDetailItemsLength;
+    }
+
+    /**
+     * Sets the transactionDetailItemsLength attribute value.
+     * @param transactionDetailItemsLength The transactionDetailItemsLength to set.
+     */
+    public void setTransactionDetailItemsLength(Integer transactionDetailItemsLength) {
+        this.transactionDetailItemsLength = transactionDetailItemsLength;
+    }
 
     /** {@inheritDoc} */
     @Override 
