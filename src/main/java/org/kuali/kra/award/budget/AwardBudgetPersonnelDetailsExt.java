@@ -13,38 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.personnel.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
 /**
  * This class...
  */
-public class AwardBudgetLineItemExt extends BudgetLineItem {
+public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 6909566795823678487L;
+    private static final long serialVersionUID = 4480947148039922420L;
     private BudgetDecimal obligatedAmount;
-    /**
-     * 
-     * This method is to create new BudgetpersonnelDetails object
-     * @return
-     */
-    public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
-        return new AwardBudgetPersonnelDetailsExt();
-    }
-    /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetLineItem#getNewBudgetLineItemCalculatedAmount()
-     */
-    public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
-        return new AwardBudgetLineItemCalculatedAmountExt();
-    }
-
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
@@ -59,5 +42,5 @@ public class AwardBudgetLineItemExt extends BudgetLineItem {
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
-    
+
 }

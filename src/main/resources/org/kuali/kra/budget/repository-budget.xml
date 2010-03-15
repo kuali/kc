@@ -41,7 +41,7 @@
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 	</class-descriptor>
-    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT" row-reader="org.kuali.kra.budget.core.BudgetDocumentRowReaderImpl">			
+    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -983,7 +983,6 @@
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt" table="EPS_PROPOSAL_BUDGET_EXT">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="finalVersionFlag" column="FINAL_VERSION_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -1052,7 +1051,7 @@
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
 		
-		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.parameters.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
@@ -1098,7 +1097,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.parameters.AwardBudgetPeriodExt" table="AWARD_BUDGET_PERIOD_EXT">
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPeriodExt" table="AWARD_BUDGET_PERIOD_EXT">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1108,11 +1107,11 @@
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.parameters.BudgetPeriod">
 			<foreignkey field-ref="budgetPeriodId"/>
 		</reference-descriptor>
-		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetLineItemExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/> 
 		</collection-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemExt" table="AWARD_BUDGET_DETAILS_EXT">
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLineItemExt" table="AWARD_BUDGET_DETAILS_EXT">
 		<field-descriptor name="budgetLineItemId" column="BUDGET_DETAILS_ID" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1122,14 +1121,14 @@
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItem">
 			<foreignkey field-ref="budgetLineItemId"/>
 		</reference-descriptor>
-		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemCalculatedAmountExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
-		<collection-descriptor name="budgetPersonnelDetailsList" proxy="true" element-class-ref="org.kuali.kra.budget.personnel.AwardBudgetPersonnelDetailsExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="budgetPersonnelDetailsList" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.nonpersonnel.AwardBudgetLineItemCalculatedAmountExt" table="AWD_BGT_DET_CAL_AMTS_EXT">
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" table="AWD_BGT_DET_CAL_AMTS_EXT">
 		<field-descriptor name="budgetLineItemCalculatedAmountId" column="BUDGET_DETAILS_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1140,7 +1139,7 @@
 			<foreignkey field-ref="budgetLineItemCalculatedAmountId"/>
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.personnel.AwardBudgetPersonnelDetailsExt" table="AWD_BUDGET_PER_DET_EXT">
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" table="AWD_BUDGET_PER_DET_EXT">
 		<field-descriptor name="budgetPersonnelLineItemId" column="BUDGET_PERSONNEL_DETAILS_ID" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1150,12 +1149,12 @@
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.personnel.BudgetPersonnelDetails">
 			<foreignkey field-ref="budgetPersonnelLineItemId"/>
 		</reference-descriptor>
-		<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.personnel.AwardBudgetPersonnelCalculatedAmountExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPersonnelLineItemId"/>
 		</collection-descriptor>
 		
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.personnel.AwardBudgetPersonnelCalculatedAmountExt" table="AWD_BUDGET_PER_CAL_AMTS_EXT">
+	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" table="AWD_BUDGET_PER_CAL_AMTS_EXT">
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

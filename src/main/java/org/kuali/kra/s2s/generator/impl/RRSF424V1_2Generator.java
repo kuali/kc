@@ -113,6 +113,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setAORSignature(getAORSignature());
 		rrsf42412.setAORSignedDate(s2sUtilService.getCurrentCalendar());
 		setPreApplicationAttachment(rrsf42412);
+		setSFLLLAttachment(rrsf42412);
 		rrSF424Document.setRRSF42412(rrsf42412);
 		return rrSF424Document;
 	}
@@ -776,6 +777,18 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 						.newInstance();
 				preAttachment = getAttachedFileType(narrative);
 				rrsf42412.setPreApplicationAttachment(preAttachment);
+			}
+		}
+	}
+	private void setSFLLLAttachment(RRSF42412 rrsf42412) {
+		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+				.getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == SFLLL_OTHEREXPLANATORY) {
+				AttachedFileDataType preAttachment = AttachedFileDataType.Factory
+						.newInstance();
+				preAttachment = getAttachedFileType(narrative);
+				rrsf42412.setSFLLLAttachment(preAttachment);
 			}
 		}
 	}

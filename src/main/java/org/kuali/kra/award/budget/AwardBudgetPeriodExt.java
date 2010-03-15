@@ -13,41 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
+package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 /**
  * This class...
  */
-public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
-
+public class AwardBudgetPeriodExt extends BudgetPeriod {
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 4480947148039922420L;
-    private Long budgetPersonnelLineItemId;
-    private BudgetDecimal obligatedAmount;
-    /**
-     * Gets the budgetPersonnelLineItemId attribute. 
-     * @return Returns the budgetPersonnelLineItemId.
-     */
-    public Long getBudgetPersonnelLineItemId() {
-        return budgetPersonnelLineItemId;
-    }
-    /**
-     * Sets the budgetPersonnelLineItemId attribute value.
-     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
-     */
-    public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
-        this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
-    }
+    private static final long serialVersionUID = -4306012301567173292L;
+    private BudgetDecimal obligatedAmount=BudgetDecimal.ZERO;
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount;
+        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
     }
     /**
      * Sets the obligatedAmount attribute value.
@@ -56,5 +42,13 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
+    /**
+     * 
+     * @see org.kuali.kra.budget.parameters.BudgetPeriod#getNewBudgetLineItem()
+     */
+    public BudgetLineItem getNewBudgetLineItem() {
+        return new AwardBudgetLineItemExt();
+    }
+
 
 }

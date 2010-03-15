@@ -15,15 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
  * Right now this is being used to represent extension class for Budget in repository.
  */
-public class ProposalDevelopmentBudgetExt extends Budget {
+public class ProposalDevelopmentBudgetOverviewExt extends BudgetVersionOverview {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 8234453927894053540L;
+    private static final long serialVersionUID = 8753945657927286025L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
 }

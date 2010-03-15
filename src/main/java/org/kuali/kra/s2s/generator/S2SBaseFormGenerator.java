@@ -208,6 +208,50 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         addAttachment(attachmentData);
         return attachedFileDataType;
     }
+    /**
+     * 
+     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * 
+     * @return AttachedFileDataType[] based on the narrative type code.
+     */
+    protected AttachedFileDataType[] getAttachedFileDataTypes(String narrativeTypeCode) {
+
+        int size = 0;
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+                size++;
+            }
+        }
+        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
+        int attachments = 0;
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
+                attachments++;
+            }
+        }
+        return attachedFileDataTypes;
+    }
+    /**
+     * 
+     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * 
+     * @return AttachedFileDataType[] based on the narrative type code.
+     */
+    protected AttachedFileDataType getAttachedFileDataType(String narrativeTypeCode) {
+
+        AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+                attachedFileDataType = getAttachedFileType(narrative);
+                break;
+            }
+        }
+        return attachedFileDataType;
+    }
 
     /**
      * 

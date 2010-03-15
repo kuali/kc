@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -113,11 +116,12 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
     /**
      * Copy the given budget version and add it to the given proposal.
      * 
-     * @param proposalDevelopmentDocument
+     * @param parentBudgetDocument
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
-    protected void copyBudget(BudgetParentDocument proposalDevelopmentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    @SuppressWarnings("unchecked")
+    protected void copyBudget(BudgetParentDocument parentBudgetDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
@@ -128,11 +132,21 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
             newBudgetPeriods.add(firstPeriod);
             budget.setBudgetPeriods(newBudgetPeriods);
         }
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(parentBudgetDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+        parentBudgetDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
+    /**
+     * 
+     * This method gets the BudgetCommonService
+     * @param parentBudgetDocument
+     * @return
+     */
+    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    }
+
     protected void populateTabState(KualiForm form, String tabTitle) {
         form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
     }

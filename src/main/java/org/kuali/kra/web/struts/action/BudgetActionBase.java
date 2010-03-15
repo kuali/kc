@@ -28,6 +28,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -145,11 +148,11 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
     /**
      * Copy the given budget version and add it to the given proposal.
      * 
-     * @param proposalDevelopmentDocument
+     * @param budgetParentDocument
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
-    protected void copyBudget(BudgetParentDocument proposalDevelopmentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
@@ -170,10 +173,19 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
                 period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
             }
         }
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+        budgetParentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy", true);
+    }
+    /**
+     * 
+     * This method gets the BudgetCommonService
+     * @param parentBudgetDocument
+     * @return
+     */
+    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 
     protected void populateTabState(KualiForm form, String tabTitle) {

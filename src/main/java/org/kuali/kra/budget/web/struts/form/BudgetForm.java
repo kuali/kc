@@ -276,7 +276,7 @@ public class BudgetForm extends BudgetVersionFormBase {
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
         String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
-        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries","excludeSubmitRestriction=true");
         
         return extraButtons;
     }
@@ -331,12 +331,26 @@ public class BudgetForm extends BudgetVersionFormBase {
      * @param altText
      */ 
     protected void addExtraButton(String property, String source, String altText){
+        addExtraButton(property, source, altText,null);
+    }
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText,String extraButtonOnclick){
         
         ExtraButton newButton = new ExtraButton();
         
         newButton.setExtraButtonProperty(property);
         newButton.setExtraButtonSource(source);
         newButton.setExtraButtonAltText(altText);
+        if(extraButtonOnclick!=null){
+            newButton.setExtraButtonOnclick(extraButtonOnclick);
+        }
         
         extraButtons.add(newButton);
     }

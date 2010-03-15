@@ -20,11 +20,20 @@
 <%@ attribute name="catCodes" description="Category Type Index" required="true" %>
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
+<c:set var="awardBudgetLineItemAttributes" value="${DataDictionary.AwardBudgetLineItemExt.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldName" value="newBudgetLineItems[${catCodes}].lineItemDescription" />
-
+<c:choose>
+	<c:when test="${proposalBudgetFlag}" >
+		<c:set var="lineItemCostAttribute" value="${budgetLineItemAttributes}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="lineItemCostAttribute" value="${awardBudgetLineItemAttributes}" />
+	</c:otherwise>
+</c:choose>
 <c:choose>
 	<c:when test="${!empty KualiForm.viewBudgetPeriod}" >
 		<c:set var="budgetPeriod" value="${KualiForm.viewBudgetPeriod}" />
@@ -94,10 +103,13 @@
         <table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="6%" class="darkInfoline"><div align="center">&nbsp</div></th> 
-          		<th width="38%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costElement}" noColon="true" /></div></th>
-          		<th width="25%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemDescription}" noColon="true" /></div></th>
+          		<th width="33%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costElement}" noColon="true" /></div></th>
+          		<th width="20%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemDescription}" noColon="true" /></div></th>
           		<th width="6%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.quantity}" noColon="true" /></div></th>
-          		<th width="16%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemCost}" noColon="true" /></div></th>
+          		<th width="16%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${lineItemCostAttribute.lineItemCost}" noColon="true" /></div></th>
+          		<c:if test="${!proposalBudgetFlag}">
+          			<th width="16%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardBudgetLineItemAttributes.obligatedAmount}" noColon="true" /></div></th>
+          		</c:if>
           		<th width="9%" class="darkInfoline"><div align="center">Action</div></th>
           	</tr>    
           	
@@ -112,7 +124,7 @@
 	                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
 	                    <c:choose>                    	
 	                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected="true">${option.label}</option>
 	                        </c:when>
 	                        <c:otherwise>
 	                        <c:out value="${option.label}"/>
@@ -138,12 +150,13 @@
 	                </td>
 	                <td valign="middle" class="darkInfoline">                	
 	                	<div align="center">
-	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" /> 
+	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${lineItemCostAttribute.lineItemCost}" styleClass="amount" /> 
 	                	</div>
-					</td>				
+					</td>		
+	                <td valign="middle" class="darkInfoline">&nbsp;</td>                	
 					<td class="darkInfoline">
 						<c:if test="${!readOnly}" >
-						<div align=center>
+						<div align="center">
 							<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodeKey}.catTypeIndex${catCodes}.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton" />
 						</div>

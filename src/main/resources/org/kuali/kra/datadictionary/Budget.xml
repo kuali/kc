@@ -21,8 +21,6 @@
     
     <property name="attributes">
       <list>
-<!--        <ref bean="Budget-proposalNumber"/>-->
-<!--        <ref bean="Budget-documentNumber"/>-->
         <ref bean="Budget-costSharingAmount"/>
         <ref bean="Budget-endDate"/>
         <ref bean="Budget-finalVersionFlag"/>

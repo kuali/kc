@@ -217,10 +217,16 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             }
             sf424V2.setCFDAProgramTitle(announcementTitle);
         }
-        sf424V2.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
-            sf424V2.setFundingOpportunityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
-            if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null) {
+        	sf424V2.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal()
+					.getS2sOpportunity().getOpportunityId());
+			if (pdDoc.getDevelopmentProposal().getS2sOpportunity()
+					.getOpportunityTitle() != null) {
+				sf424V2.setFundingOpportunityTitle(pdDoc
+						.getDevelopmentProposal().getS2sOpportunity()
+						.getOpportunityTitle());
+			}
+			if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null) {
                 sf424V2.setCompetitionIdentificationNumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId());
             }
         }
