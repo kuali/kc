@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -107,10 +108,14 @@ public class BudgetAction extends BudgetActionBase {
         }        
         if(budget.getUrRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
             ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
-        }        
-        getBudgetRatesService().syncAllBudgetRates(budgetDocument);
-        budgetForm.setSyncBudgetRate("");
-        getBudgetSummaryService().calculateBudget(budget);
+        }
+        
+        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
+            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            budgetForm.setSyncBudgetRate("");
+            getBudgetSummaryService().calculateBudget(budget);
+        }
+        
         reconcileBudgetStatus(budgetForm);
         return forward;
     }
