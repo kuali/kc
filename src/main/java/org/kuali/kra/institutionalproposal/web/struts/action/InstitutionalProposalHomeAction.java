@@ -35,6 +35,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
@@ -257,10 +258,24 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
         if (proposalLog != null) {
             ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
-            getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+          //  getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
         }
     }
     
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.save(mapping, form, request, response);
+        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
+      ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
+      if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
+        //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+          getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+      }
+      return forward;
+    }
+
     private ProposalLog retrieveProposalLog(String proposalNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("proposalNumber", proposalNumber);
