@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
@@ -62,7 +62,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private static final String PENDING_VIEW = "1";
     private static final String ACTIVE_VIEW = "0";
     private static final String PENDING_TRANSACTIONS_ATTRIBUTE_NAME = "pendingTransactions";
+    private static final String OBLIGATED_START_COMMENT = "Obligation start date was changed";
+    private static final String OBLIGATED_END_COMMENT = "Obligation end date was extended";
+    private static final String PROJECT_END_COMMENT = "Project end date was extended.";
     private static final String ZERO = "0";
+    private static final Integer TEN = 10;
     BusinessObjectService businessObjectService;
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     
@@ -83,42 +87,162 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
+        boolean isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(TEN);//Transaction type code for No Cost Extension
         
-        updateDocumentFromSession(timeAndMoneyDocument);
+        //if Dates have changed in a node in hierarchy view and the Transaction Type is a No Cost Extension,
+        //we need to record this as a transaction in history.
+        //build the transaction and add to this list for persistence later.
+        List<TransactionDetail> dateChangeTransactionDetailItems = new ArrayList<TransactionDetail>();
+        
+        updateDocumentFromSession(timeAndMoneyDocument);//not sure if I need to do this.
         updateAwardAmountTransactions(timeAndMoneyDocument);
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
             Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());            
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             boolean addToList = false;
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
-            
-            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null){                
-                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                addToList = true;
+            //Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
+            //details for display in history tab.
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate())){
+                if (isNoCostExtension && 
+                        timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().before(aai.getCurrentFundEffectiveDate())) {
+                            AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                            aai = tempAai;
+                            aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                            awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                            award.getAwardAmountInfos().add(aai);
+                            addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                                                    timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
+                }else {aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                        awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                        addToList = true;
+                }
             }
-            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null){
-                aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
-                awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
-                addToList = true;
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate())){
+                if (isNoCostExtension && 
+                        timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().after(aai.getObligationExpirationDate())) {
+                            AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                            aai = tempAai;
+                            aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                            awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                            award.getAwardAmountInfos().add(aai);
+                            addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                                                        timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT, dateChangeTransactionDetailItems);
+                }else {aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                    awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                    addToList = true;
+                }
             }
-            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null){
-                aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
-                awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
-                addToList = true;
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
+                if (isNoCostExtension && 
+                        timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
+                            AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                            aai = tempAai;
+                            aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                            awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                            award.getAwardAmountInfos().add(aai);
+                            addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                                                    timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT, dateChangeTransactionDetailItems);
+                }else {aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                        awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                        addToList = true;
+                }
             }
             if(addToList){
                 awardAmountInfoObjects.add(aai);                
             }
+            getBusinessObjectService().save(award);
         }
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
-        getBusinessObjectService().save(timeAndMoneyDocument.getAward());
+        //getBusinessObjectService().save(timeAndMoneyDocument.getAward());
         getBusinessObjectService().save(awardAmountInfoObjects);
         getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
-        timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");
+        //save all transaction details from No Cost extension date changes.
+        getBusinessObjectService().save(dateChangeTransactionDetailItems);
+        timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");//don't think I need to do this.
 
 
         return forward;
+    }
+    
+    /*
+     * 
+     * This method creates a transactionDetail object and adds it to the list for persistence later.
+     * 
+     * @param sourceAwardNumber
+     * @param destinationAwardNumber
+     * @param sequenceNumber
+     * @param pendingTransaction
+     * @param currentAwardNumber
+     * @param documentNumber
+     * @param transactionDetailItems
+     */
+    protected void addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber, 
+            String commentsString, List<TransactionDetail> transactionDetailItems){
+        TransactionDetail transactionDetail = new TransactionDetail();
+        transactionDetail.setSourceAwardNumber(sourceAwardNumber);
+        transactionDetail.setSequenceNumber(sequenceNumber);
+        transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
+        //transactionDetail.setAnticipatedAmount(pendingTransaction.getAnticipatedAmount());
+        //transactionDetail.setObligatedAmount(pendingTransaction.getObligatedAmount());
+        transactionDetail.setAwardNumber(currentAwardNumber);
+        transactionDetail.setTransactionId(new Long(-1));
+        transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
+        transactionDetail.setComments(commentsString);
+        transactionDetailItems.add(transactionDetail);
+    }
+    
+    /*
+     * add money to amount info Totals, and Distributables.
+     * 
+     */
+    private AwardAmountInfo getNewAwardAmountInfoForDateChangeTransaction(AwardAmountInfo awardAmountInfo,  Award award, String documentNumber) {
+        
+        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
+        newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
+        newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
+        newAwardAmountInfo.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+        newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
+        newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
+        newAwardAmountInfo.setTransactionId(null);
+        newAwardAmountInfo.setAward(award);
+       //add transaction amounts to the AmountInfo
+        newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
+        newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+        newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
+        newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+
+        
+        //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
+        
+        //addAwardAmountTransaction(newAwardAmountInfo.getAwardNumber(), awardAmountTransactionItems, newAwardAmountTransaction, documentNumber);
+
+        return newAwardAmountInfo;
+    }
+    
+    /*
+     * This is a helper method to add awardAmountTransaction information.
+     * 
+     * AwardAmountTransacion table is going to have one entry per document, per affected award.
+     * Affected award here means an award that is part of any of the Pending Transactions.
+     * 
+     * That's why we will maintain a map of AwardAmountTransaction Objects with awardNumber as the key. If the key is present, we won't
+     * add a new entry here, otherwise we will. We will persist all awardAmountTransaction objects later.
+     */
+    private void addAwardAmountTransaction(String awardNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
+        if(!awardAmountTransactionItems.containsKey(awardNumber)){
+            AwardAmountTransaction newAwardAmountTransaction1 = new AwardAmountTransaction(); 
+            newAwardAmountTransaction1.setAwardNumber(awardNumber);
+            newAwardAmountTransaction1.setDocumentNumber(documentNumber);
+            newAwardAmountTransaction1.setTransactionTypeCode(newAwardAmountTransaction.getTransactionTypeCode());
+            newAwardAmountTransaction1.setComments(newAwardAmountTransaction.getComments());
+            newAwardAmountTransaction1.setNoticeDate(newAwardAmountTransaction.getNoticeDate());
+            awardAmountTransactionItems.put(awardNumber, newAwardAmountTransaction1);    
+        }       
     }
     
     private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
@@ -150,7 +274,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     }
     
     /*
-     * override save to call save before we route.
+     * override route to call save before we route.
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -183,13 +307,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             List<Award> awardItems = new ArrayList<Award>();
             List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
             
-            //updateDocumentFromSession(doc);
+            updateDocumentFromSession(doc);
 
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             //service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
             service.processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
-            doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
+            //doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
         //perform this logic if active view
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());

@@ -35,8 +35,10 @@
           	<c:set var="displayedOnce" value="false" />
           	<c:set var="rowSpanIndex" value="0" />
           	
-          	<c:forEach var="timeAndMoneyHistory" items="${KualiForm.document.timeAndMoneyHistory}" varStatus="status">
-          		<c:choose>
+          	<c:set var="moneyTransaction" value="true" />
+          	
+          	<c:forEach var="timeAndMoneyHistory" items="${KualiForm.document.timeAndMoneyHistory}" varStatus="status">         		
+          			<c:choose>
 					<c:when test="${timeAndMoneyHistory.key.class.name == 'java.lang.String'}">
 						<tr>
 						<td align="left" valign="middle" class="infoline" rowspan="1">
@@ -51,17 +53,26 @@
 						</td>
 						</tr>
 					</c:when>
-					<c:otherwise>						
-						<c:choose>							
+					<c:otherwise>											
+						<c:choose>						
 							<c:when test="${timeAndMoneyHistory.value.class.name == 'org.kuali.kra.award.home.AwardAmountInfo'}">
-							<c:set var="displayedOnce" value="false" />
-							<c:set var="displayedOnceForThis" value="false" />								
+							<%--<c:set var="displayedOnce" value="false" />
+							<c:set var="displayedOnceForThis" value="false" />	--%>							
 							<tr>
-							<td align="left" valign="middle" class="infoline" rowspan="${3 + KualiForm.columnSpan[rowSpanIndex]}">
-								<c:set var="rowSpanForOther" value="${KualiForm.columnSpan[rowSpanIndex]}" />
+							<td align="left" valign="middle" class="infoline" rowspan="4">
+								<c:set var="rowSpanForOther" value="1" />
 								<c:set var="rowSpanIndex" value="${rowSpanIndex+1}" />							
-			                	<div align="center">			                	
-			                		<c:out value="${timeAndMoneyHistory.key}" />
+			                	<div align="center">
+			                	<c:choose>
+			                		<c:when test="${timeAndMoneyHistory.key > 0}" >	
+			                			<c:set var="moneyTransaction" value="true" />		                	
+			                			<c:out value="${timeAndMoneyHistory.key}" />
+			                		</c:when>
+			                		<c:otherwise>
+			                			<c:set var="moneyTransaction" value="false" />
+			                			<c:out value="Date Change:" />
+			                		</c:otherwise>
+			                	</c:choose>
 			                	</div>                	
 							</td>
 								<th>
@@ -142,66 +153,122 @@
 			        		</tr>	
 							</c:when>
 							<c:otherwise>
-							<c:if test="${displayedOnce!=true}" >
-								<c:set var="displayedOnce" value="true" />
-							<tr>
-								<th colspan="5" >									
-									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.comments}" readOnly="true" noColon="true" /></div>
-			        			</th>
-			        			<th>
-									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.sourceAwardNumber}" readOnly="true" noColon="true" /></div>
-			        			</th>
-			        			<th>
-									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.destinationAwardNumber}" readOnly="true" noColon="true" /></div>
-			        			</th>
-			        			<th>
-									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.obligatedAmount}" readOnly="true" noColon="true" /></div>
-			        			</th>
-			        			<th>
-									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.anticipatedAmount}" readOnly="true" noColon="true" /></div>
-			        			</th>			        			
-			        		</tr>
-			        		</c:if>
-			        		<tr>
-			        			<c:if test="${displayedOnceForThis!=true}" >
-								<c:set var="displayedOnceForThis" value="true" />
-			        			<td align="center" valign="middle" colspan="5" rowspan="${rowSpanForOther}" >
-			        				<c:set var="displayedOnceForThis" value="true" />				        		
-				        			<c:out value="${timeAndMoneyHistory.value.comments}" />
-				        		</td>
-				        		</c:if>
-				        		<td align="center" valign="middle">
-				        		<div align="center" >
-				        			<c:choose>
-				        				<c:when test="${timeAndMoneyHistory.value.sourceAwardNumber == '000000-00000'}">
-				        					External
-				        				</c:when>
-				        				<c:otherwise>
-				        					${timeAndMoneyHistory.value.sourceAwardNumber}
-				        				</c:otherwise>
-				        			</c:choose>
-				        		</div>	
-				        		</td>
-				        		<td align="center" valign="middle">
-				        		<div align="center" >				        		
-				        			${timeAndMoneyHistory.value.destinationAwardNumber}
-				        		</div>
-				        		</td>
-				        		<td align="center" valign="middle">
-				        		<div align="center" >				        		
-				        			${timeAndMoneyHistory.value.obligatedAmount}
-				        		</div>
-				        		</td>
-				        		<td align="center" valign="middle">				        		
-				        		<div align="center" >
-				        			${timeAndMoneyHistory.value.anticipatedAmount}
-				        		</div>
-				        		</td>				        						        		
-			        		</tr>
+								<c:choose>
+									<c:when test="${moneyTransaction}">
+										<%--<c:if test="${displayedOnce!=true}" >
+											<c:set var="displayedOnce" value="true" />--%>
+									<tr>
+										<th colspan="5" >									
+											<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.comments}" readOnly="true" noColon="true" /></div>
+			        					</th>
+			        					<th>
+											<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.sourceAwardNumber}" readOnly="true" noColon="true" /></div>
+			        					</th>
+			        					<th>
+											<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.destinationAwardNumber}" readOnly="true" noColon="true" /></div>
+			        					</th>
+			        					<th>
+											<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.obligatedAmount}" readOnly="true" noColon="true" /></div>
+			        					</th>
+			        					<th>
+											<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.anticipatedAmount}" readOnly="true" noColon="true" /></div>
+			        					</th>			        			
+					        		</tr>
+					        		<%--</c:if>--%>
+					        		<tr>
+					        			<%--<c:if test="${displayedOnceForThis!=true}" >
+										<c:set var="displayedOnceForThis" value="true" />--%>
+					        			<td align="center" valign="middle" colspan="5" rowspan="${rowSpanForOther}" >
+					        				<c:set var="displayedOnceForThis" value="true" />				        		
+						        			<c:out value="${timeAndMoneyHistory.value.comments}" />
+						        		</td>
+						        		<%--</c:if>--%>
+						        		<td align="center" valign="middle">
+						        		<div align="center" >
+						        			<c:choose>
+						        				<c:when test="${timeAndMoneyHistory.value.sourceAwardNumber == '000000-00000'}">
+						        					External
+						        				</c:when>
+						        				<c:otherwise>
+						        					${timeAndMoneyHistory.value.sourceAwardNumber}
+						        				</c:otherwise>
+						        			</c:choose>
+						        		</div>	
+						        		</td>
+						        		<td align="center" valign="middle">
+						        		<div align="center" >				        		
+						        			${timeAndMoneyHistory.value.destinationAwardNumber}
+						        		</div>
+						        		</td>
+						        		<td align="center" valign="middle">
+						        		<div align="center" >				        		
+						        			${timeAndMoneyHistory.value.obligatedAmount}
+						        		</div>
+						        		</td>
+						        		<td align="center" valign="middle">				        		
+						        		<div align="center" >
+						        			${timeAndMoneyHistory.value.anticipatedAmount}
+						        		</div>
+						        		</td>				        						        		
+						        		</tr>
+						        		
+						        		</c:when>
+						        		<c:otherwise>
+						        			<%--<c:if test="${displayedOnce!=true}" >
+											<c:set var="displayedOnce" value="true" />--%>
+												<tr>
+													<th colspan="5" >									
+														<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.comments}" readOnly="true" noColon="true" /></div>
+						        					</th>
+						        					<th>
+														<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.sourceAwardNumber}" readOnly="true" noColon="true" /></div>
+						        					</th>
+						        					<th>
+														<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.destinationAwardNumber}" readOnly="true" noColon="true" /></div>
+						        					</th>
+						        					<th>
+														<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.obligatedAmount}" readOnly="true" noColon="true" /></div>
+						        					</th>
+						        					<th>
+														<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.anticipatedAmount}" readOnly="true" noColon="true" /></div>
+						        					</th>			        			
+								        		</tr>
+					        				<%--</c:if>--%>
+					        					<tr>
+								        			<%--<c:if test="${displayedOnceForThis!=true}" >
+													<c:set var="displayedOnceForThis" value="true" />--%>
+								        			<td align="center" valign="middle" colspan="5" rowspan="${rowSpanForOther}" >
+								        				<c:set var="displayedOnceForThis" value="true" />				        		
+									        			<c:out value="${timeAndMoneyHistory.value.comments}" />
+									        		</td>
+									        		<%--</c:if>--%>
+									        		<td align="center" valign="middle">
+									        		<div align="center" >
+									        			<c:out value="N/A" />
+									        		</div>	
+									        		</td>
+									        		<td align="center" valign="middle">
+									        		<div align="center" >				        		
+									        			<c:out value="N/A" />
+									        		</div>
+									        		</td>
+									        		<td align="center" valign="middle">
+									        		<div align="center" >				        		
+									        			<c:out value="N/A" />
+									        		</div>
+									        		</td>
+									        		<td align="center" valign="middle">				        		
+									        		<div align="center" >
+									        			<c:out value="N/A" />
+									        		</div>
+									        		</td>				        						        		
+						        				</tr>
+						        		</c:otherwise>
+						        		</c:choose>
 							</c:otherwise>
 						</c:choose>												
-					</c:otherwise>					
-				</c:choose>	          	
+					</c:otherwise>
+					</c:choose>	 	
           	</c:forEach>
           	
         </table>  	
