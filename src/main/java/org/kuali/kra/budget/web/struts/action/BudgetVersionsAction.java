@@ -33,6 +33,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -164,7 +165,11 @@ public class BudgetVersionsAction extends BudgetAction {
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
-        getBudgetRateService().syncAllBudgetRates(budgetDocument);
+        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
+            getBudgetRateService().syncAllBudgetRates(budgetDocument);
+        } else if(getBudgetRateService().performSyncFlag(budgetDocument)){
+            budget.setRateClassTypesReloaded(true);
+        }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
