@@ -23,12 +23,14 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -43,6 +45,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     private static final long serialVersionUID = -7638045643796948730L;
     
     private static final String USERNAME_FIELD = "person.userName";
+    private static final String STATUS_PENDING = "1";
     
     private boolean isLookupForProposalCreation;
     
@@ -72,10 +75,10 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         
         checkIsLookupForProposalCreation(fieldValues);
         
-        if (isLookupForProposalCreation) {
-            fieldValues.remove(ProposalLog.LOG_STATUS);
-            fieldValues.put(ProposalLog.LOG_STATUS, ProposalLogUtils.getProposalLogPendingStatusCode());
-        }
+//        if (isLookupForProposalCreation) {
+//            fieldValues.remove(ProposalLog.LOG_STATUS);
+//            fieldValues.put(ProposalLog.LOG_STATUS, ProposalLogUtils.getProposalLogPendingStatusCode());
+//        }
         
         return super.getSearchResults(fieldValues);
     }
@@ -89,8 +92,11 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (isLookupForProposalCreation) {
-            htmlDataList.add(getSelectLinkForProposalCreation((ProposalLog) businessObject));
-        } else {
+            if (STATUS_PENDING.equals(((ProposalLog) businessObject).getLogStatus())) {
+                htmlDataList.add(getSelectLinkForProposalCreation((ProposalLog) businessObject));
+            }
+        }
+        else {
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             if (((ProposalLog) businessObject).isMergeCandidate()) {
                 htmlDataList.add(getMergeLink(((ProposalLog) businessObject).getProposalNumber()));
@@ -107,11 +113,22 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        if (this.getParameters().containsKey("returnLocation")
+                && ((String[]) this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
+            isLookupForProposalCreation = true;
+        }
+        if (this.getParameters().containsKey("isPendingSelected")) {
+            GlobalVariables.getMessageMap().putError("proposalLogStatus", KeyConstants.ERROR_PENDING_PROPOSAL_LOG_ONLY);
+        }
+
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(USERNAME_FIELD)) {
                     field.setFieldConversions("principalName:person.userName,principalId:personId");
+                }
+                if (field.getPropertyName().equals("logStatus") && isLookupForProposalCreation) {
+                    field.setPropertyValue(STATUS_PENDING);
                 }
             }
         }
@@ -127,11 +144,12 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, "InstitutionalProposalDocument");
         parameters.put("proposalNumber", proposalLog.getProposalNumber());
         String href  = UrlFactory.parameterizeUrl("../institutionalProposalHome.do", parameters);
-        
+
         htmlData.setHref(href);
         return htmlData;
     }
     
+
     protected AnchorHtmlData getMergeLink(String proposalNumber) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("merge");
