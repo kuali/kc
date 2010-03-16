@@ -61,6 +61,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -2714,7 +2715,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public String getDefaultBudgetStatusParameter() {
-        return Constants.AWARD_BUDGET_STATUS_IN_PROGRESS_CODE;
+        return KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS;
     }
 
     /**

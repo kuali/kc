@@ -133,6 +133,7 @@ public final class KeyConstants {
     public static final String ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER = "error.budgetVersion.budgetStatusCompleteWhenNotModuler";
     public static final String ERROR_BUDGET_START_DATE_MISSING = "error.budgetVersion.startDate.required";
     public static final String ERROR_BUDGET_END_DATE_MISSING = "error.budgetVersion.endDate.required";
+    public static final String ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID = "error.award.invalidObligatedAmount";
 
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";

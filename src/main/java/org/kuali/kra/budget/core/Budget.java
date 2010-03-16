@@ -2120,6 +2120,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public BudgetLineItem getNewBudgetLineItem() {
         return new BudgetLineItem();
     }
+
+    public BudgetParent getBudgetParent() {
+        return getBudgetDocument().getParentDocument().getBudgetParent();
+    }
     
 
 //    /**
