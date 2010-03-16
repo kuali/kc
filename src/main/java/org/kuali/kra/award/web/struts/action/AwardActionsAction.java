@@ -16,6 +16,7 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -495,12 +496,36 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return awardNumber;
     }
 
-
+    private int getActiveHierarchyObjectIndex(HttpServletRequest request) throws Exception {
+        Enumeration<String> lookupParameters = request.getParameterNames();
+        int index = -1;
+        while(lookupParameters.hasMoreElements()) {
+            String temp = lookupParameters.nextElement();
+            if(temp.startsWith("awardHierarchyTempObject[")) {
+                index = temp.indexOf("awardHierarchyTempObject[") + 25;
+                temp = temp.substring(index, index+1);
+                index = Integer.parseInt(temp);
+                break;
+            }
+        }
+        
+        return index;
+    }
+    
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
-
         AwardForm awardForm = (AwardForm)form;
+        int activeHierarchyObjectIndex = getActiveHierarchyObjectIndex(request);
+        int loopIndex = 0;
+        
         for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){
             List<String> order = new ArrayList<String>();
+            
+            if(loopIndex == activeHierarchyObjectIndex-1) {
+                temp.setAwardNumber2(null);
+                temp.setAwardNumber(null);
+            }
+            
             if(StringUtils.isNotBlank(temp.getAwardNumber1())){
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
@@ -511,9 +536,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     sb.append(KNSConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox1(sb.toString());
+                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
             }
 
             if(StringUtils.isNotBlank(temp.getAwardNumber2())){
+                order = new ArrayList<String>();
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
                 getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
@@ -526,7 +553,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     }
                 }
                 temp.setSelectBox2(sb.toString());
+                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
             }
+            loopIndex++;
         }
 
         return super.refresh(mapping, form, request, response);

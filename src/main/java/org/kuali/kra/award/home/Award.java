@@ -2725,6 +2725,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardHierarchyTempObjects;
     }
 
+    public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
+        if(awardHierarchyTempObjects == null) {
+            initializeAwardHierarchyTempObjects();
+        }
+        
+        while(awardHierarchyTempObjects.size() <= index) {
+            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
+        }
+        
+        return awardHierarchyTempObjects.get(index);
+    }
+   
     public AwardType getAwardType() {
         return awardType;
     }
