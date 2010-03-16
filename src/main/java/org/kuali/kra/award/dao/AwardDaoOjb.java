@@ -55,9 +55,10 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
     private Map<String, CollectionCriteria> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
     private Set<String> unitFieldNames;
-    
+    static final String USER_ID = "userId";
+
     private VersionHistoryService versionHistoryService; 
-    
+    private String userId;
     /**
      * Constructs a AwardDaoOjb.java.
      */
@@ -72,6 +73,7 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
      */
     @SuppressWarnings("unchecked")
     public List<Award> getAwards(Map<String, String> lookupFieldNameValuePairs) {
+        userId = "";
         prepareCriteriaMaps(lookupFieldNameValuePairs);
         return filterForActiveAwards(getPersistenceBrokerTemplate().getCollectionByQuery(createQuery()));
     }
@@ -168,6 +170,22 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
             baseCriteria.addIn(AWARD_ID, QueryFactory.newQuery(Award.class, sb.toString()));
         }  
     }
+    
+    /*
+     * This is for 'all my awards'
+     */
+    private void addUserIdCriteria(Criteria baseCriteria) {
+        if(StringUtils.isNotBlank(userId)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("select a.AWARD_ID from AWARD a, AWARD_PERSONS ap ");
+            sb.append("where ap.AWARD_ID = a.AWARD_ID ");
+            sb.append("and ap.PERSON_ID = '");
+            sb.append(userId);
+            sb.append("'");
+            
+            baseCriteria.addIn(AWARD_ID, QueryFactory.newQuery(Award.class, sb.toString()));
+        }  
+    }
 
     /**
      * This method adds an AND where clause to a query in a StringBuilder 
@@ -188,6 +206,7 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
         addAssociationCriteria(criteria);
         addUnitCriteria(criteria);
         addOspAdminCriteria(criteria);
+        addUserIdCriteria(criteria);
         return criteria;
     }
 
@@ -254,6 +273,7 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
     private void initExcludedFields() {
         excludedFields.add(KNSConstants.BACK_LOCATION);
         excludedFields.add(KNSConstants.DOC_FORM_KEY);
+        excludedFields.add(USER_ID);
     }
     
     private void initUnitFieldNames() {
@@ -298,6 +318,9 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
         
         for(String fieldName: lookupFieldNameValuePairs.keySet()) {
             if(excludedFields.contains(fieldName)) {
+                if (USER_ID.equals(fieldName)) {
+                    userId = lookupFieldNameValuePairs.get(fieldName);
+                }
                 continue;
             }
             String fieldValue = lookupFieldNameValuePairs.get(fieldName);
