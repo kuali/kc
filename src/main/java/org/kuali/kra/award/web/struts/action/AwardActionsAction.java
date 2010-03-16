@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -24,30 +32,25 @@ import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * 
@@ -564,5 +567,55 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     private String getHierarchyTargetAwardNumber(HttpServletRequest request) {
         return request.getParameter("awardNumberInputTemp");
+    }
+
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        // this should probably be moved into a private instance variable
+        // logic for cancel question
+        if (question == null) {
+            // ask question if not already asked
+            return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CANCEL, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((KNSConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(RiceConstants.MAPPING_BASIC);
+            }
+            // else go to cancel logic below
+        }
+
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        doProcessingAfterPost( kualiDocumentFormBase, request );
+        getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
+        updateFundingProposalStatus(((AwardForm)form).getAwardDocument().getAward());
+        return returnToSender(request, mapping, kualiDocumentFormBase);
+    }
+    
+    private void updateFundingProposalStatus (Award award) {
+        List<Long> proposalIds = new ArrayList<Long>();
+        List<Long> duplicateIds = new ArrayList<Long>();
+        for (AwardFundingProposal awardFundingProposal : award.getFundingProposals()) {
+            if (proposalIds.contains(awardFundingProposal.getProposalId())) {
+                duplicateIds.add(awardFundingProposal.getProposalId());
+            } else {
+                proposalIds.add(awardFundingProposal.getProposalId());                
+            }
+        }
+        List<InstitutionalProposal> updateProposals = new ArrayList<InstitutionalProposal>();
+        for (AwardFundingProposal awardFundingProposal : award.getFundingProposals()) {
+            if (!duplicateIds.contains(awardFundingProposal.getProposalId())) {
+                duplicateIds.add(awardFundingProposal.getProposalId());
+                awardFundingProposal.getProposal().setStatusCode(1);
+                updateProposals.add(awardFundingProposal.getProposal());
+            } 
+        }
+        if (!updateProposals.isEmpty()) {
+            getBusinessObjectService().save(updateProposals);
+        }
+
     }
 }
