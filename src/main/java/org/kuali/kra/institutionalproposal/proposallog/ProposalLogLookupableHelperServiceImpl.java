@@ -117,9 +117,9 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
                 && ((String[]) this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
             isLookupForProposalCreation = true;
         }
-        if (this.getParameters().containsKey("isPendingSelected")) {
-            GlobalVariables.getMessageMap().putError("proposalLogStatus", KeyConstants.ERROR_PENDING_PROPOSAL_LOG_ONLY);
-        }
+//        if (this.getParameters().containsKey("isPendingSelected")) {
+//            GlobalVariables.getMessageMap().putError("proposalLogStatus", KeyConstants.ERROR_PENDING_PROPOSAL_LOG_ONLY);
+//        }
 
         List<Row> rows = super.getRows();
         for (Row row : rows) {
