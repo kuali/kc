@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.kra.budget.versions;
 
 import org.kuali.kra.budget.document.BudgetDocumentRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**

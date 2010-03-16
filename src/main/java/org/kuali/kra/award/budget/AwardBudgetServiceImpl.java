@@ -22,10 +22,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
-import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -210,12 +210,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
         budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
-        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
+        budget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+        boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",budgetDocument.getParentDocument(),budget));
         if(!success)
             return null;
 
-        //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
         
         saveBudgetDocument(budgetDocument);
@@ -232,13 +231,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @throws WorkflowException
      */
     private void saveBudgetDocument(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument<Award> parentDocument = budgetDocument.getParentDocument(); 
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
         AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-        budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-        budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
-        documentService.saveDocument(budgetDocument);
+//        budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+        budgetExt.setAwardBudgetTypeCode(getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_NEW));
+        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS);
+        saveDocument(awardBudgetDocument);
     }
 
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {

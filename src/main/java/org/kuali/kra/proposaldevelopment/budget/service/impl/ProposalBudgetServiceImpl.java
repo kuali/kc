@@ -29,12 +29,12 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
-import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.DocumentService;
@@ -197,7 +197,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.startDate",budgetDocument.getParentDocument(),budget));
+        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",budgetDocument.getParentDocument(),budget));
         if(!success)
             return null;
 
