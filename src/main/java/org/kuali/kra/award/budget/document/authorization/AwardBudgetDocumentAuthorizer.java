@@ -24,6 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
@@ -122,7 +123,7 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
     
     private boolean isRebudget(AwardBudgetDocument awardBudgetDocument){
         AwardBudgetExt budget = awardBudgetDocument.getAwardBudget();
-        String rebudgetTypeCode = getParameterService().getParameterValue(AwardBudgetExt.class, Constants.AWARD_BUDGET_TYPE_REBUDGET_CODE);
+        String rebudgetTypeCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return budget.getAwardBudgetTypeCode().equals(rebudgetTypeCode);
     }
 

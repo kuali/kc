@@ -199,7 +199,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
      * @return Budget
      */
     public Budget getBudget(){
-        if(budgets.isEmpty()){
+        if(getBudgets().isEmpty()){
             budgets.add(new ProposalDevelopmentBudgetExt());
         }
         return budgets.get(0);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.kra.budget.versions;
 
 import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
@@ -21,16 +21,12 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionCollection;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import static org.kuali.kra.logging.BufferedLogger.*;
 
@@ -98,17 +94,18 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
 
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
         Budget budget = event.getBudget();
+        boolean success = true;
         if(budget.getStartDate()==null){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_BUDGET_START_DATE_MISSING, "Name");
-            return false;
+            success &= false;
         }
         if(budget.getEndDate()==null){
             GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_BUDGET_END_DATE_MISSING, "Name");
-            return false;
+            success &= false;
         }
-        return true;
+        return success;
         
     }
 }

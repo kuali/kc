@@ -60,6 +60,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.rules.ActivityTypeAuditRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
@@ -414,6 +415,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         retval &= new BudgetUnrecoveredFandAAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
+
+        retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
         
         if(retval) {
             processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());

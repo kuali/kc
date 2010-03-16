@@ -24,17 +24,18 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.DocumentBase;
 
 /**
  *
- * @see org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule
+ * @see org.kuali.kra.budget.versions.BudgetVersionRule
  */
 public class BudgetVersionRuleTest {
     private static final String VERSION_NAME = "test version";

@@ -545,8 +545,6 @@ public interface Constants {
     //
     public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
     public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "A";
-    public static final String AWARD_BUDGET_STATUS_IN_PROGRESS_CODE = "AWARD_BUDGET_STATUS_IN_PROGRESS_CODE";
-    public static final String AWARD_BUDGET_TYPE_REBUDGET_CODE = "AWARD_BUDGET_TYPE_REBUDGET_CODE";
     public static final String MODULE_NAMESPACE_AWARD_BUDGET = "KC-AB";
     
     public static final String CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE = "DocumentType";
@@ -554,6 +552,7 @@ public interface Constants {
 
     public static final Object PROPOSAL_BUDGET = "proposalBudget";
     public static final Object AWARD_BUDGET = "awardBudget";
+    public static final String ACTIVITY_TYPE_KEY = "document.developmentProposalList[0].activityTypeCode";
 
     //WHITE SPACE 
     public char SPACE_SEPARATOR = 32;
