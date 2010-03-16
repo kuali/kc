@@ -18,7 +18,7 @@
 
 <td class="content" valign="top">
       <channel:unitPreAward />
-      <channel:unitPostAward />
+      <channel:centralAdminPostAward />
 </td>
 <td class="content" valign="top">
       <channel:unitPreSubmissionCompliance />
