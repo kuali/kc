@@ -18,7 +18,7 @@ package org.kuali.kra.award.awardhierarchy;
 import java.io.Serializable;
 
 public class AwardHierarchyTempObject implements Serializable{
-    
+    private String awardNumber;
     private String awardNumber1;
     private String awardNumber2;
     private String selectBox1;
@@ -197,4 +197,14 @@ public class AwardHierarchyTempObject implements Serializable{
     public void setCreateNewChildRadio(String createNewChildRadio) {
         this.createNewChildRadio = createNewChildRadio;
     }    
+
+    public String getAwardNumber() {
+        return awardNumber;
+    }
+    
+    
+    public void setAwardNumber(String awardNumber) {
+        this.awardNumber = awardNumber;
+    }
 }
+
