@@ -48,7 +48,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
-    
+    static final String USER_ID = "userId";
+   
     private static final long serialVersionUID = 6304433555064511153L;
     
     private transient AwardDao awardDao;
@@ -57,6 +58,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);       // need to set backlocation & docformkey here. Otherwise, they are empty
+        if (this.getParameters().containsKey(USER_ID)) {
+            fieldValues.put(USER_ID, ((String[]) this.getParameters().get(USER_ID))[0]);
+        }
         return awardDao.getAwards(fieldValues);
     }
 
