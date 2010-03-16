@@ -274,9 +274,12 @@
 	    	optionTag.appendTo(selectTag);	    	
 	    }
 	    selectTag.appendTo(subTdTag3)
-	    
+
+	    var hiddenAward = $('<input type="hidden" name="awardHierarchyTempObject[' + indexForHiddenField + '].awardNumber" />').attr("id",
+         			"awardHierarchyTempObject[" + indexForHiddenField + "].awardNumber").attr("value", text1);
+
 	    lookupField.appendTo(subTdTag4);
-	    
+	    hiddenAward.appendTo(subTdTag4);
 	    subTdTag1.appendTo(subTrTag);
 	    subTdTag2.appendTo(subTrTag);
 	    subTdTag3.appendTo(subTrTag);
@@ -355,7 +358,7 @@
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:.awardNumber1,.awardNumber1:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
 	    var selectBoxText = $("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
 	    var selectTag = $('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward");   
 	    var optionTag = $("<option> select: </option>").attr("value","");
@@ -655,8 +658,18 @@
             	  });
               }
               
+              var toLoad = (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 );
               while(selectedAwardNumber != null && selectedAwardNumber != '' && !selectedNodeReached && racode != selectedAwardNumber) {
             	  loadChildrenRA(item_text, tagId);
+            	  if(!toLoad) {
+            		  liNode.removeClass("closed");
+            		  liNode.addClass("open"); 
+            		  liNode.children('ul').each(function(){
+                		  $(this).removeClass("closed");
+                		  $(this).addClass("open"); 
+                	  });
+            		  break;
+            	  }
               }
 	              
               // force to display folder icon
