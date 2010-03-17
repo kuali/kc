@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -29,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class...
  */
-public class InstitutionalProposalPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
+public class InstitutionalProposalPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 
 /**
      * Comment for <code>serialVersionUID</code>
@@ -195,5 +197,24 @@ private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
+    
+    public InstitutionalProposal getSequenceOwner() {
+        return getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().getInstitutionalProposal() : null;
+    }
+    
+    public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
+        if(getInstitutionalProposalPersonUnit() != null) {
+            getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
+        }
+    }
+    
+    public Integer getSequenceNumber() {
+        return  getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getSequenceNumber() : 0;
+    }
+    
+    public void resetPersistenceState() {
+        this.institutionalProposalPersonUnitCreditSplitId = null;
+    }
+
 }
 
