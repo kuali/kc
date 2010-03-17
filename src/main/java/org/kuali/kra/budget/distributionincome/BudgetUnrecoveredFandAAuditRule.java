@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -108,7 +109,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
                             unrecoveredFandA.getFiscalYear().intValue() == unrecoveredFandAForComparison.getFiscalYear().intValue() &&
                             unrecoveredFandA.getApplicableRate().equals( unrecoveredFandAForComparison.getApplicableRate()) && 
                             unrecoveredFandA.getOnCampusFlag().equalsIgnoreCase(unrecoveredFandAForComparison.getOnCampusFlag()) && 
-                            unrecoveredFandA.getSourceAccount().equalsIgnoreCase(unrecoveredFandAForComparison.getSourceAccount()) && 
+                            StringUtils.equalsIgnoreCase(unrecoveredFandA.getSourceAccount(), unrecoveredFandAForComparison.getSourceAccount()) &&
                             unrecoveredFandA.getAmount().equals( unrecoveredFandAForComparison.getAmount())) {
                         retval = false;
                         getAuditErrors().add(new AuditError("document.budget.budgetUnrecoveredFandA["+i+"]",
