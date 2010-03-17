@@ -19,16 +19,22 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder2;
+import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.DocumentService;
 
 
@@ -53,13 +59,15 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     }
 
     private ProtocolSubmission findSubmission(Protocol protocol) {
+        ProtocolSubmission returnSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
-                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
+            if ((StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
+                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE))
+                    && (returnSubmission == null || returnSubmission.getSequenceNumber() < submission.getSequenceNumber())) {
+                returnSubmission = submission;
             }
         }
-        return null;
+        return returnSubmission;
     }
 
     /** {@inheritDoc} */
@@ -73,7 +81,9 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
                 protocolAction.setComments(actionBean.getComments());
                 protocolActionService.updateProtocolStatus(protocolAction, protocol);
                 protocol.getProtocolActions().add(protocolAction);
-                protocolAction.setActionDate(new Timestamp(actionBean.getScheduleDate().getTime()));
+                
+                //protocolAction.setActionDate(new Timestamp(actionBean.getScheduleDate().getTime()));
+                
             } else {
                 // update the comment of an existing protocol action
                 ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
@@ -112,65 +122,67 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     private ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
         Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
+        ProtocolAction returnAction = null;
         while (i.hasNext()) {
             ProtocolAction pa = i.next();
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA)) {
-                return pa;
-            }
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA) 
+                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue())) {
+                returnAction = pa;
+            } //else if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.WITHDRAWN)) {
+                //returnAction = null;
+            //}
         }
         // no proper protocol action found, return null
-        return null;
+        return returnAction;
     }
 
     private ProtocolAction getSubmitToIrbProtocolAction(Protocol protocol) {
         Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
+        ProtocolAction returnAction = null;
         while (i.hasNext()) {
             ProtocolAction pa = i.next();
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.SUBMIT_TO_IRB)) {
-                return pa;
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.SUBMIT_TO_IRB) 
+                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue() )) {
+                returnAction = pa;
+            }else if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.WITHDRAWN)){
+                returnAction = null;
             }
         }
         // no proper protocol action found, return null
-        return null;
+        return returnAction;
     }
 
     /** {@inheritDoc} */
     public String getAssignedCommitteeId(Protocol protocol) {
-        ProtocolAction pa = getSubmitToIrbProtocolAction(protocol);
-        if (pa != null) {
-            ProtocolSubmission ps = pa.getProtocolSubmission();
-            if (ps != null) {
-                return ps.getCommitteeId();
-            }
-        }
-        return null;
+        String committeeID = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class).getAssignedCommitteeId(protocol);
+        return committeeID;
     }
 
     /** {@inheritDoc} */
     public String getAssignedCommitteeName(Protocol protocol) {
-        ProtocolAction pa = getSubmitToIrbProtocolAction(protocol);
-        if (pa != null) {
-            ProtocolSubmission ps = pa.getProtocolSubmission();
-            if (ps != null) {
-                Committee com = ps.getCommittee();
-                if (com != null){
-                    return com.getCommitteeName();
-                }
+        String committeeID = getAssignedCommitteeId(protocol);
+        System.out.println("committee ID is: " + committeeID);
+        if (committeeID != null) {
+            System.out.println("the committee is not null");
+            Committee com = KraServiceLocator.getService(CommitteeService.class).getCommitteeById(committeeID);
+            if (com != null) {
+                String committeeName = com.getCommitteeName();
+                return committeeName;
             }
         }
         return null;
     }
 
     /** {@inheritDoc} */
-    public Date getAssignedScheduleDate(Protocol protocol) {
-        ProtocolAction pa = getSubmitToIrbProtocolAction(protocol);
-        if (pa != null) {
-            ProtocolSubmission ps = pa.getProtocolSubmission();
-            if (ps != null) {
-                CommitteeSchedule schedDate = ps.getCommitteeSchedule();
-                if (schedDate != null){
-                    return schedDate.getScheduledDate();
-                }
+    public String getAssignedScheduleDate(Protocol protocol) {
+        String scheduleId = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class).getAssignedScheduleId(protocol);
+        System.err.println("Schedule ID: " + scheduleId);
+        List<KeyLabelPair> keyPair = KraServiceLocator.getService(CommitteeService.class).getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
+        for (KeyLabelPair kp : keyPair){
+            System.err.println("kp label: " + kp.getLabel());
+            System.err.println("kp key: " + kp.getKey());
+            if(kp.getKey().equals(scheduleId)){
+                return kp.getLabel();
             }
         }
         return null;
