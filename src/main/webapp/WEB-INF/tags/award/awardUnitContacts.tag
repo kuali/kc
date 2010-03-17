@@ -103,7 +103,8 @@
 							<c:when test="${not isDefaultUnitContact}">
 	                    		<div align="center">
 	                				<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].unitAdministratorTypeCode" 
-	                									attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}" />
+	                									attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}"
+                                                        readOnlyAlternateDisplay="${awardContact.unitAdministratorType.description}" />
 	                			</div>
 	               			</c:when>
 	                  		<c:otherwise>
