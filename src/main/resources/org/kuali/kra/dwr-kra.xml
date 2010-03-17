@@ -105,6 +105,15 @@
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
 		</create>		
+		
+		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
+			<param name="beanName" value="awardPaymentAndInvoicesService" />			
+			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />
+			<include method="getEncodedValidBasisMethodPaymentsByBasisCode" />
+			<include method="getAwardBasisOfPaymentDescription"/>
+			<include method="getAwardMethodOfPaymentDescription"/>
+		</create>		
+		
 		<create creator="spring" javascript="ProtocolActionAjaxService">
 		    <param name="beanName" value="protocolActionAjaxService" />
 			<include method="getValidCommitteeDates" />
