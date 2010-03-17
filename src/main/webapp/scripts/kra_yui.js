@@ -64,7 +64,7 @@
 					callback:function(data) {
 						if ( data != null ) {
 							var unitNum=0;
-							var unit_array=data.split(",");
+							var unit_array=data.split("#SEPARATOR#");   // see UnitServiceImpl.getSubUnitsForTreeView()
 							while (unitNum < unit_array.length){
 								var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + unit_array[unitNum] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(unit_array[unitNum])+"</td></tr></table>", node, false, true);
 							   	tempNode.setDynamicLoad(loadUnitName,1);						
