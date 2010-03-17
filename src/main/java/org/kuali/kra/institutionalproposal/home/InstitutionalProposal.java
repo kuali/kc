@@ -1630,4 +1630,16 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return lookupPersonNumber;
     }
     
+    /**
+     * This method returns the combined number of units for all project personnel.
+     * @return
+     */
+    public int getTotalUnitCount() {
+        int count = 0;
+        for (InstitutionalProposalPerson person: projectPersons)
+            count += person.getUnits().size();
+        return count;
+    }
+
+    
 }

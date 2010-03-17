@@ -46,37 +46,37 @@
 			<%-- This var is a JSTL hack to get a string that will later be evaluated--%>
 			<c:set var="projectPersonProperty" value="document.institutionalProposalList[0].projectPersons[${ppStatus.index}]" />
 			
-          	<tr>
-          		<%-- ... show full name --%>
-            	<td nowrap class="tab-subhead">
-            		<strong>
-              			<kul:htmlControlAttribute property="${projectPersonProperty}.fullName" attributeEntry="${contactAttributes.fullName}" readOnly="true" />
-              		</strong>
-              	</td>
-              	
-              	<%-- ... show person credit split for each credit split type --%>
-				<c:forEach items="${investigatorCreditTypes}" var="invType">
-					<c:forEach items="${projectPerson.creditSplits}" var="personCreditSplit" varStatus="personSplitStatus" >
-						
-						<%-- This var is a JSTL hack to get a string that will later be evaluated--%>
-						<c:set var="personCreditSplitMacro" value="${projectPersonProperty}.creditSplit[${personSplitStatus.index}]" />
-						
-						<c:if test="${personCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
-           					<td class="tab-subhead">
-	                   			<div id="${projectPerson.fullName}_${invType.description}_${personSplitStatus.count}" align="right">
-	                   				<strong>
-	                   					<kul:htmlControlAttribute property="${personCreditSplitMacro}.credit" 
-	                           											attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" />
-	                           		</strong>
-	                           	</div>
-                           	</td>
-                       	</c:if>
-    				</c:forEach>
-				</c:forEach>  					           
-			</tr>             
-			
 			<%-- For each project person unit ... --%>
 			<c:forEach items="${projectPerson.units}" var="personUnit" varStatus="unitStatus">
+                <tr>
+                    <%-- ... show full name --%>
+                    <td nowrap class="tab-subhead">
+                        <strong>
+                            <kul:htmlControlAttribute property="${projectPersonProperty}.fullName" attributeEntry="${contactAttributes.fullName}" readOnly="true" />
+                        </strong>
+                    </td>
+                    
+                    <%-- ... show person credit split for each credit split type --%>
+                    <c:forEach items="${investigatorCreditTypes}" var="invType">
+                        <c:forEach items="${projectPerson.creditSplits}" var="personCreditSplit" varStatus="personSplitStatus" >
+                            
+                            <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
+                            <c:set var="personCreditSplitMacro" value="${projectPersonProperty}.creditSplit[${personSplitStatus.index}]" />
+                            
+                            <c:if test="${personCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
+                                <td class="tab-subhead">
+                                    <div id="${projectPerson.fullName}_${invType.description}_${personSplitStatus.count}" align="right">
+                                        <strong>
+                                            <kul:htmlControlAttribute property="${personCreditSplitMacro}.credit" 
+                                                                            attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" />
+                                        </strong>
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>                               
+                </tr>             
+            
          		<tr>
          			<%-- This var is a JSTL hack to get a string that will later be evaluated--%>
 					<c:set var="unitProperty" value="${projectPersonProperty}.unit[${unitStatus.index}]" />
