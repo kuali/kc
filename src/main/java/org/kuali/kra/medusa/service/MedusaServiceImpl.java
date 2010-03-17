@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.Sequenceable;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -193,14 +194,12 @@ public class MedusaServiceImpl implements MedusaService {
         Collection<Award> awards = new ArrayList<Award>();
         for (AwardFundingProposal awardFunding : awardFundingProposals) {
             awardFunding.refreshReferenceObject("award");
-            awards.add(awardFunding.getAward());
+            addOnlyNewestAwardVersion(awards, awardFunding.getAward());
         }
         if (StringUtils.isNotBlank(ip.getCurrentAwardNumber())) {
             Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", ip.getCurrentAwardNumber()));
             for (Award curAward : proposalCurrentAwards) {
-                if (!awards.contains(curAward)) {
-                    awards.add(curAward);
-                }
+                addOnlyNewestAwardVersion(awards, curAward);
             }
         }
         return awards;
@@ -218,20 +217,70 @@ public class MedusaServiceImpl implements MedusaService {
         return awards;
     }
     
+    /**
+     * Only add the newest award(based on sequence number) to the list and remove older versions
+     * if they exist 
+     * @param currentList
+     * @param newItem
+     */
+    private void addOnlyNewestAwardVersion(Collection<Award> currentList, Award newItem) {
+        boolean dontAddThisVersion = false;
+        Award removeOld = null;
+        for (Award award : currentList) {
+            if (StringUtils.equals(award.getAwardNumber(), newItem.getAwardNumber())) {
+                if (award.getSequenceNumber() < newItem.getSequenceNumber()) {
+                    removeOld = award;
+                } else {
+                    dontAddThisVersion = true;
+                }
+            }
+        }
+        if (removeOld != null) {
+            currentList.remove(removeOld);
+        }
+        if (!dontAddThisVersion) {
+            currentList.add(newItem);
+        }        
+    }
+    
     private Collection<InstitutionalProposal> getProposals(Award award) {
         Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("awardId", award.getAwardId()));
         Collection<InstitutionalProposal> ips = new ArrayList<InstitutionalProposal>();
         for (AwardFundingProposal awardFunding : awardFundingProposals) {
             awardFunding.refreshReferenceObject("proposal");
-            ips.add(awardFunding.getProposal());
+            addOnlyNewerIpVersion(ips, awardFunding.getProposal());
         }
         Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
         for (InstitutionalProposal proposal : curAwardIps) {
-            if (!ips.contains(proposal)) {
-                ips.add(proposal);
+            addOnlyNewerIpVersion(ips, proposal);
+        }
+        return ips;
+    }
+    
+    /**
+     * Only add the newest inst prop(based on sequence number) to the list and remove older versions
+     * if they exist 
+     * @param currentList
+     * @param newItem
+     */
+    private void addOnlyNewerIpVersion(Collection<InstitutionalProposal> currentList, InstitutionalProposal newItem) {
+        boolean dontAddThisVersion = false;
+        InstitutionalProposal removeOld = null;
+        for (InstitutionalProposal proposal : currentList) {
+            if (StringUtils.equals(proposal.getProposalNumber(), newItem.getProposalNumber())) {
+                if (proposal.getSequenceNumber() < newItem.getSequenceNumber()) {
+                    removeOld = proposal;
+                } else {
+                    dontAddThisVersion = true;
+                }
             }
         }
-        return ips;    
+        if (removeOld != null) {
+            currentList.remove(removeOld);
+        }
+        if (!dontAddThisVersion) {
+            currentList.add(newItem);
+        }
     }
     
     private Collection<InstitutionalProposal> getProposals(DevelopmentProposal devProposal) {
