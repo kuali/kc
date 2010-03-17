@@ -35,7 +35,6 @@
                 <ref bean="ValidBasisMethodPayment-validBasisMethodPaymentId" />
                 <ref bean="ValidBasisMethodPayment-basisOfPaymentCode" />
                 <ref bean="ValidBasisMethodPayment-methodOfPaymentCode" />
-                <ref bean="ValidBasisMethodPayment-frequencyIndicator" />
                 <ref bean="ValidBasisMethodPayment-invInstructionsIndicator" />
                 <ref bean="ValidBasisMethodPayment-versionNumber" />
             </list>
@@ -98,22 +97,25 @@
         <property name="description" value="Method Of Payment Code" />
     </bean>
 
-    <bean id="ValidBasisMethodPayment-frequencyIndicator" parent="ValidBasisMethodPayment-frequencyIndicator-parentBean" />
-    <bean id="ValidBasisMethodPayment-frequencyIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="frequencyIndicator" />
-        <property name="label" value="Frequency Indicator" />
-        <property name="shortLabel" value="Frequency Indicator" />
-        <property name="summary" value="Frequency Indicator" />
-        <property name="description" value="Frequency Indicator" />
-    </bean>
 
     <bean id="ValidBasisMethodPayment-invInstructionsIndicator" parent="ValidBasisMethodPayment-invInstructionsIndicator-parentBean" />
-    <bean id="ValidBasisMethodPayment-invInstructionsIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="ValidBasisMethodPayment-invInstructionsIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="invInstructionsIndicator" />
         <property name="label" value="Inv Instructions Indicator" />
         <property name="shortLabel" value="Inv Instructions Indicator" />
         <property name="summary" value="Inv Instructions Indicator" />
         <property name="description" value="Inv Instructions Indicator" />
+        <property name="maxLength" value="1" />
+        <property name="required" value = "true"/> 
+         <property name="control" >
+          <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
+            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.InvInstructionsIndicatorValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="true"
+            p:keyAttribute="methodOfPaymentCode"
+            p:labelAttribute="description" />
+    	</property>
     </bean>
 
     <bean id="ValidBasisMethodPayment-versionNumber" parent="ValidBasisMethodPayment-versionNumber-parentBean" />
@@ -138,8 +140,6 @@
                                 p:attributeName="basisOfPaymentCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="methodOfPaymentCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="frequencyIndicator" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="invInstructionsIndicator" />
                         </list>
@@ -169,8 +169,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="methodOfPaymentCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="frequencyIndicator" />
-                <bean parent="FieldDefinition"
                     p:attributeName="invInstructionsIndicator" />
             </list>
         </property>
@@ -183,8 +181,6 @@
                     p:attributeName="basisOfPaymentCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="methodOfPaymentCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequencyIndicator" />
                 <bean parent="FieldDefinition"
                     p:attributeName="invInstructionsIndicator" />
             </list>

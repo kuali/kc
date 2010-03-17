@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.mortbay.log.Log;
+
 import java.util.LinkedHashMap;
 
 public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase { 
@@ -25,8 +28,7 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
     private Integer validBasisMethodPaymentId; 
     private String basisOfPaymentCode; 
     private String methodOfPaymentCode; 
-    private boolean frequencyIndicator; 
-    private boolean invInstructionsIndicator; 
+    private String invInstructionsIndicator; 
     
     private AwardMethodOfPayment methodOfPayment; 
     private AwardBasisOfPayment basisOfPayment; 
@@ -59,19 +61,18 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
         this.methodOfPaymentCode = methodOfPaymentCode;
     }
 
-    public boolean getFrequencyIndicator() {
-        return frequencyIndicator;
-    }
-
-    public void setFrequencyIndicator(boolean frequencyIndicator) {
-        this.frequencyIndicator = frequencyIndicator;
-    }
-
-    public boolean getInvInstructionsIndicator() {
+    public String getInvInstructionsIndicator() {
         return invInstructionsIndicator;
     }
+    
+    public InvInstructionsIndicatorConstants getInvInstructionsIndicatorConstant() {
+        InvInstructionsIndicatorConstants result = InvInstructionsIndicatorConstants.getByCode(invInstructionsIndicator);
+        if( result == null && invInstructionsIndicator!=null ) 
+            Log.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
+        return result;
+    }
 
-    public void setInvInstructionsIndicator(boolean invInstructionsIndicator) {
+    public void setInvInstructionsIndicator(String invInstructionsIndicator) {
         this.invInstructionsIndicator = invInstructionsIndicator;
     }
 
@@ -98,7 +99,6 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
         hashMap.put("validBasisMethodPaymentId", this.getValidBasisMethodPaymentId());
         hashMap.put("basisOfPaymentCode", this.getBasisOfPaymentCode());
         hashMap.put("methodOfPaymentCode", this.getMethodOfPaymentCode());
-        hashMap.put("frequencyIndicator", this.getFrequencyIndicator());
         hashMap.put("invInstructionsIndicator", this.getInvInstructionsIndicator());
         return hashMap;
     }

@@ -365,4 +365,7 @@
 	<bean id="awardTransactionLookupService" class="org.kuali.kra.award.lookup.AwardTransactionLookupServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	<bean id="awardPaymentAndInvoicesService" class = "org.kuali.kra.service.AwardPaymentAndInvoicesServiceImpl">
+		<property name = "businessObjectService" ref = "businessObjectService"/>
+	</bean>
 </beans>
