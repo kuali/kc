@@ -198,7 +198,7 @@
 				</tr>	                     
 	    	</c:forEach>	    	
 	    </table>
-	    <c:if test="${KualiForm.institutionalProposalCreditSplitBean.institutionalProposalCreditsLimitApplicable && fn:length(KualiForm.document.institutionalProposalList[0].projectPersons) > 0}" >
+	    <c:if test="${KualiForm.institutionalProposalCreditSplitBean.institutionalProposalCreditsLimitApplicable && KualiForm.document.institutionalProposalList[0].totalUnitCount > 0}" >
 	    	<kra-ip:creditSplit/>
 	    </c:if>  
     </div>    
