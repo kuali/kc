@@ -44,7 +44,7 @@ public interface ProtocolAssignToAgendaService {
      * @param protocol The Protocol object to be queried from
      * @return the date of the agenda that the protocol is assigned to
      */
-    Date getAssignedScheduleDate(Protocol protocol);
+    String getAssignedScheduleDate(Protocol protocol);
     
     /**
      * 

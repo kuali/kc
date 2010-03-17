@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -102,8 +103,29 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          */
         ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.WITHDRAWN);
+        
+        //update some info
+        newProtocolDocument.getProtocol().setApprovalDate(null);
+        newProtocolDocument.getProtocol().setExpirationDate(null);
+        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleId(null);
+        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleIdFk(null);
+        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeId(null);
+        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
+        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
+        
+        //remove submissions
+        //List<ProtocolSubmission> protocolSubmissions = newProtocolDocument.getProtocol().getProtocolSubmissions();
+        //for (ProtocolSubmission submissionI : protocolSubmissions){
+          //  if (!submissionI.getSubmissionStatus().getDescription().equals(ProtocolSubmissionStatus.WITHDRAWN)){
+            //    businessObjectService.delete(submissionI);
+            //}
+        //}
+        
+        
+        
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
+        
         
         return newProtocolDocument;
     }
