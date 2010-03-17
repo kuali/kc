@@ -31,7 +31,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
 
     private String committeeId = "";
     private String committeName = "";
-    private Date scheduleDate = null;
+    private String scheduleDate = "";
     private boolean protocolAssigned = false;
     private String comments = "";
     
@@ -59,7 +59,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
     }
 
 
-    public void setScheduleDate(Date scheduleDate) {
+    public void setScheduleDate(String scheduleDate) {
         this.scheduleDate = scheduleDate;
     }
 
@@ -130,7 +130,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
     }
 
 
-    public Date getScheduleDate() {
+    public String getScheduleDate() {
         return scheduleDate;
         // return new Date();
     }
