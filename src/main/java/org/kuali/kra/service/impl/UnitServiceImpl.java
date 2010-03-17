@@ -139,7 +139,7 @@ public class UnitServiceImpl implements UnitService {
         int startIdx = unitNumber.indexOf("px\">", unitNumber.indexOf("<tr>"));
         for (Unit unit : getSubUnits(unitNumber.substring(startIdx+4, unitNumber.indexOf(COLUMN, startIdx) - 1))) {
             if (StringUtils.isNotBlank(subUnits)) {
-                subUnits = subUnits +"," +unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();
+                subUnits = subUnits +"#SEPARATOR#" +unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();
             } else {
                 subUnits = unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();                
             }
