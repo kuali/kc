@@ -23,9 +23,12 @@ import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>{
 
@@ -122,11 +125,15 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
      * @return
      */
     public Budget findBudget() {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("budgetId", getBudgetVersionOverview().getBudgetId());
-        Budget result = (Budget)businessObjectService.findByPrimaryKey(Budget.class, criteria);
-        return result;
+        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        try {
+            BudgetDocument budgetDoc = (BudgetDocument)docService.getByDocumentHeaderId(getDocumentNumber());
+            return budgetDoc.getBudget();
+        }
+        catch (WorkflowException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     /**
