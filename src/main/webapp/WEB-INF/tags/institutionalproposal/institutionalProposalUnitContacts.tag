@@ -99,7 +99,8 @@
 	                <td valign="middle">
 	                	<div align="center">
 	                		<kul:htmlControlAttribute property="unitContactsBean.unitContacts[${institutionalProposalContactRowStatus.index}].unitAdministratorTypeCode" 
-	                									attributeEntry="${institutionalProposalUnitContactAttributes.unitAdministratorTypeCode}" />
+	                                                  attributeEntry="${institutionalProposalUnitContactAttributes.unitAdministratorTypeCode}" 
+                                                      readOnlyAlternateDisplay="${institutionalProposalContact.unitAdministratorType.description}" />
 	                	</div>
 					</td>
 					<td valign="middle">
