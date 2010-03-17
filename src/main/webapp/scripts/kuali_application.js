@@ -1632,6 +1632,86 @@ function loadOrganizationName(organizationIdFieldName, organizationNameFieldName
 	}
 }
 
+function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldName ) {
+
+	if ( awardTypeCode=='' || awardTypeCode== "") {
+		//clearMethodOfPaymentCodes( methodOfPaymentCodeFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  					var e = document.KualiForm.elements[i];
+	  					if(e.type == 'select-one' && e.name == basisOfPaymentCodeFieldName) {
+	  						e.options.length=0;
+							var option_array=data.split(",");
+							var optionNum=0;
+							var nameLabelPair;
+							while (optionNum < option_array.length)
+							{
+							   nameLabelPair = option_array[optionNum].split(";");
+							   e.options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+							   optionNum+=1;
+							}
+						}
+					}		
+				} else {
+					if ( basisOfPaymentCodeFieldName != null && basisOfPaymentCodeFieldName != "" ) {
+						//setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				//setRecipientValue( frequencyCodeFieldName, wrapError( "not found" ), true );
+			}
+		};
+		AwardPaymentAndInvoicesService.getEncodedValidAwardBasisPaymentsByAwardTypeCode( awardTypeCode, dwrReply )
+	}
+}
+
+
+function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPaymentCodeFieldName) {    
+    var basisOfPaymentCode = DWRUtil.getValue( basisOfPaymentCodeFieldName );
+	if ( basisOfPaymentCode=='' || basisOfPaymentCode== "") {
+		//clearMethodOfPaymentCodes( methodOfPaymentCodeFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  					var e = document.KualiForm.elements[i];
+	  					if(e.type == 'select-one' && e.name == methodOfPaymentCodeFieldName) {
+	  						e.options.length=0;
+							if ( basisOfPaymentCodeFieldName != null && basisOfPaymentCodeFieldName != "" ) {
+								var option_array=data.split(",");
+								var optionNum=0;
+								var nameLabelPair;
+								while (optionNum < option_array.length)
+								{
+								   nameLabelPair = option_array[optionNum].split(";");
+								   e.options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+								   optionNum+=1;
+								}
+							}
+						}
+					}		
+				} else {
+					if ( basisOfPaymentCodeFieldName != null && basisOfPaymentCodeFieldName != "" ) {
+						//setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				//setRecipientValue( frequencyCodeFieldName, wrapError( "not found" ), true );
+			}
+		};
+		AwardPaymentAndInvoicesService.getEncodedValidBasisMethodPaymentsByBasisCode( basisOfPaymentCode, dwrReply )
+	}
+
+}
+
 function loadFrequencyCode(reportClassCode, reportCodeFieldName,frequencyCodeFieldName) {    
     var reportCode = DWRUtil.getValue( reportCodeFieldName );
 	if (reportClassCode=='' || reportCode == "") {

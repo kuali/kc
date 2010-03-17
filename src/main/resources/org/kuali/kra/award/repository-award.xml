@@ -1228,8 +1228,7 @@
 		<field-descriptor name="validBasisMethodPaymentId" column="VALID_BASIS_METHOD_PMT_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="frequencyIndicator" column="FREQUENCY_INDICATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="invInstructionsIndicator" column="INV_INSTRUCTIONS_INDICATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="invInstructionsIndicator" column="INV_INSTRUCTIONS_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

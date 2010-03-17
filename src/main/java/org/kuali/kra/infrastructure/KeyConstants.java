@@ -330,6 +330,7 @@ public final class KeyConstants {
     public static final String ERROR_SCHEDULE_GENERATION_FREQ_BASE_IS_NULL = "error.schedule.generation.freq.base.is.null";
     //Award Payment Invoices
     public static final String ERROR_AWARD_INVALID_BASIS_OF_PAYMENT_FOR_AWARD_TYPE="error.award.paymentsAndInvoices.invalidBasisOfPaymentForAwardType";
+    public static final String ERROR_AWARD_INVALID_BASIS_AND_METHOD_OF_PAYMENT = "error.award.paymentsAndInvoices.invalidBasisAndMethodOfPayment";
     
     
     //Time & Money - Transactions
@@ -439,14 +440,14 @@ public final class KeyConstants {
     public static final String INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE = "invalid.frequency.for.reportClass.and.type";
     public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "invalid.frequencyBase.for.frequency";
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
-    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "invalid.award.payment.invoice.comment.comment.not.allowed";
-    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "invalid.award.payment.invoice.comment.required";
+    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "error.invalid.award.payment.invoice.comment.comment.not.allowed";
+    public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "error.invalid.award.payment.invoice.comment.required";
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
     public static final String INVALID_REPORT_FREQUENCY = "invalid.award.awardTemplate.reportTerm.reportFreqency";
     public static final String INVALID_BASIS_PAYMENT = "invalid.award.awardTemplate.awardBasisPayment";
-    public static final String INVALID_METHOD_PAYMENT = "invalid.award.awardTemplate.awardMetodPayment";
+    public static final String INVALID_METHOD_PAYMENT = "invalid.award.awardTemplate.awardMethodPayment";
     
     // IRB Protocol Participant Types Validation Messages
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";

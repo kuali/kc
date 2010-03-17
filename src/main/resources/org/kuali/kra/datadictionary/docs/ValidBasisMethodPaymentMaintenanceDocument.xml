@@ -55,9 +55,6 @@
                     p:name="methodOfPaymentCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="frequencyIndicator"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
                     p:name="invInstructionsIndicator"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
