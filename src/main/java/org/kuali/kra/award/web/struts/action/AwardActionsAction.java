@@ -40,6 +40,7 @@ import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -620,31 +621,29 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         doProcessingAfterPost( kualiDocumentFormBase, request );
         getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
-        updateFundingProposalStatus(((AwardForm)form).getAwardDocument().getAward());
+        if (!((AwardForm) form).getAwardDocument().getAward().getFundingProposals().isEmpty()) {
+            updateFundingProposalStatus(((AwardForm) form).getAwardDocument().getAward());
+        }
         return returnToSender(request, mapping, kualiDocumentFormBase);
     }
     
     private void updateFundingProposalStatus (Award award) {
-        List<Long> proposalIds = new ArrayList<Long>();
-        List<Long> duplicateIds = new ArrayList<Long>();
-        for (AwardFundingProposal awardFundingProposal : award.getFundingProposals()) {
-            if (proposalIds.contains(awardFundingProposal.getProposalId())) {
-                duplicateIds.add(awardFundingProposal.getProposalId());
-            } else {
-                proposalIds.add(awardFundingProposal.getProposalId());                
-            }
-        }
         List<InstitutionalProposal> updateProposals = new ArrayList<InstitutionalProposal>();
         for (AwardFundingProposal awardFundingProposal : award.getFundingProposals()) {
-            if (!duplicateIds.contains(awardFundingProposal.getProposalId())) {
-                duplicateIds.add(awardFundingProposal.getProposalId());
-                awardFundingProposal.getProposal().setStatusCode(1);
+            Map <String, String> qMap = new HashMap<String, String>();
+            qMap.put("proposalId",awardFundingProposal.getProposalId().toString());
+            // TODO : getProposal().getAwardFundingProposals() seems contract with data in DB. ??
+            //if (awardFundingProposal.getProposal().getAwardFundingProposals().size() == 1) {
+            if (getBusinessObjectService().countMatching(AwardFundingProposal.class, qMap) == 1) {
+                // TODO : may need to add a new column to hold previousStatus, so the status code can be recovered properly
+                // unlockselected award also set status to 'pending'  so not sure ?
+                awardFundingProposal.getProposal().setStatusCode(ProposalStatus.PENDING);
                 updateProposals.add(awardFundingProposal.getProposal());
-            } 
+            }
         }
         if (!updateProposals.isEmpty()) {
             getBusinessObjectService().save(updateProposals);
         }
-
+        getBusinessObjectService().delete(award.getFundingProposals());
     }
 }
