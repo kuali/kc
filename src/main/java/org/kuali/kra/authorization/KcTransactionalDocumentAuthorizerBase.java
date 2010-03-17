@@ -360,8 +360,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     protected boolean canApprove(Document document, Person user) {
         WorkflowDocument workDoc = getWorkflowDocument( document, user );
-        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        return (  workDoc.getRouteHeader().isApproveRequested() ) 
+        return workDoc.getRouteHeader().isApproveRequested() 
             && workDoc.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_APPROVED_CD )
             && workDoc.stateIsEnroute(); 
     }
@@ -409,7 +408,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can blanket approve the document; otherwise false
      */
     protected boolean canBlanketApprove(Document document, Person user) {
-        return canBlanketApprove(document) && 
+        WorkflowDocument workDoc = getWorkflowDocument( document, user );
+        return canBlanketApprove(document) && workDoc.isBlanketApproveCapable() &&
                isAuthorizedByTemplate(
                         document,
                         KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
