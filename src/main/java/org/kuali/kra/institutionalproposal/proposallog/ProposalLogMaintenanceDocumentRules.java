@@ -25,6 +25,7 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -91,7 +92,23 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             valid = false;
         }
         
+        if ("Copy".equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+            setupProposalNumberForCopy(proposalLog);
+        }
         return valid;
+    }
+    
+    /*
+     * This is to create proposal number for copied proposal log
+     * It is a little odd to put here, but there is no other places that can accomplish this so far
+     * The PropLogmaintenanable have to generate this proposal number at 'save'.
+     * If there is a better place found, then this should be removed.
+     */
+    private void setupProposalNumberForCopy(ProposalLog proposalLog) {
+        if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
+            proposalLog.setProposalNumber(KraServiceLocator.getService(SequenceAccessorService.class)
+                    .getNextAvailableSequenceNumber("SEQ_PROPOSAL_NUMBER").toString());
+        }
     }
     
     /*
