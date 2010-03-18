@@ -188,24 +188,16 @@ public enum AwardTemplateSyncScope {
     public boolean isInScope( AwardReportTerm report ) {
         String reportCode = report.getReportCode();
         String reportClassCode = report.getReportClassCode();
-        if( LOG.isDebugEnabled() ) 
-            LOG.debug(String.format( "%s.isInScope called for AwardTemplateReportTerm ( code = %s, class = %s ).", this , reportCode, reportClassCode ));
         boolean result = isReportTermInScope( reportCode, reportClassCode ); 
         return result;
     }
     
     public static boolean isInScope( AwardReportTerm report, AwardTemplateSyncScope[] scopes ) {
-        String reportCode = report.getReportCode();
-        String reportClassCode = report.getReportClassCode();
-        if( LOG.isDebugEnabled() )
-            LOG.debug(String.format( "isInScope called for AwardReportTerm ( code = %s, reportTermClass = %s ) with scopes = %s", reportCode, reportClassCode,ArrayUtils.toString(scopes) ));
-        for( AwardTemplateSyncScope scope : scopes ) {
+         for( AwardTemplateSyncScope scope : scopes ) {
             if( scope.isInScope(report) ) { 
                 return true;
             }
         }
-        if( LOG.isDebugEnabled() )
-            LOG.debug(String.format( "isInScope called for AwardReportTerm ( code = %s, class = %s ) with scopes = %s returning false.", reportCode, reportClassCode, ArrayUtils.toString(scopes) ));
         return false;
     }
 
@@ -225,7 +217,6 @@ public enum AwardTemplateSyncScope {
    
     public boolean isInScope( AwardSponsorContact sponsorContact ) {
         boolean result = false;
-        //all of then get synced whenever we are syncing the 
         if( this.equals(SPONSOR_CONTACTS_TAB)) result = true;
         return result;
     }
@@ -245,7 +236,6 @@ public enum AwardTemplateSyncScope {
    
     public boolean isInScope( AwardTemplateContact templateContact ) {
         boolean result = false;
-        //all of then get synced whenever we are syncing the 
         if( this.equals(SPONSOR_CONTACTS_TAB)) result = true;
         return result;
     }
@@ -254,8 +244,6 @@ public enum AwardTemplateSyncScope {
     private boolean isReportTermInScope( String reportCode, String reportClassCode ) {
         boolean result = false;
         result = ArrayUtils.contains(getSyncScopeParameters("AwardReportTerm","reportClassCode"), reportClassCode );
-        if( LOG.isDebugEnabled() ) 
-            LOG.debug(String.format( "%s.isAwardCommentInScope for commentTypeCode = %s returns %s", this, reportClassCode,result) );
         return result;
     }
     
@@ -263,25 +251,20 @@ public enum AwardTemplateSyncScope {
     private boolean isAwardCommentInScope( String commentTypeCode ) {
         boolean result = false;
         result = ArrayUtils.contains(getSyncScopeParameters("AwardComment","commentTypeCode"), commentTypeCode );
-        if( LOG.isDebugEnabled() ) 
-            LOG.debug(String.format( "%s.isAwardCommentInScope for commentTypeCode = %s returns %s", this, commentTypeCode,result) );
         return result;
     }
     
     
     public String[] getSyncScopeParameters( String syncClass, String syncField ) {
-        if( LOG.isDebugEnabled( ) )
-            LOG.debug(String.format( "getting settings for %s.%s.%s", this.toString(), syncClass, syncField ));
-        
-        String settingValue = KraServiceLocator
-            .getService(ParameterService.class)
-            .getParameterValue(AwardDocument.class,String.format( "scope.sync.%s.%s.%s", this.toString(),syncClass,syncField));
-        
-        
-        if( LOG.isDebugEnabled() ) 
-            LOG.debug( String.format( "Setting for %s.%s.%s = ", this.toString(), syncClass, syncField, settingValue ));
-        
-        String[] values = settingValue == null?new String[] {}: StringUtils.split(settingValue,",");
+        String[] values = { };
+        try {
+                String settingValue = KraServiceLocator
+                .getService(ParameterService.class)
+                .getParameterValue(AwardDocument.class,String.format( "scope.sync.%s.%s.%s", this.toString(),syncClass,syncField));
+                values = settingValue == null?new String[] {}: StringUtils.split(settingValue,",");
+        } catch (Error e ) {
+            LOG.error( String.format( "Error returned from parameter lookup scope.sync.%s.%s.%s failed, defaulting to empty list.  Error: %s", this.toString(),syncClass,syncField, e.getMessage() ));
+        }
         return values;
     }
            

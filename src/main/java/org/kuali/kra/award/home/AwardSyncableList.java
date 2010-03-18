@@ -64,5 +64,10 @@ public @interface AwardSyncableList  {
     
     AwardTemplateSyncScope[] scopes() default {};
     
+    /*
+     * 
+     */
+    
+    boolean removeMissingListElementsFromTarget() default true;
     
 }

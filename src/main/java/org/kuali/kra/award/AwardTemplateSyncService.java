@@ -23,14 +23,7 @@ import org.kuali.kra.award.document.AwardDocument;
 public interface AwardTemplateSyncService {
     
     public static final String SYNC_PROPERTY = ".syncPropertyName";
-    
-    /**
-     * 
-     * This method is to sync entire AwardTemplate details to Award object. 
-     * @param award
-     * @return true if successful
-     */
-    public boolean syncToAward(AwardDocument awardDocument );
+
     /**
      * 
      * This method is to sync a particular syncable list from award template
@@ -38,17 +31,17 @@ public interface AwardTemplateSyncService {
      * @param syncPropertyName is the name of member variable to represent syncable list
      * @return true if successful
      */
-    public boolean syncToAward(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes);
+    public boolean syncAwardToTemplate(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes);
     
     /**
-     * Method checks if a scope sync will clobber existing data within the award.
+     * Method checks if a scope sync will alter existing data within the award when called with a specific scope.
      * 
      * @param awardDocument The award document to check.
      * @param scope The scope to check.
      * @return true if existing data will be lost, false otherwise.
      * 
      */
-    public boolean syncWillClobberData( AwardDocument awardDocument, AwardTemplateSyncScope scope );
+    public boolean syncWillAlterData( AwardDocument awardDocument, AwardTemplateSyncScope scope );
  
     
 }

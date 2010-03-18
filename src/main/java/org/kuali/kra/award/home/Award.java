@@ -153,7 +153,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
-    @AwardSyncableList(syncClass = AwardComment.class, syncSourceClass = AwardTemplateComment.class, scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.COMMENTS_TAB})
+    @AwardSyncableList(syncClass = AwardComment.class, syncSourceClass = AwardTemplateComment.class, scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.COMMENTS_TAB}, removeMissingListElementsFromTarget=false)
     private List<AwardComment> awardComments;
     @AwardSyncableList(syncClass = AwardReportTerm.class, syncSourceClass = AwardTemplateReportTerm.class, scopes = {AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,AwardTemplateSyncScope.REPORTS_TAB})
     private List<AwardReportTerm> awardReportTermItems;
@@ -1473,7 +1473,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public AwardComment getAwardCommentByType( String awardTypeCode, boolean checklistPrintFlag, boolean createNew ) {
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get( awardTypeCode );
-        if( awardComment == null && createNew ) {
+        if( (awardComment == null && createNew) ) {
             awardComment = awardCommentFactory.createAwardComment(awardTypeCode, checklistPrintFlag);
             add( awardComment );
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment );

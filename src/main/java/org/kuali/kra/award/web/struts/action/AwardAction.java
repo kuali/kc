@@ -1020,7 +1020,7 @@ public class AwardAction extends BudgetParentActionBase {
             if( skipCheck ) {
                 requiresQuestionMap.put(scope, defaultValue);
             } else {
-                if( awardTemplateSyncService.syncWillClobberData(awardDocument, scope) ) {
+                if( awardTemplateSyncService.syncWillAlterData(awardDocument, scope) ) {
                     if( LOG.isDebugEnabled() )
                         LOG.debug(String.format( "%s:%s", scope, true ));
                     requiresQuestionMap.put(scope, true);  
@@ -1117,7 +1117,7 @@ public class AwardAction extends BudgetParentActionBase {
                 if( LOG.isDebugEnabled() ) 
                     LOG.debug( "USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:"+currentScope+" CALLING SYNC SERVICE." );
                 AwardTemplateSyncScope[] s = { currentScope };
-                awardTemplateSyncService.syncToAward(awardDocument, s);
+                awardTemplateSyncService.syncAwardToTemplate(awardDocument, s);
                 awardForm.setCurrentSyncScopes( (AwardTemplateSyncScope[])ArrayUtils.remove(scopes, 0) );
             } else if ( (QUESTION_VERIFY_SYNC+":"+currentScope).equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 if( LOG.isDebugEnabled() ) 
