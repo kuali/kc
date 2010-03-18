@@ -61,7 +61,7 @@
         <ref bean="Award-anticipatedTotal" />
         <ref bean="Award-templateCode" />
         <ref bean="Award-principalInvestigatorName" />
-        <ref bean="Award-unitName" />
+        <ref bean="Award-leadUnit.unitName" />
         <ref bean="Award-unitNumber" />
         <ref bean="Award-ospAdministratorName" />
         <ref bean="Award-archiveLocation" />
@@ -736,9 +736,9 @@
 		<property name="description" value="The lead unit number for the Award." />
 	</bean>
   
-	<bean id="Award-unitName" parent="Award-unitName-parentBean" />
-	<bean id="Award-unitName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="unitName" />
+	<bean id="Award-leadUnit.unitName" parent="Award-leadUnit.unitName-parentBean" />
+	<bean id="Award-leadUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="leadUnit.unitName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit" />
 		<property name="shortLabel" value="Lead Unit" />
@@ -936,7 +936,7 @@
 			    <bean p:attributeName="title" parent="FieldDefinition" />
 			    <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
 			    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-			    <bean p:attributeName="unitName" parent="FieldDefinition" />
+			    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
 			    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
 			    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
 			    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
@@ -969,7 +969,7 @@
 		    <bean p:attributeName="title" parent="FieldDefinition" />
 		    <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="unitName" parent="FieldDefinition" />
+		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
 		    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
 		    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
 		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
@@ -980,7 +980,7 @@
 		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="unitName" parent="FieldDefinition" />
+		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
 		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
 			<bean p:attributeName="statusDescription" parent="FieldDefinition" />	    
 			<bean p:attributeName="title" parent="FieldDefinition" />
