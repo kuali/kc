@@ -39,5 +39,4 @@ public @interface AwardSyncable {
     String   parentPropertyName() default DEFAULT_PARENT_PROPERTY;
     
     
-    
 }
