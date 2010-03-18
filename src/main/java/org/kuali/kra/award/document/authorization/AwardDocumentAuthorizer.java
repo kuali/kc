@@ -150,7 +150,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                  document,
                  KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                  KimConstants.PermissionTemplateNames.APPROVE_DOCUMENT,
-                 user.getPrincipalId());
+                 user.getPrincipalId()) && super.canApprove(document, user);
     }
     
     /**
@@ -176,7 +176,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 document,
                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                 KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
-                user.getPrincipalId());
+                user.getPrincipalId()) && super.canBlanketApprove(document, user) && super.canBlanketApprove(document, user);
     }
     
     /**
