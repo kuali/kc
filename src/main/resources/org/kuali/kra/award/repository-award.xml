@@ -92,7 +92,6 @@
         
         <collection-descriptor name="fundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId"/>
-			<!-- 
 			<query-customizer
                 class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
               <attribute
@@ -100,7 +99,6 @@
                   attribute-value="Y"
               />  
            </query-customizer>
-           -->
 		</collection-descriptor>
         
         <collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1303,10 +1301,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		
-		<!-- 
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR" nullable="true" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        -->
-
+        
     	<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="awardId" />
 		</reference-descriptor>
