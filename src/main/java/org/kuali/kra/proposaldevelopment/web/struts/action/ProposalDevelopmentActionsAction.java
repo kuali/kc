@@ -730,7 +730,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                     versionNumber,
-                    proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
+                    proposalDevelopmentForm.getInstitutionalProposalToVersion());
             
             persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
         } else {
