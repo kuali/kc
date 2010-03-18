@@ -27,8 +27,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriodType;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
+    
+    @DeepCopyIgnore
     private Long budgetPersonnelLineItemId;
     private Integer personNumber;
 	private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;

@@ -17,9 +17,12 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
+
 
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
+    @DeepCopyIgnore
 	private Long budgetLineItemCalculatedAmountId;
     /**
      * Comment for <code>serialVersionUID</code>

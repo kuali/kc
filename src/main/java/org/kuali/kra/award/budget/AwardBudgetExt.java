@@ -31,7 +31,6 @@ public class AwardBudgetExt extends Budget {
     private String awardBudgetTypeCode; 
     private BudgetDecimal obligatedTotal;
     private BudgetDecimal obligatedAmount=BudgetDecimal.ZERO;
-    private BudgetDecimal totalCostLimit;
     private AwardBudgetStatus awardBudgetStatus; 
     private AwardBudgetType awardBudgetType;
     private String description;
@@ -138,20 +137,6 @@ public class AwardBudgetExt extends Budget {
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
-    }
-    /**
-     * Gets the totoalCostLimit attribute. 
-     * @return Returns the totoalCostLimit.
-     */
-    public BudgetDecimal getTotalCostLimit() {
-        return getObligatedTotal().subtract(getObligatedAmount());
-    }
-    /**
-     * Sets the totoalCostLimit attribute value.
-     * @param totoalCostLimit The totoalCostLimit to set.
-     */
-    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
-        this.totalCostLimit = totalCostLimit;
     }
     /**
      * Gets the description attribute. 

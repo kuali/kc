@@ -16,13 +16,20 @@
 package org.kuali.kra.award.budget;
 
 
+import java.util.List;
+
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -110,9 +117,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     /**
      * @see org.kuali.kra.award.budget.AwardBudgetService#rebudget(org.kuali.kra.award.budget.document.AwardBudgetDocument)
      */
-    public void rebudget(AwardBudgetDocument awardBudgetDocument) {
-        // TODO Auto-generated method stub
-
+    public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
+        return createNewBudgetDocument(documentDescription, awardDocument, true);
     }
     /**
      * Get the corresponding workflow document.  
@@ -188,40 +194,89 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * 
      * @see org.kuali.kra.budget.core.BudgetCommonService#getNewBudgetVersion(org.kuali.kra.budget.document.BudgetParentDocument, java.lang.String)
      */
-    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument<Award> parentDocument, String documentDescription)
+    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription)
+        throws WorkflowException {
+        
+        AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
+        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
+
+        return awardBudgetDocument;
+    }
+
+    /**
+     * This method...
+     * @param documentDescription
+     * @param parentDocument
+     * @return
+     * @throws WorkflowException
+     */
+    private AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
-        BudgetDocument<Award> budgetDocument;
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-        budgetDocument = (BudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
         
-        budgetDocument.setParentDocument(parentDocument);
-        budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
-        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
+        awardBudgetDocument.setParentDocument(parentDocument);
+        awardBudgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
+        awardBudgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
+        awardBudgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         
-        Budget budget = budgetDocument.getBudget();
-        budget.setBudgetVersionNumber(budgetVersionNumber);
-        budget.setBudgetDocument(budgetDocument);
+        AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
+        awardBudget.setBudgetVersionNumber(budgetVersionNumber);
+        awardBudget.setBudgetDocument(awardBudgetDocument);
+        BudgetVersionOverview lastBudgetVersion = getLastBudgetVersion(parentDocument);
+        awardBudget.setOnOffCampusFlag(lastBudgetVersion==null?Constants.DEFALUT_CAMUS_FLAG:lastBudgetVersion.getOnOffCampusFlag());
         
         BudgetParent budgetParent = parentDocument.getBudgetParent();
-        budget.setStartDate(budgetParent.getRequestedStartDateInitial());
-        budget.setEndDate(budgetParent.getRequestedEndDateInitial());
-        budget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
-        budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
-        budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
-        budget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-        boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",budgetDocument.getParentDocument(),budget));
+        awardBudget.setStartDate(budgetParent.getRequestedStartDateInitial());
+        awardBudget.setEndDate(budgetParent.getRequestedEndDateInitial());
+        
+        awardBudget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
+        awardBudget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+        awardBudget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+        awardBudget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+        boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
+                    new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",
+                            awardBudgetDocument.getParentDocument(),awardBudget));
         if(!success)
             return null;
 
-        budget.setRateClassTypesReloaded(true);
-        
-        saveBudgetDocument(budgetDocument);
-        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        awardBudget.setRateClassTypesReloaded(true);
+        awardBudget.setTotalCostLimit(rebudget?BudgetDecimal.ZERO:getObligatedChangeAmount(parentDocument));
+        saveBudgetDocument(awardBudgetDocument,rebudget);
+        awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
         parentDocument.refreshReferenceObject("budgetDocumentVersions");
-        return budgetDocument;
+
+        return awardBudgetDocument;
     }
+    private BudgetDecimal getObligatedChangeAmount(AwardDocument awardDocument) {
+        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
+        String postedStatusCode = getAwardPostedStatusCode();
+        BudgetDecimal postedTotalAmount = BudgetDecimal.ZERO;
+        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
+            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+            if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
+                postedTotalAmount = postedTotalAmount.add(budget.getTotalCost());
+            }
+        }
+        BudgetDecimal awardObligatedAmount = new BudgetDecimal(awardDocument.getAward().getObligatedTotal().bigDecimalValue());
+        return awardObligatedAmount.subtract(postedTotalAmount);
+    }
+
+    private String getAwardPostedStatusCode() {
+        return this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+    }
+
+    private BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {
+        List<BudgetDocumentVersion> awardBudgetDocumentVersions = award.getBudgetDocumentVersions();
+        BudgetVersionOverview budgetVersionOverview = null;
+        int versionSize = awardBudgetDocumentVersions.size();
+        if(versionSize>0){
+            budgetVersionOverview = awardBudgetDocumentVersions.get(versionSize-1).getBudgetVersionOverview();
+        }
+        return budgetVersionOverview;
+    }
+
     /**
      * This method...
      * @param budgetDocument
@@ -230,12 +285,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @param budgetParent
      * @throws WorkflowException
      */
-    private void saveBudgetDocument(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+    private void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         Budget budget = budgetDocument.getBudget();
         AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-//        budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-        budgetExt.setAwardBudgetTypeCode(getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_NEW));
+        budgetExt.setAwardBudgetTypeCode(getParameterValue(rebudget?KeyConstants.AWARD_BUDGET_TYPE_REBUDGET:KeyConstants.AWARD_BUDGET_TYPE_NEW));
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS);
         saveDocument(awardBudgetDocument);
     }

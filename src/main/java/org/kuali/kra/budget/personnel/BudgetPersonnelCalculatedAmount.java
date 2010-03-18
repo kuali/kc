@@ -18,6 +18,7 @@ package org.kuali.kra.budget.personnel;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
 
 public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
 	/**
@@ -25,6 +26,7 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
      */
     private static final long serialVersionUID = 3100896964798965084L;
     private Integer personNumber;
+    @DeepCopyIgnore
     private Long budgetPersonnelCalculatedAmountId;
     private Long budgetPersonnelLineItemId;
 
