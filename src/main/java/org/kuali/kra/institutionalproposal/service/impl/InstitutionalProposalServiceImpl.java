@@ -19,17 +19,22 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -45,6 +50,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -175,6 +181,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposalDocument.getDocumentHeader().setDocumentDescription(
                 NEW_DOCUMENT_DESCRIPTION + developmentProposal.getProposalNumber());
         
+        institutionalProposalDocument.setInstitutionalProposal(institutionalProposal);
+
         // Set proposal number on new Institutional Proposal so that it will be propagated to all created child BO's before initial save.
         Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE);
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
@@ -182,6 +190,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setProposalNumber(nextProposalNumberAsString);
 
         doBaseFieldsDataFeed(institutionalProposal, developmentProposal);
+        doCustomAttributeDataFeed(institutionalProposalDocument, developmentProposal);
         
         institutionalProposal.getProjectPersons().clear();
         for (ProposalPerson pdPerson : developmentProposal.getProposalPersons()) {
@@ -202,7 +211,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             doBudgetDataFeed(institutionalProposal, budget);
         }
         
-        institutionalProposalDocument.setInstitutionalProposal(institutionalProposal);
         return institutionalProposalDocument;
     }
     
@@ -238,6 +246,28 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
         }
     }
+    
+    private void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
+        Map <String, CustomAttributeDocument> dpCustomAttributes = developmentProposal.getProposalDocument().getCustomAttributeDocuments();
+        Map <String, CustomAttributeDocument> ipCustomAttributes = institutionalProposalDocument.getCustomAttributeDocuments();
+        List<InstitutionalProposalCustomData> ipCustomDataList = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalCustomDataList();
+        InstitutionalProposalCustomData ipCustomData;
+        CustomAttributeDocument dpCustomAttributeDocument;
+        for (String key : dpCustomAttributes.keySet()) {
+            if (ipCustomAttributes.containsKey(key)) {
+                dpCustomAttributeDocument = dpCustomAttributes.get(key);
+                ipCustomAttributes.put(key, dpCustomAttributeDocument);
+                ipCustomData = new InstitutionalProposalCustomData();
+                ipCustomData.setCustomAttribute(new CustomAttribute());
+                ipCustomData.getCustomAttribute().setId(dpCustomAttributeDocument.getCustomAttributeId());
+                ipCustomData.setCustomAttributeId((long)dpCustomAttributeDocument.getCustomAttributeId());
+                ipCustomData.setInstitutionalProposal(institutionalProposalDocument.getInstitutionalProposal());
+                ipCustomData.setValue(dpCustomAttributeDocument.getCustomAttribute().getValue());
+                ipCustomDataList.add(ipCustomData);
+            }
+        }
+    }
+
     
     private InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
