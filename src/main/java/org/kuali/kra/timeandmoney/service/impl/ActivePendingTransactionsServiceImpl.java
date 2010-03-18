@@ -127,6 +127,61 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
         return awardAmountTransactions;
     }
+    
+    /**
+     * This method...
+     * @param doc
+     * @param newAwardAmountTransaction
+     * @param awardAmountTransactionItems
+     * @param awardItems
+     * @param transactionDetailItems
+     * @param pendingTransactionsToBeDeleted
+     * @return
+     */
+    public List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
+            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
+        
+        List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
+        List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
+        updatedPendingTransactions.addAll(doc.getPendingTransactions());
+        
+        for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
+            Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
+            AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
+            AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
+            AwardHierarchyNode parentNode = new AwardHierarchyNode();
+            //
+            if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
+                
+                //
+            }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                        , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+                
+                //tests for parent child relationship when pushing money down to children
+            }else if(parentChildRelationshipExists(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                processPendingTransactionWhenParentChildRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                        sourceAwardNode, destinationAwardNode); 
+                
+                //tests for child parent relationship when pushing money up to a parent award.
+            }else if(childParentRelationshipExists(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes, parentNode)){                
+                processPendingTransactionWhenChildParentRelationShipExists(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode
+                        , transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes,
+                        sourceAwardNode, destinationAwardNode); 
+            
+            }else{processPendingTransactionWithIndirectRelationship(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems, awardAmountTransactionItems
+                        , awardItems, pendingTransaction, sourceAwardNode, destinationAwardNode);
+            }
+            
+            updatedPendingTransactions.remove(pendingTransaction);
+            pendingTransactionsToBeDeleted.add(pendingTransaction);
+        }
+        
+        return awardItems;
+    }
 
     /*
      * This method deletes processed pending transactions from the doc for persistence.

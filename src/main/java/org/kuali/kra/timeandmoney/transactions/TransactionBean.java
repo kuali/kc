@@ -18,10 +18,12 @@ package org.kuali.kra.timeandmoney.transactions;
 import java.io.Serializable;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class supports the TimeAndMoneyForm class
@@ -53,12 +55,29 @@ public class TransactionBean implements Serializable {
      */
     public boolean addPendingTransactionItem() {
         AddTransactionRuleEvent event = generateAddEvent();
+        updateDocumentFromSession(event.getTimeAndMoneyDocument());
         boolean success = getRuleService().applyRules(event);
         if(success){            
             getTimeAndMoneyDocument().add(getNewPendingTransaction());
             init();
         }
         return success;
+    }
+    
+    /*
+     * This method...
+     * @param doc
+     */
+    private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
+        if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0){
+            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
+                TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
+                doc.setAwardHierarchyItems(document.getAwardHierarchyItems());
+                doc.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
+            }else {
+                throw new RuntimeException("Can't Retrieve Time And Money Document from Session");
+            }
+        }
     }
 
     /**
