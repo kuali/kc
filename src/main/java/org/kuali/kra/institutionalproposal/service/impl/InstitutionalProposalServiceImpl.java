@@ -332,7 +332,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalUnrecoveredFandA ipUfa = new InstitutionalProposalUnrecoveredFandA();
             ipUfa.setApplicableIndirectcostRate(new KualiDecimal(budgetUfa.getApplicableRate().bigDecimalValue()));
             ipUfa.setFiscalYear(budgetUfa.getFiscalYear().toString());
-            ipUfa.setOnCampusFlag(Boolean.parseBoolean(budgetUfa.getOnCampusFlag()));
+            ipUfa.setOnCampusFlag("Y".equals(budgetUfa.getOnCampusFlag()) ? true : false);
             ipUfa.setSourceAccount(budgetUfa.getSourceAccount());
             ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getUrRateClassCode()));
             ipUfa.setUnderrecoveryOfIndirectcost(new KualiDecimal(budgetUfa.getAmount().bigDecimalValue()));
