@@ -673,7 +673,7 @@ public final class KeyConstants {
     public static final String AWARD_BUDGET_STATUS_ERROR_IN_POSTING = "awardBudgetStatusErrorInPosting";
     public static final String AWARD_BUDGET_POST_ENABLED = "AWARD_BUDGET_POST_ENABLED";
     public static final String AWARD_BUDGET_TYPE_NEW = "awardBudgetTypeNew";
-    public static final String AWARD_BUDGET_TYPE_REBUDGET = "awardBudgetTypeNew";
+    public static final String AWARD_BUDGET_TYPE_REBUDGET = "awardBudgetTypeRebudget";
     
     public static final String ERROR_END_DATE_PRIOR_START_DATE = "error.end.date.prior.start.date";
     public static final String ERROR_INVALID_UNITCONTACT_PERSON = "error.unitContact.invalid.person";

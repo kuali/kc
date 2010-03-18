@@ -16,8 +16,10 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
 
@@ -44,6 +46,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     /**
      * 
      */
-    public void rebudget(AwardBudgetDocument awardBudgetDocument);
+    public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
     
 }
