@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document;
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13;
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.ClinicalTrial;
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.ContactPersonInfo;
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.PDPI;
-import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.StemCells;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document.PHS398CoverPageSupplement14;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document.PHS398CoverPageSupplement14.ClinicalTrial;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document.PHS398CoverPageSupplement14.ContactPersonInfo;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document.PHS398CoverPageSupplement14.PDPI;
+import gov.grants.apply.forms.phs398CoverPageSupplement14V14.PHS398CoverPageSupplement14Document.PHS398CoverPageSupplement14.StemCells;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.util.List;
@@ -48,21 +48,21 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 	 * details,Clinical Trail information,Contact person information.
 	 * 
 	 * @return coverPageSupplementDocument {@link XmlObject} of type
-	 *         PHS398CoverPageSupplement13Document.
+	 *         PHS398CoverPageSupplement14Document.
 	 */
-	private PHS398CoverPageSupplement13Document getCoverPageSupplement() {
-		PHS398CoverPageSupplement13Document coverPageSupplementDocument = PHS398CoverPageSupplement13Document.Factory
+	private PHS398CoverPageSupplement14Document getCoverPageSupplement() {
+		PHS398CoverPageSupplement14Document coverPageSupplementDocument = PHS398CoverPageSupplement14Document.Factory
 				.newInstance();
-		PHS398CoverPageSupplement13 coverPageSupplement = PHS398CoverPageSupplement13.Factory
+		PHS398CoverPageSupplement14 coverPageSupplement = PHS398CoverPageSupplement14.Factory
 				.newInstance();
-		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_3);
+		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_4);
 		coverPageSupplement.setPDPI(getPDPI());
 		coverPageSupplement.setClinicalTrial(getClinicalTrial());
 		coverPageSupplement.setContactPersonInfo(getContactPersonInfo());
 		StemCells stemCells = getStemCells();
 		coverPageSupplement.setStemCells(stemCells);
 		coverPageSupplementDocument
-				.setPHS398CoverPageSupplement13(coverPageSupplement);
+				.setPHS398CoverPageSupplement14(coverPageSupplement);
 		return coverPageSupplementDocument;
 	}
 
@@ -77,13 +77,6 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 		PDPI pdpi = PDPI.Factory.newInstance();
 		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		pdpi.setPDPIName(globLibV20Generator.getHumanNameDataType(PI));
-		// Set default values for mandatory fields
-		pdpi.setIsNewInvestigator(YesNoDataType.N_NO);
-
-		ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
-		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-			pdpi.setIsNewInvestigator(getProposalYnQAnswer(proposalYnq));
-		}
 		return pdpi;
 	}
 
@@ -186,7 +179,7 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 
 	/**
 	 * This method creates {@link XmlObject} of type
-	 * {@link PHS398CoverPageSupplement13Document} by populating data from the
+	 * {@link PHS398CoverPageSupplement14Document} by populating data from the
 	 * given {@link ProposalDevelopmentDocument}
 	 * 
 	 * @param proposalDevelopmentDocument
@@ -212,11 +205,11 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
 	 */
 	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CoverPageSupplement13 coverPageSupplement = (PHS398CoverPageSupplement13) xmlObject;
-		PHS398CoverPageSupplement13Document coverPageSupplementDocument = PHS398CoverPageSupplement13Document.Factory
+		PHS398CoverPageSupplement14 coverPageSupplement = (PHS398CoverPageSupplement14) xmlObject;
+		PHS398CoverPageSupplement14Document coverPageSupplementDocument = PHS398CoverPageSupplement14Document.Factory
 				.newInstance();
 		coverPageSupplementDocument
-				.setPHS398CoverPageSupplement13(coverPageSupplement);
+				.setPHS398CoverPageSupplement14(coverPageSupplement);
 		return coverPageSupplementDocument;
 	}
 }
