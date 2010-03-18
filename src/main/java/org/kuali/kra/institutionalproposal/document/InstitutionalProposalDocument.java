@@ -147,6 +147,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         }
         
         managedLists.add(institutionalProposalSpecialReviewExemptions);
+        managedLists.add(institutionalProposal.getInstitutionalProposalUnitContacts());
         managedLists.add(institutionalProposal.getSpecialReviews());
         managedLists.add(institutionalProposal.getInstitutionalProposalScienceKeywords());
         managedLists.add(institutionalProposal.getInstitutionalProposalCostShares());
