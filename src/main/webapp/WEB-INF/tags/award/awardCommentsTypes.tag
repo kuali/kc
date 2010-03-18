@@ -22,13 +22,13 @@
 
 <c:set var="commentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="commentMethodName" value="${fn:replace(commentTypeDescription,' ','')}"/>
-    <c:set var="commentIndex" value="0"/>
-    <c:forEach var="awardDocument" items="${KualiForm.document.awardList[0].awardComments}" varStatus="status">    
+    <c:set var="commentIndex" value="-1"/>
+    <c:forEach var="awardDocument" items="${KualiForm.document.awardList[0].awardComments}" varStatus="status">
         <c:if test="${KualiForm.document.awardList[0].awardComments[status.index].commentTypeCode == commentTypeCode}">
            <c:set var="commentIndex" value="${status.index}"/>
         </c:if>
     </c:forEach>
-
+	<c:if test = "${commentIndex gt -1}">
 	<kra:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
 		<table>
 		<tr>
@@ -50,3 +50,4 @@
     	</tr>
         </table>
   	</kra:innerTab>	
+  	</c:if>
