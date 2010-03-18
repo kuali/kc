@@ -92,7 +92,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             valid = false;
         }
         
-        if ("Copy".equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (valid && "Copy".equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             setupProposalNumberForCopy(proposalLog);
         }
         return valid;
