@@ -25,6 +25,7 @@
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
         <collection-descriptor name="budgetDocumentVersions" proxy="true" element-class-ref="org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+           <orderby name="documentNumber" sort="ASC" />
 	  	   <inverse-foreignkey field-ref="parentDocumentKey"/> 
 	    </collection-descriptor>
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

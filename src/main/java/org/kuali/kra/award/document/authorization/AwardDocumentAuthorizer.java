@@ -64,7 +64,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
         }
         
-        //FIXME: Adding all budget permissions for the time being.
 //        if (canExecuteTask(user, awardDocument, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
 //        }
@@ -74,7 +73,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 //        }
                 
 //        if (canExecuteTask(user, awardDocument, TaskName.MODIFY_BUDGET)) {
-            editModes.add("modifyProposalBudget");
+            editModes.add("modifyAwardBudget");
 //        }
 
         

@@ -33,6 +33,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -352,6 +355,31 @@ public class BudgetVersionsAction extends BudgetAction {
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
+    }
+    /**
+     * Action called to create a new budget version.
+     * 
+     * @param mapping 
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward instance for forwarding to the tab.
+     */
+    public ActionForward rebudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardDocument parentDocument = (AwardDocument)budgetDocument.getParentDocument();
+
+        AwardBudgetDocument newBudgetDoc = getAwardBudgetService().rebudget(parentDocument, 
+                                                        budgetForm.getNewBudgetVersionName());
+        if(newBudgetDoc!=null){
+            budgetForm.setNewBudgetVersionName("");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC); 
+    }
+
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
     }
 
 //    private StrutsConfirmation noRatesSyncConfirmationQuestion(ActionMapping mapping, ActionForm form,

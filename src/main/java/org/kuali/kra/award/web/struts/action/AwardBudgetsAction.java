@@ -28,6 +28,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
@@ -103,6 +105,29 @@ public class AwardBudgetsAction extends AwardAction {
     }
     
     /**
+     * Action called to create a new budget version.
+     * 
+     * @param mapping 
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward instance for forwarding to the tab.
+     */
+    public ActionForward rebudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDoc = awardForm.getAwardDocument();
+
+        AwardBudgetDocument newBudgetDoc = getAwardBudgetService().rebudget(awardDoc, awardForm.getNewBudgetVersionName());
+        if(newBudgetDoc!=null){
+            awardForm.setNewBudgetVersionName("");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC); 
+    }
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
+    }
+
+    /**
      * This method opens a particular budget version.
      * 
      * @param mapping
@@ -116,7 +141,7 @@ public class AwardBudgetsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
 
-        if ("TRUE".equals(awardForm.getEditingMode().get("modifyProposalBudget"))) {
+        if ("TRUE".equals(awardForm.getEditingMode().get("modifyAwardBudget"))) {
             save(mapping, form, request, response);
         }
         
