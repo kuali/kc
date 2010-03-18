@@ -51,7 +51,7 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
         boolean canEdit = super.canEdit(document);
         if (canEdit) {
             ProposalLog proposalLog = (ProposalLog) ((MaintenanceDocument) document).getOldMaintainableObject().getBusinessObject();
-            if (proposalLog.isSubmitted()) {
+            if (proposalLog.isSubmitted() && !"Copy".equals(((MaintenanceDocument) document).getNewMaintainableObject().getMaintenanceAction())) {
                 canEdit = false;
             }
         }
