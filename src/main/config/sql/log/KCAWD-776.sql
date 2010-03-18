@@ -1,0 +1,21 @@
+update SPONSOR_TERM set DESCRIPTION = 'Substantive subawarding of SOW requires prior approval' where SPONSOR_TERM_ID = 259;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of subawards over $100,000 requires special documentation' where SPONSOR_TERM_ID = 2;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of subawards in excess of $2,500 not included in approved budget' where SPONSOR_TERM_ID = 260;
+update SPONSOR_TERM set DESCRIPTION = 'No subawarding restrictions' where SPONSOR_TERM_ID = 262;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of all subawarding of SOW required' where SPONSOR_TERM_ID = 263;
+update SPONSOR_TERM set DESCRIPTION = 'Prior consent required for all unbudgeted subawards over $5,000' where SPONSOR_TERM_ID = 264;
+update SPONSOR_TERM set DESCRIPTION = 'Prior consent required for all unbudgeted sole source subawards over $25,000' where SPONSOR_TERM_ID = 265;
+update SPONSOR_TERM set DESCRIPTION = 'Inclusion of a subaward in the approved budget constitute prior approval if the subawardee''s name and subaward amount are identified in the budget.' where SPONSOR_TERM_ID = 266;
+update SPONSOR_TERM set DESCRIPTION = 'FAR 52.244-2, Subawards (Cost-reimbursement,...)' where SPONSOR_TERM_ID = 268;
+update SPONSOR_TERM set DESCRIPTION = 'FAR 52.244, Alt 1, Subawards (Cost-reimbursement,....)' where SPONSOR_TERM_ID = 269;
+update SPONSOR_TERM set DESCRIPTION = 'Prior consent required for all unbudgeted subawards over $25,000' where SPONSOR_TERM_ID = 272;
+update SPONSOR_TERM set DESCRIPTION = 'Subaward approval delegated to ONRRR' where SPONSOR_TERM_ID = 273;
+update SPONSOR_TERM set DESCRIPTION = 'Advanced notification required prior to issuance of subaward of SOW' where SPONSOR_TERM_ID = 274;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of all cost reimbursement, time and material and labor hours subawards over $10,000 required' where SPONSOR_TERM_ID = 276;
+update SPONSOR_TERM set DESCRIPTION = 'Subawards may include cost-sharing requirements' where SPONSOR_TERM_ID = 277;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of subawards over $100,000 requires special documentation' where SPONSOR_TERM_ID = 278;
+update SPONSOR_TERM set DESCRIPTION = 'Advance notification of all cost reimbursement, time and material and labor hours subawards over $10,000 required.' where SPONSOR_TERM_ID = 279;
+update SPONSOR_TERM set DESCRIPTION = 'Approval of all unbudgeted subawards of SOW is required' where SPONSOR_TERM_ID = 280;
+update SPONSOR_TERM set DESCRIPTION = 'Prior consent required for unbudgeted sole source subawards in excess of $100,000.' where SPONSOR_TERM_ID = 281;
+
+commit;
