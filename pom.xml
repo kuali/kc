@@ -375,6 +375,11 @@
                 	<artifactId>gg-forms3</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency>
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-forms4</artifactId>                    
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency> 
 				<!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
@@ -659,7 +664,12 @@
                 	<artifactId>gg-forms3</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency>
-                
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-forms4</artifactId>             
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+               	
 				<!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>

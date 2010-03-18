@@ -978,4 +978,49 @@
 		<pkgName>gov.grants.apply.forms.nsfCoverPage13V13</pkgName>
 	</Form>
 	<!-- New S2S Forms - gg-Forms3 -->
+	<!-- New S2S Forms - gg-Forms4 -->
+	<Form namespace="http://apply.grants.gov/forms/PerformanceSite_1_3-V1.3">
+		<formName>PerformanceSite_1_3</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_3Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.3.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.performanceSite13V13</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/PerformanceSite_1_4-V1.4">
+		<formName>PerformanceSite_1_4</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_4Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.4.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.performanceSite14V14</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_4-V1.4">
+		<formName>PHS398_CoverPageSupplement_1_4</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_4Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.4.fo.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.phs398CoverPageSupplement14V14</pkgName>
+	</Form>
+	<Form
+		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_1_3-V1.3">
+		<formName>PHS398_ResearchPlan_1_3</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_3Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/PHS398_ResearchPlan-V1.3.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.phs398ResearchPlan13V13</pkgName>
+	</Form>
+	
 </FormBinding>

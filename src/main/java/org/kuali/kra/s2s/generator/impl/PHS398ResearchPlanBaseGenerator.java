@@ -44,6 +44,7 @@ public abstract class PHS398ResearchPlanBaseGenerator extends S2SBaseFormGenerat
     public static final int PROGRESS_REPORT_PUBLICATION_LIST = 44;
     public static final int SELECT_AGENT_RESEARCH = 45;
     public static final int MULTIPLE_PI_LEADERSHIP_PLAN = 46;
+    public static final int RESEARCH_STRATEGY = 111;
     
     protected static final int PROPOSAL_TYPE_CODE_6 = 6;
 }
