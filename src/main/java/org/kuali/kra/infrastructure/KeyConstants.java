@@ -639,6 +639,11 @@ public final class KeyConstants {
     
     //Time And Money
     public static final String ERROR_TRANSACTION_TYPE_CODE_REQUIRED = "error.transaction.type.code.required";
+    public static final String ERROR_OBLIGATED_AMOUNT_INVALID = "error.obligated.amount.invalid";
+    public static final String ERROR_ANTICIPATED_AMOUNT_INVALID = "error.anticipated.amount.invalid";
+    public static final String ERROR_TOTAL_AMOUNT_INVALID = "error.total.amount.invalid";
+
+
     
     //Award Hierarchy
     public static final String ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED = "error.create.new.child.other.award.not.selected";

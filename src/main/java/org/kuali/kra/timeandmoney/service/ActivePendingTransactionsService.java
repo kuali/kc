@@ -36,6 +36,9 @@ public interface ActivePendingTransactionsService {
     List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
             , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
     
+    List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
+            , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
+    
     /**
      * 
      * This method retrieves the active award using the version history service.

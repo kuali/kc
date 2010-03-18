@@ -28,7 +28,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEventBase {
 
-    private static final Logger LOG = Logger.getLogger(AwardDirectFandADistributionRuleEvent.class);
+    private static final Logger LOG = Logger.getLogger(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
     private static final String AWARD_AMOUNT_TRANSACTION = "Award Amount Transaction";
     
     AwardAmountTransaction awardAmountTransaction;
