@@ -156,9 +156,10 @@
             <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
         </action>
         
-      <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
+    <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
         <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-      </action>
+        <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
+    </action>
 
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
