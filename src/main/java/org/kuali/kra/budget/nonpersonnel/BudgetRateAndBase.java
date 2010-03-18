@@ -18,6 +18,8 @@ package org.kuali.kra.budget.nonpersonnel;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 	/**
@@ -25,6 +27,7 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
      */
     private static final long serialVersionUID = -6003003851261499575L;
     private BudgetDecimal baseCost;
+    @DeepCopyIgnore
     private Long budgetRateAndBaseId;
     private Long budgetLineItemCalculatedAmountId;
     private Long budgetLineItemId;

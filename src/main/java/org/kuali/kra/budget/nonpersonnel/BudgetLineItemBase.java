@@ -24,6 +24,8 @@ import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public abstract class BudgetLineItemBase extends BudgetAssociate {
@@ -31,7 +33,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8356817148151906918L;
-
+    @DeepCopyIgnore
     private Long budgetLineItemId;
     private Long budgetPeriodId;
     

@@ -34,8 +34,11 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
@@ -131,7 +134,6 @@ public class BudgetPeriodCalculator {
     //                        budgetLineItemToBeApplied.setCostElementBO(prevBudgetLineItem.getCostElementBO());
     //                        budgetCalculationService.rePopulateCalculatedAmount(budget, budgetLineItemToBeApplied);
                         }
-                        
                         budgetLineItemToBeApplied.setLineItemCost(lineItemCost);
                     } else {
                         budgetLineItemToBeApplied.setLineItemCost(prevBudgetLineItem.getLineItemCost());
@@ -173,6 +175,7 @@ public class BudgetPeriodCalculator {
             int currentPeriodDuration;
             if (prevBudgetLineItem.getBudgetPeriod() < (budgetPeriod.getBudgetPeriod())) {
                 BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(prevBudgetLineItem);
+                budgetLineItem.setBudgetLineItemId(null);
                 budgetLineItem.getBudgetCalculatedAmounts().clear();
                 budgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
@@ -214,6 +217,7 @@ public class BudgetPeriodCalculator {
                 List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                 for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
                     isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate()) ;
+                    budgetPersonnelDetail.setBudgetPersonnelLineItemId(null);
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
@@ -238,13 +242,31 @@ public class BudgetPeriodCalculator {
 
                     
                     budgetPersonnelDetail.setVersionNumber(null);
+                    List<BudgetPersonnelCalculatedAmount> persCalAmounts = budgetPersonnelDetail.getBudgetPersonnelCalculatedAmounts();
+                    for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : persCalAmounts) {
+                        budgetPersonnelCalculatedAmount.setBudgetPersonnelCalculatedAmountId(null);
+                        budgetPersonnelCalculatedAmount.setVersionNumber(null);
+                    }
+                    List<BudgetPersonnelRateAndBase> perBudgetRateAndBases = budgetPersonnelDetail.getBudgetPersonnelRateAndBaseList();
+                    for (BudgetPersonnelRateAndBase budgetPersonnelRateAndBase : perBudgetRateAndBases) {
+                        budgetPersonnelRateAndBase.setBudgetPersonnelRateAndBaseId(null);
+                        budgetPersonnelRateAndBase.setVersionNumber(null);
+                    }
                 }
+                List<BudgetRateAndBase> budgetRateAndBases = budgetLineItem.getBudgetRateAndBaseList();
+                for (BudgetRateAndBase budgetRateAndBase : budgetRateAndBases) {
+                    budgetRateAndBase.setBudgetRateAndBaseId(null);
+                    budgetRateAndBase.setVersionNumber(null);
+                }
+                
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
+                            CalAmts.setBudgetLineItemCalculatedAmountId(null);
                             CalAmts.setApplyRateFlag(prevCalAmts.getApplyRateFlag());
+                            CalAmts.setVersionNumber(null);
                         }
                     }
                 }

@@ -24,7 +24,10 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -42,6 +45,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     private static final long serialVersionUID = -4997453399414404715L;
     private Integer budgetVersionNumber;
+    @DeepCopyIgnore
     private Long budgetId;
     private String documentNumber;
     private String documentDescription;
@@ -64,6 +68,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private String name;
     private String budgetStatus;
     
+    
+    private Boolean modularBudgetFlag;
+    private String urRateClassCode;
+    private String onOffCampusFlag;
+    
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -73,7 +82,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount;
+        return costSharingAmount == null ?  BudgetDecimal.ZERO : costSharingAmount;
     }
 
     public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -137,32 +146,22 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getTotalCost() {
-        return totalCost;
+        return totalCost == null ?  BudgetDecimal.ZERO : totalCost;
     }
 
     public void setTotalCost(BudgetDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
-        return totalDirectCost;
-    }
 
     public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
-    }
-
-    public BudgetDecimal getTotalIndirectCost() {
-        return totalIndirectCost;
     }
 
     public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
-        return underrecoveryAmount;
-    }
 
     public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
@@ -201,12 +200,23 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit;
+        return totalCostLimit==null?BudgetDecimal.ZERO:totalCostLimit;
     }
 
     public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
+    public BudgetDecimal getTotalDirectCost() {
+        return totalDirectCost == null ?  new BudgetDecimal(0) : totalDirectCost;
+    }
+    public BudgetDecimal getTotalIndirectCost() {
+        return totalIndirectCost == null ?  new BudgetDecimal(0) : totalIndirectCost;
+    }
+    public BudgetDecimal getUnderrecoveryAmount() {
+        return underrecoveryAmount == null ?  new BudgetDecimal(0) : underrecoveryAmount;
+    }
+
+
     
     public String getDocumentDescription() {
         return documentDescription;
@@ -249,19 +259,6 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         }
     }
     
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("budgetId", this.getBudgetId());
-        propMap.put("budgetVersionNumber", this.getBudgetVersionNumber());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
-    }
-    
     protected DocumentHeader getDocHeader() {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
@@ -292,6 +289,75 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
+    }
+
+    /**
+     * Gets the modularBudgetFlag attribute. 
+     * @return Returns the modularBudgetFlag.
+     */
+    public Boolean getModularBudgetFlag() {
+        return modularBudgetFlag;
+    }
+
+    /**
+     * Sets the modularBudgetFlag attribute value.
+     * @param modularBudgetFlag The modularBudgetFlag to set.
+     */
+    public void setModularBudgetFlag(Boolean modularBudgetFlag) {
+        this.modularBudgetFlag = modularBudgetFlag;
+    }
+
+    /**
+     * Gets the urRateClassCode attribute. 
+     * @return Returns the urRateClassCode.
+     */
+    public String getUrRateClassCode() {
+        return urRateClassCode;
+    }
+
+    /**
+     * Sets the urRateClassCode attribute value.
+     * @param urRateClassCode The urRateClassCode to set.
+     */
+    public void setUrRateClassCode(String urRateClassCode) {
+        this.urRateClassCode = urRateClassCode;
+    }
+
+    /**
+     * Gets the onOffCampusFlag attribute. 
+     * @return Returns the onOffCampusFlag.
+     */
+    public String getOnOffCampusFlag() {
+        return onOffCampusFlag;
+    }
+
+    /**
+     * Sets the onOffCampusFlag attribute value.
+     * @param onOffCampusFlag The onOffCampusFlag to set.
+     */
+    public void setOnOffCampusFlag(String onOffCampusFlag) {
+        this.onOffCampusFlag = onOffCampusFlag;
+    }
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
+        hashMap.put("budgetVersionNumber", budgetVersionNumber);
+        hashMap.put("comments", comments);
+        hashMap.put("costSharingAmount", costSharingAmount);
+        hashMap.put("endDate", endDate);
+        hashMap.put("finalVersionFlag", finalVersionFlag);
+        hashMap.put("modularBudgetFlag", modularBudgetFlag);
+        hashMap.put("ohRateClassCode", ohRateClassCode);
+        hashMap.put("ohRateTypeCode", ohRateTypeCode);
+        hashMap.put("residualFunds", residualFunds);
+        hashMap.put("startDate", startDate);
+        hashMap.put("totalCost", totalCost);
+        hashMap.put("totalCostLimit", totalCostLimit);
+        hashMap.put("totalDirectCost", totalDirectCost);
+        hashMap.put("totalIndirectCost", totalIndirectCost);
+        hashMap.put("underrecoveryAmount", underrecoveryAmount);
+        hashMap.put("urRateClassCode", urRateClassCode);
+        return hashMap;
     }
     
 }
