@@ -19,6 +19,12 @@ VALUES('KC-AB', 'D', 'awardBudgetStatusErrorInPosting', 'CONFG', '11', 'This sys
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AB', 'D', 'AWARD_BUDGET_POST_ENABLED', 'CONFG', '1', 'This system parameter enables on demand Award Budget Posting', 'A') ;
 
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetTypeNew', 'CONFG', '1', 'This system parameter maps the AwardBudget type New', 'A') ;
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AB', 'D', 'awardBudgetTypeRebudget', 'CONFG', '2', 'This system parameter maps the AwardBudget type Rebudget', 'A') ;
+
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'awardHomeHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Home Help', 'A') ;
 
