@@ -16,11 +16,13 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -30,6 +32,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.fundedawards.FundedAwardsBean;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
@@ -38,12 +41,17 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
  * This class...
  */
 public class InstitutionalProposalActionsAction extends InstitutionalProposalAction implements AuditModeAction {
+    private static final int ERROR = 2;
+    private static final int OK = 0;
+    private static final int WARNING = 1;
     
     private static final String CONFIRM_UNLOCK_SELECTED = "confirmUnlockSelected";
     private static final String CONFIRM_UNLOCK_SELECTED_KEY = "confirmUnlockSelectedKey";
@@ -188,6 +196,48 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 		streamToResponse(dataStream.getContent(), null, null, response);
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
+
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((InstitutionalProposalForm) form).setAuditActivated(true);
+        if (submissionStatus(((InstitutionalProposalForm) form).getInstitutionalProposalDocument()) == ERROR) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            return super.blanketApprove(mapping, form, request, response);
+        }
+    }
+	
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((InstitutionalProposalForm) form).setAuditActivated(true);
+        if (submissionStatus(((InstitutionalProposalForm) form).getInstitutionalProposalDocument()) == ERROR) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            return super.route(mapping, form, request, response);
+        }
+    }
+
+    private int submissionStatus(InstitutionalProposalDocument institutionalProposalDocument) {
+        int state = OK;
+        boolean auditPassed = new AuditActionHelper().auditUnconditionally(institutionalProposalDocument);
+        if (!auditPassed) {
+            state = WARNING;
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
+                    state = ERROR;
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                    break;
+                }
+            }
+        }
+        return state;
+    }
+
+	
     
     /**
      * 
