@@ -188,12 +188,19 @@
         var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
         if(text11 == 1){
-        	var txtImage = "<img src=\"static/images/award_active.gif\" />";
-        }else if(text11 == 2 || text11 == 4 || text11 == 5){
-        	var txtImage = "<img src=\"static/images/award_inactive.gif\" />";
-        }else if(text11 == 3 || text11 == 6){
-        	var txtImage = "<img src=\"static/images/award_pending.gif\" />";
+        	var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Active\" title=\"Active\" />";
+        }else if(text11 == 2){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Inactive\" title=\"Inactive\" />";
+        }else if(text11 == 3){
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
+        }else if(text11 == 4){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Terminated\" title=\"Terminated\" />";
+        }else if(text11 == 5){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
+        }else if(text11 == 6){
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Hold\" title=\"Hold\" />";
         }
+        
         var racodereverse = revString(racode);
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;

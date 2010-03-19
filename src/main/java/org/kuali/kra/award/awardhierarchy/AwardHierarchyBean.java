@@ -15,17 +15,19 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ErrorMessage;
-
-import java.io.Serializable;
-import java.util.*;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * Assumptions:
@@ -157,11 +159,16 @@ public class AwardHierarchyBean implements Serializable {
     }
 
     public AwardHierarchy createNewChildAwardBasedOnAnotherAwardInHierarchy(String nodeToCopyFromAwardNumber, String targetParentNodeAwardNumber) {
-        AwardHierarchy nodeToCopyFrom = getRootNode().findNodeInHierarchy(nodeToCopyFromAwardNumber);
-        if(nodeToCopyFrom == null) {
-            throw new MissingHierarchyException(targetParentNodeAwardNumber);
+        AwardHierarchy nodeToCopyFrom = null;
+        AwardHierarchy foreignRoot = getAwardHierarchyService().loadFullHierarchyFromAnyNode(nodeToCopyFromAwardNumber);
+        if(foreignRoot != null) {
+            nodeToCopyFrom = foreignRoot.findNodeInHierarchy(nodeToCopyFromAwardNumber);
         }
-        AwardHierarchy targetParentNode = nodeToCopyFrom.findNodeInHierarchy(targetParentNodeAwardNumber);        
+        
+        if(nodeToCopyFrom == null) {
+            throw new MissingHierarchyException(nodeToCopyFromAwardNumber);
+        }
+        AwardHierarchy targetParentNode = getRootNode().findNodeInHierarchy(targetParentNodeAwardNumber);        
         if(targetParentNode == null) {
             throw new MissingHierarchyException(targetParentNodeAwardNumber);
         } 
