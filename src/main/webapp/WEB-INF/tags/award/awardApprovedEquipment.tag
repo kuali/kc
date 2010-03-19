@@ -104,7 +104,7 @@
 	        </tr>
 		</c:forEach>
 		<tr>
-	  		<th colspan="3" align="right" scope="row"><div>Totals:</div></th>
+	  		<th colspan="4" align="right" scope="row"><div>Totals:</div></th>
 	  		<th align="right">
 	  			<div align="right">
 	  				<fmt:formatNumber type="CURRENCY" value="${formAward.totalApprovedEquipmentAmount}" />

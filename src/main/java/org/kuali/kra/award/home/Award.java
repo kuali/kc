@@ -2088,6 +2088,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.paymentScheduleItems = paymentScheduleItems;
     }
 
+    public KualiDecimal getTotalPaymentScheduleAmount() {
+        KualiDecimal amount = KualiDecimal.ZERO;
+        for (AwardPaymentSchedule schedule: paymentScheduleItems) {
+            amount = amount.add(schedule.getAmount());
+        }
+        return amount;
+    }
+    
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
