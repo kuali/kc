@@ -1113,7 +1113,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
             String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
-            addExtraButton("methodToCall.reject", resubmissionImage, "Reject Proposal");
+            addExtraButton("methodToCall.reject", resubmissionImage, "Reject");
         }
         
         return extraButtons;
