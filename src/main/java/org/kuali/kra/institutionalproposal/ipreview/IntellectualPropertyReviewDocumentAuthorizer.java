@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.ipreview;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -36,8 +37,9 @@ public class IntellectualPropertyReviewDocumentAuthorizer
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
-        IntellectualPropertyReview ipReview = (IntellectualPropertyReview) maintenanceDocument.getDocumentBusinessObject();
-        if (ipReview.getLeadUnitNumber() != null) {
+        IntellectualPropertyReview ipReview = 
+            (IntellectualPropertyReview) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
+        if (!StringUtils.isBlank(ipReview.getLeadUnitNumber())) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, ipReview.getLeadUnitNumber());
         } else {
             attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
