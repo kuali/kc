@@ -70,6 +70,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
+import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -643,7 +644,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         ObjectUtils.materializeSubObjectsToDepth(childLineItem, 5);
-                        parentLineItem = (BudgetLineItem) ObjectUtils.deepCopy(childLineItem);
+                        parentLineItem = (BudgetLineItem) (KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
                         parentLineItem.setBudgetId(budgetId);
                         parentLineItem.setBudgetPeriodId(budgetPeriodId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
@@ -762,7 +763,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
         GlobalVariables.setKualiForm(null);
-        //budgetCalculationService.calculateBudget(hierarchyBudget);
+        //KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
         sumHierarchyBudget(hierarchyBudget);
         GlobalVariables.setKualiForm(oldForm);
         try {
