@@ -75,7 +75,19 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         
         return false; 
     }
-
+    
+    @Override
+    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) { 
+        AttributeSet validationErrors = new AttributeSet();
+        if(roleQualifiedByAwardKey(attributes) || roleQualifiedByTimeAndMoneyKey(attributes)) {
+            return validationErrors;
+        } else if(roleQualifiedByUnitHierarchy(attributes) && attributes.containsKey(KcKimAttributes.UNIT_NUMBER)) {
+            validationErrors = super.validateAttributes(kimTypeId, attributes);
+        }
+        
+        return validationErrors;
+    }
+    
     private boolean roleQualifiedByUnitHierarchy(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && roleQualifier.containsKey(KcKimAttributes.SUBUNITS);
     }
