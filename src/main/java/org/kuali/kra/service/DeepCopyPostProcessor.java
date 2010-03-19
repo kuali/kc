@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.infrastructure;
+package org.kuali.kra.service;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.io.Serializable;
 
 /**
  * This class...
  */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface DeepCopyIgnore {
-   DeepCopyIgnoreScopes[] scopes() default {};
+public interface DeepCopyPostProcessor {
+    public Serializable processDeepCopyWithDeepCopyIgnore(Serializable source);
 }
