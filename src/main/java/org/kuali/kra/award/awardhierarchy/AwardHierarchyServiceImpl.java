@@ -30,6 +30,7 @@ import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
@@ -141,6 +142,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         Award newAward = new Award();
         newAward.setAwardNumber(targetNode.generateNextAwardNumberInSequence());
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, newAward.getAwardNumber(), newAward.getAwardNumber());
+        //copyAwardAmountDateInfo(targetNode.getAward(), newAward);  
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
         return newNode;
@@ -303,11 +305,16 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
             award.setAwardDocument(document);
             copyAwardAmountDateInfo(award, newAward);
+            clearFilteredAttributes(newAward);
         } catch(Exception e) { 
             throw uncheckedException(e);
         }
         return newAward;
     }
+    
+    private void clearFilteredAttributes(Award newAward) {
+        newAward.setAwardCloseoutItems(new ArrayList<AwardCloseout>());
+    } 
 
     AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
