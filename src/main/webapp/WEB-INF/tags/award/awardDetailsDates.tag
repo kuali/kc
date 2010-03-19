@@ -81,7 +81,7 @@
   	</tr>
   	<tr>
     	<th>
-    		<div align="right">*Version:</div>
+    		<div align="right">Version:</div>
       	</th>
     	<td>${KualiForm.awardDocument.award.sequenceNumber}</td>
     	<th>
