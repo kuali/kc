@@ -1957,6 +1957,8 @@
 
 	<bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService"> 
-  	</bean>		
+  	</bean>	
+  	
+  	<bean id="deepCopyPostProcessor" class="org.kuali.kra.service.impl.DeepCopyPostProcessorImpl" />	
 
 </beans>
