@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
@@ -29,8 +31,11 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -307,8 +312,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
     }
     
-    
-    
     protected boolean isBudgetComplete(BudgetParentDocument parentDocument) {
         if (!parentDocument.isComplete()) {
             return false;
@@ -321,4 +324,18 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         return false;
     }
     
+    @Override
+    public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+    }
+    
+    @Override
+    public boolean canDeleteNoteAttachment(Document document, String attachmentTypeCode, String createdBySelfOnly, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+    }
+    
+    @Override
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.VIEW_PROPOSAL);
+    }
 }
