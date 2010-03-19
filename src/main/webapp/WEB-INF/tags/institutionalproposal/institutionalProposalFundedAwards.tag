@@ -55,7 +55,7 @@
                 </c:if>
             </tr>
         </c:forEach>
-        <c:if test="${!readOnly}">
+        <c:if test="${!readOnly && KualiForm.document.institutionalProposal.awardFundingProposalsExist}">
             <tr>
                 <td colspan="4" class="infoline">
                     <div align="center">
