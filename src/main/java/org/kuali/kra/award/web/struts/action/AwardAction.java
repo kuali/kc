@@ -1075,8 +1075,18 @@ public class AwardAction extends BudgetParentActionBase {
         } else if( question!=null && (QUESTION_VERIFY_SYNC+":"+AwardTemplateSyncScope.FULL).equals(question) ) {
             
             if( ConfirmationQuestion.YES.equals(buttonClicked) ) {
-                awardForm.setCurrentSyncScopes(DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES);
-                awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, false,false ));
+                //if the award has a sequence number more than 1, we 
+                //only select the template and the user must use the buttons on 
+                //each panel to sync.
+                if( awardDocument.getAward().getSequenceNumber() > 1 ) {
+                    awardForm.setCurrentSyncScopes(new AwardTemplateSyncScope[] {});
+                    proceedToProcessSyncAward=false;
+                    awardForm.setTemplateLookup(false);
+                    awardForm.setOldTemplateCode(null);
+                } else {
+                    awardForm.setCurrentSyncScopes(DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES);
+                    awardForm.setSyncRequiresConfirmationMap(generateScopeRequiresConfirmationMap( DEFAULT_AWARD_TEMPLATE_SYNC_SCOPES, awardDocument, false,false ));
+                }
             } else {
                 proceedToProcessSyncAward = false;
                 awardDocument.getAward().setTemplateCode(awardForm.getOldTemplateCode());
