@@ -1004,13 +1004,15 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public AwardFundingProposal getAwardFundingProposal(int index) {
         return getAwardFundingProposals().get(index);
     }
+    
+    public boolean getAwardFundingProposalsExist() {
+        return getAwardFundingProposals().size() > 0;
+    }
 
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
     }
     
-    
-
     /**
      * Gets the fiscalMonth attribute. 
      * @return Returns the fiscalMonth.
