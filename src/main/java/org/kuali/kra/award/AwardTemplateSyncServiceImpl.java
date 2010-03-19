@@ -181,7 +181,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         AwardSyncableList awardSyncableList = field.getAnnotation(AwardSyncableList.class);
         scopeStack.push(awardSyncableList.scopes());
         AwardTemplateSyncScope[] effectiveScopes = getEffectiveScope( scopeStack );
-        if(awardTemplateObjectList!=null && !awardTemplateObjectList.isEmpty() && AwardTemplateSyncScope.isInScope( scopes, effectiveScopes )){
+        if(awardTemplateObjectList!=null && AwardTemplateSyncScope.isInScope( scopes, effectiveScopes )){
             if(awardSyncableList.syncMethodName().equalsIgnoreCase(AwardSyncableList.DEFAULT_METHOD)){
                 syncListObjects(awardObject,awardTemplateObjectList,field, scopes, scopeStack, award, awardTemplate);
             }else{
