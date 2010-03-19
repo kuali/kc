@@ -486,13 +486,15 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
                 user.getPrincipalId(), additionalPermissionDetails, null );
     }
     
+    //Have modified this method to be Non final so that derived classes can override this behavior in KC
+    //For instance we need PDD Authorizer to be able to use ModifyProposal permission itself to implicitly grant Notes related permissions too.
     /**
      * Can the user add a note attachment to the given document?
      * @param document the document
      * @param user the user
      * @return true if the user can add a note attachment; otherwise false
      */
-    public final boolean canAddNoteAttachment(Document document,
+    public boolean canAddNoteAttachment(Document document,
                                               String attachmentTypeCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
@@ -504,13 +506,15 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
                         .getPrincipalId(), additionalPermissionDetails, null);
     }
     
+    //Have modified this method to be Non final so that derived classes can override this behavior in KC
+    //For instance we need PDD Authorizer to be able to use ModifyProposal permission itself to implicitly grant Notes related permissions too.
     /**
      * Can the user delete a note attachment for the given document?
      * @param document the document
      * @param user the user
      * @return true if the user can delete a note attachment; otherwise false
      */
-    public final boolean canDeleteNoteAttachment(Document document,
+    public boolean canDeleteNoteAttachment(Document document,
                             String attachmentTypeCode, String createdBySelfOnly, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
@@ -524,13 +528,15 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
                 user.getPrincipalId(), additionalPermissionDetails, null);
     }
     
+    //Have modified this method to be Non final so that derived classes can override this behavior in KC
+    //For instance we need PDD Authorizer to be able to use ModifyProposal permission itself to implicitly grant Notes related permissions too.
     /**
      * Can the user view a note attachment for the given document?
      * @param document the document
      * @param user the user
      * @return true if the user can view a note attachment; otherwise false
      */
-    public final boolean canViewNoteAttachment(Document document,
+    public boolean canViewNoteAttachment(Document document,
                                                String attachmentTypeCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
