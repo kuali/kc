@@ -30,6 +30,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -82,10 +83,10 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
         if (budgetId != null) {
             Map<String, Long> primaryKeys = new HashMap<String, Long>();
             primaryKeys.put("budgetId", budgetId);
-            budget = (Budget) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Budget.class, primaryKeys);
+            budget = (Budget) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProposalDevelopmentBudgetExt.class, primaryKeys);
             if (budget != null) {
-                budget.getBudgetTotals();
-                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);                
+                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);
+                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
                     DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetDocument().getParentDocument().getBudgetParent();
