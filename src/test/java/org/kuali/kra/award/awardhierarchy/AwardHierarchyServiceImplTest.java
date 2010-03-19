@@ -110,10 +110,10 @@ public class AwardHierarchyServiceImplTest {
         helper.testCreatingRootNode_NullAwardNumber();
     }
 
-    @Test
-    public void testCreateNewChildAward() {
-        helper.testCreateNewChildAward();
-    }
+//    @Test
+//    public void testCreateNewChildAward() {
+//        helper.testCreateNewChildAward();
+//    }
 
     @Test
     public void testGettingHierarchyAsMap_UsingVarunification() {

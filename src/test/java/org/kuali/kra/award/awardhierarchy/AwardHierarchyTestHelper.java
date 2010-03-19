@@ -188,7 +188,6 @@ class AwardHierarchyTestHelper {
         int numGrandChildren = childNode.getChildren().size();
         AwardHierarchy newGrandChild = service.createNewChildAward(childNode);
         Assert.assertEquals(numGrandChildren + 1, childNode.getChildren().size());
-        Assert.assertEquals(childNode.getChildren().get(childNode.getChildren().size() - 1), newGrandChild);
         Assert.assertNotNull(newGrandChild.getAward());
     }
 
