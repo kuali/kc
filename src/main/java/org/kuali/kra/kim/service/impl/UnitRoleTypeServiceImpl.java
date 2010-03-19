@@ -23,6 +23,20 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
     @Override
+    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) { 
+        AttributeSet validationErrors = new AttributeSet();
+        if(roleQualifiedByProposalKey(attributes) || 
+                roleQualifiedByProtocolKey(attributes) || roleQualifiedByCommitteeKey(attributes) || 
+                roleQualifiedByAwardKey(attributes) || roleQualifiedByAwardKey(attributes)) {
+            return validationErrors;
+        } else if(roleQualifiedByUnitOnly(attributes)) {
+            validationErrors = super.validateAttributes(kimTypeId, attributes);
+        }
+        
+        return validationErrors;
+    }
+    
+    @Override
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         if(roleQualifiedByProposalKey(roleQualifier)) {
             return StringUtils.equals(qualification.get(KcKimAttributes.PROPOSAL), 
