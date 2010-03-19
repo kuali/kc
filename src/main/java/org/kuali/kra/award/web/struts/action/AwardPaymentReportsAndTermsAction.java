@@ -35,14 +35,11 @@ import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
-import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -179,6 +176,22 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
            
+    /**
+     * This method triggers recalculation of the award payment schedule total
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return 
+     * @throws Exception
+     */
+    public ActionForward recalculateCostShareTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * 
      * This method gets called upon clicking of refresh pulldown menu buttons on the screen

@@ -146,6 +146,21 @@
 	            </tr>
         	</c:forEach> 
             <%-- Existing data --%>
+            
+            <tr>
+                <th colspan="7" align="right" scope="row"><div>Total:</div></th>
+                <th>
+                    <div align="right">
+                        $<fmt:formatNumber value="${KualiForm.document.awardList[0].totalPaymentScheduleAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+                    </div>
+                </th>
+                <th colspan="2" align="center">
+                    <c:if test="${!readOnly}">
+                        <html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
+                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+                   </c:if>
+                </th>
+            </tr>
         </table>
 
 </kra:innerTab>
