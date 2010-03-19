@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalAbstractAttributes" value="${DataDictionary.ProposalAbstract.attributes}" />
@@ -35,7 +35,7 @@
         <tbody>
         
         	<%-- Table headers --%>
-        	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalAbstracts) > 0 || KualiForm.editingMode['addNarratives']}" >
+        	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalAbstracts) > 0 || KualiForm.editingMode['modifyProposal']}" >
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -47,7 +47,7 @@
           	</c:if>
           	
           	<%-- The input controls for adding a new abstract. --%>
-          	<kra:section permission="addNarratives">   
+          	<kra:section permission="modifyProposal">   
             <tr> 
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -100,7 +100,7 @@
                 	
 				    <td>
 				        <div align="center">&nbsp;
-				        	<kra:section permission="addNarratives">  
+				        	<kra:section permission="modifyProposal">  
 					          <html:image property="methodToCall.deleteAbstract.line${status.index}.anchor${tabKey}"
 									      src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 							</kra:section>
