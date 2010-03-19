@@ -29,11 +29,13 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.rice.kns.util.DateUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
     private static final long serialVersionUID = -7318331486891820078L;
+    @DeepCopyIgnore
     private Long budgetPeriodId;
     
     private Integer budgetPeriod;
