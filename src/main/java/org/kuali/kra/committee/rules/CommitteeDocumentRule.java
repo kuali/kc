@@ -105,6 +105,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= GlobalVariables.getErrorMap().isEmpty();
         
+        valid &= validateCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
         valid &= validateHomeUnit((CommitteeDocument) document);
         
@@ -114,7 +115,23 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         
         return valid;
     }
-    
+    /**
+     * Verify that the committee id is not the DEFAULT_CORRESPONDENCE_TEMPLATE constant.  
+     * This value is reserved for the default protocol correspondence template.
+     * @param document Committee Document
+     * @return true if valid; otherwise false
+     */
+    private boolean validateCommitteeId(CommitteeDocument document) {
+        Committee committee = document.getCommittee();
+        if (StringUtils.equalsIgnoreCase(committee.getCommitteeId(), Constants.DEFAULT_CORRESPONDENCE_TEMPLATE)) {
+            reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
+                    KeyConstants.ERROR_COMMITTEE_INVALID_ID);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Verify that we are not saving a committee with a duplicate Committee ID.
      * In other words, each committee must have a unique Committee ID.
