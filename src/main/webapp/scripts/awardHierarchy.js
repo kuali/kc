@@ -166,15 +166,21 @@
         
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-
+        
         if(text11 == 1){
         	var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Active\" title=\"Active\" />";
-        }else if(text11 == 2 || text11 == 4 || text11 == 5){
+        }else if(text11 == 2){
         	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Inactive\" title=\"Inactive\" />";
-        }else if(text11 == 3 || text11 == 6){
+        }else if(text11 == 3){
         	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
+        }else if(text11 == 4){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Terminated\" title=\"Terminated\" />";
+        }else if(text11 == 5){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
+        }else if(text11 == 6){
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Hold\" title=\"Hold\" />";
         }
-
+        
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text12 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
@@ -358,7 +364,7 @@
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:.awardNumber1,.awardNumber1:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1:awardNumber))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
 	    var selectBoxText = $("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
 	    var selectTag = $('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward");   
 	    var optionTag = $("<option> select: </option>").attr("value","");
