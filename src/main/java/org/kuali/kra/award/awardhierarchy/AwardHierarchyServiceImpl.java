@@ -137,9 +137,30 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         targetNode.getChildren().add(newNode);
         return newNode;
     }
+    
+    /**
+     * When we create a new child award that is not a copy of the parent, we still need copy dates from parent to child.
+     * @param source
+     * @param copy
+     */
+    public void copyAwardAmountDateInfoToNewChild(Award source, Award copy) {
+        AwardAmountInfo parentAai = source.getAwardAmountInfos().get(source.getAwardAmountInfos().size() - 1);
+
+        AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
+        awardAmountInfo.setFinalExpirationDate(parentAai.getFinalExpirationDate());
+        awardAmountInfo.setCurrentFundEffectiveDate(parentAai.getCurrentFundEffectiveDate());
+        awardAmountInfo.setObligationExpirationDate(parentAai.getObligationExpirationDate());
+        awardAmountInfo.setAward(copy);
+        copy.getAwardAmountInfos().add(awardAmountInfo);
+    }
 
     public AwardHierarchy createNewChildAward(AwardHierarchy targetNode) {
+        //copy dates when child is not a copy of parent.
         Award newAward = new Award();
+        Award copyDateAward = targetNode.getAward();
+        copyAwardAmountDateInfoToNewChild(copyDateAward, newAward);
+        
+        
         newAward.setAwardNumber(targetNode.generateNextAwardNumberInSequence());
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, newAward.getAwardNumber(), newAward.getAwardNumber());
         //copyAwardAmountDateInfo(targetNode.getAward(), newAward);  
