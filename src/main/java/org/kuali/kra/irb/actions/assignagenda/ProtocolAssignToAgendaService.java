@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+
 import java.util.Date;
 
 /**
@@ -69,4 +71,12 @@ public interface ProtocolAssignToAgendaService {
      * @throws Exception that may occur for a number of reasons, like a DB issue.
      */
     void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception;
+    
+    /**
+     * 
+     * This method returns the protocol action that assigned the passed in protocol to a committee agenda.
+     * @param protocol the protocol to check with.
+     * @return a ProtocolAction object.
+     */
+    ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol);
 }

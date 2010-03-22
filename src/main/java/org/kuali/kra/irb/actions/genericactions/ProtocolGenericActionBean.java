@@ -35,22 +35,6 @@ public class ProtocolGenericActionBean implements Serializable, ReviewerComments
     
     private ReviewComments reviewComments = new ReviewComments();
     
-    //public Date getApprovalDate() {
-      //  return approvalDate;
-    //}
-    
-   // public void setApprovalDate(Date approvalDate) {
-     //   this.approvalDate = approvalDate;
-    //}
-    
-    //public Date getExpirationDate() {
-    //    return expirationDate;
-    //}
-    
-    //public void setExpirationDate(Date expirationDate) {
-      //  this.expirationDate = expirationDate;
-    //}
-    
     public String getComments() {
         return comments;
     }

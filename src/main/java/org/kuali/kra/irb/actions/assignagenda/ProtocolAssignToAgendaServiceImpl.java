@@ -119,20 +119,20 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
             return pa.getComments();
         }
     }
-
-    private ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
+    
+    /** {@inheritDoc} */
+    public ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
         Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
         ProtocolAction returnAction = null;
         while (i.hasNext()) {
             ProtocolAction pa = i.next();
+            //the last check verifies the correct instance of the protcol version.
             if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA) 
-                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue())) {
+                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue())
+                    && pa.getProtocolId().equals(protocol.getProtocolId())) {
                 returnAction = pa;
-            } //else if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.WITHDRAWN)) {
-                //returnAction = null;
-            //}
+            } 
         }
-        // no proper protocol action found, return null
         return returnAction;
     }
 
@@ -176,11 +176,8 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     /** {@inheritDoc} */
     public String getAssignedScheduleDate(Protocol protocol) {
         String scheduleId = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class).getAssignedScheduleId(protocol);
-        System.err.println("Schedule ID: " + scheduleId);
         List<KeyLabelPair> keyPair = KraServiceLocator.getService(CommitteeService.class).getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
         for (KeyLabelPair kp : keyPair){
-            System.err.println("kp label: " + kp.getLabel());
-            System.err.println("kp key: " + kp.getKey());
             if(kp.getKey().equals(scheduleId)){
                 return kp.getLabel();
             }
