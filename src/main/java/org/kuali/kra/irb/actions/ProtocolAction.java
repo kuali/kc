@@ -236,7 +236,28 @@ public class ProtocolAction extends ProtocolAssociate {
         hashMap.put("comments", this.getComments());
         hashMap.put("actualActionDate", this.getActualActionDate());
         hashMap.put("actionDate", this.getActionDate());
+        hashMap.put("submissionStatus", this.getSubmissionStatusString());
         return hashMap;
+    }
+    
+    /** {@inheritDoc} */
+    @Override 
+    public String toString() {
+        StringBuffer sb = new StringBuffer(50);
+        String newLine = "\n";
+        sb.append("*************************************").append(newLine);
+        LinkedHashMap<String, Object> map = toStringMapper();
+        for(String key : map.keySet()) {
+            sb.append(key).append(": ");
+            try{
+                sb.append(map.get(key).toString());
+            } catch (Exception e){
+                sb.append("a problem occured");
+            }
+            sb.append(newLine);
+        }
+        sb.append("************************************").append(newLine);
+        return sb.toString();
     }
     
     public void resetPersistenceState() {
