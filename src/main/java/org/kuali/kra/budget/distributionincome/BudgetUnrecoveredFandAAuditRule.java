@@ -58,6 +58,13 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         // Forces full allocation of unrecovered f and a
         if (budget.getUnallocatedUnrecoveredFandA().isNonZero() && budget.isUnrecoveredFandAEnforced()) {
             retval = false;
+            if (unrecoveredFandAs.size() ==0) {
+                getAuditErrors().add(new AuditError("document.budget.budgetUnrecoveredFandA",
+                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR,
+                        params));
+                
+            }            
             for (int i=0;i<unrecoveredFandAs.size(); i++) {
                 getAuditErrors().add(new AuditError("document.budget.budgetUnrecoveredFandA["+i+"].amount",
                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
