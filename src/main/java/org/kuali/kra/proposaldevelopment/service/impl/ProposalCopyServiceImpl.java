@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Unit;
@@ -73,6 +75,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -204,6 +207,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
             }
 
+            copyCustomData(doc, newDoc);
+            
             newDocNbr = newDoc.getDocumentNumber();
         }
         
@@ -965,6 +970,31 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         }   
                     }
                 }
+            }
+        }
+    }
+    
+    /**
+     * This method copies all custom data from one document to another.
+     * @param src
+     * @param dest
+     */
+    private void copyCustomData(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) {
+        for (Map.Entry<String, CustomAttributeDocument> entry: src.getCustomAttributeDocuments().entrySet()) {
+            // Find the attribute value
+            CustomAttributeDocument customAttributeDocument = entry.getValue();
+            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
+            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            
+            // Store a new CustomAttributeDocValue using the new document's document number
+            if (customAttributeDocValue != null) {
+                CustomAttributeDocValue newDocValue = new CustomAttributeDocValue();
+                newDocValue.setDocumentNumber(dest.getDocumentNumber());
+                newDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
+                newDocValue.setValue(customAttributeDocValue.getValue());
+                KraServiceLocator.getService(BusinessObjectService.class).save(newDocValue);
             }
         }
     }
