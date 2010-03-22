@@ -254,6 +254,7 @@ public final class KeyConstants {
     // Submit to Sponsor
     public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED = "message.institutionalproposal.created";
     public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED = "message.institutionalproposal.versioned";
+    public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED = "message.institutionalproposal.not.created";
     public static final String AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM = "proposaldevelopment.autogenerate.institutionalproposal";
 
     // budget rates
