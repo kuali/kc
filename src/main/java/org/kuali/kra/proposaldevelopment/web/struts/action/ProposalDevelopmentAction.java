@@ -595,6 +595,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = pdForm.getDocument();
         initializeProposalUsers(doc);
+        //on initialization of a new document the original lead unit will be blank
+        //and so on first save we need to make sure to fix it
+        if (pdForm.getCopyCriteria() != null) {
+            pdForm.getCopyCriteria().setOriginalLeadUnitNumber(doc.getDevelopmentProposal().getOwnedByUnitNumber());
+        }
     }
     
    /**
