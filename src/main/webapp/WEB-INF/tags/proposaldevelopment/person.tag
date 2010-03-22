@@ -68,6 +68,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <th colspan="4">Organization</th>
+                  </tr>
+                  <tr>
                     <th align="left" width="15%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.emailAddress}"  /></div></th>
 
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.emailAddress" 
@@ -97,14 +100,9 @@
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.homeUnit}"  /></div></th>
 
-                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
+                    <td align="left" colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
                                                          attributeEntry="${proposalPersonAttributes.homeUnit}" 
                                                                readOnly="${!personEditableFields['fullName'] }" />
-                    </td>
-                    <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.school}"  /></div></th>
-                    <td><kul:htmlControlAttribute property="${proposalPerson}.school" 
-                                            attributeEntry="${proposalPersonAttributes.school}" 
-                                                  readOnly="${!personEditableFields['school'] }" />
                     </td>
                   </tr>
                   <tr>
@@ -216,6 +214,47 @@
                                                 readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
+                  <tr>
+                    <th colspan="4">Education</th>
+                  </tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.educationLevel}"  /></div></th>
+                    <td align="left"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.educationLevel" 
+                                          attributeEntry="${proposalPersonAttributes.educationLevel}" 
+                                                readOnly="${!personEditableFields['educationLevel'] }" />
+                    </span></td>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.yearGraduated}"  /></div></th>
+
+                    <td align="left"><label>
+                       <kul:htmlControlAttribute property="${proposalPerson}.yearGraduated" 
+                                          attributeEntry="${proposalPersonAttributes.yearGraduated}" 
+                                                readOnly="${!personEditableFields['yearGraduated']}" />
+                    </label></td>
+                  </tr>
+                  </tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.major}"  /></div></th>
+                    <td align="left"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.major" 
+                                          attributeEntry="${proposalPersonAttributes.major}" 
+                                                readOnly="${!personEditableFields['major'] }" />
+                    </span></td>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.degree}"  /></div></th>
+
+                    <td align="left"><label>
+                       <kul:htmlControlAttribute property="${proposalPerson}.degree" 
+                                          attributeEntry="${proposalPersonAttributes.degree}" 
+                                                readOnly="${!personEditableFields['degree']}" />
+                    </label></td>
+                  </tr> 
+                  </tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.school}"  /></div></th>
+                    <td align="left" colspan="3"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.school" 
+                                          attributeEntry="${proposalPersonAttributes.school}" 
+                                                readOnly="${!personEditableFields['school'] }" />
+                    </span></td>
+
+                  </tr>                                    
    </tr>
     
     
