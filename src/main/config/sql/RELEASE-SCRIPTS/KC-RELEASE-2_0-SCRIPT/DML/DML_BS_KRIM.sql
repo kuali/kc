@@ -161,7 +161,7 @@
 	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
 	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
 	
-	-- KC Award Budget Role
+	-- KC Award Budget Roles
 	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
 	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Administrator', 'KC-AB', 'Award Budget Administrator - the role grants permissions to manage any award budget at OSP level', 
 	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;

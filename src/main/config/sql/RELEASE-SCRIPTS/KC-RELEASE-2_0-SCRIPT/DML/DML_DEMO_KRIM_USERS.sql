@@ -553,4 +553,114 @@ INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KI
 SELECT KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_ROLE_MBR_ID_S.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, 'Y', SYS_GUID(), 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D
 WHERE T.NM = 'UnitHierarchy' AND D.NM = 'subunits' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
 
+-- "Award Viewer" Entity setup  
+INSERT INTO krim_entity_t ( ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_id_s.NEXTVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_ent_typ_t ( ENT_TYP_CD, ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT 'PERSON', krim_entity_id_s.CURRVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_nm_t ( ENTITY_NM_ID, ENTITY_ID, FIRST_NM, LAST_NM, NM_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_nm_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'Award', 'Viewer', 'PRFR', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_emp_info_t ( ENTITY_EMP_ID, ENTITY_ID, PRMRY_DEPT_CD, PRMRY_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_emp_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, '000001', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_addr_t ( ENTITY_ADDR_ID, ENTITY_ID, ENT_TYP_CD, ADDR_LINE_1, CITY_NM, POSTAL_STATE_CD, POSTAL_CD, POSTAL_CNTRY_CD, ADDR_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_addr_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '63 Kuali Drive', 'Coeus', 'MA', '53421', 'US', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_email_t ( ENTITY_EMAIL_ID, ENTITY_ID, ENT_TYP_CD, EMAIL_ADDR, EMAIL_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_email_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', 'awdviewer@kuali.org', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-1063', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-2063', 'FAX', 'N', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_prncpl_t ( PRNCPL_ID, ENTITY_ID, PRNCPL_NM, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_prncpl_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'awdviewer', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+--Assign Award Viewer role to awdviewer principle  
+INSERT INTO krim_role_mbr_t ( ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_role_mbr_id_s.NEXTVAL, ROLE_ID, krim_prncpl_id_s.CURRVAL, 'P', SYSDATE, SYS_GUID ( ) , 1 FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Viewer';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, '000001', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'unitNumber' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, 'Y', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'subunits' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
+-- "Award Doc Viewer" entity creation  
+INSERT INTO krim_entity_t ( ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_id_s.NEXTVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_ent_typ_t ( ENT_TYP_CD, ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT 'PERSON', krim_entity_id_s.CURRVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_nm_t ( ENTITY_NM_ID, ENTITY_ID, FIRST_NM, LAST_NM, NM_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_nm_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'Award Doc', 'Viewer', 'PRFR', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_emp_info_t ( ENTITY_EMP_ID, ENTITY_ID, PRMRY_DEPT_CD, PRMRY_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_emp_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, '000001', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_addr_t ( ENTITY_ADDR_ID, ENTITY_ID, ENT_TYP_CD, ADDR_LINE_1, CITY_NM, POSTAL_STATE_CD, POSTAL_CD, POSTAL_CNTRY_CD, ADDR_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_addr_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '64 Kuali Drive', 'Coeus', 'MA', '53421', 'US', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_email_t ( ENTITY_EMAIL_ID, ENTITY_ID, ENT_TYP_CD, EMAIL_ADDR, EMAIL_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_email_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', 'awddocviewer@kuali.org', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-1064', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-2064', 'FAX', 'N', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_prncpl_t ( PRNCPL_ID, ENTITY_ID, PRNCPL_NM, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_prncpl_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'awddocviewer', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_role_mbr_t ( ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_role_mbr_id_s.NEXTVAL, ROLE_ID, krim_prncpl_id_s.CURRVAL, 'P', SYSDATE, SYS_GUID ( ) , 1 FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Documents Viewer';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, '000001', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'unitNumber' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, 'Y', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'subunits' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
+INSERT INTO krim_entity_t ( ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_id_s.NEXTVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_ent_typ_t ( ENT_TYP_CD, ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT 'PERSON', krim_entity_id_s.CURRVAL, 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_nm_t ( ENTITY_NM_ID, ENTITY_ID, FIRST_NM, LAST_NM, NM_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_nm_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'Award Budget', 'Viewer', 'PRFR', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_emp_info_t ( ENTITY_EMP_ID, ENTITY_ID, PRMRY_DEPT_CD, PRMRY_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_emp_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, '000001', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_addr_t ( ENTITY_ADDR_ID, ENTITY_ID, ENT_TYP_CD, ADDR_LINE_1, CITY_NM, POSTAL_STATE_CD, POSTAL_CD, POSTAL_CNTRY_CD, ADDR_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_addr_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '65 Kuali Drive', 'Coeus', 'MA', '53421', 'US', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_email_t ( ENTITY_EMAIL_ID, ENTITY_ID, ENT_TYP_CD, EMAIL_ADDR, EMAIL_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_email_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', 'awdbudviewer@kuali.org', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-1065', 'WRK', 'Y', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_entity_phone_t ( ENTITY_PHONE_ID, ENTITY_ID, ENT_TYP_CD, PHONE_NBR, PHONE_TYP_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_entity_phone_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'PERSON', '321-321-2065', 'FAX', 'N', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_prncpl_t ( PRNCPL_ID, ENTITY_ID, PRNCPL_NM, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_prncpl_id_s.NEXTVAL, krim_entity_id_s.CURRVAL, 'awdbudviewer', 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', SYSDATE, SYS_GUID ( ) , 1 FROM DUAL;
+
+INSERT INTO krim_role_mbr_t ( ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR ) 
+SELECT krim_role_mbr_id_s.NEXTVAL, ROLE_ID, krim_prncpl_id_s.CURRVAL, 'P', SYSDATE, SYS_GUID ( ) , 1 FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Viewer';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, '000001', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'unitNumber' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
+INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
+SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, 'Y', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'subunits' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
 COMMIT;
