@@ -439,6 +439,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                         }
                     }
                     editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+                    //ensure locks are current
+                    document.refreshPessimisticLocks();
                      
                     //Task Authorizers should key off the document viewonly flag to determine
                     //if the document is available for writing or if its locked.
