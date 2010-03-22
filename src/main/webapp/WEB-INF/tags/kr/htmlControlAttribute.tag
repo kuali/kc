@@ -87,6 +87,13 @@
 
 <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 
+<%-- KC modification Start --%>
+<%--These multi-select attributes are control specific and really should be defined in the DataDictionary files as control attributes--%>
+<%@ attribute name="isMultiSelect" required="false" type="java.lang.Boolean"
+			  description="When (attributeEntry.control.select == true), this attribute specifies whether to use a multi-select style control."%>
+<%@ attribute name="multiSelectSize" required="false" type="java.lang.Integer"
+			  description="When (attributeEntry.control.select == true && isMultiSelect == true), this attribute specifies the size of the control and is required for multi-select types."%>
+<%-- KC modification End --%>
 
 <c:set var="disableField" value="false" />
 <c:if test="${disabled}">
