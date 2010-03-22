@@ -30,14 +30,14 @@ public class DeepCopyPostProcessorTest {
     @Before
     public void setUp() throws Exception {
         bp = new BudgetPeriod();
-        bp.setBudgetPeriodId(1l);
+        bp.setBudgetPeriodId(1L);
         bp.setBudgetPeriod(1);
         BudgetLineItem bli = new BudgetLineItem();
-        bli.setBudgetLineItemId(1l);
+        bli.setBudgetLineItemId(1L);
         bli.setBudgetJustification("Test justification");
         bp.getBudgetLineItems().add(bli);
         BudgetLineItemCalculatedAmount blic = new BudgetLineItemCalculatedAmount();
-        blic.setBudgetLineItemCalculatedAmountId(1l);
+        blic.setBudgetLineItemCalculatedAmountId(1L);
         blic.setBudgetPeriod(2);
         bli.getBudgetCalculatedAmounts().add(blic);
     }
