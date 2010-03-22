@@ -44,6 +44,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class MedusaServiceImpl implements MedusaService {
     
+    private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
+    
     BusinessObjectService businessObjectService;
     AwardHierarchyUIService awardHierarchyUIService;
     AwardAmountInfoService awardAmountInfoService;
@@ -196,7 +198,7 @@ public class MedusaServiceImpl implements MedusaService {
             awardFunding.refreshReferenceObject("award");
             addOnlyNewestAwardVersion(awards, awardFunding.getAward());
         }
-        if (StringUtils.isNotBlank(ip.getCurrentAwardNumber())) {
+        if (StringUtils.isNotBlank(ip.getCurrentAwardNumber()) && ip.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
             Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", ip.getCurrentAwardNumber()));
             for (Award curAward : proposalCurrentAwards) {
                 addOnlyNewestAwardVersion(awards, curAward);
@@ -240,7 +242,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         if (!dontAddThisVersion) {
             currentList.add(newItem);
-        }        
+        }
     }
     
     private Collection<InstitutionalProposal> getProposals(Award award) {
@@ -252,7 +254,9 @@ public class MedusaServiceImpl implements MedusaService {
         }
         Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
         for (InstitutionalProposal proposal : curAwardIps) {
-            addOnlyNewerIpVersion(ips, proposal);
+            if (proposal.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
+                addOnlyNewerIpVersion(ips, proposal);
+            }
         }
         return ips;
     }
