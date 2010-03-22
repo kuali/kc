@@ -717,6 +717,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         if ("X".equals(proposalDevelopmentForm.getResubmissionOption())) {
+            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED);
             return;
         }
         if ("O".equals(proposalDevelopmentForm.getResubmissionOption())) {
