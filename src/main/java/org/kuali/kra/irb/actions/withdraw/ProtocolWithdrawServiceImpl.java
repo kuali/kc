@@ -19,12 +19,14 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -113,20 +115,18 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
         newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
         
-        //remove submissions
-        //List<ProtocolSubmission> protocolSubmissions = newProtocolDocument.getProtocol().getProtocolSubmissions();
-        //for (ProtocolSubmission submissionI : protocolSubmissions){
-          //  if (!submissionI.getSubmissionStatus().getDescription().equals(ProtocolSubmissionStatus.WITHDRAWN)){
-            //    businessObjectService.delete(submissionI);
-            //}
-        //}
-        
-        
-        
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
         
-        
+        //if there is an assign to agenda protocol action, remove it.
+        ProtocolAction assignToAgendaProtoclAction = KraServiceLocator.getService(ProtocolAssignToAgendaService.class).
+            getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
+        if (assignToAgendaProtoclAction != null) {
+            boolean didItWork = newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtoclAction);
+            businessObjectService.delete(assignToAgendaProtoclAction);
+        }        
+        newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        documentService.saveDocument(newProtocolDocument);
         return newProtocolDocument;
     }
 
