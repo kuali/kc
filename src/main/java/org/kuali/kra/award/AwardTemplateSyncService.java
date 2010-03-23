@@ -43,5 +43,19 @@ public interface AwardTemplateSyncService {
      */
     public boolean syncWillAlterData( AwardDocument awardDocument, AwardTemplateSyncScope scope );
  
+    /**
+     * Method returns true if the award's award template contains data that would
+     * be synchronized in the provided scope.
+     * 
+     * @param awardDocument The award document to check.
+     * @param scope The scope to check.
+     * @return true if the template contains data that would be synchronized.
+     * 
+     */
+    public boolean templateContainsScopedData( AwardDocument awardDocument, AwardTemplateSyncScope scope );
+ 
+    
+    
+    
     
 }

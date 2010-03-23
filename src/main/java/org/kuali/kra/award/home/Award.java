@@ -138,9 +138,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer templateCode; 
     @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
     private String primeSponsorCode; 
-    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
+    @AwardSyncable(impactSourceScopeEmpty = false,scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
     private String basisOfPaymentCode; 
-    @AwardSyncable(scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
+    @AwardSyncable(impactSourceScopeEmpty = false,scopes={AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB}) 
     private String methodOfPaymentCode; 
     
     private AwardTemplate awardTemplate;

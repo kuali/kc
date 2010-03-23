@@ -167,8 +167,7 @@ public class AwardForm extends BudgetVersionFormBase
     
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
     private AwardTemplateSyncScope[] currentSyncScopes;
-
-    
+    private String currentSyncQuestionId;
     //KCAWD-494:  Added to track a template code lookup.
     private Integer oldTemplateCode;
     private boolean templateLookup = false;
@@ -1134,6 +1133,16 @@ public class AwardForm extends BudgetVersionFormBase
     public void setSyncRequiresConfirmationMap(Map<AwardTemplateSyncScope, Boolean> syncRequiresConfirmationMap) {
         this.syncRequiresConfirmationMap = syncRequiresConfirmationMap;
     }
+    
+    
+    public void setCurrentSyncQuestionId( String currentSyncQuestionId ) {
+        this.currentSyncQuestionId = currentSyncQuestionId;
+    }
+    
+    public String getCurrentSyncQuestionId() {
+        return currentSyncQuestionId;
+    }
+    
     
     /**
      * The currentSyncScopes array holds the array of scopes that are currently being synchronized 
