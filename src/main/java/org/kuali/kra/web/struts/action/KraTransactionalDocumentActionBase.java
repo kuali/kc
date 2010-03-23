@@ -452,8 +452,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                             budgetDoc.getParentDocument().setViewOnly(true);
                         }
                     }
-                } else if (!documentAuthorizer.canEdit(document, user)) {
-                    document.setViewOnly(false);
                 }
                 editModes = documentAuthorizer.getEditModes(document, user, null);
                 Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
