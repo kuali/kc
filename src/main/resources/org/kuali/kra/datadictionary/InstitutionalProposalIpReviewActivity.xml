@@ -113,6 +113,7 @@
         <property name="label" value="Activity Number" />
         <property name="shortLabel" value="Activity Number" />
         <property name="maxLength" value="22" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>

@@ -73,7 +73,7 @@
              -->
             <property name="maintainableFields">
                 <list>
-                    <bean parent="MaintainableFieldDefinition" p:name="activityNumber"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="activityNumber" p:required="true"/>
                     <bean parent="MaintainableFieldDefinition" p:name="ipReviewActivityTypeCode" p:required="true"/>
                     <bean parent="MaintainableFieldDefinition" p:name="activityDate" />
                     <bean parent="MaintainableFieldDefinition" p:name="comments"/>
