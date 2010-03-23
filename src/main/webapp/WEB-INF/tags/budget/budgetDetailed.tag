@@ -91,7 +91,7 @@
   			<c:set var="tabItemCount" value="${tabItemCount}s" />
   		</c:if>		
 	</c:if>
- 	
+ 	<c:if test="${! empty budgetLineItemSize or budgetCategoryTypeCodeKey ne 'H'}">
 	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}"  auditCluster="budgetNonPersonnelAuditWarnings${budgetPeriod}" tabAuditKey="${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
 		<div class="tab-container" align="center">
     	<h3>
@@ -180,3 +180,4 @@
         </table>  
 	    </div>
 	</kul:tab>
+	</c:if>
