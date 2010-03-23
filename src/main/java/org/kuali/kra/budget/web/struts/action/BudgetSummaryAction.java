@@ -475,10 +475,10 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetDecimal totalIndirectCost = BudgetDecimal.ZERO;
         BudgetDecimal totalCost = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO)
-                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
+//            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO)
+//                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
                 budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-            }
+//            }
             totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
             totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
             totalCost = totalCost.add(budgetPeriod.getTotalCost());
