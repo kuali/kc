@@ -16,8 +16,12 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -46,7 +50,29 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             submission.setAbstainerCount(committeeDecision.getAbstainCount());
             submission.setVotingComments(committeeDecision.getVotingComments());
             addReviewerComments(submission, committeeDecision.getReviewComments());
+            
+            String protocolActionTypeToUse = "";
+            boolean doAddProtocolAction = false;
+            if (MotionValuesFinder.APPROVE.equals(committeeDecision.getMotion().trim())) {
+                protocolActionTypeToUse = ProtocolActionType.APPROVED;
+                doAddProtocolAction = true;
+            } else if (MotionValuesFinder.DISAPPROVE.equals(committeeDecision.getMotion().trim())) {
+                protocolActionTypeToUse = ProtocolActionType.DISAPPROVED;
+                doAddProtocolAction = true;
+            }
+            
+            if (doAddProtocolAction) {
+                ProtocolAction protocolAction = new ProtocolAction(protocol, submission, protocolActionTypeToUse);
+                protocolAction.setComments(committeeDecision.getVotingComments());
+                KraServiceLocator.getService(ProtocolActionService.class).updateProtocolStatus(protocolAction, protocol);
+                protocol.getProtocolActions().add(protocolAction);
+                businessObjectService.save(protocolAction);
+            }
+            
             businessObjectService.save(submission);
+            businessObjectService.save(protocol);
+            
+            protocol.refresh();
         }
     }
 
