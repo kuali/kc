@@ -29,6 +29,7 @@
 		<forward name="close" path="/index.jsp" redirect="true" />
 		<forward name="portal" path="/index.jsp" redirect="true" />
 		<forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp" />
+		<forward name="updateTextArea" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
 		<!-- End required KNS forwards -->
 	</global-forwards>
@@ -44,6 +45,10 @@
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/portal.jsp" />
 		</action>
+		
+		<action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
+        </action>
 		<!--  End Required KNS Action Mappings -->
 
 		<action path="/identityManagementPersonDocument" name="IdentityManagementPersonDocumentForm" input="/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonDocumentAction"
