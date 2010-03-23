@@ -33,6 +33,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
+import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -105,7 +106,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 default :    
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
-                        BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(periodLineItem);
+                        BudgetLineItem budgetLineItem = (BudgetLineItem)(KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(periodLineItem));
                         //required to avoid deep copying multiple versions of the budget. With only a few line items 
                         //this would cause deep copy to hang and possibly crash the server.
                         budgetLineItem.setBudgetId(budget.getBudgetId());
