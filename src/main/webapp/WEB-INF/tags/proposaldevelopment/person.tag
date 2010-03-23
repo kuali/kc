@@ -214,50 +214,6 @@
                                                 readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
-                  <tr>
-                    <th colspan="4">Education</th>
-                  </tr>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.educationLevel}"  /></div></th>
-                    <td align="left"><span>
-                      <kul:htmlControlAttribute property="${proposalPerson}.educationLevel" 
-                                          attributeEntry="${proposalPersonAttributes.educationLevel}" 
-                                                readOnly="${!personEditableFields['educationLevel'] }" />
-                    </span></td>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.yearGraduated}"  /></div></th>
-
-                    <td align="left"><label>
-                       <kul:htmlControlAttribute property="${proposalPerson}.yearGraduated" 
-                                          attributeEntry="${proposalPersonAttributes.yearGraduated}" 
-                                                readOnly="${!personEditableFields['yearGraduated']}" />
-                    </label></td>
-                  </tr>
-                  </tr>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.major}"  /></div></th>
-                    <td align="left"><span>
-                      <kul:htmlControlAttribute property="${proposalPerson}.major" 
-                                          attributeEntry="${proposalPersonAttributes.major}" 
-                                                readOnly="${!personEditableFields['major'] }" />
-                    </span></td>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.degree}"  /></div></th>
-
-                    <td align="left"><label>
-                       <kul:htmlControlAttribute property="${proposalPerson}.degree" 
-                                          attributeEntry="${proposalPersonAttributes.degree}" 
-                                                readOnly="${!personEditableFields['degree']}" />
-                    </label></td>
-                  </tr> 
-                  </tr>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.school}"  /></div></th>
-                    <td align="left" colspan="3"><span>
-                      <kul:htmlControlAttribute property="${proposalPerson}.school" 
-                                          attributeEntry="${proposalPersonAttributes.school}" 
-                                                readOnly="${!personEditableFields['school'] }" />
-                    </span></td>
-
-                  </tr>                                    
-   </tr>
-    
-    
      <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
     
                   <tr>
@@ -279,7 +235,50 @@
          </c:if>
           
            </tr>
-       </c:if>           
+       </c:if>                  
+                  <tr>
+                    <th colspan="4">Education</th>
+                  </tr>
+                  <tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.educationLevel}"  /></div></th>
+                    <td align="left"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.educationLevel" 
+                                          attributeEntry="${proposalPersonAttributes.educationLevel}" 
+                                                readOnly="${!personEditableFields['educationLevel'] }" />
+                    </span></td>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.yearGraduated}"  /></div></th>
+
+                    <td align="left"><label>
+                       <kul:htmlControlAttribute property="${proposalPerson}.yearGraduated" 
+                                          attributeEntry="${proposalPersonAttributes.yearGraduated}" 
+                                                readOnly="${!personEditableFields['yearGraduated']}" />
+                    </label></td>
+                  </tr>
+                  <tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.major}"  /></div></th>
+                    <td align="left"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.major" 
+                                          attributeEntry="${proposalPersonAttributes.major}" 
+                                                readOnly="${!personEditableFields['major'] }" />
+                    </span></td>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.degree}"  /></div></th>
+
+                    <td align="left"><label>
+                       <kul:htmlControlAttribute property="${proposalPerson}.degree" 
+                                          attributeEntry="${proposalPersonAttributes.degree}" 
+                                                readOnly="${!personEditableFields['degree']}" />
+                    </label></td>
+                  </tr> 
+                  <tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.school}"  /></div></th>
+                    <td align="left" colspan="3"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.school" 
+                                          attributeEntry="${proposalPersonAttributes.school}" 
+                                                readOnly="${!personEditableFields['school'] }" />
+                    </span></td>
+
+                  </tr>                                    
+   </tr>           
     
       </tr>
        </tbody>
