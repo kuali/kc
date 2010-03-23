@@ -172,10 +172,10 @@
 	</bean>		
 
 	<bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
-        <property name="awardDao">
-            <ref bean="awardDao" />
-        </property>
         <property name="kcPersonService" ref="kcPersonService" /> 
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
   	</bean>
 
 	<bean id="awardPersonLookupableHelperService" class="org.kuali.kra.award.lookup.AwardPersonLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
@@ -184,18 +184,6 @@
         </property>
   	</bean>
 
-    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.AwardDaoOjb">
-        <property name="lookupDao">
-            <ref bean="lookupDao" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="versionHistoryService">
-            <ref bean="versionHistoryService" />
-        </property>
-	</bean>
-	
 	<bean id="awardPersonDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.AwardPersonDaoOjb">
 		<property name="lookupDao">
             <ref bean="lookupDao" />
