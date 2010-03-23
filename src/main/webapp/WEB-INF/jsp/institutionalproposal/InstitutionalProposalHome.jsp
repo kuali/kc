@@ -25,6 +25,7 @@
   	headerTabActive="home">
   	
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
+<c:set var="canEdit" value="${KualiForm.editingMode['modifyIP']}" scope="request" />
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />
@@ -44,7 +45,7 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
-<c:if test="${readOnly}">
+<c:if test="${readOnly and canEdit}">
     <c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
     <c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
     <c:set var="extraButtonAlt" value="Edit or Version"/>
