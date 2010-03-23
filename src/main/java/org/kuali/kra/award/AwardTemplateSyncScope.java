@@ -120,7 +120,6 @@ public enum AwardTemplateSyncScope {
             LOG.debug(String.format( "isInScope called for AwardTemplateComment ( commentTypeCode = %s ) with scopes = %s returning false.", comment.getCommentTypeCode(), ArrayUtils.toString(scopes) ));
         return false;
     }
-
     
     public boolean isInScope( AwardComment comment ) {
         String commentTypeCode = comment.getCommentTypeCode();

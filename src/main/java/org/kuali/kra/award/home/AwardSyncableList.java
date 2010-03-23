@@ -70,4 +70,11 @@ public @interface AwardSyncableList  {
     
     boolean removeMissingListElementsFromTarget() default true;
     
+    /*
+     * Do members of the list impact an empty within scope calculation.
+     * If this is set to true, then this list has an impact on the source
+     * is empty for the scopes.
+     */
+    boolean impactSourceScopeEmpty() default true;
+
 }
