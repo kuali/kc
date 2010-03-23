@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -59,113 +58,234 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      */
     public boolean syncAwardToTemplate(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes ) {
         boolean success;
-        if( LOG.isDebugEnabled() )
-            LOG.debug( "Starting syncToAward for award doc:"+awardDocument.getAward().getAwardNumber()+" with scope(s):"+ArrayUtils.toString(scopes,"@@NULL@@"));
-        
-        //check to see if a FULL sync.  In this case there
-        //can only be the FULL scope in the scopes array
-        if( ArrayUtils.contains(scopes, AwardTemplateSyncScope.FULL )) {
-            if( scopes.length > 1 ) {
-                throw new IllegalArgumentException( "No other sync scopes may be processed when a FULL sync is part of the scopes array." );
-            }
-            scopes = AwardTemplateSyncScope.values();
-        }
-        
-        //the scopeStack tracks the sync scopes of nested objects.  Each time we move down into a child bo, we push it's sync scopes onto the stack
-        //this is useful since child properties and lists can then use the CONTAINING_CLASS_INHERIT which will cause the sync functions to treat the propoerty/list
-        //as if it had the scope of it's parent object.
-        java.util.Stack<AwardTemplateSyncScope[]> scopeStack = new java.util.Stack<AwardTemplateSyncScope[]>();
         Award award = awardDocument.getAward();
         AwardTemplateSyncEvent awardTemplateSyncEvent = 
             new AwardTemplateSyncEvent("Award Sync","document.award.awardTemplate",awardDocument);
         if(!getKualiRuleService().applyRules(awardTemplateSyncEvent)){
             return false;
         }
+        
         try {
             AwardTemplate awardTemplate = fetchAwardTemplate(award);
-            sync(awardTemplate, award, scopes, scopeStack,award,awardTemplate);
+            sync(awardTemplate, award, scopes, createScopeStack(),award,awardTemplate);
             success=true;
         }catch (Exception e) {
-            success=false;
-            LOG.error(e.getCause(),e);
+            throw new RuntimeException( String
+                    .format( "Exception thrown executing syncAwardToTemplate on document %s with scopes {%s}"
+                            , awardDocument.getDocumentNumber(), scopesArrayToDelimitedList( scopes ) )
+                    , e );  
         }
         return success;
     }
 
+    
+    
     /**
      * @see org.kuali.kra.award.AwardTemplateSyncService#syncWillAlterData(org.kuali.kra.award.document.AwardDocument, org.kuali.kra.award.AwardTemplateSyncScope)
      */
     public boolean syncWillAlterData(AwardDocument awardDocument, AwardTemplateSyncScope scope) {
-        if( LOG.isDebugEnabled() ) 
-            LOG.debug(String.format( "syncWillClobberData called on award number %s with scope %s", awardDocument.getAward().getAwardNumber(), scope ));
-        
-        java.util.Stack<AwardTemplateSyncScope[]> scopeStack = new java.util.Stack<AwardTemplateSyncScope[]>();
+        boolean result = false;
+        AwardTemplateSyncScope[] scopes = getScopeArray( scope );
         Award award = awardDocument.getAward();
         
-        AwardTemplateSyncScope[] scopes = {scope};
-        //if FULL, then we will check all scopes.
-        if(AwardTemplateSyncScope.FULL.equals(scope)) {
-         scopes = AwardTemplateSyncScope.values();   
-        } 
         try {
-            return syncCheck( fetchAwardTemplate(award), award, scopes, scopeStack, award, fetchAwardTemplate(award) );
+            result =  syncTargetCheck( fetchAwardTemplate(award), award, scopes, createScopeStack(), award, fetchAwardTemplate(award) );
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
-            LOG.error(e);
-            throw new RuntimeException( e );
+            throw new RuntimeException( String
+                    .format( "Exception thrown executing syncWillAlterData on document %s with scopes {%s}"
+                            , awardDocument.getDocumentNumber(), scopesArrayToDelimitedList( scopes ) )
+                    , e );  
         }
+        return result;
     }
     
     /**
-     * This method is used to sync member properties of an award template object to an award object
+     * @see org.kuali.kra.award.AwardTemplateSyncService#templateContainsScopedData(org.kuali.kra.award.document.AwardDocument, org.kuali.kra.award.AwardTemplateSyncScope)
+     */
+    public boolean templateContainsScopedData( AwardDocument awardDocument, AwardTemplateSyncScope scope ) {
+        boolean result = false;       
+        AwardTemplateSyncScope[] scopes = getScopeArray( scope );
+        Award award = awardDocument.getAward();
+        try {
+            result = syncSourceCheck( fetchAwardTemplate( award), award, scopes, createScopeStack(), award, fetchAwardTemplate(award));
+        }  catch (Exception e) {
+            throw new RuntimeException( String
+                    .format( "Exception thrown executing syncSourceCheck on document %s with scopes {%s}"
+                            , awardDocument.getDocumentNumber(), scopesArrayToDelimitedList( scopes ) )
+                    , e );  
+        }
+        return result;
+    }
+    
+
+    
+    /**
+     * Get an array of AwardTemplateSyncScopes that should be used.  The rule is:
+     * if scope = FULL, then all values of AwardTemplateSyncScope.values() is used, otherwise
+     * an array with one element is returned.
+     *  
+     * @param scope The scope
+     * @return The array of scopes that will be synchronized.
+     */
+    private AwardTemplateSyncScope[] getScopeArray( AwardTemplateSyncScope scope ) {
+        AwardTemplateSyncScope[] scopes =  {scope};
+        if( scope.equals(AwardTemplateSyncScope.FULL) ) scopes = AwardTemplateSyncScope.values();
+        return scopes;
+    }
+    
+    /**
+     * This method returns an empty scope stack.  This stack is used to keep track of the sync scopes of each object 
+     * as we traverse the object graph.  The allows for the scope CONTAININIG_CLASS_INHERIT which for an element or list 
+     * that will match the scopes of the containing class.
+     * 
+     * @return a new Stack of AwardTemplateSyncScope 
+     */
+    private Stack<AwardTemplateSyncScope[]> createScopeStack() {
+        return new Stack<AwardTemplateSyncScope[]>();
+    }
+    
+    /**
+     * This method 
      * 
      * @param awardTemplateObject
      * @param awardObject
      */
-    private boolean syncCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception{
+    private boolean syncTargetCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
+        throws Exception {
         List<Field> allFields = new ArrayList<Field>();
         findAllFields(awardObject.getClass(), allFields);
         boolean result = false;
         AwardTemplateSyncScope[] effectiveScopes;
         for (Field field: allFields) {
-            if (field.isAnnotationPresent(AwardSyncable.class)){
-                scopeStack.push(field.getAnnotation(AwardSyncable.class).scopes());
-                effectiveScopes = getEffectiveScope(scopeStack);
-                
-                if (AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
-                    if( LOG.isDebugEnabled() )
-                        LOG.debug(String.format( "Copying field:%s.%s", awardObject.getClass().toString(),field.getName() ));
-                    result = checkField(awardTemplateObject, awardObject, field, scopeStack,award,awardTemplate);
+            try {
+                if (field.isAnnotationPresent(AwardSyncable.class)){
+                    scopeStack.push(field.getAnnotation(AwardSyncable.class).scopes());
+                    effectiveScopes = getEffectiveScope(scopeStack);
+                    if (AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
+                        result = checkTargetField(awardTemplateObject, awardObject, field, scopeStack,award,awardTemplate);
+                    } else {
+                        //not in scope.
+                    }
+                    scopeStack.pop();
+                } else if(field.isAnnotationPresent(AwardSyncableList.class)) {
+                    scopeStack.push(field.getAnnotation(AwardSyncableList.class).scopes());
+                    effectiveScopes = getEffectiveScope(scopeStack);
+                    if( AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
+                        result = checkTargetList(awardTemplateObject, awardObject, field, scopes, scopeStack, award, awardTemplate);
+                    } else {
+                        if( LOG.isDebugEnabled() )
+                            LOG.debug(String.format( "Skipped (not in scope(s) %s) list:%s.%s", ArrayUtils.toString(scopes),awardObject.getClass().toString(),field.getName() ));
+                    }
+                    scopeStack.pop();
                 } else {
-                    if( LOG.isDebugEnabled() )
-                        LOG.debug(String.format( "Skiped (not in scope(s) %s):%s.%s", ArrayUtils.toString(scopes), awardObject.getClass().toString(),field.getName() ));
-                }
-                scopeStack.pop();
-            }
-            else if(field.isAnnotationPresent(AwardSyncableList.class)){
-                scopeStack.push(field.getAnnotation(AwardSyncableList.class).scopes());
-                effectiveScopes = getEffectiveScope(scopeStack);
-                if( AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
-                    if( LOG.isDebugEnabled() )
-                        LOG.debug(String.format( "Sync list:%s.%s", awardObject.getClass().toString(),field.getName() ));
-                    result = checkList(awardTemplateObject, awardObject, field, scopes, scopeStack, award, awardTemplate);
-                } else {
-                    if( LOG.isDebugEnabled() )
-                        LOG.debug(String.format( "Skipped (not in scope(s) %s) list:%s.%s", ArrayUtils.toString(scopes),awardObject.getClass().toString(),field.getName() ));
-                }
-                scopeStack.pop();
-            } else {
-                if ( LOG.isTraceEnabled() ) {
+                    if ( LOG.isTraceEnabled() ) {
                         LOG.trace( String.format( "Skipped (No Annotation):%s.%s", awardObject.getClass().toString(),field.getName() )  );
+                    }
                 }
+                if (result) break;
+            } catch( IllegalStateException ise ) {
+                throw new RuntimeException( String.format( "IllegalStateException while processing %s.%s",field.getDeclaringClass(), field.getName() ), ise );
             }
-            if (result) break;
         }
         
         return result;
     }
   
+    
+    /**
+     * This checks to see if a target field is null or otherwise empty.  
+     * @param awardTemplateObject
+     * @param awardObject
+     * @param field
+     * @throws Exception
+     */
+    private boolean checkTargetField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
+        boolean result = false;
+        if (field.isAnnotationPresent(AwardSyncable.class)){
+            if( ObjectUtils.getPropertyValue(awardObject, field.getName()) == null ) result =  false;
+            else result = true;
+        }
+        return result;
+    }
+    
+    
+    
+    
+    /**
+     * This method 
+     * 
+     * @param awardTemplateObject
+     * @param awardObject
+     */
+    private boolean syncSourceCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
+        throws Exception {
+        List<Field> allFields = new ArrayList<Field>();
+        findAllFields(awardObject.getClass(), allFields);
+        boolean result = false;
+        AwardTemplateSyncScope[] effectiveScopes;
+        for (Field field: allFields) {
+            try {
+                if (field.isAnnotationPresent(AwardSyncable.class)){
+                    scopeStack.push(field.getAnnotation(AwardSyncable.class).scopes());
+                    effectiveScopes = getEffectiveScope(scopeStack);
+                    if (AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
+                        result = checkSourceField(awardTemplateObject, awardObject, field, scopeStack,award,awardTemplate);
+                    } else {
+                        //not in scope.
+                    }
+                    scopeStack.pop();
+                } else if(field.isAnnotationPresent(AwardSyncableList.class)) {
+                    scopeStack.push(field.getAnnotation(AwardSyncableList.class).scopes());
+                    effectiveScopes = getEffectiveScope(scopeStack);
+                    if( AwardTemplateSyncScope.isInScope(effectiveScopes, scopes)) {
+                        result = checkSourceList(awardTemplateObject, awardObject, field, scopes, scopeStack, award, awardTemplate);
+                    } else {
+                        if( LOG.isDebugEnabled() )
+                            LOG.debug(String.format( "Skipped (not in scope(s) %s) list:%s.%s", ArrayUtils.toString(scopes),awardObject.getClass().toString(),field.getName() ));
+                    }
+                    scopeStack.pop();
+                } else {
+                    if ( LOG.isTraceEnabled() ) {
+                        LOG.trace( String.format( "Skipped (No Annotation):%s.%s", awardObject.getClass().toString(),field.getName() )  );
+                    }
+                }
+                if (result) break;
+            } catch( IllegalStateException ise ) {
+                throw new RuntimeException( String.format( "IllegalStateException while processing %s.%s",field.getDeclaringClass(), field.getName() ), ise );
+            }
+        }
+        
+        return result;
+    }
+    
+    private boolean checkSourceField(Object awardTemplateObject, Object awardObject, Field field,
+            Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) {
+            boolean result = false;
+            if( ObjectUtils.isNotNull( ObjectUtils.getPropertyValue( awardTemplateObject, field.getName() ) ) && field.getAnnotation(AwardSyncable.class).impactSourceScopeEmpty()) result = true;
+            return result;
+    }
+
+
+
+    private boolean checkSourceList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes,
+            Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
+        field.setAccessible(true);
+        boolean result = false;
+        List<Object> awardTemplateObjectList = (List)ObjectUtils.getPropertyValue(awardTemplateObject, field.getName());
+        if( !( awardTemplateObjectList == null || awardTemplateObjectList.size() == 0) ) { 
+            //need to check each object for in scope because of shared Lists.
+            Method templateIsInScopeMethod = findIsInScopeMethodForClass( field.getAnnotation(AwardSyncableList.class).syncSourceClass() );
+            for( Object awardListObject : awardTemplateObjectList ) {
+                if( (Boolean)templateIsInScopeMethod.invoke(null,awardListObject, scopes)) { 
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * This method is for extracting the appropriate list from award by using property name and sync the list
      * @param awardTemplateObject
@@ -191,12 +311,30 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         scopeStack.pop();
     }
     
-    private AwardTemplateSyncScope[] getEffectiveScope( Stack<AwardTemplateSyncScope[]> scopeStack ) {
+    /**
+     * This method calculates the scope that should be used for an element given a scope stack.  
+     * The rule is simple:  Move down the stack until you reach an array that contains
+     * something other that CONTAINING_CLASS_INHERIT.  If no such element exists in the stack we throw an exception.
+     * @param scopeStack The scope stack you want to get the effective scope for.
+     * @return An array representing the effective scope to be used.
+     * @throws IllegalStateException if there is no array in the stack that contains a scope other than CONTAINING_CLASS_INHERIT.
+     */
+    private AwardTemplateSyncScope[] getEffectiveScope( Stack<AwardTemplateSyncScope[]> scopeStack )
+        throws IllegalStateException {
         AwardTemplateSyncScope[] effectiveScope = null;
         
         for( int i = scopeStack.size()-1;i>=0;i--) {
             if( ArrayUtils.contains( scopeStack.get(i), AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT ) ) continue;
             effectiveScope = scopeStack.get(i);
+        }
+     
+        if( effectiveScope == null ) {
+            StringBuffer scopeStackString = new StringBuffer();
+            for( int i = scopeStack.size()-1;i>=0;i--) {
+                scopeStackString.append( String.format( "{%s}", scopeStackString.append( scopesArrayToDelimitedList( scopeStack.get(i) ))));
+                if( i > 0 ) scopeStackString.append("|");
+            }
+            throw new RuntimeException( String.format( "No Effective Scope could  be calculated for the scopeStack [%s]", scopeStackString ));
         }
         return effectiveScope;
     }
@@ -276,7 +414,10 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             findAllFields(klass, allFields);
         }
     }
-
+    
+    
+    
+    
     
     /**
      * This copies value from Award Template object to Award object
@@ -292,26 +433,9 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         }
     }
     
-    
     /**
-     * This checks to see if a field is null.  It is used to check the sync
-     * scopes to see if a sync will clobber any data.
-     * @param awardTemplateObject
-     * @param awardObject
-     * @param field
-     * @throws Exception
-     */
-    private boolean checkField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
-        if (field.isAnnotationPresent(AwardSyncable.class)){
-            Object value = ObjectUtils.getPropertyValue(awardObject, field.getName());
-            if( value == null ) return false;
-            return true;
-        }
-        return false;
-    }
-    
-    /**
-     * This method is for extracting the appropriate list from award by using property name and sync the list
+     * Check the target list, returns true if there is an element in the collection that is in scope.  
+     * 
      * @param awardTemplateObject
      * @param awardObject
      * @param propertyName
@@ -319,7 +443,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private boolean checkList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
+    private boolean checkTargetList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
         field.setAccessible(true);
         boolean result = false;
         List<Object> awardObjectList = (List)ObjectUtils.getPropertyValue(awardObject, field.getName());
@@ -612,6 +736,19 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     }
 
 
-
+    /**
+     * Utility method to generate a comma delimited list of scopes contained in the array passed in.
+     * @param scopes 
+     * @return Comma delimited list of scope name contained in the passed in scopes array.
+     */
+    public static final String scopesArrayToDelimitedList( AwardTemplateSyncScope[] scopes ) {
+        StringBuffer result = new StringBuffer();
+        for( int i = 0; i<scopes.length;i++) {
+            result.append(scopes[i].toString());
+            if( i < scopes.length-1 )result.append(",");
+        }
+        return result.toString();
+    }
+    
     
 }
