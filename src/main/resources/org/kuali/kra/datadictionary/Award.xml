@@ -71,8 +71,18 @@
         <ref bean="Award-updateTimestamp" />
         <ref bean="Award-docIdStatus" />
         <ref bean="Award-awardIdAccount" />        
+        <ref bean="Award-lookupOspAdministratorName" />  
+        <ref bean="Award-awardUnitContacts.awardContactId" /> 
+        <ref bean="Award-projectPersons.fullName" />     
+        <ref bean="Award-projectPersons.awardContactId" />     
       </list>
     </property>
+        <property name="collections">
+        	<list>
+				<bean parent="CollectionDefinition" p:name="awardUnitContacts" p:label="Unit Contacts" p:shortLabel="Unit Contacts" p:elementLabel="Unit Contact" />
+				<bean parent="CollectionDefinition" p:name="projectPersons" p:label="Project Persons" p:shortLabel="Project Persons" p:elementLabel="Project Person" />
+        	</list>
+        </property>
   </bean>
   
   <bean id="Award-preAwardAuthorizedAmount" parent="Award-preAwardAuthorizedAmount-parentBean" />
@@ -754,18 +764,10 @@
 	</bean>
 	
 	<bean id="Award-ospAdministratorName" parent="Award-ospAdministratorName-parentBean" />
-	<bean id="Award-ospAdministratorName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Award-ospAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
 		<property name="name" value="ospAdministratorName" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="OSP Administrator" />
 		<property name="shortLabel" value="OSP Administrator" />
-		<property name="maxLength" value="150" />
-		<property name="validationPattern" >
-		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control" >
-		  <bean p:size="20" parent="TextControlDefinition" />
-		</property>
 		<property name="summary" value="The lead unit OSP Administrator name for the Award." />
 		<property name="description" value="The lead unit OSP Administrator name for the Award." />
 	</bean>
@@ -914,6 +916,37 @@
 		<property name="description" value="Label for award header fields" />
 	</bean>
 
+    <bean id="Award-lookupOspAdministratorName" parent="Award-lookupOspAdministratorName-parentBean" />
+    <bean id="Award-lookupOspAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
+        <property name="name" value="lookupOspAdministratorName" />
+        <property name="label" value="OSP Administrator" />
+        <property name="shortLabel" value="OSP Admin" />
+        <property name="required" value="false" />    
+    </bean>
+
+    <bean id="Award-awardUnitContacts.awardContactId" parent="Award-awardUnitContacts.awardContactId-parentBean" />
+    <bean id="Award-awardUnitContacts.awardContactId-parentBean" abstract="true" parent="AwardContact-awardContactId">
+        <property name="name" value="awardUnitContacts.awardContactId" />
+        <property name="label" value="Award Unit Contact" />
+        <property name="shortLabel" value="Award Unit Contact" />
+    </bean>
+
+    <bean id="Award-projectPersons.fullName" parent="Award-projectPersons.fullName-parentBean" />
+    <bean id="Award-projectPersons.fullName-parentBean" abstract="true" parent="AwardContact-fullName">
+        <property name="name" value="projectPersons.fullName" />
+        <property name="label" value="Investigator" />
+        <property name="shortLabel" value="Investigator" />
+        <property name="required" value="false" />    
+    </bean>
+
+    <bean id="Award-projectPersons.awardContactId" parent="Award-projectPersons.awardContactId-parentBean" />
+    <bean id="Award-projectPersons.awardContactId-parentBean" abstract="true" parent="AwardContact-awardContactId">
+        <property name="name" value="projectPersons.awardContactId" />
+        <property name="label" value="Investigator" />
+        <property name="shortLabel" value="Investigator" />
+        <property name="required" value="false" />    
+    </bean>
+
 	<!-- Business Object Inquiry Definition -->
 
   <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
@@ -934,7 +967,7 @@
 			    <bean p:attributeName="statusCode" parent="FieldDefinition" />
 			    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
 			    <bean p:attributeName="title" parent="FieldDefinition" />
-			    <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
+			    <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition" />
 			    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
 			    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
 			    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
@@ -967,12 +1000,14 @@
 		    <bean p:attributeName="statusCode" parent="FieldDefinition" />
 		    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
 		    <bean p:attributeName="title" parent="FieldDefinition" />
-		    <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
+			<bean p:attributeName="projectPersons.fullName" parent="FieldDefinition" />
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
-		    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
+		    <bean p:attributeName="lookupOspAdministratorName" parent="FieldDefinition" />
+		    <bean p:attributeName="awardUnitContacts.awardContactId" parent="FieldDefinition" p:hidden="true" />
 		    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
 		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
+		  	<bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"  />
 		  </list>
 		</property>
 		<property name="resultFields" >

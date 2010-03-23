@@ -15,20 +15,27 @@
  */
 package org.kuali.kra.award.lookup;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.dao.AwardDao;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -49,19 +56,39 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
     static final String USER_ID = "userId";
-   
+    static final String PI_NAME = "principalInvestigatorName";
+    static final String OSP_ADMIN_NAME = "ospAdministratorName";
+  
     private static final long serialVersionUID = 6304433555064511153L;
     
-    private transient AwardDao awardDao;
     private transient KcPersonService kcPersonService;
+    private VersionHistoryService versionHistoryService; 
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);       // need to set backlocation & docformkey here. Otherwise, they are empty
         if (this.getParameters().containsKey(USER_ID)) {
-            fieldValues.put(USER_ID, ((String[]) this.getParameters().get(USER_ID))[0]);
+            fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
         }
-        return awardDao.getAwards(fieldValues);
+        Map<String, String> formProps = new HashMap<String, String>();
+        if (!StringUtils.isEmpty(fieldValues.get("lookupOspAdministratorName"))) {
+            formProps.put("fullName", fieldValues.get("lookupOspAdministratorName"));
+            formProps.put("unitAdministratorTypeCode", "2");
+        }
+        fieldValues.remove("lookupOspAdministratorName");
+        if (!formProps.isEmpty()) {
+            List<Long> ids = new ArrayList<Long>();
+            Collection<AwardUnitContact> persons = getLookupService().findCollectionBySearch(AwardUnitContact.class, formProps);
+            if (persons.isEmpty()) {
+                return new ArrayList<Award>();
+            }
+            for (AwardUnitContact person : persons) {
+                ids.add(person.getAwardContactId());
+            }
+            fieldValues.put("awardUnitContacts.awardContactId", StringUtils.join(ids, '|'));
+        }
+        List<Award> unboundedResults = (List<Award>) super.getSearchResultsUnbounded(fieldValues);
+        return filterForActiveAwards(unboundedResults);
     }
 
     /**
@@ -88,29 +115,27 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         List<Row> rows =  super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(AwardDao.PI_NAME)) {
-                    super.updateLookupField(field, AwardDao.PI_NAME, AwardPerson.class.getName());
+                if (field.getPropertyName().equals(PI_NAME)) {
+                    super.updateLookupField(field, PI_NAME, AwardPerson.class.getName());
                 }
             }
         }
         return rows;
     }
-             
-    /**
-     * 
-     * This is spring bean will be used to get search results.
-     * @param protocolDao
-     */
-    public void setAwardDao(AwardDao awardDao) {
-        this.awardDao = awardDao;
-    }
-    
+                 
     /**
      * Sets the KC Person Service.
      * @param kcPersonService the kc person service
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    /**
+     * @param versionHistoryService
+     */
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+       this.versionHistoryService = versionHistoryService; 
     }
 
     /**
@@ -123,9 +148,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         HtmlData inquiryUrl = super.getInquiryUrl(bo, propertyName);
         if (propertyName.equals(UNIT_NUMBER)) {
             inquiryUrl = getUnitNumberInquiryUrl(award);
-        } else if (propertyName.equals(AwardDao.PI_NAME)) {
+        } else if (propertyName.equals(PI_NAME)) {
             inquiryUrl = getPrincipalInvestigatorNameInquiryUrl(award);            
-        } else if(propertyName.equals(AwardDao.OSP_ADMIN_NAME)) {
+        } else if(propertyName.equals(OSP_ADMIN_NAME)) {
             inquiryUrl = getOspAdminNameInquiryUrl(award);
         }
         return inquiryUrl;
@@ -218,4 +243,25 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     protected String getKeyFieldName() {
         return "awardId";
     }   
+    
+    private List<Award> filterForActiveAwards(Collection<Award> collectionByQuery) {
+        Set<String> awardNumbers = new TreeSet<String>();
+        for(Award award: collectionByQuery) {
+            awardNumbers.add(award.getAwardNumber());
+        }
+        
+        List<Award> activeAwards = new ArrayList<Award>();
+        for(String versionName: awardNumbers) {
+            VersionHistory versionHistory = versionHistoryService.findActiveVersion(Award.class, versionName);
+            if(versionHistory != null) {
+                Award activeAward = (Award) versionHistory.getSequenceOwner();
+                if(activeAward != null) {
+                    activeAwards.add(activeAward);
+                }
+            }
+        }        
+                
+        return activeAwards;
+    }
+
 }
