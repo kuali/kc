@@ -148,8 +148,20 @@ public class AwardReportsBean implements Serializable {
      * This method is for initializing the new <code>AwardReportTerm</code> object after the add operation.
      */
     public void init(int index) {
+        if( index >  getNewAwardReportTerms().size() - 1 ) {
+            for( int i=getNewAwardReportTerms().size(); i <= index; i++ ) {
+                getNewAwardReportTerms().add( new AwardReportTerm() );
+            }
+        }
+        
+        if( index >  getNewAwardReportTermRecipients().size() - 1 ) {
+            for( int i=getNewAwardReportTermRecipients().size(); i <= index; i++ ) {
+                getNewAwardReportTermRecipients().add( new AwardReportTermRecipient() );
+            }
+        }
+       
         this.getNewAwardReportTerms().set(index, new AwardReportTerm());
-        this.getNewAwardReportTermRecipients().add(new AwardReportTermRecipient());
+        this.getNewAwardReportTermRecipients().set(index, new AwardReportTermRecipient());
     }
     
     public AwardReportTermRecipient getNewAwardReportTermRecipient(int index) {
@@ -165,6 +177,11 @@ public class AwardReportsBean implements Serializable {
      * @param index
      */
     public void initRecipient(int index) {
+        if( index >  getNewAwardReportTermRecipients().size() - 1 ) {
+            for( int i=getNewAwardReportTermRecipients().size(); i <= index; i++ ) {
+                getNewAwardReportTermRecipients().add( null );
+            }
+        }
         getNewAwardReportTermRecipients().set(index, new AwardReportTermRecipient());        
     }
     
