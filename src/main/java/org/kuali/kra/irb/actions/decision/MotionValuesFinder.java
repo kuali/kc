@@ -26,11 +26,14 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class MotionValuesFinder extends KeyValuesBase {
     
+    public static final String APPROVE = "1";
+    public static final String DISAPPROVE = "2";
+    
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
-        keyValues.add(new KeyLabelPair("1", "approve"));
-        keyValues.add(new KeyLabelPair("2", "disapprove"));
+        keyValues.add(new KeyLabelPair(APPROVE, "approve"));
+        keyValues.add(new KeyLabelPair(DISAPPROVE, "disapprove"));
         return keyValues;
     }
 }
