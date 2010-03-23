@@ -25,11 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -48,6 +51,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class...
  */
 public class InstitutionalProposalAction extends KraTransactionalDocumentActionBase {
+    private static final String MODIFY_IP = "modifyIP";
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -86,6 +90,9 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
             } else {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
+            if (hasPermission("Edit Institutional Proposal")) {
+                editModes.add(MODIFY_IP);
+            }
             Map editMode = this.convertSetToMap(editModes);
             if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
                 editMode = getPessimisticLockService().establishLocks(document, editMode, user);
@@ -103,11 +110,33 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
                 }
             }
             
+            if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY) &&
+                    !editMode.containsKey(MODIFY_IP) && documentActions.contains(KNSConstants.KUALI_ACTION_CAN_RELOAD)) {
+                documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+            }
             formBase.setDocumentActions(convertSetToMap(documentActions));
             formBase.setEditingMode(editMode);
         }
         
     }
+    
+    private boolean hasPermission(String permissionName){
+        KcPerson person = getKcPersonService().getKcPersonByUserName(getUserName());       
+        return getUnitAuthorizationService().hasPermission(person.getPersonId(), "KC-IP", permissionName);
+
+    }
+    private String getUserName() {
+        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
+    }
+
+    private UnitAuthorizationService getUnitAuthorizationService() {
+        return KraServiceLocator.getService(UnitAuthorizationService.class);
+    }
+
+    private KcPersonService getKcPersonService() {
+        return KraServiceLocator.getService(KcPersonService.class);
+    }
+
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
