@@ -42,10 +42,11 @@
         <c:if test="${modifyRights}">
 		<tr>
 			<td colspan="2">
-			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" styleId="saveNarativeRights" name="methodToCall.addInstituteAttachmentRights"
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
-				class="globalbuttons" title="save" alt="save"></div>
+			<div id="globalbuttons" class="globalbuttons">
+			    <html:image property="methodToCall.addInstituteAttachmentRights"
+				    src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
+				    styleClass="globalbuttons" title="save" alt="save"/>
+			</div>
 			</td>
 		</tr>
 		</c:if>
