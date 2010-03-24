@@ -1,2 +1,2 @@
-insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('1','OSP',sysdate,user);
-insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('2','Department',sysdate,user);
+insert into MAIL_BY(mail_by_code,description,update_timestamp,update_user,OBJ_ID) values('1','OSP',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','62e5392c-53b2-4dea-8b09-277ec0ab549b');
+insert into MAIL_BY(mail_by_code,description,update_timestamp,update_user,OBJ_ID) values('2','Department',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','9c600f53-af61-48ad-9d6c-85d85928d3d9');

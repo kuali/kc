@@ -1,2 +1,2 @@
-insert into deadline_type (deadline_type_code,description,update_timestamp,update_user) values('P','Postmark',sysdate,'kradev');
-insert into deadline_type (deadline_type_code,description,update_timestamp,update_user) values('R','Receipt',sysdate,'kradev');
+insert into DEADLINE_TYPE (deadline_type_code,description,update_timestamp,update_user,OBJ_ID) values('P','Postmark',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','79349b3f-f8dc-46e6-9f44-f4fd29ac9b47');
+insert into DEADLINE_TYPE (deadline_type_code,description,update_timestamp,update_user,OBJ_ID) values('R','Receipt',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','e4248b64-d6f3-4b2c-8240-29d40ba3eab3');
