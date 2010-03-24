@@ -3,7 +3,8 @@ DELETE FROM COMM_SCHEDULE_ATTENDANCE;
 DELETE FROM COMM_SCHEDULE_MINUTE_DOC;
 DELETE FROM COMM_SCHEDULE;
 DELETE FROM SCHEDULE_STATUS;
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (1,'Scheduled',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (2,'Cancelled',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (3,'Agenda Closed',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (4,'Committee has met',sysdate,user);
+INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID) VALUES (1,'Scheduled',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','d46b4df6-f29c-478a-99d3-0628561ce6e9');
+INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID) VALUES (2,'Cancelled',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','fb904f65-13de-462a-99a0-f56d01784e6e');
+INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID) VALUES (3,'Agenda Closed',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','4afe4e2e-5df7-4a02-9a33-47f45dff3e52');
+INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID) VALUES (4,'Committee has met',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','604d4dc8-862b-42c8-9e2b-793be14e7876');
+

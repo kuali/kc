@@ -1,29 +1,18 @@
-ALTER TABLE ORGANIZATION_TYPE DISABLE CONSTRAINT FK_ORGANIZATION_TYPE_KRA; 
-delete from ORGANIZATION where ORGANIZATION_ID = '000001'; 
-insert into ORGANIZATION (ORGANIZATION_ID,ORGANIZATION_NAME,CONTACT_ADDRESS_ID,ADDRESS,CABLE_ADDRESS,TELEX_NUMBER,COUNTY,CONGRESSIONAL_DISTRICT,INCORPORATED_IN,INCORPORATED_DATE,NUMBER_OF_EMPLOYEES,IRS_TAX_EXCEMPTION,FEDRAL_EMPLOYER_ID,MASS_TAX_EXCEMPT_NUM,AGENCY_SYMBOL,VENDOR_CODE,COM_GOV_ENTITY_CODE,MASS_EMPLOYEE_CLAIM,DUNS_NUMBER,DUNS_PLUS_FOUR_NUMBER,DODAC_NUMBER,CAGE_NUMBER,HUMAN_SUB_ASSURANCE,ANIMAL_WELFARE_ASSURANCE,SCIENCE_MISCONDUCT_COMPL_DATE,PHS_ACOUNT,NSF_INSTITUTIONAL_CODE,INDIRECT_COST_RATE_AGREEMENT,COGNIZANT_AUDITOR,ONR_RESIDENT_REP,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('000001','University',1,'77 Massachusetts Ave, Cambridge, MA 02139','MITCAM','92-1473','Middlesex','Eighth','Massachusetts',to_date('10-APR-61','DD-MON-RR'),7500,'09-123-9876','042103594','E042-103-594','75-08-9701','042-103-594-000-1','80230','72-002250','000000000','4328',null,'80230','FWA00004881','A-3125-01',to_date('02-MAR-98','DD-MON-RR'),'1042103594A1','002 178 2000','03/08/2002',null,null,to_date('17-AUG-07','DD-MON-RR'),'KRADEV',1,'37EC277AF430004AE043814FD881004A');
-ALTER TABLE ORGANIZATION_TYPE ENABLE CONSTRAINT FK_ORGANIZATION_TYPE_KRA;
- 
-insert into protocol_type (description, obj_id, protocol_type_code, update_timestamp, update_user, ver_nbr)
-values ('test type', sys_guid(), 'tst', sysdate, 'jhulslander', 1);
+--ALTER TABLE ORGANIZATION_TYPE DISABLE CONSTRAINT FK_ORGANIZATION_TYPE_KRA; 
+--delete from ORGANIZATION where ORGANIZATION_ID = '000001'; 
+--insert into ORGANIZATION (ORGANIZATION_ID,ORGANIZATION_NAME,CONTACT_ADDRESS_ID,ADDRESS,CABLE_ADDRESS,TELEX_NUMBER,COUNTY,CONGRESSIONAL_DISTRICT,INCORPORATED_IN,INCORPORATED_DATE,NUMBER_OF_EMPLOYEES,IRS_TAX_EXCEMPTION,FEDRAL_EMPLOYER_ID,MASS_TAX_EXCEMPT_NUM,AGENCY_SYMBOL,VENDOR_CODE,COM_GOV_ENTITY_CODE,MASS_EMPLOYEE_CLAIM,DUNS_NUMBER,DUNS_PLUS_FOUR_NUMBER,DODAC_NUMBER,CAGE_NUMBER,HUMAN_SUB_ASSURANCE,ANIMAL_WELFARE_ASSURANCE,SCIENCE_MISCONDUCT_COMPL_DATE,PHS_ACOUNT,NSF_INSTITUTIONAL_CODE,INDIRECT_COST_RATE_AGREEMENT,COGNIZANT_AUDITOR,ONR_RESIDENT_REP,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('000001','University',1,'77 Massachusetts Ave, Cambridge, MA 02139','MITCAM','92-1473','Middlesex','Eighth','Massachusetts',to_date('1961-04-10 12:00:00','YYYY-MM-DD HH24:MI:SS'),7500,'09-123-9876','042103594','E042-103-594','75-08-9701','042-103-594-000-1','80230','72-002250','000000000','4328',null,'80230','FWA00004881','A-3125-01',to_date('1998-03-02 12:00:00','YYYY-MM-DD HH24:MI:SS'),'1042103594A1','002 178 2000','03/08/2002',null,null,to_date('2007-08-17 12:00:00','YYYY-MM-DD HH24:MI:SS'),'KRADEV',1,'37EC277AF430004AE043814FD881004A');
+--ALTER TABLE ORGANIZATION_TYPE ENABLE CONSTRAINT FK_ORGANIZATION_TYPE_KRA;
 
-insert into protocol_status(description, obj_id, protocol_status_code, update_timestamp, update_user, ver_nbr)
-values('test status', sys_guid(), 'tst', sysdate, 'jhulslander', 1);
+insert into PROTOCOL_TYPE (description, obj_id, protocol_type_code, update_timestamp, update_user, ver_nbr) values ('test type', 'da64140f-a72d-44a4-8f9d-506413460a3c', 'tst', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-insert into protocol_document(document_number, obj_id, protocol_workflow_type, update_timestamp, update_user, ver_nbr)
-values (101, sys_guid(), 'pwt', sysdate, 'jhulslder', 1);
+insert into PROTOCOL_STATUS(description, obj_id, protocol_status_code, update_timestamp, update_user, ver_nbr) values('test status', '5e2185d0-af02-4350-9715-48c1e6075748', 'tst', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-insert into protocol(protocol_id, active, document_number, protocol_number, sequence_number, protocol_type_code, protocol_status_code, title, is_billable, special_review_indicator, 
-  vulnerable_subject_indicator, key_study_person_indicator, funding_source_indicator, correspondent_indicator, reference_indicator, related_projects_indicator, update_timestamp, update_user, ver_nbr, obj_id)
-values(1, 0, 101, 1, 1, 'tst', 'tst', 'test title', 0, 0,
-  0, 0, 0 , 0 , 0, 0, sysdate, 'jhulslander', 1, sys_guid());
-  
-insert into protocol_person_roles ( protocol_person_role_id, description, update_timestamp, update_user, ver_nbr, obj_id)
-values(666, 'COI', sysdate, 'jhulslander', 1, sys_guid());
+insert into PROTOCOL_DOCUMENT(document_number, obj_id, protocol_workflow_type, update_timestamp, update_user, ver_nbr) values (101, '849a0a68-374d-4db8-8eca-7789f9149b54', 'pwt', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslder', 1);
 
-insert into affiliation_type( affiliation_type_code, description, obj_id, update_timestamp, update_user, ver_nbr)
-values(100, 'test aff', sys_guid(), sysdate, 'jhulslander', 1);
+insert into PROTOCOL(protocol_id, active, document_number, protocol_number, sequence_number, protocol_type_code, protocol_status_code, title, is_billable, special_review_indicator,  vulnerable_subject_indicator, key_study_person_indicator, funding_source_indicator, correspondent_indicator, reference_indicator, related_projects_indicator, update_timestamp, update_user, ver_nbr, obj_id) values(1, 0, 101, 1, 1, 'tst', 'tst', 'test title', 0, 0, 0, 0, 0 , 0 , 0, 0, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1, '67ab7fa7-97da-42c4-bcf2-9d7a9e414e88');
 
-insert into PROTOCOL_PERSONS ( OBJ_ID, PROTOCOL_PERSON_ID, PROTOCOL_ID, PROTOCOL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, PERSON_NAME, PROTOCOL_PERSON_ROLE_ID, ROLODEX_ID, 
-  AFFILIATION_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
-values('dhafjkhadlkjfha', 2, 1, 1, 456, null, 'Philip Berg', 666, null,
-  100, sysdate, 'jhulslander', 1);
+insert into PROTOCOL_PERSON_ROLES ( protocol_person_role_id, description, update_timestamp, update_user, ver_nbr, obj_id) values(666, 'COI', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1, '53a6cc6e-0d0d-4a2d-b3b5-cad711156fd5');
+
+insert into AFFILIATION_TYPE( affiliation_type_code, description, obj_id, update_timestamp, update_user, ver_nbr) values(100, 'test aff', '95faa51b-1757-47a9-8640-3dc8f01bbd68', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
+
+insert into PROTOCOL_PERSONS ( OBJ_ID, PROTOCOL_PERSON_ID, PROTOCOL_ID, PROTOCOL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, PERSON_NAME, PROTOCOL_PERSON_ROLE_ID, ROLODEX_ID,  AFFILIATION_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values('dhafjkhadlkjfha', 2, 1, 1, 456, null, 'Philip Berg', 666, null, 100, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
