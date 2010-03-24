@@ -21,6 +21,7 @@
 <%@ attribute name="anchor" required="false" description="If present, on return from lookup, the page will be scrolled to the named anchor specified by this attribute." %>
 <%@ attribute name="lookedUpBODisplayName" required="false" description="this value is the human readable name of the BO being looked up" %>
 <%@ attribute name="lookedUpCollectionName" required="true" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
+<%@ attribute name="autoSearch" required="false" description="Determines whether auto-search will be used in the lookup." %>
 
 <c:choose>
   <c:when test="${!empty tabindexOverride}">
@@ -34,7 +35,7 @@
 <c:if test="${!empty lookedUpBODisplayName}">
   <bean-el:message key="multiple.value.lookup.icon.label" arg0="${lookedUpBODisplayName}"/>
 </c:if>
-<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).((#${lookupParameters}#)).(:;${lookedUpCollectionName};:).((%true%)).anchor${anchor}"/>
+<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).((#${lookupParameters}#)).(:;${lookedUpCollectionName};:).((%true%)).((~${autoSearch}~)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
 <input type="image" tabindex="${tabindex}" name="${epMethodToCallAttribute}"
    src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on ${lookedUpBODisplayName}" title="Multiple Value Search on ${lookedUpBODisplayName}" />
