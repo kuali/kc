@@ -436,18 +436,18 @@ public final class KeyConstants {
     
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
-    public static final String INVALID_REPORT_CODE_FOR_REPORT_CLASS = "invalid.type.for.reportClass";
-    public static final String INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE = "invalid.frequency.for.reportClass.and.type";
-    public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "invalid.frequencyBase.for.frequency";
+    public static final String INVALID_REPORT_CODE_FOR_REPORT_CLASS = "error.invalid.type.for.reportClass";
+    public static final String INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE = "error.invalid.frequency.for.reportClass.and.type";
+    public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "error.invalid.frequencyBase.for.frequency";
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "error.invalid.award.payment.invoice.comment.comment.not.allowed";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "error.invalid.award.payment.invoice.comment.required";
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
-    public static final String INVALID_REPORT_FREQUENCY = "invalid.award.awardTemplate.reportTerm.reportFreqency";
-    public static final String INVALID_BASIS_PAYMENT = "invalid.award.awardTemplate.awardBasisPayment";
-    public static final String INVALID_METHOD_PAYMENT = "invalid.award.awardTemplate.awardMethodPayment";
+    public static final String INVALID_REPORT_FREQUENCY = "error.invalid.award.awardTemplate.reportTerm.reportFreqency";
+    public static final String INVALID_BASIS_PAYMENT = "error.invalid.award.awardTemplate.awardBasisPayment";
+    public static final String INVALID_METHOD_PAYMENT = "error.invalid.award.awardTemplate.awardMethodPayment";
     
     // IRB Protocol Participant Types Validation Messages
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";
