@@ -1,5 +1,5 @@
 DELETE FROM PROTOCOL_REFERENCE_TYPE;
-INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ) VALUES (1,'CALGB',sysdate,user);
-INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ) VALUES (3,'IRBNet',sysdate,user);
-INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ) VALUES (2,'RTOG',sysdate,user);
-INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ) VALUES (4,'COAG',sysdate,user);	
+INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ,OBJ_ID) VALUES (1,'CALGB',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','dba25ea8-c37f-4283-b49c-16693f72f033');
+INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ,OBJ_ID) VALUES (3,'IRBNet',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','d17719c1-733a-4bd9-986b-ba94feb378db');
+INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ,OBJ_ID) VALUES (2,'RTOG',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','99ea92b5-9d64-42f3-a01f-1b726da3ee1e');
+INSERT INTO PROTOCOL_REFERENCE_TYPE ( protocol_reference_type_code, description, update_timestamp, update_user ,OBJ_ID) VALUES (4,'COAG',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin','90ed4a86-2238-4a4d-b884-462774f93185');
