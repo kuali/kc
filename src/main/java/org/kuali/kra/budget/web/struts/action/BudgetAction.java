@@ -50,6 +50,7 @@ import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -210,19 +211,18 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         final BudgetDocument budgetDoc = budgetForm.getDocument();
         fixDocHeaderVersion(budgetDoc);
-
-        getBudgetSummaryService().calculateBudget(budgetDoc.getBudget());
-
+        Budget budget = budgetDoc.getBudget();
+        getBudgetSummaryService().calculateBudget(budget);
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
-        getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
         refreshBudgetDocumentVersion(savedBudgetDoc);
+        getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
         
 
-        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-            forward = this.getReturnToProposalForward(budgetForm);
-        }
+//        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
+//            forward = this.getReturnToProposalForward(budgetForm);
+//        }
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         if (budgetForm.toBudgetVersionsPage()
@@ -237,7 +237,13 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     private void refreshBudgetDocumentVersion(BudgetDocument savedBudgetDoc) {
-        savedBudgetDoc.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+        Budget budget = savedBudgetDoc.getBudget();
+        for (BudgetDocumentVersion documentVersion: savedBudgetDoc.getParentDocument().getBudgetDocumentVersions()) {
+            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+            if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
+                documentVersion.refreshReferenceObject("budgetVersionOverviews");
+            }
+        }
     }
     
     /**
@@ -246,7 +252,7 @@ public class BudgetAction extends BudgetActionBase {
      * @param budgetDoc
      * @throws WorkflowException
      */
-    private void fixDocHeaderVersion(BudgetDocument budgetDoc) throws WorkflowException {
+    protected void fixDocHeaderVersion(BudgetDocument budgetDoc) throws WorkflowException {
         DocumentService docService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument updatedDoc = (BudgetDocument) docService.getByDocumentHeaderId(budgetDoc.getDocumentNumber());
         budgetDoc.getDocumentHeader().setVersionNumber(updatedDoc.getDocumentHeader().getVersionNumber());
@@ -255,8 +261,6 @@ public class BudgetAction extends BudgetActionBase {
             BudgetDocumentVersion bdVersion = budgetDoc.getParentDocument().getBudgetDocumentVersion(i);
             BudgetDocumentVersion updatedVersion = updatedDoc.getParentDocument().getBudgetDocumentVersion(i);
             if (bdVersion != null && updatedVersion != null) {
-                System.out.println("My version " + bdVersion.getDocumentNumber() + " = " + bdVersion.getDocumentHeader().getVersionNumber());
-                System.out.println("Other ver " + updatedVersion.getDocumentNumber() + " = " + updatedVersion.getDocumentHeader().getVersionNumber());
                 if (bdVersion.getDocumentHeader().getVersionNumber() < updatedVersion.getDocumentHeader().getVersionNumber()) {
                     bdVersion.getDocumentHeader().setVersionNumber(updatedVersion.getDocumentHeader().getVersionNumber());
                 }
@@ -494,7 +498,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         ActionForward forward = null;
         
-        if (StringUtils.equalsIgnoreCase((String)budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY), "TRUE")) {
+        if (!StringUtils.equalsIgnoreCase((String)budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY), "TRUE")) {
             forward = this.save(mapping, form, request, response);
         }
        
@@ -511,9 +515,11 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         ActionForward forward = null;
         
-        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        if (!"true".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             forward = this.save(mapping, form, request, response);
         }
+
+        setupDocumentExit();
         
         if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
             return this.getReturnToAwardForward(budgetForm);
@@ -546,7 +552,6 @@ public class BudgetAction extends BudgetActionBase {
      */
     private ActionForward getReturnToProposalForward(final BudgetForm form) throws WorkflowException {
         assert form != null : "the form is null";
-        
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
         final String docNumber = form.getDocument().getParentDocument().getDocumentNumber();
         

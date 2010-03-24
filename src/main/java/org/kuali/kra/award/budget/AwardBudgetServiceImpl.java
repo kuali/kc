@@ -16,6 +16,8 @@
 package org.kuali.kra.award.budget;
 
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -25,14 +27,21 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -40,6 +49,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.springframework.beans.BeanUtils;
 
 /**
  * This class is to process all basic services required for AwardBudget
@@ -49,7 +59,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-
+    private BudgetService<Award> budgetService;
+    private BudgetSummaryService budgetSummaryService;
 
     /**
      * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
@@ -294,8 +305,83 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
-    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
-        return null;
+    public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException {
+        BudgetDocument<Award> newBudgetDoc = getNewBudgetVersion(document, "Proposal Budget Copy : "+versionName==null?"":versionName);
+        if(newBudgetDoc==null) return null;
+        Budget budget = newBudgetDoc.getBudget();
+        List<BudgetPeriod> budgetPeriods = newBudgetDoc.getBudget().getBudgetPeriods();
+        BudgetPeriod firstBudgetPeriod = budgetPeriods.size()>0?budgetPeriods.get(0):budget.getNewBudgetPeriod();
+        for (Iterator<BudgetPeriod> iter = rawValues.iterator(); iter.hasNext();) {
+            BudgetPeriod budgetPeriod = (BudgetPeriod)iter.next();
+            budgetPeriod.refreshReferenceObject("budgetLineItems");
+            copyProposalBudgetLineItemsToAwardBudget(firstBudgetPeriod,budgetPeriod);
+            BudgetPeriod copiedBudgetPeriod = (BudgetPeriod)getDeepCopyPostProcessor().
+                                                                processDeepCopyWithDeepCopyIgnore(budgetPeriod);
+            copiedBudgetPeriod.setBudgetId(null);
+            copiedBudgetPeriod.setBudget(budget);
+        }
+        getBudgetSummaryService().calculateBudget(budget);
+        getBusinessObjectService().save(budget);
+        budget.refresh();
+        return newBudgetDoc;
     }
 
+    private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod copiedBudgetPeriod) {
+        List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
+        List<BudgetLineItem> lineItems = copiedBudgetPeriod.getBudgetLineItems();
+        for (BudgetLineItem budgetLineItem : lineItems) {
+            String[] ignoreProperties = {"budgetLineItemId","budgetPeriodId","budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
+            AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
+            BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
+            List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
+            List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
+            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
+                budgetPersonnelDetails.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
+                AwardBudgetPersonnelDetailsExt awardBudgetPerDetails = new AwardBudgetPersonnelDetailsExt();
+                BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList"});
+                awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
+            }
+            awardBudgetLineItems.add(awardBudgetLineItem);
+        }
+    }
+
+    private DeepCopyPostProcessor getDeepCopyPostProcessor() {
+        return KraServiceLocator.getService(DeepCopyPostProcessor.class);
+    }
+
+    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+        return getBudgetService().copyBudgetVersion(budgetDocument);
+    }
+
+    /**
+     * Sets the budgetService attribute value.
+     * @param budgetService The budgetService to set.
+     */
+    public void setBudgetService(BudgetService<Award> budgetService) {
+        this.budgetService = budgetService;
+    }
+
+    /**
+     * Gets the budgetService attribute. 
+     * @return Returns the budgetService.
+     */
+    public BudgetService<Award> getBudgetService() {
+        return budgetService;
+    }
+
+    /**
+     * Gets the budgetSummaryService attribute. 
+     * @return Returns the budgetSummaryService.
+     */
+    public BudgetSummaryService getBudgetSummaryService() {
+        return budgetSummaryService;
+    }
+
+    /**
+     * Sets the budgetSummaryService attribute value.
+     * @param budgetSummaryService The budgetSummaryService to set.
+     */
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
+    }
 }

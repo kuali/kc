@@ -57,6 +57,8 @@ public class BudgetPeriod extends BudgetAssociate {
     
     private BudgetModular budgetModular;
     private Budget budget;
+    //this is for lookup from award budget
+    private String budgetParentId;
     
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -408,5 +410,21 @@ public class BudgetPeriod extends BudgetAssociate {
      */
     public void setBudget(Budget budget) {
         this.budget = budget;
+    }
+
+    /**
+     * Sets the budgetParentId attribute value.
+     * @param budgetParentId The budgetParentId to set.
+     */
+    public void setBudgetParentId(String budgetParentId) {
+        this.budgetParentId = budgetParentId;
+    }
+
+    /**
+     * Gets the budgetParentId attribute. 
+     * @return Returns the budgetParentId.
+     */
+    public String getBudgetParentId() {
+        return budgetParentId;
     }
 }
