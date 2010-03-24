@@ -344,7 +344,7 @@
     <tr>
        <td colspan=3><div class="floaters">
          <p> You have the option to add unit details for a key person</p>
-          <p><html:image property="methodToCall.addUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
+          <p><html:image property="methodToCall.addUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
           </div>
        </td>
      </tr>
@@ -407,7 +407,7 @@
       <tr>
        <td colspan=3><div class="floaters">
          <p> You have the option to add Certification Questions for a key person</p>
-          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
+          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
           </div>
        </td>
    </tr>
