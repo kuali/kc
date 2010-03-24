@@ -29,6 +29,8 @@ import org.kuali.kra.service.AwardCommentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
  * Service class for Award Comments on Comments, Notes & Attachments tab.
  */
@@ -79,6 +81,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
                 comments.add(awardComment.getComments());
             }
         }
+        Collections.sort(returnList);
         return returnList;
     }
         

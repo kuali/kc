@@ -24,12 +24,13 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.meeting.MemberPresentBean;
 
 /**
  * This class is business object representation of an Award Comment
  */
 
-public class AwardComment extends AwardAssociate {
+public class AwardComment extends AwardAssociate implements Comparable<AwardComment> {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -207,6 +208,10 @@ public class AwardComment extends AwardAssociate {
     public void resetPersistenceState() {
         awardCommentId = null;
         versionNumber = null;
+    }
+
+    public int compareTo(AwardComment awardCommentArg) {
+        return awardCommentArg.getUpdateTimestamp().compareTo(this.getUpdateTimestamp());
     }
 
 
