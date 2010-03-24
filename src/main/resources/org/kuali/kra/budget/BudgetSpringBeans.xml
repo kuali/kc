@@ -94,6 +94,9 @@
     </bean>
     
     <bean id="proposalBudgetService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetServiceImpl" >
+		<property name="budgetService">
+			<ref bean="budgetService"/>
+		</property>
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
@@ -124,11 +127,19 @@
 		<property name="budgetVersionRule">
 			<ref bean="budgetVersionRule"/>
 		</property>
+		<property name="deepCopyPostProcessor">
+			<ref bean="deepCopyPostProcessor"/>
+		</property>
+		<property name="budgetSummaryService">
+			<ref bean="budgetSummaryService"/>
+		</property>
 	</bean>
 	<bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
+        <property name="budgetService" ref="budgetService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
+        <property name="budgetSummaryService" ref="budgetSummaryService" />
 	</bean>
 
 	
@@ -421,5 +432,14 @@
 		</property>
 	</bean>
     <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
+    
+    <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="budgetPeriodLookupableHelperService" />
+  		</property>  		
+	</bean>	
+	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService"> 
+  	</bean>		
     
 </beans>

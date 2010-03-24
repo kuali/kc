@@ -16,6 +16,7 @@
 package org.kuali.kra.service;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * This class...

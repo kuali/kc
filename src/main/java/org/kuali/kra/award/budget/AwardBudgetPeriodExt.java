@@ -46,7 +46,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
      * 
      * @see org.kuali.kra.budget.parameters.BudgetPeriod#getNewBudgetLineItem()
      */
-    public BudgetLineItem getNewBudgetLineItem() {
+    public AwardBudgetLineItemExt getNewBudgetLineItem() {
         return new AwardBudgetLineItemExt();
     }
 

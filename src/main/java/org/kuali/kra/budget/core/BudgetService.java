@@ -164,5 +164,12 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public boolean validateBudgetAuditRule(BudgetParentDocument<T> parentDocument) throws Exception;
 
-    
+    /**
+     * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
+     * @param budgetDocument
+     * @return BudgetDocument
+     * @throws WorkflowException
+     */
+    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+
 }

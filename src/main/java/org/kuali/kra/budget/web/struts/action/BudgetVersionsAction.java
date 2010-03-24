@@ -23,6 +23,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
@@ -58,6 +60,8 @@ import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -186,6 +190,32 @@ public class BudgetVersionsAction extends BudgetAction {
 
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
+    }
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
+        if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
+            String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
+            
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
+            
+            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            
+            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
+                    getAwardBudgetService().createBudgetDocumentWithCopiedBudgetPeriods(rawValues, 
+                            (AwardDocument)budgetForm.getBudgetDocument().getParentDocument(),
+                                                        budgetForm.getNewBudgetVersionName());
+            }
+        }
+        final ActionForward forward = super.reload(mapping, form, request, response);
+        return forward;
     }
     
     private BudgetRatesService getBudgetRateService() {
@@ -323,7 +353,6 @@ public class BudgetVersionsAction extends BudgetAction {
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }
-        
         return mapping.findForward(MAPPING_BASIC);
     }
     
