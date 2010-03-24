@@ -264,46 +264,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         return methodToCallParameterName.startsWith("methodToCall.postTextAreaToParent.anchortopOfForm")
             || super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
-    /**
-     * This method is here to help us troubleshoot editable property issues.
-     * 
-     * {@inheritDoc}
-     */
-    @Override
-    public final boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        final boolean populate = super.shouldPropertyBePopulatedInForm(requestParameterName, request);
-        if (!populate) {
-            LOG.warn(String.format("property not registered as editable [%s]", requestParameterName));
-        }
-        return populate;
-    }
-    
-    /**
-     * This method is here to help us troubleshoot editable property issues.
-     * {@inheritDoc}
-     */
-    @Override
-    public final void registerEditableProperty(String editablePropertyName) {
-        logPropertyValidationFailures(editablePropertyName);
-        super.registerEditableProperty(editablePropertyName);
-    }
-    
-    /**
-     * logs a warning if the passed in property string is not an accessible property on "this" form.
-     * @param property the property (ie. obj.prop)
-     */
-    private void logPropertyValidationFailures(String property) {
-        if (LOG.isWarnEnabled()) {
-            try {
-                PropertyUtils.getProperty(this, property);
-            //catching exception here b/c various exceptions can occur when accessing
-            //properties that do not exist or are malformed besides the exceptions that are documented
-            } catch (Exception e) {
-                //basic logging w/o including the stack...simple attempt at getting the "cause"
-                LOG.warn(String.format("property[%s] not accessable (%s)", property, (e.getCause() != null) ? e.getCause().getClass().getName() : e.getClass().getName()));
-            }
-        }
-    }
 
     public boolean isMedusaOpenedDoc() {
         return medusaOpenedDoc;
