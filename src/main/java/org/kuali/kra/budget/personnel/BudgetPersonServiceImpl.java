@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import java.util.Calendar;
 
 /**
  * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
@@ -52,27 +52,11 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 //        budgetPerson.setProposalNumber(budget.getProposalNumber());
 //        budgetPerson.setBudgetVersionNumber(budget.getBudgetVersionNumber());
         budgetPerson.setBudgetId(budget.getBudgetId());
-        if ("AWRD".equals(budget.getBudgetDocument().getParentDocumentTypeCode())) {
-            budgetPerson.setPersonSequenceNumber(getNextPersonSequence(budget));
-        } else {
-            budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));            
-        }
+        budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
     
-    // hackeddocumentnextvalue is not working.
-    // after session saved form, the 'document' is changed during process, so the 
-    // documentnextvalues will not be applied to saved form/document
-    private Integer getNextPersonSequence(Budget budget) {
-        int nextSeq = 0;
-        for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
-            if (budgetPerson.getPersonSequenceNumber() > nextSeq) {
-                nextSeq = budgetPerson.getPersonSequenceNumber();
-            }
-        }
-        return ++nextSeq;
-    }
     /**
      * @see org.kuali.kra.budget.personnel.BudgetPersonService#populateDefaultDataIfEmpty(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
      */
