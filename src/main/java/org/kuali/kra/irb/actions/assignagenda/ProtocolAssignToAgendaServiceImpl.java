@@ -161,9 +161,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     /** {@inheritDoc} */
     public String getAssignedCommitteeName(Protocol protocol) {
         String committeeID = getAssignedCommitteeId(protocol);
-        System.out.println("committee ID is: " + committeeID);
         if (committeeID != null) {
-            System.out.println("the committee is not null");
             Committee com = KraServiceLocator.getService(CommitteeService.class).getCommitteeById(committeeID);
             if (com != null) {
                 String committeeName = com.getCommitteeName();
