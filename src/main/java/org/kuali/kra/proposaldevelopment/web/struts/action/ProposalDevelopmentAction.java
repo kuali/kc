@@ -50,6 +50,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
@@ -68,6 +69,7 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -196,8 +198,22 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
+        
+        SponsorService sponsorService = getSponsorService();
+        DevelopmentProposal proposal = ((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument().getDevelopmentProposal();
+        // Update the NIH related properties since this information is not persisted with the document
+        // (isSponsorNih sets the nih property as a side effect)
+        if(sponsorService.isSponsorNih(proposal)) {
+            proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
+        }
+        proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
         getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument());
     }
+    
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
+    
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
