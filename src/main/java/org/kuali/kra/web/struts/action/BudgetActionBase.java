@@ -175,8 +175,18 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
         }
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        budgetParentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
-                                                        + budgetToCopy.getBudgetVersionNumber() + " copy", true);
+        budgetParentDocument.refreshReferenceObject("budgetDocumentVersions");
+        List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
+        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
+            BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+            if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
+                versionOverview.setDescriptionUpdatable(true);
+                versionOverview.setDocumentDescription(budgetToCopy.getDocumentDescription() + " " 
+                                                        + budgetToCopy.getBudgetVersionNumber() + " copy");
+            }
+        }
+//        budgetParentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+//                                                        + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
     /**
      * 

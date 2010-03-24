@@ -19,6 +19,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...

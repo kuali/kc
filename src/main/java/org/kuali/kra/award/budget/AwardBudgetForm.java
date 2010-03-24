@@ -40,6 +40,8 @@ public class AwardBudgetForm extends BudgetForm {
      */
     private static final long serialVersionUID = 9001767909548738932L;
     private String awardInMultipleNodeHierarchy;
+    private String budgetParentId;
+
     public AwardBudgetForm() {
         super();
         AwardBudgetDocument budgetDocument = new AwardBudgetDocument();
@@ -104,6 +106,20 @@ public class AwardBudgetForm extends BudgetForm {
         newButton.setExtraButtonAltText(altText);
         
         extraButtons.add(newButton);
+    }
+    /**
+     * Sets the budgetParentId attribute value.
+     * @param budgetParentId The budgetParentId to set.
+     */
+    public void setBudgetParentId(String budgetParentId) {
+        this.budgetParentId = budgetParentId;
+    }
+    /**
+     * Gets the budgetParentId attribute. 
+     * @return Returns the budgetParentId.
+     */
+    public String getBudgetParentId() {
+        return budgetParentId;
     }
     
 }

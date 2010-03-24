@@ -170,6 +170,7 @@
 				<value>unitAdministratorLookupable</value>
 				<value>customAttributeDocumentLookupable</value>
 				<value>noEditLookupable</value>
+				<value>budgetPeriodLookupable</value>	
 			</set>
 		</property>
 	</bean>	
@@ -493,6 +494,12 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>		
+		<property name="budgetService">
+			<ref bean="budgetService" />
+		</property>		
+		<property name="budgetSummaryService">
+			<ref bean="budgetSummaryService" />
 		</property>		
 	</bean>
 
@@ -1957,7 +1964,7 @@
 
 	<bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService"> 
-  	</bean>	
+  	</bean>		
   	
   	<bean id="deepCopyPostProcessor" class="org.kuali.kra.service.impl.DeepCopyPostProcessorImpl" />	
 

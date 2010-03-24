@@ -31,9 +31,11 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -61,6 +63,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -127,6 +130,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private BudgetService<DevelopmentProposal> budgetService;
+    private BudgetSummaryService budgetSummaryService;
     
     /**
      * The set of Proposal Development Document properties that
@@ -872,19 +877,33 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
+//        getBudgetService().copyBudgetVersion(budgetDocument);
         
         budgetDocument.toCopy();
         budgetDocument.setVersionNumber(null);
+        if(budgetDocument.getBudgets().isEmpty()) return;
         budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
         Map<String, Object> objectMap = new HashMap<String, Object>();
         fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setVersionNumber", Long.class, null, objectMap);
-        objectMap.clear(); 
+        fixNumericProperty(budgetDocument, "setBudgetLineItemId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
+        objectMap.clear();
         
-        ObjectUtils.materializeAllSubObjects(budgetDocument);
+        ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget());
 
         Budget budget = budgetDocument.getBudget();
         
@@ -904,7 +923,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
         budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
-        
+        budget.setBudgetDocument(budgetDocument);
+        budget.setDocumentNumber(budgetDocument.getDocumentNumber());
         documentService.saveDocument(budgetDocument);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
@@ -924,8 +944,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         budget.setBudgetProjectIncomes(srcProjectIncomeList);
+        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+        budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
     }
     
     /**
@@ -1052,5 +1074,37 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the budgetService attribute. 
+     * @return Returns the budgetService.
+     */
+    public BudgetService<DevelopmentProposal> getBudgetService() {
+        return budgetService;
+    }
+
+    /**
+     * Sets the budgetService attribute value.
+     * @param budgetService The budgetService to set.
+     */
+    public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
+        this.budgetService = budgetService;
+    }
+
+    /**
+     * Gets the budgetSummaryService attribute. 
+     * @return Returns the budgetSummaryService.
+     */
+    public BudgetSummaryService getBudgetSummaryService() {
+        return budgetSummaryService;
+    }
+
+    /**
+     * Sets the budgetSummaryService attribute value.
+     * @param budgetSummaryService The budgetSummaryService to set.
+     */
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
     }
 }

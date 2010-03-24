@@ -116,7 +116,6 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private String newGroupName;
     
-    
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -699,7 +698,8 @@ public class BudgetForm extends BudgetVersionFormBase {
             List<BudgetDocumentVersion> budgetDocumentVersions = parentDocument.getBudgetDocumentVersions();
             for (BudgetDocumentVersion budgetDocumentVersion: budgetDocumentVersions) {
                 BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
+                if (budgetVersion!=null && budgetVersion.getBudgetVersionNumber()!=null && 
+                        budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
                     budgetName = budgetVersion.getDocumentDescription();
                     break;
                 }

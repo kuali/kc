@@ -47,6 +47,7 @@ import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -54,7 +55,9 @@ import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -86,6 +89,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private BudgetRatesService<T> budgetRatesService;
     private PessimisticLockService pessimisticLockService;
     private BudgetVersionRule budgetVersionRule;
+    private DeepCopyPostProcessor deepCopyPostProcessor;
+    private BudgetSummaryService budgetSummaryService;
     
 
     
@@ -176,13 +181,12 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
         boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
 
         if(!isProposalBudget){
             AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(BudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
+            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
             documentService.saveDocument(budgetDocument);
         }else{
             documentService.saveDocument(budgetDocument);
@@ -569,6 +573,80 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     }
     
+    /**
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws FormatException 
+     * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     */
+    public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
+        budgetDocument.toCopy();
+        if(budgetDocument.getBudgets().isEmpty()) 
+            throw new RuntimeException("Not able to find any Budget Version associated with this document");
+        Budget budget = budgetDocument.getBudget();
+        
+        budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
+        try {
+//            deepCopyPostProcessor.fixProperty(budgetDocument, Long.class, null, 
+//                    new String[]{"setBudgetId","setBudgetPeriodId","setBudgetLineItemId",
+//                                    "setBudgetLineItemCalculatedAmountId","setBudgetPersonnelLineItemId",
+//                                    "setBudgetPersonnelCalculatedAmountId","setBudgetPersonnelRateAndBaseId","setBudgetRateAndBaseId"});
+            Map<String, Object> objectMap = new HashMap<String, Object>();
+            fixProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetLineItemId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
+            objectMap.clear();
+//            budgetDocument = (BudgetDocument)getDeepCopyPostProcessor().processDeepCopyIgnoreAnnotation(budgetDocument);
+//            budget.setBudgetDocument(budgetDocument);
+            ObjectUtils.materializeAllSubObjects(budgetDocument);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+        
+        //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
+        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
+        for(BudgetPeriod budgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
+            BudgetModular tmpObject = null;
+            if(budgetPeriod.getBudgetModular() != null) {
+                tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
+            }
+            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getVersionNumber() + budgetPeriod.getBudgetPeriod(), tmpObject);
+            budgetPeriod.setBudgetModular(null);
+        }
+
+        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        budgetDocument.setVersionNumber(null);
+        documentService.saveDocument(budgetDocument);
+        for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            if(tmpBudgetModular != null) {
+                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
+            }
+        }
+        
+        saveBudgetDocument(budgetDocument);
+        budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+        return budgetDocument;
+    }
     
     /**
      * Gets the budgetRatesService attribute. 
@@ -584,6 +662,38 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     public void setBudgetRatesService(BudgetRatesService<T> budgetRatesService) {
         this.budgetRatesService = budgetRatesService;
+    }
+
+    /**
+     * Sets the deepCopyPostProcessor attribute value.
+     * @param deepCopyPostProcessor The deepCopyPostProcessor to set.
+     */
+    public void setDeepCopyPostProcessor(DeepCopyPostProcessor deepCopyPostProcessor) {
+        this.deepCopyPostProcessor = deepCopyPostProcessor;
+    }
+
+    /**
+     * Gets the deepCopyPostProcessor attribute. 
+     * @return Returns the deepCopyPostProcessor.
+     */
+    public DeepCopyPostProcessor getDeepCopyPostProcessor() {
+        return deepCopyPostProcessor;
+    }
+
+    /**
+     * Gets the budgetSummaryService attribute. 
+     * @return Returns the budgetSummaryService.
+     */
+    public BudgetSummaryService getBudgetSummaryService() {
+        return budgetSummaryService;
+    }
+
+    /**
+     * Sets the budgetSummaryService attribute value.
+     * @param budgetSummaryService The budgetSummaryService to set.
+     */
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
     }
 
 }

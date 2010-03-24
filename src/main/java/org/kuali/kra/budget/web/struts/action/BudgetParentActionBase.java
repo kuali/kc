@@ -22,7 +22,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -116,12 +115,12 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
     /**
      * Copy the given budget version and add it to the given proposal.
      * 
-     * @param parentBudgetDocument
+     * @param budgetParentDocument
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
     @SuppressWarnings("unchecked")
-    protected void copyBudget(BudgetParentDocument parentBudgetDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
@@ -132,10 +131,18 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
             newBudgetPeriods.add(firstPeriod);
             budget.setBudgetPeriods(newBudgetPeriods);
         }
-        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(parentBudgetDocument);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        parentBudgetDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
-                                                        + budgetToCopy.getBudgetVersionNumber() + " copy", true);
+        budgetParentDocument.refreshReferenceObject("budgetDocumentVersions");
+        List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
+        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
+            BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+            if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
+                versionOverview.setDescriptionUpdatable(true);
+                versionOverview.setDocumentDescription(budgetToCopy.getDocumentDescription() + " " 
+                                                        + budgetToCopy.getBudgetVersionNumber() + " copy");
+            }
+        }
     }
     /**
      * 

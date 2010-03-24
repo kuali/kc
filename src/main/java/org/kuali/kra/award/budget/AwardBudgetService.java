@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.util.Collection;
+
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
@@ -47,5 +51,14 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * 
      */
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
-    
+    /**
+     * 
+     * This method...
+     * @param rawValues
+     * @param document
+     * @param versionName
+     * @return
+     * @throws WorkflowException
+     */
+    public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException;
 }
