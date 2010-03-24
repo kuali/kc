@@ -1,464 +1,59 @@
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	5,
-	'Project_Summary',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	2,
-	'Facilities',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	4,
-	'Bibliography',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	7,
-	'Budget_Justification',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	6,
-	'Pre-Application',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	9,
-	'SubAward_Budget',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	10,
-	'TOC',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	8,
-	'Other',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	11,
-	'Additional_Key_Persons',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	12,
-	'Additional_Equipment',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	15,
-	'Supplementary_Documentation',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	13,
-	'Personal_Data',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	14,
-	'Propietary_Information',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	16,
-	'Biosketch',
-	'Y',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	17,
-	'CurrentPending',
-	'Y',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	18,
-	'Profile',
-	'Y',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	3,
-	'Equipment',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	1,
-	'Narrative',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	19,
-	'Other_Attachments_Form',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	20,
-	'PHS_ResearchPlan_IntroductionToApplication',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	21,
-	'PHS_ResearchPlan_SpecificAims',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	22,
-	'PHS_ResearchPlan_BackgroundSignificance',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	23,
-	'PHS_ResearchPlan_ProgressReport',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	24,
-	'PHS_ResearchPlan_ResearchDesignMethods',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	25,
-	'PHS_ResearchPlan_ProtectionOfHumanSubjects',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	26,
-	'PHS_ResearchPlan_InclusionOfWomenAndMinorities',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	27,
-	'PHS_ResearchPlan_TargetedPlannedEnrollmentTable',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	28,
-	'PHS_ResearchPlan_InclusionOfChildren',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	29,
-	'PHS_ResearchPlan_DataAndSafetyMonitoringPlan',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	30,
-	'PHS_ResearchPlan_VertebrateAnimals',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	31,
-	'PHS_ResearchPlan_ConsortiumContractualArrangements',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	32,
-	'PHS_ResearchPlan_LettersOfSupport',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	33,
-	'PHS_ResearchPlan_ResourceSharingPlans',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	34,
-	'PHS_ResearchPlan_Appendix',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	35,
-	'PHS_ModBud_PersonJustification',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	36,
-	'PHS_ModBud_ConsortiumJustification',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	37,
-	'PHS_ModBud_NarrativeJustification',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	38,
-	'PHS_Certification_Explanation',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	39,
-	'PHS_Cover_Letter',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	40,
-	'Performance_sites',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	41,
-	'SF424V2_AdditionalProjectTitle',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	42,
-	'SF424V2_AdditionalCongressionalDistricts',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	43,
-	'PHS_ResearchPlan_InclusionEnrollmentReport',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	44,
-	'PHS_ResearchPlan_ProgressReportPublicationList',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	45,
-	'PHS_ResearchPlan_SelectAgentResearch',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	46,
-	'PHS_ResearchPlan_MultiplePILeadershipPlan',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	47,
-	'NASA_OPI_ProgramSpecificData',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	48,
-	'NASA_OPI_Appendices',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	49,
-	'NASA_OPI_Non-U.S-OrganizationLettersOfEndorsement',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	50,
-	'NASA_OPI_IRB_ACUC_Letters',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	51,
-	'ED_GEPA427_Attachment',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	52,
-	'ED_Abstract_Attachment',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	53,
-	'Project_Attachments',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	54,
-	'ED_SF424_Supplement_Attachment',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	57,
-	'Budget_Attachments',
-	'N',
-	'Y',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	58,
-	'ED_CertificationDebarment',
-	'N',
-	'N',
-	'P',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	59,
-	'Institutional Attachment 1',
-	'N',
-	'N',
-	'O',
-	sysdate,
-	user);
-INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
-	60,
-	'Institutional Attachment 2',
-	'N',
-	'N',
-	'O',
-	sysdate,
-	user);
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 5, 'Project_Summary', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','a5cfd9df-da9d-43cc-a636-fc17cf2dc1ff');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 2, 'Facilities', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','27c7a2de-68a0-485e-bf23-d30b07b97db3');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 4, 'Bibliography', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','a38e2dcd-56d1-43c0-a6f2-d326304b9788');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 7, 'Budget_Justification', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','b0519e4b-1a60-4192-8da1-c3f7645944d8');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 6, 'Pre-Application', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','670fe754-5112-4534-b5f4-8864215f24a2');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 9, 'SubAward_Budget', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','94eba038-9aaf-4dbb-98f4-7eb204fe4e65');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 10, 'TOC', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','2d63f9ae-fba2-48cc-b495-a54e88eeb0a1');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 8, 'Other', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','87d6e916-9181-4034-b6a0-143f6e46b197');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 11, 'Additional_Key_Persons', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','f186903e-4b6e-4ff1-9fb9-cb163df1cc9d');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 12, 'Additional_Equipment', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','1756524c-3f63-4e7a-bc2c-72735633e3de');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 15, 'Supplementary_Documentation', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','ca3dfe43-b2d0-4d8f-9719-99db70c0194b');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 13, 'Personal_Data', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','8ac2aa61-974b-46c1-b481-484fa2b40db9');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 14, 'Propietary_Information', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','90d54b96-cce2-4f17-b892-e0ecb40cc9ee');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 16, 'Biosketch', 'Y', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','3f47e462-805f-424c-b9f5-514a6232de30');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 17, 'CurrentPending', 'Y', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','a9bfa542-8d6e-46fb-a096-da3e5f50f5d6');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 18, 'Profile', 'Y', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','c8030458-eae9-43de-a9bb-631012de6a20');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 3, 'Equipment', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','63c61652-db95-4be6-bb51-f0218a01fe6e');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 1, 'Narrative', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','635fff96-e5f7-44ad-8087-ffed764ea293');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 19, 'Other_Attachments_Form', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','2cdad1e7-6d47-4e6b-a386-107eadd74700');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 20, 'PHS_ResearchPlan_IntroductionToApplication', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','308f2785-f096-4c1f-81ae-f710e48c6af1');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 21, 'PHS_ResearchPlan_SpecificAims', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','4caa30f8-c769-4cfe-9542-ac1549298da7');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 22, 'PHS_ResearchPlan_BackgroundSignificance', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','b8ecfe56-821f-461b-a947-5936c835a145');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 23, 'PHS_ResearchPlan_ProgressReport', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','fb2d9703-cb45-47a2-b5a8-02acdc9a2dc6');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 24, 'PHS_ResearchPlan_ResearchDesignMethods', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','db8b5db7-d684-475f-bb17-015934c2b6ad');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 25, 'PHS_ResearchPlan_ProtectionOfHumanSubjects', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','42d3d276-1734-4414-9034-0279bc63f454');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 26, 'PHS_ResearchPlan_InclusionOfWomenAndMinorities', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','4a85a029-b174-4af8-93b9-d8d1a4ff0954');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 27, 'PHS_ResearchPlan_TargetedPlannedEnrollmentTable', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','398f2d1d-fced-4b58-a887-deb5b462da6e');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 28, 'PHS_ResearchPlan_InclusionOfChildren', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','7cd6d9a8-25af-406b-9d92-5fa0a4b1fa79');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 29, 'PHS_ResearchPlan_DataAndSafetyMonitoringPlan', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','dfcfb227-65a9-4092-8560-78b1b235fdb3');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 30, 'PHS_ResearchPlan_VertebrateAnimals', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','91882380-4c4c-4655-acae-f05920b373b0');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 31, 'PHS_ResearchPlan_ConsortiumContractualArrangements', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','6d5e16df-150c-4b66-b0e2-e5405f7c6943');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 32, 'PHS_ResearchPlan_LettersOfSupport', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','b0dee13a-fff7-4b13-98ce-a28eb2fb8790');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 33, 'PHS_ResearchPlan_ResourceSharingPlans', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','7facf0ca-8a6e-45c1-bdc0-d42968511cd6');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 34, 'PHS_ResearchPlan_Appendix', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','00ddc9e1-7f6c-48e2-9025-ef6c8eaeceed');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 35, 'PHS_ModBud_PersonJustification', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','bf48fdbf-0644-4686-a9e9-5fe700a67eef');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 36, 'PHS_ModBud_ConsortiumJustification', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','0e9b2d90-0959-4d82-9cea-2663d4658c90');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 37, 'PHS_ModBud_NarrativeJustification', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','451b3589-55f5-4d07-9022-f1cd0cb43325');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 38, 'PHS_Certification_Explanation', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','9848b7b5-2369-49b1-872f-3adeb10f4509');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 39, 'PHS_Cover_Letter', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','caa9a8ef-3386-4c70-8919-8cc15f8c3737');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 40, 'Performance_sites', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','80e6767b-2f1b-4a57-a284-c43acbab9cc8');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 41, 'SF424V2_AdditionalProjectTitle', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','5b745871-098d-4961-835a-d99e85df5110');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 42, 'SF424V2_AdditionalCongressionalDistricts', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','843fd7d8-26aa-43d6-b9ca-97c580569e68');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 43, 'PHS_ResearchPlan_InclusionEnrollmentReport', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','0044a800-a1f3-485f-8f7d-cc74bb46be7f');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 44, 'PHS_ResearchPlan_ProgressReportPublicationList', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','51cfc668-7cf6-40a1-9258-dfd187b25583');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 45, 'PHS_ResearchPlan_SelectAgentResearch', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','407c8d16-6b3f-4e98-96dc-35f3e3fe638d');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 46, 'PHS_ResearchPlan_MultiplePILeadershipPlan', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','5d3be9b9-012f-4fa8-9fbe-88f47aaf3248');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 47, 'NASA_OPI_ProgramSpecificData', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','3ff23c25-0b0c-4b20-b8be-27354c438fcb');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 48, 'NASA_OPI_Appendices', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','91d77563-a07d-462d-8e5e-7b3eabdbdc53');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 49, 'NASA_OPI_Non-U.S-OrganizationLettersOfEndorsement', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','109486c3-eb53-4b80-a9af-28687eeb805c');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 50, 'NASA_OPI_IRB_ACUC_Letters', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','92684cec-ade6-4ae2-bc19-6d5fcb9bcb6d');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 51, 'ED_GEPA427_Attachment', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','a16a4167-c370-42b7-9056-f7caca692140');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 52, 'ED_Abstract_Attachment', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','8a3880f9-3a01-497d-9b36-7030e3736236');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 53, 'Project_Attachments', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','d6b40ba9-2e4c-4432-8ad7-9258dfe0fd12');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 54, 'ED_SF424_Supplement_Attachment', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','86e90b6f-f38d-4a6e-8bf9-bfc2547a2647');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 57, 'Budget_Attachments', 'N', 'Y', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','49156e9c-2f2a-4183-ba41-68bf1526d240');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 58, 'ED_CertificationDebarment', 'N', 'N', 'P', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','f181cfc3-558b-476d-97ea-60cfd78de92d');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 59, 'Institutional Attachment 1', 'N', 'N', 'O', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','f6f7294b-c996-4328-9c37-095838eb10e9');
+INSERT INTO NARRATIVE_TYPE (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user,OBJ_ID) VALUES ( 60, 'Institutional Attachment 2', 'N', 'N', 'O', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'admin','6d91bb22-58a2-4fb5-a030-e1ea4eb93b6a');
+

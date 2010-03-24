@@ -1,104 +1,59 @@
-ALTER TABLE PROPOSAL DISABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
-ALTER TABLE EPS_PROP_RATES DISABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
-ALTER TABLE INSTITUTE_RATES DISABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
+--ALTER TABLE PROPOSAL DISABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
+--ALTER TABLE EPS_PROP_RATES DISABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
+--ALTER TABLE INSTITUTE_RATES DISABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
 
-insert into activity_type (activity_type_code, description, obj_id, update_timestamp, update_user, ver_nbr)
-values('tst', 'test activity type', sys_guid(), sysdate, 'jhulslander', 1);
+insert into ACTIVITY_TYPE (activity_type_code, description, obj_id, update_timestamp, update_user, ver_nbr) values('tst', 'test activity type', '1f75d8b2-1fee-48ca-9bdf-dd84fd3c0ec0', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-ALTER TABLE PROPOSAL ENABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
-ALTER TABLE EPS_PROP_RATES ENABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
-ALTER TABLE INSTITUTE_RATES ENABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
+--ALTER TABLE PROPOSAL ENABLE CONSTRAINT FK_PROPOSAL_ACTIVITY_TYPE_CODE;
+--ALTER TABLE EPS_PROP_RATES ENABLE CONSTRAINT FK_EPS_PROP_RATES_ACTIVITY_KRA;
+--ALTER TABLE INSTITUTE_RATES ENABLE CONSTRAINT FK_INST_RATES_ACTIVITY_KRA;
 
-insert into notice_of_opportunity (description, notice_of_opportunity_code, obj_id, update_timestamp, update_user, ver_nbr)
-values('opt descr', 'tod', sys_guid(), sysdate, 'jhulslander', 1);
+insert into NOTICE_OF_OPPORTUNITY (description, notice_of_opportunity_code, obj_id, update_timestamp, update_user, ver_nbr) values('opt descr', 'tod', '1ae3439e-4205-4fde-b49e-2a3daa8e055c', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-ALTER TABLE ROLODEX DISABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
-alter table state_code disable constraint FK_STATE_CODE_COUNTRY;
-delete from country_code where country_code = 'USA';
-insert into country_code(country_code, country_name, obj_id, update_timestamp, update_user, ver_nbr)
-values ('USA', 'United States', sys_guid(), sysdate, 'jhulslander', 1);
-alter table state_code enable constraint FK_STATE_CODE_COUNTRY;
-ALTER TABLE ROLODEX ENABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
+--ALTER TABLE ROLODEX DISABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
+--ALTER TABLE STATE_CODE disable constraint FK_STATE_CODE_COUNTRY;
+delete from COUNTRY_CODE where COUNTRY_CODE = 'USA';
+insert into COUNTRY_CODE(country_code, country_name, obj_id, update_timestamp, update_user, ver_nbr) values ('USA', 'United States', '1f0f2572-a47a-498f-84a4-6e4276d7d31c', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
+--ALTER TABLE STATE_CODE enable constraint FK_STATE_CODE_COUNTRY;
+--ALTER TABLE ROLODEX ENABLE CONSTRAINT FK_ROLODEX_COUNTRY_KRA;
 
-insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
-  VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE)
-values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
-  1, sys_guid(), 100, 'Hulslander', 'Jay', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
-  'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
-  
-insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER,
-  VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER,
-  EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE)
-values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', sysdate, 'jhulslander',
-  1, sys_guid(), 101, 'Hulslander2', 'Jay2', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null,
-  'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
+insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER, EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE) values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1, '22126e93-9914-4d0c-8ca1-aac278221cb2', 100, 'Hulslander', 'Jay', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null, 'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
 
-insert into sponsor_type(description, obj_id, sponsor_type_code, update_timestamp, update_user, ver_nbr)
-values('test code', sys_guid(), 'tst', sysdate, 'jhulslander', 1);
-  
-insert into sponsor (SPONSOR_CODE, SPONSOR_NAME, ACRONYM, SPONSOR_TYPE_CODE, DUN_AND_BRADSTREET_NUMBER, DUNS_PLUS_FOUR_NUMBER, DODAC_NUMBER, CAGE_NUMBER, POSTAL_CODE,
-  STATE, COUNTRY_CODE, ROLODEX_ID, AUDIT_REPORT_SENT_FOR_FY, OWNED_BY_UNIT, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-values('tst', 'tester', null, 'tst', null, null, null, null, '13068',
-  'NY', 'USA', 100, null, '01', 'jhulslander', sysdate, 'jhulslander', 1, sys_guid());
-  
-insert into proposal_type (description, obj_id, proposal_type_code, update_timestamp, update_user, ver_nbr)
-values('test type', sys_guid(), 'tst', sysdate, 'jhulslander', 1);
+insert into ROLODEX (COMMENTS, PHONE_NUMBER, COUNTRY_CODE, SPONSOR_CODE, OWNED_BY_UNIT, SPONSOR_ADDRESS_FLAG, DELETE_FLAG, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREFIX, TITLE, ORGANIZATION, ADDRESS_LINE_1, ADDRESS_LINE_2, ADDRESS_LINE_3, FAX_NUMBER, EMAIL_ADDRESS, CITY, STATE, POSTAL_CODE) values('comment', '6072552047', 'USA', null, '01', 'N', null, 'jhulslander', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1, '03209f53-afdc-4aef-b431-6037ed55b545', 101, 'Hulslander2', 'Jay2', 'D', 'Mr.', null, null, '01', '120 maple ave', 'Ithaca NY 14850', null, null, 'jdh34@cornell.edu', 'Ithaca', 'NY', '14850');
 
-insert into proposal (MAIL_DESCRIPTION, PROPOSAL_SEQUENCE_STATUS, FISCAL_MONTH, FISCAL_YEAR, ACTIVITY_TYPE_CODE, REQUESTED_START_DATE_INITIAL, REQUESTED_START_DATE_TOTAL,
-  REQUESTED_END_DATE_INITIAL, REQUESTED_END_DATE_TOTAL, TOTAL_DIRECT_COST_INITIAL, TOTAL_DIRECT_COST_TOTAL, TOTAL_INDIRECT_COST_INITIAL, TOTAL_INDIRECT_COST_TOTAL,
-  NUMBER_OF_COPIES, DEADLINE_DATE, DEADLINE_TYPE, MAIL_BY, MAIL_TYPE, MAIL_ACCOUNT_NUMBER, SUBCONTRACT_FLAG, COST_SHARING_INDICATOR, IDC_RATE_INDICATOR, SPECIAL_REVIEW_INDICATOR,
-  STATUS_CODE, SCIENCE_CODE_INDICATOR, NSF_CODE, PRIME_SPONSOR_CODE, INITIAL_CONTRACT_ADMIN, IP_REVIEW_ACTIVITY_INDICATOR, CURRENT_AWARD_NUMBER, CFDA_NUMBER, OPPORTUNITY,
-  UPDATE_TIMESTAMP, UPDATE_USER, AWARD_TYPE_CODE, VER_NBR, OBJ_ID, DOCUMENT_NUMBER, CREATE_TIMESTAMP, PROPOSAL_ID, PROPOSAL_NUMBER, SPONSOR_PROPOSAL_NUMBER, SEQUENCE_NUMBER,
-  PROPOSAL_TYPE_CODE, CURRENT_ACCOUNT_NUMBER, TITLE, SPONSOR_CODE, ROLODEX_ID, NOTICE_OF_OPPORTUNITY_CODE, GRAD_STUD_HEADCOUNT, GRAD_STUD_PERSON_MONTHS, TYPE_OF_ACCOUNT)
-values(null, 'sstatus', 10, 2009, 'tst', sysdate, null,
-  null, null, null, null, null, null,
-  5, sysdate, null, null, null, null, 'N', 'N', 'N', 'N',
-  6, 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N',
-  sysdate, 'jhulslander', null, 1, sys_guid(), 1, sysdate, '12345', '12345', null, 1,
-  'tst', null, 'testing title', 'tst', 100, null, null, null, null);
+insert into SPONSOR_TYPE(description, obj_id, sponsor_type_code, update_timestamp, update_user, ver_nbr) values('test code', '4ea36f65-55ee-44f7-b31b-39308de0fba0', 'tst', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-INSERT INTO KRIM_ENT_NM_TYP_T (ACTV_IND,DISPLAY_SORT_CD,ENT_NM_TYP_CD,LAST_UPDT_DT,NM,OBJ_ID,VER_NBR)
-  VALUES ('Y','b','PRFR',TO_DATE( '20081113140633', 'YYYYMMDDHH24MISS' ),'Preferred','5B97C50B03866110E0404F8189D85213',1);  
-  
+insert into SPONSOR (SPONSOR_CODE, SPONSOR_NAME, ACRONYM, SPONSOR_TYPE_CODE, DUN_AND_BRADSTREET_NUMBER, DUNS_PLUS_FOUR_NUMBER, DODAC_NUMBER, CAGE_NUMBER, POSTAL_CODE, STATE, COUNTRY_CODE, ROLODEX_ID, AUDIT_REPORT_SENT_FOR_FY, OWNED_BY_UNIT, CREATE_USER, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID) values('tst', 'tester', null, 'tst', null, null, null, null, '13068', 'NY', 'USA', 100, null, '01', 'jhulslander', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1, 'f047fae0-a78b-4090-9636-8d81d12f55e6');
+
+insert into PROPOSAL_TYPE (description, obj_id, proposal_type_code, update_timestamp, update_user, ver_nbr) values('test type', '28984ab0-2297-411a-96e1-e5d8ee77f7a6', 'tst', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
+
+insert into PROPOSAL (MAIL_DESCRIPTION, PROPOSAL_SEQUENCE_STATUS, FISCAL_MONTH, FISCAL_YEAR, ACTIVITY_TYPE_CODE, REQUESTED_START_DATE_INITIAL, REQUESTED_START_DATE_TOTAL, REQUESTED_END_DATE_INITIAL, REQUESTED_END_DATE_TOTAL, TOTAL_DIRECT_COST_INITIAL, TOTAL_DIRECT_COST_TOTAL, TOTAL_INDIRECT_COST_INITIAL, TOTAL_INDIRECT_COST_TOTAL, NUMBER_OF_COPIES, DEADLINE_DATE, DEADLINE_TYPE, MAIL_BY, MAIL_TYPE, MAIL_ACCOUNT_NUMBER, SUBCONTRACT_FLAG, COST_SHARING_INDICATOR, IDC_RATE_INDICATOR, SPECIAL_REVIEW_INDICATOR, STATUS_CODE, SCIENCE_CODE_INDICATOR, NSF_CODE, PRIME_SPONSOR_CODE, INITIAL_CONTRACT_ADMIN, IP_REVIEW_ACTIVITY_INDICATOR, CURRENT_AWARD_NUMBER, CFDA_NUMBER, OPPORTUNITY, UPDATE_TIMESTAMP, UPDATE_USER, AWARD_TYPE_CODE, VER_NBR, OBJ_ID, DOCUMENT_NUMBER, CREATE_TIMESTAMP, PROPOSAL_ID, PROPOSAL_NUMBER, SPONSOR_PROPOSAL_NUMBER, SEQUENCE_NUMBER, PROPOSAL_TYPE_CODE, CURRENT_ACCOUNT_NUMBER, TITLE, SPONSOR_CODE, ROLODEX_ID, NOTICE_OF_OPPORTUNITY_CODE, GRAD_STUD_HEADCOUNT, GRAD_STUD_PERSON_MONTHS, TYPE_OF_ACCOUNT) values(null, 'sstatus', 10, 2009, 'tst', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), null, null, null, null, null, null, null, 5, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), null, null, null, null, 'N', 'N', 'N', 'N', 6, 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', null, 1, '2c8a6599-7499-4b82-8899-ae29db4d8afb', 1, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '12345', '12345', null, 1, 'tst', null, 'testing title', 'tst', 100, null, null, null, null);
+
+INSERT INTO KRIM_ENT_NM_TYP_T (ACTV_IND,DISPLAY_SORT_CD,ENT_NM_TYP_CD,LAST_UPDT_DT,NM,OBJ_ID,VER_NBR) VALUES ('Y','b','PRFR',to_date('2008-11-13 14:06:33','YYYY-MM-DD HH24:MI:SS'),'Preferred','5B97C50B03866110E0404F8189D85213',1); 
+
 --tester a records
-insert into krim_entity_t(actv_ind, entity_id, last_updt_dt, obj_id, ver_nbr)
-values('Y', '1', sysdate, sys_guid(), 1);
+insert into KRIM_ENTITY_T(actv_ind, entity_id, last_updt_dt, obj_id, ver_nbr) values('Y', '1', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '2ddf6687-ef4f-4d90-a9a5-8703488009f8', 1);
 
-INSERT INTO KRIM_ENTITY_ENT_TYP_T (ACTV_IND,ENTITY_ID,ENT_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR)
-  VALUES ('Y', '1', 'PERSON', sysdate, sys_guid(), 1);
+INSERT INTO KRIM_ENTITY_ENT_TYP_T (ACTV_IND,ENTITY_ID,ENT_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) VALUES ('Y', '1', 'PERSON', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '59ef0946-c778-42fb-96bf-39ebdde01186', 1);
 
-insert into KRIM_PRNCPL_T (VER_NBR, PRNCPL_NM,  ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID)
-values(1, 'testerA', 1, '', 'Y', sysdate, '1', sys_guid());
+insert into KRIM_PRNCPL_T (VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID) values(1, 'testerA', 1, '', 'Y', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '1', '85b77117-43a5-4d84-bda4-f06b11fa869c');
 
-insert into krim_entity_nm_t
-  (entity_nm_id, obj_id, ver_nbr, entity_id, nm_typ_cd, first_nm, middle_nm, last_nm, suffix_nm, title_nm, dflt_ind, actv_ind, last_updt_dt)
-values ('1', sys_guid(), 1, '1', 'PRFR', 'testerA', '', '', '', '', 'Y', 'Y', sysdate);
+insert into KRIM_ENTITY_NM_T
+(entity_nm_id, obj_id, ver_nbr, entity_id, nm_typ_cd, first_nm, middle_nm, last_nm, suffix_nm, title_nm, dflt_ind, actv_ind, last_updt_dt)
+values ('1', '477baaf8-c3de-4ae1-8fa6-896e67a9f469', 1, '1', 'PRFR', 'testerA', '', '', '', '', 'Y', 'Y', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'));
 
-insert into PROPOSAL_PERSONS ( PROPOSAL_PERSON_ID, PROPOSAL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, ROLODEX_ID, PROP_PERSON_ROLE_ID, PERSON_NAME, FACULTY_FLAG, 
-  CONFLICT_OF_INTEREST_FLAG, PERCENTAGE_EFFORT, FEDR_DEBR_FLAG, FEDR_DELQ_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, MULTI_PI_FLAG, ACADEMIC_YEAR_EFFORT,
-  SUMMER_YEAR_EFFORT, CALENDAR_YEAR_EFFORT, VER_NBR, OBJ_ID )
-values (1, 12345, 1, '1', 100, null, 'testerA', null,
-  null, null, null, null, sysdate, 'jhulslander', 'N', null,
-  null, null, 1, sys_guid());
+insert into PROPOSAL_PERSONS ( PROPOSAL_PERSON_ID, PROPOSAL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, ROLODEX_ID, PROP_PERSON_ROLE_ID, PERSON_NAME, FACULTY_FLAG,  CONFLICT_OF_INTEREST_FLAG, PERCENTAGE_EFFORT, FEDR_DEBR_FLAG, FEDR_DELQ_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, MULTI_PI_FLAG, ACADEMIC_YEAR_EFFORT, SUMMER_YEAR_EFFORT, CALENDAR_YEAR_EFFORT, VER_NBR, OBJ_ID ) values (1, 12345, 1, '1', 100, null, 'testerA', null, null, null, null, null, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 'N', null, null, null, 1, 'e7db49b3-6d42-405b-8c3d-b865e23c2a04');
 
 --testerb records
-insert into krim_entity_t(actv_ind, entity_id, last_updt_dt, obj_id, ver_nbr)
-values('Y', '2', sysdate, sys_guid(), 1);
+insert into KRIM_ENTITY_T(actv_ind, entity_id, last_updt_dt, obj_id, ver_nbr) values('Y', '2', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '5c6a0a91-7bf9-4576-9866-70d25d8ecef8', 1);
 
-INSERT INTO KRIM_ENTITY_ENT_TYP_T (ACTV_IND,ENTITY_ID,ENT_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR)
-  VALUES ('Y', '2', 'PERSON', sysdate, sys_guid(), 1);
+INSERT INTO KRIM_ENTITY_ENT_TYP_T (ACTV_IND,ENTITY_ID,ENT_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) VALUES ('Y', '2', 'PERSON', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '14aa7f69-8d89-4f0b-9603-3adef73fafea', 1);
 
-insert into KRIM_PRNCPL_T (VER_NBR, PRNCPL_NM,  ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID)
-values(1, 'testerB', '2', '', 'Y', sysdate, '2', sys_guid());
+insert into KRIM_PRNCPL_T (VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID) values(1, 'testerB', '2', '', 'Y', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), '2', 'e16fa2ce-9a31-43cc-b23a-8808df606468');
 
-insert into krim_entity_nm_t
-  (entity_nm_id, obj_id, ver_nbr, entity_id, nm_typ_cd, first_nm, middle_nm, last_nm, suffix_nm, title_nm, dflt_ind, actv_ind, last_updt_dt)
-values ('2', sys_guid(), 1, '2', 'PRFR', 'testerB', '', '', '', '', 'Y', 'Y', sysdate);
+insert into KRIM_ENTITY_NM_T
+(entity_nm_id, obj_id, ver_nbr, entity_id, nm_typ_cd, first_nm, middle_nm, last_nm, suffix_nm, title_nm, dflt_ind, actv_ind, last_updt_dt)
+values ('2', '1bbcbbeb-fbc4-4b40-bc3e-106d3b824bec', 1, '2', 'PRFR', 'testerB', '', '', '', '', 'Y', 'Y', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'));
 
-insert into PROPOSAL_PERSONS ( PROPOSAL_PERSON_ID, PROPOSAL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, ROLODEX_ID, PROP_PERSON_ROLE_ID, PERSON_NAME, FACULTY_FLAG, 
-  CONFLICT_OF_INTEREST_FLAG, PERCENTAGE_EFFORT, FEDR_DEBR_FLAG, FEDR_DELQ_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, MULTI_PI_FLAG, ACADEMIC_YEAR_EFFORT,
-  SUMMER_YEAR_EFFORT, CALENDAR_YEAR_EFFORT, VER_NBR, OBJ_ID )
-values (2, 12345, 1, '2', 100, null, 'testerB', null,
-  null, null, null, null, sysdate, 'jhulslander', 'N', null,
-  null, null, 1, sys_guid());
+insert into PROPOSAL_PERSONS ( PROPOSAL_PERSON_ID, PROPOSAL_NUMBER, SEQUENCE_NUMBER, PERSON_ID, ROLODEX_ID, PROP_PERSON_ROLE_ID, PERSON_NAME, FACULTY_FLAG,  CONFLICT_OF_INTEREST_FLAG, PERCENTAGE_EFFORT, FEDR_DEBR_FLAG, FEDR_DELQ_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, MULTI_PI_FLAG, ACADEMIC_YEAR_EFFORT, SUMMER_YEAR_EFFORT, CALENDAR_YEAR_EFFORT, VER_NBR, OBJ_ID ) values (2, 12345, 1, '2', 100, null, 'testerB', null, null, null, null, null, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 'N', null, null, null, 1, '7702fd79-59a3-40cf-9bfc-7dfcfd71a45b');
+

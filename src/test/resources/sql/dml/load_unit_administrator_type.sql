@@ -1,26 +1,27 @@
-Insert into unit_administrator_type
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('1', 'ADMINISTRATIVE_OFFICER',  sysdate, user, 'C', 'N');
-Insert into unit_administrator_type
+Values ('1', 'ADMINISTRATIVE_OFFICER', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'C', 'N');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('2', 'OSP_ADMINISTRATOR',  sysdate, user, 'C', 'Y');
-Insert into unit_administrator_type
+Values ('2', 'OSP_ADMINISTRATOR', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'C', 'Y');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('3', 'UNIT_HEAD',  sysdate, user, 'U', 'N');
-Insert into unit_administrator_type
+Values ('3', 'UNIT_HEAD', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'U', 'N');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('4', 'DEAN_VP',  sysdate, user, 'U', 'N');
-Insert into unit_administrator_type
+Values ('4', 'DEAN_VP', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'U', 'N');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('5', 'OTHER_INDIVIDUAL_TO_NOTIFY',  sysdate, user, 'U', 'Y');
-Insert into unit_administrator_type
+Values ('5', 'OTHER_INDIVIDUAL_TO_NOTIFY', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'U', 'Y');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('6', 'AOR-Authorized Organizational Representative',  sysdate, user, 'N', 'N');
-Insert into unit_administrator_type
+Values ('6', 'AOR-Authorized Organizational Representative', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'N', 'N');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('7', 'Administrative Contact',  sysdate, user, 'U', 'Y');
-Insert into unit_administrator_type
+Values ('7', 'Administrative Contact', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'U', 'Y');
+Insert into UNIT_ADMINISTRATOR_TYPE
 (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG)
-Values ('8', 'Financial Contact',  sysdate, user, 'U', 'N');
+Values ('8', 'Financial Contact', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'admin', 'U', 'N');
+
 
 

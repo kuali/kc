@@ -1,7 +1,7 @@
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('1','Federal Solicitation',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('2','Unsolicited',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('3','Verbal Request for Proposal',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('4','SBIR Solicitation',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('5','STTR Solicitation',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('6','Non-Federal Solicitation',sysdate,'kradev');
-insert into proposal_response(proposal_response_code,description,update_timestamp,update_user) values('7','MIT Alliance/Internal',sysdate,'kradev');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('1','Federal Solicitation',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','a5679c2e-3ad4-49db-9cb2-ca530169e6be');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('2','Unsolicited',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','d7a9b840-8d5e-46c7-8338-1581d9de7df4');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('3','Verbal Request for Proposal',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','7be2dcf0-fe97-4983-9af5-05824f9438ae');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('4','SBIR Solicitation',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','ed47aa27-453e-4ea9-8f52-2420c220d582');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('5','STTR Solicitation',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','2ccdfd8c-93a1-4f8a-9698-5cda658c0694');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('6','Non-Federal Solicitation',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','b999736d-9f09-4529-9125-a360286ef6c4');
+insert into PROPOSAL_RESPONSE(proposal_response_code,description,update_timestamp,update_user,OBJ_ID) values('7','MIT Alliance/Internal',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'kradev','03ce9ed6-b997-4b79-ac4a-729a811520a3');
