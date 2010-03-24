@@ -59,6 +59,7 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -172,7 +173,7 @@ public class AwardForm extends BudgetVersionFormBase
     private Integer oldTemplateCode;
     private boolean templateLookup = false;
     
-   
+    private String newProposalBudgetPeriods; 
     
     /**
      *
@@ -1266,6 +1267,22 @@ public class AwardForm extends BudgetVersionFormBase
             getDocInfo().add(new HeaderField(SPONSOR_DD_NAME, sponsorName));
         }
 
+    }
+
+    /**
+     * Gets the newProposalBudgetPeriods attribute. 
+     * @return Returns the newProposalBudgetPeriods.
+     */
+    public String getNewProposalBudgetPeriods() {
+        return newProposalBudgetPeriods;
+    }
+
+    /**
+     * Sets the newProposalBudgetPeriods attribute value.
+     * @param newProposalBudgetPeriods The newProposalBudgetPeriods to set.
+     */
+    public void setNewProposalBudgetPeriods(String newProposalBudgetPeriods) {
+        this.newProposalBudgetPeriods = newProposalBudgetPeriods;
     }
 
 }

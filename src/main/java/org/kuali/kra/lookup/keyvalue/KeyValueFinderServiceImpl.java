@@ -48,9 +48,11 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
             try {
                 getCodeMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(codePropName), null);
                 Method getValMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(valPropName), null);
-                String code = (String)getCodeMeth.invoke(keyValObj, null);
-                String value = (String)getValMeth.invoke(keyValObj, null);
-                keyValueList.add(new KeyLabelPair(code, value));
+                Object code = getCodeMeth.invoke(keyValObj, null);
+                Object value = getValMeth.invoke(keyValObj, null);
+                if(code!=null && value!=null){
+                    keyValueList.add(new KeyLabelPair(code.toString(), value.toString()));
+                }
             }
             catch (SecurityException e) {
                 LOG.debug(e.getMessage(), e);

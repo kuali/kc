@@ -359,5 +359,190 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         hashMap.put("urRateClassCode", urRateClassCode);
         return hashMap;
     }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((budgetId == null) ? 0 : budgetId.hashCode());
+        result = prime * result + ((budgetStatus == null) ? 0 : budgetStatus.hashCode());
+        result = prime * result + ((budgetVersionNumber == null) ? 0 : budgetVersionNumber.hashCode());
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((costSharingAmount == null) ? 0 : costSharingAmount.hashCode());
+        result = prime * result + (descriptionUpdatable ? 1231 : 1237);
+        result = prime * result + ((documentDescription == null) ? 0 : documentDescription.hashCode());
+        result = prime * result + ((documentNumber == null) ? 0 : documentNumber.hashCode());
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + (finalVersionFlag ? 1231 : 1237);
+        result = prime * result + ((modularBudgetFlag == null) ? 0 : modularBudgetFlag.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((ohRateClassCode == null) ? 0 : ohRateClassCode.hashCode());
+        result = prime * result + ((ohRateTypeCode == null) ? 0 : ohRateTypeCode.hashCode());
+        result = prime * result + ((onOffCampusFlag == null) ? 0 : onOffCampusFlag.hashCode());
+        result = prime * result + ((rateClass == null) ? 0 : rateClass.hashCode());
+        result = prime * result + ((residualFunds == null) ? 0 : residualFunds.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((totalCost == null) ? 0 : totalCost.hashCode());
+        result = prime * result + ((totalCostLimit == null) ? 0 : totalCostLimit.hashCode());
+        result = prime * result + ((totalDirectCost == null) ? 0 : totalDirectCost.hashCode());
+        result = prime * result + ((totalIndirectCost == null) ? 0 : totalIndirectCost.hashCode());
+        result = prime * result + ((underrecoveryAmount == null) ? 0 : underrecoveryAmount.hashCode());
+        result = prime * result + ((urRateClassCode == null) ? 0 : urRateClassCode.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BudgetVersionOverview other = (BudgetVersionOverview) obj;
+        if (budgetId == null) {
+            if (other.budgetId != null)
+                return false;
+        }
+        else if (!budgetId.equals(other.budgetId))
+            return false;
+        if (budgetStatus == null) {
+            if (other.budgetStatus != null)
+                return false;
+        }
+        else if (!budgetStatus.equals(other.budgetStatus))
+            return false;
+        if (budgetVersionNumber == null) {
+            if (other.budgetVersionNumber != null)
+                return false;
+        }
+        else if (!budgetVersionNumber.equals(other.budgetVersionNumber))
+            return false;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (costSharingAmount == null) {
+            if (other.costSharingAmount != null)
+                return false;
+        }
+        else if (!costSharingAmount.equals(other.costSharingAmount))
+            return false;
+        if (descriptionUpdatable != other.descriptionUpdatable)
+            return false;
+        if (documentDescription == null) {
+            if (other.documentDescription != null)
+                return false;
+        }
+        else if (!documentDescription.equals(other.documentDescription))
+            return false;
+        if (documentNumber == null) {
+            if (other.documentNumber != null)
+                return false;
+        }
+        else if (!documentNumber.equals(other.documentNumber))
+            return false;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        }
+        else if (!endDate.equals(other.endDate))
+            return false;
+        if (finalVersionFlag != other.finalVersionFlag)
+            return false;
+        if (modularBudgetFlag == null) {
+            if (other.modularBudgetFlag != null)
+                return false;
+        }
+        else if (!modularBudgetFlag.equals(other.modularBudgetFlag))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        if (ohRateClassCode == null) {
+            if (other.ohRateClassCode != null)
+                return false;
+        }
+        else if (!ohRateClassCode.equals(other.ohRateClassCode))
+            return false;
+        if (ohRateTypeCode == null) {
+            if (other.ohRateTypeCode != null)
+                return false;
+        }
+        else if (!ohRateTypeCode.equals(other.ohRateTypeCode))
+            return false;
+        if (onOffCampusFlag == null) {
+            if (other.onOffCampusFlag != null)
+                return false;
+        }
+        else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
+            return false;
+        if (rateClass == null) {
+            if (other.rateClass != null)
+                return false;
+        }
+        else if (!rateClass.equals(other.rateClass))
+            return false;
+        if (residualFunds == null) {
+            if (other.residualFunds != null)
+                return false;
+        }
+        else if (!residualFunds.equals(other.residualFunds))
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        }
+        else if (!startDate.equals(other.startDate))
+            return false;
+        if (totalCost == null) {
+            if (other.totalCost != null)
+                return false;
+        }
+        else if (!totalCost.equals(other.totalCost))
+            return false;
+        if (totalCostLimit == null) {
+            if (other.totalCostLimit != null)
+                return false;
+        }
+        else if (!totalCostLimit.equals(other.totalCostLimit))
+            return false;
+        if (totalDirectCost == null) {
+            if (other.totalDirectCost != null)
+                return false;
+        }
+        else if (!totalDirectCost.equals(other.totalDirectCost))
+            return false;
+        if (totalIndirectCost == null) {
+            if (other.totalIndirectCost != null)
+                return false;
+        }
+        else if (!totalIndirectCost.equals(other.totalIndirectCost))
+            return false;
+        if (underrecoveryAmount == null) {
+            if (other.underrecoveryAmount != null)
+                return false;
+        }
+        else if (!underrecoveryAmount.equals(other.underrecoveryAmount))
+            return false;
+        if (urRateClassCode == null) {
+            if (other.urRateClassCode != null)
+                return false;
+        }
+        else if (!urRateClassCode.equals(other.urRateClassCode))
+            return false;
+        return true;
+    }
     
 }
