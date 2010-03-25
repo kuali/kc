@@ -214,7 +214,7 @@
                 <property name="inquiryFields">
                   <list>
                     <bean p:attributeName="person.fullName" parent="FieldDefinition"/>
-                    <bean p:attributeName="unitAdministratorTypeCode" parent="FieldDefinition"/>
+                    <bean p:attributeName="unitAdministratorType.description" parent="FieldDefinition"/>
                     <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
                   </list>
                 </property>
