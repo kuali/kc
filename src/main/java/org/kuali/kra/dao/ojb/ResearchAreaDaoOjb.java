@@ -16,7 +16,10 @@
 package org.kuali.kra.dao.ojb;
 
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,12 +109,12 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     private void removeResearchAreas(Statement stmt, String sql, String userName) {
         try {
             String[] codes = StringUtils.substringBetween(sql, "((", "))").split(";");
-            String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + codes[0] + "'";
+            String deleteStmt = "delete from RESEARCH_AREAS where RESEARCH_AREA_CODE = '" + codes[0] + "'";
             LOG.info("Save run scripts " + deleteStmt);
             stmt.addBatch(deleteStmt);
-            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName
-                    + "', UPDATE_TIMESTAMP = sysdate where RESEARCH_AREA_CODE = '" + codes[1]
-                    + "' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + codes[1] + "') = 0";
+            String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = " + getSysdate() + " where RESEARCH_AREA_CODE = '" + codes[1]
+                    + "' and (select count(*) from RESEARCH_AREAS where PARENT_RESEARCH_AREA_CODE = '" + codes[1] + "') = 0";
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
             getNodesToDelete(codes[0], stmt);
@@ -130,10 +133,10 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         try {
             String parentCode = StringUtils.substringBetween(sql, "RESEARCH_AREA_CODE = '","'");
             String deleteStmt = sql.replace("delete R",
-                    "delete from research_areas where RESEARCH_AREA_CODE = ");
+                    "delete from RESEARCH_AREAS where RESEARCH_AREA_CODE = ");
             LOG.info("Save run scripts " + deleteStmt);
             stmt.addBatch(deleteStmt);
-            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
+            String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = " + getSysdate() + "  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from RESEARCH_AREAS where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
@@ -148,15 +151,16 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
      */
     private void insertResearchAreas(Statement stmt, String sql, String userName) {
         try {
-            String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
+            String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user, OBJ_ID)";
             sql = sql.replace(";amp", "&");
-            String insertStmt = sql.replace("insert R", "insert into research_areas " + columns);
-            insertStmt = insertStmt.replace(", user)", ", '" + userName + "')");
+            String insertStmt = sql.replace("insert R", "insert into RESEARCH_AREAS " + columns);
+            // use time for OBJ_ID will have uniqueness
+            insertStmt = insertStmt.replace("sysdate, user)", getSysdate() + ", '" + userName + "','" +(new Long(new java.util.Date().getTime())).toString() +"')");
             LOG.info("Save run scripts " + insertStmt);
             stmt.addBatch(insertStmt);
             String data[] = sql.split(",");
-            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'Y', UPDATE_USER = '" + userName
-                    + "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = " + data[1];
+            String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'Y', UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = " + getSysdate() + "  where RESEARCH_AREA_CODE = " + data[1];
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
@@ -172,8 +176,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     private void updateResearchAreas(Statement stmt, String sql, String userName) {
         try {
             sql = sql.replace(";amp", "&");
-            String updateStmt = sql.replace("update R", "update research_areas set UPDATE_USER = '" + userName
-                    + "', UPDATE_TIMESTAMP = sysdate, DESCRIPTION =");
+            String updateStmt = sql.replace("update R", "update RESEARCH_AREAS set UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = " + getSysdate() + ", DESCRIPTION =");
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
@@ -189,7 +193,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     private void getNodesToDelete(String researchAreaCode, Statement stmt) {
         try {
             for (ResearchArea researchArea : getSubResearchAreas(researchAreaCode)) {
-                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + researchArea.getResearchAreaCode()
+                String deleteStmt = "delete from RESEARCH_AREAS where RESEARCH_AREA_CODE = '" + researchArea.getResearchAreaCode()
                         + "'";
                 LOG.info("Save run scripts " + deleteStmt);
                 stmt.addBatch(deleteStmt);
@@ -217,4 +221,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         this.businessObjectService = businessObjectService;
     }
     
+    private String getSysdate() {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return "to_date('" + formatter.format(new Date()) +"','YYYY-MM-DD HH24:MI:SS')";
+    }
 }

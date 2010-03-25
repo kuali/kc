@@ -684,9 +684,10 @@
      
      function getInsertClause(node) {
      
-        var columns="hierarchy_name, sponsor_code, update_timestamp, update_user";
+        var columns="hierarchy_name, sponsor_code, update_timestamp, OBJ_ID, update_user";
         // need to rework on real update_user
-        var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, 'quickstart'"
+        //objid will be generated in java code
+        var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, objid, 'quickstart'"
         var tempNode = node;
              while (tempNode.isVirtualNode) {
                 tempNode = tempNode.previousSibling;
@@ -697,7 +698,7 @@
            values = values + ",'"+ tempNode.description+"',"+getSortId(tempNode);
            tempNode=tempNode.parent;
          }
-         return "insert into sponsor_hierarchy ("+columns+") values("+values+")";
+         return "insert into SPONSOR_HIERARCHY ("+columns+") values("+values+")";
      }
      
      function getAscendants(node, includeSortid) {
