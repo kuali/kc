@@ -369,7 +369,11 @@ public class RRKeyPersonExpandedV1_2Generator extends
 			profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
 		}
 		if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-			profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+			if(NIH.equals(pdDoc.getDevelopmentProposal().getSponsorName())){
+				profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
+			}else{
+				profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+			}
 		} else {
 			setProjectRoleCategoryToProfile(keyPerson, profileKeyPerson);
 		}

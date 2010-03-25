@@ -44,6 +44,7 @@ public abstract class RRKeyPersonBaseGenerator extends S2SBaseFormGenerator {
     protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     protected static final int ROLE_DESCRIPTION_MAX_LENGTH = 40;
+    protected static final String NIH = "NIH";
 
     /**
      * 

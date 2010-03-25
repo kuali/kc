@@ -63,17 +63,15 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         rrPerformanceSite.setPrimarySite(siteLocation);
         int otherSiteCount = 0;
         List<SiteLocationDataType> siteLocationDataTypeArray = new ArrayList<SiteLocationDataType>();
-        if (getProposalSitesFromProposal() != null) {
-            for (ProposalSite proposalSite: getProposalSitesFromProposal()) {
-                SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
-                Rolodex rolodex2 = proposalSite.getRolodex();
-                if (rolodex2 != null) {
-                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
-                    siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
-                    siteLocationDataTypeArray.add(siteLocationOther);
-                    otherSiteCount++;
-                    LOG.info("otherSiteCount:" + otherSiteCount);
-                }
+        for (ProposalSite proposalSite: getProposalSitesFromProposal(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE)) {
+            SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
+            Rolodex rolodex2 = proposalSite.getRolodex();
+            if (rolodex2 != null) {
+                siteLocationOther.setOrganizationName(rolodex2.getOrganization());
+                siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
+                siteLocationDataTypeArray.add(siteLocationOther);
+                otherSiteCount++;
+                LOG.info("otherSiteCount:" + otherSiteCount);
             }
         }
         if(!siteLocationDataTypeArray.isEmpty()){
@@ -94,8 +92,14 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
      * This method...
      * @return
      */
-    private List<ProposalSite> getProposalSitesFromProposal() {
-        return pdDoc.getDevelopmentProposal().getProposalSites();
+    private List<ProposalSite> getProposalSitesFromProposal(int locationTypeCode) {
+    	List<ProposalSite> proposalSiteList=new ArrayList<ProposalSite>();
+    	for(ProposalSite proposalSite:pdDoc.getDevelopmentProposal().getProposalSites()){
+    		if(proposalSite.getLocationTypeCode()== locationTypeCode){
+    			proposalSiteList.add(proposalSite);
+    		}
+    	}
+        return proposalSiteList;
     }
 
     /**

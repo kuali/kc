@@ -70,19 +70,20 @@ import org.kuali.kra.s2s.util.S2SConstants;
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
  * generated using XMLBean classes and is based on RRSF424V1_0 schema.
- *
+ * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
+
 	private static final Logger LOG = Logger
 			.getLogger(RRSF424V1_0Generator.class);
 
 	private DepartmentalPerson departmentalPerson;
 
 	/**
-	 *
+	 * 
 	 * This method gives information of applications that are used in RRSF424
-	 *
+	 * 
 	 * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
 	 */
 	private RRSF424Document getRRSF424() {
@@ -183,10 +184,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		rrSF424Document.setRRSF424(rrsf424);
 		return rrSF424Document;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is to get estimated project funds for RRSF424
-	 *
+	 * 
 	 * @return EstimatedProjectFunding estimated total cost for the project.
 	 * @throws S2SException
 	 */
@@ -221,8 +223,6 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 				budget.setTotalIndirectCost(fundsRequested);
 				budget.setTotalCost(totalCost);
 			}
-
-
 			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
@@ -242,11 +242,12 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return funding;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method gives the information for an application which consists of
 	 * personal details
-	 *
+	 * 
 	 * @return appInfo(ApplicantInfo) applicant details.
 	 */
 	private ApplicantInfo getApplicationInfo() {
@@ -306,10 +307,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		appInfo.setOrganizationInfo(orgType);
 		return appInfo;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get the details of Contact person
-	 *
+	 * 
 	 * @param pdDoc(ProposalDevelopmentDocument)
 	 *            proposal development document.
 	 * @param contactType(String)
@@ -356,10 +358,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return depPerson;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get Contact person information
-	 *
+	 * 
 	 * @param rolodex(Rolodex)
 	 * @return ContactPersonInfo corresponding to the Rolodex object.
 	 */
@@ -378,10 +381,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return contactInfo;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method gives the review information of a state
-	 *
+	 * 
 	 * @return stateReview(StateReview) corresponding to the state review code.
 	 */
 	private StateReview getStateReview() {
@@ -406,10 +410,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return stateReview;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get ApplicationType for the form RRSF424
-	 *
+	 * 
 	 * @return ApplicationType corresponding to the proposal type code.
 	 */
 	private ApplicationType getApplicationType() {
@@ -470,10 +475,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return applicationType;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get Proposed Project Period for RRSF424
-	 *
+	 * 
 	 * @return ProposedProjectPeriod project start date and end date.
 	 */
 	private RRSF424.ProposedProjectPeriod getProjectPeriod() {
@@ -487,10 +493,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 						.getRequestedEndDateInitial()));
 		return proposedProjectPeriod;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get Congressional District for RRSF424
-	 *
+	 * 
 	 * @return CongressionalDistrict congressional district for the Applicant
 	 *         and Project.
 	 */
@@ -517,11 +524,12 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return congressionalDistrict;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get details of Principal Investigator for
 	 * Organization Contact
-	 *
+	 * 
 	 * @return OrganizationContactPersonDataType Principal investigator details.
 	 */
 	private OrganizationContactPersonDataType getPDPI() {
@@ -578,10 +586,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return PDPI;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get AOR Information for RRSf424
-	 *
+	 * 
 	 * @return aorInfoType(AORInfoType) Authorized representative information.
 	 */
 	private AORInfoType getAORInfoType() {
@@ -630,10 +639,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return aorInfoType;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get Applicant type for RRSF424
-	 *
+	 * 
 	 * @return applicantType(ApplicantType) type of applicant.
 	 */
 	private ApplicantType getApplicantType() {
@@ -691,10 +701,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		applicantType.setApplicantTypeCode(applicantTypeCode);
 		return applicantType;
 	}
+
 	/**
-	 *
+	 * 
 	 * This method is used to get the answer for ProposalYnq
-	 *
+	 * 
 	 * @param questionId
 	 *            for which the proposalYnq has to be found.
 	 * @return proposalYnq corresponding to the questionId.
@@ -717,7 +728,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF424Document} by
 	 * populating data from the given {@link ProposalDevelopmentDocument}
-	 *
+	 * 
 	 * @param proposalDevelopmentDocument
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
@@ -735,7 +746,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	/**
 	 * This method typecasts the given {@link XmlObject} to the required
 	 * generator type and returns back the document of that generator type.
-	 *
+	 * 
 	 * @param xmlObject
 	 *            which needs to be converted to the document type of the
 	 *            required generator

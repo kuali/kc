@@ -231,7 +231,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
                             }
                         }
                         if (organization != null && organization.getHumanSubAssurance() != null) {
-                            vertebrateAnimalsSupplement.setAssuranceNumber(organization.getAnimalWelfareAssurance().substring(3));
+                            vertebrateAnimalsSupplement.setAssuranceNumber(organization.getAnimalWelfareAssurance());
                         }
 
                         rrOtherProjectInfo.setVertebrateAnimalsSupplement(vertebrateAnimalsSupplement);
