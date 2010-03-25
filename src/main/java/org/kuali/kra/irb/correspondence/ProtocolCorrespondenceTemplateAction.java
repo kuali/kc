@@ -192,12 +192,12 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         int typeIndex = getSelectedCorrespondenceType(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
         
         // Add correspondence template to database deletion list
-        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
         correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
         
-        getProtocolCorrespondenceTemplateService().deleteDefaultProtocolCorrespondenceTemplate(correspondenceType);
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceTemplate);
         correspondenceTemplateForm.resetForm();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -219,12 +219,12 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         int templateIndex = getSelectedCorrespondenceTemplate(request);
         ProtocolCorrespondenceTemplateForm correspondenceTemplateForm = (ProtocolCorrespondenceTemplateForm) form;
         ProtocolCorrespondenceType correspondenceType = correspondenceTemplateForm.getCorrespondenceTypes().get(typeIndex);
+        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         
         // Add correspondence template to database deletion list
-        ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(templateIndex);
         correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
         
-        getProtocolCorrespondenceTemplateService().deleteCommitteeProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
+        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceTemplate);
         correspondenceTemplateForm.resetForm();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -255,7 +255,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             ProtocolCorrespondenceTemplate correspondenceTemplate = correspondenceType.getDefaultProtocolCorrespondenceTemplate();
             correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(correspondenceTemplate);
         
-            getProtocolCorrespondenceTemplateService().deleteDefaultProtocolCorrespondenceTemplate(correspondenceType);
+            correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceTemplate);
             getProtocolCorrespondenceTemplateService().addDefaultProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
         }
@@ -293,7 +293,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             // Add correspondence template to database deletion list
             correspondenceTemplateForm.getDeletedCorrespondenceTemplates().add(oldCorrespondenceTemplate);
         
-            getProtocolCorrespondenceTemplateService().deleteCommitteeProtocolCorrespondenceTemplate(correspondenceType, templateIndex);
+            correspondenceType.getProtocolCorrespondenceTemplates().remove(oldCorrespondenceTemplate);
             getProtocolCorrespondenceTemplateService().addCommitteeProtocolCorrespondenceTemplate(correspondenceType, newCorrespondenceTemplate);
             correspondenceTemplateForm.resetForm();
         }

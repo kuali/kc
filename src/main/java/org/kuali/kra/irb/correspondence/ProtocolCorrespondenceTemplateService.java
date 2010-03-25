@@ -45,22 +45,6 @@ public interface ProtocolCorrespondenceTemplateService {
     
     /**
      * 
-     * This method deletes a default ProtocolCorrespondenceTemplate.
-     * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
-     * @param index - index of the template to be deleted.
-     */
-    void deleteDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType);
-    
-    /**
-     * 
-     * This method deletes a committee specific ProtocolCorrespondenceTemplate.
-     * @param correspondenceType - the protocol correspondence type from which the template is to be deleted.
-     * @param index - index of the template to be deleted.
-     */
-    void deleteCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index);
-    
-    /**
-     * 
      * This method saves the correspondence templates.
      * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved to the database..
      * @param deletedBos - the list of protocolCorrespondenceTemplates that are to be deleted from the database.
