@@ -56,10 +56,6 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         setFieldValue(maintenancePage, "document.newMaintainableObject.templateFile", getFilePath(SponsorFormTemplateMaintenanceDocumentTest.class));
         
         Iterator<DomNode> i = maintenancePage.getAllHtmlChildElements();
-        while(i.hasNext()){
-            DomNode dn = i.next();
-            System.err.println(dn.getNodeName());
-        }
         
         HtmlPage routedPage = clickOn(maintenancePage, "methodToCall.route", "Kuali :: Sponsor Form Template");
         

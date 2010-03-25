@@ -340,7 +340,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             } catch ( Exception e ) {
                 noSuchFieldBO = true;
             }
-            System.out.println();
+
             if( tempVal == null && noSuchFieldPD && noSuchFieldBO ) {
                 LOG.warn("Could not find property " + field + " in ProposalDevelopmentDocument or DevelopmnentProposal bo.");
             }

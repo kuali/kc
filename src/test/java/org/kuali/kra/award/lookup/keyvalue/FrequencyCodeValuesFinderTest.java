@@ -79,8 +79,6 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
         for(KeyLabelPair keyLabelPair:frequencyCodes){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
-            System.out.println(keyLabelPair.getKey());
-            System.out.println(keyLabelPair.getLabel());
         }
     }
     

@@ -56,7 +56,7 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
     
     protected void dumpPage() {
         if(LOG.isDebugEnabled()) {
-            System.err.println(paymentReportsAndTermsPage);
+            LOG.debug(paymentReportsAndTermsPage);
         }
     }
     

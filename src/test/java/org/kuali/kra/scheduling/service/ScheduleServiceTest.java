@@ -98,8 +98,6 @@ public class ScheduleServiceTest {
         CronSpecialChars dayOfWeek = findDayOfWeek(stDate);
         CronSpecialChars weekOfMonth = findWeekOfMonth(stDate);
         
-        System.err.println(" dayOfWeek:" + dayOfWeek.toString() + " weekOfMonth:" + weekOfMonth.toString());
-        
         List<Date> list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), dayOfWeek, weekOfMonth, 1, null);
         
         

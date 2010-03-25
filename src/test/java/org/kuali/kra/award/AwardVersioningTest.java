@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.SequenceAssociate;
@@ -52,6 +54,7 @@ import java.util.Calendar;
  * This class 
  */
 public class AwardVersioningTest extends KraTestBase {
+    private static final Log LOG = LogFactory.getLog(AwardVersioningTest.class); 
     private static final double COST_SHARE_COMMIT_AMT = 1000.00;
     private static final String COST_SHARE_DEST1 = "576434";
     private static final String COST_SHARE_DEST2 = "777777";
@@ -322,9 +325,9 @@ public class AwardVersioningTest extends KraTestBase {
             ErrorMap errorMap = GlobalVariables.getErrorMap();
             if(errorMap.getErrorCount() > 0) {
                    for(String errorProperty : errorMap.getPropertiesWithErrors()) {
-                       System.err.println("-------\nProperty in error " + errorProperty);
+                       LOG.error("-------\nProperty in error " + errorProperty);
                        for(Object error: errorMap.getErrorMessagesForProperty(errorProperty)) {
-                           System.err.println(error);
+                           LOG.error(error);
                        }
                    }    
             }
