@@ -1225,7 +1225,7 @@ public class AwardForm extends BudgetVersionFormBase
         if (StringUtils.isNotBlank(unitName) && unitName.length() > NUMBER_30) {
             unitName = unitName.substring(0, NUMBER_30);
         }
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.unitName", unitName));
+        getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
 
         setupSponsor(awardDocument);
