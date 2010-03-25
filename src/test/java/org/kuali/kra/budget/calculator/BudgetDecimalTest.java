@@ -50,7 +50,6 @@ public class BudgetDecimalTest {
     public void divide1Test() throws Exception{
         BudgetDecimal op1 = new BudgetDecimal(100);
         BudgetDecimal op2 = new BudgetDecimal(3);
-        System.out.println(op1.divide(op2));
         Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/3d));
     }
 }

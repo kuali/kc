@@ -913,7 +913,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(budgetPeriodNumber-1);
         BudgetLineItem selectedLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemNumber);
 
-        System.out.println("getLineItemDescription: " + selectedLineItem.getBudgetPersonnelDetails(personNumber).getLineItemDescription());
         return mapping.findForward(MAPPING_CLOSE_PAGE);
     }
     

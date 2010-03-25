@@ -18,6 +18,8 @@ package org.kuali.kra.maintenance;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -36,6 +38,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances
  */
 public abstract class MaintenanceRuleTestBase extends KraTestBase {
+    private static final Log LOG = LogFactory.getLog(MaintenanceRuleTestBase.class); 
     private static final String DOCUMENT_ERRORS = "document.document*,document.explanation*,document.reversal*,document.selected*,document.header*";
         
     /**
@@ -256,7 +259,7 @@ public abstract class MaintenanceRuleTestBase extends KraTestBase {
                 ErrorMessage em = (ErrorMessage) j.next();
 
                 if (em.getMessageParameters() == null) {
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey());
+                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey());
                 }
                 else {
                     StringBuffer messageParams = new StringBuffer();
@@ -267,7 +270,7 @@ public abstract class MaintenanceRuleTestBase extends KraTestBase {
                             delim = ", ";
                         }
                     }
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
+                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
                 }
             }
         }

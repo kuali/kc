@@ -160,7 +160,6 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage page4 = clickOn(page3, "methodToCall.save");
         assertDoesNotContain(page4, ERRORS_FOUND_ON_PAGE);
         assertContains(page4,SAVE_SUCCESS_MESSAGE);
-        System.out.println(page4.asXml().replaceAll(" ", "")); 
         
         final HtmlForm form4 = (HtmlForm) page4.getForms().get(0);
         completeButtonName = "methodToCall.deleteBudgetLineItem.line0.anchor2";

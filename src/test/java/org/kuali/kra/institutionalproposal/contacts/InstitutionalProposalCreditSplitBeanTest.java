@@ -196,8 +196,6 @@ public class InstitutionalProposalCreditSplitBeanTest {
                     KualiDecimal creditSplitValue = MAX_VALUE.divide(new KualiDecimal(units.size()));
                     for(InstitutionalProposalPersonUnit apu: units) {
                         apu.add(new InstitutionalProposalPersonUnitCreditSplit(creditType, creditSplitValue));
-    //                    System.out.println(String.format("Set %f credit split on %s for %s in %s", value.doubleValue(), p.getFullName(),
-    //                                                                                   apu.getUnitName(), creditType.getDescription()));
                     }
                 }
                 expectedPersonUnitCreditSplitTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);

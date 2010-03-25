@@ -58,7 +58,6 @@ public class RolePersons extends BusinessObjectBase {
 
     public void setapprover(List<String> approver) {
         this.approver = approver;
-        System.out.println(approver);
     }
 
     public List<String> getAggregator() {

@@ -61,9 +61,6 @@ public abstract class RelationalOperator implements Operator {
             try{
                 field = dataClass.getDeclaredField(fieldName);
                 if(! field.isAccessible()) {
-                    //String methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
-                    //System.out.println(methodName);
-                    //method = dataClass.getMethod(methodName, null);
                     throw new NoSuchFieldException();
                 }
             }catch (NoSuchFieldException noSuchFieldException) {
@@ -76,7 +73,6 @@ public abstract class RelationalOperator implements Operator {
                     }else{
                         methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
                     }
-                    //System.out.println(methodName);
                     method = dataClass.getMethod(methodName, null);
                 }catch (NoSuchMethodException noSuchMethodException) {
                     noSuchMethodException.printStackTrace();

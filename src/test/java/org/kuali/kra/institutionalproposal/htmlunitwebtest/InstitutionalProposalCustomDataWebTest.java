@@ -40,7 +40,6 @@ public class InstitutionalProposalCustomDataWebTest extends InstitutionalProposa
     public void testCustomDataPage() throws Exception {
         HtmlPage proposalPage = getProposalHomePage();
         HtmlPage customDataPage = clickOnTab(proposalPage, CUSTOM_DATA_LINK_NAME);
-        System.out.print(customDataPage.asText());
 
         assertContains(customDataPage, GROUP_NAME);
         

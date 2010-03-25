@@ -69,7 +69,6 @@ public class InstitutionalProposalFinancialWebTest extends InstitutionalProposal
         
         HtmlPage institutionalProposalHomePageAfterRecalculate = 
                 clickOn(proposalHomePage,"methodToCall.recalculateTotals.anchorFinancial");
-        System.out.println(institutionalProposalHomePageAfterRecalculate.asText());
         assertContains(institutionalProposalHomePageAfterRecalculate,"125000");
     }
 }

@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -50,6 +52,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
+    private static final Log LOG = LogFactory.getLog( AwardPaymentReportsAndTermsAction.class );
     private static final String ROLODEX = "rolodex";
     private static final String PERIOD = ".";    
     private SponsorTermActionHelper sponsorTermActionHelper;
@@ -254,7 +257,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                 }
             }   
         }catch(Exception ex){
-            System.out.print(ex);
+            LOG.error("exception in refresh", ex);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

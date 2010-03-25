@@ -75,7 +75,7 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     @Test
     public void testAddEmployee() throws Exception {
         membersPage = getEmployee(membersPage);
-        System.out.println(membersPage.asText());
+
         assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
         membersPage = addMember(membersPage);
         assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));

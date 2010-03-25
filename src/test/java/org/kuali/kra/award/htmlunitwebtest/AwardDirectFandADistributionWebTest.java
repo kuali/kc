@@ -95,7 +95,7 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
     public void testSaveAndOverlappingDateFields() throws Exception{
         HtmlPage awardTimeAndMoneyPage = getAwardTimeAndMoneyPage();
         HtmlPage tempAwardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_METHOD);
-        System.out.print(tempAwardTimeAndMoneyPage.asText());
+
         assertDoesNotContain(tempAwardTimeAndMoneyPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(tempAwardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
         assertContains(tempAwardTimeAndMoneyPage,SAVE_SUCCESS_MESSAGE);
