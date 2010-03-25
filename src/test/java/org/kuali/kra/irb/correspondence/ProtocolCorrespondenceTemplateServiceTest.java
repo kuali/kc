@@ -82,31 +82,6 @@ public class ProtocolCorrespondenceTemplateServiceTest {
         assertTrue(correspondenceType.getDefaultProtocolCorrespondenceTemplate() == null);
     }
     
-    @Test
-    public void deleteDefaultProtocolCorrespondenceTemplateTest() throws Exception {
-        ProtocolCorrespondenceType correspondenceType = createCorrespondenceType();
-
-        getProtocolCorrespondenceTemplateService().deleteDefaultProtocolCorrespondenceTemplate(correspondenceType);
-        
-        assertEquals(2, correspondenceType.getProtocolCorrespondenceTemplates().size());
-        assertTrue(correspondenceType.getDefaultProtocolCorrespondenceTemplate() == null);
-        assertEquals(2, correspondenceType.getCommitteeProtocolCorrespondenceTemplates().size());
-        assertEquals("Committee1", correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(0).getCommitteeId());
-        assertEquals("Committee2", correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(1).getCommitteeId());
-    }
-    
-    @Test
-    public void deleteCommitteeProtocolCorrespondenceTemplateTest() throws Exception {
-        ProtocolCorrespondenceType correspondenceType = createCorrespondenceType();
-
-        getProtocolCorrespondenceTemplateService().deleteCommitteeProtocolCorrespondenceTemplate(correspondenceType, 0);
-        
-        assertEquals(2, correspondenceType.getProtocolCorrespondenceTemplates().size());
-        assertEquals(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE, correspondenceType.getDefaultProtocolCorrespondenceTemplate().getCommitteeId());
-        assertEquals(1, correspondenceType.getCommitteeProtocolCorrespondenceTemplates().size());
-        assertEquals("Committee2", correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(0).getCommitteeId());
-    }
-    
     /**
      * This method is to get the protocol correspondence template service.
      * @return ProtocolCorrespondenceTemplateService
