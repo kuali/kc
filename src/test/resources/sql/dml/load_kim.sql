@@ -549,7 +549,7 @@ insert into KRIM_PERM_T values ('1217', '98d1945b-7efd-4963-aa19-d337f93c59be', 
 insert into KRIM_PERM_T values ('1218', '18e4551e-82b1-4d22-aa50-d12d6ea6b5ec', 1, '5', 'KC-IP', 'Submit Intellectual Property Review', 'Submit a Intellectual Property Review', 'Y');
 insert into KRIM_PERM_T values ('1219', 'a9987df3-2a0b-4113-a77c-f0f7b036da0c', 1, '40', 'KC-IP', 'Open Intellectual Property Review', 'Open a Intellectual Property Review', 'Y');
 insert into KRIM_PERM_T values ('1220', 'b563f28a-3694-466d-9f71-a40652e35677', 1, '14', 'KC-IP', 'Cancel Intellectual Property Review', 'Cancel a Intellectual Property Review', 'Y');
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)  VALUES ('1221', '1030', 'Answer PROTOCOL Questionnaire', null, 'Y', 'KC-PROTOCOL', '668e0a41-fbda-4378-86bc-9d08ded93efc');
+INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)  VALUES ('1221', '1030', 'Answer Protocol Questionnaire', null, 'Y', 'KC-PROTOCOL', '668e0a41-fbda-4378-86bc-9d08ded93efc');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('1222', '95F7D32053EF4F868C1612FA94FFF635', 1, '16', 'KC-PROTOCOL', 'Modify Correspondence Template', 'Modify Correspondence Template', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND) values ('1223', 'F35D259D139C401EB7F74E94A8DFA3B7', 1, '40', 'KC-PROTOCOL', 'View Correspondence Template', 'View Correspondence Template', 'Y');
 
