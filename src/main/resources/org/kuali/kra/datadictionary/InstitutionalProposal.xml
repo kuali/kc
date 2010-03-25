@@ -995,10 +995,16 @@
                     p:attributeName="currentAccountNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
+                <!-- 
                 <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="lookupUnitNumber" />
                 <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
                     p:attributeName="lookupUnitName" />
+                -->
+                <bean parent="FieldDefinition" p:useShortLabel="true"
+                    p:attributeName="leadUnit.unitNumber" />
+                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
+                    p:attributeName="leadUnit.unitName" />
                 <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="projectPersons.fullName" />
                 <bean parent="FieldDefinition"
