@@ -319,7 +319,7 @@
          <tr>
             <td colspan=3><div class="floaters">
                <p> You have the option to remove unit details for a key person.</p>
-               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Remove Unit Details" styleClass="tinybutton"/></p>
+               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Remove Unit Details" styleClass="tinybutton"/></p>
              </div>
            </td>
         </tr>
@@ -382,7 +382,7 @@
       <tr>
        <td colspan=3><div class="floaters">
          <p> You have the option to remove Certification Questions for a key person.</p>
-          <p><html:image property="methodToCall.removeCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remcertquest.gif" title="Remove Certification Question" alt="Remove Certification Question" styleClass="tinybutton"/></p>
+          <p><html:image property="methodToCall.removeCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-remcertquest.gif" title="Remove Certification Question" alt="Remove Certification Question" styleClass="tinybutton"/></p>
           </div>
        </td>
      </tr>
