@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import static java.util.Collections.sort;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -46,25 +49,23 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
 
         Collection<Committee> committees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+
         if (CollectionUtils.isNotEmpty(committees)) {
-            List<Committee> selectedCommittees = new ArrayList<Committee>();
             List<String> excludedCommitteeIds = getExcludedCommitteeIds();
 
             // only the active ones
             Collections.sort((List<Committee>) committees, Collections.reverseOrder());
             for (Committee committee : committees) {
                 if (!excludedCommitteeIds.contains(committee.getCommitteeId())) {
-                    selectedCommittees.add(committee);
+                    keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
                     excludedCommitteeIds.add(committee.getCommitteeId());
                 }
             }
 
-            Collections.sort(selectedCommittees);
-            for (Committee committee : selectedCommittees) {
-                keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
-            }
+            sort(keyValues, new KeyLabelPairComparator());
         }
+
+        keyValues.add(0, new KeyLabelPair("", "select"));
         
         return keyValues;
     }
