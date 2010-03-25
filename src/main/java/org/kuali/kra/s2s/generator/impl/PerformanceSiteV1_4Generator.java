@@ -51,7 +51,7 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
 				.newInstance();
 		PerformanceSite14 performanceSite14 = PerformanceSite14.Factory
 				.newInstance();
-		performanceSite14.setFormVersion(S2SConstants.FORMVERSION_1_2);
+		performanceSite14.setFormVersion(S2SConstants.FORMVERSION_1_4);
 		performanceSite14.setPrimarySite(getPrimarySite());
 		performanceSite14.setOtherSiteArray(getSiteLocationDataTypeArray());
 	    performanceSite14.setAttachedFile(getAttachedFileDataType("40"));
