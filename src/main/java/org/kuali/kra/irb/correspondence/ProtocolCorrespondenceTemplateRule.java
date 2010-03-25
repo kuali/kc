@@ -31,6 +31,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProtocolCorrespondenceTemplateRule {
 
+    private static final String PROPERTY_NAME_NEW_DEFAULT_TEMPLATE_FILE = "newDefaultCorrespondenceTemplates[%1$s].templateFile";
+    private static final String PROPERTY_NAME_NEW_COMMITTEE_ID = "newCorrespondenceTemplates[%1$s].committeeId";
+    private static final String PROPERTY_NAME_NEW_TEMPLATE_FILE = "newCorrespondenceTemplates[%1$s].templateFile";
+    private static final String PROPERTY_NAME_REPLACE_TEMPLATE_FILE = "replaceCorrespondenceTemplates[%1$s].list[%2$s].templateFile";
+    private static final String PROPERTY_NAME_COMMITTEE_ID = "correspondenceTypes[%1$s].protocolCorrespondenceTemplates[%2$s].committeeId";
+    private static final String PROPERTY_NAME_TEMPLATE_FILE = "correspondenceTypes[%1$s].protocolCorrespondenceTemplates[%2$s].templateFile";
+    
     /**
      * 
      * This method verifies the default protocol correspondence template on add.
@@ -39,13 +46,12 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param index
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
-     * @throws FileNotFoundException 
      */
     public boolean processAddDefaultProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
             ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
         boolean valid = true;
         
-        String filePropertyName = "newDefaultCorrespondenceTemplates[" + index + "].templateFile";
+        String filePropertyName = String.format(PROPERTY_NAME_NEW_DEFAULT_TEMPLATE_FILE, index);
         
         valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
 
@@ -54,20 +60,19 @@ public class ProtocolCorrespondenceTemplateRule {
 
     /**
      * 
-     * This method verifies the protocol correspondence template on add/replace.
+     * This method verifies the protocol correspondence template on add.
      * @param correspondenceType
      * @param newCorrespondenceTemplate
      * @param index
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
-     * @throws FileNotFoundException 
      */
     public boolean processAddProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
             ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
         boolean valid = true;
         
-        String committeePropertyName = "newCorrespondenceTemplates[" + index + "].committeeId";
-        String filePropertyName = "newCorrespondenceTemplates[" + index + "].templateFile";
+        String committeePropertyName = String.format(PROPERTY_NAME_NEW_COMMITTEE_ID, index);
+        String filePropertyName = String.format(PROPERTY_NAME_NEW_TEMPLATE_FILE, index);
         
         valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
         valid &= !duplicateCommittee(correspondenceType.getCommitteeProtocolCorrespondenceTemplates(), newCorrespondenceTemplate.getCommitteeId(), 
@@ -85,14 +90,13 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param index
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
-     * @throws FileNotFoundException 
      */
     public boolean processReplaceProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
             ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int typeIndex, int templateIndex) throws IOException {
         boolean valid = true;
 
-        String committeePropertyName = "correspondenceTypes[" + typeIndex + "]protocolCorrespondenceTemplates[" + templateIndex + "].committeeId";
-        String filePropertyName = "replaceCorrespondenceTemplates[" + typeIndex + "].list[" + templateIndex + "].templateFile";
+        String committeePropertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
+        String filePropertyName = String.format(PROPERTY_NAME_REPLACE_TEMPLATE_FILE, typeIndex, templateIndex);
         
         valid &= committeeSpecified(newCorrespondenceTemplate.getCommitteeId(), committeePropertyName);
         valid &= validFile(newCorrespondenceTemplate.getTemplateFile(), filePropertyName);
@@ -132,8 +136,7 @@ public class ProtocolCorrespondenceTemplateRule {
         boolean hasInvalidCommittee = false;
         for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
             int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
-            String propertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
-                + "].committeeId";
+            String propertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
             hasInvalidCommittee |= !committeeSpecified(protocolCorrespondenceTemplate.getCommitteeId(), propertyName);
         }
         return hasInvalidCommittee;
@@ -151,8 +154,7 @@ public class ProtocolCorrespondenceTemplateRule {
         List<ProtocolCorrespondenceTemplate> tmpTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
             int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
-            String propertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
-                + "].committeeId";
+            String propertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
 
             if (duplicateCommittee(tmpTemplates, protocolCorrespondenceTemplate.getCommitteeId(), propertyName)) {
                 return true;
@@ -167,7 +169,7 @@ public class ProtocolCorrespondenceTemplateRule {
     /**
      * This method checks if a committee has been specified.
      * @param committeeId
-     * @param index - the index of the correspondence type (used for display of the error message).
+     * @param propertyName - the property that is being verified (used for error message).
      * @return true if a committee has been specified, false otherwise.
      */
     private boolean committeeSpecified(String committeeId, String propertyName) {
@@ -181,10 +183,10 @@ public class ProtocolCorrespondenceTemplateRule {
     }
 
     /**
-     * This method checks if the committee has a template specified.
+     * This method checks if a template is already specified for the committee.
      * @param correspondenceTemplates - the correspondence templates against which we are checking.
      * @param committeeId - the committee whose existence is to be checked.
-     * @param index - the index of the correspondence type (used for display of the error message).
+     * @param propertyName - the property that is being verified (used for error message).
      * @return true if the committee has a template defined, false otherwise.
      */
     private boolean duplicateCommittee(List<ProtocolCorrespondenceTemplate> correspondenceTemplates, String committeeId, String propertyName) {
@@ -250,7 +252,7 @@ public class ProtocolCorrespondenceTemplateRule {
         if (defaultTemplate != null) {
         	if ((defaultTemplate.getCorrespondenceTemplate().length == 0) 
         			|| StringUtils.isBlank(defaultTemplate.getFileName())) { 
-                String filePropertyName = "newDefaultCorrespondenceTemplates[" + typeIndex + "].templateFile";
+                String filePropertyName = String.format(PROPERTY_NAME_NEW_DEFAULT_TEMPLATE_FILE, typeIndex);
                 GlobalVariables.getMessageMap().putError(filePropertyName, KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
                 isValid = false;
         	}
@@ -263,8 +265,7 @@ public class ProtocolCorrespondenceTemplateRule {
                     || (protocolCorrespondenceTemplate.getCorrespondenceTemplate().length == 0)
                     || StringUtils.isBlank(protocolCorrespondenceTemplate.getFileName())) {
                 int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
-                String filePropertyName = "correspondenceTypes[" + typeIndex + "].protocolCorrespondenceTemplates[" + templateIndex 
-                        + "].templateFile";
+                String filePropertyName = String.format(PROPERTY_NAME_TEMPLATE_FILE, typeIndex, templateIndex); 
                 GlobalVariables.getMessageMap().putError(filePropertyName, KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE);
                 isValid = false;
             }
