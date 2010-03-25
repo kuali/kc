@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <td class="content" valign="top">
-
+	  	<channel:messageOfTheDay/>
       <channel:researcherProposals />
       <channel:researcherAwards />
       <channel:researcherNegotiations />
