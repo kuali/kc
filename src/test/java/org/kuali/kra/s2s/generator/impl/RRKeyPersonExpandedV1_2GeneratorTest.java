@@ -62,6 +62,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		proposalPerson.setOfficePhone("63254152");
 		proposalPerson.setFaxNumber("52374512");
 		proposalPerson.setDegree("MS");
+        proposalPerson.setProjectRole("Manager");
 		proposalPerson.setYearGraduated("2006");
 		proposalPerson.setEmailAddress("philip@hotmail.com");
 		proposalPerson.setOptInCertificationStatus("Y");
@@ -128,7 +129,8 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		keyPerson.setOfficePhone("3254178");
 		keyPerson.setFaxNumber("21487563");
 		keyPerson.setDegree("MS");
-		keyPerson.setYearGraduated("2006");
+		keyPerson.setProjectRole("Manager");
+        keyPerson.setYearGraduated("2006");
 		keyPerson.setEmailAddress("terry@hotmail.com");
 		keyPerson.setOptInCertificationStatus("Y");
 		keyPerson.setOptInUnitStatus("Y");

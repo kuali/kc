@@ -57,7 +57,7 @@ public class InstitutionalProposalPersonServiceImpl implements
 					.get(0);
 			if (developmentProposal.getProposalPersons() != null) {
 				for(ProposalPerson proposalPerson:developmentProposal.getProposalPersons()){
-					if(proposalPerson.getProjectRole().equals(ContactRole.PI_CODE) || proposalPerson.getProjectRole().equals(ContactRole.COI_CODE)){
+					if(ContactRole.PI_CODE.equals(proposalPerson.getProjectRole()) || ContactRole.COI_CODE.equals(proposalPerson.getProjectRole())){
 						proposalPersonsList.add(proposalPerson);
 					}
 				}

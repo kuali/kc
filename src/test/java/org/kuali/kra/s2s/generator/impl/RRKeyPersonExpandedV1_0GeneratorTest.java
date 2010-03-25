@@ -56,6 +56,7 @@ public class RRKeyPersonExpandedV1_0GeneratorTest extends S2STestBase<RRKeyPerso
         proposalPerson.setCountryCode("USA");
         proposalPerson.setOfficePhone("63254152");
         proposalPerson.setFaxNumber("52374512");
+        proposalPerson.setProjectRole("Manager");
         proposalPerson.setEmailAddress("philip@hotmail.com");
         proposalPerson.setOptInCertificationStatus("Y");
         proposalPerson.setOptInUnitStatus("Y");
