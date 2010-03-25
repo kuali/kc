@@ -13,188 +13,188 @@
 --insert into KRNS_NMSPC_T (NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD) --values ('KR-IDM', '3FC771D389664B1E8FD6F46373341FE0', 1, 'Identity Management', 'Y', '');
 
 insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KC-GEN','General Kuali Coeus','Y','40966c09-3bf3-49d9-9acc-0c1fa1c00532');
-insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KRA-PD','Proposal Development','Y','318cd908-8ae8-49c5-9ecd-3b7133f8fa45');
-insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KRA-B','Budget','Y','0d6fca75-2691-4bca-b858-948c1303b135');
+insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KC-PD','Proposal Development','Y','318cd908-8ae8-49c5-9ecd-3b7133f8fa45');
+insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KC-B','Budget','Y','0d6fca75-2691-4bca-b858-948c1303b135');
 insert into KRNS_NMSPC_T(NMSPC_CD,NM,ACTV_IND,OBJ_ID) values('KC-IP','Institutional Proposal','Y','60768ea6-fce0-495b-9058-d0a863fe28dd');
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD,NM, ACTV_IND, OBJ_ID, VER_NBR) values('KC-AWARD', 'Award','Y','70d3e090-5a5f-4e92-ac0c-f8465dac7990','1');
 Insert into KRNS_NMSPC_T( NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) Values ('KC-PROTOCOL', '312cbee6-8f02-4c3f-87be-a54581eb5c3c', 1, 'KC IRB Protocol', 'Y');
 INSERT INTO KRNS_NMSPC_T (NMSPC_CD, NM, ACTV_IND,OBJ_ID) VALUES('KC-T', 'Time And Money', 'Y','0c999a64-c22a-4142-8524-14f4f728a899') ;
 
-insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KRA-PD','D','Document','Y','6a18dd88-0cf2-464f-91e6-626acb6c49cd');
-insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KRA-PD','L','Lookup','Y','220c08a3-96f7-48da-8002-a92f795d850c');
-insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KRA-PD','A','All','Y','bdc36091-487d-4137-a49f-ac1029a9d30b');
+insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KC-PD','D','Document','Y','6a18dd88-0cf2-464f-91e6-626acb6c49cd');
+insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KC-PD','L','Lookup','Y','220c08a3-96f7-48da-8002-a92f795d850c');
+insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND,OBJ_ID) values ('KC-PD','A','All','Y','bdc36091-487d-4137-a49f-ac1029a9d30b');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','L','multipleValueLookupResultsPerPage','CONFG','200','Limit results returned for lookup - multiple results','A','5053c5cd-a38e-43ba-b226-924757d56cd1');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.creditsplit.enabled','CONFG','Y','Determines whether the Credit Split is turned on for proposal','A','4029390d-3619-445a-951b-d7e2dafe5fed');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','L','multipleValueLookupResultsPerPage','CONFG','200','Limit results returned for lookup - multiple results','A','5053c5cd-a38e-43ba-b226-924757d56cd1');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.creditsplit.enabled','CONFG','Y','Determines whether the Credit Split is turned on for proposal','A','4029390d-3619-445a-951b-d7e2dafe5fed');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.readonly.roles','CONFG','KP','Proposal Person ROLE Id list for roles that are read-only','A','8ff96f72-e9bf-4a4f-88cc-685f84440ec1');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.nih.kp','CONFG','Key Person','Description of key person for Non-NIH Proposals','A','72c2877d-151b-4007-b29b-48505fcce1f0');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.nih.pi','CONFG','PI/Contact','Description of principal investigator contact for Non-NIH Proposals','A','293d512f-cd92-4359-a426-040ef09e0995');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.nih.coi','CONFG','PI/Multiple','Description of principal investigator multiple for Non-NIH Proposals','A','7c1d55e2-6066-47c1-849f-4c6eb4beda19');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.proposaltype.new','CONFG','1','ProposalTypeCode of NEW','A','aeecb1ed-a3f2-4823-8edc-0b41319422ef');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.proposaltype.renewal','CONFG','3','ProposalTypeCode of RENEWAL','A','06fe5a96-d244-48f7-821e-2cb3dd7ebe10');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.proposaltype.revision','CONFG','5','ProposalTypeCode of REVISION','A','acfe9c78-f644-46a2-8130-2b83ceecebcc');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.proposaltype.continuation','CONFG','4','ProposalTypeCode of CONTINUATION','A','395a9837-ca11-485c-96b0-a73b33af3921');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.proposaltype.resubmission','CONFG','2','ProposalTypeCode of RESUBMISSION','A','fb4d8d43-32ac-4f75-85bc-417882c65580');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.displayKeywordPanel','CONFG','TRUE','Display PROPOSAL Keyword panel','A','12a6021b-16f4-4ee3-9983-8b39149f20a3');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.proposaltype.new','CONFG','1','ProposalTypeCode of NEW','A','aeecb1ed-a3f2-4823-8edc-0b41319422ef');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.proposaltype.renewal','CONFG','3','ProposalTypeCode of RENEWAL','A','06fe5a96-d244-48f7-821e-2cb3dd7ebe10');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.proposaltype.revision','CONFG','5','ProposalTypeCode of REVISION','A','acfe9c78-f644-46a2-8130-2b83ceecebcc');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.proposaltype.continuation','CONFG','4','ProposalTypeCode of CONTINUATION','A','395a9837-ca11-485c-96b0-a73b33af3921');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.proposaltype.resubmission','CONFG','2','ProposalTypeCode of RESUBMISSION','A','fb4d8d43-32ac-4f75-85bc-417882c65580');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.displayKeywordPanel','CONFG','TRUE','Display PROPOSAL Keyword panel','A','12a6021b-16f4-4ee3-9983-8b39149f20a3');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.kp','CONFG','Key Person','Description of key person for NIH Proposals','A','1edca222-74b0-462e-8f5a-99c53a085651');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.coi','CONFG','Co-Investigator','Description of co-investigator for NIH Proposals','A','9a801d65-487c-47e8-a167-f1c8354bb789');
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-GEN','A','personrole.pi','CONFG','Principal Investigator','Description of principal investigator for NIH Proposals','A','2d4d582a-20b0-4126-9ffe-ec183e069c21');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposalNarrativeTypeGroup','CONFG','P','Define NARRATIVE Type Group for PROPOSAL Attachments','A','1a3e346f-f0f6-4e38-b73b-215ed46940cc');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','instituteNarrativeTypeGroup','CONFG','O','Define NARRATIVE Type Group for Institute Attachments','A','05b6716b-68ec-49a7-855c-6c3c76675ceb');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','deliveryInfoDisplayIndicator','CONFG','Y','Flag to display delivery infor panel','A','082a353d-c02d-425a-ab85-9858d3e98599');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposalNarrativeTypeGroup','CONFG','P','Define NARRATIVE Type Group for PROPOSAL Attachments','A','1a3e346f-f0f6-4e38-b73b-215ed46940cc');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','instituteNarrativeTypeGroup','CONFG','O','Define NARRATIVE Type Group for Institute Attachments','A','05b6716b-68ec-49a7-855c-6c3c76675ceb');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','deliveryInfoDisplayIndicator','CONFG','Y','Flag to display delivery infor panel','A','082a353d-c02d-425a-ab85-9858d3e98599');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','budgetPersonDefaultJobCode','CONFG','0','The Job Code a new BUDGET Person should default to','A','d6173017-d9d4-4309-b69c-75c111efb04b');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','budgetPersonDefaultAppointmentType','CONFG','1','The Appointment Type a new BUDGET Person should default to','A','16f1162f-c2bd-4d18-ace4-7c79bfabb19e');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','budgetPersonDefaultCalculationBase','CONFG','0','The Calculation Base a new BUDGET Person should default to','A','eca249b7-76e0-49a6-bbd0-670b8ffed064');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','budgetPersonDefaultJobCode','CONFG','0','The Job Code a new BUDGET Person should default to','A','d6173017-d9d4-4309-b69c-75c111efb04b');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','budgetPersonDefaultAppointmentType','CONFG','1','The Appointment Type a new BUDGET Person should default to','A','16f1162f-c2bd-4d18-ace4-7c79bfabb19e');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','budgetPersonDefaultCalculationBase','CONFG','0','The Calculation Base a new BUDGET Person should default to','A','eca249b7-76e0-49a6-bbd0-670b8ffed064');
 
 -- Nervous system params we need
 INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,TXT,CONS_CD,PARM_DESC_TXT,PARM_TYP_CD,OBJ_ID) VALUES ('KR-NS','Document','SUPERVISOR_GROUP','KUALI_ROLE_SUPERVISOR','A','Workgroup which can perform almost any function within Kuali.','AUTH','28311bc2-7e3c-47dd-847c-ab7732345745'); 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) VALUES('KR-NS', 'Document', 'PESSIMISTIC_LOCK_ADMIN_GROUP', 'fe5bc9af-f97b-41ae-981a-cb32563a90a4', 1, 'AUTH', 'WorkflowAdmin', 'Workgroup which can perform admin deletion and lookup functions for Pessimistic Locks.', 'A'); 
 -- End nervous system params
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','budgetStatusCompleteCode','CONFG','1','Code corresponding to the BUDGET status of Complete','A','87db6adf-7bd3-42ec-9f4a-5c9240b65986');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','budgetStatusIncompleteCode','CONFG','2','Code corresponding to the BUDGET status of Incomplete','A','ce6dca0c-19b8-4915-b972-9fc1854854aa');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','budgetStatusCompleteCode','CONFG','1','Code corresponding to the BUDGET status of Complete','A','87db6adf-7bd3-42ec-9f4a-5c9240b65986');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','budgetStatusIncompleteCode','CONFG','2','Code corresponding to the BUDGET status of Incomplete','A','ce6dca0c-19b8-4915-b972-9fc1854854aa');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','defaultOverheadRateClassCode','CONFG','1','The overhead rate class a new BUDGET should default to','A','b22e7eaa-8c75-4438-8434-1d5825a83873');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','defaultOverheadRateTypeCode','CONFG','1','The overhead rate type a new BUDGET should default to','A','78d72f58-9097-4492-8035-8488cb1e2ef6');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','defaultUnderrecoveryRateClassCode','CONFG','1','The underrecovery rate class a new BUDGET should default to','A','f534d7ab-6eeb-440c-9a51-11e985eaf11f');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','defaultModularFlag','CONFG','N','Default value of modular flag for a new Budget.','A','e98947e3-c1f5-40b1-a7eb-474154df46b8');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','defaultOverheadRateClassCode','CONFG','1','The overhead rate class a new BUDGET should default to','A','b22e7eaa-8c75-4438-8434-1d5825a83873');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','defaultOverheadRateTypeCode','CONFG','1','The overhead rate type a new BUDGET should default to','A','78d72f58-9097-4492-8035-8488cb1e2ef6');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','defaultUnderrecoveryRateClassCode','CONFG','1','The underrecovery rate class a new BUDGET should default to','A','f534d7ab-6eeb-440c-9a51-11e985eaf11f');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','defaultModularFlag','CONFG','N','Default value of modular flag for a new Budget.','A','e98947e3-c1f5-40b1-a7eb-474154df46b8');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','s2s.revisiontype.other','CONFG','E','RevisionType of Other','A','e162a0c4-a702-46ae-b3a7-ba40d691e2c2');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','s2s.submissiontype.changedCorrected','CONFG','3','SubmissionType of Changed/Corrected','A','3db66eff-d472-4157-9889-d23431991c52');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','s2s.revisiontype.other','CONFG','E','RevisionType of Other','A','e162a0c4-a702-46ae-b3a7-ba40d691e2c2');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','s2s.submissiontype.changedCorrected','CONFG','3','SubmissionType of Changed/Corrected','A','3db66eff-d472-4157-9889-d23431991c52');
 
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KRA-B','D','budgetCurrentFiscalYear','CONFG','07/01/2000',' The starting fiscal year for a budget','A','6457928f-832e-4fc2-bd88-6b61631e765d');
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KRA-B','D','budgetCostSharingApplicabilityFlag','CONFG','Y',' Flag indicating if Cost Sharing is applicable for the budget','A','d6e7d8ea-07c8-448f-bbae-b070a01fc142');
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KRA-B','D','budgetUnrecoveredFandAApplicabilityFlag','CONFG','Y',' Flag indicating if Unrecovered &FA is applicable for the budget','A','39ee8471-b6ec-412a-a3c4-3b723d0a5acb');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KC-B','D','budgetCurrentFiscalYear','CONFG','07/01/2000',' The starting fiscal year for a budget','A','6457928f-832e-4fc2-bd88-6b61631e765d');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KC-B','D','budgetCostSharingApplicabilityFlag','CONFG','Y',' Flag indicating if Cost Sharing is applicable for the budget','A','d6e7d8ea-07c8-448f-bbae-b070a01fc142');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KC-B','D','budgetUnrecoveredFandAApplicabilityFlag','CONFG','Y',' Flag indicating if Unrecovered &FA is applicable for the budget','A','39ee8471-b6ec-412a-a3c4-3b723d0a5acb');
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) VALUES('KRA-B', 'D', 'budgetCostSharingEnforcementFlag', 1, 'CONFG', 'Y', 'Flag indicating if Cost Sharing allocation should be enforced', 'A','b0407efd-f1ce-4604-99db-136629180810');
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) VALUES('KRA-B', 'D', 'budgetUnrecoveredFandAEnforcementFlag',1, 'CONFG', 'Y', 'Flag indicating if Unrecovered F and A allocation should be enforced', 'A','3fc100f7-351f-40ce-9291-b54fcd55f913');
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) VALUES('KC-B', 'D', 'budgetCostSharingEnforcementFlag', 1, 'CONFG', 'Y', 'Flag indicating if Cost Sharing allocation should be enforced', 'A','b0407efd-f1ce-4604-99db-136629180810');
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) VALUES('KC-B', 'D', 'budgetUnrecoveredFandAEnforcementFlag',1, 'CONFG', 'Y', 'Flag indicating if Unrecovered F and A allocation should be enforced', 'A','3fc100f7-351f-40ce-9291-b54fcd55f913');
 
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) values ('KRA-B','D','subcontractorFandAGreaterThan25k','CONFG','420630','Cost element code for subcontractor F&A over 25k','A','1ed5e79c-ef96-41d0-84d6-f8ae6ab150e9');
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) values ('KRA-B','D','subcontractorFandALessThan25k','CONFG','420610','Cost element code for subcontractor F&A under 25k','A','cb490060-66c8-421d-ab9f-3344cb6e0ef4');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) values ('KC-B','D','subcontractorFandAGreaterThan25k','CONFG','420630','Cost element code for subcontractor F&A over 25k','A','1ed5e79c-ef96-41d0-84d6-f8ae6ab150e9');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd,OBJ_ID) values ('KC-B','D','subcontractorFandALessThan25k','CONFG','420610','Cost element code for subcontractor F&A under 25k','A','cb490060-66c8-421d-ab9f-3344cb6e0ef4');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetVersionsHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetversionspage.htm','Budget Page Help','A','e14e46eb-37aa-4385-9df9-caa4dd3af2fd');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetVersionsHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetversionspage.htm','Budget Page Help','A','e14e46eb-37aa-4385-9df9-caa4dd3af2fd');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetSummaryHelp','HELP','default.htm?turl=WordDocuments%2Fsummarypage.htm','Budget Page Help','A','04d07f99-8748-4238-89e8-0bb7c4b68c7a');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetSummaryHelp','HELP','default.htm?turl=WordDocuments%2Fsummarypage.htm','Budget Page Help','A','04d07f99-8748-4238-89e8-0bb7c4b68c7a');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetPersonnelHelp','HELP','default.htm?turl=WordDocuments%2Fprojectpersonnelpage.htm','Budget Page Help','A','a49a194c-a3d0-495e-895d-a12f4b66d5ec');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetPersonnelHelp','HELP','default.htm?turl=WordDocuments%2Fprojectpersonnelpage.htm','Budget Page Help','A','a49a194c-a3d0-495e-895d-a12f4b66d5ec');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetRatesHelp','HELP','default.htm?turl=WordDocuments%2Fratespage.htm','Budget Page Help','A','5427b171-2176-42b0-9183-a23eabb2e98f');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetRatesHelp','HELP','default.htm?turl=WordDocuments%2Fratespage.htm','Budget Page Help','A','5427b171-2176-42b0-9183-a23eabb2e98f');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetExpensesHelp','HELP','expensespage.htm','Budget Page Help','A','2ac5c941-8290-49bd-b041-674ce6a86f72');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetExpensesHelp','HELP','expensespage.htm','Budget Page Help','A','2ac5c941-8290-49bd-b041-674ce6a86f72');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetTotalsHelp','HELP','default.htm?turl=WordDocuments%2Ftotalspage.htm','Budget Page Help','A','6dda3557-c451-4aff-9cf0-161a1a6f9f6d');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetTotalsHelp','HELP','default.htm?turl=WordDocuments%2Ftotalspage.htm','Budget Page Help','A','6dda3557-c451-4aff-9cf0-161a1a6f9f6d');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetDistributionAndIncomeHelp','HELP','distributionincomepage.htm','Budget Page Help','A','e13d04ad-428f-431b-b2aa-beb109eaa10b');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetDistributionAndIncomeHelp','HELP','distributionincomepage.htm','Budget Page Help','A','e13d04ad-428f-431b-b2aa-beb109eaa10b');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetModularBudgetHelp','HELP','default.htm?turl=WordDocuments%2Fmodularbudgetpage.htm','Budget Page Help','A','a5e557b0-14d2-4767-badb-1cdecc166a96');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetModularBudgetHelp','HELP','default.htm?turl=WordDocuments%2Fmodularbudgetpage.htm','Budget Page Help','A','a5e557b0-14d2-4767-badb-1cdecc166a96');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetActionsHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetactionspage.htm','Budget Page Help','A','b406d322-1f51-4e66-ac1e-7f3d49d422ae');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetActionsHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetactionspage.htm','Budget Page Help','A','b406d322-1f51-4e66-ac1e-7f3d49d422ae');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetStatusHelpUrl','HELP','','Budget Status Help','A','44f35deb-a125-4322-bc49-2744ae7e3284');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetStatusHelpUrl','HELP','','Budget Status Help','A','44f35deb-a125-4322-bc49-2744ae7e3284');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetPeriodHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetperiodstotalstab.htm','Budget Period Help','A','fcf68b87-b2af-48d0-b895-64c82f64e71e');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetPeriodHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetperiodstotalstab.htm','Budget Period Help','A','fcf68b87-b2af-48d0-b895-64c82f64e71e');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetRateClassHelpUrl','HELP','default.htm?turl=WordDocuments%2Frateclasstab.htm','Rate Class Help','A','c872c8dc-3eb7-4f2b-9082-9c2d42f12de8');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetRateClassHelpUrl','HELP','default.htm?turl=WordDocuments%2Frateclasstab.htm','Rate Class Help','A','c872c8dc-3eb7-4f2b-9082-9c2d42f12de8');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetPersonHelpUrl','HELP','default.htm?turl=WordDocuments%2Fprojectpersonnelpage.htm','Budget Person Help','A','70f4bc6c-c100-4c3a-bf34-ca0566b36b55');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetPersonHelpUrl','HELP','default.htm?turl=WordDocuments%2Fprojectpersonnelpage.htm','Budget Person Help','A','70f4bc6c-c100-4c3a-bf34-ca0566b36b55');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetUnrecoveredFandAHelpUrl','HELP','default.htm?turl=WordDocuments%2Funrecoveredfatab.htm','Budget Unrecovered F and A Help','A','b26098dc-6835-42a4-94f0-5917f2c93f7f');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetUnrecoveredFandAHelpUrl','HELP','default.htm?turl=WordDocuments%2Funrecoveredfatab.htm','Budget Unrecovered F and A Help','A','b26098dc-6835-42a4-94f0-5917f2c93f7f');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetProjectIncomeHelpUrl','HELP','default.htm?turl=WordDocuments%2Fprojectincometab.htm','Budget Project Income Help','A','8e8c9fe2-1b41-4f4b-b424-658944578878');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetProjectIncomeHelpUrl','HELP','default.htm?turl=WordDocuments%2Fprojectincometab.htm','Budget Project Income Help','A','8e8c9fe2-1b41-4f4b-b424-658944578878');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetCategoryHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcategorytab.htm','Budget Category Help','A','8186da7f-a7c3-4575-8b75-c0d5098c0eb1');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetCategoryHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcategorytab.htm','Budget Category Help','A','8186da7f-a7c3-4575-8b75-c0d5098c0eb1');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetCostShareHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetcostsharetab.htm','Budget Page Help','A','c2188957-5b62-450f-bc15-ac38dbaf0166');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetCostShareHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetcostsharetab.htm','Budget Page Help','A','c2188957-5b62-450f-bc15-ac38dbaf0166');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetLineItemHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetlineitem.htm','Budget Page Help','A','2049e539-222e-4458-9eba-d14e06b64739');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetLineItemHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetlineitem.htm','Budget Page Help','A','2049e539-222e-4458-9eba-d14e06b64739');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetbudgetPersonnelDetailsHelpUrl','HELP','default.htm?turl=WordDocuments%2Fpersonneldetailstab.htm','Budget Page Help','A','79a50b9a-c77b-4ee7-bf19-6255077ae256');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetbudgetPersonnelDetailsHelpUrl','HELP','default.htm?turl=WordDocuments%2Fpersonneldetailstab.htm','Budget Page Help','A','79a50b9a-c77b-4ee7-bf19-6255077ae256');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','budgetModularHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetmodulartab.htm','Budget Page Help','A','10d3ba9d-a367-4695-adaf-4750b2dc98f0');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','budgetModularHelpUrl','HELP','default.htm?turl=WordDocuments%2Fbudgetmodulartab.htm','Budget Page Help','A','10d3ba9d-a367-4695-adaf-4750b2dc98f0');
 
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentKeyPersonnelHelp','HELP','default.htm?turl=WordDocuments%2Fkeypersonnelpage.htm','Proposal Development Page Help','A','70603feb-f137-4436-b92f-088127136ccf');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentKeyPersonnelHelp','HELP','default.htm?turl=WordDocuments%2Fkeypersonnelpage.htm','Proposal Development Page Help','A','70603feb-f137-4436-b92f-088127136ccf');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentSpecialReviewHelp','HELP','default.htm?turl=WordDocuments%2Fspecialreviewpage.htm','Proposal Development Page Help','A','a72646e7-3cda-4493-a1dd-ad0d061be015');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentSpecialReviewHelp','HELP','default.htm?turl=WordDocuments%2Fspecialreviewpage.htm','Proposal Development Page Help','A','a72646e7-3cda-4493-a1dd-ad0d061be015');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentCustomDataHelp','HELP','default.htm?turl=WordDocuments%2Fcustomdatapage.htm','Proposal Development Page Help','A','191381b3-9d13-433f-90a8-d943b5864790');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentCustomDataHelp','HELP','default.htm?turl=WordDocuments%2Fcustomdatapage.htm','Proposal Development Page Help','A','191381b3-9d13-433f-90a8-d943b5864790');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentQuestionsHelp','HELP','default.htm?turl=WordDocuments%2Fquestionspage.htm','Proposal Development Page Help','A','880cb602-32d7-4d99-bc8d-883c0cc8d1d4');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentQuestionsHelp','HELP','default.htm?turl=WordDocuments%2Fquestionspage.htm','Proposal Development Page Help','A','880cb602-32d7-4d99-bc8d-883c0cc8d1d4');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentPermissionsHelp','HELP','default.htm?turl=WordDocuments%2Fpermissionspage.htm','Proposal Development Page Help','A','2e39e8f8-ecca-4e3c-98ce-647889ef2e70');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentPermissionsHelp','HELP','default.htm?turl=WordDocuments%2Fpermissionspage.htm','Proposal Development Page Help','A','2e39e8f8-ecca-4e3c-98ce-647889ef2e70');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentAbstractsAttachmentsHelp','HELP','default.htm?turl=WordDocuments%2Fabstractsandattachmentspage.htm','Proposal Development Page Help','A','c0575455-9fa1-41e1-8b68-2953f02192fb');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentAbstractsAttachmentsHelp','HELP','default.htm?turl=WordDocuments%2Fabstractsandattachmentspage.htm','Proposal Development Page Help','A','c0575455-9fa1-41e1-8b68-2953f02192fb');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentProposalHelp','HELP','default.htm?turl=WordDocuments%2Fproposalpage.htm','Proposal Development Page Help','A','fad9291d-397e-437c-9850-ca1849b042d0');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentProposalHelp','HELP','default.htm?turl=WordDocuments%2Fproposalpage.htm','Proposal Development Page Help','A','fad9291d-397e-437c-9850-ca1849b042d0');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentGrantsGovHelp','HELP','default.htm?turl=WordDocuments%2Fgrantsgovpage.htm','Proposal Development Page Help','A','dd8697ab-128a-42b8-ae21-566281faa400');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentGrantsGovHelp','HELP','default.htm?turl=WordDocuments%2Fgrantsgovpage.htm','Proposal Development Page Help','A','dd8697ab-128a-42b8-ae21-566281faa400');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentActionsHelp','HELP','default.htm?turl=WordDocuments%2Fproposalactionspage.htm','Proposal Development Page Help','A','a65bcd69-4383-4d14-8d60-45347ee741e5');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentActionsHelp','HELP','default.htm?turl=WordDocuments%2Fproposalactionspage.htm','Proposal Development Page Help','A','a65bcd69-4383-4d14-8d60-45347ee741e5');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentSponsorHelpUrl','HELP','default.htm?turl=WordDocuments%2Fsponsorprograminformationtab.htm','Sponsor Help','A','4dbb3766-2db7-457b-ad03-dfa528434d9b');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentSponsorHelpUrl','HELP','default.htm?turl=WordDocuments%2Fsponsorprograminformationtab.htm','Sponsor Help','A','4dbb3766-2db7-457b-ad03-dfa528434d9b');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentOrganizationHelpUrl','HELP','default.htm?turl=WordDocuments%2F?organizationlocationtab.htm','Organization Help','A','dfc5e4e0-0d54-44a0-83fb-44c31488bd2b');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentOrganizationHelpUrl','HELP','default.htm?turl=WordDocuments%2F?organizationlocationtab.htm','Organization Help','A','dfc5e4e0-0d54-44a0-83fb-44c31488bd2b');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentLocationHelpUrl','HELP','default.htm?turl=WordDocuments%2Forganizationlocationtab.htm','Location Help','A','a4b8a26c-339d-41b8-853b-6152a184160c');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentLocationHelpUrl','HELP','default.htm?turl=WordDocuments%2Forganizationlocationtab.htm','Location Help','A','a4b8a26c-339d-41b8-853b-6152a184160c');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentKeywordsHelpUrl','HELP','default.htm?turl=WordDocuments%2Fkeywordstab.htm','Keywords Help','A','7de4f5a1-ea44-4d6b-a4f8-a32117a1a90d');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentKeywordsHelpUrl','HELP','default.htm?turl=WordDocuments%2Fkeywordstab.htm','Keywords Help','A','7de4f5a1-ea44-4d6b-a4f8-a32117a1a90d');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentCreditSplitHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcombinedcreditsplittab.htm','Credit Split Help','A','5e4621eb-12f8-439d-8d8b-916317c91338');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentCreditSplitHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcombinedcreditsplittab.htm','Credit Split Help','A','5e4621eb-12f8-439d-8d8b-916317c91338');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentYnqHelpUrl','HELP','','Yes/No Questions Help','A','d282113e-65a1-4beb-819e-8cab6b16cffd');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentYnqHelpUrl','HELP','','Yes/No Questions Help','A','d282113e-65a1-4beb-819e-8cab6b16cffd');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentPersonHelpUrl','HELP','','Person Help','A','3c0cd336-7035-4191-bbe8-e7e01ddc6c6a');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentPersonHelpUrl','HELP','','Person Help','A','3c0cd336-7035-4191-bbe8-e7e01ddc6c6a');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentOpportunityHelpUrl','HELP','default.htm?turl=WordDocuments%2Fopportunitysection.htm','Grants.gov Opportunity Help','A','7f5afd69-31e1-4446-a150-55123406a222');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentOpportunityHelpUrl','HELP','default.htm?turl=WordDocuments%2Fopportunitysection.htm','Grants.gov Opportunity Help','A','7f5afd69-31e1-4446-a150-55123406a222');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposalDevelopmentNarrativeHelpUrl','HELP','','Narrative Help','A','27bff79f-f0d8-42b4-9bf7-66fb15f22743');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposalDevelopmentNarrativeHelpUrl','HELP','','Narrative Help','A','27bff79f-f0d8-42b4-9bf7-66fb15f22743');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentAbstractHelpUrl','HELP','default.htm?turl=WordDocuments%2Fabstractstab.htm','Abstract Help','A','f2290dbd-d636-4c27-9d16-346542fe2615');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentAbstractHelpUrl','HELP','default.htm?turl=WordDocuments%2Fabstractstab.htm','Abstract Help','A','f2290dbd-d636-4c27-9d16-346542fe2615');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentCustomAttributeHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcustomattributetab.htm','Budget Page Help','A','7a54aa7a-60b2-47f2-94ee-537f0f88ee4d');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentCustomAttributeHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcustomattributetab.htm','Budget Page Help','A','7a54aa7a-60b2-47f2-94ee-537f0f88ee4d');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentMailByHelpUrl','HELP','default.htm?turl=WordDocuments%2Fmailbytab.htm','Budget Page Help','A','f6510e0d-697f-4ffd-ba76-777830f92614');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentMailByHelpUrl','HELP','default.htm?turl=WordDocuments%2Fmailbytab.htm','Budget Page Help','A','f6510e0d-697f-4ffd-ba76-777830f92614');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentProposalTypeHelpUrl','HELP','default.htm?turl=WordDocuments%2Frequiredfieldstab.htm','Budget Page Help','A','5038e498-8425-462b-823c-16563ccabab4');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentProposalTypeHelpUrl','HELP','default.htm?turl=WordDocuments%2Frequiredfieldstab.htm','Budget Page Help','A','5038e498-8425-462b-823c-16563ccabab4');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentSpecialReviewHelpUrl','HELP','default.htm?turl=WordDocuments%2Fspecialreviewtab.htm','Budget Page Help','A','25635d7c-f477-4461-a7dc-5105ae1c5ddb');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentSpecialReviewHelpUrl','HELP','default.htm?turl=WordDocuments%2Fspecialreviewtab.htm','Budget Page Help','A','25635d7c-f477-4461-a7dc-5105ae1c5ddb');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentCopyCriteriaHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcopytab.htm','Proposal Copy Criteria Help','A','dd5a4965-cb55-47e5-b68e-f8d71e83cbbe');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentCopyCriteriaHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcopytab.htm','Proposal Copy Criteria Help','A','dd5a4965-cb55-47e5-b68e-f8d71e83cbbe');
 
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-GEN','A','sponsorGroupHierarchyName','823CF24F070046C8A65E86EA8EAD9C6B',1,'HELP','Sponsor Groups','Sponsor Group Hierarchy Name','A');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-PD','D','proposaldevelopment.autogenerate.institutionalproposal','CONFG','Y','Should an Institutional PROPOSAL be automatically generated','A','3c10a8d4-bff9-4687-9871-eec0864afdb9');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-PD','D','proposaldevelopment.autogenerate.institutionalproposal','CONFG','Y','Should an Institutional PROPOSAL be automatically generated','A','3c10a8d4-bff9-4687-9871-eec0864afdb9');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','consortiumFnaCostElements','CONFG','420630;420610','Cost elements considered to be consortium F and A','A','d042fb61-59d7-4cbb-8c5e-1d5bc2fa5f85');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','consortiumFnaCostElements','CONFG','420630;420610','Cost elements considered to be consortium F and A','A','d042fb61-59d7-4cbb-8c5e-1d5bc2fa5f85');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B','D','fnaRateClassTypeCode','CONFG','O','Rate class type code for F and A','A','796dcacd-225d-473e-9104-364fbcd1c366');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B','D','fnaRateClassTypeCode','CONFG','O','Rate class type code for F and A','A','796dcacd-225d-473e-9104-364fbcd1c366');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','proposalDevelopmentDocumentHelp','HELP','default.htm?turl=WordDocuments%2Fproposaldevelopmentdocument.htm','Proposal Development Document Help','A','aa0e0d98-5279-412b-b728-0d557f132c6d');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','proposalDevelopmentDocumentHelp','HELP','default.htm?turl=WordDocuments%2Fproposaldevelopmentdocument.htm','Proposal Development Document Help','A','aa0e0d98-5279-412b-b728-0d557f132c6d');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','initialUnitLoadDepth','CONFG','4','Initial UnitHierarchy Load Depth','A','d56a9ddf-3a6f-475e-bc39-b6f4e5db2486');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','initialUnitLoadDepth','CONFG','4','Initial UnitHierarchy Load Depth','A','d56a9ddf-3a6f-475e-bc39-b6f4e5db2486');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-B', 'D','budgetPersonDefaultPeriodType','CONFG', '3','Default Period Type','A','b86e0e79-5ff9-4f54-a5e1-f0f144dec2f8');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','pessimisticLocking.cronExpression','CONFG','0 0 1 ? * *','The Cron Expression for Quartz to activate a clearing of old locks','A','225d56d7-b9d9-45d7-893e-eb5d425832c2');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-B', 'D','budgetPersonDefaultPeriodType','CONFG', '3','Default Period Type','A','b86e0e79-5ff9-4f54-a5e1-f0f144dec2f8');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','pessimisticLocking.cronExpression','CONFG','0 0 1 ? * *','The Cron Expression for Quartz to activate a clearing of old locks','A','225d56d7-b9d9-45d7-893e-eb5d425832c2');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','pessimisticLocking.expriationAge','CONFG','1440','The expiration timeout in minutes; expired locks are deleted','A','961fde1b-f117-4bac-bbbc-18b70558deb4');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','pessimisticLocking.expriationAge','CONFG','1440','The expiration timeout in minutes; expired locks are deleted','A','961fde1b-f117-4bac-bbbc-18b70558deb4');
 
 INSERT
 INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID )
-VALUES('KRA-PD', 'A', 'numberPerSponsorHierarchyGroup', 'CONFG', '300', 'Number of nodes per SPONSOR group', 'A','961fde1b-f117-4bac-bdbc-18b70558deb4');
+VALUES('KC-PD', 'A', 'numberPerSponsorHierarchyGroup', 'CONFG', '300', 'Number of nodes per SPONSOR group', 'A','961fde1b-f117-4bac-bdbc-18b70558deb4');
 
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KRA-B', 'D', 'JOBCODE_VALIDATION_ENABLED', 'CONFG', 'Y', 'Whether Job code based validation is enabled', 'A','b64966c5-fdd4-4bc4-bf11-7f762bd5acd2');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID) values ('KC-B', 'D', 'JOBCODE_VALIDATION_ENABLED', 'CONFG', 'Y', 'Whether Job code based validation is enabled', 'A','b64966c5-fdd4-4bc4-bf11-7f762bd5acd2');
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  VALUES ('KRA-B','D','budgetPersonDetailsDefaultPeriodType','CONFG','3','The Period Type of a newly budgeted Person should default to','A','2c9a6b8c-b736-4161-8124-857cd3bfaa7d');
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  VALUES ('KC-B','D','budgetPersonDetailsDefaultPeriodType','CONFG','3','The Period Type of a newly budgeted Person should default to','A','2c9a6b8c-b736-4161-8124-857cd3bfaa7d');
 
-insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,OBJ_ID) values ('KRA-B','A','All','0b85fa3a-2681-4d6f-9cc9-c1157ac56527');
-insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,OBJ_ID) values ('KRA-B','D','Document','03fb0909-e122-4061-8151-e656d58c70da');
+insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,OBJ_ID) values ('KC-B','A','All','0b85fa3a-2681-4d6f-9cc9-c1157ac56527');
+insert into KRNS_PARM_DTL_TYP_T(NMSPC_CD,PARM_DTL_TYP_CD,NM,OBJ_ID) values ('KC-B','D','Document','03fb0909-e122-4061-8151-e656d58c70da');
 
-insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','A','instituteRateClassTypes','CONFG','E;I;O;V;X','Manages a list of Institute rate class types.','A','faf11437-c52e-4cb6-97b2-e4e72ace3320');
+insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','A','instituteRateClassTypes','CONFG','E;I;O;V;X','Manages a list of Institute rate class types.','A','faf11437-c52e-4cb6-97b2-e4e72ace3320');
 
-insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','A','instituteLaRateClassTypes','CONFG','Y;L','Manages a list of Institute La rate class types.','A','a04b6329-2db2-40b2-966b-da395d45436d');
+insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','A','instituteLaRateClassTypes','CONFG','Y;L','Manages a list of Institute La rate class types.','A','a04b6329-2db2-40b2-966b-da395d45436d');
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID)  VALUES ('KRA-B', 'D', 'budgetCategoryType.personnel', 'CONFG', 'P', 'Personnel BUDGET Category Type', 'A','c69c18b6-5150-4b12-8013-fb8bc1140dc7');
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID)  VALUES ('KC-B', 'D', 'budgetCategoryType.personnel', 'CONFG', 'P', 'Personnel BUDGET Category Type', 'A','c69c18b6-5150-4b12-8013-fb8bc1140dc7');
 
 --INSERT INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM)  --VALUES('KR-NS', 'Document', 'PESSIMISTIC_LOCK_ADMIN_GROUP', '9ec127ef-d774-47b4-9df4-69c2140e6449', 1, 'AUTH', 'KUALI_ROLE_SUPERVISOR', 'Workgroup which can perform admin deletion and lookup functions for Pessimistic Locks.', 'A', 'KUALI_FMSOPS');
 
@@ -238,13 +238,13 @@ INSERT INTO KRNS_PARM_DTL_TYP_T(NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, 
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) VALUES ('KC-AWARD', 'D', 'award.creditsplit.enabled', 'cd9d4449-91d5-43fb-9e44-6f6027ab5edd', 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Award', 'A');
 
-Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', '8de694ee-0ba0-4ce3-ac9e-baf832766de4', 1, 'CONFG', '2', 'Value for PROPOSAL Contact Type', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KC-PD', 'D', 'PROPOSAL_CONTACT_TYPE', '8de694ee-0ba0-4ce3-ac9e-baf832766de4', 1, 'CONFG', '2', 'Value for PROPOSAL Contact Type', 'A');
 
-Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values('KRA-PD', 'D', 'MULTI_CAMPUS_ENABLED', '2e677f3d-4d9a-444e-883b-b4b3b6ae836a', 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values('KC-PD', 'D', 'MULTI_CAMPUS_ENABLED', '2e677f3d-4d9a-444e-883b-b4b3b6ae836a', 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A');
 
-Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KRA-PD', 'D', 'DHHS_AGREEMENT', 'df3ef743-67cd-4f7f-863e-5095ec282e50', 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KC-PD', 'D', 'DHHS_AGREEMENT', 'df3ef743-67cd-4f7f-863e-5095ec282e50', 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A');
 
-Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', 'fb1829e1-094e-4e32-987c-be0db41a8a32', 1, 'CONFG', '0', 'Flag for enabling/disabling scheduler service', 'A');
+Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KC-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', 'fb1829e1-094e-4e32-987c-be0db41a8a32', 1, 'CONFG', '0', 'Flag for enabling/disabling scheduler service', 'A');
 
 Insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', '3aa4347c-2fa4-4972-8be5-57388799c6a0', 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A');
 
@@ -254,7 +254,7 @@ insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_D
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) VALUES ('KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', 'd7de3475-6496-40fc-a55a-47ddf1e99abc', 1, 'CONFG', 'N', 'Determines whether the Credit Split is turned on for IP', 'A');
 
-insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', '4515bac3-0167-4bbf-94f4-f737f3247e0c', 1, 'CONFG', '009800', 'Generic SPONSOR code used for printing SPONSOR form', 'A');
+insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) Values ('KC-PD', 'D', 'GENERIC_SPONSOR_CODE', '4515bac3-0167-4bbf-94f4-f737f3247e0c', 1, 'CONFG', '009800', 'Generic SPONSOR code used for printing SPONSOR form', 'A');
 
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD, NM, ACTV_IND, APPL_NMSPC_CD, OBJ_ID) VALUES ('KC-WKFLW', 'KC Workflow Infrastructure', 'Y', NULL, '9d6c41dd-964d-4af9-8be9-7a4f7b693006');
 
@@ -300,18 +300,18 @@ INSERT INTO KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, pa
 INSERT INTO KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)  VALUES ('KC-T','D','awardHierarchyHelpUrl','9840e24e-f271-4e39-9308-d77ecd051b27',1,'HELP','default.htm','Award Hierarchy Help','A'); 
 INSERT INTO KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)  VALUES ('KC-GEN','D','permissionsHelpUrl','5a37cdd6-a918-451f-9fcf-3f8bafc6deb2',1,'HELP','default.htm','Institutional PROPOSAL Intellectual Property Reivew Activity Help','A');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','A','SCHOOL_NAME','CONFG','Kuali Coeus','School Name','A','680e4304-ff27-49cd-8797-e8dfe37ae2b3');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','A','SCHOOL_ACRONYM','CONFG','KC','School acronym','A','b6726fce-906e-4e0e-a3a4-d066ff5c7288');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','A','SCHOOL_NAME','CONFG','Kuali Coeus','School Name','A','680e4304-ff27-49cd-8797-e8dfe37ae2b3');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','A','SCHOOL_ACRONYM','CONFG','KC','School acronym','A','b6726fce-906e-4e0e-a3a4-d066ff5c7288');
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-AWARD','A','ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST','CONFG','2143','obligated direct indirect cost','A','fd940dd9-5227-45f5-a918-f4dd4a00d57d');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A','0920b4d0-958a-4f83-8a69-105fb64f936f'); 
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','A','FELLOWSHIP_OSP_ADMIN','CONFG','qucikStart','Fellowship admin name','A','0920b4d0-958a-4f83-8a69-105fb64f936f'); 
 
 insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd) VALUES ('KC-GEN', 'A', 'sponsorLevelHierarchy', '5183FC8FA0B11606E0404F8189D8140F', 1, 'HELP', 'NIH', 'Sponsor Level Hierarchy', 'A');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','s2sschedulercronExpressionstarttime','CONFG','01-JAN-2010 00:00 AM','Starttime for s2s scheduler cron job to start','A','d658a498-6455-44ed-b457-63db92331e78');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KRA-PD','D','PI_CITIZENSHIP_FROM_CUSTOM_DATA','CONFG','01-JAN-2010 00:00 AM','It defines where the citizenship info should fetch from','A','8cf0972b-5bc1-4b50-96ea-12bb41825be8');
-INSERT INTO KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)  VALUES ('KRA-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD','73aa5808-4e2c-4463-ab8f-1e2950113ae2',1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','s2sschedulercronExpressionstarttime','CONFG','01-JAN-2010 00:00 AM','Starttime for s2s scheduler cron job to start','A','d658a498-6455-44ed-b457-63db92331e78');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID)  values ('KC-PD','D','PI_CITIZENSHIP_FROM_CUSTOM_DATA','CONFG','01-JAN-2010 00:00 AM','It defines where the citizenship info should fetch from','A','8cf0972b-5bc1-4b50-96ea-12bb41825be8');
+INSERT INTO KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd)  VALUES ('KC-PD','D','FEDERAL_ID_COMES_FROM_CURRENT_AWARD','73aa5808-4e2c-4463-ab8f-1e2950113ae2',1,'CONFG','N','Determines whether the Grants.Gov Federal ID must be populated from the current award.','A');
 
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-IDM','EntityNameImpl','PREFIXES','61645D045B0105D7E0404F8189D849B1',1,'CONFG','Ms;Mrs;Mr;Dr',null,'A','KUALI');
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-IDM','EntityNameImpl','SUFFIXES','61645D045B0205D7E0404F8189D849B1',1,'CONFG','Jr;Sr;Mr;Md',null,'A','KUALI');
@@ -369,11 +369,11 @@ Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TY
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-IDM','Document','MAX_MEMBERS_PER_PAGE','2238b58e-8fb9-102c-9461-def224dad9b3',1,'CONFG','20','The maximum number of ROLE or group members to display at once on their documents. If the number is above this value, the document will switch into a paging mode with only this many rows displayed at a time.','A','KUALI');
 Insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,APPL_NMSPC_CD) values ('KR-NS','Document','ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND','74382C90B076049FE0404F8189D84C5D',1,'CONFG','N','Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request.','A','KUALI');
 
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','awardBudgetEbRateClassCode','CONFG','5','The EB rate class code to be used for AWARD BUDGET if the rates are overridden on commitements tab','A','0628aaa3-8008-4c50-95bd-4bb0fada17cf');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','awardBudgetEbRateTypeCode','CONFG','6','The EB rate type code to be used for AWARD BUDGET if the rates are overridden on commitements tab','A','359f0f98-c1ab-44d0-a38d-2b495333b4c9');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','defaultFnARateClassCode','CONFG','1','The OH rate class code to be used for AWARD BUDGET if the fna rates are overridden on commitements tab','A','120e206f-df5f-4951-816b-1f76fc46da08');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','AWARD_BUDGET_TYPE_NEW_PARAMETER','CONFG','1','Default AWARD BUDGET status code','A','0d685c9d-0369-4f75-a551-51485b8f6718');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KRA-B','D','AWARD_BUDGET_STATUS_IN_PROGRESS_CODE','CONFG','1','Default AWARD BUDGET type code','A','d38ae7e2-0c98-46c5-aead-4028e682a04c');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','awardBudgetEbRateClassCode','CONFG','5','The EB rate class code to be used for AWARD BUDGET if the rates are overridden on commitements tab','A','0628aaa3-8008-4c50-95bd-4bb0fada17cf');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','awardBudgetEbRateTypeCode','CONFG','6','The EB rate type code to be used for AWARD BUDGET if the rates are overridden on commitements tab','A','359f0f98-c1ab-44d0-a38d-2b495333b4c9');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','defaultFnARateClassCode','CONFG','1','The OH rate class code to be used for AWARD BUDGET if the fna rates are overridden on commitements tab','A','120e206f-df5f-4951-816b-1f76fc46da08');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','AWARD_BUDGET_TYPE_NEW_PARAMETER','CONFG','1','Default AWARD BUDGET status code','A','0d685c9d-0369-4f75-a551-51485b8f6718');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) values ('KC-B','D','AWARD_BUDGET_STATUS_IN_PROGRESS_CODE','CONFG','1','Default AWARD BUDGET type code','A','d38ae7e2-0c98-46c5-aead-4028e682a04c');
 
 insert into KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) values ('kc', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_DOCUMENT_POPUP_IND', '5ec22391-42ae-4385-8256-061e807cedba', 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.', 'A');
 
