@@ -20,6 +20,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,7 +42,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
     .getLog(SponsorHierarchyDaoOjb.class);
     private static final String ERROR_MSG = "Error get sponsor codes.";
-    private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = sponsor_hierarchy.sponsor_code) from sponsor_hierarchy ";
+    private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = SPONSOR_HIERARCHY.sponsor_code) from SPONSOR_HIERARCHY ";
     private static final String SPONSOR_CODE_HOLDER = "((sponsorcodeholder))";
     private ParameterService parameterService;
     
@@ -151,7 +154,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
             whereSt = whereSt + " and level"+i+" = '" +levelName[i-1]+"'";
         }
 
-        String sql =  "select sponsor_code from sponsor_hierarchy "+whereSt;
+        String sql =  "select sponsor_code from SPONSOR_HIERARCHY "+whereSt;
         final String selectsql = sql;
         return (String)getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker broker) {
@@ -205,7 +208,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
             whereSt = whereSt + " and level"+i+" = '" +levelName[i-1]+"'";
         }
 
-        String sql ="select unique level"+level+", level"+level+"_sortid from sponsor_hierarchy "+whereSt+" order by level"+level+"_sortid";
+        String sql ="select unique level"+level+", level"+level+"_sortid from SPONSOR_HIERARCHY "+whereSt+" order by level"+level+"_sortid";
         final String selectsql = sql;
         return (String)getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker broker) {
@@ -266,6 +269,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                                String sponsorCodes = sqls[i].substring(idx1+3, sqls[i].length()-2);
                                String[] codes = sponsorCodes.split(";");
                                for (int j = 0; j < codes.length; j++) {
+                                   insertTemplate = insertTemplate.replace(", sysdate, objid,", ", " + getSysdate() + " ,"+ (new Long(new java.util.Date().getTime())).toString() +" ,");
                                    stmt.addBatch(insertTemplate.replace(SPONSOR_CODE_HOLDER, codes[j]));
                                    LOG.info("Save run scripts "+i+insertTemplate+codes[j]);
                                }
@@ -296,7 +300,12 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
         });
 
         }
-    
+
+    private String getSysdate() {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return "to_date('" + formatter.format(new Date()) +"','YYYY-MM-DD HH24:MI:SS')";
+    }
+
     /**
      * Sets the ParameterService.
      * @param parameterService the parameter service. 
