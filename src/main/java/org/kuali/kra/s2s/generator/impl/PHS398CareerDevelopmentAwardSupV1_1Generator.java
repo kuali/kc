@@ -134,8 +134,9 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		List<AttachedFileDataType> attachedFileList = new ArrayList<AttachedFileDataType>();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
-			case INTRODUCTION_TO_APPLICATION:
+			int narrativeTypeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
+			switch (narrativeTypeCode) {
+			case NARRATIVE_TYPE_INTRODUCTION_TO_APPLICATION:
 				IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory
 						.newInstance();
 				introductionToApplication
@@ -143,12 +144,12 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setIntroductionToApplication(introductionToApplication);
 				break;
-			case SPECIFIC_AIMS:
+			case NARRATIVE_TYPE_SPECIFIC_AIMS:
 				SpecificAims specificAims = SpecificAims.Factory.newInstance();
 				specificAims.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments.setSpecificAims(specificAims);
 				break;
-			case INCLUSION_ENROLLMENT_REPORT:
+			case NARRATIVE_TYPE_INCLUSION_ENROLLMENT_REPORT:
 				InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
 						.newInstance();
 				inclusionEnrollmentReport
@@ -156,7 +157,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setInclusionEnrollmentReport(inclusionEnrollmentReport);
 				break;
-			case PROGRESS_REPORT_PUBLICATION_LIST:
+			case NARRATIVE_TYPE_PROGRESS_REPORT_PUBLICATION_LIST:
 				ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
 						.newInstance();
 				progressReportPublicationList
@@ -164,7 +165,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setProgressReportPublicationList(progressReportPublicationList);
 				break;
-			case PROTECTION_OF_HUMAN_SUBJECTS:
+			case NARRATIVE_TYPE_PROTECTION_OF_HUMAN_SUBJECTS:
 				ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory
 						.newInstance();
 				protectionOfHumanSubjects
@@ -172,7 +173,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
 				break;
-			case INCLUSION_OF_WOMEN_AND_MINORITIES:
+			case NARRATIVE_TYPE_INCLUSION_OF_WOMEN_AND_MINORITIES:
 				InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
 						.newInstance();
 				inclusionOfWomenAndMinorities
@@ -180,7 +181,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
 				break;
-			case TARGETED_PLANNED_ENROLLMENT_TABLE:
+			case NARRATIVE_TYPE_TARGETED_PLANNED_ENROLLMENT_TABLE:
 				TargetedPlannedEnrollment targetedPlannedEnrollment = TargetedPlannedEnrollment.Factory
 						.newInstance();
 				targetedPlannedEnrollment
@@ -188,28 +189,28 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setTargetedPlannedEnrollment(targetedPlannedEnrollment);
 				break;
-			case INCLUSION_OF_CHILDREN:
+			case NARRATIVE_TYPE_INCLUSION_OF_CHILDREN:
 				InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory
 						.newInstance();
 				inclusionOfChildren.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setInclusionOfChildren(inclusionOfChildren);
 				break;
-			case VERTEBRATE_ANIMALS:
+			case NARRATIVE_TYPE_VERTEBRATE_ANIMALS:
 				VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory
 						.newInstance();
 				vertebrateAnimals.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setVertebrateAnimals(vertebrateAnimals);
 				break;
-			case SELECT_AGENT_RESEARCH:
+			case NARRATIVE_TYPE_SELECT_AGENT_RESEARCH:
 				SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory
 						.newInstance();
 				selectAgentResearch.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setSelectAgentResearch(selectAgentResearch);
 				break;
-			case PHS_CAREER_CONSORTIUM_CONTRACT:
+			case NARRATIVE_TYPE_PHS_CAREER_CONSORTIUM_CONTRACT:
 				ConsortiumContractualArrangements consortiumContractualArrangements = ConsortiumContractualArrangements.Factory
 						.newInstance();
 				consortiumContractualArrangements
@@ -217,21 +218,21 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setConsortiumContractualArrangements(consortiumContractualArrangements);
 				break;
-			case PHS_CAREER_RESOURCE_SHARING_PLAN:
+			case NARRATIVE_TYPE_PHS_CAREER_RESOURCE_SHARING_PLAN:
 				ResourceSharingPlans resourceSharingPlans = ResourceSharingPlans.Factory
 						.newInstance();
 				resourceSharingPlans.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setResourceSharingPlans(resourceSharingPlans);
 				break;
-			case CANDIDATE_BACKGROUND:
+			case NARRATIVE_TYPE_CANDIDATE_BACKGROUND:
 				CandidateBackground candidateBackground = CandidateBackground.Factory
 						.newInstance();
 				candidateBackground.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setCandidateBackground(candidateBackground);
 				break;
-			case CAREER_GOALS_AND_OBJECTIVES:
+			case NARRATIVE_TYPE_CAREER_GOALS_AND_OBJECTIVES:
 				CareerGoalsAndObjectives careerGoalsAndObjectives = CareerGoalsAndObjectives.Factory
 						.newInstance();
 				careerGoalsAndObjectives
@@ -239,7 +240,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setCareerGoalsAndObjectives(careerGoalsAndObjectives);
 				break;
-			case CAREER_DEVELOPMENT_AND_TRAINING:
+			case NARRATIVE_TYPE_CAREER_DEVELOPMENT_AND_TRAINING:
 				CareerDevelopmentAndTrainingActivities careerDevelopmentAndTrainingActivities = CareerDevelopmentAndTrainingActivities.Factory
 						.newInstance();
 				careerDevelopmentAndTrainingActivities
@@ -247,7 +248,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setCareerDevelopmentAndTrainingActivities(careerDevelopmentAndTrainingActivities);
 				break;
-			case RESPONSIBLE_CONDUCT_OF_RESEARCH:
+			case NARRATIVE_TYPE_RESPONSIBLE_CONDUCT_OF_RESEARCH:
 				ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
 						.newInstance();
 				responsibleConductOfResearch
@@ -255,21 +256,21 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setResponsibleConductOfResearch(responsibleConductOfResearch);
 				break;
-			case PHS398_MENTORING_PLAN:
+			case NARRATIVE_TYPE_PHS398_MENTORING_PLAN:
 				MentoringPlan mentoringPlan = MentoringPlan.Factory
 						.newInstance();
 				mentoringPlan.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setMentoringPlan(mentoringPlan);
 				break;
-			case PHS398_MENTOR_STATEMENTS_LETTERS:
+			case NARRATIVE_TYPE_PHS398_MENTOR_STATEMENTS_LETTERS:
 				StatementsOfSupport statementsOfSupport = StatementsOfSupport.Factory
 						.newInstance();
 				statementsOfSupport.setAttFile(getAttachedFileType(narrative));
 				careerDevelopmentAwardAttachments
 						.setStatementsOfSupport(statementsOfSupport);
 				break;
-			case PSH398_INSTITUTIONAL_ENVIRONMENT:
+			case NARRATIVE_TYPE_PSH398_INSTITUTIONAL_ENVIRONMENT:
 				InsitutionalEnvironment insitutionalEnvironment = InsitutionalEnvironment.Factory
 						.newInstance();
 				insitutionalEnvironment
@@ -277,7 +278,7 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setInsitutionalEnvironment(insitutionalEnvironment);
 				break;
-			case PHS398_INSTITUTIONAL_COMMITMENT:
+			case NARRATIVE_TYPE_PHS398_INSTITUTIONAL_COMMITMENT:
 				InstitutionalCommitment institutionalCommitment = InstitutionalCommitment.Factory
 						.newInstance();
 				institutionalCommitment
@@ -285,13 +286,13 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				careerDevelopmentAwardAttachments
 						.setInstitutionalCommitment(institutionalCommitment);
 				break;
-			case PHS_CAREER_APPENDIX:
+			case NARRATIVE_TYPE_PHS_CAREER_APPENDIX:
 				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
 						.newInstance();
 				attachedFileDataType = getAttachedFileType(narrative);
 				attachedFileList.add(attachedFileDataType);
 				break;
-			case PHS_CAREER_REASEARCH_STRATEGY:
+			case NARRATIVE_TYPE_PHS_CAREER_REASEARCH_STRATEGY:
 				ResearchStrategy researchStrategy = ResearchStrategy.Factory
 						.newInstance();
 				researchStrategy.setAttFile(getAttachedFileType(narrative));

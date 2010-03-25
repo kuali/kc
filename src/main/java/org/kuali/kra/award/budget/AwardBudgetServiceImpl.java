@@ -305,12 +305,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
+    int lineItemNumber=0,personnelLineItemNumber = 0;
     public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException {
-        BudgetDocument<Award> newBudgetDoc = getNewBudgetVersion(document, "Proposal Budget Copy : "+versionName==null?"":versionName);
-        if(newBudgetDoc==null) return null;
-        Budget budget = newBudgetDoc.getBudget();
-        List<BudgetPeriod> budgetPeriods = newBudgetDoc.getBudget().getBudgetPeriods();
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)getNewBudgetVersion(document, "Proposal Budget Copy "+(versionName==null?"":": "+versionName));
+        if(awardBudgetDocument==null) return null;
+        Budget budget = awardBudgetDocument.getBudget();
+        List<BudgetPeriod> budgetPeriods = awardBudgetDocument.getBudget().getBudgetPeriods();
         BudgetPeriod firstBudgetPeriod = budgetPeriods.size()>0?budgetPeriods.get(0):budget.getNewBudgetPeriod();
+        firstBudgetPeriod.setBudgetId(budget.getBudgetId());
+        lineItemNumber= 0;personnelLineItemNumber = 0;
         for (Iterator<BudgetPeriod> iter = rawValues.iterator(); iter.hasNext();) {
             BudgetPeriod budgetPeriod = (BudgetPeriod)iter.next();
             budgetPeriod.refreshReferenceObject("budgetLineItems");
@@ -321,24 +324,32 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             copiedBudgetPeriod.setBudget(budget);
         }
         getBudgetSummaryService().calculateBudget(budget);
-        getBusinessObjectService().save(budget);
-        budget.refresh();
-        return newBudgetDoc;
+        saveDocument(awardBudgetDocument);
+        awardBudgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
+//        getBusinessObjectService().save(budget);
+        return awardBudgetDocument;
     }
 
-    private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod copiedBudgetPeriod) {
+    private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
         List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
-        List<BudgetLineItem> lineItems = copiedBudgetPeriod.getBudgetLineItems();
+        List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : lineItems) {
-            String[] ignoreProperties = {"budgetLineItemId","budgetPeriodId","budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
+            String[] ignoreProperties = {"budgetId","budgetLineItemId","budgetPeriodId",
+                        "budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
+            awardBudgetLineItem.setLineItemNumber(++lineItemNumber);
+            awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
                 budgetPersonnelDetails.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
                 AwardBudgetPersonnelDetailsExt awardBudgetPerDetails = new AwardBudgetPersonnelDetailsExt();
-                BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList"});
+                BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
+                        new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId",
+                        "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList"});
+                awardBudgetPerDetails.setPersonNumber(++personnelLineItemNumber);
+                awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             awardBudgetLineItems.add(awardBudgetLineItem);
