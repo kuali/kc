@@ -198,20 +198,30 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        
+        ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getDocument();
+        getKeyPersonnelService().populateDocument(document);
+        updateNIHDescriptions(document);
+    }
+    
+    protected SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
+    
+    /**
+     * 
+     * Updates portions of the proposal that are not persisted and are based on whether the
+     * sponsor is NIH or not
+     * @param document
+     */
+    protected void updateNIHDescriptions(ProposalDevelopmentDocument document) {
         SponsorService sponsorService = getSponsorService();
-        DevelopmentProposal proposal = ((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument().getDevelopmentProposal();
+        DevelopmentProposal proposal = document.getDevelopmentProposal();
         // Update the NIH related properties since this information is not persisted with the document
         // (isSponsorNih sets the nih property as a side effect)
         if(sponsorService.isSponsorNih(proposal)) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
         proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
-        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument());
-    }
-    
-    protected SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
     }
     
 
@@ -289,6 +299,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                     
                     pdForm.setDocument(updatedDocCopy);
                     pdDocument = updatedDocCopy;
+                    updateNIHDescriptions(pdDocument);
                     
                     pdDocument.setBudgetDocumentVersions(newVersions);
                     pdDocument.getDevelopmentProposal().setBudgetStatus(budgetStatus);                  
@@ -307,6 +318,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
                    pdForm.setDocument(updatedDocCopy);
                    pdDocument = updatedDocCopy;
+                   updateNIHDescriptions(pdDocument);
     
                    //now re-add narratives that could include changes and can't be modified otherwise
                    pdDocument.getDevelopmentProposal().setNarratives(newNarratives);
