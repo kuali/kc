@@ -82,7 +82,6 @@ public class ProposalActionsWebTest extends ProposalDevelopmentWebTestBase {
         List<HtmlElement> grantsDotGovErrors = getAllElementsByName(auditOnProposalPage, "methodToCall.toggleTab.tabGrantsGovGrantsGovErrors", false);
 
         int numberGDGErrors = grantsDotGovErrors.size();
-        System.out.println("# errors = ["+numberGDGErrors+"]");
         
         org.junit.Assert.assertTrue(numberGDGErrors>0);
         

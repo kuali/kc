@@ -141,7 +141,7 @@ public class AwardPaymentAndInvoicesWebTest extends AwardPaymentsAndTermsWebTest
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
-        System.out.println("PAGEASTEXT: " + awardPaymentReportsAndTermsPageAfterSave.asText());
+
         assertContains(awardPaymentReportsAndTermsPageAfterSave,"Payment & Invoice Requirements (1) ");
         
         HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor1");
@@ -182,7 +182,7 @@ public class AwardPaymentAndInvoicesWebTest extends AwardPaymentsAndTermsWebTest
         HtmlPage awardPaymentReportsAndTermsPageAfterAdd = (HtmlPage) button1.click();
         
         HtmlPage awardPaymentReportsAndTermsPageAfterSave = clickOn(awardPaymentReportsAndTermsPageAfterAdd, "methodToCall.save");
-        System.out.println(awardPaymentReportsAndTermsPageAfterSave.asText());
+
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);        

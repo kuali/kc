@@ -191,8 +191,6 @@ public class AwardCreditSplitBeanTest {
                     KualiDecimal creditSplitValue = MAX_VALUE.divide(new KualiDecimal(units.size()));
                     for(AwardPersonUnit apu: units) {
                         apu.add(new AwardPersonUnitCreditSplit(creditType, creditSplitValue));
-    //                    System.out.println(String.format("Set %f credit split on %s for %s in %s", value.doubleValue(), p.getFullName(),
-    //                                                                                   apu.getUnitName(), creditType.getDescription()));
                     }
                 }
                 expectedPersonUnitCreditSplitTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);

@@ -99,7 +99,6 @@ public class ProposalPersonServiceImplTest extends KcraNoDataTestBase{
         //public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber) {
         ProposalPerson person = service.getProposalPersonById(PROPOSAL_NUMBER, TESTER_A_ID);
         if(person != null){
-            System.err.println(person.getProposalNumber());
             assertTrue("Expected name to be '" + TESTER_A_NAME + "' but was '" + person.getFullName() + "'", 
                     TESTER_A_NAME.equals(person.getFullName()));
         }else{
@@ -115,7 +114,6 @@ public class ProposalPersonServiceImplTest extends KcraNoDataTestBase{
         boolean foundRightPerson = false;
         while(i.hasNext()){
             ProposalPerson person = i.next();
-            //System.err.println(person.toString());
             if(person.getFullName().equals(TESTER_A_NAME)){
                 foundRightPerson = true;
             }

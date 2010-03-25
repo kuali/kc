@@ -207,28 +207,6 @@ public class Boundary {
         this.applicableCostSharing = applicableCostSharing;
     }
     
-    /** For testing **/
-    /*public static void main(String[] args) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(2001,10,10);
-        Date startDate = cal.getTime();
-        cal.set(2002,1,18);
-        Date endDate = cal.getTime();
-//        Date startDate = new Date("03/10/2001");
-//        Date endDate = new Date("03/09/2002");
-        Boundary boundary = new Boundary(startDate, endDate);
-        System.out.println("StartDate - " + boundary.getStartDate());
-        System.out.println("EndDate - " + boundary.getEndDate());
-        System.out.println("NoofDays - " + boundary.getDateDifference());
-        System.out.println("StartDateMonth - " + boundary.getStartDateMonth());
-        System.out.println("StartDateTotalDays - " + boundary.getStartDateTotalDays());
-        System.out.println("StartDateRemainingDays - " + boundary.getStartDateRemainingDays());
-        System.out.println("EndDateMonth - " + boundary.getEndDateMonth());
-        System.out.println("EndDateTotalDays - " + boundary.getEndDateTotalDays());
-        System.out.println("EndDateNoOfDays - " + boundary.getEndDateNoOfDays());
-        System.out.println("No of days list=>"+boundary.getNoOfDaysList().toString());
-    }*/
-    
  } // end Boundary
 
 

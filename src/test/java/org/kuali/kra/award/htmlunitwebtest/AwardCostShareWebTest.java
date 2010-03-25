@@ -181,7 +181,6 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         
         HtmlPage awardTimeAndMoneyPageAfterRecalculate = 
                 clickOn(awardTimeAndMoneyPageAfterSave,"methodToCall.recalculateCostShareTotal.anchorCostShare");
-        System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
         assertContains(awardTimeAndMoneyPageAfterRecalculate,"22345");
     }
     

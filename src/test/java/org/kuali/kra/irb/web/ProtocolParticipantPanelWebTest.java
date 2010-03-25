@@ -260,7 +260,6 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
         // Verify that an error has been thrown.
         List<String> errors = this.getErrors(protocolPage, PARTICIPANT_DIV);
-        System.out.println(">>>> error.size: " + errors.size());
         assertEquals(1, errors.size());
     }
 
