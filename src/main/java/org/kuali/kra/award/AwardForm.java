@@ -583,7 +583,8 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
      */
     public int getIndexOfAwardAmountInfoWithHighestTransactionId() {
-        return indexOfAwardAmountInfoWithHighestTransactionId;
+        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        return awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(getAwardDocument().getAward().getAwardAmountInfos());
     }
 
     /**
