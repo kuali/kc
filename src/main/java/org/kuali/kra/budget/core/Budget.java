@@ -85,7 +85,7 @@ public class Budget extends BudgetVersionOverview {
      */
     private static final long serialVersionUID = -252470308729741085L;
     private static final String DETAIL_TYPE_CODE = "D";
-    private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
+    private static final String BUDGET_NAMESPACE_CODE = "KC-B";
     private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
     private static final String DOCUMENT_TYPE_CODE = "BUDG";

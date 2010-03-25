@@ -41,7 +41,7 @@ public class PrintingUtils {
 
 	private static final String KEY_COUNTRY_CODE = "countryCode";
 	private static final String KEY_STATE_CODE = "stateCode";
-	private static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
+	private static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KC-PD";
 	private static final String PARAMETER_COMPONENT_DOCUMENT = "A";
 	private static String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
 	private static final String XSL_BUDGET_SUMMARY = "BudgetSummaryReport.xsl";

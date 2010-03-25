@@ -37,6 +37,7 @@ import org.kuali.kra.budget.rates.InstituteRateRateTypeRateClassRule;
 import org.kuali.kra.budget.rates.InstituteRateRateTypeRateClassRuleImpl;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -169,7 +170,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteLaRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteLaRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -203,7 +204,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -238,7 +239,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -289,7 +290,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -340,7 +341,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -391,7 +392,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
