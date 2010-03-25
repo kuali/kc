@@ -258,7 +258,7 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
          * There should be one errors.
          */
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        System.out.println(">>>> " + errorMap);
+
         assertEquals(1, errorMap.getErrorCount());
         
         /*

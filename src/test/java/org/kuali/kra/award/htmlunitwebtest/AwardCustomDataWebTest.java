@@ -35,7 +35,6 @@ public class AwardCustomDataWebTest extends AwardWebTestBase {
     public void testCustomDataPage() throws Exception {
         HtmlPage awardPage = buildAwardDocumentPage();
         HtmlPage customDataPage = clickOnTab(awardPage, CUSTOM_DATA_LINK_NAME);
-        System.out.print(customDataPage.asText());
 
         assertContains(customDataPage, GROUP_NAME);
         

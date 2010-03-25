@@ -179,7 +179,6 @@ public class InstitutionalProposalCostShareWebTest extends InstitutionalProposal
         
         HtmlPage awardTimeAndMoneyPageAfterRecalculate = 
                 clickOn(proposalDistributionPageAfterSave,"methodToCall.recalculateCostShareTotal.anchor");
-        System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
         assertContains(awardTimeAndMoneyPageAfterRecalculate,"22345");
     }
     

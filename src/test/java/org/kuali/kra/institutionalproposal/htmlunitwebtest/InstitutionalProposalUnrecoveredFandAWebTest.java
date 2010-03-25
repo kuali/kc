@@ -174,7 +174,6 @@ public class InstitutionalProposalUnrecoveredFandAWebTest extends InstitutionalP
         
         HtmlPage awardDistributionPageAfterRecalculate = 
                 clickOn(proposalDistributionPageAfterSave,"methodToCall.recalculateUnrecoveredFandATotal.anchorUnrecoveredFA");
-        System.out.println(awardDistributionPageAfterRecalculate.asText());
         assertContains(awardDistributionPageAfterRecalculate,"22345");
     }
     

@@ -52,7 +52,6 @@ public class KcPersonServiceImplTest extends KraTestBase {
         boolean foundExpectedPerson = false;
         while(i.hasNext()){
             KcPerson person = i.next();
-            //System.err.println("The KC Person: " + person.toString());
             if("admin".equals(person.getUserName())){
                 foundExpectedPerson = true;
             }

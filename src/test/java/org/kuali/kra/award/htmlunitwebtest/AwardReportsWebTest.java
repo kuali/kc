@@ -98,7 +98,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
-        System.out.println("PAGEASTEXT: " + awardPaymentReportsAndTermsPageAfterSave.asText());
+
         assertContains(awardPaymentReportsAndTermsPageAfterSave,"Fiscal (1) ");
         
         HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor4");
@@ -200,8 +200,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         
         assertContains(page, "Sunplus Technology Co., Ltd.");
         awardPaymentReportsAndTermsPageAfterSave = clickOn(page, "methodToCall.addRecipient.awardReportTerm1");
-        
-        System.out.println(awardPaymentReportsAndTermsPageAfterSave.asText());
+
     }
     
 }

@@ -164,11 +164,8 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     public void testUserRightsLastModifier() throws Exception {
         HtmlPage page = initUserRightsTest();
         HtmlPage userRightsPage = clickOnViewRights(page, 1);
-        try {
-            setNarrativeAccess(userRightsPage, 0, "R");
-        } catch (Throwable e) {
-            System.out.println(userRightsPage.asXml());
-        }
+        setNarrativeAccess(userRightsPage, 0, "R");
+
         userRightsPage = clickOn(userRightsPage, "save");
         List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
         assertTrue("At least one error should be flagged", errors.size() > 0);
@@ -187,11 +184,9 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     public void testUserRightsNoPermission() throws Exception {
         HtmlPage page = initUserRightsTest();
         HtmlPage userRightsPage = clickOnViewRights(page, 1);
-        try {
+
         setNarrativeAccess(userRightsPage, 1, "M");
-        } catch (Throwable e) {
-            System.out.println(userRightsPage.asXml());
-        }
+
         userRightsPage = clickOn(userRightsPage, "save");
         List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
         assertEquals(1, errors.size());
@@ -215,7 +210,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         loginAsTester();
         page = docSearch(docNbr);
         page = clickOnTab(page, ABSTRACTS_ATTACHMENTS_LINK_NAME);
-        System.out.println(page.asXml());
+
         HtmlPage userRightsPage = clickOnViewRights(page, 1);
         assertNull(getElement(userRightsPage, "save"));
         

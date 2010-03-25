@@ -77,8 +77,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void trace(String pattern, Object ... objs) {
-        System.out.printf(pattern, objs);
-        System.out.println();
+        Log log = getLog();
+        if (log.isTraceEnabled()) {
+            log.trace(getMessage(pattern, objs));
+        }
     }
 
     /**

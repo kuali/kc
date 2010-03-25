@@ -97,7 +97,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     @Test
     public void testEditOrganization() throws Exception {
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
-        System.out.println(organizationMaintenanceLookupPage.asXml());
+
         setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");

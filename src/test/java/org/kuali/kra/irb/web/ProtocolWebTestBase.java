@@ -188,7 +188,6 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     protected final HtmlPage buildProtocolDocumentPage() throws Exception {
         HtmlPage retval = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
-        System.out.println(retval.getTitleText());
         assertTrue(PROTOCOL_DOCUMENT_NAME.equals(retval.getTitleText()));
         return retval;
     }

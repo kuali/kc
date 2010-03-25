@@ -86,7 +86,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected final HtmlPage buildProposalDevelopmentPage() throws Exception {
         HtmlPage retval = clickOn(getPortalPage(), "Create Proposal", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
-        System.out.println(retval.getTitleText());
+
         assertTrue("Kuali :: Proposal Development Document".equals(retval.getTitleText()));
         return retval;
     }

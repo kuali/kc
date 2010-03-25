@@ -206,7 +206,7 @@ public class AwardFandaRateWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPageAfterSave,"document.awardList[0].awardFandaRate[1].underrecoveryOfIndirectCost","1945.00");
         
         HtmlPage awardTimeAndMoneyPageAfterRecalculate = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.recalculateFandARate");
-        System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
+
         assertContains(awardTimeAndMoneyPageAfterRecalculate,"3945");
     }
     

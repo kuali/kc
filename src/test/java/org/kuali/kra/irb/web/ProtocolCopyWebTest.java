@@ -201,8 +201,6 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
 
         List<DocProperty> properties = getComparableProperties(Protocol.class);
         for (DocProperty property : properties) {
-           
-          //  System.out.println("Compare " + property.getter.getName());
             Object value1 = property.getter.invoke(srcDoc.getProtocol());
             Object value2 = property.getter.invoke(destDoc.getProtocol());
             if (!equals(value1, value2)) {
@@ -302,11 +300,9 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
             isEqual = false;
         }
         else if (!obj1.getClass().equals(obj2.getClass())) {
-            //System.out.println("   Equals1 " + obj1.getClass().getName());
             isEqual = false;
         }
         else {
-           // System.out.println("   Equals2 " + obj1.getClass().getName());
             Package pkg = obj1.getClass().getPackage();
             if (obj1 instanceof Collection) {
                 Collection c1 = (Collection) obj1;

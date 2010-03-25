@@ -44,10 +44,4 @@ public class OjbBlobClobFieldConersion implements FieldConversion {
         }
         return sourceBytes;
     }
-
-    public static void main(String str[]){
-        OjbBlobClobFieldConersion t = new OjbBlobClobFieldConersion();
-        char[] bytes = "Geo".toCharArray();
-        System.out.println(new String((char[])t.javaToSql("Geo".getBytes())));
-    }
 }

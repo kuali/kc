@@ -634,8 +634,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        System.out.println("Print Tag: " + protocolForm.getActionHelper().getPrintTag());
         return mapping.findForward(MAPPING_BASIC);
     }
 

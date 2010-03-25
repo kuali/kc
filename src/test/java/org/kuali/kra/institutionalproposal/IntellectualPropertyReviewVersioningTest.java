@@ -50,7 +50,6 @@ public class IntellectualPropertyReviewVersioningTest {
         Assert.assertTrue(newIpReviewVersion.getSequenceNumber().equals(2));
         
         Assert.assertNull(newIpReviewVersion.getIpReviewActivities().get(0).getProposalIpReviewActivityId());
-        System.out.println(newIpReviewVersion.getIpReviewActivities().get(0).getSequenceNumber());
         Assert.assertTrue(newIpReviewVersion.getIpReviewActivities().get(0).getSequenceNumber().equals(2));
     }
     
