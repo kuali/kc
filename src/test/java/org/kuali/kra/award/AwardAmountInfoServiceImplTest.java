@@ -47,12 +47,12 @@ public class AwardAmountInfoServiceImplTest {
         addAwardAmountInfos(awardAmountInfos, 13);
         addAwardAmountInfos(awardAmountInfos, 32);
         addAwardAmountInfos(awardAmountInfos, 115);
-        Assert.assertEquals(new Long(115), awardAmountInfoServiceImpl.fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos).getTransactionId());
+        Assert.assertEquals(new Long(115), awardAmountInfoServiceImpl.fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos).getAwardAmountInfoId());
     }
     
-    private void addAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos, int transactionId) {
+    private void addAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos, int awardAmountInfoId) {
         AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-        newAwardAmountInfo.setTransactionId(new Long(transactionId));
+        newAwardAmountInfo.setAwardAmountInfoId(new Long(awardAmountInfoId));
         awardAmountInfos.add(newAwardAmountInfo);
     }
 
