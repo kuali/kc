@@ -45,6 +45,7 @@
           	</tr>     
           	
           	<%-- <kra:section permission="modifyInstitutionalProposal"> --%>   
+            <c:if test="${!readOnly}">
              <tr>
                 <c:set var="textAreaFieldName" value="newSpecialReview.comments" />
 				<th class="infoline">
@@ -106,6 +107,7 @@
 					</div>
                 </td>
             </tr>
+            </c:if>
             <%--</kra:section>--%>
             
         	<c:forEach var="specialReview" items="${KualiForm.document.institutionalProposal.specialReviews}" varStatus="status">
@@ -173,8 +175,10 @@
 					<td>
 					<div align=center>&nbsp;
 					<%--<kra:section permission="modifyInstitutionalProposal">--%>  
+                       <c:if test="${!readOnly}">
 						<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                       </c:if>
 					<%--</kra:section>--%>  
 					</div>
 	                </td>
