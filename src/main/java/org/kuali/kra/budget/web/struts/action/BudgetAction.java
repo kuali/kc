@@ -615,7 +615,6 @@ public class BudgetAction extends BudgetActionBase {
             baos.write(xbts);
             
             WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-            
         }finally{
             try{
                 if(baos!=null){

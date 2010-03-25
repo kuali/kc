@@ -94,8 +94,14 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String INCREASE_AWARD_DECREASE_DURATION_CODE = "AD";
     protected static final String DECREASE_AWARD_INCREASE_DURATION_CODE = "BC";
     protected static final String DECREASE_AWARD_DECREASE_DURATION_CODE = "BD";
-
-    protected static final int PROPOSAL_TYPE_RESUBMISSION = 4;
+    
+    protected static final int PROPOSAL_TYPE_NEW = 1;
+    protected static final int PROPOSAL_TYPE_RESUBMISSION = 2;
+    protected static final int PROPOSAL_TYPE_RENEWAL = 3;
+    protected static final int PROPOSAL_TYPE_CONTINUATION = 4;
+    protected static final int PROPOSAL_TYPE_REVISION = 5;
+    
+    
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     
     /**
