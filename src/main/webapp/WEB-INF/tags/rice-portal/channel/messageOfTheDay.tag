@@ -15,11 +15,18 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+<c:set var="motd" value="<%= (org.kuali.kra.infrastructure.KraServiceLocator.getService(org.kuali.kra.service.MessageOfTheDayService.class)).getMessagesOfTheDay() %>" scope="page"/>
 <c:if test="${!empty pageScope.motd}">
-    <channel:portalChannelTop channelTitle="Message Of The Day" />
-    <div class="body">
-        <strong><c:out value="${pageScope.motd}"  /></strong>
-        </div>
+	<channel:portalChannelTop channelTitle="Messages Of The Day" />
+	<c:set var = "printed" value = "false"/>
+	<c:forEach items = "${pageScope.motd}" var = "msg">
+	    	<c:set var= "printed" value = "true"/>
+			<div class="body">
+        		<strong><c:out value="${msg.message}"  /></strong>
+        	</div>
+   </c:forEach>
+	<c:if test = "${!printed}">
+	    <div class = "body">No messages today.</div>
+	</c:if>
     <channel:portalChannelBottom />
 </c:if>
