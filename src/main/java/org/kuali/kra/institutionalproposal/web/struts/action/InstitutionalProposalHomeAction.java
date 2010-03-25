@@ -184,6 +184,12 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         propMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         InstitutionalProposal prop = propMultiLookupForm.getInstitutionalProposalDocument().getInstitutionalProposal();
         getKeywordService().addKeywords(prop, propMultiLookupForm);
+       
+        //load the rolodex if we have one in case we just searched for it
+        if (prop.getRolodexId() != null) {
+            prop.refreshReferenceObject("rolodex");
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
     
