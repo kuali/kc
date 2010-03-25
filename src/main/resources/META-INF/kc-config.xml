@@ -13,39 +13,45 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+<!--
+This config file should only contain config locations not actual config properties.
+-->
 <config>
-<!--KC Modification Start-->
-	<param name="environment">${build.environment}</param>
-	<param name="build.environment" override="false">dev</param>
-	<param name="version">${build.version}</param>
-
-	<param name="module.name">kc</param>
-	<param name="service.namespace">kc</param>
-	<param name="app.namespace">kc</param>
-<!--KC Modification End-->
-
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
-
+	<!-- 
+		Rice's project defaults
+		
+		Contains properties that may not be set by KC's defaults.  This properties
+		should never override.
+	-->
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<!--
+		KC's project defaults
+		
+		Contains either properties that differ from the rice defaults or
+		KC specific propeties
+	-->
+	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
+	
+	<!-- 
+		Rice's standard config file locations
+		
+		Contains locations to find other config files.
+	 -->
 	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 
-<!--  add this here too to override what might have been set from common-config-defaults and common-config-locations.xml :-) -->
-<!--KC Modification Start-->
-	<param name="version">${build.version}</param>
-
-	<param name="module.name">kc</param>
-	<param name="service.namespace">kc</param>
-	<param name="app.namespace">kc</param>
-<!--KC Modification End-->
-	
-<!-- KC Modification Start -->
-	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
-	<param name="config.location">${user.home}/kuali/main/${environment}/kc-config.xml</param>
+	<!-- 
+		KC's external config
+		
+		Config location for the IU environment
+	-->
 	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kc-config.xml</param>
 	
-<!--KC Modification End-->
+	<!--
+		KC's alternate location
+		
+		A hook to set an alternate config location
+	-->
 	<param name="config.location">${alt.config.location}</param>
-
-    <param name="portal.show.sample.app">true</param>
 </config>
