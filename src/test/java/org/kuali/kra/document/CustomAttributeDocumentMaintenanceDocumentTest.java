@@ -36,7 +36,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
                         @UnitTestSql("delete from CUSTOM_ATTRIBUTE_DOCUMENT where DOCUMENT_TYPE_CODE = 'INPR' and CUSTOM_ATTRIBUTE_ID = 99"),
                         @UnitTestSql("delete from CUSTOM_ATTRIBUTE where ID = 99"),
                         @UnitTestSql("update CUSTOM_ATTRIBUTE_DOCUMENT set type_name = '' where CUSTOM_ATTRIBUTE_ID = 7"),
-                        @UnitTestSql("INSERT INTO CUSTOM_ATTRIBUTE (ID,NAME,LABEL,DATA_TYPE_CODE,DATA_LENGTH,DEFAULT_VALUE,LOOKUP_CLASS,LOOKUP_RETURN,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR) VALUES (99,'test99','Test 99','3',10,null,null,null,'Test group',sysdate,'quicksta',1)")
+                        @UnitTestSql("INSERT INTO CUSTOM_ATTRIBUTE (ID,NAME,LABEL,DATA_TYPE_CODE,DATA_LENGTH,DEFAULT_VALUE,LOOKUP_CLASS,LOOKUP_RETURN,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR, OBJ_ID) VALUES (99,'test99','Test 99','3',10,null,null,null,'Test group',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'quicksta',1,'29B87CA0-366A-A250-6D6A-63FEB05B4584')")
                         ,@UnitTestSql("commit")
                 }
         )
