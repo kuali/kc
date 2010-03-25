@@ -20,7 +20,7 @@
   <ul class="chan">
     <li>Employee Status</li>
     <li>Employee Type</li>
-    <li>Message of the Day</li>
+    <li><portal:portalLink displayTitle="true" title="Messages Of The Day" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.MessageOfTheDay&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li><portal:portalLink displayTitle="true" title="Person Extended Attributes" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.KcPersonExtendedAttributes&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>System Options</li>
   </ul>

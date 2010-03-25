@@ -1968,4 +1968,8 @@
   	
   	<bean id="deepCopyPostProcessor" class="org.kuali.kra.service.impl.DeepCopyPostProcessorImpl" />	
 
+	<bean id="messageOfTheDayService" class="org.kuali.kra.service.impl.MessageOfTheDayServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+  	</bean>
+	
 </beans>
