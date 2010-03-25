@@ -77,7 +77,7 @@ public interface Constants {
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
-    public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KRA-PD";
+    public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
@@ -150,7 +150,7 @@ public interface Constants {
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
-    public static final String MODULE_NAMESPACE_BUDGET = "KRA-B"; 
+    public static final String MODULE_NAMESPACE_BUDGET = "KC-B"; 
     public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
     
     // Budget Versions Constants
