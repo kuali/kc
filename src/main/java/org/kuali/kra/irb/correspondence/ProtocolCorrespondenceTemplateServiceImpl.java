@@ -51,14 +51,6 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
     
-    public void deleteDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType) {
-        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
-    }
-    
-    public void deleteCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, int index) {
-        correspondenceType.getProtocolCorrespondenceTemplates().remove(correspondenceType.getCommitteeProtocolCorrespondenceTemplates().get(index));
-    }
-    
     public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
             List<ProtocolCorrespondenceTemplate> deletedBos) {
         if (!deletedBos.isEmpty()) {
