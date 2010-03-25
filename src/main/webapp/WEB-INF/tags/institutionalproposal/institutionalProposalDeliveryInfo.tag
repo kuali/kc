@@ -67,7 +67,7 @@
 					</c:choose>
 					<c:if test="${empty readOnly or !readOnly}" >  
 						<c:out value="${mailingInfo}"/>
-						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId,firstName:document.institutionalProposal.rolodex.firstName,lastName:document.institutionalProposal.rolodex.lastName,organization:document.institutionalProposal.rolodex.organization,addressLine1:document.institutionalProposal.rolodex.addressLine1,addressLine2:document.institutionalProposal.rolodex.addressLine2,addressLine3:document.institutionalProposal.rolodex.addressLine3,city:document.institutionalProposal.rolodex.city,state:document.institutionalProposal.rolodex.state,postalCode:document.institutionalProposal.rolodex.postalCode" anchor="${currentTabIndex}"/><br>
+						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/><br>
 	                </c:if>
 	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.firstName}" >
 	                    <span id="mailingFirstName">${KualiForm.document.institutionalProposal.rolodex.firstName}</span>&nbsp;
