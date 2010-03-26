@@ -1870,10 +1870,16 @@ public class S2SBudgetCalculatorServiceImpl implements
 						}
 					}
 					if (!personAlreadyAdded) {
-						Rolodex rolodexPerson = rolodexService
+					    Rolodex rolodexPerson = null;
+					    try {
+					        // principal ID length > 10 cause numberformat exception
+						    rolodexPerson = rolodexService
 								.getRolodex(Integer
 										.parseInt(budgetPersonnelDetails
 												.getPersonId()));
+					    } catch (Exception e) {
+                            LOG.error("Rolodex not found " + e);
+					    }
 						if (rolodexPerson != null) {
 							keyPerson = new KeyPersonInfo();
 							keyPerson
