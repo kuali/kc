@@ -92,7 +92,7 @@
             			</c:when>
 						<c:otherwise>
     				    	<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
-    				    	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' />
+    				    <%--	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> --%>
     				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
     				    							anchor="${tabKey}" 
     				    							lookupParameters="${pathToVersions}.award.awardId:budgetParentId"
