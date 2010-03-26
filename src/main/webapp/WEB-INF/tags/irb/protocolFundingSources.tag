@@ -88,7 +88,7 @@
                                         <input type="hidden" name="protocolHelper.newFundingSource.fundingSourceTitle" value="">              
                                     </c:if>   
                                 <div id="protocolHelper.newFundingSource.fundingSourceTitle.div" >
-                                    <c:if test="${!empty KualiForm.protocolHelper.newFundingSource.fundingSource} && ${KualiForm.protocolHelper.newFundingSource.fundingSource} != null }">   
+                                    <c:if test="${!empty KualiForm.protocolHelper.newFundingSource.fundingSource} && ${KualiForm.protocolHelper.newFundingSource.fundingSource != null }">   
                                         <c:choose>
                                             <c:when test="${empty KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}">
                                                 <span style='color: red;'>not found</span>
