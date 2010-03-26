@@ -91,9 +91,10 @@ public class PHS398ResearchPlanV1_3Generator extends
 		OtherResearchPlanSections otherResearchPlanSections = OtherResearchPlanSections.Factory
 				.newInstance();
 
+        ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+		    switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 			case INTRODUCTION_TO_APPLICATION:
 				IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory
 						.newInstance();
@@ -108,9 +109,7 @@ public class PHS398ResearchPlanV1_3Generator extends
 				researchPlanAttachments.setSpecificAims(specificAims);
 				break;
 			case RESEARCH_STRATEGY:
-			    ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
 			    researchStrategy.setAttFile(getAttachedFileType(narrative));
-				researchPlanAttachments.setResearchStrategy(researchStrategy);
 				break;
 			case INCLUSION_ENROLLMENT_REPORT:
 				InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
@@ -203,6 +202,7 @@ public class PHS398ResearchPlanV1_3Generator extends
 				break;
 			}
 		}
+        researchPlanAttachments.setResearchStrategy(researchStrategy);
 		researchPlanAttachments.setHumanSubjectSection(humanSubjectSection);
 		researchPlanAttachments
 				.setOtherResearchPlanSections(otherResearchPlanSections);
