@@ -1,0 +1,10 @@
+<config>
+	<!-- KC Client DB -->
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+	<param name="datasource.username">KRADEV</param>
+	<param name="datasource.password">ask your team</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
+	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+</config>
