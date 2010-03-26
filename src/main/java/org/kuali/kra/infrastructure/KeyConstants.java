@@ -692,6 +692,7 @@ public final class KeyConstants {
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
     
     public static final String ERROR_PENDING_PROPOSAL_LOG_ONLY = "error.pending.proposallog.only";
+    public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
 
     /**
      * private utility class ctor.
