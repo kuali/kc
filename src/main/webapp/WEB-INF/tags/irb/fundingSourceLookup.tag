@@ -37,7 +37,23 @@
   </c:otherwise>
 </c:choose>
 
-<input type="image" tabindex="${tabindex}" name="methodToCall.performFundingSourceLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"
+
+<c:set var="lookupAFundingSourceSponsor" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceSponsor)}
+
+<c:set var="lookupAFundingSourceUnit" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.bo.Unit!!).(((unitNumber:protocolHelper.newFundingSource.fundingSource,unitName:protocolHelper.newFundingSource.fundingSourceName,unitName:protocolHelper.newFundingSource.fundingSourceName.div,))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor5.x"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceUnit)}
+
+<c:set var="lookupAFundingSourceDP" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal!!).(((proposalNumber:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor5.x"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceDP)}
+
+<c:set var="lookupAFundingSourceAward" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.award.home.Award!!).(((awardId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor5.x"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceAward)}
+
+<c:set var="lookupAFundingSource" value="methodToCall.performFundingSourceLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSource)}
+		
+<input type="image" tabindex="${tabindex}" name="${lookupAFundingSource}"
    src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />
    
    
