@@ -137,25 +137,10 @@
 						<filtering>true</filtering>
 						<directory>${basedir}/src/main/resources</directory>
 						<includes>
-							<include>META-INF/kc-config.xml</include>
-							<include>log4j.xml</include>
+							<include>META-INF/kc-config-build.xml</include>
+							<include>log4j.properties</include>
 						</includes>
 					</resource>
-					<resource>
-						<directory>${basedir}/src/main/resources</directory>
-						<excludes>
-							<exclude>kc-config.xml</exclude> 
-						</excludes>
-					</resource>
-					<!-- 
-					<resource>
-						<filtering>true</filtering>
-						<directory>${basedir}/src/main/resources</directory>
-						<includes>
-							<include>soap_server.properties</include>
-						</includes>
-					</resource>
-					 -->
 				</resources>
 				<plugins>
 					<plugin>

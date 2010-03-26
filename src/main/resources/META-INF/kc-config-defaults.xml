@@ -1,21 +1,9 @@
 <config>
 	
-	<!--  from kc-config.xml start-->
-	<param name="portal.show.sample.app">true</param>
-	
-	<param name="environment">${build.environment}</param>
+	<!-- must set override to false because these properties might have been set by the build process -->
 	<param name="build.environment" override="false">dev</param>
-	<param name="version">${build.version}</param>
+	<param name="build.version" override="false">NO VERSION</param>
 
-	<param name="module.name">kc</param>
-	<param name="service.namespace">kc</param>
-	<param name="app.namespace">kc</param>
-	
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
-	
-	<!-- from kc-config.xml end -->
-	
 	<!-- run modes -->
 	<!-- when changing runmodes to embedded/remote make sure to update rice server DB & turn dev.mode to false -->
 	<param name="kim.runmode">local</param>
@@ -24,6 +12,15 @@
 	<param name="ken.runmode">local</param>
 	
 	<param name="dev.mode">true</param>
+
+	<param name="portal.show.sample.app">false</param>
+
+	<param name="module.name">kc</param>
+	<param name="service.namespace">kc</param>
+	<param name="app.namespace">kc</param>
+	
+	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
 	
 	<!-- App specific parameters -->
 	<param name="app.code">${module.name}</param>
@@ -34,7 +31,7 @@
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
 	<param name="rice.app.url">${application.url}</param>
-	<param name="production.environment.code">PRD</param>
+
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
@@ -65,14 +62,7 @@
 	
 	<param name="serviceServletUrl">${application.url}/remoting/</param>
 
-	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
-	<param name="attachments.directory">${java.io.tmpdir}</param>
 	<param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
-
-	<!-- Misc parameters -->
-	<param name="institution">iu</param>
-	<param name="security.directory">/usr/local/rice/</param>
-	<param name="settings.directory">/usr/local/rice/</param>
 	
 	<!--messages -->
 	<param name="core.rice.struts.message.resources">KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources</param>
@@ -80,11 +70,7 @@
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
 	<param name="transaction.timeout">3600</param>
-	<param name="memory.monitor.threshold">.85</param>
 	<param name="maintain.users.locally">true</param>
-
-	<param name="log4j.reload.minutes">5</param>
-	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
 	<param name="bus.refresh.rate">30</param>
 	<param name="threadPool.size">5</param>
@@ -107,35 +93,19 @@
 	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
 	<param name="keystore.password">s1t0spss!xX-tst</param>
 
-	<param name="message.persistence">true</param>
 	<param name="message.delivery">synchronous</param>
-
-	<param name="edl.config.loc">classpath:META-INF/EDLConfig.xml</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
-	<param name="data.xml.pending.location">${data.xml.root.location}pending</param>
-	<param name="data.xml.loaded.location">${data.xml.root.location}loaded</param>
-	<param name="data.xml.problem.location">${data.xml.root.location}problem</param>
 	<param name="attachment.dir.location">/opt/ears/</param>
-	<param name="data.xml.pollIntervalSecs">30</param>
-	<param name="initialDelaySecs">10</param>
-	<param name="workgroup.url">Workgroup.do</param>
-	<param name="workgroup.report.url">Workgroup.do</param>
-	<param name="user.url">WorkflowUser.do</param>
-	<param name="user.report.url">WorkflowUserReport.do</param>
 
 	<!-- Kuali parameters -->
-	<param name="mail.relay.server">mail.relay.server</param>
-	<param name="mailing.list.batch">mailing.list.batch</param>
 	<param name="encryption.key">7IC64w6ksLU</param>
 	<param name="keystore.alias">kul</param>
 	<param name="keystore.password">kulpass</param>
-	<param name="kfsLocator.useAppContext">true</param>
 	<param name="rice.user">true</param>
 	<param name="actionlist.outbox">true</param>
 	<param name="ActionList.norefresh">false</param>
-	<param name="kns.editable.properties.history.size">20</param>
 	<param name="enable.nonproduction.data.unmasking">true</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
@@ -145,71 +115,13 @@
 	<param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
 	<!-- End of Exception Incident handling and reporting -->
 
-	<!-- Ken stuffs... -->
-	<!-- stock notification system configuration properties -->
-
-	<!-- Quartz Jobs (MS = Milli Seconds) -->
-	<param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
-	<param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
-
-	<param name="notification.processUndeliveredJob.startDelayMS">10000</param>
-	<param name="notification.processUndeliveredJob.intervalMS">10000</param>
-
-	<param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
-	<param name="notification.processAutoRemovalJob.intervalMS">60000</param>
-
-	<param name="notification.quartz.autostartup">true</param>
-	<param name="notification.concurrent.jobs">true</param>
-
-	<param name="notification.basewebappurl">${ken.url}</param>
-
-	<param name="notification.ojb.platform">Oracle</param>
-
-	<!-- Email Plugin Properties -->
-	<param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
-
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
 	<param name="useQuartzDatabase">false</param>
 
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
-	<!-- Configuration for Session Document Cache Size -->
-	<param name="session.document.cache.size">100</param>
-
-	<param name="kr.incident.mailing.list"></param>
-
-	<!-- KIM parameters -->
-	<param name="kim.cache.entity.max.size" override="false">3000</param>
-	<param name="kim.cache.entity.max.age.seconds" override="false">3600</param>
-	<param name="kim.cache.group.max.size" override="false">3000</param>
-	<param name="kim.cache.group.max.age.seconds" override="false">3600</param>
-	<param name="kim.cache.role.max.size" override="false">3000</param>
-	<param name="kim.cache.role.max.age.seconds" override="false">300</param>
-	<param name="kim.cache.permission.max.size" override="false">3000</param>
-	<param name="kim.cache.permission.max.age.seconds" override="false">30</param>
-	<param name="kim.cache.responsibility.max.size" override="false">3000</param>
-	<param name="kim.cache.responsibility.max.age.seconds" override="false">30</param>
-	<param name="kim.cache.person.max.size" override="false">3000</param>
-	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
-	
-	<param name="kim.identityArchiveServiceImpl.executionIntervalSeconds" override="false">600</param>
-    <param name="kim.identityArchiveServiceImpl.maxWriteQueueSize" override="false">300</param>
-
-	<param name="kns.cache.parameter.max.size" override="false">3000</param>
-	<param name="kns.cache.parameter.max.age.seconds" override="false">3600</param>
-	<param name="kns.cache.nonDatabaseComponent.max.size">300</param>
-	<param name="kns.cache.nonDatabaseComponent.max.age.seconds">3600</param>
-
-	<!-- endpoint security settings -->
-	<param name="kim.soapExposedService.jaxws.security">true</param>
 	<param name="secure.workflowutility.soapservice.endpoint">true</param>
 
-	<param name="kcb.maxProcessAttempts">3</param>
-	<param name="kcb.messageprocessing.repeatIntervalMS">30000</param>
-	<param name="kcb.messageprocessing.startDelayMS">50000</param>
-	<param name="kcb.messaging.synchronous">false</param>
-	<param name="kcb.quartz.group">KCB-Delivery</param>
-	<param name="kcb.quartz.job.name">MessageProcessingJobDetail</param>
 	<param name="kcb.smtp.host">127.0.0.1</param>
 
 	<!-- Java mail properties -->
@@ -220,12 +132,7 @@
 	<param name="mail.smtp.user">userId</param>
 	<param name="mail.user.credentials">password</param>
 	<param name="mail.smtp.auth">false</param>
-	<!--set it to '0' to disable s2s mail service-->
-	<param name="edu.coeus.mail.enabled">1</param>
-	<!-- possible options are, T for Test and P for Production-->
-	<param name="edu.coeus.mail.mode">T</param>
-	<param name="edu.coeus.mail.testReceiverId">kc.grants.gov@kuali.org</param>
-
+	
 	<param name="s2s.keystore.location">path to keystore</param>
 	<param name="s2s.keystore.password">keystore password</param>
 	<param name="s2s.truststore.location">path to truststore</param>
