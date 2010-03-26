@@ -33,6 +33,8 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
@@ -99,6 +101,11 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     private FundingSourceType fundingDevProposalSourceType;
     private FundingSourceType fundingInstProposalSourceType;
     private FundingSourceType fundingAwardSourceType;
+
+    private final String instPropIdGood = "1";
+    private final String instPropTitleGood = "Institutional Proposal Title";
+    private final String instPropIdBad = "zzzzz";
+    private InstitutionalProposal instProp;
     
     private Parameter parameter;
      
@@ -150,6 +157,15 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
                 
         inquiryUrl = new AnchorHtmlData();
         inquiryUrl.setHref(inquiryUrlString);
+        
+        instProp = new InstitutionalProposal(){ 
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}            
+        };
+        instProp.setTitle(instPropTitleGood);
+        instProp.setSponsorCode(goodSponsor.getSponsorCode());
+        instProp.setSponsor(goodSponsor);
+        
         
         parameter = new Parameter("paramName", "paramValue", "paramConstraintCode");
     }    
@@ -256,6 +272,20 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyId, null);
         assertNull(fundingSource);
     } 
+
+    @Test
+    public void testCalculateInstProposalFunding() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdGood, null);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(devProposalTitleGood));
+    }     
     
     @Test
     public void testCalculateDevProposalFunding() throws Exception {
@@ -564,6 +594,18 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         }});
         return lookupableDevelopmentProposalService;
     }
+    
+//    
+//    protected InstitutionalProposalService getInstProposalService() {
+//        final InstitutionalProposalService instProposalService = context.mock(InstitutionalProposalService.class);
+//        context.checking(new Expectations() {{
+//            allowing(instProposalService).createInstitutionalProposal(developmentProposal, budget)(devProposalIdBad); 
+//            will(returnValue(null));
+//            allowing(instProposalService).getLookupableDevelopmentProposal(devProposalIdGood); 
+//            will(returnValue(devProposalGood));
+//        }});
+//        return instProposalService;
+//    }
 
     protected LookupableHelperService getProtocolLookupableHelperServiceForSponsorInquiryUrl() {
         final LookupableHelperService protocolLookupableHelperService = context.mock(LookupableHelperService.class);
@@ -577,7 +619,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     protected ParameterService getParameterService() {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            allowing(parameterService).parameterExists(ProtocolDocument.class, with(any(String.class))); 
+            allowing(parameterService).parameterExists(with(any(Class.class)), with(any(String.class))); 
             will(returnValue(true));
             allowing(parameterService).getIndicatorParameter( ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_AWARD_LINK ); 
             will(returnValue(true));
