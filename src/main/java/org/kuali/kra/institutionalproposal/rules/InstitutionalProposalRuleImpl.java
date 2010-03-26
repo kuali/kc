@@ -39,7 +39,11 @@ public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase impl
     public boolean processInstitutionalProposalRules(InstitutionalProposalRuleEvent institutionalProposalRuleEvent) {
         InstitutionalProposal proposal = institutionalProposalRuleEvent.getInstitutionalProposalForValidation();
         boolean valid = validateCurrentAwardNumberExists(proposal.getCurrentAwardNumber());
-        valid &= validateRolodexIdExists(proposal.getRolodexId());
+        
+        // null is ok for rolodex ID
+        if (proposal.getRolodexId() != null) {
+            valid &= validateRolodexIdExists(proposal.getRolodexId());
+        }
         return valid;
     }
     
