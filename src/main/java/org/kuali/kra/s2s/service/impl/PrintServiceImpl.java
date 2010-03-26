@@ -370,8 +370,8 @@ public class PrintServiceImpl implements PrintService {
 				continue;
 			}
 
-			XmlObject formObject = s2sFormGenerator.getFormObject(formFragment);
-			if (s2SValidatorService.validate(formObject, errors)) {
+//			XmlObject formObject = s2sFormGenerator.getFormObject(formFragment);
+//			if (s2SValidatorService.validate(formObject, errors)) {
 
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
@@ -386,10 +386,9 @@ public class PrintServiceImpl implements PrintService {
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
 				formPrintable.setXmlDataMap(formXmlDataMap);
-
-				List<S2sAppAttachments> attachmentList = getLatestS2SAppSubmission(
-						pdDoc).getS2sApplication().get(0)
-						.getS2sAppAttachmentList();
+//				S2sAppSubmission submittedS2SAppSubmission = getLatestS2SAppSubmission(pdDoc);
+				S2sApplication s2sApplciation = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, pdDoc.getDevelopmentProposal().getProposalNumber());//submittedS2SAppSubmission.getS2sApplication();
+				List<S2sAppAttachments> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
 				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
 
@@ -413,7 +412,7 @@ public class PrintServiceImpl implements PrintService {
 				}
 				formPrintable.setAttachments(formAttachments);
 				formPrintables.add(formPrintable);
-			}
+//			}
 		}
 		return formPrintables;
 	}
@@ -536,18 +535,20 @@ public class PrintServiceImpl implements PrintService {
 			FormMappingInfo info) {
 		XmlObject formObject = null;
 		Forms forms = submittedXml.getGrantApplication().getForms();
-		if (forms != null) {
-			XmlCursor formCursor = forms.newCursor();
-			formCursor.toNextToken();
-			do {
-				if (formCursor.getName().getNamespaceURI().equals(
-						info.getNameSpace())) {
-					formObject = formCursor.getObject();
-					break;
-				}
-			} while (formCursor.toNextSibling());
-		}
-		return formObject;
+		return forms.newCursor().getObject();
+//		if (forms != null) {
+//			XmlCursor formCursor = forms.newCursor();
+//			formCursor.toNextToken();
+//			do {
+//				if (formCursor.getName().getNamespaceURI().equals(
+//						info.getNameSpace())) {
+//					formObject = formCursor.getObject();
+//					break;
+//				}
+//			} while (formCursor.toNextSibling());
+//		}
+		
+//		return formObject;
 	}
 
 	/**
