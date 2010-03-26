@@ -20,6 +20,7 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -69,12 +70,47 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
     public void initializeUnrecoveredFandACollectionDefaults(Budget budget) {
         if(budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable() && budget.getBudgetUnrecoveredFandAs().size() == 0 && !isBudgetFinalAndComplete(budget)) {
            for(FiscalYearSummary fiscalYearSummary: budget.getFiscalYearUnrecoveredFandATotals()) {
-               budget.add(createBudgetUnrecoveredFandA(fiscalYearSummary, fiscalYearSummary.getFiscalYearRates().getOnCampusApplicableRate(), BudgetUnrecoveredFandA.ON_CAMPUS_RATE_FLAG));  
-               budget.add(createBudgetUnrecoveredFandA(fiscalYearSummary, fiscalYearSummary.getFiscalYearRates().getOffCampusApplicableRate(), BudgetUnrecoveredFandA.OFF_CAMPUS_RATE_FLAG));
+               budget.add(createBudgetUnrecoveredFandA(fiscalYearSummary, findApplicableRatesForFiscalYearUFAndA(budget, fiscalYearSummary, true), BudgetUnrecoveredFandA.ON_CAMPUS_RATE_FLAG));  
+               budget.add(createBudgetUnrecoveredFandA(fiscalYearSummary, findApplicableRatesForFiscalYearUFAndA(budget, fiscalYearSummary, false), BudgetUnrecoveredFandA.OFF_CAMPUS_RATE_FLAG));
            }
        }
     }
     
+    private RateDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
+        String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
+        if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
+            return RateDecimal.ZERO_RATE;
+        } else {
+            return findApplicableRateForRateClassCodeUFAndA(budget, fiscalYearSummary.getFiscalYear(), unrecoveredFandARateClassCode, onCampus);
+        }
+    }
+
+    /*
+     * In 'Budget', findApplicableRateForRateClassCode is only find matched year.  UFAndA need to be applied to years after if not matched
+     * Not sure to change it in 'Budget' because there are so many things unknow.
+     * so create here just for UFAnd A
+     */
+    private RateDecimal findApplicableRateForRateClassCodeUFAndA(Budget budget, Integer fiscalYear,
+            String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
+        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
+        BudgetRate appliedRate = null;
+        for (BudgetRate budgetRate : budget.getBudgetRates()) {
+            if (budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode)
+                    && findOnCampusRate == budgetRate.getOnOffCampusFlag()) {
+                if (appliedRate == null || Integer.valueOf(appliedRate.getFiscalYear()) < Integer.valueOf(budgetRate.getFiscalYear())) {
+                    appliedRate = budgetRate;
+                } else if (appliedRate.getFiscalYear().equals(budgetRate.getFiscalYear())) {
+                    appliedRate = budgetRate;
+                    break;
+                }
+            }
+        }
+        if (appliedRate != null) {
+            applicableRate = new RateDecimal(appliedRate.getApplicableRate().bigDecimalValue());
+        }
+        return applicableRate;
+    }
+
     /**
      * This method is a factory for BudgetCostShares
      * @param fiscalYearSummary The fiscal year summary data 
