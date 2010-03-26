@@ -13,27 +13,19 @@
 	
 	<param name="dev.mode">true</param>
 
-	<param name="portal.show.sample.app">false</param>
-
 	<param name="module.name">kc</param>
 	<param name="service.namespace">kc</param>
 	<param name="app.namespace">kc</param>
-	
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
-	
-	<!-- App specific parameters -->
 	<param name="app.code">${module.name}</param>
-	<param name="kc.port">8080</param>
-	<param name="app.host">http://127.0.0.1:${kc.port}</param>
-	<param name="app.context.name">${app.code}-${environment}</param>
-	<param name="application.url">${app.host}/${app.context.name}</param>
+	
+	<param name="application.host">127.0.0.1</param>
+	<param name="application.url">${appserver.url}/${app.context.name}</param>
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
 	<param name="rice.app.url">${application.url}</param>
 
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
-	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="externalizable.images.url">/${rice.app.url}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
@@ -43,14 +35,6 @@
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
 	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
 
-	<!-- image overrides -->
-	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
-	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
-
-	<param name="title.inquiry.url.value.prependtext"></param>
-
-	<param name="appserver.url">${app.host}</param>
-
 	<param name="kr.url">${rice.app.url}/kr</param>
 	<param name="ken.url">${rice.app.url}/ken</param>
 	<param name="kew.url">${rice.app.url}/kew</param>
@@ -58,22 +42,12 @@
 	<param name="ksb.url">${rice.app.url}/ksb</param>
 	<param name="rice.url">${rice.app.url}/kr</param>
 	<param name="workflow.url">${kew.url}</param>
-	<param name="workflow.documentsearch.base.url">${workflow.url}/DocumentSearch.do?backLocation=${application.url}</param>
-	
-	<param name="serviceServletUrl">${application.url}/remoting/</param>
-
-	<param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
+	<param name="kuali.docHandler.url.prefix">${application.url}</param>
 	
 	<!--messages -->
 	<param name="core.rice.struts.message.resources">KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources</param>
 	<param name="kc.struts.message.resources">ApplicationResources</param>
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
-
-	<param name="transaction.timeout">3600</param>
-	<param name="maintain.users.locally">true</param>
-
-	<param name="bus.refresh.rate">30</param>
-	<param name="threadPool.size">5</param>
 
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
@@ -88,12 +62,25 @@
 	<param name="datasource.pool.maxSize">50</param>
 	<param name="datasource.pool.size">5</param>
 	<param name="datasource.connectionTimeout">30000</param>
+	
+	<!-- Rice Server DB -->
+	<!-- Should be the same as KC Client DB when running bundled mode -->
+	<param name="server.datasource.url">${datasource.url}</param>
+	<param name="server.datasource.username">${datasource.username}</param>
+	<param name="server.datasource.password">${datasource.password}</param>
+	<param name="server.datasource.ojb.platform">${datasource.ojb.platform}</param>
+	<param name="server.datasource.platform">${datasource.platform}</param>
+	<param name="server.datasource.driver.name">${datasource.driver.name}</param>
+	<param name="server.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
+	<param name="server.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+	<param name="server.datasource.pool.minSize">${datasource.pool.minSize}</param>
+	<param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+	<param name="server.datasource.pool.size">${datasource.pool.size}</param>
+	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
 	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
 	<param name="keystore.password">s1t0spss!xX-tst</param>
-
-	<param name="message.delivery">synchronous</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
@@ -122,8 +109,6 @@
 
 	<param name="secure.workflowutility.soapservice.endpoint">true</param>
 
-	<param name="kcb.smtp.host">127.0.0.1</param>
-
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>
 	<param name="mail.transport.protocol">smtp</param>
@@ -140,4 +125,21 @@
 	<param name="grants.gov.s2s.host">grants.gov host</param>
 	<param name="grants.gov.s2s.port">grants.gov port</param>
 
+	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+
+	<param name="title.inquiry.url.value.prependtext"></param>
+	<param name="portal.show.sample.app">false</param>
+	
+	<param name="transaction.timeout">3600</param>
+	<param name="maintain.users.locally">true</param>
+
+	<param name="bus.refresh.rate">30</param>
+	<param name="threadPool.size">5</param>
+	
+	<param name="message.delivery">synchronous</param>
+	
+	<!-- image overrides -->
+	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
+	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
 </config>
