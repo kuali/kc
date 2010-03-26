@@ -55,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
@@ -308,6 +309,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                     pdDocument.getDevelopmentProposal().setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
                     pdDocument.getDevelopmentProposal().setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
                     pdDocument.getDevelopmentProposal().setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
+                    removePersonnelAttachmentForDeletedPerson(pdDocument);
                } else {
                    //need to refresh everything on the proposal dev document as this section can be
                    //modified by other sessions and if it has been modified, we could overwrite changes
@@ -357,6 +359,32 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
     }
     
+    /*
+     * The updatePD has some issue, such as if person is deleted, and the person attachment is also deleted.
+     * However, the updateProposalDocument recover everything from DB.  so, add this method to delete the deleted, but not saved personnel attachment.
+     */
+    private void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+
+        List<ProposalPersonBiography> personAttachments = new ArrayList();
+        for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getDevelopmentProposal()
+                .getPropPersonBios()) {
+            boolean personFound = false;
+            for (ProposalPerson person : proposaldevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
+                if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
+                    personFound = true;
+                    break;
+                }
+            }
+            if (!personFound) {
+                personAttachments.add(proposalPersonBiography);
+            }
+
+        }
+        if (!personAttachments.isEmpty()) {
+            proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().removeAll(personAttachments);
+        }
+    }
+
     private boolean isPropertyGetterMethod(Method method, Method methods[]) {
         if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
             String setterName = method.getName().replaceFirst("get", "set");
