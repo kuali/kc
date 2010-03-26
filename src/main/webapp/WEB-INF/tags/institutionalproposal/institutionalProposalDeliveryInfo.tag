@@ -20,7 +20,7 @@
 <c:set var="textAreaFieldName" value="document.institutionalProposal.mailDescription" />
 <c:set var="action" value="institutionalProposalHome" />
 
-<kul:tab tabTitle="Delivery Info" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Delivery Info" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].rolodexId,document.institutionalProposal.rolodexId">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Delivery Info</span>

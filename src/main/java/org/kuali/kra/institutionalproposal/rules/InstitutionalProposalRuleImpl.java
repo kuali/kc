@@ -20,9 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -30,12 +31,16 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * This class...
  */
 public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase implements InstitutionalProposalRule {
+    BusinessObjectService boService;
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRule#processInstitutionalProposalRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRuleEvent)
      */
     public boolean processInstitutionalProposalRules(InstitutionalProposalRuleEvent institutionalProposalRuleEvent) {
-       return validateCurrentAwardNumberExists(institutionalProposalRuleEvent.getInstitutionalProposalForValidation().getCurrentAwardNumber());
+        InstitutionalProposal proposal = institutionalProposalRuleEvent.getInstitutionalProposalForValidation();
+        boolean valid = validateCurrentAwardNumberExists(proposal.getCurrentAwardNumber());
+        valid &= validateRolodexIdExists(proposal.getRolodexId());
+        return valid;
     }
     
     @SuppressWarnings("unchecked")
@@ -55,4 +60,16 @@ public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase impl
         
     }
 
+    private boolean validateRolodexIdExists(int rolodexId) {
+        Map<String, Object> primaryKey = new HashMap<String, Object>();
+        primaryKey.put("rolodexId", rolodexId);
+        int count = getBusinessObjectService().countMatching(Rolodex.class, primaryKey);
+        
+        boolean valid = true;
+        if (count <= 0) {
+            valid = false;
+            this.reportError("document.institutionalProposalList[0].rolodexId", KeyConstants.ERROR_INVALID_ROLODEX_ID);
+        }
+        return valid;
+    }
 }
