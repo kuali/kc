@@ -9,7 +9,7 @@ Requirements:
 
 1. Run the database scripts using the instructions provided in sql/db_readme.txt
 
-2. Place config/kc-config.xml.template in one of the configured default locations: {Userhome}/kuali/main/pre/kc-config.xml OR /opt/sa_forms/java/pre/kra/kc-config.xml.
+2. Place config/kc-config.xml in one of the configured default locations: {Userhome}/kuali/main/pre/kc-config.xml OR /opt/sa_forms/java/pre/kra/kc-config.xml.
    (NOTE: This is what is often referred to as the external kc-config.xml, whereas the internal kc-config.xml is located within the webapp)
    (ADDITIONAL NOTE: If you are upgrading and have an existing kc-config.xml in this location, please replace it, as new parameters are often added)
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\pre
