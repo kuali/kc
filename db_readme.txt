@@ -33,5 +33,28 @@ NOTE: This will COMPLETELY clear data from any existing KC tables in this schema
 Installation Steps - MySQL
 --------------------------
 
-Not yet supported.
+Installation has been tested with mysql client.
+
+Create MySQL username of less than 8 characters
+Create MySQL schema matching username
+Make sure MySQL user has following privileges on the schema
+	* Select
+	* Insert
+	* Update
+	* Delete
+	* Create  
+	* Drop
+	* Index 
+	* Alter
+	* Create_view
+	* Create_routine
+	* Alter_routine
+	* Create_tmp_table
+	* Lock_tables
+	
+Run the mysql.sql script in sql/mysql directory of the distribution.  All paths in the script are relative, so depending on your tool you may need
+to start the script from within that directory for it to function properly.
+NOTE: This will COMPLETELY clear data from any existing KC tables in this schema!
+Example with mysql client:
+mysql -u kcpre -D kcpre -p -s < mysql.sql
 

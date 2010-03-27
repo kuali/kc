@@ -21,8 +21,11 @@ Requirements:
 	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
 	* You will also need to change app.host to your server's host name (i.e. http://kuali.yourinstitution.edu:8080).
 	* Other commonly changed parameters are: app.code, app.context.name (be sure app.context.name matches your deployed webapp -- normally the name of your war file)
+	* If you are using MySQL, see the MySQL changes at the end of this guide.
 
-4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
+4. For Oracle: Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com).
+   For MySQL: Obtain the jar file for the appropriate MySQL jdbc driver from mysql.com.
+   Copy the jdbc jar file into the common jar file library.
 	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
 
 5. Deploy kc-pre.war to your servlet container (see user guide for your particular servlet container).
@@ -30,3 +33,11 @@ Requirements:
 6. The KC application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kc-config.xml -- app.context.name is kc-pre, if not overridden).
 
 7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
+
+*** MySQL changes to external kc-config.xml file -- adjust datasource.url as needed to fit your install:
+
+        <param name="datasource.url">jdbc:mysql://localhost:3306/kcdev</param>
+        <param name="datasource.ojb.platform">MySQL</param>
+        <param name="datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform</param>
+        <param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
+        <param name="datasource.pool.validationQuery">select 1</param>
