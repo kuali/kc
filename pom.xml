@@ -141,6 +141,9 @@
 							<include>log4j.properties</include>
 						</includes>
 					</resource>
+					<resource>
+						<directory>${basedir}/src/main/resources</directory>
+					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -449,17 +452,6 @@
 						</excludes>
 					</testResource>
 				</testResources>
-				<!-- 
-				<resources>
-					<resource>
-						<filtering>true</filtering>
-						<directory>${basedir}/src/main/resources</directory>
-						<includes>
-							<include>soap_server.properties</include>
-						</includes>
-					</resource>
-				</resources>
-				 -->
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
