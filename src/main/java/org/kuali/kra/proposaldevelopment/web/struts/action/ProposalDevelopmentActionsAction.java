@@ -191,9 +191,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }   
 
     private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
-        String loggedInUserID = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+        //String loggedInUserID = GlobalVariables.getUserSession().getPerson().getPrincipalName();
         String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-        NetworkIdDTO networkId = new NetworkIdDTO(loggedInUserID);
+        //NetworkIdDTO networkId = new NetworkIdDTO(loggedInUserID);
         ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
         reportCriteria.setTargetPrincipalIds(new String[] { loggedInPrincipalId });
 
@@ -206,30 +206,31 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 KeyValuePair kvp = (KeyValuePair) variable;
                 if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                         && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                        && kvp.getKey().contains(networkId.getNetworkId())) {
+                        && kvp.getKey().contains(loggedInPrincipalId)) {
                     receiveFutureRequests = true; 
                     break;
                 }
                 else if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                       && kvp.getValue().toUpperCase().equals(KEWConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                      && kvp.getKey().contains(networkId.getNetworkId())) {
+                      && kvp.getKey().contains(loggedInPrincipalId)) {
                     doNotReceiveFutureRequests = true; 
                     break;
                 }
             }
         } 
 
-        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, networkId));
+        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, loggedInPrincipalId));
     }
     
-    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, NetworkIdDTO networkId) throws Exception {
+    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, String loggedInPrincipalId) throws Exception {
         int approvalRequestsCount = 0;
         WorkflowInfo info = new WorkflowInfo();
         
         DocumentDetailDTO results1 = info.routingReport(reportCriteria);
         for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
-            if(!actionRequest.isRoleRequest() && actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(KEWConstants.ACTION_REQUEST_APPROVE_REQ) && 
-                    recipientMatchesUser(actionRequest, networkId)) {
+            //!actionRequest.isRoleRequest() &&  removed from condition for 
+            if(actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(KEWConstants.ACTION_REQUEST_APPROVE_REQ) && 
+                    recipientMatchesUser(actionRequest, loggedInPrincipalId)) {
                 approvalRequestsCount+=1; 
             }
         }
@@ -237,18 +238,24 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return (approvalRequestsCount > 1);
     }
     
-    private boolean recipientMatchesUser(ActionRequestDTO actionRequest, NetworkIdDTO networkId) {
+    private boolean recipientMatchesUser(ActionRequestDTO actionRequest, String loggedInPrincipalId) {
         KcGroupService groupService = KraServiceLocator.getService(KcGroupService.class);
-        if(actionRequest != null && networkId != null) {
-            String recipientUser = actionRequest.getPrincipalId();
-            if(recipientUser != null && recipientUser.equals(networkId.getNetworkId())) {
-                return true;
-            } else {
-                String recipientGroupId = actionRequest.getGroupId();
-                return groupService.isMemberOfGroup(networkId.getNetworkId(), recipientGroupId);
+        if(actionRequest != null && loggedInPrincipalId != null ) {
+            ActionRequestDTO[] actionRequests =  { actionRequest };
+            if(actionRequest.isRoleRequest()) {
+                actionRequests = actionRequest.getChildrenRequests();
             }
-        }
+            for( ActionRequestDTO cActionRequest : actionRequests ) {
+                String recipientUser = cActionRequest.getPrincipalId();
+                if(recipientUser != null && recipientUser.equals(loggedInPrincipalId)) {
+                    return true;
+                } else {
+                    String recipientGroupId = cActionRequest.getGroupId();
+                    return groupService.isMemberOfGroup(loggedInPrincipalId, recipientGroupId);
+                }
+            }
         
+        }
         return false;  
     }
     
