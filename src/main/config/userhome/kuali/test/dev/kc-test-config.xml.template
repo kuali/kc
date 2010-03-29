@@ -1,11 +1,4 @@
 <config>
-	<!-- App specific parameters -->
-	<param name="app.code">kc</param>
-	<param name="kns.test.port">9925</param>
-	<param name="app.host">http://127.0.0.1:${kns.test.port}</param>
-	<param name="app.context.name">${app.code}-${environment}</param>
-	<param name="production.environment.code">PRD</param>
-
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:XE</param>
 	<param name="datasource.username">KRAUNT</param>
@@ -14,14 +7,4 @@
 	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
 	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
 	<param name="datasource.pool.validationQuery">select 1 from dual</param>
-	<param name="datasource.pool.maxWait">30000</param>
-	<param name="datasource.pool.minSize">1</param>
-	<param name="datasource.pool.maxSize">50</param>
-	<param name="datasource.pool.size">5</param>
-	<param name="datasource.connectionTimeout">30000</param>
-
-	<param name="notification.ojb.platform">Oracle</param>
-	
-	<!-- Grab internal parameters that are dependent on parameters in this file -->
-	<param name="config.location">classpath:META-INF/kc-test-config-dependents.xml</param>
 </config>
