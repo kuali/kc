@@ -1118,7 +1118,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private int computeHierarchyHashCode(DevelopmentProposal proposal, Budget budget) {
         int prime = 31;
         int result = 1;
-        //budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
         for (ProposalPerson person : proposal.getProposalPersons()) {
             result = prime * result + person.hashCode();
         }
@@ -1131,7 +1132,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (ProposalSpecialReview review : proposal.getPropSpecialReviews()) {
             result = prime * result + review.hierarchyHashCode();
         }
-        //result = prime * result + budget.getBudgetSummaryTotals().hashCode();
+        result = prime * result + budget.getBudgetSummaryTotals().hashCode();
         return result;
     }
 
