@@ -47,6 +47,7 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -193,6 +194,10 @@ public abstract class AbstractBudgetCalculator {
         budgetLineItem.setUnderrecoveryAmount(BudgetDecimal.ZERO);
         createAndCalculateBreakupIntervals();
         updateBudgetLineItemCalculatedAmounts();
+        if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal)budget.getBudgetParent()).isParent()) {
+            // if this budget belongs to a ProposalHierarchy parent skip rate calculations
+            return;
+        }
         populateBudgetRateBaseList();
         // if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
         // calculateURBase();
