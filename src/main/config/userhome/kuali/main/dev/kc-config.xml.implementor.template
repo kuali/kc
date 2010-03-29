@@ -1,11 +1,4 @@
 <config>
-
-	<!-- App specific parameters -->
-	<param name="kc.port">8080</param>
-	<param name="app.host">http://127.0.0.1:${kc.port}</param>
-	<param name="app.context.name">${app.code}-${environment}</param>
-	<param name="production.environment.code">PRD</param>
-	
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
