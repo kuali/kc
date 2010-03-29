@@ -19,7 +19,6 @@
 	<param name="app.code">${module.name}</param>
 	
 	<param name="application.host">127.0.0.1</param>
-	<param name="application.url">${appserver.url}/${app.context.name}</param>
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
 	<param name="rice.app.url">${application.url}</param>
