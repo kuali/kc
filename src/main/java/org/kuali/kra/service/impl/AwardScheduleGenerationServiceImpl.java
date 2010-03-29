@@ -185,7 +185,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             startDateIsNull = true;
         }
         
-        if(!startDateIsNull){
+        if (!startDateIsNull && awardReportTerm.getFrequency() != null) {
             date = getStartDateFromTheBaseDate(calendar, awardReportTerm.getFrequency()); 
         }
         
