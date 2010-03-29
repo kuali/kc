@@ -72,7 +72,7 @@ public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase impl
         boolean valid = true;
         if (count <= 0) {
             valid = false;
-            this.reportError("document.institutionalProposalList[0].rolodexId", KeyConstants.ERROR_INVALID_ROLODEX_ID);
+            this.reportError("document.institutionalProposal.rolodexId", KeyConstants.ERROR_INVALID_ROLODEX_ID);
         }
         return valid;
     }
