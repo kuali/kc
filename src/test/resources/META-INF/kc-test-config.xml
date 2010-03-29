@@ -13,21 +13,48 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<!--
+This config file should only contain config locations not actual config properties.
+-->
 <config>
-	<!-- Hardcoding this for now; need to fix to pass in environment as prop -->
-	<param name="environment">dev</param>
-	<param name="module.name">kc</param>
-	<param name="service.namespace">kc</param>
-	<param name="app.namespace">kc</param>
-	
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
-	
-	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
+	<!-- 
+		Rice's project defaults
+		
+		Contains properties that may not be set by KC's defaults.  This properties
+		should never override.
+	-->
+	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<!--
+		KC's project defaults
+		
+		Contains either properties that differ from the rice defaults or
+		KC specific properties
+	-->
+	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
+
+
+<!-- ********************************* TEST CONFIGS ************************************************ -->
+		
+	<!--
+		KC's project defaults for tests
+
+		Contains either properties that differ from the rice defaults or
+		KC specific properties
+	-->
 	<param name="config.location">classpath:META-INF/kc-test-config-defaults.xml</param>
-	<param name="config.location">${user.home}/kuali/test/dev/kc-test-config.xml</param>
+
+	<!-- 
+		Rice's standard config file locations for tests
+		
+		Contains locations to find other config files.
+	 -->
+	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
+
+	<!-- 
+		KC's config file hook
+		
+		Passed on the maven command line by our CI server.
+	 -->
 	<param name="config.location">${alt.build.location}</param>
-	<!-- <param name="config.location">${alt.config.location}</param>-->
-	
-	<param name="kns.editable.properties.history.size">20</param>
 </config>
