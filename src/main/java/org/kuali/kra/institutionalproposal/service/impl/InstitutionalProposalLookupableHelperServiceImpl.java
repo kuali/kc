@@ -193,21 +193,39 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
      * Find if any proposal associate with this INSP has 'Approval Pending Submitted' proposal state type
      */
     private boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
-        Map keyMap = new HashMap();
-        keyMap.put("instProposalId", ip.getProposalId());
-        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
-                keyMap);
-        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
-        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-            proposalAdminDetail.refreshReferenceObject("developmentProposal");
-            DevelopmentProposal developmentProposal = proposalAdminDetail.getDevelopmentProposal();
+        boolean isApprovePending = false;
+        Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(ip);
+        for (DevelopmentProposal developmentProposal : devProposals) {
             if ("5".equals(developmentProposal.getProposalStateTypeCode())) {
+                isApprovePending = true;
+                break;
+            }
+        }
+        return isApprovePending;
+    }
+
+    /*
+     * find any version of IP that has PD with approve pending
+     */
+    private Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
+        //find any dev prop linked to any version of this inst prop
+        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        Collection<InstitutionalProposal> proposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", instProposal.getProposalNumber()));
+        for (InstitutionalProposal ip : proposalVersions) {
+            Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
+            for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+                proposalAdminDetail.refreshReferenceObject("developmentProposal");
                 devProposals.add(proposalAdminDetail.getDevelopmentProposal());
             }
         }
-        return !devProposals.isEmpty();
+        return devProposals;
     }
 
+    private Map<String, Object> getFieldValues(String key, Object value){
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(key, value);
+        return fieldValues;
+    }
 
     /* 
      * Determine whether lookup is being called from a location that shouldn't include the custom action links
