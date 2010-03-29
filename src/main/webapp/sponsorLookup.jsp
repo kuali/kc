@@ -32,8 +32,8 @@
 
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
-   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(:;newSponsors[0];:).((%true%)).anchor" id = "lookupBtn" 
-	   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
+   			<html:image styleId="lookupBtn" tabindex="1000000" property="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(:;newSponsors[0];:).((%true%)).anchor"
+	           src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>
          	
