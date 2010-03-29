@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetService;
@@ -763,8 +764,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
         KualiForm oldForm = GlobalVariables.getKualiForm();
         GlobalVariables.setKualiForm(null);
-        //KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
-        sumHierarchyBudget(hierarchyBudget);
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(hierarchyBudget);
         GlobalVariables.setKualiForm(oldForm);
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
@@ -1445,21 +1446,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return isInvestigator1 == isInvestigator2;
     }
     
-    private void sumHierarchyBudget(Budget budget) {
-        for (BudgetPeriod period : budget.getBudgetPeriods()) {
-            period.setCostSharingAmount(period.getSumCostSharingAmountFromLineItems());
-            period.setTotalCost(period.getSumTotalCostAmountFromLineItems());
-            period.setTotalDirectCost(period.getSumDirectCostAmountFromLineItems());
-            period.setTotalIndirectCost(period.getSumIndirectCostAmountFromLineItems());
-            period.setUnderrecoveryAmount(period.getSumUnderreoveryAmountFromLineItems());
-        }
-        budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
-        budget.setTotalCost(budget.getSumTotalCostAmountFromPeriods());
-        budget.setTotalDirectCost(budget.getSumDirectCostAmountFromPeriods());
-        budget.setTotalIndirectCost(budget.getSumIndirectCostAmountFromPeriods());
-        budget.setUnderrecoveryAmount(budget.getSumUnderreoveryAmountFromPeriods());
-    }
-
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyProposalSummaries(java.lang.String)
      */
