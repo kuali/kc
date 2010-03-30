@@ -1,12 +1,12 @@
 CREATE TABLE TEMPEPY AS 
 SELECT *
 FROM   EPS_PROP_YNQ
-WHERE  QUESTION_ID IN('11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '999', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'EC1', 'EC2', 'EO', 'FG', 'G3', 'G4', 'G6', 'G7', 'G8', 'G9', 'H0', 'H1', 'H2', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'I7', 'I8', 'J1', 'J2', 'J4', 'NR', 'P002', 'P003', 'P004', 'P005', 'P006', 'P007', 'P008', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'Z1', 'Z2', 'Z3') ;
+WHERE  QUESTION_ID IN('11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '999', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'EC1', 'EC2', 'EO', 'FG', 'G3', 'G4', 'G6', 'G7', 'G8', 'G9', 'H0', 'H1', 'H2', 'H5', 'H6', 'H7', 'H8', 'H9', 'I7', 'I8', 'J1', 'J2', 'J4', 'NR', 'P002', 'P003', 'P007', 'P008', 'P1', 'P2', 'P3', 'P4', 'P5') ;
 
 CREATE TABLE TEMPEPPY AS 
 SELECT *
 FROM   EPS_PROP_PERS_YNQ
-WHERE  QUESTION_ID IN('11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '999', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'EC1', 'EC2', 'EO', 'FG', 'G3', 'G4', 'G6', 'G7', 'G8', 'G9', 'H0', 'H1', 'H2', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'I7', 'I8', 'J1', 'J2', 'J4', 'NR', 'P002', 'P003', 'P004', 'P005', 'P006', 'P007', 'P008', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'Z1', 'Z2', 'Z3') ;
+WHERE  QUESTION_ID IN('11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '999', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'EC1', 'EC2', 'EO', 'FG', 'G3', 'G4', 'G6', 'G7', 'G8', 'G9', 'H0', 'H1', 'H2', 'H5', 'H6', 'H7', 'H8', 'H9', 'I7', 'I8', 'J1', 'J2', 'J4', 'NR', 'P002', 'P003', 'P007', 'P008', 'P1', 'P2', 'P3', 'P4', 'P5') ;
 
 DELETE FROM eps_prop_ynq
 WHERE  QUESTION_ID IN('11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '999', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'EC1', 'EC2', 'EO', 'FG', 'G3', 'G4', 'G6', 'G7', 'G8', 'G9', 'H0', 'H1', 'H2', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'I7', 'I8', 'J1', 'J2', 'J4', 'NR', 'P002', 'P003', 'P004', 'P005', 'P006', 'P007', 'P008', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'Z1', 'Z2', 'Z3') ;
@@ -37,9 +37,6 @@ VALUES('P4', 'Have lobbying activities been conducted on behalf of this proposal
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('P5', 'Are you currently debarred, suspended, proposed for debarment, declared ineligible or voluntarily excluded from current transactions by a federal department or agency?', 'I', 2, NULL, NULL, 'A', TO_DATE ('28-JUN-06', 'DD-MON-RR') , NULL, TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '76EA764B9A334DCDAF32130C328EDD26') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('P6', 'Are you familiar with the requirements of the Procurement Integrity Act [(OFPP, Section 27 (1-3)] (http://web.mit.edu/osp/www/Procuint.htm) and will you report any violations to the Office of Sponsored Programs?', 'I', 2, NULL, NULL, 'A', TO_DATE ('28-JUN-06', 'DD-MON-RR') , NULL, TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, 'BE43FB698C98497C8331E6F371E7BB5F') ;
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('C6', 'For this entity, do you have stock, stock options, equity or other interests in excess of 5 percent of the ownership interest (aggregate for yourself, your spouse and your dependent children)?', 'F', 2, NULL, NULL, 'A', TO_DATE ('08-JUL-08', 'DD-MON-RR') , NULL, TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '653A79675F7542748D33BA2F7881046F') ;
@@ -79,9 +76,6 @@ VALUES('999', 'test question', 'P', 2, 'N', 'N', 'A', TO_DATE ('27-MAY-09', 'DD-
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('14', 'This is an NSF Small Grant for Exploratory Research', 'P', 2, NULL, NULL, 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38361E7A8E0404F8189D817C3') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('H4', 'Lobbying activities have been conducted regarding the proposal', 'I', 2, 'Y', 'Y', 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38362E7A8E0404F8189D817C3') ;
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('C3', 'For any entity (company or public or non-proft organization) did you receive in last 12 months, or do you expect to receive in the next 12 months, salary director''s fees, consulting payments, honoraria, royalties or other payments for patents, copyrights or other intellectual property, or any other payments exceeding $10,000 (aggregate for yourself, your spouse, and your dependent children)', 'C', 2, 'Y', NULL, 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38363E7A8E0404F8189D817C3') ;
@@ -162,15 +156,6 @@ INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANA
 VALUES('P002', 'Is there a space change on this proposal?', 'P', 3, 'Y', 'Y', 'I', TO_DATE ('01-NOV-07', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '392C8C65-583C-2EC1-0828-0A0F83297C23') ;
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('P004', 'Lobbying activities have been conducted regarding the proposal ', 'I', 2, NULL, NULL, 'I', TO_DATE ('01-NOV-07', 'DD-MON-RR') , 'Group Investigator', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '3E2DFDCBE92D00CCE043814FD88100CC') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('P005', 'Are you familiar with the requirements of the Procurement Integrity Act [(OFPP, Section 27 (1-3)] (http://web.mit.edu/osp/www/Procuint.htm) and will you report any violations to the Office of Sponsored Programs?', 'I', 3, 'N', 'N', 'A', TO_DATE ('06-NOV-07', 'DD-MON-RR') , 'Group Investigator', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '685631AE-FB11-BFF3-0E9E-CE955EC1253D') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('P006', 'Can you certify that the information submitted within this application is true, complete and accurate to the best of your knowledge? That any false, fictitious, or fraudulent statements or claims may subject you, as the PI/Co-PI/Co-I to criminal, civil or administrative penalties? That you agree to accept responsibility for the scientific conduct of the project and to provide the required ', 'I', 2, 'N', 'N', 'A', TO_DATE ('06-NOV-07', 'DD-MON-RR') , 'Group Investigator', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '3E48C77C54A6F178E043814FD881F178') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('P007', 'NSF Beginning Investigator?', 'P', 3, NULL, NULL, 'I', TO_DATE ('06-NOV-07', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '3EBEEDE5260B3150E043814FD8813150') ;
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
@@ -220,15 +205,6 @@ VALUES('G8', 'Proprietary or Privileged Information will be contained in the App
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('G6', 'Historical Sites Are Affected', 'P', 2, NULL, NULL, 'A', TO_DATE ('01-JUN-08', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '9A5AC511-54B8-C209-175A-B1F18D3C08FC') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('Z1', 'Is there a Financial Conflict of Interest with regards to this proposal?', 'I', 2, 'N', 'N', 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38345E7A8E0404F8189D817C3') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('Z2', 'Are you currently Debarred, Suspended, or proposed for debarment or suspension?', 'I', 2, 'Y', 'Y', 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38346E7A8E0404F8189D817C3') ;
-
-INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES('Z3', 'Are you delinquent on any federal debt?', 'I', 2, 'Y', NULL, 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38347E7A8E0404F8189D817C3') ;
 
 INSERT INTO YNQ (QUESTION_ID, DESCRIPTION, QUESTION_TYPE, NO_OF_ANSWERS, EXPLANATION_REQUIRED_FOR, DATE_REQUIRED_FOR, STATUS, EFFECTIVE_DATE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES('C2', 'For this entity, do you have stock, stock options, or other interests of significant monetary value either in excess of $10,000 in fair market value or in excess of 5 percent of the ownership interest in a company? (In either case, aggregate for yourself, your spouse and your dependant children; in the case of stock in companies that are not publicly traded, use the most recent sales price)', 'F', 2, 'Y', NULL, 'A', TO_DATE ('01-JAN-00', 'DD-MON-RR') , 'General Y/N Questions', TO_DATE ('15-SEP-09', 'DD-MON-RR') , 'KCDEV', 1, '4F69F5B38348E7A8E0404F8189D817C3') ;
