@@ -90,7 +90,7 @@ public class LookupProtocolFundingSourceRuleTest {
             protected void prerequisite() {            
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                expectedReturnValue = false;
+                expectedReturnValue = true;
             }
         };
     }
