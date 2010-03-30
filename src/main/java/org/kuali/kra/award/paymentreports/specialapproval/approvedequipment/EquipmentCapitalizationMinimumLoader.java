@@ -59,7 +59,7 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
         double institutionMinimum = getInstitutionCapitalizationMinimum();
         double minimumCapitalization = Math.max(0.0, Math.min(federalMinimum, institutionMinimum));
         String context = institutionMinimum <= federalMinimum ? INSTITUTION_REQUIREMENT : FEDERAL_REQUIREMENT;
-        return new MinimumCapitalizationInfo(context, minimumCapitalization);
+        return new MinimumCapitalizationInfo(context, minimumCapitalization, federalMinimum, institutionMinimum);
     }
     
     /**
