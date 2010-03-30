@@ -55,8 +55,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
         @UnitTestData(order = { 
                 UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
         sqlStatements = {
-                      @UnitTestSql("delete from institute_rates"),
-                      @UnitTestSql("delete from institute_la_rates")
+                      @UnitTestSql("delete from INSTITUTE_RATES"),
+                      @UnitTestSql("delete from INSTITUTE_LA_RATES")
                       }, 
         sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_new_rates.sql", delimiter = ";")
