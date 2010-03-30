@@ -300,11 +300,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertContains(HtmlPage page, String text) {
-        if(LOG.isDebugEnabled()) {
-            assertTrue("page: \n" + page.asText() + "\n does not contain text: \n" + text, page.asText().contains(text));
-        } else {
-            assertTrue(page.asText().contains(text));
-        }
+        assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text, page.asText().contains(text));
     }
 
     /**
@@ -313,7 +309,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertXmlContains(HtmlPage page, String text) {
-        assertTrue(page.asXml().contains(text));
+        assertTrue("page xml:\n" + page.asXml() + "\n does not contain:\n" + text, page.asXml().contains(text));
     }
     
     /**
@@ -322,7 +318,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertDoesNotContain(HtmlPage page, String text) {
-        assertTrue("page: \n" + page.asText() + "\n does contain text: \n" + text, !page.asText().contains(text));
+        assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text, !page.asText().contains(text));
     }
 
     /**
@@ -331,7 +327,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the HTML element.
      */
     protected final void assertContains(HtmlElement element, String text) {
-        assertTrue("element: \n" + element.asText() + "\n does not contain text: \n" + text, element.asText().contains(text));
+        assertTrue("element text:\n" + element.asText() + "\n does not contain text:\n" + text, element.asText().contains(text));
     }
 
     /**
@@ -340,7 +336,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the HTML element.
      */
     protected final void assertDoesNotContain(HtmlElement element, String text) {
-        assertTrue("element: \n" + element.asText() + "\n does contain text: \n" + text, !element.asText().contains(text));
+        assertTrue("element text:\n" + element.asText() + "\n contains text:\n" + text, !element.asText().contains(text));
     }
 
     /**
@@ -355,7 +351,7 @@ public abstract class KraWebTestBase extends KraTestBase {
 
         if (element instanceof HtmlSelect) {
             HtmlSelect selectField = (HtmlSelect) element;
-            assertEquals(selectField.getOptionSize(), size);
+            assertEquals("select text:\n" + selectField.asText(), selectField.getOptionSize(), size);
         }
         else {
             assertTrue("Not a Select Field", false);
