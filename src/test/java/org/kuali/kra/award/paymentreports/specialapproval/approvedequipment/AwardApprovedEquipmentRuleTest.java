@@ -55,7 +55,7 @@ public class AwardApprovedEquipmentRuleTest {
         award.setAwardNumber("X1000");
         award.setSequenceNumber(1);
         String requirement = EquipmentCapitalizationMinimumLoader.INSTITUTION_REQUIREMENT;
-        minimumCapitalizationInfo = new MinimumCapitalizationInfo(requirement, AMOUNT2);
+        minimumCapitalizationInfo = new MinimumCapitalizationInfo(requirement, AMOUNT2, AMOUNT1, AMOUNT2);
         GlobalVariables.setErrorMap(new ErrorMap());
     }
     
@@ -97,7 +97,7 @@ public class AwardApprovedEquipmentRuleTest {
         checkValidAmount(equipmentItem, 1);
         
         equipmentItem.setAmount(AMOUNT2);
-        checkValidAmount(equipmentItem, 0);
+        checkValidAmount(equipmentItem, 1);
         
         equipmentItem.setAmount(null);
         checkValidAmount(equipmentItem, 1);
