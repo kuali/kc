@@ -37,15 +37,12 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
             errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
             isValid = false;            
         } else if (!boClassName.equalsIgnoreCase(FundingSourceLookup.SPONSOR.getLookupName())
-                    && !boClassName.equalsIgnoreCase(FundingSourceLookup.AWARD.getLookupName())
-                    && !boClassName.equalsIgnoreCase(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName())
-                    && !boClassName.equalsIgnoreCase(FundingSourceLookup.UNIT.getLookupName()) ) { 
+                && !boClassName.equalsIgnoreCase(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName())
+                && !boClassName.equalsIgnoreCase(FundingSourceLookup.AWARD.getLookupName())
+                && !boClassName.equalsIgnoreCase(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName())
+                && !boClassName.equalsIgnoreCase(FundingSourceLookup.UNIT.getLookupName()) ) { 
             
-            if (boClassName.equalsIgnoreCase(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName())) { 
-
-                errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUPTEMP_UNAVAIL, boClassName);         
-               isValid = false;
-           }  else if (boClassName.equalsIgnoreCase(FundingSourceLookup.OTHER.getLookupName())) {
+            if (boClassName.equalsIgnoreCase(FundingSourceLookup.OTHER.getLookupName())) {
                errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL, boClassName);
                isValid = false;
            } else { 
