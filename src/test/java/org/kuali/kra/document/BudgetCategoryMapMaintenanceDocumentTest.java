@@ -31,9 +31,9 @@ public class BudgetCategoryMapMaintenanceDocumentTest extends MaintenanceDocumen
     private static final String DOCTYPE = "BudgetCategoryMapMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from budget_category_maps where mapping_name='S2STEST' and target_category_CODE = '99'");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from BUDGET_CATEGORY_MAPS where mapping_name='S2STEST' and target_category_CODE = '99'");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update budget_category_maps set description = 'Computer Services' where mapping_name='S2S' and target_category_CODE = '82'");
+        sqlDataLoader = new SQLDataLoader("update BUDGET_CATEGORY_MAPS set description = 'Computer Services' where mapping_name='S2S' and target_category_CODE = '82'");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();
