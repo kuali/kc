@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,6 +28,7 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
@@ -38,6 +41,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -55,12 +59,14 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private static final String SPONSOR_NAME = "sponsorName";
     private static final String UNIT_ID = "unitNumber";
     private static final String UNIT_NAME = "unitName";
-    private static final String PROP_ID = "proposalNumber";
+    private static final String PROP_NUMBER = "proposalNumber";
+    private static final String PROP_ID = "proposalId";
     private static final String AWARD_ID = "awardId";
     
     private static String MAINT_DOC_LOOKUP_URL_PREFIX= "${kuali.docHandler.url.prefix}/kr/";
 
     
+    private BusinessObjectService businessObjectService;
     private UnitService unitService;
     private SponsorService sponsorService;
     private AwardService awardService;
@@ -95,12 +101,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                               Constants.EMPTY_STRING,3),
         PROPOSAL_DEVELOPMENT("Development Proposal", 
                               LookupableDevelopmentProposal.class,
-                              PROP_ID,
+                              PROP_NUMBER,
                               BO_SPONSOR_NAME,
                               TITLE,4),
-        //TODO when institute proposal is impl'd change below to institute proposal lookup
         INSTITUTE_PROPOSAL  ("Institute Proposal",   
-                              LookupableDevelopmentProposal.class,
+                              InstitutionalProposal.class,
                               PROP_ID,
                               BO_SPONSOR_NAME,
                               TITLE,5),
@@ -258,7 +263,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                     break;
                  case INSTITUTE_PROPOSAL:
                     if (isLinkedWithProposal()) {
-                        //TODO Add guts here when InstituteProposal is built...
+                        InstitutionalProposal institutionalProposal = getInstitutionalProposal(sourceId);
+                        if (institutionalProposal != null) {
+                            source.setFundingSourceName(institutionalProposal.getSponsorName()!=null?institutionalProposal.getSponsorName():Constants.EMPTY_STRING);
+                            source.setFundingSourceTitle(institutionalProposal.getTitle()!=null?institutionalProposal.getTitle():Constants.EMPTY_STRING);
+                        }
                     } else {
                         source.setFundingSourceName(sourceName);
                     }
@@ -268,6 +277,24 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return source;
     }
 
+
+    
+private InstitutionalProposal getInstitutionalProposal(String proposalId) {
+
+    Map<String, String> primaryKeys = new HashMap<String, String>();
+    InstitutionalProposal proposal = null;
+        try {
+            if (Integer.valueOf(proposalId) > 0) {
+                primaryKeys.put("proposalId", proposalId);
+                proposal = (InstitutionalProposal) getBusinessObjectService().findByPrimaryKey(InstitutionalProposal.class,
+                        primaryKeys);
+            }
+        }
+        catch (NumberFormatException nfe) {
+            // eat it, catching NFE from Ÿber bogus proposalIds
+        }
+    return proposal;
+}
 
     /**
      *  Validates fundingorg.kuali.kra.irb.protocol.funding.for code provided.
@@ -318,10 +345,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         } else if (boClassName.equalsIgnoreCase(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName())) {
            sourceLookup = FundingSourceLookup.PROPOSAL_DEVELOPMENT;
         }  else if (boClassName.equalsIgnoreCase(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName())) {
-          //TODO readd when instituteProposal is impl'd
-          //   boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-          //   fieldConversions="proposalNumber:document.protocolList[0].newFundingSource.fundingSource,sponsor.sponsorName:document.protocolList[0].newFundingSource.fundingSourceName,title:document.protocolList[0].newFundingSource.fundingSourceTitle";
-          throw new IllegalArgumentException("Funding source parameter lookup error. The processIsValidLookup rule was not invoked or missed error condition.");
+            sourceLookup = FundingSourceLookup.INSTITUTE_PROPOSAL;
         } else {
             throw new IllegalArgumentException("Funding source parameter lookup error. The processIsValidLookup rule was not invoked or missed error condition.");
         }
@@ -484,5 +508,16 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+ 
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService== null) {
+            return getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

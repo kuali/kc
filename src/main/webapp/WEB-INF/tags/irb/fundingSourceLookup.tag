@@ -50,6 +50,11 @@ ${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceDP)}
 <c:set var="lookupAFundingSourceAward" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.award.home.Award!!).(((awardId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor5.x"/>
 ${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceAward)}
 
+
+<c:set var="lookupAFundingSourceIProp" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.institutionalproposal.home.InstitutionalProposal!!).(((proposalId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor5.x"/>
+${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceIProp)}
+
+
 <c:set var="lookupAFundingSource" value="methodToCall.performFundingSourceLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, lookupAFundingSource)}
 		
