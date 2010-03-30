@@ -46,7 +46,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         
         List<VersionHistory> list = new ArrayList<VersionHistory>();
         if(versionStatus == VersionStatus.ACTIVE || versionStatus == VersionStatus.CANCELED) {
-            resetExistingVersionsToArchived(sequenceOwner, list);
+            resetExistingVersionsToArchived(sequenceOwner, list, versionStatus);
         }
         list.add(versionHistory);
         bos.save(list);
@@ -155,10 +155,13 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return map;
     }
 
-    private void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, List<VersionHistory> versionHistories) {
+    private void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
+            List<VersionHistory> versionHistories, VersionStatus versionStatus) {
         List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
-        for(VersionHistory versionHistory: existingEntries) {
-            versionHistory.setStatus(VersionStatus.ARCHIVED);
+        for (VersionHistory versionHistory : existingEntries) {
+            if (!(versionStatus == VersionStatus.CANCELED && versionHistory.getStatus() == VersionStatus.ACTIVE)) {
+                versionHistory.setStatus(VersionStatus.ARCHIVED);
+            }
         }
         versionHistories.addAll(existingEntries);
     }
