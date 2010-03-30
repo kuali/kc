@@ -137,7 +137,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentDescription", "Institute La Rates - test");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "12");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.rateTypeCode", "1");
-        setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.fiscalYear", "2012");
+        setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.fiscalYear", "2013");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.startDate", "12/31/2011");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.unitNumber", "000001");
@@ -146,7 +146,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         
         assertDoesNotContain(routedInstituteLaRateMaintenanceDocumentPage,"error(s) found on page");
         assertContains(routedInstituteLaRateMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedInstituteLaRateMaintenanceDocumentPage,"New Fiscal Year: 2012 On/Off Campus Flag: Yes Rate Class Code: 12 Rate Type Code: 1 Start Date: 12/31/2011 Unit Number: 000001 Rate: 9.90 ");
+        assertContains(routedInstituteLaRateMaintenanceDocumentPage,"New Fiscal Year: 2013 On/Off Campus Flag: Yes Rate Class Code: 12 Rate Type Code: 1 Start Date: 12/31/2011 Unit Number: 000001 Rate: 9.90 ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
@@ -154,7 +154,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         InstituteLaRate instituteLaRate = (InstituteLaRate)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(instituteLaRate.getRateClassCode(),"12");
         assertEquals(instituteLaRate.getRateTypeCode(),"1");
-        assertEquals(instituteLaRate.getFiscalYear(),"2012");
+        assertEquals(instituteLaRate.getFiscalYear(),"2013");
         assertEquals(instituteLaRate.getOnOffCampusFlag(),true);
         assertEquals(instituteLaRate.getUnitNumber(),"000001");
         assertEquals(instituteLaRate.getStartDate().toString(),"2011-12-31");
