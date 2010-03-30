@@ -20,7 +20,7 @@
 <c:set var="softErrorList" value="${KualiForm.softErrors[pageScope.softErrorKey]}" />
 <c:if test="${not empty softErrorList}">
 	<fmt:setBundle basename="ApplicationResources" />
-	<div align="left" style="color:navy; padding-left:6pt; padding-top:2pt; padding-bottom:2pt;">
+	<div align="left" style="color:navy; padding-left:6pt; padding-top:2pt; padding-bottom:2pt;background-color: #e4e4e4;">
 		<fmt:message key="soft.error.group.heading" />
 		<c:forEach var="softError" items="${softErrorList}" varStatus="status">
 			<li style="padding-left: 2pt;">
