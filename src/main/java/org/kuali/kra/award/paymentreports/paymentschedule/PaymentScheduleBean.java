@@ -27,6 +27,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class supports the AwardForm class
@@ -89,7 +90,8 @@ public class PaymentScheduleBean implements Serializable {
         for(Date date: dates){
             newAwardPaymentSchedule = new AwardPaymentSchedule();
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
-            newAwardPaymentSchedule.setDueDate(sqldate);            
+            newAwardPaymentSchedule.setDueDate(sqldate);    
+            newAwardPaymentSchedule.setAmount(KualiDecimal.ZERO);
             getAward().add(newAwardPaymentSchedule);
         }
         init();
