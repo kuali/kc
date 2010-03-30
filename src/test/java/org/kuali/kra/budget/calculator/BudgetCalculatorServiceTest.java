@@ -32,7 +32,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,7 +55,7 @@ import org.kuali.rice.test.data.UnitTestSql;
                 UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
         sqlStatements = {
                       @UnitTestSql("delete from VALID_CE_RATE_TYPES where cost_element like '900%'"),
-                      @UnitTestSql("delete from cost_element where cost_element like '900%'")
+                      @UnitTestSql("delete from COST_ELEMENT where cost_element like '900%'")
                       ,@UnitTestSql("commit")
                       }, 
         sqlFiles = {

@@ -31,7 +31,7 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
     private static final String DOCTYPE = "ValidCeRateTypeMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from valid_ce_RATE_TYPEs where cost_element= '421925' and RATE_TYPE_CODE = '4' and RATE_CLASS_CODE='5'");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from VALID_CE_RATE_TYPES where cost_element= '421925' and RATE_TYPE_CODE = '4' and RATE_CLASS_CODE='5'");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();

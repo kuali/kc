@@ -31,9 +31,9 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     private static final String DOCTYPE = "ValidCalcTypeMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from valid_calc_types where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from VALID_CALC_TYPES where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update valid_calc_types set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+        sqlDataLoader = new SQLDataLoader("update VALID_CALC_TYPES set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();
