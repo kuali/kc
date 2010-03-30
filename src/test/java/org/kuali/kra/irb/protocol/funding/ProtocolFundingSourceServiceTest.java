@@ -34,7 +34,7 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.irb.IrbMockServicesHelper;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
@@ -47,6 +47,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -102,11 +103,23 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     private FundingSourceType fundingInstProposalSourceType;
     private FundingSourceType fundingAwardSourceType;
 
-    private final String instPropIdGood = "1";
+    private final String instPropIdGood = "99";
     private final String instPropTitleGood = "Institutional Proposal Title";
     private final String instPropIdBad = "zzzzz";
     private InstitutionalProposal instProp;
     
+    private BusinessObjectService businessObjectService;
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
     private Parameter parameter;
      
 
@@ -118,6 +131,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        
         fundingSponsorSourceType = new FundingSourceType();
         fundingSponsorSourceType.setFundingSourceTypeCode(1);
         fundingSponsorSourceType.setFundingSourceTypeFlag(true);
@@ -163,9 +177,15 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
             public void refreshReferenceObject(String referenceObjectName) {}            
         };
         instProp.setTitle(instPropTitleGood);
+        Long longInstPropId = Long.valueOf(instPropIdGood);
+        instProp.setProposalId(longInstPropId);
         instProp.setSponsorCode(goodSponsor.getSponsorCode());
         instProp.setSponsor(goodSponsor);
         
+        
+        setBusinessObjectService(new IrbMockServicesHelper.MockBusinessObjectService());
+        getBusinessObjectService().save(instProp);
+
         
         parameter = new Parameter("paramName", "paramValue", "paramConstraintCode");
     }    
@@ -279,13 +299,39 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdGood, null);
+        ProtocolFundingSource fundingSource  = 
+            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instPropIdGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
-        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(devProposalTitleGood));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instPropTitleGood));
     }     
+    
+    @Test
+    public void testCalculateInstProposalFundingNegative() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        ProtocolFundingSource fundingSource  = 
+            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, devProposalIdBad, null);
+        assertNotNull(fundingSource);
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
+    } 
+    
+    @Test
+    public void testCalculateInstProposalFundingNegative2() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        ProtocolFundingSource fundingSource  = 
+            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, emptyId, null);
+        assertNull(fundingSource);
+    } 
     
     @Test
     public void testCalculateDevProposalFunding() throws Exception {
@@ -431,13 +477,14 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
                 JUnitMatchers.containsString("awardId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper"));
 
         
-        try {
             entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName());
-            fail("IllegalArgumentException was not thrown for invalid test case using INSTITUTE_PROPOSAL");
-        } catch (IllegalArgumentException e) {
-            //yup
-        }
-        
+            Assert.assertNotNull(entry);
+            fieldConversions = 
+                (String) entry.getValue();
+            Assert.assertThat(fieldConversions, 
+                    JUnitMatchers.containsString("proposalId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle"));
+
+            
         try {
             entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getLookupName());
             fail("IllegalArgumentException was not thrown for invalid test case using OTHER");
@@ -478,10 +525,10 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
       protocolFundingSourceService.setParameterService(getParameterService());
 
       
-      assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()));
       assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.OTHER.getFundingTypeCode()));
       assertFalse(protocolFundingSourceService.isViewable(badFundingTypeCode));
-      
+
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.UNIT.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.SPONSOR.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.AWARD.getFundingTypeCode()));
@@ -493,7 +540,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
       protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
       protocolFundingSourceService.setParameterService(getParameterService());
       
-      assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode())));
       assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.OTHER.getFundingTypeCode())));
       
       assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.AWARD.getFundingTypeCode())));
@@ -594,18 +641,6 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         }});
         return lookupableDevelopmentProposalService;
     }
-    
-//    
-//    protected InstitutionalProposalService getInstProposalService() {
-//        final InstitutionalProposalService instProposalService = context.mock(InstitutionalProposalService.class);
-//        context.checking(new Expectations() {{
-//            allowing(instProposalService).createInstitutionalProposal(developmentProposal, budget)(devProposalIdBad); 
-//            will(returnValue(null));
-//            allowing(instProposalService).getLookupableDevelopmentProposal(devProposalIdGood); 
-//            will(returnValue(devProposalGood));
-//        }});
-//        return instProposalService;
-//    }
 
     protected LookupableHelperService getProtocolLookupableHelperServiceForSponsorInquiryUrl() {
         final LookupableHelperService protocolLookupableHelperService = context.mock(LookupableHelperService.class);
@@ -626,7 +661,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
             allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK ); 
             will(returnValue(true));
             allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK ); 
-            will(returnValue(false));
+            will(returnValue(true));
         }});
         return parameterService;
     }

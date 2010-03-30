@@ -228,9 +228,9 @@ Insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 
 Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) Values ('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', '9ec14c1c-7cfb-4162-a434-b2c12c6e0760', 1,'CONFG','Y','Linking from AWARD to PROTOCOL Funding source is configurable at impl time','A');
 
-Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) Values ('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', 'de7fdb58-b3fc-49f6-89af-13b7e547596c', 1,'CONFG','Y','Linking from AWARD to PROTOCOL Funding source is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) Values ('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', 'de7fdb58-b3fc-49f6-89af-13b7e547596c', 1,'CONFG','Y','Linking from Development Proposal to PROTOCOL Funding source is configurable at impl time','A');
 
-Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) Values ('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', 'ed1716e6-a21d-4284-baf6-d84a8793070d', 1,'CONFG','N','Linking from AWARD to PROTOCOL Funding source is configurable at impl time','A');
+Insert into KRNS_PARM_T ( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) Values ('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', 'ed1716e6-a21d-4284-baf6-d84a8793070d', 1,'CONFG','Y','Linking from Institute Proposal to PROTOCOL Funding source is configurable at impl time','A');
 
 -- krew
 --INSERT INTO KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD) --VALUES('KR-WKFLW', '5E1D690C419B3E2EE0404F8189D82677', 0, 'Workflow', 'Y', NULL);
