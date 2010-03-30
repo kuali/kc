@@ -54,7 +54,7 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         this.approvedEquipmentRule = new AwardApprovedEquipmentRuleImpl();
         String requirement = EquipmentCapitalizationMinimumLoader.INSTITUTION_REQUIREMENT;
-        minimumCapitalizationInfo = new MinimumCapitalizationInfo(requirement, INSTITUTE_MIN_AMOUNT);
+        minimumCapitalizationInfo = new MinimumCapitalizationInfo(requirement, INSTITUTE_MIN_AMOUNT, FEDERAL_MIN_AMOUNT, INSTITUTE_MIN_AMOUNT);
         award = new Award();
         award.setAwardId(1L);
         award.setAwardNumber("X1000");
@@ -89,7 +89,7 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KraTestBase {
         
         equipmentItem.setAmount(INSTITUTE_MIN_AMOUNT);
         approvedEquipmentRule.isAmountValid(ERROR_KEY, equipmentItem, minimumCapitalizationInfo);
-        Assert.assertEquals(0, getSoftErrors().size());
+        Assert.assertEquals(1, getSoftErrors().size());
         
         equipmentItem.setAmount(FEDERAL_MIN_AMOUNT);
         approvedEquipmentRule.isAmountValid(ERROR_KEY, equipmentItem, minimumCapitalizationInfo);
