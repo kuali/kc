@@ -33,6 +33,7 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
@@ -131,25 +132,36 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
         }
         
-        if(startDate != null && endDate != null){
-            if(endDate.before(startDate)){
-                throw new RuntimeException("End Date is Before Start Date");
+        if (startDate != null && endDate != null) {
+            if (endDate.before(startDate)) {
+                reportError("awardReportTerms"+"-"+awardReportTerm.getReportClassCode()+"-"+awardReportTerm.getFrequencyCode()
+                        +"-"+awardReportTerm.getFrequencyBaseCode()+"-"+awardReportTerm.getOspDistributionCode());
+                // throw new RuntimeException("End Date is Before Start Date");
             }
-            
-            calendar.setTime(startDate);
-            if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
-                ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
-                                                            new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
-                dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
-                            , calendar.get(Calendar.DAY_OF_MONTH));
-            }else{
-                dates.add(startDate);
+            else {
+
+                calendar.setTime(startDate);
+                if (endDate != null && awardReportTerm.getFrequency().getRepeatFlag()
+                        && awardReportTerm.getFrequency().getNumberOfMonths() != null) {
+                    ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(
+                        new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), awardReportTerm.getFrequency()
+                                .getNumberOfMonths());
+                    dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence,
+                            calendar.get(Calendar.DAY_OF_MONTH));
+                }
+                else {
+                    dates.add(startDate);
+                }
             }
         }
         
         return dates;
     }
 
+    private void reportError(String errorKey) {
+        new ErrorReporter().reportSoftError(errorKey, KeyConstants.ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE);
+        
+    }
     /**
      * This method determines if the schedules should be generated for the particular <code>AwardReportTerm</code> object.
      * 

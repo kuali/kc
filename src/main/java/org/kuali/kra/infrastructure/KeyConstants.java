@@ -693,6 +693,7 @@ public final class KeyConstants {
     
     public static final String ERROR_PENDING_PROPOSAL_LOG_ONLY = "error.pending.proposallog.only";
     public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
+    public static final String ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE = "error.reportingSchedule.invalid.start.end.dates";
 
     /**
      * private utility class ctor.
