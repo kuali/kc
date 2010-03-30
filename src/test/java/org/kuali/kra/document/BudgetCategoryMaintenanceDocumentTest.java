@@ -31,9 +31,9 @@ public class BudgetCategoryMaintenanceDocumentTest extends MaintenanceDocumentTe
     private static final String DOCTYPE = "BudgetCategoryMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from budget_category where budget_category_CODE = '99'");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from BUDGET_CATEGORY where budget_category_CODE = '99'");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update budget_category set description = 'Duplicating' where budget_category_CODE = '10'");
+        sqlDataLoader = new SQLDataLoader("update BUDGET_CATEGORY set description = 'Duplicating' where budget_category_CODE = '10'");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();

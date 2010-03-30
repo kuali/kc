@@ -33,9 +33,9 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
     
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from cost_element where cost_element = '999'");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from COST_ELEMENT where cost_element = '999'");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update cost_element set description = 'Raw Materials' where cost_element = '420310'");
+        sqlDataLoader = new SQLDataLoader("update COST_ELEMENT set description = 'Raw Materials' where cost_element = '420310'");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();

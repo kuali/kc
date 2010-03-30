@@ -31,9 +31,9 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
     private static final String DOCTYPE = "InstituteRateMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from institute_rates where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from INSTITUTE_RATES where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update institute_rates set rate = 10.0 where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '1980' and start_date = to_date ('07/01/1979','MM/DD?YYYY') and on_off_campus_flag = 'F'");
+        sqlDataLoader = new SQLDataLoader("update INSTITUTE_RATES set rate = 10.0 where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '1980' and start_date = to_date ('07/01/1979','MM/DD?YYYY') and on_off_campus_flag = 'F'");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();

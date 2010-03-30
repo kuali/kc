@@ -201,7 +201,7 @@ public class TestUtilities {
                             		reEnableConstraints.add("ALTER TABLE "+fkTableName+" ENABLE CONSTRAINT "+fkName);
                             	}
                             	keyResultSet.close();
-                            	statement.addBatch("DELETE FROM "+tableName);
+                            	statement.addBatch("DELETE FROM "+tableName.toUpperCase());
                             }
                         }
                         for (String constraint : reEnableConstraints) {
