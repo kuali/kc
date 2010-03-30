@@ -19,7 +19,6 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
 
 import java.beans.PropertyDescriptor;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -591,7 +590,7 @@ public class OjbRepositoryMappingTest {
                     boolean found = false;
                     while (results.next() && !found) {
                         String tableNameResult = results.getString("TABLE_NAME");
-                        if (getCurrentTableName().equals(tableNameResult)) {
+                        if (getCurrentTableName().equalsIgnoreCase(tableNameResult)) {
                             found = true;
                         }
                     }
@@ -640,7 +639,7 @@ public class OjbRepositoryMappingTest {
                     while (results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
                         LOG.debug(String.format("Comparing %s to %s in table %s\n", columnName, columnNameResult, getCurrentTableName()));
-                        if (columnName.equals(columnNameResult)) {
+                        if (columnName.equalsIgnoreCase(columnNameResult)) {
                             found = true;
                         }
                     }
