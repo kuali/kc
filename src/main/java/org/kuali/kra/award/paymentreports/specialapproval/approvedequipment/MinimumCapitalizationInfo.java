@@ -6,14 +6,18 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 public class MinimumCapitalizationInfo {
     private String requirementDriver;
     private double amount;
+    private double federalMinimum;
+    private double instituteMinimum;
     /**
      * Constructs a EquipmentCapitalizationMinimumLoader.java.
      * @param requirementDriver
      * @param amount
      */
-    public MinimumCapitalizationInfo(String requirementDriver, double amount) {
+    public MinimumCapitalizationInfo(String requirementDriver, double amount, double federalMinimum, double instituteMinimum) {
         this.requirementDriver = requirementDriver;
         this.amount = amount;
+        this.federalMinimum = federalMinimum;
+        this.instituteMinimum = instituteMinimum;
     }
     /**
      * Gets the requirementDriver attribute. 
@@ -65,4 +69,17 @@ public class MinimumCapitalizationInfo {
         return true;
     }
     
+    public double getFederalMinimum() {
+        return federalMinimum;
+    }
+    public void setFederalMinimum(double federalMinimum) {
+        this.federalMinimum = federalMinimum;
+    }
+    public double getInstituteMinimum() {
+        return instituteMinimum;
+    }
+    public void setInstituteMinimum(double instituteMinimum) {
+        this.instituteMinimum = instituteMinimum;
+    }
+
 }

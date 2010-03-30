@@ -122,6 +122,18 @@ public class AwardApprovedEquipmentRuleImpl extends ResearchDocumentRuleBase
             reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
                                 String.format("%-12.2f", minimumCapitalization.getAmount()).trim(), 
                                                 minimumCapitalization.getRequirementDriver());
+        } else if (minimumCapitalization.getFederalMinimum() <= amount.doubleValue() 
+                && minimumCapitalization.getInstituteMinimum() > amount.doubleValue()) {
+            reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
+                    String.format("%-12.2f", minimumCapitalization.getInstituteMinimum()).trim(), 
+                                     "Institution");            
+            amountValid = false;
+        }  else if (minimumCapitalization.getFederalMinimum() > amount.doubleValue() 
+                && minimumCapitalization.getInstituteMinimum() <= amount.doubleValue()) {
+            reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
+                    String.format("%-12.2f", minimumCapitalization.getFederalMinimum()).trim(), 
+                                     "Federal");
+            amountValid = false;            
         }
         return true;
     }
