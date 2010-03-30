@@ -21,7 +21,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.SQLDataLoader;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -29,67 +28,43 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "InstituteRateMaintenanceDocument";
+
     @Override
-    public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from INSTITUTE_RATES where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update INSTITUTE_RATES set rate = 10.0 where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '1980' and start_date = to_date ('07/01/1979','MM/DD?YYYY') and on_off_campus_flag = 'F'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("commit");
-        sqlDataLoader.runSql();
-
-        super.tearDown();
-    }
-
     public String getDocTypeName() {
         return DOCTYPE;
     }
-
+    
     @Test
-    public void testCopyInstituteRateMaintenanceDocument() throws Exception {
-        HtmlPage instituteRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute Rate");
-        setFieldValue(instituteRateMaintenanceLookupPage,"activityTypeCode","1");
-        setFieldValue(instituteRateMaintenanceLookupPage,"rateClassCode", "4");
-        setFieldValue(instituteRateMaintenanceLookupPage,"rateTypeCode", "2");
-        setFieldValue(instituteRateMaintenanceLookupPage,"fiscalYear", "1980");
-        setFieldValue(instituteRateMaintenanceLookupPage,"onOffCampusFlag", "F");
-        HtmlPage searchPage = clickOn(instituteRateMaintenanceLookupPage, "search");
+    public void testCreateNewInstituteRate() throws Exception {
+        HtmlPage instituteRateMaintenancePage = getMaintenanceDocumentPage("Institute Rate","org.kuali.kra.bo.InstituteRate","Kuali :: Institute Rates Maintenance Document");
+        String documentNumber = getFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentNumber");
+        assertContains(instituteRateMaintenancePage,"Edit Institute Rates New * Activity Type Code: * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
+        setFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentDescription", "Institute Rates - test");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.activityTypeCode", "1");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "5");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateTypeCode", "2");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.fiscalYear", "2012");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.startDate", "12/31/2011");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.unitNumber", "000001");
+        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.instituteRate", "9.9");
+        HtmlPage routedInstituteRateMaintenanceDocumentPage = clickOn(instituteRateMaintenancePage, "methodToCall.route", "Kuali :: Institute Rates Maintenance Document");
         
-        HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
-        HtmlPage instituteRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Institute Rates Maintenance Document");
-        String documentNumber = getFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
-
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Institute Rate - copy test");
-
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", "1");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "4");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateTypeCode", "2");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.fiscalYear", "2012");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.startDate", "12/31/2011");
-        // This is actually for on campus
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.onOffCampusFlag", "on");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.unitNumber", "000001");
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.instituteRate", "9.9");
-
-                
-        HtmlPage routedPage = clickOn(instituteRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Institute Rates Maintenance Document");
-        
-        assertContains(routedPage, "Document was successfully submitted.");
+        assertContains(routedInstituteRateMaintenanceDocumentPage, "Document was successfully submitted.");
+        assertContains(routedInstituteRateMaintenanceDocumentPage,"New Activity Type Code: 1 Fiscal Year: 2012 On/Off Campus Flag: Yes Rate Class Code: 5 Rate Type Code: 2 Start Date: 12/31/2011 Unit Number: 000001 Rate: 9.90 ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         InstituteRate instituteRate = (InstituteRate)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(instituteRate.getActivityTypeCode(),"1");
-        assertEquals(instituteRate.getRateClassCode(),"4");
+        assertEquals(instituteRate.getRateClassCode(),"5");
         assertEquals(instituteRate.getRateTypeCode(),"2");
         assertEquals(instituteRate.getFiscalYear(),"2012");
         assertEquals(instituteRate.getOnOffCampusFlag(),true);
         assertEquals(instituteRate.getUnitNumber(),"000001");
         assertEquals(instituteRate.getStartDate().toString(),"2011-12-31");
         assertEquals(instituteRate.getInstituteRate().toString(),"9.90");
-
-
     }
 
     @Test
@@ -131,39 +106,47 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
 
 
     @Test
-    public void testCreateNewInstituteRate() throws Exception {
-        HtmlPage instituteRateMaintenancePage = getMaintenanceDocumentPage("Institute Rate","org.kuali.kra.bo.InstituteRate","Kuali :: Institute Rates Maintenance Document");
-        String documentNumber = getFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(instituteRateMaintenancePage,"Edit Institute Rates New * Activity Type Code: * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
-        setFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentDescription", "Institute Rates - test");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.activityTypeCode", "1");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "4");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateTypeCode", "2");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.fiscalYear", "2012");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.startDate", "12/31/2011");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.unitNumber", "000001");
-        setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.instituteRate", "9.9");
-        HtmlPage routedInstituteRateMaintenanceDocumentPage = clickOn(instituteRateMaintenancePage, "methodToCall.route", "Kuali :: Institute Rates Maintenance Document");
+    public void testCopyInstituteRateMaintenanceDocument() throws Exception {
+        HtmlPage instituteRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute Rate");
+        setFieldValue(instituteRateMaintenanceLookupPage,"activityTypeCode","1");
+        setFieldValue(instituteRateMaintenanceLookupPage,"rateClassCode", "5");
+        setFieldValue(instituteRateMaintenanceLookupPage,"rateTypeCode", "1");
+        setFieldValue(instituteRateMaintenanceLookupPage,"fiscalYear", "2003");
+        setFieldValue(instituteRateMaintenanceLookupPage,"onOffCampusFlag", "F");
+        HtmlPage searchPage = clickOn(instituteRateMaintenanceLookupPage, "search");
         
-        assertContains(routedInstituteRateMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedInstituteRateMaintenanceDocumentPage,"New Activity Type Code: 1 Fiscal Year: 2012 On/Off Campus Flag: Yes Rate Class Code: 4 Rate Type Code: 2 Start Date: 12/31/2011 Unit Number: 000001 Rate: 9.90 ");
+        HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
+        HtmlPage instituteRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Institute Rates Maintenance Document");
+        String documentNumber = getFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
+
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Institute Rate - copy test");
+
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", "5");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "1");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateTypeCode", "1");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.fiscalYear", "2012");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.startDate", "12/31/2011");
+        // This is actually for on campus
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.onOffCampusFlag", "on");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.unitNumber", "000001");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.instituteRate", "9.9");
+
+                
+        HtmlPage routedPage = clickOn(instituteRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Institute Rates Maintenance Document");
+        
+        assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         InstituteRate instituteRate = (InstituteRate)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(instituteRate.getActivityTypeCode(),"1");
-        assertEquals(instituteRate.getRateClassCode(),"4");
-        assertEquals(instituteRate.getRateTypeCode(),"2");
+        assertEquals(instituteRate.getActivityTypeCode(),"5");
+        assertEquals(instituteRate.getRateClassCode(),"1");
+        assertEquals(instituteRate.getRateTypeCode(),"1");
         assertEquals(instituteRate.getFiscalYear(),"2012");
         assertEquals(instituteRate.getOnOffCampusFlag(),true);
         assertEquals(instituteRate.getUnitNumber(),"000001");
         assertEquals(instituteRate.getStartDate().toString(),"2011-12-31");
         assertEquals(instituteRate.getInstituteRate().toString(),"9.90");
-        
     }
-
-
-
 }
