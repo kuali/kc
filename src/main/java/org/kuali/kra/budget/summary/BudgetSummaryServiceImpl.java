@@ -134,6 +134,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         /* add personnel line items */
                         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                         for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
+                            budgetPersonnelDetail.setBudgetPersonnelLineItemId(null);
                             budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                             personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                             budgetPersonnelDetail.setBudgetPeriod(budPeriod);
