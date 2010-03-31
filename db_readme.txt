@@ -35,6 +35,13 @@ Installation Steps - MySQL
 
 Installation has been tested with mysql client.
 
+Set the following setting in MySQL
+
+max_allowed_packet=1M
+transaction-isolation=READ-COMMITTED
+lower_case_table_names=1
+max_connections=1000
+
 Create MySQL username of less than 8 characters
 Create MySQL schema matching username
 Make sure MySQL user has following privileges on the schema
