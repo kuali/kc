@@ -35,7 +35,7 @@
 		
 		
 		
-		<property name="documentTypeName" value="Valid Rates Maintenance Document"/>
+		<property name="documentTypeName" value="ValidRatesMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
