@@ -17,6 +17,8 @@ package org.kuali.kra.award;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -59,7 +61,6 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -473,6 +474,16 @@ public class AwardForm extends BudgetVersionFormBase
     }
         
     public List<KeyLabelPair> getReportClasses() {
+        if (reportClasses != null) {
+            
+            //FIXME: RICE HACK - KeyLabelPair should implement comparable at next rice upgrade
+            Collections.sort(reportClasses, new Comparator<KeyLabelPair>() {
+                public int compare(KeyLabelPair o1, KeyLabelPair o2) {
+                    return o1.getLabel().compareToIgnoreCase(o2.getLabel());
+                }
+            });
+        }
+        
         return reportClasses;
     }
 
