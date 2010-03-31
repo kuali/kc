@@ -26,6 +26,11 @@ import org.kuali.rice.kns.rule.PromptBeforeValidation;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * If a newly created Permanent proposal log has the same PI as one or more Temporary logs,
+ * check if the user wants to merge one of the Temporary logs to the Permanent log.
+ * This prompt will occur upon submission of the Permanent log.
+ */
 public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBase implements PromptBeforeValidation {
     
     private transient BusinessObjectService businessObjectService;
@@ -48,13 +53,20 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
                     if (index != 0) {
                         text.append(", ");
                     }
-                    text.append(pLog.getProposalNumber());
+                    text.append(pLog.getProposalNumber() + " (");
+                    text.append("PI: " + denullify(pLog.getPerson().getFullName()) + "; ");
+                    text.append("Sponsor: " + denullify(pLog.getSponsorCode()) + " - " + denullify(pLog.getSponsorName()) + "; ");
+                    text.append("Title: " + denullify(pLog.getTitle()) + "; ");
+                    text.append("Proposal Type: " + denullify(pLog.getProposalType().getDescription()) + "; ");
+                    text.append("Lead Unit: " + denullify(pLog.getLeadUnit()) + "; ");
+                    text.append("Comments: " + denullify(pLog.getComments()));
+                    text.append(")");
                     index++;
                 }
                 
                 if (pLogs.size() > 1) {
                     boolean preMergeCheck = this.askOrAnalyzeYesNoQuestion(
-                            "preMerge", text + ". Do you want to merge new permanent log to one of these temporary logs?");
+                            "preMerge", text + ". Do you want to merge the new permanent log to one of these temporary logs?");
                     if (!preMergeCheck) {
                         return true;
                     }
@@ -85,6 +97,15 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
         return true;
     }
     
+    /* Replace a null string with an empty string. */
+    private String denullify(String str) {
+        if (str == null) {
+            return "";
+        }
+        return str;
+    }
+    
+    /* Temporary logs that have already been merged can't be merged again. */
     private void purgeAlreadyMergedLogs(Collection<ProposalLog> pLogs) {
         Collection<ProposalLog> logsToRemove = new ArrayList<ProposalLog>();
         for (ProposalLog pLog : pLogs) {
