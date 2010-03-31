@@ -42,7 +42,7 @@
 		<property name="forceUppercase" value="false"/>
 		<property name="label" value="Award Type Code"/>
 		<property name="shortLabel" value="Award Type Code"/>
-		<property name="maxLength" value="22"/>
+		<property name="maxLength" value="3"/>
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
