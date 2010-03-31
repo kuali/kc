@@ -31,7 +31,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     
     private static final String METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS = "methodToCall.refreshPulldownOptions";
     private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL = "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0";
-    private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_PROPERTY= "methodToCall.addAwardReportTerm.reportClass2.reportClassIndex1";    
+    private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_PROPERTY= "methodToCall.addAwardReportTerm.reportClass2.reportClassIndex4";    
     
     private static final String NEW_AWARD_REPORT_TERM_0 = "awardReportsBean.newAwardReportTerms[0]";
     private static final String REPORT_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".reportCode";
@@ -39,12 +39,12 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     private static final String FREQUENCY_BASE_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".frequencyBaseCode";
     private static final String OSP_DISTRIBUTION_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".ospDistributionCode";
     private static final String DUE_DATE_0 = NEW_AWARD_REPORT_TERM_0 + ".dueDate";
-    private static final String NEW_AWARD_REPORT_TERM_1 = "awardReportsBean.newAwardReportTerms[1]";
-    private static final String REPORT_CODE_1 = NEW_AWARD_REPORT_TERM_1 + ".reportCode";
-    private static final String FREQUENCY_CODE_1 = NEW_AWARD_REPORT_TERM_1 + ".frequencyCode";
-    private static final String FREQUENCY_BASE_CODE_1 = NEW_AWARD_REPORT_TERM_1 + ".frequencyBaseCode";
-    private static final String OSP_DISTRIBUTION_CODE_1 = NEW_AWARD_REPORT_TERM_1 + ".ospDistributionCode";
-    private static final String DUE_DATE_1 = NEW_AWARD_REPORT_TERM_1 + ".dueDate";
+    private static final String NEW_AWARD_REPORT_TERM_4 = "awardReportsBean.newAwardReportTerms[4]";
+    private static final String REPORT_CODE_4 = NEW_AWARD_REPORT_TERM_4 + ".reportCode";
+    private static final String FREQUENCY_CODE_4 = NEW_AWARD_REPORT_TERM_4 + ".frequencyCode";
+    private static final String FREQUENCY_BASE_CODE_4 = NEW_AWARD_REPORT_TERM_4 + ".frequencyBaseCode";
+    private static final String OSP_DISTRIBUTION_CODE_4 = NEW_AWARD_REPORT_TERM_4 + ".ospDistributionCode";
+    private static final String DUE_DATE_4 = NEW_AWARD_REPORT_TERM_4 + ".dueDate";
     private static final String IS_REQUIRED_TEXT = " is a required field";
     private static final String REPORT_CODE_MANDATORY_ERROR_MESSAGE = "Type (Type)" + IS_REQUIRED_TEXT;
     private static final String FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE = "Frequency (Frequency)" + IS_REQUIRED_TEXT;
@@ -130,14 +130,15 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testAwardReportsAddAndDeleteForDifferentReportClass() throws Exception{
-
-        setFieldValue(paymentReportsAndTermsPage, REPORT_CODE_1, "39");
+        //FIXME: This test assumes a specific order for the Report Terms - as a result it is very fragile.
+        
+        setFieldValue(paymentReportsAndTermsPage, REPORT_CODE_4, "39");
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
-        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_CODE_1, "14");        
+        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_CODE_4, "14");        
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
-        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_BASE_CODE_1, "2");
-        setFieldValue(paymentReportsAndTermsPage, OSP_DISTRIBUTION_CODE_1, "3");
-        setFieldValue(paymentReportsAndTermsPage, DUE_DATE_1, "06/30/2008");
+        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_BASE_CODE_4, "2");
+        setFieldValue(paymentReportsAndTermsPage, OSP_DISTRIBUTION_CODE_4, "3");
+        setFieldValue(paymentReportsAndTermsPage, DUE_DATE_4, "06/30/2008");
         
         final HtmlForm form1 = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
         String completeButtonName1=getImageTagName(paymentReportsAndTermsPage, METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_PROPERTY);        
@@ -149,7 +150,8 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterSave,"Property (1) ");
-        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor5");
+        
+        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor7");
         HtmlPage awardPaymentReportsAndTermsPageAfterOneMoreSave = clickOn(awardPaymentReportsAndTermsPageAfterDelete, "methodToCall.save");
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERRORS_FOUND_ON_PAGE);        
