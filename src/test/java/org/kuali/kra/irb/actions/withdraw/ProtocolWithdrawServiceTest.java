@@ -86,6 +86,7 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
+        submitAction.setSubmissionQualifierTypeCode("2");
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
         ProtocolDocument newProtocolDocument = protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
