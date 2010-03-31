@@ -72,7 +72,9 @@
 		<property name="shortLabel" value="On Campus Rate" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+            <bean parent="FixedPointValidationPattern"
+                p:precision="12"
+                p:scale="2" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -90,7 +92,9 @@
 		<property name="shortLabel" value="Off Campus Rate" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	        <bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
