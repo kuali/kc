@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
@@ -634,7 +635,11 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         else if (element instanceof HtmlSelect) {
             HtmlSelect selectField = (HtmlSelect) element;
-            selectField.setSelectedAttribute(fieldValue, true);
+            try {
+                selectField.setSelectedAttribute(fieldValue, true);
+            } catch (IllegalArgumentException e) {
+                Assert.fail("select element [" + element.asText() + "] " + e.getMessage());
+            }
         }
         else if (element instanceof HtmlCheckBoxInput) {
             HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
