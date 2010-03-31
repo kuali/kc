@@ -186,6 +186,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
        
         submitAction.setExemptStudiesCheckList(exemptStudiesCheckList);
         submitAction.setExpeditedReviewCheckList(expeditedReviewCheckList);
+        submitAction.setSubmissionQualifierTypeCode("2");
         
         if (!StringUtils.isBlank(committeeId)) {
             createCommittee(committeeId);
