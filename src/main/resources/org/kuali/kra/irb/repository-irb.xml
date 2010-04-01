@@ -811,6 +811,7 @@
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="triggerSubmission" column="TRIGGER_SUBMISSION" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="triggerCorrespondence" column="TRIGGER_CORRESPONDENCE" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="finalActionForBatchCorrespondence" column="FINAL_ACTION_FOR_BATCH_CORRESP" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1007,7 +1008,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" table="BATCH_CORRESPONDENCE_DETAIL">
-        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_BATCH_CORRESPONDENCE" autoincrement="true"/>
         <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="correspondenceNumber" column="CORRESPONDENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
