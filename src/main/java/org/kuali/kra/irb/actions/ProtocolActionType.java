@@ -63,6 +63,8 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     
     private boolean triggerCorrespondence;
     
+    private boolean finalActionForBatchCorrespondence;
+    
     /**
      * Constructs a ProtocolActionType.
      */
@@ -100,6 +102,14 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
 
     public boolean getTriggerCorrespondence() {
         return triggerCorrespondence;
+    }
+
+    public boolean isFinalActionForBatchCorrespondence() {
+        return finalActionForBatchCorrespondence;
+    }
+
+    public void setFinalActionForBatchCorrespondence(boolean finalActionForBatchCorrespondence) {
+        this.finalActionForBatchCorrespondence = finalActionForBatchCorrespondence;
     }
 
     @SuppressWarnings("unchecked")

@@ -36,6 +36,7 @@
 				<ref bean="ProtocolActionType-description" />
 				<ref bean="ProtocolActionType-triggerSubmission" />
 				<ref bean="ProtocolActionType-triggerCorrespondence" />
+                <ref bean="ProtocolActionType-finalActionForBatchCorrespondence" />
 				<ref bean="ProtocolActionType-versionNumber" />
 			</list>
 		</property>
@@ -78,18 +79,32 @@
 	    <property name="description" value="Trigger Submission" />
 	</bean>
 
-	<bean id="ProtocolActionType-triggerCorrespondence" parent="ProtocolActionType-triggerCorrespondence-parentBean" />
-	<bean id="ProtocolActionType-triggerCorrespondence-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="triggerCorrespondence" />
+    <bean id="ProtocolActionType-triggerCorrespondence" parent="ProtocolActionType-triggerCorrespondence-parentBean" />
+    <bean id="ProtocolActionType-triggerCorrespondence-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="triggerCorrespondence" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Trigger Correspondence" />
+        <property name="shortLabel" value="Trigger Correspondence" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Trigger Correspondence" />
+        <property name="description" value="Trigger Correspondence" />
+    </bean>
+
+	<bean id="ProtocolActionType-finalActionForBatchCorrespondence" parent="ProtocolActionType-finalActionForBatchCorrespondence-parentBean" />
+	<bean id="ProtocolActionType-finalActionForBatchCorrespondence-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="finalActionForBatchCorrespondence" />
 	    <property name="forceUppercase" value="false" />
-	    <property name="label" value="Trigger Correspondence" />
-	    <property name="shortLabel" value="Trigger Correspondence" />
+	    <property name="label" value="Final Action for Batch Correspondence" />
+	    <property name="shortLabel" value="Final Action for Batch Correspondence" />
 	    <property name="maxLength" value="1" />
 	    <property name="control" >
 	      <bean parent="CheckboxControlDefinition" />
 	    </property>
-	    <property name="summary" value="Trigger Correspondence" />
-	    <property name="description" value="Trigger Correspondence" />
+	    <property name="summary" value="Final Action for Batch Correspondence" />
+	    <property name="description" value="Final Action for Batch Correspondence" />
 	</bean>
 	
 	<bean id="ProtocolActionType-versionNumber" parent="ProtocolActionType-versionNumber-parentBean" />
@@ -116,6 +131,8 @@
 						        p:attributeName="triggerSubmission" />
 						    <bean parent="FieldDefinition"
 						        p:attributeName="triggerCorrespondence" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="finalActionForBatchCorrespondence" />
 						</list>
 					</property>
 				</bean>
@@ -144,6 +161,9 @@
 					p:attributeName="triggerSubmission" />
 				<bean parent="FieldDefinition"
 					p:attributeName="triggerCorrespondence" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalActionForBatchCorrespondence" />
+                    
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -157,6 +177,8 @@
 				    p:attributeName="triggerSubmission" />
 				<bean parent="FieldDefinition"
 					p:attributeName="triggerCorrespondence" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalActionForBatchCorrespondence" />
 			</list>
 		</property>
 	</bean>
