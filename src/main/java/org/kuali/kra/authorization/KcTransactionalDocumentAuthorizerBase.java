@@ -408,8 +408,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can blanket approve the document; otherwise false
      */
     protected boolean canBlanketApprove(Document document, Person user) {
-        WorkflowDocument workDoc = getWorkflowDocument( document, user );
-        return canBlanketApprove(document) && workDoc.isBlanketApproveCapable() &&
+        return canBlanketApprove(document) &&
                isAuthorizedByTemplate(
                         document,
                         KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
