@@ -307,14 +307,15 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 }
                 if (!pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentAbstractsAttachmentsAction" )) {
                     pdDocument.getDevelopmentProposal().setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
+                    pdDocument.getDevelopmentProposal().setInstituteAttachments(updatedDocCopy.getDevelopmentProposal().getInstituteAttachments());
                     pdDocument.getDevelopmentProposal().setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
                     pdDocument.getDevelopmentProposal().setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
                     removePersonnelAttachmentForDeletedPerson(pdDocument);
                } else {
-                   //need to refresh everything on the proposal dev document as this section can be
-                   //modified by other sessions and if it has been modified, we could overwrite changes
-                   //by saving here
+                   //in case other parts of the document have been saved since we have saved,
+                   //we save off possibly changed parts and reload the rest of the document
                    List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
+                   List<Narrative> instituteAttachments = pdDocument.getDevelopmentProposal().getInstituteAttachments();
                    List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
                    List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
     
@@ -324,6 +325,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
                    //now re-add narratives that could include changes and can't be modified otherwise
                    pdDocument.getDevelopmentProposal().setNarratives(newNarratives);
+                   pdDocument.getDevelopmentProposal().setInstituteAttachments(instituteAttachments);
                    pdDocument.getDevelopmentProposal().setProposalAbstracts(newAbstracts);
                    pdDocument.getDevelopmentProposal().setPropPersonBios(newBiographies);
     
