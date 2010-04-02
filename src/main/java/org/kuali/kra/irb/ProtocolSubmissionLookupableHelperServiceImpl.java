@@ -121,29 +121,37 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if (COMMITTEE_SCHEDULE_SCHEDULE_DATE.equals(propertyName) || PROTOCOL_TITLE.equals(propertyName)) {
-            return new AnchorHtmlData();
-        } else if (PROTOCOL_NUMBER.equals(propertyName)) {
-            inqBo = ((ProtocolSubmission) bo).getProtocol();
-        } else if (propertyName.equals(COMMITTEE_ID)) {
-            inqBo = ((ProtocolSubmission) bo).getCommittee();
-        } else if ("piName".equals(propertyName)) {
-            Protocol protocol = ((ProtocolSubmission) bo).getProtocol();
-            ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
-            if (principalInvestigator != null) {
-                if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
-                    inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
-                    inqPropertyName = ProtocolLookupConstants.Property.PERSON_ID;
-                } else {
-                    if (principalInvestigator.getRolodexId() != null) {
-                        inqBo = new Rolodex();
-                        ((Rolodex) inqBo).setRolodexId(principalInvestigator.getRolodexId());
-                        inqPropertyName = ProtocolLookupConstants.Property.ROLODEX_ID;
+        HtmlData inqUrl = new AnchorHtmlData();
+        if (!COMMITTEE_SCHEDULE_SCHEDULE_DATE.equals(propertyName) && !PROTOCOL_TITLE.equals(propertyName)) {
+            if (PROTOCOL_NUMBER.equals(propertyName)) {
+                inqBo = ((ProtocolSubmission) bo).getProtocol();
+            }
+            else if (propertyName.equals(COMMITTEE_ID)) {
+                inqBo = ((ProtocolSubmission) bo).getCommittee();
+            }
+            else if ("piName".equals(propertyName)) {
+                Protocol protocol = ((ProtocolSubmission) bo).getProtocol();
+                ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
+                if (principalInvestigator != null) {
+                    if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
+                        inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
+                        inqPropertyName = ProtocolLookupConstants.Property.PERSON_ID;
+                    }
+                    else {
+                        if (principalInvestigator.getRolodexId() != null) {
+                            inqBo = new Rolodex();
+                            ((Rolodex) inqBo).setRolodexId(principalInvestigator.getRolodexId());
+                            inqPropertyName = ProtocolLookupConstants.Property.ROLODEX_ID;
+                        }
                     }
                 }
             }
+            if (inqBo != null) {
+                // withdraw committeeidfk = null will cause inqbo=null
+                inqUrl = super.getInquiryUrl(inqBo, inqPropertyName);
+            }
         }
-        return super.getInquiryUrl(inqBo, inqPropertyName);
+        return inqUrl;
     }
 
     public void setKcPersonService(KcPersonService kcPersonService) {
