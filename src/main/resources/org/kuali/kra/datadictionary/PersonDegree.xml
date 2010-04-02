@@ -140,7 +140,10 @@
     <property name="shortLabel" value="School Id Cd"/>
     <property name="maxLength" value="3"/>
     <property name="control">
-      <bean p:size="3" parent="TextControlDefinition"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SchoolCode"
+          p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+          p:includeKeyInLabel="false" p:keyAttribute="schoolCode"
+          p:labelAttribute="description" />
     </property>
     <property name="summary" value="School Id Code"/>
     <property name="description" value="School Id Code"/>
