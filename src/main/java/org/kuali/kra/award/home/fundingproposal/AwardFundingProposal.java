@@ -17,7 +17,6 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -27,7 +26,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  * The relationship is maintained from both modules, so it has to be treated specially in various 
  * parts of the application, such as versioning.
  */
-public class AwardFundingProposal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
+public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -8135146676358083314L;
     
     private Long awardFundingProposalId;
@@ -175,35 +174,6 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase imple
     
     public void setActive(boolean active) {
         this.active = active;
-    }
-    
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-    public Award getSequenceOwner() {
-        return award;
-    }
-    
-    /**
-     * @param newlyVersionedOwner
-     */
-    public void setSequenceOwner(Award newlyVersionedOwner) {
-        this.award = newlyVersionedOwner;
-    }
-    
-    /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return award.getSequenceNumber();
-    }
-    
-    /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
-     */
-    public void resetPersistenceState() {
-        awardFundingProposalId = null;
-        versionNumber = null;
     }
     
     /**

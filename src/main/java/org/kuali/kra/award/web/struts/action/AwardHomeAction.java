@@ -354,6 +354,7 @@ public class AwardHomeAction extends AwardAction {
                                                                                                          WorkflowException, 
                                                                                                          IOException {
         Award newVersion = getVersioningService().createNewVersion(award);
+        newVersion.getFundingProposals().clear();
         copyTimeAndMoneyData(award, newVersion);
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
