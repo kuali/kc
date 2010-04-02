@@ -201,6 +201,10 @@ public class ProtocolSubmitAction implements Serializable{
         return rightReviewers;
     }
     
+    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans){
+        this.reviewers = reviewerBeans;
+    }
+    
     public void setExpeditedReviewCheckList(List<ExpeditedReviewCheckListItem> checkList) {
         this.expeditedReviewCheckList = checkList;
     }

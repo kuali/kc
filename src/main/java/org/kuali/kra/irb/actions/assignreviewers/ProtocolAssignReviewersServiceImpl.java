@@ -35,7 +35,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     /**
      * Set the Business Object Service.
-     * @param businessObjectService
+     * @param businessObjectService businessObjectService.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
