@@ -947,15 +947,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-
-        List<NarrativeUserRights> narrativeRights = new ArrayList<NarrativeUserRights>();
-        for (Narrative narrative : narratives) {
-            narrativeRights.addAll(narrative.getNarrativeUserRights());
-        }
-        managedLists.add(narrativeRights);
-        managedLists.add(narratives);
+        List managedLists = super.buildListOfDeletionAwareLists();    
         
         List<ProposalPersonUnit> units = new ArrayList<ProposalPersonUnit>();
         List<ProposalPersonDegree> degrees = new ArrayList<ProposalPersonDegree>();
@@ -1165,7 +1157,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @param proposalPersonBiography
      * @throws Exception
      */
-    public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) throws Exception {
+    public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) {
         getProposalPersonBiographyService().addProposalPersonBiography(this.getProposalDocument(), proposalPersonBiography);
     }
 
