@@ -25,19 +25,52 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * 
      * @see org.kuali.kra.award.AwardAmountInfoService#fetchAwardAmountInfoWithHighestTransactionId(java.util.List)
      */
-    public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
+//    public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
+//        
+//        AwardAmountInfo awardAmountInfo = null;
+//        for(AwardAmountInfo aai : awardAmountInfos){
+//            if(awardAmountInfo == null){
+//                awardAmountInfo = aai;
+//            }else if(awardAmountInfo.getCreateTimestamp() == null && aai.getCreateTimestamp()!=null){
+//                awardAmountInfo = aai;
+//            }else if(awardAmountInfo.getCreateTimestamp()!=null && aai.getCreateTimestamp()!=null && awardAmountInfo.getCreateTimestamp().before(aai.getCreateTimestamp())){
+//                awardAmountInfo = aai;
+//            }
+//        }
+//        return awardAmountInfo;
+//    }
+//    
+//    /**
+//     * 
+//     * @see org.kuali.kra.award.AwardAmountInfoService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
+//     */
+//    public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
+//        AwardAmountInfo awardAmountInfo = null;
+//        int returnVal = 0;
+//        int index = 0;
+//        for(AwardAmountInfo aai : awardAmountInfos){
+//            if(awardAmountInfo == null){
+//                awardAmountInfo = aai;
+//                returnVal = index;
+//                index++;
+//            }else if(awardAmountInfo.getCreateTimestamp() == null && aai.getCreateTimestamp()!=null){
+//                awardAmountInfo = aai;
+//                returnVal = index;
+//                index++;
+//            }else if(awardAmountInfo.getCreateTimestamp()!=null && aai.getCreateTimestamp()!=null && awardAmountInfo.getCreateTimestamp().before(aai.getCreateTimestamp())){
+//                awardAmountInfo = aai;
+//                returnVal = index;
+//                index++;
+//            }else {
+//                index++;
+//            }
+//        }
+//        return returnVal;
+//    }
+    
+public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
         
-        AwardAmountInfo awardAmountInfo = null;
-        for(AwardAmountInfo aai : awardAmountInfos){
-            if(awardAmountInfo == null){
-                awardAmountInfo = aai;
-            }else if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId()!=null){
-                awardAmountInfo = aai;
-            }else if(awardAmountInfo.getAwardAmountInfoId()!=null && aai.getAwardAmountInfoId()!=null && awardAmountInfo.getAwardAmountInfoId() < aai.getAwardAmountInfoId()){
-                awardAmountInfo = aai;
-            }
-        }
-        return awardAmountInfo;
+        return awardAmountInfos.get(awardAmountInfos.size() -1);
     }
     
     /**
@@ -45,27 +78,8 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * @see org.kuali.kra.award.AwardAmountInfoService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
      */
     public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
-        AwardAmountInfo awardAmountInfo = null;
-        int returnVal = 0;
-        int index = 0;
-        for(AwardAmountInfo aai : awardAmountInfos){
-            if(awardAmountInfo == null){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId()!=null){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else if(awardAmountInfo.getAwardAmountInfoId()!=null && aai.getAwardAmountInfoId()!=null && awardAmountInfo.getAwardAmountInfoId() < aai.getAwardAmountInfoId()){
-                awardAmountInfo = aai;
-                returnVal = index;
-                index++;
-            }else {
-                index++;
-            }
-        }
-        return returnVal;
+       
+        return awardAmountInfos.size() - 1;
     }
        
 
