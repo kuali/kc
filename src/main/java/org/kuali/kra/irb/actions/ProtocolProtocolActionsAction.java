@@ -60,8 +60,8 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -79,7 +79,9 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+
+
+
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -198,6 +200,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
             ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
+            
+            ProtocolAssignReviewersBean assignReviewerBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
+            submitAction.setReviewers(assignReviewerBean.getReviewers());
+            
             if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
                 if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
                     return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
