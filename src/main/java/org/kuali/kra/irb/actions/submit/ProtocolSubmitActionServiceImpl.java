@@ -16,12 +16,14 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -110,6 +112,10 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         else if (protocol.isRenewal()) {
             addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber());
         }
+        
+        KraServiceLocator.getService(ProtocolAssignReviewersService.class).assignReviewers(protocol, submitAction.getReviewers());
+        
+        protocol.refresh();
     }
     
     /**
