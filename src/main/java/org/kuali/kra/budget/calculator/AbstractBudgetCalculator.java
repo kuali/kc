@@ -188,16 +188,16 @@ public abstract class AbstractBudgetCalculator {
     }
 
     public void calculate() {
+        if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal)budget.getBudgetParent()).isParent()) {
+            // if this budget belongs to a ProposalHierarchy parent skip calculations
+            return;
+        }
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
         budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
         budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
         budgetLineItem.setUnderrecoveryAmount(BudgetDecimal.ZERO);
         createAndCalculateBreakupIntervals();
         updateBudgetLineItemCalculatedAmounts();
-        if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal)budget.getBudgetParent()).isParent()) {
-            // if this budget belongs to a ProposalHierarchy parent skip rate calculations
-            return;
-        }
         populateBudgetRateBaseList();
         // if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
         // calculateURBase();

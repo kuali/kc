@@ -85,7 +85,6 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             primaryKeys.put("budgetId", budgetId);
             budget = (Budget) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProposalDevelopmentBudgetExt.class, primaryKeys);
             if (budget != null) {
-                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);
                 KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
