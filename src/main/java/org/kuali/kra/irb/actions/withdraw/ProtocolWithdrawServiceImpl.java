@@ -105,7 +105,8 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          */
         ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.WITHDRAWN);
-        
+        // to force it to retrieve from list.
+        newProtocolDocument.getProtocol().setProtocolSubmission(null);
         //update some info
         newProtocolDocument.getProtocol().setApprovalDate(null);
         newProtocolDocument.getProtocol().setExpirationDate(null);
