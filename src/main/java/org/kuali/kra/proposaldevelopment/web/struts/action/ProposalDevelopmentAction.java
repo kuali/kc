@@ -200,8 +200,17 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getDocument();
+        loadDocument(document);
+    }
+    
+    /**
+     * 
+     * Called to load all necessary elements in the proposal development document
+     * @param document
+     */
+    protected void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
-        updateNIHDescriptions(document);
+        updateNIHDescriptions(document);     
     }
     
     protected SponsorService getSponsorService() {
@@ -300,7 +309,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                     
                     pdForm.setDocument(updatedDocCopy);
                     pdDocument = updatedDocCopy;
-                    updateNIHDescriptions(pdDocument);
+                    loadDocument(pdDocument);
                     
                     pdDocument.setBudgetDocumentVersions(newVersions);
                     pdDocument.getDevelopmentProposal().setBudgetStatus(budgetStatus);                  
@@ -321,7 +330,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
                    pdForm.setDocument(updatedDocCopy);
                    pdDocument = updatedDocCopy;
-                   updateNIHDescriptions(pdDocument);
+                   loadDocument(pdDocument);
     
                    //now re-add narratives that could include changes and can't be modified otherwise
                    pdDocument.getDevelopmentProposal().setNarratives(newNarratives);
