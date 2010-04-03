@@ -1,132 +1,63 @@
--- awdbudadmin
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdbudadmin';
+DELETE FROM KRIM_ROLE_MBR_ATTR_DATA_T
+  WHERE ROLE_MBR_ID IN 
+  (
+    SELECT ROLE_MBR_ID FROM KRIM_ROLE_MBR_T 
+    WHERE ROLE_ID IN 
+      (
+        SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Viewer' AND NMSPC_CD = 'KC-AWARD'
+      )
+    AND MBR_ID IN 
+      (
+        SELECT PRNCPL_ID FROM KRIM_PRNCPL_T 
+        WHERE PRNCPL_NM IN ('awdbudadmin','awdbudaggregator','awdbudapprover','awdbudmaintainer','awdbudmodifier','awddocmaintainer','awdmodifier')
+      )
+    );
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudadmin');
+DELETE FROM KRIM_ROLE_MBR_T 
+  WHERE ROLE_ID IN 
+  (
+    SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Viewer' AND NMSPC_CD = 'KC-AWARD'
+  )
+  AND MBR_ID IN 
+  (
+    SELECT PRNCPL_ID FROM KRIM_PRNCPL_T 
+    WHERE PRNCPL_NM IN ('awdbudadmin','awdbudaggregator','awdbudapprover','awdbudmaintainer','awdbudmodifier','awddocmaintainer','awdmodifier')
+  );
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudadmin');
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
--- awdbudaggregator
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdbudaggregator';
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Maintainer' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudaggregator');
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Aggregator' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudaggregator');
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Approver' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
--- awdbudapprover
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdbudapprover';
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Modifier' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudapprover');
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) 
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Viewer' AND NMSPC_CD = 'KC-AWARD'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View Award' AND NMSPC_CD = 'KC-AWARD'),
+'Y',SYS_GUID(),1);
 
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudapprover');
-
--- awdbudmaintainer
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdbudmaintainer';
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudmaintainer');
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudmaintainer');
-
--- awdbudmodifier
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdbudmodifier';
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudmodifier');
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdbudmodifier');
-
--- awddocmaintainer
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awddocmaintainer';
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awddocmaintainer');
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awddocmaintainer');
-
--- awdmodifier
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
-select krim_role_mbr_id_s.nextval, r.role_id, p.prncpl_id, 'P', sysdate, sys_guid(), 1 from krim_role_t r, krim_prncpl_t p
-where r.role_nm = 'Award Viewer' and r.nmspc_cd = 'KC-AWARD' and p.PRNCPL_NM = 'awdmodifier';
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, '000001', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'unitNumber' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdmodifier');
-
-insert into krim_role_mbr_attr_data_t (attr_data_id, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id, ver_nbr)
-select krim_attr_data_id_s.nextval, role_mbr_id, t.kim_typ_id, d.kim_attr_defn_id, 'Y', sys_guid(), 1 
-from krim_typ_t t, krim_attr_defn_t d, krim_role_mbr_t m
-where t.nm = 'UnitHierarchy' and d.nm = 'subunits' and t.nmspc_cd = 'KC-SYS' and d.nmspc_cd = 'KC-SYS'
-and m.role_id in (select role_id from krim_role_t where role_nm = 'Award Viewer' and nmspc_cd = 'KC-AWARD')
-and m.mbr_id in (select prncpl_id from krim_prncpl_t where prncpl_nm = 'awdmodifier');
+COMMIT;
