@@ -42,7 +42,7 @@
                 </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.sponsorProposalNumber}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.sponsorProposalNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.sponsorProposalNumber}" />
+                	<kul:htmlControlAttribute property="document.institutionalProposal.sponsorProposalNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.sponsorProposalNumber}" />
                 </td>
             </tr>
         	<tr>
@@ -60,7 +60,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfCode}" /></div></th>
            		<td>
-           			<kra:kraControlAttribute property="document.institutionalProposal.nsfCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfCode}" styleClass="fixed-size-200-select" />
+           			<kul:htmlControlAttribute property="document.institutionalProposal.nsfCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfCode}" styleClass="fixed-size-200-select" />
            		</td>
         	</tr>
         	<tr>
@@ -70,17 +70,17 @@
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineType}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.deadlineType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
+                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
                 </td>
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
+                	<kul:htmlControlAttribute property="document.institutionalProposal.noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.awardTypeCode}" /></div></th>
            		<td>
-           			<kra:kraControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
+           			<kul:htmlControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
            		</td>
         	</tr>
      		<tr>
@@ -96,7 +96,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.cfdaNumber}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.cfdaNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.cfdaNumber}" styleClass="fixed-size-200-select"/>
+                	<kul:htmlControlAttribute property="document.institutionalProposal.cfdaNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.cfdaNumber}" styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right">&nbsp;</div></th>
            		<td>

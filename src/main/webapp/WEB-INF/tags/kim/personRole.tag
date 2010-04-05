@@ -119,13 +119,13 @@
 				<c:set var="roleMemberActiveDatesReadOnly" value="${(!empty role.definitions and fn:length(role.definitions) > 0) || readOnlyRole}" />
                 <td align="left" valign="middle">
                 	<c:if test="${fn:length(role.rolePrncpls) > 0}">
-                		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeFromDate"  attributeEntry="${docRolePrncplAttributes.activeFromDate}"   readOnly="${roleMemberActiveDatesReadOnly}" />
+                		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeFromDate"  attributeEntry="${docRolePrncplAttributes.activeFromDate}"  datePicker="true" readOnly="${roleMemberActiveDatesReadOnly}" />
 						</div>
 					</c:if>
 				</td>
                 <td align="left" valign="middle">
                 	<c:if test="${fn:length(role.rolePrncpls) > 0}">
-	               		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeToDate"  attributeEntry="${docRolePrncplAttributes.activeToDate}"   readOnly="${roleMemberActiveDatesReadOnly}" />
+	               		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeToDate"  attributeEntry="${docRolePrncplAttributes.activeToDate}"  datePicker="true" readOnly="${roleMemberActiveDatesReadOnly}" />
 						</div>
 					</c:if>
 				</td>

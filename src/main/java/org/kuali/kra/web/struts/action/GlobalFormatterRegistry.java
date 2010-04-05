@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.web.struts.action;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +26,9 @@ import org.apache.struts.action.PlugIn;
 import org.apache.struts.config.ModuleConfig;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.infrastructure.ArrayFormatter;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.rice.kns.web.format.Formatter;
-
-import java.util.Collections;
 
 /**
  * This class provides a central place for application-wide {@link Formatter Formatter} registration.
@@ -52,10 +50,6 @@ public class GlobalFormatterRegistry implements PlugIn {
         final Map<Class<?>, Class<? extends Formatter>> temp = new HashMap<Class<?>, Class<? extends Formatter>>();
         temp.put(BudgetDecimal.class, BudgetDecimalFormatter.class);
         temp.put(RateDecimal.class, RateDecimalFormatter.class);
-        
-        //only registering formatter for one array type - do not want to break something
-        //by override all array formatting behavior.
-        temp.put(String[].class, ArrayFormatter.class);
         
         KC_FORMATTERS = Collections.unmodifiableMap(temp);
     }

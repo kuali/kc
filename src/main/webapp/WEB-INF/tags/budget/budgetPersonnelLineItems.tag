@@ -135,7 +135,7 @@
 				</td>
 				<td valign="middle"  nowrap="true">
                 	<div align="center">
-                	<kra:kraControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList[${status.index}].periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}" readOnly="${budgetExpensePanelReadOnly}"/>
+                	<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList[${status.index}].periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}" readOnly="${budgetExpensePanelReadOnly}"/>
                 	</div>
                 </td>
                 <td valign="middle"  nowrap="true">                	
