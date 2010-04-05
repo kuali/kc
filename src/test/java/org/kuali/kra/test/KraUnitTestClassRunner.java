@@ -22,6 +22,7 @@ import java.util.List;
 import org.junit.internal.runners.InitializationError;
 import org.kuali.rice.test.runners.RiceUnitTestClassRunner;
 
+/** what the hell is this for?  Would someone either comment it or delete it. */
 public class KraUnitTestClassRunner extends RiceUnitTestClassRunner {
 
     public KraUnitTestClassRunner(final Class<?> testClass) throws InitializationError {

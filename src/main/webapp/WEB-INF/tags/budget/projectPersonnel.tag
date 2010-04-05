@@ -109,7 +109,7 @@
 					</div>
               	</td>
               	<td>
-              		<kra:kraControlAttribute property="document.budget.budgetPersons[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
+              		<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
               		<div align="center">

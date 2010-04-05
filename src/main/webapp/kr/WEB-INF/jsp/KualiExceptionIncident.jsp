@@ -179,7 +179,7 @@ request.setAttribute("test", incident);
 		</div>
 	</div>
 	<br />
-	<c:if test="${exceptionHideIncidentReport eq false && !KualiConfigurationService.isProductionEnvironment}">
+	<c:if test="${exceptionHideIncidentReport eq false && !kfunc:isProductionEnvironment()}">
 		<table>
 			<tr>
 				<td>

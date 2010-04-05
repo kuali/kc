@@ -82,7 +82,7 @@
                 
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
-					 <kul:htmlControlAttribute property="newPropSpecialReview.exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" />
+					 <kul:htmlControlAttribute property="newPropSpecialReview.exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" />
 					</div>	  			
                 </td>
                 <td align="left" valign="middle" class="infoline">
@@ -130,8 +130,7 @@
  
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<%-- always make (readOnly = false) so that the select control will always appear even when (readOnly == true) but make disabled when the values should not be changed --%>
-                    <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" readOnly="false" disabled="${readOnly}"/>
+                    <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" />
 					</div>	  			
                 </td>
 

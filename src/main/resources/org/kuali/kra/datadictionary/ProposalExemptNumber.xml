@@ -67,9 +67,10 @@
 
   <bean id="ProposalExemptNumber-exemptionTypeCode-parentBean" abstract="true" parent="ExemptionType-exemptionTypeCode">
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="MultiselectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ExemptionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:includeKeyInLabel="false" 
+            p:size="4"/>
     </property>
   </bean>
   <bean id="ProposalExemptNumber-versionNumber" parent="ProposalExemptNumber-versionNumber-parentBean" />
