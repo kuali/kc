@@ -185,7 +185,7 @@
 		<property name="rootConfig" ref="config" />
 		<property name="rootResourceLoader" ref="kraRootResourceLoader" />
 		<property name="serviceNamespace" value="${service.namespace}" />
-		<property name="environment" value="${build.environment}"/>
+		<property name="environment" value="${environment}"/>
 
 		<property name="ksbConfigurer">
       		<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
