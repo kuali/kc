@@ -28,6 +28,8 @@ import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KualiDecimal;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
     public void runScripts(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException{
@@ -40,9 +42,10 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT A.NOTICE_DATE, C.DESCRIPTION, B.OBLIGATED_CHANGE, B.AMOUNT_OBLIGATED_TO_DATE, ");
             sb.append("B.OBLIGATION_EXPIRATION_DATE, B.CURRENT_FUND_EFFECTIVE_DATE FROM AWARD_AMOUNT_TRANSACTION A, AWARD_AMOUNT_INFO B, AWARD_TRANSACTION_TYPE C ");
-            sb.append("WHERE A.AWARD_NUMBER = B.AWARD_NUMBER AND A.TRANSACTION_ID = B.TNM_DOCUMENT_NUMBER AND A.AWARD_NUMBER = '");
+            sb.append("WHERE A.AWARD_NUMBER = B.AWARD_NUMBER AND A.TRANSACTION_ID = B.TNM_DOCUMENT_NUMBER AND B.AWARD_NUMBER = '");
             sb.append(awardNumber);
             sb.append("' AND A.TRANSACTION_TYPE_CODE = C.AWARD_TRANSACTION_TYPE_CODE");
+            sb.append(" ORDER BY B.AWARD_AMOUNT_INFO_ID");
             
             ResultSet rs = stmt.executeQuery(sb.toString());
             while(rs.next()){
@@ -51,6 +54,7 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
                 timeAndMoneyActionSummary.setTransactionType(rs.getString(2));
                 if(rs.getObject(3)!=null){
                     timeAndMoneyActionSummary.setChangeAmount(new KualiDecimal((BigDecimal)rs.getObject(3)));    
+
                 }
                 if(rs.getObject(4)!=null){
                     timeAndMoneyActionSummary.setObligationCumulative(new KualiDecimal((BigDecimal)rs.getObject(4)));    
@@ -67,5 +71,7 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
         catch (SQLException e) {
             throw e;
         }
+        Collections.reverse(timeAndMoneyActionSummaryItems);
     }
+ 
 }

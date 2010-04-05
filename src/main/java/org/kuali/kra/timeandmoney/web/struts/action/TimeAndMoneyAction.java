@@ -481,7 +481,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
         
         TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
-        tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), timeAndMoneyDocument.getAwardNumber());
+        timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
+        tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
         
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }

@@ -914,6 +914,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(pendingTransaction.getObligatedAmount());
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().add(pendingTransaction.getObligatedAmount()));
@@ -944,6 +945,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0));
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
@@ -995,6 +997,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0));
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
@@ -1025,6 +1028,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
@@ -1076,6 +1080,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(pendingTransaction.getObligatedAmount());
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().add(pendingTransaction.getObligatedAmount()));
@@ -1103,6 +1108,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
