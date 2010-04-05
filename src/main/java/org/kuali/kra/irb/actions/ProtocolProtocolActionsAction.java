@@ -80,6 +80,8 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 
+
+
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -212,10 +214,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 forward = super.route(mapping, form, request, response);
             }
         }
-        
-        //reload
-        docHandler(mapping, form, request, response); 
-        
 
         return forward;
     }
