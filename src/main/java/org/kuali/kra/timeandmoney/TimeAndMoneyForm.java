@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,17 +37,26 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
+    public static final String COLUMN = ":";
+    private static final int NUMBER_30 = 30;
+    public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
+    public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
+    BusinessObjectService businessObjectService;
     private static final long serialVersionUID = 2737159069734793860L;
     private TransactionBean transactionBean;
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
@@ -170,6 +182,15 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     protected DataDictionaryService getDataDictionaryService(){
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }    
+    
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        return businessObjectService;
+    }
     
     /**
      * Gets the transactionBean attribute. 
@@ -459,6 +480,81 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         newButton.setExtraButtonAltText(altText);
         
         extraButtons.add(newButton);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        // super.populateHeaderFields(workflowDocument);
+
+        TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
+        if(timeAndMoneyDocument.getAward() == null) {
+            Map<String, String> map = new HashMap<String,String>();
+            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
+            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
+            timeAndMoneyDocument.setAward(awardList.get(0)); 
+        }
+        AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
+        getDocInfo().clear();
+        getDocInfo().add(
+                new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
+                        .getAward().getPrincipalInvestigatorName()));
+
+        String docIdAndStatus = COLUMN;
+        if (workflowDocument != null) {
+            docIdAndStatus = awardDocument.getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
+        String unitName = awardDocument.getAward().getUnitName();
+        if (StringUtils.isNotBlank(unitName) && unitName.length() > NUMBER_30) {
+            unitName = unitName.substring(0, NUMBER_30);
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+
+        setupSponsor(awardDocument);
+        setupLastUpdate(awardDocument);
+
+    }
+    
+    private String getAwardIdAccount(AwardDocument awardDocument) {
+        String awardNum = awardDocument.getAward().getAwardNumber();
+        String account = awardDocument.getAward().getAccountNumber() != null ? awardDocument.getAward().getAccountNumber()
+                : Constants.EMPTY_STRING;
+        return awardNum + COLUMN + account;
+    }
+
+    private void setupLastUpdate(AwardDocument awardDocument) {
+        String createDateStr = null;
+        String updateUser = null;
+        if (awardDocument.getUpdateTimestamp() != null) {
+            createDateStr = KNSServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
+            updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
+                    : awardDocument.getUpdateUser();
+            getDocInfo().add(
+                    new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + updateUser));
+        } else {
+            getDocInfo().add(new HeaderField(UPDATE_TIMESTAMP_DD_NAME, Constants.EMPTY_STRING));
+        }
+
+    }
+
+
+    private void setupSponsor(AwardDocument awardDocument) {
+        if (awardDocument.getAward().getSponsor() == null) {
+            getDocInfo().add(new HeaderField(SPONSOR_DD_NAME, ""));
+        } else {
+            String sponsorName = awardDocument.getAward().getSponsorName();
+            if (StringUtils.isNotBlank(sponsorName) && sponsorName.length() > NUMBER_30) {
+                sponsorName = sponsorName.substring(0, NUMBER_30);
+            }
+            getDocInfo().add(new HeaderField(SPONSOR_DD_NAME, sponsorName));
+        }
+
     }
     
 
