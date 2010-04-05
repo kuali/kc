@@ -30,11 +30,11 @@
              <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailBy}" /></div></th>
                 <td align="left" valign="middle">
-                	<kra:kraControlAttribute property="document.institutionalProposal.mailBy" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.mailBy}" />
+                	<kul:htmlControlAttribute property="document.institutionalProposal.mailBy" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.mailBy}" />
 				</td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.mailType}"/></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.mailType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.mailType}" />
+                	<kul:htmlControlAttribute property="document.institutionalProposal.mailType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.mailType}" />
                 </td>
             </tr>
         	<tr>

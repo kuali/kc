@@ -71,15 +71,6 @@
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
-	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
-	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
-	<param name="datasource.pool.validationQuery">select 1 from dual</param>
-	<param name="datasource.pool.maxWait">30000</param>
-	<param name="datasource.pool.minSize">0</param>
-	<param name="datasource.pool.maxSize">50</param>
-	<param name="datasource.pool.size">5</param>
-	<param name="datasource.connectionTimeout">30000</param>
 	
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
@@ -109,7 +100,6 @@
 	<param name="keystore.alias">kul</param>
 	<param name="keystore.password">kulpass</param>
 	<param name="rice.user">true</param>
-	<param name="actionlist.outbox">true</param>
 	<param name="ActionList.norefresh">false</param>
 	<param name="enable.nonproduction.data.unmasking">true</param>
 

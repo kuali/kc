@@ -18,7 +18,7 @@
                 <td>
                     <c:choose>
 	                    <c:when test="${empty KualiForm.document.committeeList[0].id}">
-	                    	<kra:kraControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly or KualiForm.document.committeeList[0].sequenceNumber > 1}" attributeEntry="${committeeAttributes.committeeId}" />
+	                    	<kul:htmlControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly or KualiForm.document.committeeList[0].sequenceNumber > 1}" attributeEntry="${committeeAttributes.committeeId}" />
 	                    </c:when>
 	                    <c:otherwise>
 	                      <span id="committeeId">
@@ -58,18 +58,18 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeDescription}" /></div></th>
                 <td>
-                    <kra:kraControlAttribute property="document.committeeList[0].committeeDescription" attributeEntry="${committeeAttributes.committeeDescription}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].committeeDescription" attributeEntry="${committeeAttributes.committeeDescription}" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.scheduleDescription}" /></div></th>
                 <td align="left" valign="middle">
-                	<kra:kraControlAttribute property="document.committeeList[0].scheduleDescription" attributeEntry="${committeeAttributes.scheduleDescription}" />
+                	<kul:htmlControlAttribute property="document.committeeList[0].scheduleDescription" attributeEntry="${committeeAttributes.scheduleDescription}" />
                 </td>
             </tr>
             
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.minimumMembersRequired}" /></div></th>
                 <td>
-                    <kra:kraControlAttribute property="document.committeeList[0].minimumMembersRequired" attributeEntry="${committeeAttributes.minimumMembersRequired}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].minimumMembersRequired" attributeEntry="${committeeAttributes.minimumMembersRequired}" />
                 </td>
                 
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
@@ -86,22 +86,22 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.maxProtocols}" /></div></th>
                 <td>
-                    <kra:kraControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
                 </td>
                 <th><div align="right"><nobr><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateTimestamp}" /></nobr></div></th>
                 <td align="left" valign="middle">
-                    <kra:kraControlAttribute property="document.committeeList[0].updateTimestamp" readOnly="true" attributeEntry="${committeeAttributes.updateTimestamp}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].updateTimestamp" readOnly="true" attributeEntry="${committeeAttributes.updateTimestamp}" />
                 </td>
             </tr>
             
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.advancedSubmissionDaysRequired}" /></div></th>
                 <td>
-                    <kra:kraControlAttribute property="document.committeeList[0].advancedSubmissionDaysRequired" attributeEntry="${committeeAttributes.advancedSubmissionDaysRequired}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].advancedSubmissionDaysRequired" attributeEntry="${committeeAttributes.advancedSubmissionDaysRequired}" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateUser}" /></div></th>
                 <td align="left" valign="middle">
-                    <kra:kraControlAttribute property="document.committeeList[0].updateUser" readOnly="true" attributeEntry="${committeeAttributes.updateUser}" />
+                    <kul:htmlControlAttribute property="document.committeeList[0].updateUser" readOnly="true" attributeEntry="${committeeAttributes.updateUser}" />
                 </td>
             </tr>
 		</table>

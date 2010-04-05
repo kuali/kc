@@ -87,14 +87,6 @@
 
 <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 
-<%-- KC modification Start --%>
-<%--These multi-select attributes are control specific and really should be defined in the DataDictionary files as control attributes--%>
-<%@ attribute name="isMultiSelect" required="false" type="java.lang.Boolean"
-			  description="When (attributeEntry.control.select == true), this attribute specifies whether to use a multi-select style control."%>
-<%@ attribute name="multiSelectSize" required="false" type="java.lang.Integer"
-			  description="When (attributeEntry.control.select == true && isMultiSelect == true), this attribute specifies the size of the control and is required for multi-select types."%>
-<%-- KC modification End --%>
-
 <c:set var="disableField" value="false" />
 <c:if test="${disabled}">
   <c:set var="disableField" value="true" />
@@ -114,6 +106,7 @@
 </c:choose>
 
 <c:if test="${readOnly}">
+   
    <c:choose>
      <c:when test="${readOnlyBody}">
          <jsp:doBody/>
@@ -142,11 +135,60 @@
          <c:if test="${empty extraReadOnlyProperty}">
          <c:choose>
 			<c:when test="${sessionDocument}">
-			   <c:if test="${empty readOnlyAlternateDisplay}">
-		           <bean:write name="KualiForm" property="${property}"/>
-               </c:if>
-              ${readOnlyAlternateDisplay}
-			</c:when>
+			  <c:if test="${attributeEntry.control.select == true || attributeEntry.control.multiselect == true}">
+			     <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
+				 <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
+				   	     
+				 <c:choose>
+	               <c:when test="${not empty businessObjectClass and empty kimTypeId}">
+	                 <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+	               </c:when>
+	               <c:when test="${not empty kimTypeId}">
+	                 <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.name}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeId}"/>
+	               </c:when>
+	               <c:otherwise>
+	                 <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
+	               </c:otherwise>
+	           	 </c:choose>
+	           	 <jsp:useBean id="methodAndParms" type="java.lang.String"/> 
+           	  
+			     <%
+			        java.lang.String selectedOptionDescription = "";
+			   	  
+			   	    javax.servlet.jsp.PageContext pageCtx = (javax.servlet.jsp.PageContext) jspContext;
+			   	
+			   	    org.apache.struts.taglib.TagUtils TagUtils = org.apache.struts.taglib.TagUtils.getInstance();
+			   	    java.util.List propertyValue = new java.util.ArrayList();
+			   	    Object value = TagUtils.lookup(pageCtx, "org.apache.struts.taglib.html.BEAN", property, null);
+			   	    if (value instanceof String) {
+			   		  propertyValue.add(value);
+			   	    } else if (value instanceof java.util.Collection) {
+			   		  propertyValue.addAll((java.util.Collection)value);
+			   	    }
+			   	    java.util.List collection = (java.util.List) TagUtils.lookup(pageCtx, "org.apache.struts.taglib.html.BEAN", methodAndParms, null);
+			   	
+			   	    if(collection != null && collection.size() > 0) {
+			   		  for(Object obj : collection) {
+				   	    org.kuali.rice.core.util.KeyLabelPair pair = (org.kuali.rice.core.util.KeyLabelPair) obj;
+				   	    for (Object val : propertyValue) {
+					   	  if(pair.getKey() != null && pair.getKey().toString().equals(val)) {
+					   	    if (!selectedOptionDescription.trim().equals("")) {
+					   	      selectedOptionDescription += "<br />";
+					   	    }
+					   	    selectedOptionDescription += pair.getLabel();
+					   	    break;
+					   	  }
+				   	    }
+				   	  }
+				   	  pageCtx.setAttribute("readOnlyAlternateDisplay", selectedOptionDescription);
+			   	    } 
+			   	 %>
+ 			 </c:if>
+			 <c:if test="${empty readOnlyAlternateDisplay}">
+		       <bean:write name="KualiForm" property="${property}"/>
+             </c:if>
+             ${readOnlyAlternateDisplay}
+		    </c:when>
 			<c:otherwise>
               <html:hidden write="${empty readOnlyAlternateDisplay ? 'true' : 'false'}" property="${property}" style="${textStyle}" />
               ${readOnlyAlternateDisplay}
@@ -177,14 +219,13 @@
 
     </c:when>
 
-
-<%-- KC Modification Start --%>
     <%-- select --%>
     <c:when test="${attributeEntry.control.select == true}">
             <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
             <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
 
-			<c:choose>
+            <html:select styleId="${property}" property="${property}" title="${accessibleTitle}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
+              <c:choose>
               	<c:when test="${not empty businessObjectClass and empty kimTypeId}">
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
               	</c:when>
@@ -194,28 +235,30 @@
               	<c:otherwise>
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
               	</c:otherwise>
-			</c:choose>
+           	  </c:choose>
+              <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
+            </html:select>
+    </c:when>
 
-			<c:choose>
-				<c:when test="${isMultiSelect}">
-					<%-- makes no sense that the multiple attribute is not boolean --%>
-					<html:select styleId="${property}" property="${property}" title="${accessibleTitle}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}" multiple="${multiSelect}" size="${multiSelectSize}">
-						<html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
-					</html:select>
-					<%-- this field may be needed on non-multi-select in the future. --%>
-					<c:if test="${disableField == false}">
-						<input type="hidden" name="elementsToReset" value="${property}"/>
-					</c:if>
-				</c:when>
-				<c:otherwise>
-					<html:select styleId="${property}" property="${property}" title="${accessibleTitle}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
-						<html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
-					</html:select>
-				</c:otherwise>
-			</c:choose>
-	    </c:when>
-<%-- KC Modification End --%>
-
+    <%-- multiselect --%>
+    <c:when test="${attributeEntry.control.multiselect == true}">
+            <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
+            <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
+			<html:select styleId="${property}" property="${property}" title="${accessibleTitle}" tabindex="${tabindex}" style="${textStyle}" size="${attributeEntry.control.size}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}" multiple="multiple" >
+			  <c:choose>
+              	<c:when test="${not empty businessObjectClass and empty kimTypeId}">
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+              	</c:when>
+              	<c:when test="${not empty kimTypeId}">
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.name}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeId}"/>
+              	</c:when>
+              	<c:otherwise>
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
+              	</c:otherwise>
+           	  </c:choose>
+              <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
+            </html:select>
+	</c:when>
     <%-- radio --%>
     <c:when test="${attributeEntry.control.radio == true}">
         <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
@@ -247,9 +290,7 @@
             	onchange="${onchange}" onclick="${onclick}" styleId="${property}"
             	styleClass="${styleClass}"/>
             <c:if test="${disableField == false}">
-<%-- KC Modification Start --%>            
-            	<input type="hidden" name="elementsToReset" value="${property}"/> </c:if>
-<%-- KC Modification End --%>
+                <input type="hidden" name="checkboxToReset" value="${property}"/> </c:if>
     </c:when>
 
     <%-- hidden --%>

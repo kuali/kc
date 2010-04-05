@@ -474,14 +474,8 @@ public class AwardForm extends BudgetVersionFormBase
     }
         
     public List<KeyLabelPair> getReportClasses() {
-        if (reportClasses != null) {
-            
-            //FIXME: RICE HACK - KeyLabelPair should implement comparable at next rice upgrade
-            Collections.sort(reportClasses, new Comparator<KeyLabelPair>() {
-                public int compare(KeyLabelPair o1, KeyLabelPair o2) {
-                    return o1.getLabel().compareToIgnoreCase(o2.getLabel());
-                }
-            });
+        if (reportClasses != null) {         
+            Collections.sort(reportClasses);
         }
         
         return reportClasses;

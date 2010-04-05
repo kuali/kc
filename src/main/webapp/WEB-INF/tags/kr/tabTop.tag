@@ -14,11 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="tabTitle" required="true" %>
-<%@ attribute name="defaultOpen" required="true" %>
-<%@ attribute name="tabErrorKey" required="false" %>
-<%@ attribute name="boClassName" required="false" %>
-<%@ attribute name="keyValues" required="false" %>
+<%@ attribute name="tabTitle" required="true" description="The label to render for the tab." %>
+<%@ attribute name="defaultOpen" required="true" description="Whether the tab should default to rendering as open." %>
+<%@ attribute name="tabErrorKey" required="false" description="The property key this tab should display errors associated with." %>
+<%@ attribute name="boClassName" required="false" description="If present, makes the tab title an inquiry link using the business object class declared here.  Used with the keyValues attribute." %>
+<%@ attribute name="keyValues" required="false" description="If present, makes the tab title an inquiry link using the primary key values declared here.  Used with the boClassName attribute." %>
 <%-- KC MODIFICATION --%>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>

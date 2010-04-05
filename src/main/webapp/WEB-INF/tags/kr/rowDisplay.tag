@@ -582,7 +582,6 @@
                         <c:if test="${!hasErrors}">
                             <kul:checkErrors keyMatch="${field.universalIdAttributeName}" />
                         </c:if>
-<%-- KC Modification Start (include renderOtherFields) --%>
                         <kul:user userIdFieldName="${field.propertyName}"
                                   universalIdFieldName="${field.universalIdAttributeName}"
                                   userNameFieldName="${field.personNameAttributeName}"
@@ -607,7 +606,6 @@
                                 </c:if>
                             </jsp:attribute>
                         </kul:user>
-<%-- KC Modification End --%>
                     </td>
 
                 </c:when>

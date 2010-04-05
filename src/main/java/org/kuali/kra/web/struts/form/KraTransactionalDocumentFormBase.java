@@ -18,16 +18,9 @@ package org.kuali.kra.web.struts.form;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kns.document.Document;
@@ -42,19 +35,16 @@ import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
  * This class isbase class for KC Transactional Documents ...
  */
 public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
-    private static final String CHECKBOX_TO_RESET = "checkboxToReset";
 
     private static final long serialVersionUID = 1161569719154606103L;
-
-    private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentFormBase.class);
 
     protected String actionName;
     protected String navigateTo;
     
-    private boolean viewOnly = false;
-    private boolean popupViewOnly = false;
+    private boolean viewOnly;
+    private boolean popupViewOnly;
     
-    private boolean medusaOpenedDoc = false;
+    private boolean medusaOpenedDoc;
     
     public String getActionName() {
         return actionName;
@@ -80,45 +70,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public Map<String, Collection<SoftError>> getSoftErrors() {
         return (Map<String, Collection<SoftError>>) GlobalVariables.getUserSession().retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset(final ActionMapping mapping, final HttpServletRequest request) {
-        super.reset(mapping, request);
-        ResetElementsHelper.resetElements(this, ResetElementsHelper.getElementsToReset(request));
-    }
-
-    /**
-     * Refactored out actually calling the documentAuthorizer methods, since TransactionalDocuments call a differently-parameterized
-     * version of getEditMode
-     * 
-     * @param documentAuthorizer
-     */
-    //@Override
-//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-//        UniversalUser kualiUser = (UniversalUser) GlobalVariables.getUserSession().getPrincipalId();
-//        setNavigateTo(getNavigateToPage());
-//        
-//        Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);
-//        String lockRegion = getLockRegion();
-//        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
-//        
-//        if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
-//                .getUsePessimisticLocking()) {
-//            editMode = documentAuthorizer.establishLocks(getDocument(), editMode, kualiUser);
-//        } 
-//
-//        setEditingMode(editMode);
-//        DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
-//        
-//        setSaveDocumentControl(temp, editMode);
-//        setDocumentActionFlags(temp);
-//        
-//        boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
-//        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.LOCK_REGION_CHANGE_IND, activeLockRegionChangedInd);
-//    }
     
     public void setupLockRegions() {
         String lockRegion = getLockRegion();
@@ -192,29 +143,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
         return false;
     }
-
-    private String getNavigateToPage() {
-        String navigateToPage = null;
-
-        for (Object unknownKeyValue : getUnknownKeys()) {
-            navigateToPage = (String) unknownKeyValue;
-            if (navigateToPage.startsWith("methodToCall.headerTab.headerDispatch.")) {
-                return navigateToPage.substring(navigateToPage.indexOf(".navigateTo.")+12, navigateToPage.lastIndexOf(".x"));
-            }
-        }
-
-        String tmpMethodtoCall = getMethodToCall();
-        if (StringUtils.isNotEmpty(tmpMethodtoCall) && (tmpMethodtoCall.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE) 
-                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) 
-                || tmpMethodtoCall.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
-                || tmpMethodtoCall.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) 
-                || tmpMethodtoCall.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE)  
-                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE) )) {
-            return tmpMethodtoCall; 
-        }
-        
-        return null;
-    }
     
     /**
      * Get the Header Dispatch.  This determines the action that will occur
@@ -243,26 +171,14 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         return popupViewOnly;
     }
     
-    public final void setPopupViewOnly(boolean viewOnly) {
-        this.popupViewOnly = viewOnly;
+    public final void setPopupViewOnly(boolean popupViewOnly) {
+        this.popupViewOnly = popupViewOnly;
     }
     
     @Override
     public void setDocument(Document document) {
         super.setDocument(document);
         ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
-    }
-    
-    /**
-     * fixing bug in TextArea popup related to editable properties...  This rice hack should go away once rice fixes this.
-     * 
-     * {@inheritDoc}
-     */
-    @Override
-    public final boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        
-        return methodToCallParameterName.startsWith("methodToCall.postTextAreaToParent.anchortopOfForm")
-            || super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
 
     public boolean isMedusaOpenedDoc() {

@@ -18,7 +18,6 @@ package org.kuali.kra.meeting;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.web.struts.form.ResetElementsHelper;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -74,8 +73,6 @@ public class MeetingForm extends KualiForm {
     @Override
     public void reset(final ActionMapping mapping, final HttpServletRequest request) {
         super.reset(mapping, request);
-        // resetElements is related to checkbox values.
-        ResetElementsHelper.resetElements(this, ResetElementsHelper.getElementsToReset(request));
         this.getMeetingHelper().setAbsenteeList("");
     }
 
