@@ -9,9 +9,6 @@
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
-	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
-	<param name="datasource.pool.validationQuery">select 1 from dual</param>
 
 	<!-- For Embedded Mode
 	<param name="rice.app.url">http://127.0.0.1:8081/kr-dev</param>
@@ -28,10 +25,6 @@
 	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="server.datasource.username">RICEDEV</param>
 	<param name="server.datasource.password">ask your team</param>
-	<param name="server.datasource.ojb.platform">Oracle9i</param>
-	<param name="server.datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
-	<param name="server.datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
-	<param name="server.datasource.pool.validationQuery">select 1 from dual</param>
 	-->
 	
 	<!-- S2S Configuration -->

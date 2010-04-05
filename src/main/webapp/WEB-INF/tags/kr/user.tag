@@ -38,7 +38,6 @@
 <%@ attribute name="highlight" required="false"
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %> 
 
-
 <%-- if the universal user ID field is a key field on this document, lock-down the user ID field --%>
 <c:choose>
   <c:when test="${readOnly}">
@@ -87,7 +86,7 @@
     </c:otherwise>
 </c:choose>
   
-<c:if test="${renderOtherFields}">
+<c:if test="${renderOtherFields && !readOnly}">
   <c:if test="${!empty universalIdFieldName}">
     ${kfunc:registerEditableProperty(KualiForm, universalIdFieldName)}
     <input type="hidden" name="${universalIdFieldName}" id="${universalIdFieldName}" value="${universalId}" />

@@ -64,7 +64,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.budget.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+                	<kul:htmlControlAttribute property="document.budget.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
                 	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budget.urRateClassCode}">
                 </td>
         	</tr>
@@ -75,7 +75,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
-           			<kra:kraControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
+           			<kul:htmlControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
            			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budget.ohRateClassCode}">
            		</td>
      		</tr>

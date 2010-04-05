@@ -19,13 +19,13 @@
 <%--                <td>${KualiForm.document.protocolList[0].protocolNumber}&nbsp;</td>
 --%>				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
                 <td>
-                      <kra:kraControlAttribute property="document.protocolList[0].protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
+                      <kul:htmlControlAttribute property="document.protocolList[0].protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
                 </td>
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolStatusCode}" /></div></th>
                 <td>
-                      <kra:kraControlAttribute property="document.protocolList[0].protocolStatusCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolStatusCode}" />
+                      <kul:htmlControlAttribute property="document.protocolList[0].protocolStatusCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolStatusCode}" />
                 </td>
 <%-- 
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" /></div></th>

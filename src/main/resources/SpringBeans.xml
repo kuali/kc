@@ -1854,7 +1854,7 @@
 	
 	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
       <!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
-      <property name="serviceNameSpaceURI" value="" />
+      <property name="serviceNameSpaceURI" value="KIM" />
       <property name="retryAttempts" value="0" />
     </bean>
     

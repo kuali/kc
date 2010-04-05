@@ -38,12 +38,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.rice.core.config.Config;
+import org.kuali.rice.core.config.JAXBConfigImpl;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -63,8 +64,7 @@ public class OjbRepositoryMappingTest {
     
     private static final Log LOG = LogFactory.getLog(OjbRepositoryMappingTest.class);
     
-    private static final String INTERNAL_TEST_CONFIG_FILE_PATH = "META-INF/kc-test-config.xml";
-    private static final String EXTERNAL_DEV_CONFIG_FILE_PATH = "%s/kuali/test/dev/kc-test-config.xml";
+    private static final String INTERNAL_TEST_CONFIG_FILE_PATH = "classpath:META-INF/kc-test-config.xml";
     
     // For XML parsing and validation
     private static final String CLASS_DESCRIPTOR_NAME = "class-descriptor";
@@ -103,24 +103,13 @@ public class OjbRepositoryMappingTest {
     private String dsPass;
     private String dsSchema;
     private String dsDriver;
-
-    /** gets the external path to the application's test config. */
-    private static String getExternalConfigLocation() throws SAXException, IOException {
-       
-        final String internalpath = OjbRepositoryMappingTest.class.getClassLoader().getResource(INTERNAL_TEST_CONFIG_FILE_PATH).getPath();
-        ConfigFileLoader internalConfig = new ConfigFileLoader(internalpath);
-        Map<String, String> internalParams = internalConfig.loadConfigFileParms();
-        String internalPath = internalParams.get("config.location");
-        
-        String path = FileUtils.fileExists(internalPath) ? internalPath : String.format(EXTERNAL_DEV_CONFIG_FILE_PATH, System.getProperty("user.home"));;
-        
-        return path;
-    }
     
+    @SuppressWarnings("unchecked")
     @BeforeClass
     public static void loadParms() throws Exception {
-        ConfigFileLoader loader = new ConfigFileLoader(getExternalConfigLocation()); 
-        configFileParms = loader.loadConfigFileParms();
+        Config config = new JAXBConfigImpl(INTERNAL_TEST_CONFIG_FILE_PATH);
+        config.parseConfig();
+        configFileParms = new HashMap(config.getProperties());
     }
     
     @AfterClass
