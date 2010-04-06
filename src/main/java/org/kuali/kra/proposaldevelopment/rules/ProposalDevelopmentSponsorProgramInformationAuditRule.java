@@ -79,6 +79,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+            valid &= false;
         }
         
         auditErrors = new ArrayList<AuditError>();
