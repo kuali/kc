@@ -197,7 +197,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
      * @param messageKey messageKey for the AuditError
      */
     private void validateAuditRule(ProposalDevelopmentDocument document, String messageKey) {
-        assertTrue("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
+        assertFalse("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1, GlobalVariables.getAuditErrorMap().size());
         AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
 
