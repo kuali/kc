@@ -44,6 +44,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private static final String OBLIGATED_AMOUNT_PROPERTY = "obligatedAmount";
     private static final String ANTICIPATED_AMOUNT_PROPERTY = "anticipatedAmount";
     private static final String DESTINATION_AWARD_PROPERTY = "destinationAwardNumber";
+    private static final String CURRENT_FUND_EFFECTIVE_DATE = "currentFundEffectiveDate";
     private static final String SOURCE_AWARD_ERROR_PARM = "Source Award (Source Award)";
     private static final String DESTINATION_AWARD_ERROR_PARM = "Destination Award (Destination Award)";
     
@@ -76,26 +77,51 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         }
         
         boolean validFunds = validateAnticipatedGreaterThanObligated (event);
+        boolean validDates = validateObligatedDateIsSet(event);
         
         return areRequiredFieldsComplete(event.getPendingTransactionItemForValidation()) && processCommonValidations(event) && 
-        validObligatedFunds && validAnticipatedFunds && validFunds;        
+        validObligatedFunds && validAnticipatedFunds && validFunds && validDates;        
     }
+    
     
     private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event) {
         boolean valid = true;
         //add the transaction to the document so we can simulate processing the transaction.
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());       
-        Award updatedRootAward = findUpdatedRootAward(awards, event.getTimeAndMoneyDocument().getRootAwardNumber());
-        AwardAmountInfo awardAmountInfo = updatedRootAward.getAwardAmountInfos().get(updatedRootAward.getAwardAmountInfos().size() -1);
-        if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
-            reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID);
-            valid = false;
+        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
+        for (Award award : awards) {
+            Award activeAward = getActiveAwardVersion(award.getAwardNumber());
+            AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
+            if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
+                reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
+                valid = false;
+            }
         }
         //remove the Transaction from the document.
         event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
         return valid;
     }
+    
+    
+    private boolean validateObligatedDateIsSet (AddTransactionRuleEvent event) {
+        boolean valid = true;
+        //add the transaction to the document so we can simulate processing the transaction.
+        event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
+        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
+        for (Award award : awards) {
+            Award activeAward = getActiveAwardVersion(award.getAwardNumber());
+            AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
+            if (awardAmountInfo.getAmountObligatedToDate().isPositive() && 
+                    (awardAmountInfo.getCurrentFundEffectiveDate() == null || awardAmountInfo.getObligationExpirationDate() == null)) {
+                reportError(CURRENT_FUND_EFFECTIVE_DATE, KeyConstants.ERROR_DATE_NOT_SET, activeAward.getAwardNumber());
+                valid = false;
+            }
+        }
+        //remove the Transaction from the document.
+        event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
+        return valid;
+    }
+    
     
     private Award findUpdatedRootAward(List<Award> awards, String rootAwardNumber) {
         Award returnAward = null;
