@@ -14,13 +14,13 @@
  limitations under the License.
 --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="CountryMaintenanceDocument" parent="CountryMaintenanceDocument-parentBean"/>
-    <bean id="CountryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="KcCountryMaintenanceDocument" parent="KcCountryMaintenanceDocument-parentBean"/>
+    <bean id="KcCountryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.Country"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections">
             <list>
-                <ref bean="CountryMaintenanceDocument-EditCountry"/>
+                <ref bean="KcCountryMaintenanceDocument-EditKcCountry"/>
             </list>
         </property>
         <property name="lockingKeys">
@@ -29,7 +29,7 @@
             </list>
         </property>
         
-        <property name="documentTypeName" value="CountryMaintenanceDocument"/>
+        <property name="documentTypeName" value="KcCountryMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
         
         
@@ -37,8 +37,8 @@
 
     <!-- Maintenance Section Definitions -->
     
-    <bean id="CountryMaintenanceDocument-EditCountry" parent="CountryMaintenanceDocument-EditCountry-parentBean"/>
-    <bean id="CountryMaintenanceDocument-EditCountry-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <bean id="KcCountryMaintenanceDocument-EditKcCountry" parent="KcCountryMaintenanceDocument-EditKcCountry-parentBean"/>
+    <bean id="KcCountryMaintenanceDocument-EditKcCountry-parentBean" abstract="true" parent="MaintainableSectionDefinition">
         <property name="id" value="Edit Method Of Payment"/>
         <property name="title" value="Edit Method Of Payment"/>
         <property name="maintainableItems">
