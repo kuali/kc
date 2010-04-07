@@ -104,8 +104,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         assert budgetPeriod != null : "The budget period is null";
  
         if (budgetPeriod.getBudget().getBudgetDocument().getParentDocument() instanceof ProposalDevelopmentDocument) {
-            ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument)budgetPeriod.getBudget().getBudgetDocument().getParentDocument();
-            //if (pdDoc.getDevelopmentProposal().isParent()) return false;
+            return true;
         }
 
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
