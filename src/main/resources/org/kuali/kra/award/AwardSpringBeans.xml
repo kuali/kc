@@ -230,6 +230,9 @@
         <property name="activePendingTransactionsService">
         	<ref bean="activePendingTransactionsService" />
         </property>
+        <property name="kualiConfigurationService">
+        	<ref bean="kualiConfigurationService" />
+        </property>
     </bean>
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">		

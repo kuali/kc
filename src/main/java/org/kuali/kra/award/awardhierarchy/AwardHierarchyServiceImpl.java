@@ -30,7 +30,12 @@ import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
@@ -43,6 +48,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -57,6 +63,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     VersioningService versioningService;
     AwardAmountInfoService awardAmountInfoService;
     ActivePendingTransactionsService activePendingTransactionsService;
+    KualiConfigurationService kualiConfigurationService;
 
     /**
      * 
@@ -151,6 +158,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardAmountInfo.setCurrentFundEffectiveDate(parentAai.getCurrentFundEffectiveDate());
         awardAmountInfo.setObligationExpirationDate(parentAai.getObligationExpirationDate());
         awardAmountInfo.setAward(copy);
+        
+        copy.setAwardAmountInfos(new ArrayList<AwardAmountInfo>());
         copy.getAwardAmountInfos().add(awardAmountInfo);
     }
 
@@ -158,12 +167,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         //copy dates when child is not a copy of parent.
         Award newAward = new Award();
         Award copyDateAward = targetNode.getAward();
-        copyAwardAmountDateInfoToNewChild(copyDateAward, newAward);
-        
         
         newAward.setAwardNumber(targetNode.generateNextAwardNumberInSequence());
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, newAward.getAwardNumber(), newAward.getAwardNumber());
         //copyAwardAmountDateInfo(targetNode.getAward(), newAward);  
+        copyAwardAmountDateInfoToNewChild(copyDateAward, newAward);
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
         return newNode;
@@ -334,7 +342,33 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
     
     private void clearFilteredAttributes(Award newAward) {
+        newAward.setAccountNumber(null);
+        newAward.setNoticeDate(null);
+        int sourceFundingProposalsCount = newAward.getFundingProposals().size();
+        for(int i=0; i < sourceFundingProposalsCount; i++) {
+            newAward.removeFundingProposal(i);
+        }
+        newAward.setAwardApprovedSubawards(new ArrayList<AwardApprovedSubaward>());
+        newAward.setApprovedEquipmentItems(new ArrayList<AwardApprovedEquipment>());
+        newAward.setApprovedForeignTravelTrips(new ArrayList<AwardApprovedForeignTravel>());
+        newAward.setAwardNotepads(new ArrayList<AwardNotepad>());
+        
+        try {
+            String defaultTxnTypeStr = kualiConfigurationService.getParameterValue(Constants.MODULE_NAMESPACE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
+            if(StringUtils.isNotEmpty(defaultTxnTypeStr)) {
+                newAward.setAwardTransactionTypeCode(Integer.parseInt(defaultTxnTypeStr));
+            }
+        }
+        catch (Exception e) {
+            //do Nothing
+        }
         newAward.setAwardCloseoutItems(new ArrayList<AwardCloseout>());
+        
+        for(AwardComment comment: newAward.getAwardComments()) {
+            if(StringUtils.equals(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE, comment.getCommentType().getCommentTypeCode())) {
+                comment.setComments(Constants.DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD);
+            }
+        }
     } 
 
     AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
@@ -612,7 +646,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public ActivePendingTransactionsService getActivePendingTransactionsService() {
         return activePendingTransactionsService;
     }
-
+ 
     /**
      * Sets the activePendingTransactionsService attribute value.
      * @param activePendingTransactionsService The activePendingTransactionsService to set.
@@ -621,5 +655,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         this.activePendingTransactionsService = activePendingTransactionsService;
     }
 
+    public void setKualiConfigurationService(KualiConfigurationService configurationService) {
+        this.kualiConfigurationService = configurationService;
+    }
 
 }
