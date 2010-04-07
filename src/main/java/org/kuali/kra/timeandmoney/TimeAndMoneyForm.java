@@ -344,6 +344,23 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void setControlForAwardHierarchyView(String controlForAwardHierarchyView) {
         this.controlForAwardHierarchyView = controlForAwardHierarchyView;
     }
+    
+    public boolean isInSingleNodeHierarchy () {
+        boolean returnValue = false;
+        if (getOrder().size() == 1) {
+            returnValue = true;
+            setControlForAwardHierarchyView("2");
+        }
+        return returnValue;
+    }
+    
+    public boolean isInMultipleNodeHierarchy () {
+        boolean returnValue = false;
+        if (getOrder().size() > 1) {
+            returnValue = true;
+        }
+        return returnValue;
+    }
 
     /**
      * Gets the obligationStartDates attribute. 
@@ -436,6 +453,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public String getCurrentOrPendingView() {
         return currentOrPendingView;
     }
+    
 
     /**
      * Sets the currentOrPendingView attribute value.
