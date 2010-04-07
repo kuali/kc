@@ -19,8 +19,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
 public class ProposalStatus extends KraPersistableBusinessObjectBase { 
-    public static final int PENDING = 1;
-    public static final int FUNDED = 2;
+    
+    public static final Integer PENDING = 1;
+    public static final Integer FUNDED = 2;
 
     private static final long serialVersionUID = 1L;
 

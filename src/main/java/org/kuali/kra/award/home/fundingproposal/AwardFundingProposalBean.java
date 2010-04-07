@@ -16,37 +16,39 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Set;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.award.customdata.CustomDataHelper;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardFundingProposalBean implements Serializable {
+    
     private static final long serialVersionUID = 7278945841002454778L;
+    
+    private static final String FUNDING_PROPOSAL_ERROR_KEY = "fundingProposalBean.newFundingProposal";
+    private static final String FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY = "error.fundingproposal.not.found";
+    private static final String PENDING_FUNDING_PROPOSAL_VERSION_EXISTS = "error.fundingproposal.pendingVersion";
 
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
     
     private List<Award> allAwardsForAwardNumber;
-    private static final String FUNDING_PROPOSAL_ERROR_KEY = "fundingProposalBean.newFundingProposal";
-    private static final String FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY = "error.fundingproposal.not.found";
-
+    
     public AwardFundingProposalBean(AwardForm awardForm) {
         this.awardForm = awardForm;
         createNewFundingProposal();
@@ -138,16 +140,15 @@ public class AwardFundingProposalBean implements Serializable {
      * Update all funding proposals associated with this award from PENDING to FUNDED 
      */
     public void updateProposalStatuses() {
-        List<InstitutionalProposal> modifiedProposals = new ArrayList<InstitutionalProposal>();
-        for(AwardFundingProposal afp: getAward().getFundingProposals()) {
+        Set<String> modifiedProposals = new HashSet<String>();
+        for (AwardFundingProposal afp : getAward().getFundingProposals()) {
             InstitutionalProposal proposal = afp.getProposal();
-            if(proposal.getStatusCode() == ProposalStatus.PENDING) {
-                proposal.setStatusCode(ProposalStatus.FUNDED);
-                modifiedProposals.add(proposal);
+            if (ProposalStatus.PENDING.equals(proposal.getStatusCode())) {
+                modifiedProposals.add(proposal.getProposalNumber());
             }
         }
-        if(modifiedProposals.size() > 0) {
-            getBusinessObjectService().save(modifiedProposals);
+        if (modifiedProposals.size() > 0) {
+            getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
         }
     }
 
@@ -223,12 +224,22 @@ public class AwardFundingProposalBean implements Serializable {
 
     private boolean validateForAdd() {
         boolean valid =  newFundingProposal.getProposalId() != null;
-        if(!valid) {
+        if (!valid) {
             String msgArg = newFundingProposal.getProposalNumber();
-            if(msgArg == null) {
+            if (msgArg == null) {
                 msgArg = "(empty)";
             }
             GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY, msgArg);
+        }
+        InstitutionalProposal pendingVersion = 
+            getInstitutionalProposalService().getPendingInstitutionalProposalVersion(newFundingProposal.getProposalNumber());
+        if (pendingVersion != null) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                    PENDING_FUNDING_PROPOSAL_VERSION_EXISTS, 
+                    newFundingProposal.getProposalNumber(),
+                    pendingVersion.getInstitutionalProposalDocument().getDocumentNumber(),
+                    pendingVersion.getUpdateUser());
         }
         return valid;
     }
@@ -246,6 +257,10 @@ public class AwardFundingProposalBean implements Serializable {
                 award.getAwardCustomDataList().add(awardCustomData);
             }
         }
+    }
+    
+    private InstitutionalProposalService getInstitutionalProposalService() {
+        return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
     
 }
