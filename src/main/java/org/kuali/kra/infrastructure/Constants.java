@@ -356,7 +356,8 @@ public interface Constants {
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     
     public static final String LINKED_FUNDING_PROPOSALS_KEY = "linkedProposals";
-    
+    public static final String DEFAULT_TXN_TYPE_COPIED_AWARD = "TXN_TYPE_DEF_COPIED_AWARD";
+    public static final String DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD = "Copied Award" ;
     
   //Institutional Proposal
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";
