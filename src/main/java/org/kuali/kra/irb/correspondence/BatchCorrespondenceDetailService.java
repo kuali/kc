@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.List;
+
 public interface BatchCorrespondenceDetailService {
 
     /**
@@ -28,10 +30,10 @@ public interface BatchCorrespondenceDetailService {
 
     /**
      * 
-     * This method delete a BatchCorrespondenceDetail from the BatchCorrespondence.
-     * @param batchCorrespondenceDetail
+     * This method saves the BatchCorrespondenceDetais of the BatchCorrespondence.
+     * @param batchCorrespondence
+     * @param deletedBos
      */
-    void deleteBatchCorrespondenceDetail(BatchCorrespondence batchCorrespondence, 
-            BatchCorrespondenceDetail batchCorrespondenceDetail);
-
+    void saveBatchCorrespondenceDetails(BatchCorrespondence batchCorrespondence, 
+            List<BatchCorrespondenceDetail> deletedBos);
 }

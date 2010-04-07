@@ -1704,6 +1704,11 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 
+    <bean id="batchCorrespondenceDetailAuthorizationService" class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
 	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
