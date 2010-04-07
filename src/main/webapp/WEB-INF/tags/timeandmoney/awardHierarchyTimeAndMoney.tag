@@ -72,52 +72,96 @@
     		
     	</tr>
     </table>
-    <div>
-    <table cellpadding="0" cellspacing="0" summary="">	
-		<tr>
-			<th>
-				<div align="left">
-					Go To:
-					<html:text property="goToAwardNumber" size="12" maxlength="12" />
-					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
-				</div>
-			</th>
-			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
+ 	<div>
+			<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
+					
+    			<table cellpadding="0" cellspacing="0" summary="">	
+					<tr>
+						<th>
+							<div align="left">
+								Go To:
+								<html:text property="goToAwardNumber" size="12" maxlength="12" />
+								<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
+							</div>
+						</th>
+						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
 				
-				<c:choose>				
-					<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-						<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
-							current
-						<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+							<c:choose>				
+								<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+										pending						
+								</c:when>
+								<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
 							pending						
-					</c:when>
-					<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-						<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
-							current
-						<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
+								</c:when>
+								<c:otherwise>						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+										pending					
+								</c:otherwise>
+							</c:choose>				
+						</td>
+						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
+							<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
+								<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
+								<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
+								<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
+							</select>
+						</td>
+						<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+							<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
+						</td>			
+					</tr>
+				</table>
+				
+				</c:if>
+			
+				<c:if test="${KualiForm.inSingleNodeHierarchy}" >
+			
+	     			<table cellpadding="0" cellspacing="0" summary="">	
+	     			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
+					<tr>
+						<th>
+							&nbsp;
+						</th>
+						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
+				
+							<c:choose>				
+								<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+										pending						
+								</c:when>
+								<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
 							pending						
-					</c:when>
-					<c:otherwise>						
-						<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
-							current
-						<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-							pending					
-					</c:otherwise>
-				</c:choose>				
-			</td>
-			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
-				<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
-					<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
-					<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
-					<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
-				</select>
-			</td>
-			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
-				<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
-			</td>			
-		</tr>
-	</table>
-	</div>    
+								</c:when>
+								<c:otherwise>						
+									<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+										current
+									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+										pending					
+								</c:otherwise>
+							</c:choose>				
+						</td>
+						<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+							<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
+						</td>			
+					</tr>
+				</table>
+				
+				</c:if>
+				</div>
+	  
     <div class="divAHT"><div style="padding-right: 47px;">
 	<table style="border: medium none ; width: 100%; border-collapse: collapse;">
 	<tbody><tr>
