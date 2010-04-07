@@ -40,6 +40,7 @@ public class InstitutionalProposalVersioningTest {
         
         InstitutionalProposal institutionalProposal = new InstitutionalProposal();
         institutionalProposal.setProposalId(new Long(1));
+        institutionalProposal.setSubcontractFlag(false);
         Assert.assertTrue(institutionalProposal.getSequenceNumber().equals(1));
         
         InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
