@@ -140,8 +140,10 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private List<QuestionnaireQuestion> populateQuestionnaireQuestions() {
         List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
         for (Object qstr : getQnaireQuestions()) {
-            if (qstr instanceof String[]) {
-                String[] splitstr = ((String[]) qstr)[0].split("#f#");
+            // TODO : qstr instanceof String[] is no longer working after rice upgrade
+            // changed to TypedArrayList.  Should also investigate List<String> is working?
+            if (qstr instanceof ArrayList) {
+                String[] splitstr = ((ArrayList)qstr).get(0).toString().split("#f#");
                 if (splitstr.length == 11 && !("Y").equals(splitstr[10])) {
                     QuestionnaireQuestion question = new QuestionnaireQuestion();
                     // "null" is coming between js and java code
