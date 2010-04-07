@@ -110,6 +110,7 @@
         <property name="label" value="Protocol Correspodence Type Code" />
         <property name="shortLabel" value="Protocol Correspodence Type Code" />
         <property name="maxLength" value="3" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
@@ -133,6 +134,7 @@
         <property name="label" value="No Of Days Till Next" />
         <property name="shortLabel" value="No Of Days Till Next" />
         <property name="maxLength" value="3" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>

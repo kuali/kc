@@ -1005,6 +1005,13 @@
         <collection-descriptor name="batchCorrespondenceDetails" element-class-ref="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="batchCorrespondenceTypeCode" />
         </collection-descriptor>
+
+        <reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="finalActionCorrespType"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="finalActionTypeCode"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" table="BATCH_CORRESPONDENCE_DETAIL">

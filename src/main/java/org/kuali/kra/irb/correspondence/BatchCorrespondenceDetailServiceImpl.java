@@ -15,35 +15,43 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.List;
+
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BatchCorrespondenceDetailServiceImpl implements BatchCorrespondenceDetailService {
 
-//    private static final String REFERENCE_MEMBERSHIP_ROLE = "batchCorrespondenceDetails";
+    private static final String REFERENCE_PROTOCOL_CORRESPONDENCE_TYPE = "protocolCorrespondenceType";
 
     BusinessObjectService businessObjectService;
 
     /**
      * 
-     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#addBatchCorrespondenceDetail(org.kuali.kra.irb.correspondence.BatchCorrespondence, org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail)
+     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#addBatchCorrespondenceDetail(
+     * org.kuali.kra.irb.correspondence.BatchCorrespondence, org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail)
      */
     public void addBatchCorrespondenceDetail(BatchCorrespondence batchCorrespondence,
             BatchCorrespondenceDetail newBatchCorrespondenceDetail) {
 
-//        batchCorrespondence.refreshReferenceObject(REFERENCE_MEMBERSHIP_ROLE);
+        newBatchCorrespondenceDetail.setBatchCorrespondenceTypeCode(batchCorrespondence.getBatchCorrespondenceTypeCode());
+        newBatchCorrespondenceDetail.refreshReferenceObject(REFERENCE_PROTOCOL_CORRESPONDENCE_TYPE);
 
         batchCorrespondence.getBatchCorrespondenceDetails().add(newBatchCorrespondenceDetail);
     }
 
     /**
      * 
-     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#deleteBatchCorrespondenceDetail(org.kuali.kra.irb.correspondence.BatchCorrespondence, org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail)
+     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#saveBatchCorrespondenceDetails(
+     * org.kuali.kra.irb.correspondence.BatchCorrespondence, java.util.List)
      */
-    public void deleteBatchCorrespondenceDetail(BatchCorrespondence batchCorrespondence,
-            BatchCorrespondenceDetail batchCorrespondenceDetail) {
-        batchCorrespondence.getBatchCorrespondenceDetails().remove(batchCorrespondenceDetail);
+    public void saveBatchCorrespondenceDetails(BatchCorrespondence batchCorrespondence, List<BatchCorrespondenceDetail> deletedBos) {
+        if (!deletedBos.isEmpty()) {
+            businessObjectService.delete(deletedBos);
+        }
+        
+        businessObjectService.save(batchCorrespondence);
     }
-
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

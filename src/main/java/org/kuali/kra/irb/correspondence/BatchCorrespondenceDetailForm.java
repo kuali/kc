@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class BatchCorrespondenceDetailForm extends KualiForm {
@@ -22,12 +25,18 @@ public class BatchCorrespondenceDetailForm extends KualiForm {
     private static final long serialVersionUID = 8987463989398244188L;
 
     private BatchCorrespondence batchCorrespondence;
+    private String batchCorrespondenceTypeCode;
     private BatchCorrespondenceDetail newBatchCorrespondenceDetail;
+    private List<BatchCorrespondenceDetail> deletedBatchCorrespondenceDetail;
     
     private boolean readOnly;
     
     public BatchCorrespondenceDetailForm() {
         super();
+        this.setBatchCorrespondence(null);
+        this.setBatchCorrespondenceTypeCode(null);
+        this.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
+        this.setDeletedBatchCorrespondenceDetail(new ArrayList<BatchCorrespondenceDetail>());
     }
 
     public BatchCorrespondence getBatchCorrespondence() {
@@ -38,12 +47,28 @@ public class BatchCorrespondenceDetailForm extends KualiForm {
         this.batchCorrespondence = batchCorrespondence;
     }
 
+    public String getBatchCorrespondenceTypeCode() {
+        return batchCorrespondenceTypeCode;
+    }
+
+    public void setBatchCorrespondenceTypeCode(String batchCorrespondenceTypeCode) {
+        this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
+    }
+
     public BatchCorrespondenceDetail getNewBatchCorrespondenceDetail() {
         return newBatchCorrespondenceDetail;
     }
 
     public void setNewBatchCorrespondenceDetail(BatchCorrespondenceDetail newBatchCorrespondenceDetail) {
         this.newBatchCorrespondenceDetail = newBatchCorrespondenceDetail;
+    }
+
+    public List<BatchCorrespondenceDetail> getDeletedBatchCorrespondenceDetail() {
+        return deletedBatchCorrespondenceDetail;
+    }
+
+    public void setDeletedBatchCorrespondenceDetail(List<BatchCorrespondenceDetail> deletedBatchCorrespondenceDetail) {
+        this.deletedBatchCorrespondenceDetail = deletedBatchCorrespondenceDetail;
     }
 
     public boolean isReadOnly() {
@@ -53,4 +78,6 @@ public class BatchCorrespondenceDetailForm extends KualiForm {
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
     }
+    
+
 }

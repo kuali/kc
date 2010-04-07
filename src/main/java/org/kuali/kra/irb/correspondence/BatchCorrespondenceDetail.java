@@ -19,12 +19,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase {
+public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetail> {
 
     private static final long serialVersionUID = 1L;
     
     private Integer batchCorrespondenceDetailId;
     private String batchCorrespondenceTypeCode;
+    // The correspondenceNumber is an artifact from the Coeus system.
+    // While it is not used it remains for backward equivalence.
     private Integer correspondenceNumber;
     private String protoCorrespTypeCode;
     private Integer noOfDaysTillNext;
@@ -93,5 +95,16 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
         hashMap.put("noOfDaysTillNext", this.getNoOfDaysTillNext());
         return hashMap;
+    }
+    
+    public int compareTo(BatchCorrespondenceDetail arg) {
+        int result = this.batchCorrespondenceTypeCode.compareTo(arg.batchCorrespondenceTypeCode);
+        if (result == 0) {
+            result = this.noOfDaysTillNext.compareTo(arg.noOfDaysTillNext);
+        }
+        if (result == 0) {
+            result = this.protocolCorrespondenceType.getDescription().compareTo(arg.protocolCorrespondenceType.getDescription());
+        }
+        return result;
     }
 }

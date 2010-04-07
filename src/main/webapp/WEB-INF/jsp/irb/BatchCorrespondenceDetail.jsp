@@ -35,7 +35,7 @@
          alwaysOpen="true"
          transparentBackground="true" 
          useCurrentTabIndexAsKey="true"
-         tabErrorKey="">
+         tabErrorKey="batchCorrespondence.*,newBatchCorrespondenceDetail.*">
          
     <div class="tab-container" align="center" id="G100">
         <h3>

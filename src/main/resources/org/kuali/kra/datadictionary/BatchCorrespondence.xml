@@ -72,6 +72,7 @@
         <property name="label" value="Default Time Window" />
         <property name="shortLabel" value="Default Time Window" />
         <property name="maxLength" value="3" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -90,17 +91,14 @@
         <property name="label" value="Final Action Type Code" />
         <property name="shortLabel" value="Final Action Type Code" />
         <property name="maxLength" value="3" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.actions.ProtocolActionType"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="true"
-                p:keyAttribute="protocolActionTypeCode"
-                p:labelAttribute="description" />
+                p:valuesFinderClass="org.kuali.kra.irb.actions.ProtocolFinalActionTypeValuesFinder" 
+                p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Final Action Type Code" />
         <property name="description" value="Final Action Type Code" />
@@ -118,12 +116,8 @@
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="true"
-                p:keyAttribute="protoCorrespTypeCode"
-                p:labelAttribute="description" />
+                p:valuesFinderClass="org.kuali.kra.irb.actions.ProtocolFinalCorrespondenceActionTypeValuesFinder" 
+                p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Final Action Corresp Type" />
         <property name="description" value="Final Action Corresp Type" />
