@@ -62,8 +62,8 @@ public class AwardFundingProposalBean implements Serializable {
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
-        if(getNewFundingProposal() != null) {
-            if(validateForAdd()) {
+        if (getNewFundingProposal() != null) {
+            if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
                 performDataFeeds(getAward(), newFundingProposal);
                 createNewFundingProposal();
@@ -209,9 +209,11 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
-        new BaseFieldsDataFeedCommand(award, proposal).performDataFeed();
+        if (award.isNew() && (award.getSequenceNumber() <= 1)) {
+            new BaseFieldsDataFeedCommand(award, proposal).performDataFeed();
+            new SponsorDataFeedCommand(award, proposal).performDataFeed();
+        }
         new CommentsDataFeedCommand(award, proposal).performDataFeed();
-        new SponsorDataFeedCommand(award, proposal).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal).performDataFeed();
         new CostSharingDataFeedCommand(award, proposal).performDataFeed();
         new FandARatesDataFeedCommand(award, proposal).performDataFeed();
