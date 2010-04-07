@@ -26,7 +26,7 @@ import org.kuali.kra.bo.AbstractSpecialReview;
  * 
  * This class represents AwardSpecialReview BO
  */
-public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate { 
+public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate<Award> { 
 	//TODO: awardnumber, sequencenumber to be added
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -129,15 +129,15 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public Award getSequenceOwner() {
         return getAward();
     }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
-        setAward((Award) newlyVersionedOwner);
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        setAward(newlyVersionedOwner);
     }
 
     /**
@@ -153,5 +153,6 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
     public void resetPersistenceState() {
         this.awardSpecialReviewId = null;
     }
+
 	
 }
