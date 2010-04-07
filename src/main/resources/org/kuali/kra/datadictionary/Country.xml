@@ -4,23 +4,23 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Country" parent="Country-parentBean" />
+  <bean id="KcCountry" parent="KcCountry-parentBean" />
 
-  <bean id="Country-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="KcCountry-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Country" />
     <property name="objectLabel" value="Country" />
     <property name="inquiryDefinition" >
-      <ref bean="Country-inquiryDefinition" />
+      <ref bean="KcCountry-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="Country-lookupDefinition" />
+      <ref bean="KcCountry-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="countryCode" />
     <property name="attributes" >
       <list>
-        <ref bean="Country-countryCode" />
-        <ref bean="Country-countryName" />
-        <ref bean="Country-versionNumber" />
+        <ref bean="KcCountry-countryCode" />
+        <ref bean="KcCountry-countryName" />
+        <ref bean="KcCountry-versionNumber" />
       </list>
     </property>
   </bean>
@@ -28,9 +28,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Country-countryCode" parent="Country-countryCode-parentBean" />
+  <bean id="KcCountry-countryCode" parent="KcCountry-countryCode-parentBean" />
 
-  <bean id="Country-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="KcCountry-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="countryCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Country Code" />
@@ -46,9 +46,9 @@
     <property name="summary" value="Country Code" />
     <property name="description" value="Country Code" />
   </bean>
-  <bean id="Country-countryName" parent="Country-countryName-parentBean" />
+  <bean id="KcCountry-countryName" parent="KcCountry-countryName-parentBean" />
 
-  <bean id="Country-countryName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="KcCountry-countryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="countryName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
@@ -65,17 +65,17 @@
     <property name="summary" value="Country Name" />
     <property name="description" value="Country Name description..." />
   </bean>
-  <bean id="Country-versionNumber" parent="Country-versionNumber-parentBean" />
+  <bean id="KcCountry-versionNumber" parent="KcCountry-versionNumber-parentBean" />
 
-  <bean id="Country-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="KcCountry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Country-inquiryDefinition" parent="Country-inquiryDefinition-parentBean" />
+  <bean id="KcCountry-inquiryDefinition" parent="KcCountry-inquiryDefinition-parentBean" />
 
-  <bean id="Country-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="KcCountry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Country Code" />
     <property name="inquirySections" >
       <list>
@@ -99,9 +99,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Country-lookupDefinition" parent="Country-lookupDefinition-parentBean" />
+  <bean id="KcCountry-lookupDefinition" parent="KcCountry-lookupDefinition-parentBean" />
 
-  <bean id="Country-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="KcCountry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Country Code Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
