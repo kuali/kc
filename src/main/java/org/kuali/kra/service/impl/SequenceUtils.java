@@ -19,7 +19,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -125,14 +124,28 @@ public class SequenceUtils {
         sequenceOneToOneAssociations(associate);
         sequenceCollections(associate);
     }
-
+    
     private void sequenceOneToOneAssociations(SequenceAssociate<?> parent) {
-        for (Field field : parent.getClass().getDeclaredFields()) {
-            if (isFieldASequenceAssociate(field) & !skipVersioning(field)) {
-                final Method getter = findReadMethod(parent, field);
-                SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
-                this.executeSequencing(associate, parent);
+       sequenceOneToOneAssociations(parent.getClass(), parent); 
+    }
+
+    private void sequenceOneToOneAssociations(Class clazz, SequenceAssociate<?> parent) {
+        for (Field field : clazz.getDeclaredFields()) {
+            try {
+                if (!skipVersioning(field)) {
+    
+                    final Method getter = findReadMethod(parent, field);
+                    Object obj = getSequenceAssociateReference(parent, getter);
+                    if (obj != null && SequenceAssociate.class.isAssignableFrom(obj.getClass())) {
+                        this.executeSequencing((SequenceAssociate<?>)obj, parent);
+                    }                    
+                }
+            } catch (GetterException e) {
+                LOGGER.debug("No getter found for " + field.getName(), e);
             }
+        }
+        if (clazz.getSuperclass() != null) {
+            sequenceOneToOneAssociations(clazz.getSuperclass(), parent);
         }
     }
     
@@ -143,19 +156,33 @@ public class SequenceUtils {
      * @param parent
      */
     private void sequenceCollections(SequenceAssociate<?> parent) {
-        for (Field field : parent.getClass().getDeclaredFields()) {
-            if (isFieldACollection(field)) {
-                final Method getter = findReadMethod(parent, field);
-                Type type = getter.getGenericReturnType();
-                if (isCollectionElementASequenceAssociate(type) && !skipVersioning(field)) {
-                    Collection<SequenceAssociate<?>> c = getSequenceAssociateCollection(parent, getter);
-                    if(c != null) {
-                        for (SequenceAssociate<?> associate : c) {
-                            this.executeSequencing(associate, parent);
+        sequenceCollections(parent.getClass(), parent);
+    }
+    
+    private void sequenceCollections(Class clazz, SequenceAssociate<?> parent) {
+        for (Field field : clazz.getDeclaredFields()) {
+            try {
+                if (isFieldACollection(field)) {
+                    final Method getter = findReadMethod(parent, field);
+                    Type type = getter.getGenericReturnType();
+                    if (!skipVersioning(field)) {
+                        Collection c = getSequenceAssociateCollection(parent, getter);
+                        if(c != null) {
+                            for (Object obj : c) {
+                                if (SequenceAssociate.class.isAssignableFrom(obj.getClass())) {
+                                    SequenceAssociate<?> associate = (SequenceAssociate<?>)obj;
+                                    this.executeSequencing(associate, parent);
+                                }
+                            }
                         }
                     }
                 }
+            } catch (GetterException e) {
+                LOGGER.debug("No getter found for " + field.getName(), e);
             }
+        }
+        if (clazz.getSuperclass() != null) {
+            sequenceCollections(clazz.getSuperclass(), parent);
         }
     }
 
@@ -195,7 +222,7 @@ public class SequenceUtils {
         return type.isAssignableFrom(field.getType());
     }
     
-    private SequenceAssociate<?> getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) {
+    private Object getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) {
         return this.getProperty(parent, getter);
     }
     
@@ -205,21 +232,6 @@ public class SequenceUtils {
 
     private boolean isFieldACollection(Field field) {
         return Collection.class.isAssignableFrom(field.getType());
-    }
-    
-    private boolean isCollectionElementASequenceAssociate(Type returnType) {
-        return isCollectionElementOfSpecifiedType(returnType, SequenceAssociate.class);
-    }
-
-    private boolean isCollectionElementOfSpecifiedType(Type returnType, Class<?> checkType) {
-        boolean isCheckedType = returnType instanceof ParameterizedType;
-        if (isCheckedType) {
-            ParameterizedType type = (ParameterizedType) returnType;
-            Type[] typeArguments = type.getActualTypeArguments();
-            
-            isCheckedType = typeArguments.length == 1 && checkType.isAssignableFrom((Class<?>) typeArguments[0]);
-        }
-        return isCheckedType;
     }
     
     private Collection<SequenceAssociate<?>> getSequenceAssociateCollection(Sequenceable parent, Method getter) {

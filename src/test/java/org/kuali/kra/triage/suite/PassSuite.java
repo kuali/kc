@@ -297,6 +297,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.amendrenew.ProtocolCreateAmendmentRuleTest.class,
     org.kuali.kra.service.impl.KraAuthorizationServiceImplTest.class,
     org.kuali.kra.bo.SponsorTermTest.class,
+    org.kuali.kra.service.SequenceUtilsTest.class,
     org.kuali.kra.service.VersionHistoryServiceTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentInstituteAttachmentRuleTest.class,
     org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceTest.class,

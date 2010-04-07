@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +106,7 @@ public class CommitteeVersioningTest implements Serializable {
     @Test
     public void testCommitteeScheduleVersioning() throws Exception {
         originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-12-25"));
+        originalCommittee.getCommitteeSchedules().get(0).setCommittee(originalCommittee);
 //        originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-07-13"));
 //        originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-11-11"));
         
@@ -151,6 +153,7 @@ public class CommitteeVersioningTest implements Serializable {
         committeeSchedule.setProtocols(protocols);
         
         committeeSchedule.setScheduledDate(Date.valueOf(date));
+        committeeSchedule.setTime(Timestamp.valueOf(date + " 00:00:00"));
         return committeeSchedule;
     }
 
