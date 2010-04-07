@@ -24,7 +24,8 @@
                    Correspondence Type:
                 </div>
                 <kul:htmlControlAttribute property="batchCorrespondence.batchCorrespondenceTypeCode"
-                                          attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.batchCorrespondenceTypeCode}" />          
+                                          attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.batchCorrespondenceTypeCode}" 
+                                          readOnly="false" />          
         </td>
         <c:if test="${not empty KualiForm.batchCorrespondence.batchCorrespondenceTypeCode}">
             <td>

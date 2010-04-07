@@ -552,6 +552,8 @@ insert into KRIM_PERM_T values ('1220', 'b563f28a-3694-466d-9f71-a40652e35677', 
 INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)  VALUES ('1221', '1030', 'Answer Protocol Questionnaire', null, 'Y', 'KC-PROTOCOL', '668e0a41-fbda-4378-86bc-9d08ded93efc');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('1222', '95F7D32053EF4F868C1612FA94FFF635', 1, '16', 'KC-PROTOCOL', 'Modify Correspondence Template', 'Modify Correspondence Template', 'Y');
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND) values ('1223', 'F35D259D139C401EB7F74E94A8DFA3B7', 1, '40', 'KC-PROTOCOL', 'View Correspondence Template', 'View Correspondence Template', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('1224', '95F7D32053EF4F868C1612FA94FFF636', 1, '16', 'KC-PROTOCOL', 'Modify Batch Correspondence Detail', 'Modify Batch Correspondence Detail', 'Y');
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD,NM, DESC_TXT, ACTV_IND) values ('1225', 'F35D259D139C401EB7F74E94A8DFA3B8', 1, '40', 'KC-PROTOCOL', 'View Batch Correspondence Detail', 'View Batch Correspondence Detail', 'Y');
 
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1000', '66AC72A924E64E31977BECE28F7CB6A1', 1, '1000', '3', '13', 'ProposalDevelopmentDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1001', 'BCB0EA943AEA449C8DF59062246B8C58', 1, '1001', '3', '13', 'ProtocolDocument');
@@ -754,6 +756,8 @@ insert into KRIM_PERM_ATTR_DATA_T values (2017, '3c389a25-95b1-415d-b4dc-c9fe7ee
 INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) VALUES('1162', 'a917753f-e969-4784-8ff1-3e032148b9f7', '1', '1221', '3', '13', 'ProtocolDocument') ;
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1163', '1222', 1, '1222', '1013', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument');
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1164', '1223', 1, '1223', '1013', '13', 'ProtocolCorrespondenceTemplateMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1165', '6314CC58CF59B7B5E0404F8189D81170', 1, '1224', '3', '13', 'BatchCorrespondenceDetailMaintenanceDocument');
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('1166', '6314CC58CF59B7B5E0404F8189D81171', 1, '1225', '3', '13', 'BatchCorrespondenceDetailMaintenanceDocument');
 
 
 --**************************************************************************************************************************************************
@@ -1164,6 +1168,8 @@ insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('10110', '77BC20590A53319DE0404F8189D10109', 1, '1120', (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('10137', 'C1FB853F1FF0435DB3D1DAA0D161C920', 1, '1125', '1222', 'Y');
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('10138', '16061ABBF4C94191B4A10C0F178E0E56', 1, '1126', '1223', 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('10220', 'C1FB853F1FF0435DB3D1DAA0D161C921', 1, '1125', '1224', 'Y');
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('10221', '16061ABBF4C94191B4A10C0F178E0E57', 1, '1126', '1225', 'Y');
 
 insert into KRIM_ROLE_PERM_T values ('10125', '0d44ebdc-af25-4a4c-9732-7600d12e6039', 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional PROPOSAL Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
 insert into KRIM_ROLE_PERM_T values ('10126', '1c4edbb9-bee3-45ae-b76c-59d005d81db4', 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Institutional PROPOSAL Maintainer'), (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), 'Y');

@@ -668,12 +668,20 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT = "error.proposal.require.priorAwardResubmit";
     public static final String ERROR_AWARD_CANNOT_BE_VERSIONED = "error.award.cannot.be.versioned";
     
-    // correspondence
+    // Correspondence
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_NOT_SPECIFIED = "error.correspondence.template.committee.not.specified";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE = "error.correspondence.template.committee.duplicate";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE = "error.correspondence.template.empty.file";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE = "error.correspondence.template.invalid.file.type";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
+    public static final String ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_NOT_SPECIFIED = "error.batch.correspondence.no.of.days.till.next.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID = "error.batch.correspondence.no.of.days.till.next.invalid";
+    public static final String ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED = "error.batch.correspondence.proto.corresp.type.code.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_NOT_SPECIFIED = "error.batch.correspondence.default.time.window.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_INVALID = "error.batch.correspondence.default.time.window.invalid";
+    public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_TYPE_CODE_NOT_SPECIFIED = "error.batch.correspondence.final.action.type.code.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_CORRESP_TYPE_NOT_SPECIFIED = "error.batch.correspondence.final.action.corresp.type.not.specified";
+    
     public static final String AWARD_BUDGET_STATUS_SUBMITTED = "awardBudgetStatusSubmitted";
     public static final String AWARD_BUDGET_STATUS_IN_PROGRESS = "awardBudgetStatusInProgress";
     public static final String AWARD_BUDGET_STATUS_REJECTED = "awardBudgetStatusRejected";
