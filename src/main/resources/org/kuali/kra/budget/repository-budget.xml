@@ -111,6 +111,13 @@
 		--><collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="fiscalYear" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
 		
 		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -121,6 +128,13 @@
 		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="fiscalYear" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
 
 		<collection-descriptor name="budgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 

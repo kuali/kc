@@ -211,6 +211,7 @@ public abstract class AbstractBudgetCalculator {
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             budgetLineItem.setDirectCost(budgetLineItem.getDirectCost().add(calcAmts.sumObjects("calculatedCost", notEqualsOH)));
             budgetLineItem.setIndirectCost(budgetLineItem.getIndirectCost().add(calcAmts.sumObjects("calculatedCost", equalsOH)));
+            budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getTotalCostSharingAmount().add(calcAmts.sumObjects("calculatedCostSharing")));
             return;
         }
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
