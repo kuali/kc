@@ -16,13 +16,13 @@
  */
 --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AffiliationTypeMaintenanceDocument" parent="AffiliationTypeMaintenanceDocument-parentBean"/>
-	<bean id="AffiliationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+	<bean id="KcAffiliationTypeMaintenanceDocument" parent="KcAffiliationTypeMaintenanceDocument-parentBean"/>
+	<bean id="KcAffiliationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.AffiliationType"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
-				<ref bean="AffiliationTypeMaintenanceDocument-EditAffiliationType"/>
+				<ref bean="KcAffiliationTypeMaintenanceDocument-EditKcAffiliationType"/>
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -35,7 +35,7 @@
 		
 		
 		
-		<property name="documentTypeName" value="AffiliationTypeMaintenanceDocument"/>
+		<property name="documentTypeName" value="KcAffiliationTypeMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
@@ -43,8 +43,8 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AffiliationTypeMaintenanceDocument-EditAffiliationType" parent="AffiliationTypeMaintenanceDocument-EditAffiliationType-parentBean"/>
-	<bean id="AffiliationTypeMaintenanceDocument-EditAffiliationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="KcAffiliationTypeMaintenanceDocument-EditKcAffiliationType" parent="KcAffiliationTypeMaintenanceDocument-EditKcAffiliationType-parentBean"/>
+	<bean id="KcAffiliationTypeMaintenanceDocument-EditKcAffiliationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Affiliation Type"/>
 		<property name="title" value="Edit Affiliation Type"/>
 		<property name="maintainableItems">
