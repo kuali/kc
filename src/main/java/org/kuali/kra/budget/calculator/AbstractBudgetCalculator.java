@@ -189,7 +189,28 @@ public abstract class AbstractBudgetCalculator {
 
     public void calculate() {
         if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal)budget.getBudgetParent()).isParent()) {
-            // if this budget belongs to a ProposalHierarchy parent skip calculations
+            // if this budget belongs to a ProposalHierarchy parent skip rate-based recalculations and just sum
+            budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
+            budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
+            budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
+            if (budgetLineItem instanceof BudgetPersonnelDetails) {
+                BudgetPersonnelDetails budgetPersonnelLineItem = (BudgetPersonnelDetails)budgetLineItem;
+                SalaryCalculator salaryCalculator = new SalaryCalculator(budget, budgetPersonnelLineItem);
+                salaryCalculator.calculate();
+                budgetPersonnelLineItem.setLineItemCost(budgetPersonnelLineItem.getSalaryRequested());
+            }
+            QueryList<AbstractBudgetCalculatedAmount> calcAmts = new QueryList<AbstractBudgetCalculatedAmount>();
+            calcAmts.addAll(budgetLineItem.getBudgetCalculatedAmounts());
+            
+            for (AbstractBudgetCalculatedAmount calcAmt : calcAmts) {
+                calcAmt.refreshReferenceObject("rateClass");
+                calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
+                //calcAmt.refreshReferenceObject("rateClassType");
+            }
+            NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+            Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+            budgetLineItem.setDirectCost(budgetLineItem.getDirectCost().add(calcAmts.sumObjects("calculatedCost", notEqualsOH)));
+            budgetLineItem.setIndirectCost(budgetLineItem.getIndirectCost().add(calcAmts.sumObjects("calculatedCost", equalsOH)));
             return;
         }
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
