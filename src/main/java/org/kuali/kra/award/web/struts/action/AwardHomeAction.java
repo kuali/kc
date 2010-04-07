@@ -363,8 +363,7 @@ public class AwardHomeAction extends AwardAction {
         getDocumentService().saveDocument(newAwardDocument);
         getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
-        response.sendRedirect(makeDocumentOpenUrl(newAwardDocument));
-        return null;
+        return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
     }
 
     /*
@@ -382,6 +381,9 @@ public class AwardHomeAction extends AwardAction {
             newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
             newAwardAmountInfo.setTimeAndMoneyDocumentNumber(awardAmountInfo.getTimeAndMoneyDocumentNumber());
             newAwardAmountInfo.setTransactionId(awardAmountInfo.getTransactionId());
+            
+            newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+            newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate()); 
             newVersion.getAwardAmountInfos().add(newAwardAmountInfo);
         }
     }
