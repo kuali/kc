@@ -29,4 +29,6 @@ public interface InstitutionalProposalVersioningService {
     void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus);
     
     InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
+    
+    InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber);
 }

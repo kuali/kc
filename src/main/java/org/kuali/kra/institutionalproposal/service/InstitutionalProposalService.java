@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.service;
 
+import java.util.Set;
+
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 /**
@@ -42,4 +45,22 @@ public interface InstitutionalProposalService {
      * @return String The new version number
      */
     String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
+    
+    /**
+     * Return the PENDING version of an Institutional Proposal, if one exists.
+     * Note, PENDING here refers to the Version Status, NOT the Proposal Status of the Institutional Proposal.
+     * 
+     * @param proposalNumber String
+     * @return InstitutionalProposal, or null if a PENDING version is not found.
+     * @see org.kuali.kra.bo.versioning.VersionStatus
+     */
+    InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
+    
+    /**
+     * Designate one or more Institutional Proposals as Funded by an Award.
+     * This will create a new Final version of the Institutional Proposal.
+     * 
+     * @param proposalNumbers The proposals to update.
+     */
+    void updateFundedProposals(Set<String> proposalNumbers);
 }
