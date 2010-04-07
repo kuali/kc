@@ -17,8 +17,9 @@ package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
-public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent {
+public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
     private static final long serialVersionUID = 6614520585838685080L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
@@ -31,6 +32,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     
     public static final String OFF_CAMPUS_RATE_FLAG = "N"; 
     public static final String ON_CAMPUS_RATE_FLAG = "Y";
+    
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
     
     /**
      * 
@@ -217,5 +221,21 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
+    }
+
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
     }
 }

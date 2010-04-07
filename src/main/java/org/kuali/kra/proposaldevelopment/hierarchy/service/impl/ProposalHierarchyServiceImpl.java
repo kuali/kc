@@ -34,6 +34,9 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -115,16 +118,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ProposalPersonBiographyService propPersonBioService;
     private ParameterService parameterService;
     private IdentityManagementService identityManagementService;
-    private ProposalStateService proposalStateService;
     private KualiConfigurationService configurationService;
-
-    /**
-     * Sets the proposalStateService attribute value.
-     * @param proposalStateService The ProposalStateService to set.
-     */
-    public void setProposalStateService(ProposalStateService proposalStateService) {
-        this.proposalStateService = proposalStateService;
-    }
 
     /**
      * Sets the identityManagerService attribute value.
@@ -624,6 +618,45 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             Long budgetId = parentBudget.getBudgetId();
             Long budgetPeriodId;
             Integer budgetPeriod;
+            BudgetCostShare newCostShare;
+            for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
+                newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
+                newCostShare.setBudgetId(budgetId);
+                newCostShare.setDocumentComponentId(null);
+                newCostShare.setObjectId(null);
+                newCostShare.setVersionNumber(null);
+                newCostShare.setHierarchyProposalNumber(childProposalNumber);
+                parentBudget.add(newCostShare);
+            }
+            
+            BudgetUnrecoveredFandA newUnrecoveredFandA;
+            for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
+                newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
+                newUnrecoveredFandA.setBudgetId(budgetId);
+                newUnrecoveredFandA.setDocumentComponentId(null);
+                newUnrecoveredFandA.setObjectId(null);
+                newUnrecoveredFandA.setVersionNumber(null);
+                newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
+                parentBudget.add(newUnrecoveredFandA);
+            }
+            
+            Map<Long, List<BudgetProjectIncome>> newProjectIncomes = new HashMap<Long, List<BudgetProjectIncome>>();
+            BudgetProjectIncome newProjectIncome;
+            List<BudgetProjectIncome> projectIncomeList;
+            for (BudgetProjectIncome projectIncome : childBudget.getBudgetProjectIncomes()) {
+                newProjectIncome = (BudgetProjectIncome)ObjectUtils.deepCopy(projectIncome);
+                newProjectIncome.setBudgetId(budgetId);
+                newProjectIncome.setDocumentComponentId(null);
+                newProjectIncome.setObjectId(null);
+                newProjectIncome.setVersionNumber(null);
+                projectIncomeList = newProjectIncomes.get(projectIncome.getBudgetPeriodId());
+                if (projectIncomeList == null) {
+                    projectIncomeList = new ArrayList<BudgetProjectIncome>();
+                    newProjectIncomes.put(projectIncome.getBudgetPeriodId(), projectIncomeList);
+                }
+                projectIncomeList.add(newProjectIncome);
+            }
+            
             for (int i = 0, j = parentStartPeriod; i < childPeriods.size(); i++, j++) {
                 childPeriod = childPeriods.get(i);
                 if (j >= parentPeriods.size()) {
@@ -643,6 +676,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 budgetPeriod = parentPeriod.getBudgetPeriod();
                 BudgetLineItem parentLineItem;
                 Integer lineItemNumber;
+
+                projectIncomeList = newProjectIncomes.get(childPeriod.getBudgetPeriodId());
+                for (BudgetProjectIncome projectIncome : projectIncomeList) {
+                    projectIncome.setBudgetPeriodId(budgetPeriodId);
+                    projectIncome.setBudgetPeriodNumber(budgetPeriod);
+                    parentBudget.add(projectIncome);
+                }
                 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
@@ -992,6 +1032,27 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (int i=subAwards.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, subAwards.get(i).getHierarchyProposalNumber())) {
                 subAwards.remove(i);
+            }
+        }
+
+        List<BudgetProjectIncome> projectIncomes = parentBudget.getBudgetProjectIncomes();
+        for (int i=projectIncomes.size()-1; i>=0; i--) {
+            if (StringUtils.equals(childProposalNumber, projectIncomes.get(i).getHierarchyProposalNumber())) {
+                projectIncomes.remove(i);
+            }
+        }
+
+        List<BudgetCostShare> costShares = parentBudget.getBudgetCostShares();
+        for (int i=costShares.size()-1; i>=0; i--) {
+            if (StringUtils.equals(childProposalNumber, costShares.get(i).getHierarchyProposalNumber())) {
+                costShares.remove(i);
+            }
+        }
+
+        List<BudgetUnrecoveredFandA> unrecoveredFandAs = parentBudget.getBudgetUnrecoveredFandAs();
+        for (int i=unrecoveredFandAs.size()-1; i>=0; i--) {
+            if (StringUtils.equals(childProposalNumber, unrecoveredFandAs.get(i).getHierarchyProposalNumber())) {
+                unrecoveredFandAs.remove(i);
             }
         }
 

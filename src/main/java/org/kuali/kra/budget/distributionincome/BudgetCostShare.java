@@ -18,11 +18,12 @@ package org.kuali.kra.budget.distributionincome;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
  * 
  */
-public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
+public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
     private static final long serialVersionUID = 6199797319981907016L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
@@ -31,6 +32,9 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
     private BudgetDecimal shareAmount;
     private BudgetDecimal sharePercentage;
     private String sourceAccount;
+
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
 
     /**
      * 
@@ -198,5 +202,21 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
         hashMap.put("sourceAccount", getSourceAccount());
         
         return hashMap;
+    }
+
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
     }
 }
