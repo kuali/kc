@@ -17,18 +17,23 @@ package org.kuali.kra.award.specialreview;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 
 /**
  * This class represents AwardSpecialReviewExemption
  */
-public class AwardSpecialReviewExemption extends AbstractSpecialReviewExemption {
+public class AwardSpecialReviewExemption extends AbstractSpecialReviewExemption implements SequenceAssociate<Award> {
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2155591303526248765L;
     private Long awardSpecialReviewExemptionId;
     private AwardSpecialReview awardSpecialReview;
+    
+    private Award award;
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -65,4 +70,29 @@ public class AwardSpecialReviewExemption extends AbstractSpecialReviewExemption 
         this.awardSpecialReview = awardSpecialReview;
     }
     
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardSpecialReviewExemptionId = null;
+    }
+    public Award getSequenceOwner() {
+        return award;
+    }
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        setAward(newlyVersionedOwner);
+        
+    }
+    /**
+     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     */
+    public Integer getSequenceNumber() {
+        return award != null ? award.getSequenceNumber() : null;
+    }
+    public Award getAward() {
+        return award;
+    }
+    public void setAward(Award award) {
+        this.award = award;
+    }
 }
