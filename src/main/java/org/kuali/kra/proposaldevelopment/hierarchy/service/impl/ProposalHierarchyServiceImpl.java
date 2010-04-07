@@ -20,6 +20,8 @@ import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyCo
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +77,6 @@ import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
@@ -620,24 +621,30 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             Integer budgetPeriod;
             BudgetCostShare newCostShare;
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
-                newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
-                newCostShare.setBudgetId(budgetId);
-                newCostShare.setDocumentComponentId(null);
-                newCostShare.setObjectId(null);
-                newCostShare.setVersionNumber(null);
-                newCostShare.setHierarchyProposalNumber(childProposalNumber);
-                parentBudget.add(newCostShare);
+                if (costShare.getShareAmount().isNonZero()) {
+                    newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
+                    newCostShare.setBudgetId(budgetId);
+                    newCostShare.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newCostShare.getDocumentComponentIdKey()));
+                    newCostShare.setObjectId(null);
+                    newCostShare.setVersionNumber(null);
+                    newCostShare.setHierarchyProposalNumber(childProposalNumber);
+                    newCostShare.setHiddenInHierarchy(true);
+                    businessObjectService.save(newCostShare);
+                }
             }
             
             BudgetUnrecoveredFandA newUnrecoveredFandA;
             for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
-                newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
-                newUnrecoveredFandA.setBudgetId(budgetId);
-                newUnrecoveredFandA.setDocumentComponentId(null);
-                newUnrecoveredFandA.setObjectId(null);
-                newUnrecoveredFandA.setVersionNumber(null);
-                newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
-                parentBudget.add(newUnrecoveredFandA);
+                if (unrecoveredFandA.getAmount().isNonZero()) {
+                    newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
+                    newUnrecoveredFandA.setBudgetId(budgetId);
+                    newUnrecoveredFandA.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
+                    newUnrecoveredFandA.setObjectId(null);
+                    newUnrecoveredFandA.setVersionNumber(null);
+                    newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
+                    newUnrecoveredFandA.setHiddenInHierarchy(true);
+                    businessObjectService.save(newUnrecoveredFandA);
+                }
             }
             
             Map<Long, List<BudgetProjectIncome>> newProjectIncomes = new HashMap<Long, List<BudgetProjectIncome>>();
@@ -649,6 +656,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newProjectIncome.setDocumentComponentId(null);
                 newProjectIncome.setObjectId(null);
                 newProjectIncome.setVersionNumber(null);
+                newProjectIncome.setHierarchyProposalNumber(childProposalNumber);
                 projectIncomeList = newProjectIncomes.get(projectIncome.getBudgetPeriodId());
                 if (projectIncomeList == null) {
                     projectIncomeList = new ArrayList<BudgetProjectIncome>();
@@ -678,10 +686,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 Integer lineItemNumber;
 
                 projectIncomeList = newProjectIncomes.get(childPeriod.getBudgetPeriodId());
-                for (BudgetProjectIncome projectIncome : projectIncomeList) {
-                    projectIncome.setBudgetPeriodId(budgetPeriodId);
-                    projectIncome.setBudgetPeriodNumber(budgetPeriod);
-                    parentBudget.add(projectIncome);
+                if (projectIncomeList != null && !projectIncomeList.isEmpty()) {
+                    for (BudgetProjectIncome projectIncome : projectIncomeList) {
+                        projectIncome.setBudgetPeriodId(budgetPeriodId);
+                        projectIncome.setBudgetPeriodNumber(budgetPeriod);
+                        parentBudget.add(projectIncome);
+                    }
                 }
                 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
@@ -829,6 +839,65 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchy); 
         Budget hierarchyBudget = hierarchyBudgetDocument.getBudget();
+        
+        hierarchyBudget.getBudgetCostShares().clear();
+        hierarchyBudget.getBudgetUnrecoveredFandAs().clear();
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("hiddenInHierarchy", true);
+        fieldValues.put("budgetId", hierarchyBudget.getBudgetId());
+        Collection<BudgetCostShare> hiddenCostShares = businessObjectService.findMatching(BudgetCostShare.class, fieldValues);
+        Collection<BudgetUnrecoveredFandA> hiddenUnrecoveredFandAs = businessObjectService.findMatching(BudgetUnrecoveredFandA.class, fieldValues);
+        Map<Integer,BudgetCostShare> newCostShares = new HashMap<Integer, BudgetCostShare>();
+        Map<Integer,BudgetUnrecoveredFandA> newUnrecoveredFandAs = new HashMap<Integer, BudgetUnrecoveredFandA>();
+        BudgetCostShare newCostShare;
+        BudgetUnrecoveredFandA newUnrecoveredFandA;
+        Integer keyHash;
+        for (BudgetCostShare costShare : hiddenCostShares) {
+            keyHash = Arrays.hashCode(new Object[]{costShare.getFiscalYear(), costShare.getSourceAccount()});
+            newCostShare = newCostShares.get(keyHash);
+            if (newCostShare == null) {
+                newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
+                //newCostShare.setBudgetId(hierarchyBudget.getBudgetId());
+                newCostShare.setDocumentComponentId(null);
+                newCostShare.setObjectId(null);
+                newCostShare.setVersionNumber(null);
+                newCostShares.put(keyHash, newCostShare);
+            }
+            else {
+                newCostShare.setSharePercentage(newCostShare.getSharePercentage().add(costShare.getSharePercentage()));
+                if (newCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100.0))) {
+                    newCostShare.setSharePercentage(new BudgetDecimal(100.0));
+                }
+                newCostShare.setShareAmount(newCostShare.getShareAmount().add(costShare.getShareAmount()));
+            }
+        }
+        for (BudgetUnrecoveredFandA unrecoveredFandA : hiddenUnrecoveredFandAs) {
+            keyHash = Arrays.hashCode(new Object[]{unrecoveredFandA.getFiscalYear(), unrecoveredFandA.getSourceAccount(), unrecoveredFandA.getApplicableRate(), unrecoveredFandA.getOnCampusFlag()});
+            newUnrecoveredFandA = newUnrecoveredFandAs.get(keyHash);
+            if (newUnrecoveredFandA == null) {
+                newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
+                newUnrecoveredFandA.setBudgetId(hierarchyBudget.getBudgetId());
+                newUnrecoveredFandA.setDocumentComponentId(null);
+                newUnrecoveredFandA.setObjectId(null);
+                newUnrecoveredFandA.setVersionNumber(null);
+                newUnrecoveredFandAs.put(keyHash, newUnrecoveredFandA);
+            }
+            else {
+                newUnrecoveredFandA.setAmount(newUnrecoveredFandA.getAmount().add(unrecoveredFandA.getAmount()));
+            }
+        }
+        for (BudgetCostShare costShare : newCostShares.values()) {
+            costShare.setHiddenInHierarchy(false);
+            costShare.setHierarchyProposalNumber(null);
+            hierarchyBudget.add(costShare);
+        }
+        for (BudgetUnrecoveredFandA unrecoveredFandA : newUnrecoveredFandAs.values()) {
+            unrecoveredFandA.setHiddenInHierarchy(false);
+            unrecoveredFandA.setHierarchyProposalNumber(null);
+            hierarchyBudget.add(unrecoveredFandA);
+        }
+        
         KualiForm oldForm = GlobalVariables.getKualiForm();
         GlobalVariables.setKualiForm(null);
         KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
@@ -1042,19 +1111,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
 
-        List<BudgetCostShare> costShares = parentBudget.getBudgetCostShares();
-        for (int i=costShares.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, costShares.get(i).getHierarchyProposalNumber())) {
-                costShares.remove(i);
-            }
-        }
-
-        List<BudgetUnrecoveredFandA> unrecoveredFandAs = parentBudget.getBudgetUnrecoveredFandAs();
-        for (int i=unrecoveredFandAs.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, unrecoveredFandAs.get(i).getHierarchyProposalNumber())) {
-                unrecoveredFandAs.remove(i);
-            }
-        }
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("hierarchyProposalNumber", childProposalNumber);
+        businessObjectService.deleteMatching(BudgetCostShare.class, fieldValues);
+        businessObjectService.deleteMatching(BudgetUnrecoveredFandA.class, fieldValues);
 
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
         List<BudgetPeriod> periods = parentBudget.getBudgetPeriods();
