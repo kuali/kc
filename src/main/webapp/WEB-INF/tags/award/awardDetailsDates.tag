@@ -309,7 +309,7 @@
         			
        				<td align="left" valign="middle">
        				<div align="left">
-        				<c:out value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].currentFundEffectiveDate}"  />
+        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
         			</div>
         			</td>
     			</tr>
@@ -330,7 +330,7 @@
 			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">	
         			<td align="left" valign="middle">
         			<div align="left">
-        				<c:out value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].finalExpirationDate}"  />
+        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].finalExpirationDate}" pattern="MM/dd/yyyy" />
         			</div>
         			</td>
         			
@@ -349,7 +349,7 @@
 			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">		        
 			        <td align="left" valign="middle">
 			        <div align="left">
-			            <c:out value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].obligationExpirationDate}"  />
+			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].obligationExpirationDate}" pattern="MM/dd/yyyy" />
 			        </div>
 			        </td>
 			    </tr>
