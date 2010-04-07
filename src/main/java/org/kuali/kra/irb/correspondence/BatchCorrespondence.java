@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class BatchCorrespondence extends KraPersistableBusinessObjectBase { 
     
@@ -33,9 +35,8 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
     
     private List<BatchCorrespondenceDetail> batchCorrespondenceDetails;
     
-//    private ProtocolCorrespondenceType protocolCorrespondenceType; 
-//    private ProtocolActionType protocolActionType; 
-//    private CommCorrespBatch commCorrespBatch; 
+    private ProtocolCorrespondenceType protocolCorrespondenceType;
+    private ProtocolActionType protocolActionType;
     
     public BatchCorrespondence() {
         setBatchCorrespondenceDetails(new ArrayList<BatchCorrespondenceDetail>());
@@ -81,36 +82,30 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
         this.finalActionCorrespType = finalActionCorrespType;
     }
 
-//    public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
-//        return protocolCorrespondenceType;
-//    }
-//
-//    public void setProtocolCorrespondenceType(ProtocolCorrespondenceType protocolCorrespondenceType) {
-//        this.protocolCorrespondenceType = protocolCorrespondenceType;
-//    }
-//
-//    public ProtocolActionType getProtocolActionType() {
-//        return protocolActionType;
-//    }
-//
-//    public void setProtocolActionType(ProtocolActionType protocolActionType) {
-//        this.protocolActionType = protocolActionType;
-//    }
-//
-//    public CommCorrespBatch getCommCorrespBatch() {
-//        return commCorrespBatch;
-//    }
-//
-//    public void setCommCorrespBatch(CommCorrespBatch commCorrespBatch) {
-//        this.commCorrespBatch = commCorrespBatch;
-//    }
-
     public List<BatchCorrespondenceDetail> getBatchCorrespondenceDetails() {
-        return batchCorrespondenceDetails;
+        List<BatchCorrespondenceDetail> result = this.batchCorrespondenceDetails;
+        Collections.sort(result);
+        return result;
     }
 
     public void setBatchCorrespondenceDetails(List<BatchCorrespondenceDetail> batchCorrespondenceDetails) {
         this.batchCorrespondenceDetails = batchCorrespondenceDetails;
+    }
+
+    public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
+        return protocolCorrespondenceType;
+    }
+
+    public void setProtocolCorrespondenceType(ProtocolCorrespondenceType protocolCorrespondenceType) {
+        this.protocolCorrespondenceType = protocolCorrespondenceType;
+    }
+
+    public ProtocolActionType getProtocolActionType() {
+        return protocolActionType;
+    }
+
+    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+        this.protocolActionType = protocolActionType;
     }
 
     /** {@inheritDoc} */

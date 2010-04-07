@@ -42,7 +42,7 @@
             </td>
             <td class="infoline nobord">
                 <div align="center">
-                <html:image property="methodToCall.addCorrespondenceTemplate" 
+                <html:image property="methodToCall.addBatchCorrespondenceDetail" 
                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
                     title="Add Correspondence Template" 
                     alt="Add Correspondence Template" 
@@ -90,8 +90,15 @@
         </td>
         <td>
             <div align="left">
+                <kul:htmlControlAttribute property="batchCorrespondence.finalActionCorrespType"
+                                          attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionCorrespType}"
+                                          readOnlyAlternateDisplay="${KualiForm.batchCorrespondence.protocolCorrespondenceType.description}" />
+                <c:if test="${readOnly && not empty KualiForm.batchCorrespondence.finalActionCorrespType && not empty KualiForm.batchCorrespondence.finalActionTypeCode}">
+                    &nbsp; | &nbsp;  
+                </c:if>
                 <kul:htmlControlAttribute property="batchCorrespondence.finalActionTypeCode"
-                                          attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionTypeCode}" />
+                                          attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionTypeCode}" 
+                                          readOnlyAlternateDisplay="${KualiForm.batchCorrespondence.protocolActionType.description}" />
             </div>
         </td>
         <c:if test="${!readOnly}">

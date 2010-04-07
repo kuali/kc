@@ -88,4 +88,11 @@ public interface PermissionConstants {
      */
     public static final String VIEW_CORRESPONDENCE_TEMPLATE = "View Correspondence Template";
     public static final String MODIFY_CORRESPONDENCE_TEMPLATE = "Modify Correspondence Template";
+
+    /*
+     * Batch Correspondence Detail Permissions
+     */
+    public static final String VIEW_BATCH_CORRESPONDENCE_DETAIL = "View Batch Correspondence Detail";
+    public static final String MODIFY_BATCH_CORRESPONDENCE_DETAIL = "Modify Batch Correspondence Detail";
+
 }
