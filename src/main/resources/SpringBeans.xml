@@ -1684,9 +1684,6 @@
 		<property name="identityManagementService">
 			<ref bean="identityManagementService"/>
 		</property>
-		<property name="proposalStateService">
-			<ref bean = "proposalStateService"/>
-		</property>
 		<property name = "configurationService">
 			<ref bean = "kualiConfigurationService"/>
 		</property>
