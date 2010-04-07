@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -29,6 +30,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
@@ -58,6 +60,7 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.mortbay.log.Log;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -142,6 +145,68 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         } finally {
             resetUserSession();
         }
+    }
+    
+    /**
+     * Return the PENDING version of an Institutional Proposal, if one exists.
+     * Note, PENDING here refers to the Version Status, NOT the Proposal Status of the Institutional Proposal.
+     * 
+     * This is just a pass-through to InstitutionalProposalVersioningService, but we needed this method to be part of 
+     * the module API.
+     * 
+     * @param proposalNumber String
+     * @return InstitutionalProposal, or null if a PENDING version is not found.
+     * @see org.kuali.kra.bo.versioning.VersionStatus
+     */
+    public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber) {
+        return institutionalProposalVersioningService.getPendingInstitutionalProposalVersion(proposalNumber);
+    }
+    
+    /**
+     * Designate one or more Institutional Proposals as Funded by an Award.
+     * This will create a new Final version of the Institutional Proposal.
+     * 
+     * @param proposalNumbers The proposals to update.
+     * @throws VersionException 
+     */
+    public void updateFundedProposals(Set<String> proposalNumbers) {
+
+        GlobalVariables.getUserSession().setBackdoorUser(KC_SYSTEM_USER);
+        
+        try {
+            for (String proposalNumber : proposalNumbers) {
+                InstitutionalProposal activeVersion = getInstitutionalProposal(proposalNumber);
+                
+                if (activeVersion != null) {
+                    
+                    InstitutionalProposal newVersion = versioningService.createNewVersion(activeVersion);
+                    newVersion.setStatusCode(ProposalStatus.FUNDED);
+                    
+                    InstitutionalProposalDocument institutionalProposalDocument = 
+                        (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
+                    
+                    institutionalProposalDocument.getDocumentHeader().setDocumentDescription(
+                            activeVersion.getInstitutionalProposalDocument().getDocumentHeader().getDocumentDescription());
+                    
+                    institutionalProposalDocument.setInstitutionalProposal(newVersion);
+                    
+                    documentService.blanketApproveDocument(institutionalProposalDocument, 
+                            "Update Proposal Status to Funded", 
+                            new ArrayList<Object>());
+                    
+                } else {
+                    Log.warn("Could not designate proposal " + proposalNumber + " as Funded: no Active version found.");
+                }
+            }
+            
+        } catch (WorkflowException we) {
+            throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, we);
+        } catch (VersionException ve) {
+            throw new InstitutionalProposalCreationException(VERSION_EXCEPTION_MESSAGE, ve);
+        } finally {
+            resetUserSession();
+        }
+        
     }
     
     /* Local helper methods */

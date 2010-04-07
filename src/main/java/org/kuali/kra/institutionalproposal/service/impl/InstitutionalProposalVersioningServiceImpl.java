@@ -58,6 +58,15 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
         return null;
     }
     
+    public InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber) {
+        List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.ACTIVE);
+        if (!results.isEmpty()) {
+            // There should only be one active version at a time
+            return results.get(0);
+        }
+        return null;
+    }
+    
     protected void archiveCurrentActiveProposal(String proposalNumber) {
         List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.ACTIVE);
         if (!results.isEmpty()) {
