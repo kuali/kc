@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -494,6 +495,7 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
      * make sure the four roles are displayed.
      * @throws Exception
      */
+    @Ignore //this button has been temporarily removed for rel2.0  
     @Test
     public void testViewRights() throws Exception {
         HtmlPage permissionsPage = getPermissionsPage();
