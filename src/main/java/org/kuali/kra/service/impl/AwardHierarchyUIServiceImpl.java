@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
@@ -161,9 +162,30 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return awardHierarchyList;
     }
     
+    private boolean canUseExistingTMSessionObject(String awardNumber) {
+        String sessionObjectKey = GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION;
+        String prefix = null;
+        
+        TimeAndMoneyDocument tmDocFromSession = (TimeAndMoneyDocument) GlobalVariables.getUserSession().retrieveObject(sessionObjectKey);
+        if(tmDocFromSession == null) {
+            return false;  
+        }
+        Map<String, AwardHierarchyNode> awardHierarchyNodes = tmDocFromSession.getAwardHierarchyNodes();
+        if(awardHierarchyNodes != null && CollectionUtils.isNotEmpty(awardHierarchyNodes.keySet())) {
+            for(String tempAwardNumber : awardHierarchyNodes.keySet()){
+                prefix = tempAwardNumber.substring(0, tempAwardNumber.indexOf("-"));
+                if(!StringUtils.startsWithIgnoreCase(awardNumber, prefix)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
     private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
         if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase(LAST_5_CHARS_OF_ROOT, awardNumber.substring(8))){            
-            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
+            if(canUseExistingTMSessionObject(awardNumber)){ 
                 awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                         GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes();            
             }else{                
