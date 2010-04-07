@@ -36,9 +36,11 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelBudgetService;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
@@ -644,30 +646,54 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
-                        ObjectUtils.materializeSubObjectsToDepth(childLineItem, 5);
                         parentLineItem = (BudgetLineItem) (KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
+                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        
+                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        
+                        parentLineItem.setBudgetLineItemId(null);
                         parentLineItem.setBudgetId(budgetId);
                         parentLineItem.setBudgetPeriodId(budgetPeriodId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
-                        parentLineItem.setVersionNumber(null);
-                        lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
-                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
-                        //parentLineItem.setUnderrecoveryAmount(childLineItem.getUnderrecoveryAmount());
+                        parentLineItem.setVersionNumber(null);
+                        parentLineItem.setObjectId(null);
+                        
+                        for (BudgetLineItemCalculatedAmount calAmt : parentLineItem.getBudgetLineItemCalculatedAmounts()) {
+                            calAmt.setBudgetLineItemCalculatedAmountId(null);
+                            calAmt.setBudgetId(budgetId);
+                            calAmt.setBudgetPeriodId(budgetPeriodId);
+                            calAmt.setBudgetPeriod(budgetPeriod);
+                            calAmt.setLineItemNumber(lineItemNumber);
+                            calAmt.setVersionNumber(null);
+                            calAmt.setObjectId(null);
+                        }
                         BudgetPerson budgetPerson;
                         for (BudgetPersonnelDetails details : parentLineItem.getBudgetPersonnelDetailsList()) {
                             budgetPerson = personMap.get(details.getPersonSequenceNumber());
-                            details.setBudgetPersonnelLineItemId(null);
-                            details.setBudgetId(budgetId);
-                            details.setBudgetPeriodId(budgetPeriodId);
-                            details.setBudgetPeriod(budgetPeriod);
                             details.setBudgetPerson(budgetPerson);
                             details.setJobCode(budgetPerson.getJobCode());
                             details.setPersonId(budgetPerson.getPersonRolodexTbnId());
                             details.setPersonSequenceNumber(budgetPerson.getPersonSequenceNumber());
                             details.setPersonNumber(parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+
+                            details.setBudgetPersonnelLineItemId(null);
+                            details.setBudgetId(budgetId);
+                            details.setBudgetPeriodId(budgetPeriodId);
+                            details.setBudgetPeriod(budgetPeriod);
                             details.setLineItemNumber(lineItemNumber);
                             details.setVersionNumber(null);
+                            details.setObjectId(null);
+                            
+                            for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
+                                calAmt.setBudgetPersonnelCalculatedAmountId(null);
+                                calAmt.setBudgetId(budgetId);
+                                calAmt.setBudgetPeriodId(budgetPeriodId);
+                                calAmt.setBudgetPeriod(budgetPeriod);
+                                calAmt.setLineItemNumber(lineItemNumber);
+                                calAmt.setVersionNumber(null);
+                                calAmt.setObjectId(null);
+                            }
                         }
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
@@ -989,9 +1015,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     parentBudget.setBudgetLineItemDeleted(true);
                 }
             }
-            if (lineItems.isEmpty()) {
-                periods.remove(period);
-            }
+//            if (lineItems.isEmpty()) {
+//                periods.remove(period);
+//            }
         }
         
         List<BudgetPerson> budgetPersons = parentBudget.getBudgetPersons();
