@@ -732,34 +732,6 @@
 				
 			</dependencies>
 		</profile>
-		
-		<!--
-                <profile>
-                        <id>siteDeploy</id>
-                        <activation>
-                                <activeByDefault>false</activeByDefault>
-                        </activation>
-                        <build>
-                                <plugins>
-                                        <plugin>
-                                                <artifactId>maven-surefire-plugin</artifactId>
-                                                <version>2.3.1</version>
-                                                <configuration>
-                                                        <useFile>false</useFile>
-                                                        <testFailureIgnore>true</testFailureIgnore>
-                                                        <includes>
-                                                                <include>**/*Test.java</include>
-                                                        </includes>
-                                                        <excludes><exclude></exclude></excludes>
-                                                        <forkMode>once</forkMode>
-                                                        <reportFormat>plain</reportFormat>
-                                                        <argLine>-Xmx1536m -XX:MaxPermSize=512m</argLine>
-                                                </configuration>
-                                        </plugin>
-                                  </plugins>
-                           </build>
-               </profile>
-               -->
  		
 	</profiles>
 	<repositories>
