@@ -332,8 +332,6 @@
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-
-		
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetCostShare" table="EPS_PROP_COST_SHARING">
@@ -348,12 +346,15 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/><!--		
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!--		
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-
-	--></class-descriptor>
+		-->
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
@@ -372,12 +373,15 @@
 		
 		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.budget.parameters.BudgetPeriod" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetPeriodId"/> 
-		</reference-descriptor><!--
+		</reference-descriptor>
+		<!--
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-
-	--></class-descriptor>
+		-->
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	</class-descriptor>
 
 	
 	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
@@ -393,12 +397,15 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/><!--		
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!--		
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-
-	--></class-descriptor>
+		-->
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount" table="BUDGET_PERSONNEL_CAL_AMTS">
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_PER_CAL_AMTS_ID"/> 	
@@ -947,7 +954,8 @@
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
-		--><field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		-->
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
 	</class-descriptor>
