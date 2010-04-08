@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardAmountInfoService;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -50,6 +50,7 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -114,9 +115,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                             award.getAwardAmountInfos().add(aai);
                             addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                                                     timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
-                }else {aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+                }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                        aai = tempAai;
+                        aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                         awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
-                        addToList = true;
+                        award.getAwardAmountInfos().add(aai);
+                        //addToList = true;
                 }
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null &&
@@ -130,9 +134,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                             award.getAwardAmountInfos().add(aai);
                             addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                                                         timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT, dateChangeTransactionDetailItems);
-                }else {aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
-                    awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
-                    addToList = true;
+                }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                        aai = tempAai;
+                        aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                        awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+                        award.getAwardAmountInfos().add(aai);
+                        //addToList = true;
                 }
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null &&
@@ -146,14 +153,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                             award.getAwardAmountInfos().add(aai);
                             addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                                                     timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT, dateChangeTransactionDetailItems);
-                }else {aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                        aai = tempAai;
+                        aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                         awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                        addToList = true;
+                        award.getAwardAmountInfos().add(aai);
+                        //addToList = true;
                 }
             }
-            if(addToList){
-                awardAmountInfoObjects.add(aai);                
-            }
+//            if(addToList){
+//                awardAmountInfoObjects.add(aai);                
+//            }
             getBusinessObjectService().save(award);
         }
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
@@ -297,6 +307,42 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActionForward actionForward;
         save(mapping, form, request, response);
         actionForward = super.blanketApprove(mapping, form, request, response);            
+        return actionForward;
+    }
+    
+    
+    
+
+    /**
+     * must remove all award amount infos corresponding to this document.  Date changes create and add new Award Amount Info.  Pending Transactions
+     * do not create new Award Amount Info until the document is routed or blanket approved.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward;
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        //remove all Award Amount Infos from all affected awards.
+        Map<String, AwardHierarchy> awardHierarchyItems = timeAndMoneyDocument.getAwardHierarchyItems();
+        for (Map.Entry<String, AwardHierarchy> awardHierarchyEntry : awardHierarchyItems.entrySet()) {
+            AwardHierarchy awardHierarchy = awardHierarchyEntry.getValue();
+            Award award = getActiveAwardVersion(awardHierarchy.getAwardNumber());
+            List<AwardAmountInfo> deleteCollection = new ArrayList<AwardAmountInfo>();
+            for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
+                if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+                    if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(timeAndMoneyDocument.getDocumentNumber())) {
+                        deleteCollection.add(awardAmountInfo);
+                    }
+                }
+            }
+            getBusinessObjectService().delete(deleteCollection);
+            deleteCollection.clear();
+        }
+        actionForward = super.cancel(mapping, form, request, response);   
+        
         return actionForward;
     }
 
