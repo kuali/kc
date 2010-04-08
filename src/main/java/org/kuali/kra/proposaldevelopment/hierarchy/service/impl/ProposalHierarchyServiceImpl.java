@@ -1136,11 +1136,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     parentBudget.setBudgetLineItemDeleted(true);
                 }
             }
-//            if (lineItems.isEmpty()) {
-//                periods.remove(period);
-//            }
+            if (lineItems.isEmpty() && periods.indexOf(period)==periods.size()-1 && periods.indexOf(period)>0) {
+                periods.remove(period);
+            }
         }
-        
+        parentBudget.setEndDate(periods.get(periods.size()-1).getEndDate());
         List<BudgetPerson> budgetPersons = parentBudget.getBudgetPersons();
         for (int i=budgetPersons.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, budgetPersons.get(i).getHierarchyProposalNumber())) {
