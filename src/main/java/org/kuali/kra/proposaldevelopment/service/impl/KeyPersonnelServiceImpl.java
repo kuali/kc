@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.bo.Rolodex;
@@ -39,6 +40,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -222,6 +225,29 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     newDegree.setSchoolIdCode(degree.getSchoolIdCode());
                     newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
                     person.addDegree(newDegree);                
+                }
+                if (StringUtils.isNotEmpty(origPerson.getExtendedAttributes().getFileName()) &&
+                        StringUtils.isNotEmpty(origPerson.getExtendedAttributes().getContentType()) &&
+                        origPerson.getExtendedAttributes().getAttachmentContent() != null &&
+                        origPerson.getExtendedAttributes().getAttachmentContent().length > 0) {
+                    ProposalPersonBiography bio = new ProposalPersonBiography(); 
+                    bio.setDescription(origPerson.getExtendedAttributes().getBiosketchDescription());
+                    bio.setProposalPersonNumber(person.getProposalPersonNumber());
+                    bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType()); //biosketch
+                    bio.setFileName(origPerson.getExtendedAttributes().getFileName());
+                    
+                    ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+                    personnelAttachment.setFileName(origPerson.getExtendedAttributes().getFileName());
+                    personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+                    personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
+                    personnelAttachment.setBiographyData(origPerson.getExtendedAttributes().getAttachmentContent());
+                    personnelAttachment.setContentType(origPerson.getExtendedAttributes().getContentType());
+                    if (bio.getPersonnelAttachmentList().isEmpty()) {
+                        bio.getPersonnelAttachmentList().add(personnelAttachment);
+                    } else {
+                        bio.getPersonnelAttachmentList().set(0, personnelAttachment);
+                    }
+                    document.getDevelopmentProposal().addProposalPersonBiography(bio);
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -695,6 +721,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public boolean isCreditSplitEnabled() {
         return this.parameterService.getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
+    }
+    
+    public String getDefaultPersonAttachmentDocType() {
+        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }
 
     /**
