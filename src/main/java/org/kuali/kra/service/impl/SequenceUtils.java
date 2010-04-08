@@ -133,7 +133,6 @@ public class SequenceUtils {
         for (Field field : clazz.getDeclaredFields()) {
             try {
                 if (!skipVersioning(field)) {
-    
                     final Method getter = findReadMethod(parent, field);
                     Object obj = getSequenceAssociateReference(parent, getter);
                     if (obj != null && SequenceAssociate.class.isAssignableFrom(obj.getClass())) {
@@ -164,7 +163,6 @@ public class SequenceUtils {
             try {
                 if (isFieldACollection(field)) {
                     final Method getter = findReadMethod(parent, field);
-                    Type type = getter.getGenericReturnType();
                     if (!skipVersioning(field)) {
                         Collection c = getSequenceAssociateCollection(parent, getter);
                         if(c != null) {
@@ -196,10 +194,10 @@ public class SequenceUtils {
         if (associate != null && parent != null && !this.alreadySequencedAssociates.contains(associate)) {
             final SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
             this.setSequenceOwner(associate, owner);
-            resetPersistenceState(associate);
             if (!isAssociateAlsoASequenceOwner(associate)) {
                 sequenceAssociations(associate);
-            }
+            }            
+            resetPersistenceState(associate);
         }
     }
 
