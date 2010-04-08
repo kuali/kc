@@ -284,7 +284,22 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         actionForward = super.route(mapping, form, request, response);            
         return actionForward;
     }
+    
+    
         
+    /**
+     * override to call save before we blanket approve.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward actionForward;
+        save(mapping, form, request, response);
+        actionForward = super.blanketApprove(mapping, form, request, response);            
+        return actionForward;
+    }
+
     /**
      * 
      * This method refreshes the view depending on various view optins like either active or pending view or dates only, totals and 
