@@ -144,12 +144,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private ProposalDevelopmentDocument proposalDocument;
     private String hierarchyStatus;
     private String hierarchyStatusName;
-
+    private String hierarchyOriginatingChildProposalNumber;
+    
+  
     private String hierarchyParentProposalNumber;
     private Integer hierarchyLastSyncHashCode;
     private String hierarchyBudgetType;
     private transient ParameterService parameterService;
     private transient ProposalHierarchyService proposalHierarchyService;
+    
+    
     
     /**
      * Looks up and returns the ParameterService.
@@ -205,6 +209,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setHierarchyParentProposalNumber(String hierarchyParentProposalNumber) {
         this.hierarchyParentProposalNumber = hierarchyParentProposalNumber;
     }
+    
+    public String getHierarchyOriginatingChildProposalNumber() {
+        return hierarchyOriginatingChildProposalNumber;
+    }
+
+    public void setHierarchyOriginatingChildProposalNumber(String hierarchyOriginatingChildProposalNumber) {
+        this.hierarchyOriginatingChildProposalNumber = hierarchyOriginatingChildProposalNumber;
+    }
+
 
     /**
      * Sets the hierarchyLastSyncHashCode attribute value.

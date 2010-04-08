@@ -14,9 +14,14 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
-<c:set var="viewOnly" value="${readOnly}" scope="request" />
+
+<kra-b:swapProposalDevelopmentEditModes/>
+
 	
+<kra-b:swapProposalDevelopmentEditModes/>
+<c:set var="readOnly" value="${(not KualiForm.editingMode['modifyBudgets']) && ( not parentReadOnlyFlag )}" scope="request" />
+<c:set var="viewOnly" value="${readOnly}" scope="request" />
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}DistributionAndIncome"
@@ -45,3 +50,4 @@
 		/>
 
 </kul:documentPage>
+<kra-b:swapProposalDevelopmentEditModes/>
