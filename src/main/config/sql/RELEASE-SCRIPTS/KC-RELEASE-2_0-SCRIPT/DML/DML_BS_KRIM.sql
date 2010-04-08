@@ -885,5 +885,15 @@ insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, a
    (select role_id from krim_role_t t where t.role_nm = 'User' and t.nmspc_cd = 'KUALI'),
    (select perm_id from krim_perm_t u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'),
    'Y');
-   
+
+   -- KRIM_ROLE_T  
+UPDATE KRIM_ROLE_T 
+SET NMSPC_CD='KC-PD' 
+WHERE NMSPC_CD = 'KRA-PD';
+
+-- KRIM_PERM_T  
+UPDATE KRIM_PERM_T 
+SET NMSPC_CD='KC-PD' 
+WHERE NMSPC_CD = 'KRA-PD';
+
 COMMIT;

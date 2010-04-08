@@ -663,4 +663,5 @@ SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.
 
 INSERT INTO krim_role_mbr_attr_data_t ( ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR ) 
 SELECT krim_attr_data_id_s.NEXTVAL, krim_role_mbr_id_s.CURRVAL, T.KIM_TYP_ID, D.KIM_ATTR_DEFN_ID, 'Y', SYS_GUID ( ) , 1 FROM KRIM_TYP_T T, KRIM_ATTR_DEFN_T D WHERE T.NM = 'UnitHierarchy' AND D.NM = 'subunits' AND T.NMSPC_CD = 'KC-SYS' AND D.NMSPC_CD = 'KC-SYS';
+
 COMMIT;
