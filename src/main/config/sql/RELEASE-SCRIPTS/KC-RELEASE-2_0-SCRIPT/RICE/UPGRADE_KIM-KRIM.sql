@@ -117,3 +117,9 @@ PROMPT *************************************
 PROMPT Running KRACOEUS-3123
 PROMPT *************************************
 @kim-migration/KRACOEUS-3123.sql
+
+spool KRACOEUS-3822.txt
+PROMPT *************************************
+PROMPT Running KRACOEUS-3822
+PROMPT *************************************
+@kim-migration/KRACOEUS-3822.sql
