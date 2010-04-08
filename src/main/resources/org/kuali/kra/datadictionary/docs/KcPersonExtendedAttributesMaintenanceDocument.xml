@@ -64,6 +64,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="onSabbaticalFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="idProvided"/>
         <bean parent="MaintainableFieldDefinition" p:name="idVerified"/>
+        <bean parent="MaintainableFieldDefinition" p:name="biosketchDescription"/>
+        <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
