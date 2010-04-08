@@ -112,15 +112,12 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     }
     
     /*
-     * verify sponsor code exist and valid.
+     * verify sponsor code is valid.
      */
     private boolean isSponsorValid(MaintenanceDocument document) {
         boolean valid = true;
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
-        if (StringUtils.isBlank(proposalLog.getSponsorCode())) {
-            GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_MISSING_SPONSOR_CODE);
-            valid = false;
-        } else {
+        if (!StringUtils.isBlank(proposalLog.getSponsorCode())) {
             proposalLog.refreshReferenceObject("sponsor");
             if (proposalLog.getSponsor() == null) {
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
