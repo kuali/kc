@@ -165,6 +165,9 @@ VALUES('KC-AWARD', 'D', 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardReportTerm.re
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AWARD', 'D', 'scope.sync.REPORTS_TAB.AwardReportTerm.reportClassCode', 'CONFG', '6', 'Comma delimited list of reportClassCodes for reports to sync on the Payments and Invoices tab.', 'A') ;
 
+INSERT INTO KRNS_PARM_T(APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) 
+VALUES ('KUALI', 'KC-AWARD', 'D', 'TXN_TYPE_DEF_COPIED_AWARD', 'CONFG', '9', 'New Transaction', 'A');
+
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
@@ -284,13 +287,13 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_
 VALUES('KUALI', 'KC-IP', 'D', 'institutionalproposal.creditsplit.enabled', SYS_GUID(), 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Institutional Proposal', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.award.linking.enabled', SYS_GUID () , 1, 'CONFG', 'N', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.billable', 'F1C228F9D4D8408A8E0BBC801C9525ak', 1, 'CONFG', 'Y', 'Billable is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ; 
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.development.proposal.linking.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.development.proposal.linking.enabled', SYS_GUID () , 1, 'CONFG', 'N', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-PROTOCOL', 'D', 'irb.protocol.institute.proposal.linking.enabled', SYS_GUID () , 1, 'CONFG', 'N', 'Linking from Award to Protocol Funding source is configurable at impl time', 'A', 'WorkflowAdmin', 'Y') ;
@@ -335,75 +338,90 @@ INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_
 VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A') ;
 
 UPDATE KRNS_PARM_T 
-SET TXT='4' 
+SET TXT='4',NMSPC_CD = 'KC-PD'
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'proposaldevelopment.proposaltype.continuation';
       
 UPDATE KRNS_PARM_T 
-SET PARM_DTL_TYP_CD='D' 
+SET PARM_DTL_TYP_CD='D' ,NMSPC_CD = 'KC-PD'
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'A'
       AND PARM_NM = 'initialUnitLoadDepth';
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+VALUES('KC-B', 'D', 'proposalHierarchySubProjectDirectCostElement', 'CONFG', 'PHTD01', 'The Cost Element to be used for the Direct Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'proposalHierarchySubProjectIndirectCostElement', 'CONFG', 'PHTID02', 'The Cost Element to be used for the Indirect Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
+VALUES('KC-B', 'D', 'proposalHierarchySubProjectIndirectCostElement', 'CONFG', 'PHTID02', 'The Cost Element to be used for the Indirect Cost sub-project summary line items in a Proposal Hierarchy budget', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'awardBudgetEbRateClassCode', 'CONFG', '5', 'The EB rate class code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
+VALUES('KC-B', 'D', 'awardBudgetEbRateClassCode', 'CONFG', '5', 'The EB rate class code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'awardBudgetEbRateTypeCode', 'CONFG', '6', 'The EB rate type code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
+VALUES('KC-B', 'D', 'awardBudgetEbRateTypeCode', 'CONFG', '6', 'The EB rate type code to be used for award budget if the eb rates are overridden on commitements tab', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'defaultFnARateClassCode', 'CONFG', '1', 'The OH rate class code to be used for award budget if the fna rates are overridden on commitements tab', 'A') ;
+VALUES('KC-B', 'D', 'defaultFnARateClassCode', 'CONFG', '1', 'The OH rate class code to be used for award budget if the fna rates are overridden on commitements tab', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'AWARD_BUDGET_STATUS_IN_PROGRESS_CODE', 'CONFG', '1', 'Default award budget status code', 'A') ;
+VALUES('KC-B', 'D', 'AWARD_BUDGET_STATUS_IN_PROGRESS_CODE', 'CONFG', '1', 'Default award budget status code', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-B', 'D', 'AWARD_BUDGET_TYPE_NEW_PARAMETER', 'CONFG', '1', 'Default award budget type code', 'A') ;
+VALUES('KC-B', 'D', 'AWARD_BUDGET_TYPE_NEW_PARAMETER', 'CONFG', '1', 'Default award budget type code', 'A') ;
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KUALI', 'KC-PD', 'D', 'DEFAULT_BIOGRAPHY_DOCUMENT_TYPE_CODE', '81237ef9-9d29-4a07-9fb8-ebd8aaddc834', 1, 'CONFG', '1', 'Value of the default biography document type code. This is the document type code that will be used when adding new users to a Proposal Development Document and they have an attached Biosketch file.', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'proposaldevelopment.autogenerate.institutionalproposal', 'CONFG', 'Y', 'Should an Institutional Proposal be automatically generated', 'A') ;
+VALUES('KC-PD', 'D', 'proposaldevelopment.autogenerate.institutionalproposal', 'CONFG', 'Y', 'Should an Institutional Proposal be automatically generated', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KRA-PD', 'D', 'DHHS_AGREEMENT', SYS_GUID () , 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PD', 'D', 'DHHS_AGREEMENT', SYS_GUID () , 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KRA-PD', 'D', 'MULTI_CAMPUS_ENABLED', SYS_GUID () , 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PD', 'D', 'MULTI_CAMPUS_ENABLED', SYS_GUID () , 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', SYS_GUID () , 1, 'CONFG', '6', 'Value for Proposal Contact Type', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PD', 'D', 'PROPOSAL_CONTACT_TYPE', SYS_GUID () , 1, 'CONFG', '6', 'Value for Proposal Contact Type', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-VALUES ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', SYS_GUID () , 1, 'CONFG', '0', 'Value for enabling s2s polling service', 'A', 'WorkflowAdmin', 'Y') ;
+VALUES ('KC-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', SYS_GUID () , 1, 'CONFG', '0', 'Value for enabling s2s polling service', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'GENERIC_SPONSOR_CODE', SYS_GUID () , 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A') ;
+VALUES('KC-PD', 'D', 'GENERIC_SPONSOR_CODE', SYS_GUID () , 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'A', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A') ;
+VALUES('KC-PD', 'A', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
+VALUES('KC-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
+VALUES('KC-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
+VALUES('KC-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '1', 'It defines where the citizenship info should fetch from', 'A') ;
+VALUES('KC-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '1', 'It defines where the citizenship info should fetch from', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'FEDERAL_ID_COMES_FROM_CURRENT_AWARD', SYS_GUID () , 1, 'CONFG', 'N', 'Determines whether the Grants.Gov Federal ID must be populated from the current award.', 'A') ;
+VALUES('KC-PD', 'D', 'FEDERAL_ID_COMES_FROM_CURRENT_AWARD', SYS_GUID () , 1, 'CONFG', 'N', 'Determines whether the Grants.Gov Federal ID must be populated from the current award.', 'A') ;
 
 INSERT INTO krns_parm_t (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KRA-PD', 'D', 'proposaldevelopment.proposaltype.resubmission', SYS_GUID () , 1, 'CONFG', '2', 'ProposalTypeCode of RESUBMISSION', 'A') ;
+VALUES('KC-PD', 'D', 'proposaldevelopment.proposaltype.resubmission', SYS_GUID () , 1, 'CONFG', '2', 'ProposalTypeCode of RESUBMISSION', 'A') ;
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-PD' 
+WHERE NMSPC_CD = 'KRA-PD';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-B' 
+WHERE NMSPC_CD = 'KRA-B';
+
+UPDATE KRNS_PARM_T 
+SET NMSPC_CD='KC-M' 
+WHERE NMSPC_CD = 'KRA-M';
 
 COMMIT;
