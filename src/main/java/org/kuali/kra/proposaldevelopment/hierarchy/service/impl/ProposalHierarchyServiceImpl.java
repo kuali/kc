@@ -621,7 +621,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             Integer budgetPeriod;
             BudgetCostShare newCostShare;
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
-                if (costShare.getShareAmount().isNonZero()) {
+                if (StringUtils.isNotEmpty(costShare.getSourceAccount())) {
                     newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
                     newCostShare.setBudgetId(budgetId);
                     newCostShare.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newCostShare.getDocumentComponentIdKey()));
@@ -635,7 +635,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             
             BudgetUnrecoveredFandA newUnrecoveredFandA;
             for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
-                if (unrecoveredFandA.getAmount().isNonZero()) {
+                if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
                     newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
                     newUnrecoveredFandA.setBudgetId(budgetId);
                     newUnrecoveredFandA.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
