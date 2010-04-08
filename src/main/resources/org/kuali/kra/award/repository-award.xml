@@ -517,7 +517,7 @@
 			<foreignkey field-ref="approvalTypeCode"/>
 			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
-		<collection-descriptor name="specialReviewExemptions" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="awardSpecialReviewId"/>
 		</collection-descriptor> 
 	</class-descriptor>
