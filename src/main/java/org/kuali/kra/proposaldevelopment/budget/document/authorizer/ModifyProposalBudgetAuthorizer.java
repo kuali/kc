@@ -46,9 +46,7 @@ public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
         boolean rejectedDocument = (StringUtils.equals(proposalHierarchyService.getProposalDevelopmentInitialNodeName(), wfd.getCurrentRouteNodeNames()));
 
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
-                hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&
-                !doc.getDevelopmentProposal().getSubmitFlag() &&
-                !doc.getDevelopmentProposal().isParent();        
+                hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
     }
     
     /**

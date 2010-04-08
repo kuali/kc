@@ -40,20 +40,26 @@
                 <td align="left" valign="middle">
                 	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
                 </td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.modularBudgetFlag}" noColon="true" /></div></th>
+				<kra-b:swapProposalDevelopmentEditModes/>
+       		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.modularBudgetFlag}" noColon="true" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.budget.modularBudgetFlag" attributeEntry="${budgetAttributes.modularBudgetFlag}" />
                 </td>
+                <kra-b:swapProposalDevelopmentEditModes/>
+        	
             </tr>
         	<tr>
+			
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
                 <td>
                 	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
                 </td>
+           		<kra-b:swapProposalDevelopmentEditModes/>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalCostLimit}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${budgetAttributes.totalCostLimit}" styleClass="amount"/>
            		</td>
+           		<kra-b:swapProposalDevelopmentEditModes/>
         	</tr>
         		<%--
 			        	<tr>
@@ -82,41 +88,56 @@
 			     		
 			     	--%>
 			<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
+				<kra-b:swapProposalDevelopmentEditModes/>
+     			<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
 			    <td>
 			    	 <input type=hidden name="KualiForm" property="hack" id="hack" disabled="true" />
 			         <html:hidden name="KualiForm" property="document.budget.budgetStatus"  disabled="true" />
 			         <kul:htmlControlAttribute property="document.budget.budgetStatus" readOnly="${readOnly}" readOnlyAlternateDisplay="Complete" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select" onchange="javascript: toggleFinalCheckboxSummary(document)" disabled="${viewOnly}"/>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
+    			<kra-b:swapProposalDevelopmentEditModes/>
+        	
+           		<kra-b:swapProposalDevelopmentEditModes/>
+        		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
            		<td>
        				<kul:htmlControlAttribute property="document.budget.residualFunds" attributeEntry="${budgetAttributes.residualFunds}" styleClass="amount"/>
            		</td>
 	        	</tr>
 	     		<tr>
+	     		<kra-b:swapProposalDevelopmentEditModes/>
+        	
+	     		
+	     		<kra-b:swapProposalDevelopmentEditModes/>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.budget.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: setupBudgetStatusSummary(document);" disabled="${viewOnly}" />
+           			<kul:htmlControlAttribute property="document.budget.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: setupBudgetStatusSummary(document);" disabled="false" />
            			<html:hidden name="KualiForm" property="document.budget.finalVersionFlag" disabled="true" />
            		</td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
+	    		<kra-b:swapProposalDevelopmentEditModes/>
+				
+				<kra-b:swapProposalDevelopmentEditModes/>
+        		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.budget.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
                 	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budget.urRateClassCode}">
                 </td>
+                <kra-b:swapProposalDevelopmentEditModes/>
+        	
      		</tr>     	
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.budget.comments" attributeEntry="${budgetAttributes.comments}"/>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
+           		<kra-b:swapProposalDevelopmentEditModes/>
+        		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
            			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budget.ohRateClassCode}">
            		</td>
+           		<kra-b:swapProposalDevelopmentEditModes/>
      		</tr>
-        	<tr>
+    		<tr>
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budget.onOffCampusFlag}">
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td colspan="3">

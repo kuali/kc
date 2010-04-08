@@ -231,6 +231,7 @@
     	<field-descriptor name="hierarchyParentProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
     	<field-descriptor name="hierarchyLastSyncHashCode" column="HIERARCHY_HASH_CODE" jdbc-type="INTEGER"  />
     	<field-descriptor name="hierarchyBudgetType" column="HIERARCHY_BUDGET_TYPE" jdbc-type="CHAR"  />
+    	<field-descriptor name="hierarchyOriginatingChildProposalNumber" column="HIERARCHY_ORIG_CHILD_PROP_NBR" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" table="EPS_PROP_COLUMNS_TO_ALTER">
