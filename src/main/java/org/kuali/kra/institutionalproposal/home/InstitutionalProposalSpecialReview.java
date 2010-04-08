@@ -114,8 +114,8 @@ implements SequenceAssociate {
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
-        this.proposalSpecialReviewId = null;
         resetSpecialReviewExemptionPersistenceStates();
+        this.proposalSpecialReviewId = null;
     }
     
     // This relationship is a bit of an exception to the normal sequencing paradigm
