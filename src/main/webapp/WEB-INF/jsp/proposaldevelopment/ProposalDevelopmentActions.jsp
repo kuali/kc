@@ -16,6 +16,7 @@ http://www.osedu.org/licenses/ECL-2.0
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="hierarchyStatus" value="${KualiForm.document.developmentProposalList[0].hierarchyStatus}" />
 <c:set var="hierarchyChildStatus" value="${KualiForm.hierarchyChildStatus}"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily--%>
 <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
 <kra:section permission="submitToSponsor">
