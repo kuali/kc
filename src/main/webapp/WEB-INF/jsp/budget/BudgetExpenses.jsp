@@ -15,12 +15,13 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraButtons" value="${KualiForm.extraExpensesButtons}" scope="request"/>
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:if test="${readOnly}">
 	<c:set var="extraButtons" value="" scope="request"/>
 </c:if>
-
+<kra-b:swapProposalDevelopmentEditModes/>
+<c:set var="readOnly" value="${(not KualiForm.editingMode['modifyBudgets'])}" scope="request" />
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}Expenses"

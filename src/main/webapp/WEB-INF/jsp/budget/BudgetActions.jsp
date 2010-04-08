@@ -14,10 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}Actions"
@@ -28,6 +27,7 @@
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	auditCount="0"
   	showTabButtons="true">
+  	<c:set target = "${KualiForm.editingMode}" property="viewOnly" value = "true"/>
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
 
@@ -47,7 +47,7 @@
         <kul:adHocRecipients />
 		<kul:panelFooter />
 	</div>
-
+	
 	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="${proposalBudgetFlag}"

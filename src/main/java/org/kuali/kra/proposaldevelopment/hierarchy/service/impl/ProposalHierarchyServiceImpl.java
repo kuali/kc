@@ -293,8 +293,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Budget hierarchyBudget = hierarchyBudgetDoc.getBudget();
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s)", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
         
-        boolean isLast = proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposalNumber).size()==1;
         
+        List<String> childProposalNumbers = proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposalNumber);
+        boolean isLast = childProposalNumbers.size()==1;
+     
         childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
         childProposal.setHierarchyParentProposalNumber(null);
         removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
@@ -318,6 +320,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
         else {
+            //need to find out what the lowest number is
+            //so we can make it the new primary child for budget syncs.
+            String lowestProposalNumber = "";
+            for( String proposalNumber : childProposalNumbers ) {
+                if ( !StringUtils.equals(proposalNumber, childProposal.getProposalNumber() )) {
+                    lowestProposalNumber = proposalNumber;
+                    break;
+                }
+            }
+            hierarchyProposal.setHierarchyOriginatingChildProposalNumber(lowestProposalNumber);
             businessObjectService.save(childProposal);
             synchronizeAllChildren(hierarchyProposal);
         }
@@ -395,6 +407,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private void copyInitialData(DevelopmentProposal hierarchyProposal, DevelopmentProposal srcProposal)
             throws ProposalHierarchyException {
         // Required fields for saving document
+        hierarchyProposal.setHierarchyOriginatingChildProposalNumber(srcProposal.getProposalNumber());
         hierarchyProposal.setSponsor(srcProposal.getSponsor());
         hierarchyProposal.setSponsorCode(srcProposal.getSponsorCode());
         hierarchyProposal.setProposalTypeCode(srcProposal.getProposalTypeCode());
@@ -541,7 +554,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         businessObjectService.save(childProposal);
         LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
-        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType());
+        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType(), StringUtils.equals( childProposal.getProposalNumber(),
+                hierarchyProposal.getHierarchyOriginatingChildProposalNumber() ));
         if (hierarchyBudget.getEndDate().after(hierarchyProposal.getRequestedEndDateInitial())) {
             hierarchyProposal.setRequestedEndDateInitial(hierarchyBudget.getEndDate());
         }
@@ -559,9 +573,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return true;
     }
     
-    private void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode)
+    private void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode, boolean isOriginatingChildBudget )
             throws ProposalHierarchyException {
         try {
+            
+            
+            if( isOriginatingChildBudget ) {
+                parentBudget.setUrRateClassCode( childBudget.getUrRateClassCode() );
+                parentBudget.setOhRateClassCode( childBudget.getOhRateClassCode() );
+            }
+            
             BudgetPerson newPerson;
             Map<Integer, BudgetPerson> personMap = new HashMap<Integer, BudgetPerson>();
             for (BudgetPerson person : childBudget.getBudgetPersons()) {

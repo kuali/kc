@@ -334,7 +334,7 @@ public class ProposalHierarcyActionHelper {
         String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {
+            if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {
                 retval = true;
                 break;
             }
