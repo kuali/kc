@@ -504,6 +504,11 @@
 		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
 		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
+		<field-descriptor name="biosketchDescription" column="BIOSKETCH_DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fileName" column="BIOSKETCH_FILENAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contentType" column="BIOSKETCH_FILE_CONTENT_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attachmentContent" column="BIOSKETCH_FILE" jdbc-type="LONGVARBINARY"/>
+		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
