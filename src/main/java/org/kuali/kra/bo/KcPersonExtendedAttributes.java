@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
-public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase {
+public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachment {
 
     private static final long serialVersionUID = -6236580785268966391L;
 
@@ -56,6 +56,12 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idProvided;
     private String idVerified;
     private String county;
+    
+    private String biosketchDescription;
+    private String fileName;
+    private String contentType;
+    private byte[] attachmentContent;
+    private FormFile templateFile;
     
     private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
     private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
@@ -526,6 +532,46 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {
         this.personAppointments = personAppointments;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public byte[] getAttachmentContent() {
+        return attachmentContent;
+    }
+
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.attachmentContent = attachmentContent;
+    }
+
+    public FormFile getTemplateFile() {
+        return templateFile;
+    }
+
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
+    }
+
+    public String getBiosketchDescription() {
+        return biosketchDescription;
+    }
+
+    public void setBiosketchDescription(String biosketchDescription) {
+        this.biosketchDescription = biosketchDescription;
     }
 
 }

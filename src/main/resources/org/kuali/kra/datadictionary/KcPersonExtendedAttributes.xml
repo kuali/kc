@@ -42,6 +42,8 @@
         <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag"/>
         <ref bean="KcPersonExtendedAttributes-idProvided"/>
         <ref bean="KcPersonExtendedAttributes-idVerified"/>
+        <ref bean="KcPersonExtendedAttributes-biosketchDescription"/>
+        <ref bean="KcPersonExtendedAttributes-templateFile" />
         <ref bean="KcPersonExtendedAttributes-county"/>
         <ref bean="KcPersonExtendedAttributes-versionNumber"/>
       </list>
@@ -387,7 +389,7 @@
   <bean abstract="true" id="KcPersonExtendedAttributes-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
-  <!--<bean id="KcPersonExtendedAttributes-biosketchDescription" parent="KcPersonExtendedAttributes-biosketchDescription-parentBean" />
+  <bean id="KcPersonExtendedAttributes-biosketchDescription" parent="KcPersonExtendedAttributes-biosketchDescription-parentBean" />
   <bean id="KcPersonExtendedAttributes-biosketchDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="biosketchDescription" />
     <property name="forceUppercase" value="false" />
@@ -414,7 +416,7 @@
     </property>
     <property name="summary" value="Biosketch" />
     <property name="description" value="Biosketch" />
-  </bean>-->  
+  </bean>  
   
 
 <!-- Business Object Inquiry Definition -->
