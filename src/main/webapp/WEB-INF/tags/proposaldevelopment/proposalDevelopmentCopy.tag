@@ -92,7 +92,7 @@
 			<tr>
 				<td align="center" colspan="2">
 					<div align="center">
-						<html:image property="methodToCall.copyProposal.anchor${tabKey}"
+						<html:image property="methodToCall.copyProposal.anchor${tabKey}" disabled="${readOnly}"
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copyprop.gif' styleClass="tinybutton"/>
 					</div>
                 </td>
