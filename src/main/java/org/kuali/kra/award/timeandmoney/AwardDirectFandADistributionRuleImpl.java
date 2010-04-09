@@ -214,7 +214,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_REQUIRED, 
                     KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_REQUIRED);
         }
-        else if (!indirectCost.isPositive()){
+        else if (indirectCost.isNegative()){
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_POSITIVE, 
                     KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_POSITIVE);
