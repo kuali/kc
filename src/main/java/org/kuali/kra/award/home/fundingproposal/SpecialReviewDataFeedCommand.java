@@ -31,6 +31,8 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
 
     @Override
     void performDataFeed() {
+        //unsure why, but without the refresh special reviews were often incorrectly empty
+        proposal.refreshReferenceObject("specialReviews");
         for(InstitutionalProposalSpecialReview ipSpecialReview: proposal.getSpecialReviews()) {
             boolean duplicateFound = false;
             for(AwardSpecialReview awardSpecialReview: award.getSpecialReviews()) {
