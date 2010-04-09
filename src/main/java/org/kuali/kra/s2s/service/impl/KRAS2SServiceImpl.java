@@ -409,22 +409,11 @@ public class KRAS2SServiceImpl implements S2SService {
 
 			String applicationXml = grantApplicationDocument
 					.xmlText(xmlOptions);
-			try {
-				response = grantsGovConnectorService.submitApplication(
-						applicationXml, attachments, pdDoc
-								.getDevelopmentProposal().getProposalNumber());
-	            appSubmission
-	            .setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
-			} catch (S2SException ex) {
-				appSubmission
-						.setStatus(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR);
-				StringBuilder errMsg = new StringBuilder();
-				errMsg.append(S2SConstants.GRANTS_GOV_SUBMISION_ERROR_MESSAGE);
-				errMsg.append(ex.getMessage());
-				appSubmission.setComments(errMsg.toString());
-				businessObjectService.save(appSubmission);
-				throw ex;
-			}
+			response = grantsGovConnectorService.submitApplication(
+					applicationXml, attachments, pdDoc
+							.getDevelopmentProposal().getProposalNumber());
+            appSubmission
+            .setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			saveSubmissionDetails(pdDoc, appSubmission, response,
 					applicationXml, s2sAppAttachmentList);
 			submissionStatus = true;
