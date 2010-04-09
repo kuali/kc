@@ -143,7 +143,10 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             testStartDate = testAwardDirectFandADistribution.getStartDate();
             testEndDate = testAwardDirectFandADistribution.getEndDate();
             if(newCurrentIndex != currentIndex){
-                if (startDate.before(testEndDate) && startDate.after(testStartDate) || endDate.after(testStartDate) && endDate.before(testEndDate)) {
+                if (startDate.before(testEndDate) && startDate.after(testStartDate) || 
+                        endDate.after(testStartDate) && endDate.before(testEndDate) ||
+                            startDate.equals(testEndDate) ||
+                                endDate.equals(testStartDate)) {
                     invalid = true;
                     break;
                 }
