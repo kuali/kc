@@ -47,6 +47,10 @@
 	
     <bean id="baseModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
 		<property name="initializeDataDictionary" value="true" />
+		
+		<!-- Rice hack this isn't really the right namespace but we cannot set it correctly until we address modularity
+		(breaking up our DD files, SpringBeans, namespaces, etc. -->
+		<property name="namespaceCode" value="KC-SYS" />
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kra/datadictionary</value>
@@ -1857,7 +1861,7 @@
 	
 	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
       <!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
-      <property name="serviceNameSpaceURI" value="KIM" />
+      <property name="serviceNameSpaceURI" value="" />
       <property name="retryAttempts" value="0" />
     </bean>
     
