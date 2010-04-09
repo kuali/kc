@@ -50,6 +50,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         boolean validExistingDateRanges = existingDirectFandADistributionsDatesDontOverlap(awardDirectFandADistributions);
         boolean validStartDate = true;
         boolean validEndDate = true;
+        boolean validAmounts = existingAmountsAreValid(awardDirectFandADistributions);
         if(awardDirectFandADistributions.size() > 0) {
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
             validStartDate = isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent);
@@ -181,6 +182,59 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+END_DATE_REQUIRED, 
                     KeyConstants.ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED);
+        }
+        return valid;
+    }
+    
+    private boolean existingAmountsAreValid(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
+        boolean valid = true;
+        for (AwardDirectFandADistribution awardDirectFandADistribution : thisAwardDirectFandADistributions) {
+            if(!isDirectCostValidOnExistingDistribution(awardDirectFandADistribution)) {
+                valid = false;
+            }
+            if(!isIndirectCostValidOnExistingDistribution(awardDirectFandADistribution)) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * This method checks whether the user provided a valid Direct Cost amount
+     * @return
+     */
+    private boolean isDirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
+        boolean valid = true;
+        KualiDecimal directCost = thisAwardDirectFandADistribution.getDirectCost();
+        if (directCost == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_REQUIRED);
+        }
+        else if (directCost.isNegative()){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_POSITIVE, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_NEGATIVE);
+        }
+        return valid;
+    }
+    
+    /**
+     * This method checks whether the user provided a valid Indirect Cost amount
+     * @return
+     */
+    private boolean isIndirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
+        boolean valid = true;
+        KualiDecimal indirectCost = thisAwardDirectFandADistribution.getIndirectCost();
+        if (indirectCost == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_REQUIRED);
+        }
+        else if (indirectCost.isNegative()){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_POSITIVE, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_POSITIVE);
         }
         return valid;
     }
