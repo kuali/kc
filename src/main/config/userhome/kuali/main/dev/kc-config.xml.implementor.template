@@ -48,8 +48,10 @@
 	<param name="mail.relay.server">mail.relay.server</param>
 	<param name="mailing.list.batch">mailing.list.batch</param>
 	<param name="encryption.key">7IC64w6ksLU</param>
-	<param name="keystore.alias">kul</param>
-	<param name="keystore.password">kulpass</param>
+	
+	<param name="keystore.alias">the_alias</param>
+	<param name="keystore.file">/path/to/keystore</param>
+	<param name="keystore.password">the_password</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
 	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
@@ -63,8 +65,4 @@
 	<param name="institution">iu</param>
 	<param name="security.directory">/usr/local/rice/</param>
 	<param name="settings.directory">/usr/local/rice/</param>
-
-	<param name="keystore.alias">onestartsharedservices-devandtst</param>
-	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
-	<param name="keystore.password">s1t0spss!xX-tst</param>
 </config>
