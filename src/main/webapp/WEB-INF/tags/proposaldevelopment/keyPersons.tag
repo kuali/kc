@@ -24,7 +24,9 @@
 	
 	<c:choose>
 		<c:when test="${person.moveUpAllowed}">
-    		<c:set var="moveUpBtn" value="<a name='moveUp'><input type='image' name='methodToCall.moveUp.line${status.index}' src='${ConfigProperties.kra.externalizable.images.url}upArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 22)} Up' title='Move ${fn:substring(person.fullName, 0, 22)} Up' /></a>" />
+			<c:set var="mtc" value="methodToCall.moveUp.line${status.index}" />
+    		<c:set var="moveUpBtn" value="<a name='moveUp'><input type='image' name='${ mtc }' src='${ConfigProperties.kra.externalizable.images.url}upArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 22)} Up' title='Move ${fn:substring(person.fullName, 0, 22)} Up' /></a>" />
+    		${kfunc:registerEditableProperty(KualiForm, mtc)}
     	</c:when>
     	<c:otherwise>
     		<c:set var="moveUpBtn" value="" />
@@ -33,7 +35,9 @@
     
     <c:choose>
 		<c:when test="${person.moveDownAllowed}">
-    		<c:set var="moveDownBtn" value="<a name='moveDown'><input type='image' name='methodToCall.moveDown.line${status.index}' src='${ConfigProperties.kra.externalizable.images.url}downArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 22)} Down' title='Move ${fn:substring(person.fullName, 0, 22)} Down'/></a>" />
+			<c:set var="mtc" value="methodToCall.moveDown.line${status.index}" />
+    		<c:set var="moveDownBtn" value="<a name='moveDown'><input type='image' name='${ mtc }' src='${ConfigProperties.kra.externalizable.images.url}downArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 22)} Down' title='Move ${fn:substring(person.fullName, 0, 22)} Down'/></a>" />
+    		${kfunc:registerEditableProperty(KualiForm, mtc)}
     	</c:when>
     	<c:otherwise>
     		<c:set var="moveDownBtn" value="" />
