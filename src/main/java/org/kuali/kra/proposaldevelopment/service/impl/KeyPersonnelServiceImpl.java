@@ -714,15 +714,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return parmValue.toLowerCase().contains(roleId.toLowerCase());
     }
 
-    /**
-     * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
-     *
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
-     */
-    public boolean isCreditSplitEnabled() {
-        return this.parameterService.getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
-    }
-    
     public String getDefaultPersonAttachmentDocType() {
         return parameterService.getParameterValue(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }

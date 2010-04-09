@@ -17,10 +17,6 @@ VALUES('KRA-PD',    'L',    'multipleValueLookupResultsPerPage',    '40B51A08D07
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'proposaldevelopment.creditsplit.enabled',    '40B51A08D074A044E043814FD881A044',    1,    'CONFG',    'Y',    'Determines whether the Credit Split is turned on for proposal',    'A',    'WorkflowAdmin',    'Y');
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'proposaldevelopment.proposaltype.new',    '40B51A08D078A044E043814FD881A044',    1,    'CONFG',    '1',    'ProposalTypeCode of NEW',    'A',    'WorkflowAdmin',    'Y');
 
 INSERT
@@ -44,11 +40,6 @@ VALUES('KRA-PD',    'D',    'instituteNarrativeTypeGroup',    '40B51A08D07EA044E
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KRA-PD',    'D',    'deliveryInfoDisplayIndicator',    '40B51A08D07FA044E043814FD881A044',    1,    'CONFG',    'Y',    'Flag to display delivery infor panel',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'creditSplitEnabled',    '40B51A08D080A044E043814FD881A044',    1,    'CONFG',    'Y',    'Determines whether the Credit Split is turned on for proposal',    'A',    'WorkflowAdmin',    'Y');
 
 
 INSERT

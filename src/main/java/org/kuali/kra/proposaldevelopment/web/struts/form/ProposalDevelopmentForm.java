@@ -15,6 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
@@ -56,7 +72,6 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
@@ -84,23 +99,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.warn;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-
 /**
  * This class is the Struts form bean for DevelopmentProposal
  */
@@ -110,7 +108,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
     //private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
-    private boolean creditSplitEnabled;
     private String primeSponsorName;
     private ProposalSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
@@ -1136,40 +1133,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         newButton.setExtraButtonAltText(altText);
         
         extraButtons.add(newButton);
-    }
-
-    /**
-     * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
-     * 
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#processValidationFail()
-     */
-    @Override
-    public void processValidationFail() {
-        try {
-            boolean cSplitEnabled = this.getParameterService().getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
-            setCreditSplitEnabled(cSplitEnabled);
-        }
-        catch (Exception e) {
-            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
-            warn(e.getMessage());
-        }
-    }
-
-    /**
-     * Gets the creditSplitEnabled attribute. 
-     * @return Returns the creditSplitEnabled.
-     */
-    public boolean isCreditSplitEnabled() {
-        return creditSplitEnabled;
-    }
-
-    /**
-     * Sets the creditSplitEnabled attribute value.
-     * @param creditSplitEnabled The creditSplitEnabled to set.
-     */
-    public void setCreditSplitEnabled(boolean creditSplitEnabled) {
-        this.creditSplitEnabled = creditSplitEnabled;
     }
 
     public String getOptInUnitDetails() {
