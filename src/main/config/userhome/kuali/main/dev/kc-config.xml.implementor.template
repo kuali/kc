@@ -21,7 +21,7 @@
 	<param name="dev.mode">false</param>
 	
 	<!-- Rice Server DB -->
-	<!-- Will be the same as KC Client DB when running embedded mode -->
+	<!-- Should be the same as KC Client DB when running bundled mode -->
 	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="server.datasource.username">RICEDEV</param>
 	<param name="server.datasource.password">ask your team</param>
