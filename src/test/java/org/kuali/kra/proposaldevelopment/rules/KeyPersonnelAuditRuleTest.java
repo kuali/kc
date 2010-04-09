@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INCOMPLETE_CERTIFICATIONS;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PRINCIPAL_INVESTIGATOR;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +31,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -44,7 +41,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class KeyPersonnelAuditRuleTest extends KraTestBase {
     private static final String PARAMETER_NAME_PROPERTY   = "parameterName";
-    private static final String CREDIT_SPLIT_ENABLED_NAME = "proposaldevelopment.creditsplit.enabled";
 
     private KeyPersonnelAuditRule auditRule;
     private ProposalDevelopmentDocument document;
@@ -97,44 +93,6 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         event.validate();
     }
 
-    /**
-     * This test sets the <code>proposaldevelopment.creditsplit.enabled</code> to false, then checks to see if tests are run on it or not. The way this is
-     * done is a test is created that should fail in several areas and produce error messages. If credit split is turned off, then none of these errors should
-     * be produced.
-     * 
-     * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
-     * @see org.kuali.core.bo.Parameter
-     * 
-     */
-    @Test
-    public void checkForCreditSplitEnabledParameter() {
-        disableCreditSplits();
-                
-        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
-        ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
-        document.getDevelopmentProposal().addProposalPerson(person);
-        INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
-        assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertTrue(GlobalVariables.getAuditErrorMap().size() < 1);
-    }
-    
-    /**
-     * Sets the <code>proposaldevelopment.creditsplit.enabled</code> to "N" by getting the exiting parameter, changing its value, and saving it again with the
-     *  {@link BusinessObjectService}
-     * 
-     */
-    private void disableCreditSplits() {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PARAMETER_NAME_PROPERTY, CREDIT_SPLIT_ENABLED_NAME);
-        Parameter creditSplitParameter = (Parameter) getBusinessObjectService().findMatching(Parameter.class, fieldValues).iterator().next();
-        
-        creditSplitParameter.setParameterValue("N");
-        
-        info("Credit Split Enabled = %s", getKeyPersonnelService().isCreditSplitEnabled());
-        
-        getBusinessObjectService().save(creditSplitParameter);    
-    }
-    
     /**
      * A document with a PI and Unanswered Certification Questions should produce audit errros
      * 
