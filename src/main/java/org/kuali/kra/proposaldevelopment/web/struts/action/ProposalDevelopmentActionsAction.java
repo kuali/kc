@@ -79,11 +79,10 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -120,6 +119,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
+    
+    private static final String ONE_ADHOC_REQUIRED_ERROR_KEY="error.adhoc.oneAdHocRequired";
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -1310,6 +1311,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
+    
+    public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm dform = (ProposalDevelopmentForm) form;
+        Document document = dform.getDocument();
+        if( dform.getAdHocRoutePersons().size() > 0 || dform.getAdHocRouteWorkgroups().size() > 0) {
+            document.prepareForSave();
+            return super.sendAdHocRequests(mapping, dform, request, response);
+        } else {
+            GlobalVariables.getErrorMap().putError("newAdHocRoutePerson.id", ONE_ADHOC_REQUIRED_ERROR_KEY);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+
+    
 }
     
     
