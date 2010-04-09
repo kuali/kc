@@ -8,6 +8,7 @@
 		<!-- End required KNS forms -->
 		<form-bean name="MessageQueueForm" type="org.kuali.rice.ksb.messaging.web.MessageQueueForm" />
 		<form-bean name="ServiceRegistryForm" type="org.kuali.rice.ksb.messaging.web.ServiceRegistryForm" />
+		<form-bean name="ConfigViewerForm" type="org.kuali.rice.ksb.messaging.web.ConfigViewerForm" />
 		<form-bean name="ThreadPoolForm" type="org.kuali.rice.ksb.messaging.web.ThreadPoolForm" />
 		<form-bean name="QuartzForm" type="org.kuali.rice.ksb.messaging.web.QuartzQueueForm" />
 		<form-bean name="JavaSecurityManagementForm" type="org.kuali.rice.ksb.security.admin.web.JavaSecurityManagementForm" />
@@ -77,6 +78,10 @@
 			<forward name="joblisting" path="/WEB-INF/jsp/messagequeue/Quartz.jsp" />
 		</action>
 
+		<action path="/ConfigViewer" name="ConfigViewerForm" scope="request" input="/WEB-INF/jsp/config/ConfigViewer.jsp" validate="false"
+			type="org.kuali.rice.ksb.messaging.web.ConfigViewerAction" parameter="methodToCall">
+			<forward name="basic" path="/WEB-INF/jsp/config/ConfigViewer.jsp" />
+		</action>
 	</action-mappings>
 
 	<controller processorClass="org.kuali.rice.ksb.messaging.web.KSBStrutsRequestProcessor" />
