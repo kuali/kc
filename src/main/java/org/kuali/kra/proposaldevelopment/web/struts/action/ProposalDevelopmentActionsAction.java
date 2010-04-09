@@ -78,6 +78,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.engine.node.KeyValuePair;
@@ -203,7 +204,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         List variables = workflowDoc.getRouteHeader().getVariables();
         if (CollectionUtils.isNotEmpty(variables)) {
             for (Object variable : variables) {
-                KeyValuePair kvp = (KeyValuePair) variable;
+                KeyValueDTO kvp = (KeyValueDTO) variable;
                 if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                         && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(loggedInPrincipalId)) {
