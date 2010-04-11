@@ -105,6 +105,10 @@ public class AwardFundingProposalBean implements Serializable {
         }
     }
 
+    public void setAllAwardsForAwardNumber(List<Award> allAwardsForAwardNumber) {
+        this.allAwardsForAwardNumber = allAwardsForAwardNumber;
+    }
+
     private void addUnsavedAwardToListOfAwards(Award thisAward) {
         if(thisAward.getAwardId() == null) {
             allAwardsForAwardNumber.add(thisAward);
