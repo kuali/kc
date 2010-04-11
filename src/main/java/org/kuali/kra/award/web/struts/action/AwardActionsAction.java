@@ -141,6 +141,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode); 
                 }else{
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
+                    awardForm.getFundingProposalBean().setAllAwardsForAwardNumber(null);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
                 }
             }
@@ -578,6 +579,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             }
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
+            awardForm.getFundingProposalBean().setAllAwardsForAwardNumber(null);
             forward = mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
         } else {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
