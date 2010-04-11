@@ -17,6 +17,7 @@ package org.kuali.kra.award.awardhierarchy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -380,27 +381,34 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newLeafNode;
     }
 
+    private AwardHierarchy getCopyOfSourceNode(AwardHierarchy sourceNode) {
+         AwardHierarchy newSource = sourceNode.clone();
+         return newSource;
+    }
+    
     AwardHierarchy copyAwardAndDescendantsAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
-        List<AwardHierarchy> sourceChildren = new ArrayList<AwardHierarchy>(sourceNode.getChildren()); 
+        AwardHierarchy newSource = getCopyOfSourceNode(sourceNode);
+        List<AwardHierarchy> sourceChildren = (List<AwardHierarchy>) Collections.unmodifiableList(newSource.getChildren());  
         AwardHierarchy newBranchNode = new AwardHierarchy(targetParentNode.getRoot(), targetParentNode, newAwardNumber, sourceNode.getOriginatingAwardNumber());
         Award newBranchAward = copyAward(sourceNode.getAward(), newAwardNumber);
         targetParentNode.getChildren().add(newBranchNode);
         newBranchNode.setAward(newBranchAward);
         for(AwardHierarchy childNode: sourceChildren) {
             copyNodeRecursively(childNode, newBranchNode, targetParentNode.getRoot());
-        }
-        return newBranchNode;
+        }  
+        return newBranchNode;  
     }
 
     void copyNodeRecursively(AwardHierarchy sourceNode, AwardHierarchy newParentNode, AwardHierarchy newRootNode) {
         String nextAwardNumberInHierarchy = newParentNode.generateNextAwardNumberInSequence();
+        List<AwardHierarchy> sourceChildren = (List<AwardHierarchy>) Collections.unmodifiableList(sourceNode.getChildren());  
         AwardHierarchy newNode = new AwardHierarchy(newRootNode, newParentNode, nextAwardNumberInHierarchy,
                                                     sourceNode.getOriginatingAwardNumber());
         Award newAward = copyAward(sourceNode.getAward(), nextAwardNumberInHierarchy);
         newNode.setAward(newAward);
         newParentNode.getChildren().add(newNode);
-        for(AwardHierarchy childNode: sourceNode.getChildren()) {
+        for(AwardHierarchy childNode: sourceChildren) {
             copyNodeRecursively(childNode, newNode, newRootNode);
         }
     }

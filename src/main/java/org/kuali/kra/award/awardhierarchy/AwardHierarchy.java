@@ -29,7 +29,7 @@ import java.util.*;
  * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one
  * and only pending Award matching the AwardHierarchy awardNumber.
  */
-public class AwardHierarchy extends KraPersistableBusinessObjectBase {
+public class AwardHierarchy extends KraPersistableBusinessObjectBase implements Cloneable{
     public static final String ROOTS_PARENT_AWARD_NUMBER = "000000-00000";
     public static final String UNIQUE_IDENTIFIER_FIELD = "awardNumber";
     private static final long serialVersionUID = 1L;
@@ -452,4 +452,20 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase {
             award = histories.size() == 1 ? (Award) histories.get(0).getSequenceOwner(): null;
         }
     }
+    
+    public AwardHierarchy clone() {
+        AwardHierarchy copy = null;
+        try {
+          copy = (AwardHierarchy) super.clone();
+          List<AwardHierarchy> copyChildren = new ArrayList<AwardHierarchy>();
+          for(AwardHierarchy child : this.getChildren()){
+              copyChildren.add((AwardHierarchy)child.clone());
+          }
+          copy.setChildren(copyChildren);
+        } catch(CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        return copy;
+      }
+
 }
