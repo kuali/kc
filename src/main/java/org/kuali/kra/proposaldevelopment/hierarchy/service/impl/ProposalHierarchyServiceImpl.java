@@ -121,77 +121,36 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private IdentityManagementService identityManagementService;
     private KualiConfigurationService configurationService;
 
-    /**
-     * Sets the identityManagerService attribute value.
-     * @param identityManagerService The IdentityManagerService to set.
-     */
-    
+    //Setters for dependency injection
     public void setIdentityManagementService(IdentityManagementService identityManagerService) {
         this.identityManagementService = identityManagerService;
     }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    /**
-     * Sets the documentService attribute value.
-     * @param documentService The documentService to set.
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-    /**
-     * Sets the kraAuthorizationService attribute value.
-     * @param kraAuthorizationService The kraAuthorizationService to set.
-     */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-
-    /**
-     * Sets the proposalHierarchyDao attribute value.
-     * @param proposalHierarchyDao The proposalHierarchyDao to set.
-     */
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
         this.proposalHierarchyDao = proposalHierarchyDao;
     }
-
-    /**
-     * Sets the narrativeService attribute value.
-     * @param narrativeService The narrativeService to set.
-     */
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
-
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
     }
-
-    /**
-     * Sets the propPersonBioService attribute value.
-     * @param propPersonBioService The propPersonBioService to set.
-     */
     public void setPropPersonBioService(ProposalPersonBiographyService propPersonBioService) {
         this.propPersonBioService = propPersonBioService;
     }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
     /**
@@ -1658,23 +1617,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         return valid;
     }
-
-    /**
-     * Gets the configurationService attribute. 
-     * @return Returns the configurationService.
-     */
-    public KualiConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    /**
-     * Sets the configurationService attribute value.
-     * @param configurationService The configurationService to set.
-     */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
-
 
     private String renderMessage( String key, String... params ) {
        String msg = configurationService.getPropertyString(key);
