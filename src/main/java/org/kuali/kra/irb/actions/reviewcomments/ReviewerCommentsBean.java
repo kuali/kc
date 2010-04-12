@@ -20,14 +20,18 @@ package org.kuali.kra.irb.actions.reviewcomments;
  * 
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.
  */
-public interface ReviewerCommentsContainer {
+public class ReviewerCommentsBean {
+    
+    private ReviewComments reviewComments = new ReviewComments();
     /**
      * 
      * This method needs to return the reviewer comments object held by the bean. Maintained by data entry by the remote user
      * 
      * @return ReviewComments object
      */
-    ReviewComments getReviewComments();
+    public ReviewComments getReviewComments() {
+        return reviewComments;
+    } 
 
     /**
      * 
@@ -35,5 +39,7 @@ public interface ReviewerCommentsContainer {
      * 
      * @param reviewComments ReviewComments object
      */
-    void setReviewComments(ReviewComments reviewComments);
+    public void setReviewComments(ReviewComments reviewComments) {
+        this.reviewComments = reviewComments;
+    }
 }

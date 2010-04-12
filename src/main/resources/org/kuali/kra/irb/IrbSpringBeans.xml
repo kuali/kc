@@ -413,6 +413,7 @@
     
     <bean id="reviewerCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="committeeScheduleService" ref="committeeScheduleService" />
     </bean>   
     
     <bean id="protocolAssignToAgendaService" class="org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceImpl">
@@ -446,6 +447,7 @@
     
     <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kimRoleManagementService" ref="roleManagementService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
