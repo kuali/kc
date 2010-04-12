@@ -22,12 +22,31 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 
 public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableImpl implements Maintainable, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
+    
+    /**
+     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+        
+        // If a person has been selected, lead unit should default to the person's home unit.
+        if (KIM_PERSON_LOOKUPABLE_REFRESH_CALLER.equals(refreshCaller)) {
+            IntellectualPropertyReview ipReview = (IntellectualPropertyReview) this.getBusinessObject();
+            String principalId = (String) fieldValues.get(KimConstants.PrimaryKeyConstants.PRINCIPAL_ID);
+            ipReview.setIpReviewer(principalId);
+        }
+    }
 
     /**
     *
