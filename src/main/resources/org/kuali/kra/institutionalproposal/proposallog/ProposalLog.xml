@@ -249,28 +249,6 @@
         </property>
     </bean>
     
-    <!-- 
-    <bean id="ProposalLog-piId" parent="ProposalLog-piId-parentBean" />
-    <bean id="ProposalLog-piId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="piId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Principal Investigator (Employee)" />
-        <property name="shortLabel" value="Pi Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.name"
-                p:universalIdAttributeName="piId"
-                p:userIdAttributeName="person.principalName" />
-        </property>
-        <property name="summary" value="Pi Id" />
-        <property name="description" value="Pi Id" />
-    </bean>
-     -->
-    
     <bean id="ProposalLog-rolodexId" parent="ProposalLog-rolodexId-parentBean" />
     <bean id="ProposalLog-rolodexId-parentBean" abstract="true" parent="Rolodex-rolodexId">
         <property name="label" value="Principal Investigator (Non-Employee)" />
