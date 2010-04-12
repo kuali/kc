@@ -28,7 +28,6 @@
                     <div class="innerTab-container" align="center" >
                         <table align="right" cellpadding="0" cellspacing="0" summary="">
                             <tbody>
-                                <c:if test="${KualiForm.reportHelperBean.instituteProposalAvailable}">
                                     <kra:currentOrPendingReport title="Current Report" methodName="prepareCurrentReport" printPdfMethodName="printCurrentReportPdf" requestUri="${requestUri}" />
                                     <kra:currentOrPendingReport title="Pending Report" methodName="preparePendingReport" printPdfMethodName="printPendingReportPdf" requestUri="${requestUri}" />
 
@@ -80,16 +79,6 @@
                                             </td>
                                         </tr>
                                     </c:if>
-                                </c:if>
-                                <c:if test="${!KualiForm.reportHelperBean.instituteProposalAvailable}">
-                                    <tr>
-                                        <td colspan="4">
-                                            <div align="center">
-                                                Current and pending reports are not available - No Institutional Proposal Exists for Proposal Number ${KualiForm.reportHelperBean.proposalNumber}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:if>
                             </tbody>
                         </table>
                     </div>
