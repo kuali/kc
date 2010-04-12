@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kra.budget.core.Budget;
@@ -61,6 +62,7 @@ public interface InstitutionalProposalService {
      * This will create a new Final version of the Institutional Proposal.
      * 
      * @param proposalNumbers The proposals to update.
+     * @return List<InstitutionalProposal> The new Funded versions.
      */
-    void updateFundedProposals(Set<String> proposalNumbers);
+    List<InstitutionalProposal> updateFundedProposals(Set<String> proposalNumbers);
 }
