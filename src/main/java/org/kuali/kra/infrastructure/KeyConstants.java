@@ -701,6 +701,7 @@ public final class KeyConstants {
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED = "error.organization.questionYnq.answerRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED = "error.organization.questionYnq.explanationRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
+    public static final String ERROR_INVALID_ROLODEX_ENTRY = "error.organization.rolodexEntry.invalid";
     
     public static final String ERROR_PENDING_PROPOSAL_LOG_ONLY = "error.pending.proposallog.only";
     public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
