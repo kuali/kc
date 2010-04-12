@@ -25,7 +25,7 @@
   	headerTabActive="home">
   	
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-<c:set var="canEdit" value="${KualiForm.editingMode['modifyIP']}" scope="request" />
+<c:set var="canEdit" value="${KualiForm.editingMode['modifyIP'] && KualiForm.displayEditButton}" scope="request" />
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />

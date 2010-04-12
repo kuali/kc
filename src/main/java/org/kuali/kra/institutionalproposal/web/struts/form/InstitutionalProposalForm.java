@@ -474,4 +474,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         this.selectedAwardFundingProposals = selectedAwardFundingProposals;
     }
     
+    public boolean getDisplayEditButton() {
+        return this.getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
+    }
+    
 }
