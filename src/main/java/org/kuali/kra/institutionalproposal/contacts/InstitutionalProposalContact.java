@@ -486,9 +486,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return getInstitutionalProposal();
     }
 
-    public Integer getSequenceNumber() {
-        return getInstitutionalProposal().getSequenceNumber();
-    }
+//    public Integer getSequenceNumber() {
+//        return getInstitutionalProposal().getSequenceNumber();
+//    }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
