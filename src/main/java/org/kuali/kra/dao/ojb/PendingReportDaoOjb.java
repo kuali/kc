@@ -10,6 +10,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,9 +47,13 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
 
     private void lazyLoadProposal(InstitutionalProposalPerson ipPerson) {
         if(ipPerson.getInstitutionalProposal() == null) {
-            Map searchParms = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"proposalNumber", "sequenceNumber"},
-                                                                           new Object[]{ipPerson.getProposalNumber(), ipPerson.getSequenceNumber()});
-            InstitutionalProposal proposal = (InstitutionalProposal) getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParms).iterator().next();
+            ServiceHelper svcHelper = ServiceHelper.getInstance();
+            Map<String, Object> searchParams = new HashMap<String, Object>();
+            searchParams.put("proposalNumber", ipPerson.getProposalNumber());
+            searchParams.put("sequenceNumber", ipPerson.getSequenceNumber());
+//            Map searchParms = svcHelper.buildCriteriaMap(new String[]{"proposalNumber", "sequenceNumber"},
+//                                                                           new Object[]{ipPerson.getProposalNumber(), ipPerson.getSequenceNumber()});
+            InstitutionalProposal proposal = (InstitutionalProposal) getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams).iterator().next();
             ipPerson.setInstitutionalProposal(proposal);
         }
     }
