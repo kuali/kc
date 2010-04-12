@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -36,7 +38,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkYNQ(document);
+        return isDocumentValidForSave(document);
     }
     
     /**
@@ -45,7 +47,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkYNQ(document);
+        return isDocumentValidForSave(document);
     }
     
    
@@ -54,13 +56,15 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
      */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkYNQ(document);
+        return isDocumentValidForSave(document);
     }
 
 
     public boolean isDocumentValidForSave( MaintenanceDocument document ) {
         boolean result = super.isDocumentValidForSave(document);
+        
         result &= checkYNQ(document);
+        result &= checkRolodexEntries(document);
         return result;
     }
     
@@ -115,5 +119,45 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
         }
         return valid;
     }
+    
+    private boolean checkRolodexEntries( MaintenanceDocument maintenanceDocument) {
+        boolean valid = true;
+        ErrorReporter errorReporter = new ErrorReporter();
+        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        RolodexService rolodexService = KraServiceLocator.getService(RolodexService.class);
+        
+        
+        
+        
+        if( ( newOrganization.getOnrResidentRep() != null ) && rolodexService.getRolodex( newOrganization.getOnrResidentRep() ) == null )  { 
+            errorReporter.reportError(String.format( "document.newMaintainableObject.onrResidentRep" ), 
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
+                    new String[] { }
+                );
+            valid = false;
+        }
+            
+        if( ( newOrganization.getContactAddressId() != null ) && rolodexService.getRolodex( newOrganization.getContactAddressId() ) == null ) { 
+            errorReporter.reportError(String.format( "document.newMaintainableObject.contactAddressId" ), 
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
+                    new String[] { }
+                );
+            valid = false;
+        }
+        
+        if( ( newOrganization.getCognizantAuditor() != null ) && rolodexService.getRolodex( newOrganization.getCognizantAuditor() ) == null ) {
+            errorReporter.reportError(String.format( "document.newMaintainableObject.cognizantAuditor" ), 
+                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY,
+                    new String[] { }
+                );
+            valid = false;
+        }
+        
+        return valid;
+    }
+    
+    
+    
+    
 
 }
