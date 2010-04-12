@@ -16,8 +16,10 @@
 package org.kuali.kra.award.document;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -28,6 +30,7 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -43,6 +46,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -245,6 +251,29 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());
+        }
+        updateFundedProposals();
+    }
+    
+    private void updateFundedProposals() {
+        Set<String> modifiedProposals = new HashSet<String>();
+        List<AwardFundingProposal> pendingVersions = new ArrayList<AwardFundingProposal>();
+        for (AwardFundingProposal afp : getAward().getFundingProposals()) {
+            InstitutionalProposal proposal = afp.getProposal();
+            if (ProposalStatus.PENDING.equals(proposal.getStatusCode())) {
+                modifiedProposals.add(proposal.getProposalNumber());
+                pendingVersions.add(afp);
+            }
+        }
+        if (modifiedProposals.size() > 0) {
+            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
+            getAward().getFundingProposals().removeAll(pendingVersions);
+            for (InstitutionalProposal institutionalProposal : fundedVersions) {
+                AwardFundingProposal awardFundingProposal = new AwardFundingProposal();
+                awardFundingProposal.setAward(getAward());
+                awardFundingProposal.setProposal(institutionalProposal);
+                getAward().getFundingProposals().add(awardFundingProposal);
+            }
         }
     }
 
@@ -473,6 +502,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     protected IdentityManagementService getIdentityManagementService() {
         return KraServiceLocator.getService(IdentityManagementService.class);
+    }
+    
+    protected InstitutionalProposalService getInstitutionalProposalService() {
+        return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
     
 }
