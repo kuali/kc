@@ -48,11 +48,6 @@ VALUES('KRA-PD',    'D',    'deliveryInfoDisplayIndicator',    '40B51A08D07FA044
 
 INSERT
 INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
-VALUES('KRA-PD',    'D',    'creditSplitEnabled',    '40B51A08D080A044E043814FD881A044',    1,    'CONFG',    'Y',    'Determines whether the Credit Split is turned on for proposal',    'A',    'WorkflowAdmin',    'Y');
-
-
-INSERT
-INTO krns_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    obj_id,    ver_nbr,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    ACTV_IND)
 VALUES('KR-NS',    'Lookup',    'MULTIPLE_VALUE_RESULTS_PER_PAGE',    '40B51A08D081A044E043814FD881A044',    1,    'CONFG',    '200',    'Limit results returned for lookup - multiple results',    'A',    'WorkflowAdmin',    'Y');
 
 
