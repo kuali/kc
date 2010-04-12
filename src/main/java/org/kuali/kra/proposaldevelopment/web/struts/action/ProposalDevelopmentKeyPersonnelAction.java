@@ -21,12 +21,15 @@ import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.warn;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.Collection;
@@ -128,6 +131,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         handleRoleChangeEvents(pdform.getDocument());
         
         debug(INV_SIZE_MSG, pdform.getDocument().getDevelopmentProposal().getInvestigators().size());
+    
+        try {
+            boolean creditSplitEnabled = this.getParameterService().getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
+                && pdform.getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
+            request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
+            pdform.setCreditSplitEnabled(creditSplitEnabled);
+        }
+        catch (Exception e) {
+            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
+            warn(e.getMessage());
+        }        
     }
 
     
