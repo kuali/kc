@@ -168,8 +168,8 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal));
         columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost()));
 
-        String startDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
-        columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial));
+        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
+        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
 
         String endDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedEndDateTotal) : "";
         columns.add(createColumn("End Date", "requestedEndDateTotal", endDate));
