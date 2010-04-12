@@ -153,6 +153,16 @@ public interface KeyPersonnelService {
      * @return true if the {@link ProposalDevelopmentDocument} has a PI
      */
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document);
+
+    /**
+     * Checks if the application-level configuration parameter for credit splits is enabled. This allows credit splits to be used within the application
+     * 
+     * 
+     * @return true if credit split enabled configuration parameter is on
+     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplit
+     */
+    public boolean isCreditSplitEnabled();
+    
         
     /**
      * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is 
