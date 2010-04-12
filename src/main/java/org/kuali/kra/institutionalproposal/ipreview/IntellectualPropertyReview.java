@@ -160,8 +160,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
     
     public KcPerson getPerson() {
-        return person;
-        //return getKcPersonService().getKcPersonByPersonId(ipReviewer);
+        return getKcPersonService().getKcPersonByPersonId(ipReviewer);
     }
     
     /**
