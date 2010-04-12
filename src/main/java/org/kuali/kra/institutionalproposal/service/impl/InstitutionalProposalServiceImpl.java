@@ -167,11 +167,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * This will create a new Final version of the Institutional Proposal.
      * 
      * @param proposalNumbers The proposals to update.
-     * @throws VersionException 
+     * @return List<InstitutionalProposal> The new Funded versions.
      */
-    public void updateFundedProposals(Set<String> proposalNumbers) {
+    public List<InstitutionalProposal> updateFundedProposals(Set<String> proposalNumbers) {
 
         GlobalVariables.getUserSession().setBackdoorUser(KC_SYSTEM_USER);
+        List<InstitutionalProposal> updatedProposals = new ArrayList<InstitutionalProposal>();
         
         try {
             for (String proposalNumber : proposalNumbers) {
@@ -191,13 +192,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
                     
                     documentService.blanketApproveDocument(institutionalProposalDocument, 
-                            "Update Proposal Status to Funded", 
-                            new ArrayList<Object>());
+                            "Update Proposal Status to Funded", new ArrayList<Object>());
+                    
+                    updatedProposals.add(newVersion);
                     
                 } else {
                     Log.warn("Could not designate proposal " + proposalNumber + " as Funded: no Active version found.");
                 }
             }
+            
+            return updatedProposals;
             
         } catch (WorkflowException we) {
             throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, we);
@@ -429,7 +433,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipUfa.setFiscalYear(budgetUfa.getFiscalYear().toString());
             ipUfa.setOnCampusFlag("Y".equals(budgetUfa.getOnCampusFlag()) ? true : false);
             ipUfa.setSourceAccount(budgetUfa.getSourceAccount());
-            ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getUrRateClassCode()));
+            ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getOhRateClassCode()));
             ipUfa.setUnderrecoveryOfIndirectcost(new KualiDecimal(budgetUfa.getAmount().bigDecimalValue()));
             institutionalProposal.add(ipUfa);
         }
