@@ -363,7 +363,7 @@ public class AwardAction extends BudgetParentActionBase {
      * This method sets an award number on an award if the award number hasn't been initialized yet.
      * @param award
      */
-    private void checkAwardNumber(Award award) {
+    protected void checkAwardNumber(Award award) {
         if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardNumber())) {
             AwardNumberService awardNumberService = getAwardNumberService();
             String awardNumber = awardNumberService.getNextAwardNumber();
