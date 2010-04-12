@@ -98,7 +98,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         updateDocumentFromSession(timeAndMoneyDocument);//not sure if I need to do this.
         updateAwardAmountTransactions(timeAndMoneyDocument);
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
-            Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());            
+            Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
+            //capture any changes of DirectFandADistributions, and add them to the Award Active version for persistence.
+            award.setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             boolean addToList = false;
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
