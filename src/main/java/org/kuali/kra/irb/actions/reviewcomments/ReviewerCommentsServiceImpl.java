@@ -16,12 +16,15 @@
 package org.kuali.kra.irb.actions.reviewcomments;
 
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * 
+ * This class takes care of the persistence for Reviewer comments.
+ */
 public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     
     private BusinessObjectService businessObjectService;
@@ -30,29 +33,35 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     
     /**
      * Set the Business Object Service.
-     * @param businessObjectService
+     * @param businessObjectService BusinessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
+    /**
+     * This method sets the committee schedule service.
+     * @param committeeScheduleService CommitteeScheduleService
+     */
+    public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
+        this.scheduleService = committeeScheduleService;
+    }
+    
     /** {@inheritDoc} */
     public void persistReviewerComments(ReviewComments reviewComments, Protocol protocol) {
         int nextEntryNumber = 0;
-        for (CommitteeScheduleMinute minuteToDelete : reviewComments.getCommentsToDelete()) {
-            this.businessObjectService.delete(minuteToDelete);
-        }
+        this.businessObjectService.delete(reviewComments.getCommentsToDelete());
         reviewComments.resetComentsToDelete();
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
             minute.setEntryNumber(nextEntryNumber);
             boolean doUpdate = false;
             if (minute.getCommScheduleMinutesId() != null) {
-                CommitteeScheduleMinute existing = getCommitteeScheduleService().getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
+                CommitteeScheduleMinute existing = this.scheduleService.getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
                 doUpdate = !minute.equals(existing);
             } else {
                 doUpdate = true;
             }
-            if(doUpdate){
+            if (doUpdate) {
                 minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
@@ -62,12 +71,4 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
             nextEntryNumber++;
         }
     }
-    
-    private CommitteeScheduleService getCommitteeScheduleService() {
-        if (scheduleService == null) {
-            scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
-        }
-        return scheduleService;
-    }
-
 }
