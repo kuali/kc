@@ -75,6 +75,10 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
         return false;  
     }
 
+    public boolean isCreditSplitEnabled() {
+        return false;  
+    }
+
     public boolean isRoleReadOnly(String roleId) {
         return false;  
     }

@@ -52,6 +52,8 @@ public interface Constants {
     public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
  
     public static final String PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE = "DEFAULT_BIOGRAPHY_DOCUMENT_TYPE_CODE";
+    public static final String CREDIT_SPLIT_ENABLED_RULE_NAME = "proposaldevelopment.creditsplit.enabled";
+    public static final String CREDIT_SPLIT_ENABLED_FLAG = "creditSplitEnabledFlag";
 
     public static final String NARRATIVE_MODULE_NUMBER = "proposalDevelopment.narrative.moduleNumber";
     public static final String NARRATIVE_MODULE_SEQUENCE_NUMBER = "proposalDevelopment.narrative.moduleSequenceNumber";

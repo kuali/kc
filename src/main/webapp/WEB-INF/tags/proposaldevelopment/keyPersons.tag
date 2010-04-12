@@ -83,7 +83,9 @@
       </c:choose>
  </c:forEach>
 
-<kra-pd:creditSplit/>
+<c:if test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
+    <kra-pd:creditSplit/>
+</c:if>
 
 <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
     <kul:panelFooter />
