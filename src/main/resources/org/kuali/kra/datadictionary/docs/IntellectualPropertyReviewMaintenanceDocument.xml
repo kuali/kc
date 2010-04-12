@@ -33,6 +33,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="reviewSubmissionDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="reviewReceiveDate" />
         <bean parent="MaintainableFieldDefinition" p:name="ipReviewer" />
+        <bean parent="MaintainableFieldDefinition" p:name="person.userName" />
         <bean parent="MaintainableFieldDefinition" p:name="ipReviewRequirementTypeCode" />
         <bean parent="MaintainableFieldDefinition" p:name="reviewResultCode" />
         <bean parent="MaintainableFieldDefinition" p:name="generalComments" />

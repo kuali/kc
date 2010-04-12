@@ -37,6 +37,7 @@
                 <ref bean="IntellectualPropertyReview-reviewReceiveDate" />
                 <ref bean="IntellectualPropertyReview-reviewResultCode" />
                 <ref bean="IntellectualPropertyReview-ipReviewer" />
+                <ref bean="IntellectualPropertyReview-person.userName" />
                 <ref bean="IntellectualPropertyReview-generalComments" />
                 <ref bean="IntellectualPropertyReview-reviewerComments" />
                 <ref bean="IntellectualPropertyReview-versionNumber" />
@@ -110,23 +111,30 @@
         <property name="summary" value="Review Results" />
         <property name="description" value="Review Results" />
     </bean>
-
+    
     <bean id="IntellectualPropertyReview-ipReviewer" parent="IntellectualPropertyReview-ipReviewer-parentBean" />
-    <bean id="IntellectualPropertyReview-ipReviewer-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReview-ipReviewer-parentBean" abstract="true" parent="PersonImpl-principalId">
         <property name="name" value="ipReviewer" />
-        <property name="forceUppercase" value="false" />
         <property name="label" value="Reviewer" />
         <property name="shortLabel" value="Reviewer" />
-        <property name="maxLength" value="9" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
         <property name="control">
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="HiddenControlDefinition" />
         </property>
-        <property name="summary" value="Reviewer" />
-        <property name="description" value="Reviewer" />
+        <property name="displayLabelAttribute" value="person.userName" />
+    </bean>
+    
+    <bean id="IntellectualPropertyReview-person.userName" parent="IntellectualPropertyReview-person.userName-parentBean" />
+    <bean id="IntellectualPropertyReview-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="Reviewer" />
+        <property name="shortLabel" value="Reviewer" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="ipReviewer"
+                p:userIdAttributeName="person.userName" />
+        </property>
     </bean>
     
     <bean id="IntellectualPropertyReview-generalComments" parent="IntellectualPropertyReview-generalComments-parentBean" />
