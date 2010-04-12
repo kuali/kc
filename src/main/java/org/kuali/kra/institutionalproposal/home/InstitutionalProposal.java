@@ -236,6 +236,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
     }
     
+    public boolean isActiveVersion() {
+        return this.getProposalSequenceStatus().equals(VersionStatus.ACTIVE.toString());
+    }
+    
     /**
      * This method calculates fiscal Month and fiscal Year fields.  It also adds leading 0 to Month if needed.
      */
@@ -1642,6 +1646,5 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             count += person.getUnits().size();
         return count;
     }
-
     
 }
