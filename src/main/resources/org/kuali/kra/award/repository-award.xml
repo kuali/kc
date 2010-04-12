@@ -1111,6 +1111,9 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
+		</reference-descriptor>
 		<reference-descriptor name="awardAmountInfoId" class-ref="org.kuali.kra.award.home.AwardAmountInfo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardAmountInfoId"/>
 		</reference-descriptor>
