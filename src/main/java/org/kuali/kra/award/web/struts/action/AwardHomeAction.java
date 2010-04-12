@@ -231,11 +231,23 @@ public class AwardHomeAction extends AwardAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.save(mapping, form, request, response);
-        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
-            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
-        }
+//        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
+//            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
+//        }
 
         return forward;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // The user is prompted to save when the document is closed.  If they say yes, it will save the document but won't call back to the Action.save.
+        // Therefore we need to ensure the Award number is populated or else it will just save the default Award number.
+        AwardForm awardForm = (AwardForm) form;
+        checkAwardNumber(awardForm.getAwardDocument().getAward());
+        return super.close(mapping, awardForm, request, response);
     }
     
     /**
