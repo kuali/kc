@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 @SuppressWarnings("serial")
-public class CommitteeDecision implements Serializable, ReviewerCommentsContainer {
+public class CommitteeDecision extends ReviewerCommentsBean implements Serializable{
 
     private String motion;
     private Integer noCount;
@@ -36,7 +36,6 @@ public class CommitteeDecision implements Serializable, ReviewerCommentsContaine
     
     private List<CommitteePerson> abstainers = new ArrayList<CommitteePerson>();
     private List<CommitteePerson> recused = new ArrayList<CommitteePerson>();
-    private ReviewComments reviewComments = new ReviewComments();
 
     public String getMotion() {
         return motion;
@@ -76,16 +75,6 @@ public class CommitteeDecision implements Serializable, ReviewerCommentsContaine
 
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
-    }
-    
-    /** {@inheritDoc} */
-    public ReviewComments getReviewComments() {
-        return reviewComments;
-    }
-
-    /** {@inheritDoc} */
-    public void setReviewComments(ReviewComments reviewComments) {
-        this.reviewComments = reviewComments;
     }
 
     public List<CommitteePerson> getAbstainers() {

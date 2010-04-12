@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.genericactions;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -38,6 +37,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private static final String NAMESPACE = "KC-PROTOCOL";
     
     private BusinessObjectService businessObjectService;
+    private RoleService kimRoleManagementService;
 
     /**
      * Set the business object service.
@@ -45,6 +45,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * This method sets the kimRoleManagementService.
+     * @param kimRoleManagementService RoleService
+     */
+    public void setKimRoleManagementService(RoleService kimRoleManagementService) {
+        this.kimRoleManagementService = kimRoleManagementService;
     }
     
     /**{@inheritDoc}**/
@@ -88,12 +96,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     private boolean isIrbAdministrator() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        Collection<String> ids = getRoleService().getRoleMemberPrincipalIds(NAMESPACE, RoleConstants.IRB_ADMINISTRATOR, null);
+        Collection<String> ids = this.kimRoleManagementService.getRoleMemberPrincipalIds(NAMESPACE, RoleConstants.IRB_ADMINISTRATOR, null);
         return ids.contains(principalId);
-    }
-    
-    private RoleService getRoleService() {
-        return KraServiceLocator.getService("kimRoleManagementService");
     }
     
     /**{@inheritDoc}**/

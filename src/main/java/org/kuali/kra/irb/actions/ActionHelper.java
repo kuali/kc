@@ -48,7 +48,7 @@ import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -311,7 +311,7 @@ public class ActionHelper implements Serializable {
      * @param form ProtocolForm object, only to pull out the protocolID, passing in form so 
      * this function can catch the NPE if the form doesn't have the protocolID yet.
      */
-    private void addReviewerCommentsToBean(ReviewerCommentsContainer commentContainer, ProtocolForm form) {
+    private void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
         try {
             CommitteeScheduleService scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
             List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());

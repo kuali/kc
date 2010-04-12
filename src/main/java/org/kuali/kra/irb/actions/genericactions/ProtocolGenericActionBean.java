@@ -19,21 +19,19 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsContainer;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 
 /**
  * This class is really just a "form" for granting an exemption.
  */
 @SuppressWarnings("serial")
-public class ProtocolGenericActionBean implements Serializable, ReviewerCommentsContainer {
+public class ProtocolGenericActionBean extends ReviewerCommentsBean implements Serializable{
     
     //private Date approvalDate = new Date(System.currentTimeMillis());
     //private Date expirationDate;
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
-    
-    private ReviewComments reviewComments = new ReviewComments();
     
     public String getComments() {
         return comments;
@@ -49,15 +47,5 @@ public class ProtocolGenericActionBean implements Serializable, ReviewerComments
     
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
-    }
-    
-    /** {@inheritDoc} */
-    public ReviewComments getReviewComments() {
-        return reviewComments;
-    } 
-    
-    /** {@inheritDoc} */
-    public void setReviewComments(ReviewComments reviewComments) {
-        this.reviewComments = reviewComments;
     }
 }
