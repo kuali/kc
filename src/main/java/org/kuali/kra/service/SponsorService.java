@@ -71,14 +71,6 @@ public interface SponsorService {
      */
     public String loadToSponsorHierachyMt(String hierarchyName);
     
-    /**
-     * 
-     * This method is to run the sql scripts that are gathered during maintenance
-     * @param hierarchyName
-     * @param sqlScripts
-     */
-    public void saveSponsorHierachy(String hierarchyName, String sqlScripts);
-    
     
     /**
      * 
@@ -113,7 +105,61 @@ public interface SponsorService {
      * @param sponsorCodes
      */
     public void updateSponsorCodes(String sponsorCodes);
-
-    public void uploadScripts(String key, String scripts);
-
+    
+    /**
+     * 
+     * Insert new sponsors into the hierarchy defined by hierarchy name and levels. Will only queue action as this will be used primarily by Ajax. To
+     * execute the action call executeActions.
+     * @param hierarchyName
+     * @param sponsorCodes
+     * @param levels
+     * @param sortIds
+     */
+    public void insertSponsor(String hierarchyName, String[] sponsorCodes, String[] levels,
+            Integer[] sortIds);
+    
+    /**
+     * 
+     * Delete the sponsor identified by hierarchy name and levels. Will only queue action as this will be used primarily by Ajax. To
+     * execute the action call executeActions
+     * @param hierarchyName
+     * @param sponsorCode can be null to delete all sponsors defined by levels
+     * @param levels
+     */
+    public void deleteSponsor(String hierarchyName, String sponsorCode, String[] levels);
+    
+    /**
+     * 
+     * Change the hierarchy group name at the specified level. Will only queue action as this will be used primarily by Ajax. To
+     * execute the action call executeActions.
+     * @param hierarchyName
+     * @param levelToChange
+     * @param oldGroupName
+     * @param newGroupName
+     * @param levels
+     */
+    public void updateGroupName(String hierarchyName, Integer levelToChange, String oldGroupName, String newGroupName, String[] levels);
+ 
+    /**
+     * 
+     * Change the sponsor sort order at the specified level. Will only queue action as this will be used primarily by Ajax. To
+     * execute the action call executeActions.
+     * @param hierarchyName
+     * @param levelToChange
+     * @param moveDown
+     * @param levels
+     */
+    public void changeSponsorSortOrder(String hierarchyName, Integer levelToChange, Boolean moveDown, String[] levels);
+    
+    /**
+     * 
+     * Execute all actions queued by insertSponsor, deleteSponsor, updateGroupName or changeSponsorSortOrder
+     */
+    public void executeActions();
+    
+    /**
+     * 
+     * Remove all previously queued actions
+     */
+    public void clearCurrentActions();
 }
