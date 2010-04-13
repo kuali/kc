@@ -1224,6 +1224,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward fyi(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
+        ((ProposalDevelopmentForm)form).getDocument().prepareForSave();
         return super.fyi(mapping, form, request, response);
     }
 
