@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
@@ -31,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -1631,7 +1633,17 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return budgetNumberToSummarize;
     }
     
-    
+    /**
+     * 
+     * This method is to be used whether user can copy proposal.  The copy tab will work even after PD is submitted.
+     * @return
+     */
+    public boolean isCanCreateProposal() {
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+
     
     
 }
