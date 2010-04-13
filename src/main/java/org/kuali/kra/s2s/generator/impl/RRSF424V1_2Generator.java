@@ -151,13 +151,12 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				BudgetDecimal totalCost = BudgetDecimal.ZERO;
 				// get modular budget amounts instead of budget detail amounts
 				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-					totalDirectCost = totalDirectCost.add(budgetPeriod
-							.getBudgetModular().getTotalDirectCost());
-					for (BudgetModularIdc budgetModularIdc : budgetPeriod
-							.getBudgetModular().getBudgetModularIdcs()) {
-						fundsRequested = fundsRequested.add(budgetModularIdc
-								.getFundsRequested());
-					}
+                    if (budgetPeriod.getBudgetModular() != null) {
+                        totalDirectCost = totalDirectCost.add(budgetPeriod.getBudgetModular().getTotalDirectCost());
+                        for (BudgetModularIdc budgetModularIdc : budgetPeriod.getBudgetModular().getBudgetModularIdcs()) {
+                            fundsRequested = fundsRequested.add(budgetModularIdc.getFundsRequested());
+                        }
+                    }
 				}
 				totalCost = totalCost.add(totalDirectCost);
 				totalCost = totalCost.add(fundsRequested);
