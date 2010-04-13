@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,6 +81,7 @@ import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -151,7 +153,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
         ActionForward forward;
         if (canGenerateRequestsInFuture(workflowDoc)) {
-            forward = promptUserForInput(workflowDoc, mapping, form, request, response);
+            forward = promptUserForInput(workflowDoc, "approve", mapping, form, request, response);
         } else {
             forward = super.approve(mapping, form, request, response);
         }
@@ -170,13 +172,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;
     }
 
-    private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, ActionMapping mapping, ActionForm form,
+    private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
-        if (question == null) {
+        if ( !DOCUMENT_APPROVE_QUESTION.equals(question)) {
             // ask question if not already asked
               return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, KNSServiceLocator
                       .getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_APPROVE_FUTURE_REQUESTS),
@@ -189,7 +191,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             workflowDoc.setReceiveFutureRequests();  
         }
         
-        return super.approve(mapping, form, request, response);
+        if( StringUtils.equals(action, "approve"))
+            return super.approve(mapping, form, request, response);
+        else if ( StringUtils.equals(action, "route"))
+            return super.route(mapping, form, request, response);
+        else 
+            throw new UnsupportedOperationException( String.format( "promptUserForInput does not know how to forward for action %s.", action )); 
     }   
 
     private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
@@ -203,6 +210,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         boolean doNotReceiveFutureRequests = false;    
 
         List variables = workflowDoc.getRouteHeader().getVariables();
+        String[] currentRouteNodeName = workflowDoc.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if (CollectionUtils.isNotEmpty(variables)) {
             for (Object variable : variables) {
                 KeyValueDTO kvp = (KeyValueDTO) variable;
@@ -221,10 +229,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         } 
 
-        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, loggedInPrincipalId));
+        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, loggedInPrincipalId, currentRouteNodeName ));
     }
     
-    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, String loggedInPrincipalId) throws Exception {
+    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, String loggedInPrincipalId, String[] currentRouteNodeNames ) throws Exception {
         int approvalRequestsCount = 0;
         WorkflowInfo info = new WorkflowInfo();
         
@@ -232,12 +240,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
             //!actionRequest.isRoleRequest() &&  removed from condition for 
             if(actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(KEWConstants.ACTION_REQUEST_APPROVE_REQ) && 
-                    recipientMatchesUser(actionRequest, loggedInPrincipalId)) {
+                    recipientMatchesUser(actionRequest, loggedInPrincipalId) && !ArrayUtils.contains( currentRouteNodeNames,actionRequest.getNodeName()) ) {
                 approvalRequestsCount+=1; 
             }
         }
           
-        return (approvalRequestsCount > 1);
+        return (approvalRequestsCount > 0);
     }
     
     private boolean recipientMatchesUser(ActionRequestDTO actionRequest, String loggedInPrincipalId) {
@@ -500,40 +508,45 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         int status = isValidSubmission(pdDoc);
+        boolean userSaysOk = false;
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
-        if (status == WARNING) 
-        {
+        if (status == WARNING) {
 
             if(status == WARNING && question == null){
-                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
-                
+                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } 
             else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                ActionForward actionForward = super.route(mapping, form, request, response);
-                return actionForward;
+                //status is OK now since the user said it was :)
+                userSaysOk = true;
+            } else if( DOCUMENT_APPROVE_QUESTION.equals(question)) {
+                //user said ok in the past since we got to this question.
+                userSaysOk = true;
             }
 
-            else{
-                return mapping.findForward((Constants.MAPPING_BASIC));
-            }    
-
-        }
-        if(status == OK){
-            ActionForward actionForward = super.route(mapping, form, request, response);
-            return actionForward;
-        }else   {
-        GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
-        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
-        
-        if ((pdDoc.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
-        	GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
         
-        return mapping.findForward((Constants.MAPPING_BASIC));
-         }
         
-}
+        if(status == OK || userSaysOk ) {
+            KualiWorkflowDocument workflowDoc = proposalDevelopmentForm.getDocument().getDocumentHeader().getWorkflowDocument();
+            if( canGenerateRequestsInFuture(workflowDoc) )
+                forward = promptUserForInput(workflowDoc, "route", mapping, form, request, response);
+            else 
+                forward = super.route(mapping, proposalDevelopmentForm, request, response);
+        } else if ( status == WARNING ) { 
+            
+        } else {
+            GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
+            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        
+            if ((pdDoc.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
+                GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+            }
+        
+            forward = mapping.findForward((Constants.MAPPING_BASIC));
+        }
+        return forward;
+    }
     
     /**
      * Submit a proposal to a sponsor.  
