@@ -170,10 +170,6 @@ tbody tr:hover {
 		var emptyNodes="";
 		var retMsg;
         var sponsorCodeList = document.getElementById("sponsorCodeList").value
-        var updatesql = "update SPONSOR_HIERARCHY set "; // use mt for testing now
-        var insertsql = "insert into SPONSOR_HIERARCHY  ";
-        var deletesql = "delete from SPONSOR_HIERARCHY  ";
-        var sqlScripts = "";
    		var hierarchyName = document.getElementById("hierarchyName").value;
    		var subgroup = {};
    		var subgroupNodes = ";";

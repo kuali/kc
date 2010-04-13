@@ -441,37 +441,22 @@
 				SponsorService.updateSponsorCodes(sponsorCodeList,dwrReply);				
     
     }
-
-
-    function uploadScripts() {
-    		
-			var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						//alert(sponsorCodeList.length +"-"+data)
-						} else {
-							//alert ("data is null");
-						}
-						 node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
-				SponsorService.uploadScripts(timestampKey, sqlScripts,dwrReply);				
     
+    function insertSponsors(node, sponsorCodes) {
+    	var levels = new Array(10);
+    	var sortIds = new Array(10);
+        var tempNode = node;
+        while (tempNode.isVirtualNode) {
+           tempNode = tempNode.previousSibling;
+        }
+	    while (tempNode.depth > 0) {
+	      levels[tempNode.depth-1] = tempNode.description;
+	      sortIds[tempNode.depth-1] = getSortId(tempNode);
+	      tempNode = tempNode.parent;
+	    }
+	    
+    	SponsorService.insertSponsor(hierarchyName, sponsorCodes, levels, sortIds);
     }
-
-    function updateScripts(sql) {
-    
-        if (sqlScripts.length > 20000) {
-            uploadScripts();
-            sqlScripts="";
-        }   
-    	sqlScripts = sqlScripts+sql+";1;";
-    	 	
-    }		
 
     function loadNextLevelSponsorHierarchy(node) {
 		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
@@ -608,39 +593,37 @@
     }
     
     	function changeGroupName(node, oldLabel) {
-    		var sql = updatesql + "level"+node.depth+"='"+ node.description+"' "+getWhereClause(node.parent);
-			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
-    		//sqlScripts = sqlScripts+sql+";1;";
-    		updateScripts("#1#"+sql+"#1#");
+    		SponsorService.updateGroupName(hierarchyName, node.depth, oldLabel, node.description, getLevelArray(node.parent));
 		}
 
     	function changeSortId(nodeseq, moveFlag) {
 			var node=oTextNodeMap[nodeseq]
-		    var sortid ;
-		    if (moveFlag == "true") {
-		       sortid = "level"+node.depth+"_sortid - 1";
-		    } else {
-		       sortid = "level"+node.depth+"_sortid + 1";
-		    }
-    		var sql = updatesql + "level"+node.depth+"_sortid="+sortid+" "+getWhereClause(node);
-    		// try to force it to run as a separate batch in case the scripts running order in batch is not guaranteed
-    		// need further test
-    		//sqlScripts = sqlScripts+sql+"#1#";
-    		updateScripts("#1#"+sql+"#1#");
-    		
+    		SponsorService.changeSponsorSortOrder(hierarchyName, node.depth, moveFlag, getLevelArray(node));
 		}
+    	
+    	function getLevelArray(node) {
+			var levels = new Array(10);
+			var tempNode = node;
+            while (tempNode.isVirtualNode) {
+                tempNode = tempNode.previousSibling;
+            }
+            while (tempNode.depth > 0) {
+            	levels[tempNode.depth-1] = tempNode.description;
+                tempNode=tempNode.parent;
+            }
+            return levels;
+    	}
 
     	function deleteSponsorHierarchy(node, deleteSponsorFlag) {
 				var sql ;
 				if (deleteSponsorFlag == "true") {
-				   	sql = deletesql+getWhereClause(node.parent)+ " and sponsor_code = '" + node.description.substring(0,node.description.indexOf(":"))+"'";
+					var sponsorCode = node.description.substring(0,node.description.indexOf(":"));
+					SponsorService.deleteSponsor(hierarchyName, sponsorCode, getLevelArray(node.parent));
 				} else {
-					sql = deletesql+getWhereClause(node);
+					SponsorService.deleteSponsor(hierarchyName, null, getLevelArray(node));
 				}
-				//sqlScripts = sqlScripts+sql+";1;";
-    			updateScripts(sql);
 				
-						   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
+				// The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
 				//alert("deletesponsorhierarchy");
 				var dwrReply = {
 					callback:function(data) {
@@ -666,40 +649,8 @@
 				
 				
 		}
+     
 
-    
-     function getWhereClause(node) {
-     
-        var whereClause=" where hierarchy_name = '"+hierarchyName+"'";
-        var tempNode = node;
-        while (tempNode.isVirtualNode) {
-           tempNode = tempNode.previousSibling;
-        }
-         while (tempNode.depth > 0) {
-           whereClause = whereClause +" and level"+tempNode.depth+"='"+ tempNode.description+"'";
-              tempNode=tempNode.parent;
-         }
-         return whereClause;
-     }
-     
-     function getInsertClause(node) {
-     
-        var columns="hierarchy_name, sponsor_code, update_timestamp, OBJ_ID, update_user";
-        // need to rework on real update_user
-        //objid will be generated in java code
-        var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, objid, 'quickstart'"
-        var tempNode = node;
-             while (tempNode.isVirtualNode) {
-                tempNode = tempNode.previousSibling;
-             }
-        
-         while (tempNode.depth > 0) {
-           columns = columns+",level"+tempNode.depth+",level"+tempNode.depth+"_sortid";
-           values = values + ",'"+ tempNode.description+"',"+getSortId(tempNode);
-           tempNode=tempNode.parent;
-         }
-         return "insert into SPONSOR_HIERARCHY ("+columns+") values("+values+")";
-     }
      
      function getAscendants(node, includeSortid) {
             var ascendants ="";
@@ -737,12 +688,11 @@
 			var sponsor_array=sponsors.split(";1;");
 			//alert("sponsors : "+sponsors + " mapkey= "+mapKey)
 			var oCurrentTextNode = oTextNodeMap[mapKey];
-			var sqltemplate = getInsertClause(oCurrentTextNode);
 			var newSponsors="";
 			var sponsorid;
 			var duplist="";
 			var j = -1;
-			var insertSponsorCodes = "";
+			var insertSponsorCodes = new Array();
 			for (var i=0 ; i < sponsor_array.length;  i++) {
 				var sLabel = sponsor_array[i];
 				sponsorid = sLabel.substring(0,sLabel.indexOf(":"));
@@ -754,21 +704,8 @@
 	            //oCurrentTextNode.expand();
 				oChildNode.isLeaf="true";
 	            oTextNodeMap[nodeKey++] = oChildNode;
-	            if (sponsor_array.length > 5) {
-	                // more than 5, then use code
-	                if (insertSponsorCodes == "") {
-	                	insertSponsorCodes=sponsorid;
-	                } else {
-	                	insertSponsorCodes=insertSponsorCodes+";"+sponsorid;
-	                }
-	            
-	            } else {
-	                // more than 5, then use code
-	            	var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
-	            //sqlScripts = sqlScripts+sql+";1;";
-    				updateScripts(sql);
-    			}
-	            
+	            insertSponsorCodes.push(sponsorid);
+	            	            
 	            if (j == -1) {
 	                newSponsors=sLabel;
 	            	updateEmptyNodes(oChildNode, "false");
@@ -789,16 +726,8 @@
 	         if (duplist.length > 0) {
 	         	alert ("Duplicate sponsor(s) "+duplist+" are not added");
 	         }
-	         if (sponsor_array.length > 5) {
-	            	var sql = sqltemplate+"(("+insertSponsorCodes+"))";
-	            //sqlScripts = sqlScripts+sql+";1;";
-	         	if (sponsor_array.length > 100) {
-    				updateScripts("#1#"+sql+"#1#");
-    			} else {
-    				updateScripts(sql);
-    			}
 	         
-	         }
+	         insertSponsors(oCurrentTextNode, insertSponsorCodes);
 	         
 	         tree.draw();			
 		}
