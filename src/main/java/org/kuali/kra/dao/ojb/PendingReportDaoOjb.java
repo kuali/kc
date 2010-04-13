@@ -34,7 +34,7 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
     private PendingReportBean buildPendingReportBean(InstitutionalProposalPerson ipPerson) throws WorkflowException {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         PendingReportBean bean = null;
-        if(shouldDataBeIncluded(proposal.getInstitutionalProposalDocument())) {
+        if(shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
             bean = new PendingReportBean(ipPerson);
         }
         return bean;

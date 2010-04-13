@@ -22,7 +22,7 @@ package org.kuali.kra.institutionalproposal.printing;
  */
 public enum InstitutionalProposalPrintType {
 	INSTITUTIONAL_PROPOSAL_REPORT("Institutional Proposal Report"), CURRENT_REPORT(
-			"Currrent Report"), PENDING_REPORT("Pending Report");
+			"Current Report"), PENDING_REPORT("Pending Report");
 
 	private final String institutionalProposalPrintType;
 
