@@ -67,11 +67,6 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
         final BudgetVersionFormBase proposalForm = (BudgetVersionFormBase) form;
         ActionForward forward = super.save(mapping, form, request, response);
         
-        if (proposalForm.getMethodToCall().equals("save") && proposalForm.isAuditActivated()) {
-            // TODO : need to check whether the error is really fixed ?
-            forward = mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
-        }
-
         return forward;
     }
 
