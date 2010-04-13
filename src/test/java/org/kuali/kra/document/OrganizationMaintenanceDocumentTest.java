@@ -70,6 +70,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
 
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - copy test");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", "00999");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
                 
@@ -84,7 +85,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         Organization organization = (Organization)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(organization.getOrganizationId(),"00999");
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
-        assertEquals(organization.getContactAddressId(),new Integer(13469));
+        assertEquals(organization.getContactAddressId(),new Integer(1741));
         assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
         assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
         assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
@@ -105,7 +106,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=edit");
         HtmlPage organizationMaintenancePage = clickOn(editLink, "Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
-
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - edit test");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
@@ -120,7 +121,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         Organization organization = (Organization)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(organization.getOrganizationId(),"000425");
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
-        assertEquals(organization.getContactAddressId(),new Integer(13469));
+        assertEquals(organization.getContactAddressId(),new Integer(1741));
         assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
         assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
         assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
