@@ -19,12 +19,13 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 
 	private Integer idcNumber;
 	private String organizationId;
-	private RateDecimal applicableIndirectcostRate;
+	private KualiDecimal applicableIndirectcostRate;
 	private Date endDate;
 	private String idcComment;
 	private Integer idcRateTypeCode;
@@ -52,11 +53,11 @@ public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 		this.organizationId = organizationId;
 	}
 
-	public RateDecimal getApplicableIndirectcostRate() {
+	public KualiDecimal getApplicableIndirectcostRate() {
 		return applicableIndirectcostRate;
 	}
 
-	public void setApplicableIndirectcostRate(RateDecimal applicableIndirectcostRate) {
+	public void setApplicableIndirectcostRate(KualiDecimal applicableIndirectcostRate) {
 		this.applicableIndirectcostRate = applicableIndirectcostRate;
 	}
 
