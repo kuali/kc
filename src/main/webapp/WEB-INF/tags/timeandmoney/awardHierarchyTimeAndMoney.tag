@@ -73,130 +73,95 @@
     	</tr>
     </table>
  	<div>
-			<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
-					
+	<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
+			
+  			<table cellpadding="0" cellspacing="0" summary="">	
+			<tr>
+				<th>
+					<div align="left">
+						Go To:
+						<html:text property="goToAwardNumber" size="12" maxlength="12" />
+						<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
+					</div>
+				</th>
+				<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
+		
+					<c:choose>				
+						<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+								pending						
+						</c:when>
+						<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
+					pending						
+						</c:when>
+						<c:otherwise>						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+								pending					
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
+					<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
+						<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
+						<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
+						<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
+					</select>
+				</td>
+				<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
+				</td>			
+			</tr>
+		</table>
+		
+		</c:if>
+	
+		<c:if test="${KualiForm.inSingleNodeHierarchy}" >
+	
     			<table cellpadding="0" cellspacing="0" summary="">	
-					<tr>
-						<th>
-							<div align="left">
-								Go To:
-								<html:text property="goToAwardNumber" size="12" maxlength="12" />
-								<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
-							</div>
-						</th>
-						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
-				
-							<c:choose>				
-								<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-										pending						
-								</c:when>
-								<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
-							pending						
-								</c:when>
-								<c:otherwise>						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-										pending					
-								</c:otherwise>
-							</c:choose>				
-						</td>
-						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
-							<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
-								<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
-								<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
-								<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
-							</select>
-						</td>
-						<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
-							<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
-						</td>			
-					</tr>
-				</table>
-				
-				</c:if>
-			
-				<c:if test="${KualiForm.inSingleNodeHierarchy}" >
-			
-	     			<table cellpadding="0" cellspacing="0" summary="">	
-	     			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
-					<tr>
-						<th>
-							&nbsp;
-						</th>
-						<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
-				
-							<c:choose>				
-								<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-										pending						
-								</c:when>
-								<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
-							pending						
-								</c:when>
-								<c:otherwise>						
-									<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
-										current
-									<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-										pending					
-								</c:otherwise>
-							</c:choose>				
-						</td>
-						<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
-							<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
-						</td>			
-					</tr>
-				</table>
-				
-				</c:if>
-				</div>
-	  
-    <div class="divAHT"><div style="padding-right: 47px;">
-	<table style="border: medium none ; width: 100%; border-collapse: collapse;">
-	<tbody><tr>
-		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
-		<span style="display: inline;" id="treecontrol">
-		${fn:length(KualiForm.order)} Nodes: 
-		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
-		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
-		</span>
-		</td>
-		<td style="border: 1px solid rgb(153, 153, 153); padding: 1px; text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		Oblg. Start
-		</td>
-		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		Oblg. End
-		</td>
-		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		Project End
-		</td>
-		<c:if test="${KualiForm.controlForAwardHierarchyView == 1}" >		
-		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		&nbsp;
-		</td>
+    			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
+			<tr>
+				<th>
+					&nbsp;
+				</th>
+				<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
+		
+					<c:choose>				
+						<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+								pending						
+						</c:when>
+						<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
+					pending						
+						</c:when>
+						<c:otherwise>						
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+								current
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+								pending					
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
+				</td>			
+			</tr>
+		</table>
+		
 		</c:if>
-		<c:if test="${KualiForm.controlForAwardHierarchyView != 0}" >
-		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		Obligated
-		</td>
-		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 101px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-		Anticipated
-		</td>
-		</c:if>
-	</tr>
-	</tbody></table></div>
-	</div>
+		</div>
+    
     <div align="left">    
                                             <%-- <div id="treecontrol" style="display:inline;">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
@@ -204,7 +169,72 @@
                                             </div> --%>
 
 	
-     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >     
+     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+     
+     <div class="divAHT"><div style="padding-right: 47px;">
+		<table style="border: medium none ; width: 100%; border-collapse: collapse;">
+		<tbody><tr>
+		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
+		<span style="display: inline;" id="treecontrol">
+		${fn:length(KualiForm.order)} Nodes: 
+		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
+		</span>
+		</td>
+		<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 800px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. Start
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 912px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. End
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1024px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Project End
+			</td>
+		</c:if>
+
+		<c:if test="${KualiForm.controlForAwardHierarchyView == 1}" >
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 465px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. Start
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 582px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. End
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 699px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Project End
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 816px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			&nbsp;
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 932px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Obligated
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 1044px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Anticipated
+			</td> 
+		</c:if>
+		
+		<c:if test="${KualiForm.controlForAwardHierarchyView == 2}" >
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 600px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. Start
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 712px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. End
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 824px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Project End
+			</td>		
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 936px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Obligated
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 110px; position: absolute; left: 1050px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Anticipated
+			</td>
+		</c:if>
+	</tr>
+	</tbody></table></div>
+	</div>
+	     
   <ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
