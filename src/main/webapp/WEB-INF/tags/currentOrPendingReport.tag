@@ -35,7 +35,7 @@
                         <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-initiatereport.gif" styleClass="globalbuttons"
                                     property="methodToCall.${methodName}" alt="${methodName}" />
                         <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="globalbuttons"
-                                    property="methodToCall.${printPdfMethodName}" alt="${printPdfMethodName}" />
+                                    property="methodToCall.${printPdfMethodName}" alt="${printPdfMethodName}" onclick="excludeSubmitRestriction=true" />
                     </c:if>
             </div>
         </td>
