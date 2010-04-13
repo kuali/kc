@@ -67,45 +67,50 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
             timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, docs.get(docs.size() -1)));
             for(TimeAndMoneyDocument doc: docs){
-                fieldValues2.put("awardNumber", award.getAwardNumber());
-                fieldValues2.put("documentNumber", doc.getDocumentNumber());
-                //List<AwardAmountTransaction> awardAmountTransactions = ((List<AwardAmountTransaction>)businessObjectService.findMatching(AwardAmountTransaction.class, fieldValues2));
-                List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
-
-                if(awardAmountTransactions.size()>0){
-                    awardAmountTransaction = awardAmountTransactions.get(0);
-                    timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()), awardAmountTransaction.getComments());
-                }    
-                //capture money transactions
-                for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
-                    if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
-                        List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
-                        //get all Transaction Details for a node.  It can be the source or a destination of the transaction.
-                        fieldValues3.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
-                        fieldValues3.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
-                        fieldValues3.put("transactionId", awardAmountInfo.getTransactionId());
-                        fieldValues3.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
-                        
-                        fieldValues3a.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
-                        fieldValues3a.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
-                        fieldValues3a.put("transactionId", awardAmountInfo.getTransactionId());
-                        fieldValues3a.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
-                        //should only return one transaction detail because we are making transaction ID unique when we set
-                        //to Pending Transaction ID in ActivePendingTransactionService.
-                        List<TransactionDetail> transactionDetailsA = 
-                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3, "sourceAwardNumber", true));
-                        List<TransactionDetail> transactionDetailsB = 
-                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3a, "sourceAwardNumber", true));
-                        transactionDetails.addAll(transactionDetailsA);
-                        transactionDetails.addAll(transactionDetailsB);
-                        int i = 0;
-                        for(TransactionDetail transactionDetail : transactionDetails){
-                            timeAndMoneyHistory.put(awardAmountInfo.getTransactionId(), awardAmountInfo);
-                            timeAndMoneyHistory.put(key, transactionDetail);
-                            key++;
-                            i++;
+                //we don't want canceled docs in history.
+                if(doc.getDocumentHeader().hasWorkflowDocument()) {
+                    if(!doc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                        fieldValues2.put("awardNumber", award.getAwardNumber());
+                        fieldValues2.put("documentNumber", doc.getDocumentNumber());
+                        //List<AwardAmountTransaction> awardAmountTransactions = ((List<AwardAmountTransaction>)businessObjectService.findMatching(AwardAmountTransaction.class, fieldValues2));
+                        List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
+        
+                        if(awardAmountTransactions.size()>0){
+                            awardAmountTransaction = awardAmountTransactions.get(0);
+                            timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()), awardAmountTransaction.getComments());
+                        }    
+                        //capture money transactions
+                        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
+                            if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
+                                List<TransactionDetail> transactionDetails = new ArrayList<TransactionDetail>();
+                                //get all Transaction Details for a node.  It can be the source or a destination of the transaction.
+                                fieldValues3.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
+                                fieldValues3.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
+                                fieldValues3.put("transactionId", awardAmountInfo.getTransactionId());
+                                fieldValues3.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
+                                
+                                fieldValues3a.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
+                                fieldValues3a.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
+                                fieldValues3a.put("transactionId", awardAmountInfo.getTransactionId());
+                                fieldValues3a.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
+                                //should only return one transaction detail because we are making transaction ID unique when we set
+                                //to Pending Transaction ID in ActivePendingTransactionService.
+                                List<TransactionDetail> transactionDetailsA = 
+                                    ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3, "sourceAwardNumber", true));
+                                List<TransactionDetail> transactionDetailsB = 
+                                    ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3a, "sourceAwardNumber", true));
+                                transactionDetails.addAll(transactionDetailsA);
+                                transactionDetails.addAll(transactionDetailsB);
+                                int i = 0;
+                                for(TransactionDetail transactionDetail : transactionDetails){
+                                    timeAndMoneyHistory.put(awardAmountInfo.getTransactionId(), awardAmountInfo);
+                                    timeAndMoneyHistory.put(key, transactionDetail);
+                                    key++;
+                                    i++;
+                                }
+                                columnSpan.add(i);
+                            }
                         }
-                        columnSpan.add(i);
                     }
                 }
                  //capture date transactions       
