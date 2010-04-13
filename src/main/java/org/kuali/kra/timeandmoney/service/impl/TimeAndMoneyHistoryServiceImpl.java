@@ -23,15 +23,19 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.web.ui.HeaderField;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
     
+    private static final int NUMBER_30 = 30;
     BusinessObjectService businessObjectService; 
     
     private String DASH = "-";
@@ -56,11 +60,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         
         for(Award award : awards){//this is all versions of the selected Award in the hierarchy.
             award.refreshReferenceObject("awardDocument");
-            timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), "url for award document");
+            //timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), "url for award document");
+            //timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award));
             //to get all docs, we must pass the root award number for the subject award.
             fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
-            
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+            timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, docs.get(docs.size() -1)));
             for(TimeAndMoneyDocument doc: docs){
                 fieldValues2.put("awardNumber", award.getAwardNumber());
                 fieldValues2.put("documentNumber", doc.getDocumentNumber());
@@ -174,10 +179,33 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         sb.append("=");
         sb.append(documentNumber);
         sb.append("\"");
+        sb.append("target=\"_blank\"");//open url in new window for inspection.
         sb.append(">");
         sb.append(documentNumber);
         sb.append("</a>");
         return sb.toString();
+    }
+    
+    private String buildAwardDescriptionLine(Award award, TimeAndMoneyDocument timeAndMoneyDocument) {
+        AwardAmountTransaction aat = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
+        String noticeDate;
+        if(!(aat.getNoticeDate() == null)) {
+            noticeDate = aat.getNoticeDate().toString();
+        }else {
+            noticeDate = "empty";
+        }
+        return "Award Version " + award.getVersionNumber().toString() + ": " + award.getAwardTransactionType().getDescription() + 
+                    ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
+    }
+    
+    private String getUpdateTimeAndUser(Award award) {
+        String createDateStr = null;
+        String updateUser = null;
+        if (award.getUpdateTimestamp() != null) {
+            createDateStr = KNSServiceLocator.getDateTimeService().toString(award.getUpdateTimestamp(), "MM/dd/yy");
+            updateUser = award.getUpdateUser().length() > NUMBER_30 ? award.getUpdateUser().substring(0, NUMBER_30) : award.getUpdateUser(); 
+        }
+        return createDateStr + ", " + updateUser;
     }
 
     /**
